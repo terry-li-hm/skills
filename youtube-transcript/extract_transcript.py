@@ -17,6 +17,7 @@ Examples:
 """
 
 import argparse
+import html
 import json
 import re
 import sys
@@ -65,6 +66,38 @@ def extract_video_id(url_or_id: str) -> str:
 
     # If no pattern matches, assume it's the video ID
     return url_or_id.strip()
+
+
+def clean_transcript_text(text: str, remove_annotations: bool = True) -> str:
+    """
+    Clean up transcript text by removing artifacts and normalizing formatting.
+
+    Args:
+        text: The raw transcript text
+        remove_annotations: Remove [Music], [Applause], etc. annotations
+
+    Returns:
+        Cleaned transcript text
+    """
+    # Decode HTML entities (e.g., &amp; -> &, &#39; -> ')
+    text = html.unescape(text)
+
+    if remove_annotations:
+        # Remove bracketed annotations like [Music], [Applause], [Laughter], etc.
+        text = re.sub(r'\[[^\]]*\]', '', text)
+
+    # Remove speaker labels (e.g., ">> JOHN:", "SPEAKER 1:", "- Speaker:")
+    text = re.sub(r'(?:^|\s)>>?\s*[A-Z][A-Z\s]*:', '', text)
+    text = re.sub(r'(?:^|\s)SPEAKER\s*\d*:', '', text, flags=re.IGNORECASE)
+    text = re.sub(r'(?:^|\s)-\s*[A-Za-z]+:', '', text)
+
+    # Remove multiple spaces and normalize whitespace
+    text = re.sub(r'\s+', ' ', text)
+
+    # Remove leading/trailing whitespace
+    text = text.strip()
+
+    return text
 
 
 def get_transcript(
@@ -131,7 +164,8 @@ def list_available_transcripts(video_id: str) -> list[dict]:
 def format_transcript(
     transcript,
     output_format: str = 'text',
-    include_timestamps: bool = False
+    include_timestamps: bool = False,
+    clean: bool = False
 ) -> str:
     """
     Format the transcript in the specified format.
@@ -140,21 +174,54 @@ def format_transcript(
         transcript: The FetchedTranscript object
         output_format: One of 'text', 'json', 'srt', 'vtt'
         include_timestamps: Include timestamps in text output
+        clean: Apply text cleanup to remove annotations and normalize text
 
     Returns:
         Formatted transcript string
     """
     if output_format == 'json':
         formatter = JSONFormatter()
-        return formatter.format_transcript(transcript, indent=2)
+        output = formatter.format_transcript(transcript, indent=2)
+        if clean:
+            # For JSON, we need to parse, clean each text field, and re-serialize
+            data = json.loads(output)
+            for item in data:
+                if 'text' in item:
+                    item['text'] = clean_transcript_text(item['text'])
+            output = json.dumps(data, indent=2)
+        return output
 
     elif output_format == 'srt':
         formatter = SRTFormatter()
-        return formatter.format_transcript(transcript)
+        output = formatter.format_transcript(transcript)
+        if clean:
+            # Clean each subtitle block while preserving SRT structure
+            lines = output.split('\n')
+            cleaned_lines = []
+            for line in lines:
+                # Don't clean index numbers or timestamps
+                if line.strip().isdigit() or '-->' in line or line.strip() == '':
+                    cleaned_lines.append(line)
+                else:
+                    cleaned_lines.append(clean_transcript_text(line))
+            output = '\n'.join(cleaned_lines)
+        return output
 
     elif output_format == 'vtt':
         formatter = WebVTTFormatter()
-        return formatter.format_transcript(transcript)
+        output = formatter.format_transcript(transcript)
+        if clean:
+            # Clean each subtitle block while preserving VTT structure
+            lines = output.split('\n')
+            cleaned_lines = []
+            for line in lines:
+                # Don't clean header, timestamps, or empty lines
+                if line.startswith('WEBVTT') or '-->' in line or line.strip() == '':
+                    cleaned_lines.append(line)
+                else:
+                    cleaned_lines.append(clean_transcript_text(line))
+            output = '\n'.join(cleaned_lines)
+        return output
 
     else:  # text format
         if include_timestamps:
@@ -162,10 +229,14 @@ def format_transcript(
             for snippet in transcript:
                 minutes = int(snippet.start // 60)
                 seconds = int(snippet.start % 60)
-                lines.append(f"[{minutes:02d}:{seconds:02d}] {snippet.text}")
+                text = clean_transcript_text(snippet.text) if clean else snippet.text
+                lines.append(f"[{minutes:02d}:{seconds:02d}] {text}")
             return "\n".join(lines)
         else:
-            return " ".join([snippet.text for snippet in transcript])
+            text = " ".join([snippet.text for snippet in transcript])
+            if clean:
+                text = clean_transcript_text(text)
+            return text
 
 
 def main():
@@ -213,6 +284,12 @@ def main():
     )
 
     parser.add_argument(
+        '-c', '--clean',
+        action='store_true',
+        help='Clean transcript text (remove [Music], [Applause], speaker labels, etc.)'
+    )
+
+    parser.add_argument(
         '-o', '--output',
         help='Output file (default: stdout)'
     )
@@ -243,7 +320,8 @@ def main():
             output = format_transcript(
                 transcript,
                 output_format=args.format,
-                include_timestamps=args.timestamps
+                include_timestamps=args.timestamps,
+                clean=args.clean
             )
 
             # Write output

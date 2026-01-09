@@ -101,6 +101,51 @@ srt_output = formatter.format_transcript(transcript)
 print(srt_output)
 ```
 
+### Step 5: Clean Up the Transcript (Optional)
+
+YouTube transcripts often contain artifacts that you may want to remove:
+
+| Artifact | Example | Description |
+|----------|---------|-------------|
+| Annotations | `[Music]`, `[Applause]` | Sound/action descriptions |
+| Speaker labels | `>> JOHN:`, `SPEAKER 1:` | Speaker identifiers |
+| HTML entities | `&amp;`, `&#39;` | Encoded characters |
+
+Use the cleanup function to remove these:
+
+```python
+import html
+import re
+
+def clean_transcript_text(text, remove_annotations=True):
+    """Clean up transcript text by removing artifacts."""
+    # Decode HTML entities
+    text = html.unescape(text)
+
+    if remove_annotations:
+        # Remove [Music], [Applause], etc.
+        text = re.sub(r'\[[^\]]*\]', '', text)
+
+    # Remove speaker labels
+    text = re.sub(r'(?:^|\s)>>?\s*[A-Z][A-Z\s]*:', '', text)
+    text = re.sub(r'(?:^|\s)SPEAKER\s*\d*:', '', text, flags=re.IGNORECASE)
+
+    # Normalize whitespace
+    text = ' '.join(text.split())
+    return text
+
+# Apply cleanup to transcript
+full_text = " ".join([snippet.text for snippet in transcript])
+clean_text = clean_transcript_text(full_text)
+print(clean_text)
+```
+
+Or use the CLI script with the `--clean` flag:
+
+```bash
+python extract_transcript.py VIDEO_ID --clean
+```
+
 ## Available Formatters
 
 - `JSONFormatter` - JSON format
