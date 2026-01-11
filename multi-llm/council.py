@@ -13,6 +13,7 @@ A simplified version of LLM Council for quick comparisons.
 
 Usage:
     uv run council.py "What is the best way to handle errors in Python?"
+    uv run council.py "your question" --cheap
     uv run council.py "your question" --models "openai/gpt-4o,anthropic/claude-sonnet-4"
 """
 
@@ -24,13 +25,28 @@ from typing import Optional
 
 import httpx
 
-# Default models to query
-DEFAULT_MODELS = [
+# Expensive models (2026 frontier with thinking)
+EXPENSIVE_MODELS = [
+    "anthropic/claude-opus-4.5",
+    "openai/gpt-5",
+    "google/gemini-3-pro-preview",
+]
+
+# Cheap models (fast and affordable)
+CHEAP_MODELS = [
     "anthropic/claude-sonnet-4",
     "openai/gpt-4o",
     "google/gemini-2.0-flash-001",
-    "x-ai/grok-3",
 ]
+
+# Models that support reasoning/thinking mode
+REASONING_MODELS = {
+    "anthropic/claude-opus-4.5",
+    "openai/gpt-5",
+    "google/gemini-3-pro-preview",
+    "google/gemini-2.5-pro",
+    "deepseek/deepseek-r1",
+}
 
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
@@ -41,6 +57,7 @@ async def query_model(
     question: str,
     api_key: str,
     timeout: float = 60.0,
+    enable_thinking: bool = False,
 ) -> tuple[str, Optional[str], Optional[str]]:
     """
     Query a single model via OpenRouter API.
@@ -57,6 +74,10 @@ async def query_model(
         "model": model,
         "messages": [{"role": "user", "content": question}],
     }
+
+    # Enable reasoning for supported models
+    if enable_thinking and model in REASONING_MODELS:
+        payload["reasoning"] = {"effort": "high"}
 
     try:
         response = await client.post(
@@ -85,11 +106,12 @@ async def query_all_models(
     models: list[str],
     api_key: str,
     timeout: float = 60.0,
+    enable_thinking: bool = False,
 ) -> list[tuple[str, Optional[str], Optional[str]]]:
     """Query all models in parallel."""
     async with httpx.AsyncClient() as client:
         tasks = [
-            query_model(client, model, question, api_key, timeout)
+            query_model(client, model, question, api_key, timeout, enable_thinking)
             for model in models
         ]
         return await asyncio.gather(*tasks)
@@ -122,14 +144,24 @@ def main():
     parser.add_argument("question", help="The question to ask all models")
     parser.add_argument(
         "--models",
-        help="Comma-separated list of model identifiers (default: claude-sonnet, gpt-4o, gemini-flash, grok-2)",
+        help="Comma-separated list of model identifiers",
         default=None,
+    )
+    parser.add_argument(
+        "--cheap",
+        action="store_true",
+        help="Use cheaper/faster models (claude-sonnet, gpt-4o, gemini-flash)",
+    )
+    parser.add_argument(
+        "--no-thinking",
+        action="store_true",
+        help="Disable reasoning/thinking mode for expensive models",
     )
     parser.add_argument(
         "--timeout",
         type=float,
-        default=60.0,
-        help="Timeout in seconds per model (default: 60)",
+        default=None,
+        help="Timeout in seconds per model (default: 60 for cheap, 180 for expensive)",
     )
     args = parser.parse_args()
 
@@ -140,18 +172,29 @@ def main():
         print("Get your API key at https://openrouter.ai", file=sys.stderr)
         sys.exit(1)
 
-    # Parse models
+    # Select models
     if args.models:
         models = [m.strip() for m in args.models.split(",")]
+        enable_thinking = not args.no_thinking
+        timeout = args.timeout or 120.0
+    elif args.cheap:
+        models = CHEAP_MODELS
+        enable_thinking = False
+        timeout = args.timeout or 60.0
     else:
-        models = DEFAULT_MODELS
+        models = EXPENSIVE_MODELS
+        enable_thinking = not args.no_thinking
+        timeout = args.timeout or 180.0
 
-    print(f"Querying {len(models)} models...")
+    mode = "cheap" if args.cheap else ("expensive" if enable_thinking else "expensive (no thinking)")
+    print(f"Querying {len(models)} models [{mode}]...")
     print(f"Question: {args.question[:100]}{'...' if len(args.question) > 100 else ''}")
+    if enable_thinking:
+        print("Thinking mode: enabled")
     print()
 
     # Run queries
-    results = asyncio.run(query_all_models(args.question, models, api_key, args.timeout))
+    results = asyncio.run(query_all_models(args.question, models, api_key, timeout, enable_thinking))
 
     # Print and exit
     exit_code = print_results(results)

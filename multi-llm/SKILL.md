@@ -32,9 +32,15 @@ Ask the user what question they want to send to the council, or use the question
 
 ### Step 2: Run the Query Script
 
+**Expensive mode (default)** - frontier models with thinking enabled:
 ```bash
 cd /Users/terry/skills/multi-llm
 uv run council.py "YOUR QUESTION HERE"
+```
+
+**Cheap mode** - fast and affordable:
+```bash
+uv run council.py "YOUR QUESTION HERE" --cheap
 ```
 
 ### Step 3: Present Results
@@ -46,61 +52,41 @@ The script outputs each model's response with clear separators. Present the resp
 
 ## Configuration
 
-### Default Models
+### Model Tiers
 
-The script queries these models by default:
-- `anthropic/claude-sonnet-4` - Anthropic's Claude Sonnet
-- `openai/gpt-4o` - OpenAI's GPT-4o
-- `google/gemini-2.0-flash-001` - Google's Gemini Flash
-- `x-ai/grok-3` - xAI's Grok 3
+**Expensive (default)** - 2026 frontier models with thinking/reasoning:
+- `anthropic/claude-opus-4.5` - Claude Opus 4.5
+- `openai/gpt-5` - GPT-5
+- `google/gemini-3-pro-preview` - Gemini 3 Pro
 
-### Custom Models
-
-Override models with the `--models` flag:
-
-```bash
-uv run council.py "your question" --models "openai/gpt-4o,anthropic/claude-opus-4"
-```
-
-### Timeout
-
-Default timeout is 60 seconds. Increase for complex questions:
-
-```bash
-uv run council.py "your question" --timeout 120
-```
-
-## Available Models
-
-Popular OpenRouter models include:
-- `anthropic/claude-opus-4` - Claude Opus 4
+**Cheap** (`--cheap` flag) - fast and affordable:
 - `anthropic/claude-sonnet-4` - Claude Sonnet 4
 - `openai/gpt-4o` - GPT-4o
-- `openai/o1` - OpenAI o1
 - `google/gemini-2.0-flash-001` - Gemini Flash
-- `google/gemini-2.5-pro-preview` - Gemini 2.5 Pro
-- `x-ai/grok-2-1212` - Grok 2
-- `deepseek/deepseek-chat` - DeepSeek
 
-See full list at https://openrouter.ai/models
+### Options
 
-## Example Output
+| Flag | Description |
+|------|-------------|
+| `--cheap` | Use cheaper/faster models |
+| `--no-thinking` | Disable reasoning mode for expensive models |
+| `--timeout N` | Timeout in seconds (default: 60 cheap, 180 expensive) |
+| `--models "a,b,c"` | Override with custom models |
 
-```
-============================================================
-anthropic/claude-sonnet-4
-============================================================
-[Claude's response here]
+### Examples
 
-============================================================
-openai/gpt-4o
-============================================================
-[GPT-4o's response here]
+```bash
+# Expensive with thinking (default)
+uv run council.py "How should I architect a microservices system?"
 
-============================================================
-google/gemini-2.0-flash-001
-============================================================
-[Gemini's response here]
+# Cheap and fast
+uv run council.py "What's the syntax for Python list comprehension?" --cheap
+
+# Expensive without thinking
+uv run council.py "Compare REST vs GraphQL" --no-thinking
+
+# Custom models
+uv run council.py "your question" --models "openai/o1,deepseek/deepseek-r1"
 ```
 
 ## Error Handling
