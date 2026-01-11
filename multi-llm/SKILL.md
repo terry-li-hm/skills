@@ -62,7 +62,7 @@ The script outputs each model's response with clear separators. Present the resp
 - `deepseek/deepseek-r1` - DeepSeek R1
 
 **Cheap** (`--cheap` flag) - fast and affordable:
-- `anthropic/claude-sonnet-4` - Claude Sonnet 4
+- `anthropic/claude-sonnet-4.5` - Claude Sonnet 4.5
 - `openai/gpt-4o` - GPT-4o
 - `google/gemini-2.0-flash-001` - Gemini Flash
 - `deepseek/deepseek-v3.2` - DeepSeek V3.2

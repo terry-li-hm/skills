@@ -36,7 +36,7 @@ EXPENSIVE_MODELS = [
 
 # Cheap models (fast and affordable)
 CHEAP_MODELS = [
-    "anthropic/claude-sonnet-4",
+    "anthropic/claude-sonnet-4.5",
     "openai/gpt-4o",
     "google/gemini-2.0-flash-001",
     "deepseek/deepseek-v3.2",
