@@ -31,6 +31,7 @@ EXPENSIVE_MODELS = [
     "openai/gpt-5.2",
     "google/gemini-3-pro-preview",
     "x-ai/grok-4.1",
+    "deepseek/deepseek-r1",
 ]
 
 # Cheap models (fast and affordable)

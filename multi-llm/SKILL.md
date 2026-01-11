@@ -59,6 +59,7 @@ The script outputs each model's response with clear separators. Present the resp
 - `openai/gpt-5.2` - GPT-5.2
 - `google/gemini-3-pro-preview` - Gemini 3 Pro
 - `x-ai/grok-4.1` - Grok 4.1
+- `deepseek/deepseek-r1` - DeepSeek R1
 
 **Cheap** (`--cheap` flag) - fast and affordable:
 - `anthropic/claude-sonnet-4` - Claude Sonnet 4
