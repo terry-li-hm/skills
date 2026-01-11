@@ -28,7 +28,7 @@ import httpx
 # Expensive models (2026 frontier with thinking)
 EXPENSIVE_MODELS = [
     "anthropic/claude-opus-4.5",
-    "openai/gpt-5",
+    "openai/gpt-5.2",
     "google/gemini-3-pro-preview",
 ]
 
@@ -42,7 +42,7 @@ CHEAP_MODELS = [
 # Models that support reasoning/thinking mode
 REASONING_MODELS = {
     "anthropic/claude-opus-4.5",
-    "openai/gpt-5",
+    "openai/gpt-5.2",
     "google/gemini-3-pro-preview",
     "google/gemini-2.5-pro",
     "deepseek/deepseek-r1",
