@@ -56,13 +56,15 @@ The script outputs each model's response with clear separators. Present the resp
 
 **Expensive (default)** - 2026 frontier models with thinking/reasoning:
 - `anthropic/claude-opus-4.5` - Claude Opus 4.5
-- `openai/gpt-5` - GPT-5
+- `openai/gpt-5.2` - GPT-5.2
 - `google/gemini-3-pro-preview` - Gemini 3 Pro
+- `x-ai/grok-4.1` - Grok 4.1
 
 **Cheap** (`--cheap` flag) - fast and affordable:
 - `anthropic/claude-sonnet-4` - Claude Sonnet 4
 - `openai/gpt-4o` - GPT-4o
 - `google/gemini-2.0-flash-001` - Gemini Flash
+- `deepseek/deepseek-v3.2` - DeepSeek V3.2
 
 ### Options
 
