@@ -58,13 +58,14 @@ The script outputs each model's response with clear separators. Present the resp
 - `anthropic/claude-opus-4.5` - Claude Opus 4.5
 - `openai/gpt-5.2` - GPT-5.2
 - `google/gemini-3-pro-preview` - Gemini 3 Pro
-- `x-ai/grok-4.1` - Grok 4.1
+- `x-ai/grok-4` - Grok 4
 - `deepseek/deepseek-r1` - DeepSeek R1
 
 **Cheap** (`--cheap` flag) - fast and affordable:
 - `anthropic/claude-sonnet-4.5` - Claude Sonnet 4.5
 - `openai/gpt-4o` - GPT-4o
 - `google/gemini-2.0-flash-001` - Gemini Flash
+- `x-ai/grok-4.1-fast` - Grok 4.1 Fast
 - `deepseek/deepseek-v3.2` - DeepSeek V3.2
 
 ### Options

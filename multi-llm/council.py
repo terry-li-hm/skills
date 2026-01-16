@@ -30,7 +30,7 @@ EXPENSIVE_MODELS = [
     "anthropic/claude-opus-4.5",
     "openai/gpt-5.2",
     "google/gemini-3-pro-preview",
-    "x-ai/grok-4.1",
+    "x-ai/grok-4",
     "deepseek/deepseek-r1",
 ]
 
@@ -39,6 +39,7 @@ CHEAP_MODELS = [
     "anthropic/claude-sonnet-4.5",
     "openai/gpt-4o",
     "google/gemini-2.0-flash-001",
+    "x-ai/grok-4.1-fast",
     "deepseek/deepseek-v3.2",
 ]
 
@@ -48,7 +49,7 @@ REASONING_MODELS = {
     "openai/gpt-5.2",
     "google/gemini-3-pro-preview",
     "google/gemini-2.5-pro",
-    "x-ai/grok-4.1",
+    "x-ai/grok-4",
     "deepseek/deepseek-r1",
 }
 
