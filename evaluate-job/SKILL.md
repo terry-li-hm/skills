@@ -9,9 +9,13 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 
 ## Workflow
 
-1. **Navigate to job posting** — Extract full JD (requirements, responsibilities, preferred qualifications, salary if disclosed, applicant stats)
+1. **Navigate to job posting:**
+   - `tabs_create_mcp` → create new tab
+   - `navigate` → go to LinkedIn job URL
+   - `get_page_text` → extract full JD immediately (skip screenshots/scrolling)
+   - Extract: requirements, responsibilities, preferred qualifications, salary if disclosed, applicant stats
 
-2. **Load context files** — Check user's CLAUDE.md for background, credentials, differentiators, current situation, and job hunting status
+2. **Load context files** (can run in parallel with step 1) — Check user's CLAUDE.md for background, credentials, differentiators, current situation, and job hunting status
 
 3. **Analyze fit** across dimensions (see Fit Dimensions below)
 
@@ -31,6 +35,8 @@ Analyze LinkedIn job postings against user's background, current pipeline health
    - Include: Full JD, fit analysis table, recommendation reasoning
 
 8. **Update job tracking** — Add to appropriate section in user's job hunting notes
+
+**Note:** No reliable way to close browser tabs via MCP — leave tab open for user to close manually.
 
 ## Fit Dimensions
 
