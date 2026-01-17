@@ -10,7 +10,7 @@ Review the current conversation to analyze skill usage, extract feedback and cor
 ## When to Use
 
 Use this skill when the user:
-- Sends `/skill-review` or `/skill-retro`
+- Sends `/skill-review`
 - Says "review my skills usage" or "what skills need updating"
 - Wants to capture learnings after a long Claude Code session
 - Needs to iterate on custom skills based on feedback given during conversation
@@ -110,7 +110,7 @@ Present the checklist and ask:
 
 ### New Skills to Create
 - [ ] **skill-review**: Meta-skill to review skill usage (this one!)
-  - Trigger: `/skill-review`, `/skill-retro`
+  - Trigger: `/skill-review`
   - Workflow: Scan conversation → extract feedback → generate checklist
 
 ### CLAUDE.md Updates
