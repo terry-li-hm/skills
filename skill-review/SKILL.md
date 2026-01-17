@@ -76,11 +76,12 @@ After user approves:
 
 ### Step 6: Commit and Push
 
-After changes are made:
+Skills in `~/.claude/skills/` are symlinked from the source repo at `~/skills/`. After changes are made:
 
-1. `git add` the changed skill files
-2. `git commit` with message describing the skill update
-3. `git push` to origin
+1. `cd ~/skills` (the source repo, not `.claude/skills/`)
+2. `git add` the changed skill files
+3. `git commit` with message describing the skill update
+4. `git push` to origin
 
 Confirm completion to the user.
 
