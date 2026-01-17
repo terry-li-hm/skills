@@ -10,7 +10,7 @@ Review the current conversation to analyze skill usage, extract feedback and cor
 ## When to Use
 
 Use this skill when the user:
-- Sends `/skill-review` or `/skill复盘`
+- Sends `/skill-review` or `/iteration-checklist`
 - Says "review my skills usage" or "what skills need updating"
 - Wants to capture learnings after a long Claude Code session
 - Needs to iterate on custom skills based on feedback given during conversation
@@ -110,7 +110,7 @@ Present the checklist and ask:
 
 ### New Skills to Create
 - [ ] **skill-review**: Meta-skill to review skill usage (this one!)
-  - Trigger: `/skill-review`, `/skill复盘`
+  - Trigger: `/skill-review`, `/iteration-checklist`
   - Workflow: Scan conversation → extract feedback → generate checklist
 
 ### CLAUDE.md Updates
@@ -131,3 +131,7 @@ Present the checklist and ask:
 
 - This skill: `/Users/terry/skills/skill-review/SKILL.md`
 - Output location: `/Users/terry/notes/Skill Reviews/`
+
+## Reference
+
+Inspired by [@dontbesilent12's Skill Iteration Review concept](https://x.com/dontbesilent12/status/2011828768944636266)
