@@ -22,7 +22,9 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 
 5. **Output recommendation:** APPLY, CONSIDER, or PASS with clear reasoning
 
-6. **If APPLY:** Ask whether to proceed with application
+6. **If APPLY:**
+   - **Easy Apply roles:** Ask whether to proceed with application now
+   - **Company website roles:** Add to "To Apply" list in job tracking (external ATS requires more effort; note for later)
 
 7. **Create vault note:**
    - Filename: `[[Role Title, Company]]`

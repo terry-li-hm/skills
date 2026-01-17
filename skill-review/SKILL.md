@@ -1,19 +1,18 @@
 ---
 name: skill-review
-description: Review the current conversation to analyze skill usage, extract feedback, and generate iteration checklists. Use after long sessions to capture learnings and improve skills.
+description: Review the current conversation to analyze skill usage, extract feedback, and directly update skills. Use after long sessions to improve skills based on feedback given during conversation.
 ---
 
 # Skill Review
 
-Review the current conversation to analyze skill usage, extract feedback and corrections, and generate actionable iteration checklists. Outputs to Obsidian for persistence across sessions.
+Review the current conversation to analyze skill usage, extract feedback and corrections, and **directly update the skills**. No review notes — just fix the skills.
 
 ## When to Use
 
 Use this skill when the user:
 - Sends `/skill-review`
 - Says "review my skills usage" or "what skills need updating"
-- Wants to capture learnings after a long Claude Code session
-- Needs to iterate on custom skills based on feedback given during conversation
+- Wants to iterate on custom skills based on feedback given during conversation
 
 ## Instructions
 
@@ -49,88 +48,52 @@ For each feedback item, determine the action:
 | Feedback is one-time preference or edge case | **No action needed** |
 | Feedback applies to multiple skills | **Update CLAUDE.md** (global instructions) |
 
-### Step 4: Generate Output
+### Step 4: Propose Changes
 
-Create a structured output with two sections:
+Present proposed changes to the user before implementing:
 
-#### A. Iteration Checklist
+```
+## Proposed Skill Updates
 
-```markdown
-## Skill Iteration Checklist - [DATE]
+### [skill-name]
+**File:** `/path/to/SKILL.md`
+**Change:** [what will be changed]
+**Before:** [current text]
+**After:** [proposed text]
 
-### Skills to Update
-- [ ] **[skill-name]**: [specific change needed]
-  - Feedback: "[quote from conversation]"
-  - Location: `[file path if known]`
-
-### New Skills to Create
-- [ ] **[proposed-skill-name]**: [what it should do]
-  - Trigger: [when to activate]
-  - Workflow: [brief description]
-
-### CLAUDE.md Updates
-- [ ] [instruction to add/modify]
-
-### No Action (One-time)
-- [feedback that doesn't need skill changes]
+Proceed with these changes?
 ```
 
-#### B. Save to Obsidian
+Wait for user confirmation before editing any files.
 
-Write the checklist to the user's Obsidian vault:
+### Step 5: Implement Changes
 
-```bash
-# Save to Obsidian
-cat > "/Users/terry/notes/Skill Reviews/$(date +%Y-%m-%d) Skill Review.md" << 'EOF'
-[checklist content here]
-EOF
-```
+After user approves:
 
-Create the directory if it doesn't exist:
-```bash
-mkdir -p "/Users/terry/notes/Skill Reviews"
-```
+1. **Update existing skills** — Edit the SKILL.md file directly
+2. **Create new skills** — Write new SKILL.md if needed
+3. **Update CLAUDE.md** — If feedback applies globally
 
-### Step 5: Confirm with User
+### Step 6: Commit and Push
 
-Present the checklist and ask:
-1. Which items should be actioned now?
-2. Any feedback to ignore or deprioritize?
-3. Should I implement any of the skill updates immediately?
+After changes are made:
 
-## Example Output
+1. `git add` the changed skill files
+2. `git commit` with message describing the skill update
+3. `git push` to origin
 
-```markdown
-## Skill Iteration Checklist - 2026-01-17
-
-### Skills to Update
-- [ ] **linkedin-job-analysis**: Add pipeline health check before recommendation
-  - Feedback: "Factor in how healthy my pipeline is before recommending PASS"
-  - Location: Workflow in CLAUDE.md
-
-### New Skills to Create
-- [ ] **skill-review**: Meta-skill to review skill usage (this one!)
-  - Trigger: `/skill-review`
-  - Workflow: Scan conversation → extract feedback → generate checklist
-
-### CLAUDE.md Updates
-- [ ] Add instruction: "Always create new browser tab at session start"
-
-### No Action (One-time)
-- User wanted table format for one specific comparison (not general preference)
-```
+Confirm completion to the user.
 
 ## Tips
 
 - Run this at the end of long sessions before context is lost
-- The Obsidian note creates a paper trail for skill evolution
-- Review past skill review notes periodically to spot patterns
-- If the same feedback appears multiple times, prioritize that fix
+- If the same feedback appears multiple times across sessions, it's high priority
+- Keep skill updates minimal and focused — don't over-engineer
 
 ## Files
 
-- This skill: `/Users/terry/skills/skill-review/SKILL.md`
-- Output location: `/Users/terry/notes/Skill Reviews/`
+- This skill: `/Users/terry/.claude/skills/skill-review/SKILL.md`
+- Skills location: `/Users/terry/.claude/skills/`
 
 ## Reference
 
