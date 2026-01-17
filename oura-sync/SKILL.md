@@ -5,7 +5,7 @@ description: Sync Oura Ring data to local DuckDB and backup CSV to GitHub. Use w
 
 # Oura Data Sync
 
-Sync sleep, readiness, and resilience data from Oura Ring API to local DuckDB, with CSV backup to private GitHub repo.
+Sync sleep, readiness, resilience, activity, workout, stress, and more from Oura Ring API to local DuckDB, with CSV backup to private GitHub repo.
 
 ## Repository
 
@@ -28,8 +28,11 @@ uv run python scripts/sync.py
 # Backfill N days
 uv run python scripts/sync.py --backfill 30
 
-# Full historical sync
+# Full historical sync (5 years)
 uv run python scripts/sync.py --backfill 1825
+
+# Include intraday heart rate (high volume!)
+uv run python scripts/sync.py --backfill 30 --heartrate
 ```
 
 ### Export & Backup to GitHub
@@ -70,19 +73,20 @@ Run this monthly to ensure complete backup:
 | `data/oura.duckdb` | Full database | Fast local queries |
 | `exports/*.csv` | All tables | Git backup (human-readable, diffable) |
 
-**Why CSV backup?**
-- Human-readable, portable
-- Git can diff changes
-- Protection if Oura API disappears
-- Can regenerate DuckDB from CSV if needed
-
 ## Available Tables
 
-| Table | Key Fields |
-|-------|-----------|
-| `sleep` | day, efficiency, average_hrv, average_heart_rate, deep/light/rem_sleep_duration |
-| `readiness` | day, score, temperature_deviation, contributors |
-| `resilience` | day, level, contributors |
+| Table | Records | Key Fields |
+|-------|---------|------------|
+| `sleep` | 2,133 | day, efficiency, average_hrv, average_heart_rate, deep/light/rem_sleep_duration |
+| `readiness` | 1,505 | day, score, temperature_deviation, contributors |
+| `resilience` | 703 | day, level, contributors |
+| `daily_activity` | 1,578 | day, steps, active_calories, high/medium/low_activity_time, score |
+| `workout` | 3,143 | day, activity (walking/running/etc), calories, distance, intensity |
+| `daily_stress` | 809 | day, day_summary (normal/stressful/restored), stress_high, recovery_high |
+| `daily_spo2` | 1,226 | day, spo2_percentage, breathing_disturbance_index |
+| `tag` | 69 | day, tags (alcohol, late_meal, supplements, etc) |
+| `session` | 3 | day, type (meditation/breathing), mood, heart_rate |
+| `heartrate` | optional | timestamp, bpm, source (awake/sleep) - high volume! |
 
 ## Analysis Queries
 
@@ -95,6 +99,13 @@ SELECT EXTRACT(year FROM day) as year,
     ROUND(AVG(efficiency), 1) as efficiency
 FROM sleep WHERE efficiency > 10 GROUP BY year ORDER BY year;
 
+-- Workout frequency by year
+SELECT EXTRACT(year FROM day) as year,
+    activity, COUNT(*) as count
+FROM workout
+GROUP BY year, activity
+ORDER BY year, count DESC;
+
 -- HRV vs efficiency correlation
 SELECT CASE
     WHEN average_hrv < 50 THEN 'HRV <50'
@@ -105,6 +116,24 @@ END as hrv_bucket,
 ROUND(AVG(efficiency), 1) as avg_efficiency
 FROM sleep WHERE efficiency > 10 AND average_hrv > 0
 GROUP BY hrv_bucket;
+
+-- Stress patterns
+SELECT day_summary, COUNT(*) as days,
+    ROUND(AVG(stress_high)/3600, 1) as avg_stress_hours,
+    ROUND(AVG(recovery_high)/3600, 1) as avg_recovery_hours
+FROM daily_stress
+GROUP BY day_summary;
+
+-- Activity score vs sleep quality
+SELECT
+    CASE WHEN a.score < 60 THEN 'Low activity'
+         WHEN a.score < 80 THEN 'Medium activity'
+         ELSE 'High activity' END as activity_level,
+    ROUND(AVG(s.efficiency), 1) as next_night_efficiency
+FROM daily_activity a
+JOIN sleep s ON s.day = a.day + INTERVAL 1 DAY
+WHERE s.efficiency > 10
+GROUP BY activity_level;
 
 -- Optimal bedtime
 SELECT EXTRACT(hour FROM bedtime_start) as bed_hour,
@@ -132,3 +161,5 @@ GROUP BY EXTRACT(dow FROM day) ORDER BY EXTRACT(dow FROM day);
 | "backup oura" | Export + git commit + push |
 | "oura stats" / "how's my sleep" | Query DuckDB, show recent data |
 | "analyze oura data" | Run full analysis, save to vault |
+| "what workouts did I do" | Query workout table |
+| "how stressed was I" | Query daily_stress table |
