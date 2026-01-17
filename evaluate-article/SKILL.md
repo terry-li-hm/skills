@@ -12,7 +12,9 @@ Read articles shared by user, evaluate whether they're worth saving to the vault
 1. Fetch the URL with WebFetch (prompt: "Extract the full article content including title, author, date, and main body")
 2. Evaluate against Worth Noting Criteria
 3. If SKIP → brief dismissal in chat (2-3 lines max), done
-4. If NOTE → create note in user's vault Articles folder, confirm to user
+4. If NOTE → create note in user's vault Articles folder
+5. **Interlink:** Grep vault for related notes (key concepts, themes). Add `## Related` section with 2-5 wikilinks if meaningful connections exist
+6. Confirm to user
 
 ## Worth Noting Criteria
 
