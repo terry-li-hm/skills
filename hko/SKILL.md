@@ -1,6 +1,6 @@
 # /hko - Hong Kong Observatory Temperature
 
-Check current temperature from HK Observatory, focusing on Eastern District.
+Check current temperature from HK Observatory API, focusing on Shau Kei Wan (Island East).
 
 ## Trigger
 
@@ -9,20 +9,22 @@ Check current temperature from HK Observatory, focusing on Eastern District.
 
 ## Workflow
 
-1. Use browser automation to navigate to HKO regional temperatures page: `https://www.hko.gov.hk/en/wxinfo/ts/index.htm`
-2. Find the temperature for "Eastern District" (東區) or "Tai Koo" (太古)
-3. If Eastern District not available, fall back to "Hong Kong Observatory" general reading
-4. Return a single-line response in format: `🌡️ Eastern District: XX°C (as of HH:MM)`
+Run this curl command and parse the JSON:
+```bash
+curl -s "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=en"
+```
+
+Extract from the response:
+- `temperature.data` array - find entry where `place` is "Shau Kei Wan"
+- `temperature.recordTime` - the timestamp
 
 ## Output Format
 
-Quick one-liner only. Example:
+Quick one-liner only:
 ```
-🌡️ Eastern District: 24°C (as of 08:45)
+🌡️ Shau Kei Wan: XX°C (as of HH:MM)
 ```
 
-## Notes
+## Fallback
 
-- HKO updates temperatures every few minutes
-- Eastern District station may sometimes be listed as "Tai Koo" or nearby area
-- If browser automation fails, fall back to the main HKO page temperature
+If Shau Kei Wan not available, use "Hong Kong Observatory" reading instead.
