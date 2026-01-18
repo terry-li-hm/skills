@@ -19,6 +19,22 @@ Fetch recent AI news from curated sources and summarize key developments. Quick 
 
 **Note:** Medium-hosted blogs (Wise, Revolut, Upstart, etc.) and JS-heavy sites (Stripe, Gradient Labs) don't work with WebFetch — demoted to Tier 2. Use browser automation in deep mode if needed.
 
+### Smol AI News Deep Read
+
+The homepage (`news.smol.ai`) only shows **one headline per day**. The full daily issues contain much more:
+
+- **swyx's analysis** — Why things matter, not just what happened
+- **Community insights** — Reddit (r/LocalLlama, r/ClaudeAI), Discord servers, Twitter threads
+- **Technical highlights** — Infrastructure, benchmarks, implementation details
+- **Pattern recognition** — Trends swyx identifies across 500+ sources
+- **Smaller stories** — Model releases, tools, research that didn't make the headline
+
+**URL pattern:** `news.smol.ai/issues/YY-MM-DD-slug`
+- Examples: `26-01-16-chatgpt-ads`, `26-01-15-openresponses`, `26-01-14-not-much`
+- Find slugs by fetching the homepage first
+
+**When to deep read:** User says "smol deep" or "full smol" — fetch last 3-5 full issues. Good for interview prep (15-20 min read gives talking points on *why* things matter, not just *what* happened).
+
 ## Sources
 
 ### Web (WebFetch)
