@@ -113,15 +113,17 @@ Combine with AND (space) or OR:
 - Token: `/Users/terry/notes/scripts/token.pickle` (created after first auth)
 - Setup notes: [[Gmail API Setup]]
 
-## Troubleshooting
+## Error Handling
 
-**"credentials.json not found"**
-- Download from Google Cloud Console → Clients → Desktop client 1
+- **If credentials.json not found**: Download from Google Cloud Console → Clients → Desktop client 1
+- **If "Access blocked" or auth error**: Ensure email is added as test user in OAuth consent screen; delete `token.pickle` and re-authorize
+- **If no results found**: Try broader search terms; check if emails exist with those keywords
+- **If rate limited**: Wait and retry; script should handle automatically
+- **If token expired**: Delete `token.pickle`, re-run to trigger OAuth flow
+- **If API quota exceeded**: Check Google Cloud Console quotas; wait for reset
 
-**"Access blocked" or auth error**
-- Ensure your email is added as a test user in OAuth consent screen
-- Delete `token.pickle` and re-authorize
+## Safety Notes
 
-**No results found**
-- Try broader search terms
-- Check if emails exist in your inbox with those keywords
+- Never delete emails programmatically without explicit user confirmation
+- Be careful with bulk operations — always preview results first
+- Sensitive data: results may contain personal information, don't log to shared locations

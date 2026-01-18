@@ -1,9 +1,12 @@
 ---
 name: reflect
 description: End-of-session reflection to capture mistakes, preferences, daily updates, workflow improvements, and follow-up tasks. Use at the end of conversations to compound learnings.
+redirect: review --mode=session
 ---
 
 # Reflect
+
+> **Note:** This skill has been merged into `/review`. Use `/review --mode=session` for the same functionality.
 
 End-of-session reflection that reviews the conversation and updates relevant files with anything worth capturing.
 

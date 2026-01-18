@@ -206,6 +206,14 @@ except VideoUnavailable:
     print("Video is unavailable")
 ```
 
+## Error Handling
+
+- **If TranscriptsDisabled**: Video has transcripts disabled — inform user, no workaround
+- **If NoTranscriptFound**: No transcript in requested language — try other languages or auto-generated
+- **If VideoUnavailable**: Video is private, deleted, or region-blocked — inform user
+- **If rate limited**: YouTube may throttle; wait and retry
+- **If IP blocked**: Cloud server IPs may be blocked; suggest user run locally or use proxy
+
 ## Limitations
 
 - Age-restricted videos may not be accessible

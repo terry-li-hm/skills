@@ -1,4 +1,12 @@
+---
+name: follow-up
+description: Draft follow-up messages for stale applications or networking contacts. Use when user says "follow up", "nudge", "check in with".
+redirect: message --type=followup
+---
+
 # Follow-up
+
+> **Note:** This skill has been merged into `/message`. Use `/message --type=followup` for the same functionality.
 
 Draft follow-up messages for stale applications or networking contacts.
 

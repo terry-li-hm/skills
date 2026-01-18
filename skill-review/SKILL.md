@@ -1,9 +1,12 @@
 ---
 name: skill-review
 description: Review the current conversation to analyze skill usage, extract feedback, and directly update skills. Use after long sessions to improve skills based on feedback given during conversation.
+redirect: review --mode=skills
 ---
 
 # Skill Review
+
+> **Note:** This skill has been merged into `/review`. Use `/review --mode=skills` for the same functionality.
 
 Review the current conversation to analyze skill usage, extract feedback and corrections, and **directly update the skills**. No review notes — just fix the skills.
 

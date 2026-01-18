@@ -1,0 +1,200 @@
+# AI News Sources Configuration
+# Tier 1: Always fetch (high-signal, frequent updates)
+# Tier 2: Deep scan only (user says "deep", "full", or "all sources")
+
+web_sources:
+  # General AI News
+  - name: Smol AI News
+    url: https://news.smol.ai
+    focus: Practitioner-focused, swyx
+    tier: 1
+    notes: |
+      Homepage shows one headline/day. Full issues at news.smol.ai/issues/YY-MM-DD-slug
+      For deep read: fetch last 3-5 full issues
+
+  - name: Simon Willison
+    url: https://simonwillison.net
+    focus: LLMs, open source, hands-on
+    tier: 1
+
+  - name: Eugene Yan
+    url: https://eugeneyan.com
+    focus: Applied ML, RecSys, LLMs in production
+    tier: 1
+
+  - name: Anthropic Blog
+    url: https://www.anthropic.com/news
+    focus: Claude updates, research, safety
+    tier: 1
+
+  - name: OpenAI Developer Blog
+    url: https://developers.openai.com/blog
+    focus: Codex, APIs, developer guides
+    tier: 1
+
+  - name: Evident Banking Brief
+    url: https://evidentinsights.com/bankingbrief/
+    focus: AI in financial services
+    tier: 2
+
+  - name: Every
+    url: https://every.to
+    focus: AI business strategy, Dan Shipper
+    tier: 2
+
+  - name: Hacker News
+    url: https://news.ycombinator.com
+    focus: Tech/startup news, community picks
+    tier: 2
+
+  - name: Import AI
+    url: https://jack-clark.net
+    focus: AI research, policy, Jack Clark
+    tier: 2
+
+  - name: Latent.Space
+    url: https://www.latent.space
+    focus: AI practitioner podcast (swyx), deep dives
+    tier: 2
+
+bank_tech_blogs:
+  # Tier 1 - Reliable, frequent updates
+  - name: Layer 6 (TD Bank)
+    url: https://layer6.ai/blog
+    focus: ML research, recommender systems, Toronto
+    tier: 1
+
+  - name: Monzo Tech
+    url: https://monzo.com/blog/topic/technology
+    focus: ML platform, fraud, UK neobank
+    tier: 1
+
+  - name: Plaid Blog
+    url: https://plaid.com/blog
+    focus: Open banking, MCP, infra
+    tier: 1
+
+  - name: Sardine Blog
+    url: https://www.sardine.ai/blog
+    focus: Fraud ML, feature stores
+    tier: 1
+
+  - name: Chainalysis Blog
+    url: https://www.chainalysis.com/blog
+    focus: Crypto compliance, blockchain analytics
+    tier: 1
+
+  # Tier 2 - Less frequent or JS-heavy
+  - name: Capital One Tech
+    url: https://www.capitalone.com/tech/machine-learning/
+    focus: ML in banking, MLOps, fraud
+    tier: 2
+
+  - name: JPMorgan AI Research
+    url: https://www.jpmorgan.com/technology/artificial-intelligence
+    focus: Finance AI, NLP, quant research
+    tier: 2
+
+  - name: Goldman Sachs Insights
+    url: https://www.goldmansachs.com/insights/topics/artificial-intelligence.html
+    focus: AI market analysis, enterprise AI
+    tier: 2
+
+  - name: Nubank (Building)
+    url: https://building.nubank.com/data-science-machine-learning/
+    focus: ML ops, real-time ML, Brazil
+    tier: 2
+
+  - name: Stripe Blog
+    url: https://stripe.com/blog
+    focus: Payments ML, fraud detection, Radar
+    tier: 2
+    notes: JS-heavy, may need browser automation
+
+  - name: DBS Tech Blog
+    url: https://medium.com/dbs-tech-blog
+    focus: Singapore, AI-fuelled banking
+    tier: 2
+
+  - name: Wise Engineering
+    url: https://medium.com/wise-engineering
+    focus: 150+ ML models, fraud/AML
+    tier: 2
+
+  - name: Revolut Tech
+    url: https://medium.com/revolut/tagged/machine-learning
+    focus: Fraud detection, Sherlock
+    tier: 2
+
+  - name: Upstart Tech
+    url: https://medium.com/upstart-tech
+    focus: AI lending, credit ML
+    tier: 2
+
+chinese_sources:
+  - name: 机器之心 (Synced)
+    rss: https://wechat2rss.xlab.app/feed/51e92aad2728acdd1fda7314be32b16639353001.xml
+    focus: AI research, industry news (CN)
+    tier: 1
+
+  - name: 量子位 (QbitAI)
+    rss: https://wechat2rss.xlab.app/feed/7131b577c61365cb47e81000738c10d872685908.xml
+    focus: AI startups, products, China scene (CN)
+    tier: 1
+
+  - name: 新智元
+    rss: https://wechat2rss.xlab.app/feed/ede30346413ea70dbef5d485ea5cbb95cca446e7.xml
+    focus: AI news, Western research translations (CN)
+    tier: 2
+
+x_accounts:
+  - handle: "@karpathy"
+    name: Andrej Karpathy
+    focus: Deep learning, AI education
+    tier: 1
+
+  - handle: "@emollick"
+    name: Ethan Mollick
+    focus: AI + work/productivity, Wharton
+    tier: 1
+
+  - handle: "@eugeneyan"
+    name: Eugene Yan
+    focus: Applied ML, RecSys, Amazon, practical AI
+    tier: 1
+
+  - handle: "@dotey"
+    name: Dotey
+    focus: AI tutorials, Chinese AI scene
+    tier: 2
+
+  - handle: "@danshipper"
+    name: Dan Shipper
+    focus: AI for knowledge work, Every
+    tier: 2
+
+  - handle: "@jerryjliu0"
+    name: Jerry Liu
+    focus: LlamaIndex, RAG, agents
+    tier: 2
+
+  - handle: "@AndrewYNg"
+    name: Andrew Ng
+    focus: The Batch, DeepLearning.AI
+    tier: 2
+
+  - handle: "@ylecun"
+    name: Yann LeCun
+    focus: Meta AI Chief, contrarian takes
+    tier: 2
+
+  - handle: "@EpochAIResearch"
+    name: Epoch AI
+    focus: AI compute, research trends, trajectory
+    tier: 2
+
+youtube_queries:
+  - "AI agents 2026"
+  - "LLM enterprise applications"
+  - "AI in banking fintech"
+  - "machine learning production"

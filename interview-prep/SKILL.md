@@ -1,3 +1,8 @@
+---
+name: interview-prep
+description: Prepare for an upcoming interview by researching the company, pulling relevant stories, and matching experience to role requirements. Use when user says "prep for [company]", "interview prep", or has an interview scheduled.
+---
+
 # Interview Prep
 
 Prepare for an upcoming interview by researching the company, pulling relevant stories, and matching experience to role requirements.
@@ -6,81 +11,64 @@ Prepare for an upcoming interview by researching the company, pulling relevant s
 
 Use when:
 - Terry has an interview scheduled
-- Says "prep for [company]", "interview prep", "prepare for interview"
+- User says "prep for [company]", "interview prep", "prepare for interview"
 
 ## Inputs
 
-- Company name
-- Role title
-- Interview stage (if known: phone screen, hiring manager, technical, etc.)
-- Interview date/time (optional)
+- **company**: Company name (required)
+- **role**: Role title (required)
+- **stage** (optional): Phone screen, hiring manager, technical, etc.
+- **date** (optional): Interview date/time
 
-## Steps
+## Workflow
 
-### 1. Read Context
+1. **Read context files**:
+   - `/Users/terry/notes/CLAUDE.md` — personal context
+   - `/Users/terry/notes/Core Story Bank.md` — prepared stories (if exists)
+   - `/Users/terry/notes/Interview Preparation.md` — general prep notes (if exists)
+   - `/Users/terry/notes/Job Hunting.md` — notes on this role/company
 
-- `/Users/terry/notes/CLAUDE.md` — personal context
-- `/Users/terry/notes/Core Story Bank.md` — prepared stories (if exists)
-- `/Users/terry/notes/Interview Preparation.md` — general prep notes (if exists)
-- `/Users/terry/notes/Job Hunting.md` — check for notes on this role/company
+2. **Research company** via web search:
+   - **Recent news** — last 3-6 months, anything notable
+   - **Tech stack** — especially data/ML infrastructure
+   - **Culture signals** — values, work style, reviews
+   - **Key people** — who Terry might meet, their background
+   - **Challenges** — problems they're likely solving
 
-### 2. Research Company
+3. **Map role to experience**:
+   | Role Requirement | Terry's Relevant Experience |
+   |------------------|----------------------------|
+   | [Requirement] | [Matching experience/story] |
 
-Use web search to gather:
-- **Recent news** — last 3-6 months, anything notable
-- **Tech stack** — what they use, especially data/ML infrastructure
-- **Culture signals** — values, work style, reviews
-- **Key people** — who Terry might meet, their background
-- **Challenges** — what problems they're likely solving
+4. **Select 3-5 stories** from Core Story Bank most relevant to this role
 
-Present a concise briefing (not a wall of text).
+5. **Generate 5-7 questions to ask** (tailored to research findings):
+   - Role-specific (day-to-day, expectations, success metrics)
+   - Team/culture (how team works, collaboration)
+   - Company direction (strategy, challenges, growth)
 
-### 3. Role-Experience Mapping
+6. **Flag potential concerns**:
+   - Gaps or transitions to address
+   - Why leaving current role (clean narrative)
+   - Salary expectations if likely to come up
+   - Red flags from research
 
-Based on the job description (if available) or role title:
+7. **Save prep notes** to vault (optional)
 
-| Role Requirement | Terry's Relevant Experience |
-|------------------|----------------------------|
-| [Requirement] | [Matching experience/story] |
+## Error Handling
 
-Pull from Core Story Bank where applicable.
+- **If Core Story Bank doesn't exist**: Note what stories Terry should prepare
+- **If company info sparse**: Focus on role requirements and general prep
+- **If interview is soon**: Focus on essentials; if days away, go deeper
 
-### 4. Stories to Have Ready
+## Output
 
-Recommend 3-5 stories from Core Story Bank that are most relevant:
-- Why this story fits
-- Key points to emphasize for this company
-
-If Core Story Bank doesn't exist or is sparse, note what stories Terry should prepare.
-
-### 5. Questions to Ask
-
-Generate 5-7 thoughtful questions:
-- Role-specific (day-to-day, expectations, success metrics)
-- Team/culture (how team works, collaboration)
-- Company direction (strategy, challenges, growth)
-- Avoid generic questions — tailor to research findings
-
-### 6. Potential Concerns
-
-Flag anything Terry should be ready to address:
-- Gaps or transitions in background
-- Why leaving current role (have a clean narrative)
-- Salary expectations if likely to come up
-- Any red flags from research
-
-### 7. Save Prep Notes (Optional)
-
-Offer to save prep notes to vault:
-`/Users/terry/notes/Interview Prep - [Company].md`
-
-## Output Format
-
+**Template:**
 ```markdown
 # Interview Prep: [Company] - [Role]
 
 ## Company Briefing
-[Concise summary]
+[Concise summary — recent news, tech stack, culture]
 
 ## Role Mapping
 | Requirement | Your Experience |
@@ -99,9 +87,10 @@ Offer to save prep notes to vault:
 - [Any prep actions before interview]
 ```
 
-## Tips
+**Location:** `/Users/terry/notes/Interview Prep - [Company].md`
 
-- Keep briefing scannable — Terry will review before the call
-- Prioritize recent/relevant news over company history
-- For technical interviews, adjust focus to technical depth
-- If interview is soon, focus on essentials; if days away, can go deeper
+## Examples
+
+**User**: "prep for Stripe"
+**Action**: Research Stripe, map experience, select stories, generate questions
+**Output**: Interview prep note saved to vault, summary in chat

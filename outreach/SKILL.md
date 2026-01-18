@@ -1,4 +1,12 @@
+---
+name: outreach
+description: Draft personalized networking messages to contacts for job search. Use when user says "draft outreach", "network with", "reach out to".
+redirect: message --type=warm
+---
+
 # Outreach
+
+> **Note:** This skill has been merged into `/message`. Use `/message --type=warm` or `/message --type=cold` for the same functionality.
 
 Draft personalized networking messages to contacts for job search.
 

@@ -1,99 +1,77 @@
+---
+name: waking-up-transcribe
+description: Transcribe Waking Up app audio lessons into Obsidian notes. Use when user says "transcribe waking up", "waking up transcript", or wants to add meditation transcripts.
+---
+
 # Waking Up Transcribe
 
 Transcribe Waking Up app audio lessons into Obsidian notes.
 
 ## Trigger
 
-Use when user says:
-- "transcribe waking up"
-- "waking up transcript"
-- "transcribe [lesson name]"
-- "add waking up lessons"
+Use when:
+- User says "transcribe waking up", "waking up transcript"
+- User says "transcribe [lesson name]", "add waking up lessons"
+
+## Inputs
+
+- **audio_ids**: List of audio IDs to transcribe (from HLS URLs)
+- **titles**: Corresponding lesson titles
+- **teacher** (optional): Defaults to "Unknown"
+- **pack** (optional): Defaults to "Uncategorized"
+- **model** (optional): Transcription model, defaults to `gpt-4o-mini-transcribe`
 
 ## Paths
 
 - **Repo:** `~/repos/waking-up-transcripts/`
 - **Output:** `~/notes/Waking Up/[Pack]/[Title].md`
 - **Cache:** `~/.cache/waking-up-audio/`
-- **Catalog:** `~/repos/waking-up-transcripts/catalog/`
 
 ## Workflow
 
-### 1. Capture Audio IDs (Browser)
+1. **Capture Audio IDs** (Browser — manual step):
+   - Open https://app.wakingup.com and log in
+   - Open DevTools → Network tab, filter by "hls" or "audios"
+   - Click on each session to trigger HLS requests
+   - Copy UUIDs from URLs: `courses/audios/{UUID}/hls/`
 
-**Note:** Waking Up uses React Server Components, so GraphQL interception doesn't work. Audio IDs must be captured from HLS streaming requests when sessions are clicked/played.
+2. **Create batch file** at `~/repos/waking-up-transcripts/batch.json`:
+   ```json
+   [
+     {
+       "audio_id": "f5e2e44b-04c1-4ddc-bba6-9aed02767558",
+       "title": "The Logic of Practice",
+       "teacher": "Sam Harris",
+       "pack": "Fundamentals"
+     }
+   ]
+   ```
 
-#### Method A: DevTools Network Tab (Recommended)
+3. **Run transcription**:
+   ```bash
+   cd ~/repos/waking-up-transcripts
+   python download_and_transcribe.py --batch batch.json --model base
+   ```
 
-1. Open https://app.wakingup.com and log in
-2. Open DevTools → Network tab
-3. Filter by "hls" or "audios"
-4. Navigate to a pack and click on each session
-5. Look for requests matching: `courses/audios/{UUID}/hls/`
-6. Copy the UUID from each URL
-7. Note the title from the UI
+4. **Verify output** in `~/notes/Waking Up/[Pack]/`
 
-#### Method B: Console Script + Clicking
+## Error Handling
 
-1. Open https://app.wakingup.com and log in
-2. Open DevTools Console (F12)
-3. Paste contents of `~/repos/waking-up-transcripts/extract_audio_ids.js`
-4. **Click on each session** to trigger HLS requests (just opening a pack won't capture IDs)
-5. Run `copyWakingUpSessions()` to copy sessions with metadata, or `copyNonMeditations()` to exclude guided meditations
+- **If "No segments found"**: Wrong audio ID — refresh page and check console
+- **If rate limit errors**: Script has built-in retry; wait
+- **If batch interrupted**: Re-run same command — it skips completed files
 
-### 2. Create Batch File
+## Output
 
-Create JSON at `~/repos/waking-up-transcripts/batch.json`:
+Markdown files in `~/notes/Waking Up/[Pack]/[Title].md`
 
-```json
-[
-  {
-    "audio_id": "f5e2e44b-04c1-4ddc-bba6-9aed02767558",
-    "title": "The Logic of Practice",
-    "teacher": "Sam Harris",
-    "pack": "Fundamentals"
-  }
-]
-```
+## Models
 
-Required fields: `audio_id`, `title`
-Optional fields: `teacher` (default: "Unknown"), `pack` (default: "Uncategorized")
-
-### 3. Run Transcription
-
-```bash
-cd ~/repos/waking-up-transcripts
-python download_and_transcribe.py --batch batch.json --model base
-```
-
-**Options:**
-- `--model MODEL` - Transcription model (default: gpt-4o-mini-transcribe at $0.003/min)
-- `--workers N` - Parallel download threads (default: 10)
-- `--force` - Re-process even if exists
-
-**Models:**
 | Model | Cost/min | Notes |
 |-------|----------|-------|
 | gpt-4o-mini-transcribe | $0.003 | Recommended, 50% cheaper |
 | whisper-1 | $0.006 | Legacy |
 | gpt-4o-transcribe | $0.006 | Highest accuracy |
-
-**Single lesson:**
-```bash
-python download_and_transcribe.py <audio_id> "<title>" --teacher "<name>" --pack "<pack>"
-```
-
-### 4. Verify Output
-
-Check `~/notes/Waking Up/[Pack]/` for generated Markdown files.
-
-## Troubleshooting
-
-| Issue | Solution |
-|-------|----------|
-| "No segments found" | Wrong audio ID - refresh page and check console |
-| Rate limit errors | Script has built-in retry; just wait |
-| Interrupted batch | Re-run same command - it skips completed files |
 
 ## Dependencies
 

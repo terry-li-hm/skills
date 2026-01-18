@@ -1,112 +1,98 @@
+---
+name: weekly-reset
+description: Sunday ritual to review job search status and plan the week ahead. Use when user says "weekly reset", "sunday reset", or on Sundays.
+---
+
 # Weekly Reset
 
-Sunday ritual to review job search status and plan the week ahead.
+Sunday ritual to review job search status, identify follow-ups, and plan the week ahead.
 
-## When to Use
+## Trigger
 
+Use when:
 - Every Sunday
-- When Terry says "weekly reset" or "sunday reset"
+- User says "weekly reset", "sunday reset"
 - At natural week boundaries
 
-## Instructions
+## Inputs
 
-### Step 1: Read Current State
+- **week** (optional): Date range to review, defaults to current week
 
-Read these files to understand current status:
-- `/Users/terry/notes/Job Hunting.md` — pipeline, networking, applications
-- `/Users/terry/notes/CLAUDE.md` — for weekly reset format reference
+## Workflow
 
-### Step 2: Identify the Week
+1. **Read current state**:
+   - `/Users/terry/notes/Job Hunting.md` — pipeline, networking, applications
+   - `/Users/terry/notes/CLAUDE.md` — context
 
-Determine the current week's date range (e.g., "Jan 19-25") and check if a weekly note exists:
-- Look for `/Users/terry/notes/Week of [date range].md`
-- If it exists, read it and update as needed
-- If not, create it
+2. **Identify week date range** (e.g., "Jan 19-25")
 
-### Step 3: Review & Present
+3. **Review & present summary**:
 
-Present a summary covering:
-
-1. **Pipeline Status**
+   **Pipeline Status:**
    - Interviews scheduled (with dates)
    - Awaiting responses
    - Recently applied (too early for signal)
-   - Likely dead
+   - Likely dead (>3 weeks, no response)
 
-2. **Networking Status**
+   **Networking Status:**
    - Calls/meetings this week
    - Who's in motion
    - Who needs follow-up
 
-3. **Follow-ups Due**
-   - Applications to nudge
+   **Follow-ups Due:**
+   - Applications to nudge (1-2 weeks old)
    - Contacts to check in with
    - Deadlines approaching
 
-4. **Applications to Send**
+   **Applications to Send:**
    - "Noted but not applied" roles worth pursuing
    - Prioritize by fit and deadline
 
-5. **Priorities for the Week**
+   **Priorities for the Week:**
    - Top 2-3 actions
    - Key calendar items
 
-6. **AI News (Optional)**
-   - Offer to run `/ai-news` for interview talking points
+4. **Offer AI news scan** for interview talking points (`/ai-news`)
 
-### Step 4: Update Weekly Note
+5. **Update weekly note**
 
-Update or create the weekly note with:
+6. **Update Job Hunting.md** if changes recorded
 
+## Error Handling
+
+- **If Job Hunting.md not found**: Create skeleton structure
+- **If no applications in pipeline**: Focus on sourcing new roles
+- **If user skipped last week**: Review 2-week period
+
+## Output
+
+**Template:**
 ```markdown
 # Week of [Date Range]
 
 ## Priorities
-
 1. [Top priority]
 2. [Second priority]
 3. [Third priority]
 
 ## Calendar
-
 - **[Day]:** [Event]
 
 ## Pipeline
-
 | Role | Status |
 |------|--------|
-| [Role] | [Status] |
 
 ## Follow-ups
-
 - [ ] [Task]
 
 ## Applications to Send
-
 - [ ] [[Role Name]] — [Brief note]
 
 ## Networking Waiting
-
 - [Contact] — [status]
 
 ## Notes
-
 [Any market context or observations]
 ```
 
-### Step 5: Update Job Hunting.md
-
-If there are changes to record (new applications, status updates, moved items), update Job Hunting.md accordingly.
-
-## Tips
-
-- Keep it brief and actionable
-- Don't duplicate — link to existing notes
-- Focus on what's changed since last week
-- Flag anything time-sensitive (deadlines, interview prep)
-
-## Files
-
-- This skill: `/Users/terry/skills/weekly-reset/SKILL.md`
-- Job Hunting: `/Users/terry/notes/Job Hunting.md`
-- Weekly notes: `/Users/terry/notes/Week of [date range].md`
+**Location:** `/Users/terry/notes/Week of [date range].md`

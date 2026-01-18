@@ -1,67 +1,65 @@
-# Little Monster Playhouse Schedule Checker
+---
+name: little-monster-playhouse
+description: Check opening hours and walk-in availability for Little Monster Playhouse in Chai Wan. Use when user asks about "Little Monster", "小怪獸遊戲室", or "Chai Wan playhouse".
+---
+
+# Little Monster Playhouse Schedule
 
 Check opening hours and walk-in availability for Little Monster Playhouse in Chai Wan.
 
 ## Trigger
 
-Use when user asks about:
-- "Little Monster playhouse hours"
-- "Is Little Monster open today"
-- "小怪獸遊戲室"
-- "Chai Wan playhouse schedule"
+Use when:
+- User asks about "Little Monster playhouse hours"
+- User says "Is Little Monster open today", "小怪獸遊戲室"
+- User asks about "Chai Wan playhouse schedule"
+
+## Inputs
+
+- **date** (optional): Date to check, defaults to today
 
 ## Key Information
 
-**Location:** 柴灣寧富街3號誠興大廈10樓全層 (10/F, Shing Hing Commercial Building, 3 Ning Fu Street, Chai Wan)
-
-**Access:** 1 min walk from MTR Chai Wan Station via flyover
-
-**Price:** $148/hour (1 adult + 1 child) - often have "Buy 1 Hour Get 1 Free" promotions
-
-**Walk-ins:** Accepted ("預約/ Walk-in 均可")
-
-**Contact:**
-- Email: Littlemonsterplayhouse@gmail.com
-- WhatsApp available (check their Instagram for number)
-
-## How to Check Schedule
-
-### Instagram (Primary Source)
-- **Handle:** `littlemonster_playhouse`
-- **Profile:** https://www.instagram.com/littlemonster_playhouse/
-- They post monthly "散場時間表" (public session timetable) around end of each month
-- Schedule posts have titles like "2026年X月份散場時間表出爐啦！"
-
-### Finding the Schedule Post
-1. Navigate to their latest schedule post (usually pinned or recent)
-2. Example URL pattern: `https://www.instagram.com/p/[POST_ID]/`
-3. The January 2026 schedule post: https://www.instagram.com/p/DS9YM5pkpuU/
-
-### Reading the Schedule
-- Calendar format showing each day of the month
-- **Green cells:** Open for walk-in with times shown (e.g., "10:00 am - 6:00pm")
-- **Yellow cells with "Deep Cleaning":** Closed for cleaning
-- **"Fully Booked":** No walk-in available
-- Saturday hours vary - check specific date (can be 10am-1pm, 10am-2pm, 10am-3pm, or 10am-6pm)
-
-### Browser Automation Notes
-- Instagram may show login popup - click X to dismiss
-- Profile page requires login to search, but individual posts are viewable
-- If "Profile isn't available" error, try accessing a specific post URL instead
-- **IMPORTANT:** Instagram compresses images - "1" and "6" can look identical in zoomed screenshots. When in doubt, ask user to verify the time from the original image, or trust their reading over the compressed version.
+- **Location:** 柴灣寧富街3號誠興大廈10樓全層 (10/F, Shing Hing Commercial Building, 3 Ning Fu Street, Chai Wan)
+- **Access:** 1 min walk from MTR Chai Wan Station via flyover
+- **Price:** $148/hour (1 adult + 1 child) — often have "Buy 1 Hour Get 1 Free" promotions
+- **Walk-ins:** Accepted ("預約/ Walk-in 均可")
+- **Contact:** Littlemonsterplayhouse@gmail.com
 
 ## Workflow
 
-1. First try to fetch their latest Instagram post with the monthly schedule
-2. Zoom in on the specific date user is asking about
-3. Report the opening hours for that date
-4. Include contact info in case they want to confirm directly
+1. **Navigate to Instagram** schedule post:
+   - Profile: https://www.instagram.com/littlemonster_playhouse/
+   - They post monthly "散場時間表" around end of each month
+   - Current schedule post: https://www.instagram.com/p/DS9YM5pkpuU/
 
-## Common Patterns (January 2026)
+2. **Read the schedule**:
+   - **Green cells:** Open for walk-in with times shown
+   - **Yellow "Deep Cleaning":** Closed
+   - **"Fully Booked":** No walk-in available
+
+3. **Zoom in on specific date** user is asking about
+
+4. **Report hours** with contact info for confirmation
+
+## Error Handling
+
+- **If Instagram shows login popup**: Click X to dismiss
+- **If "Profile isn't available"**: Try specific post URL instead
+- **If image compressed (1 vs 6 unclear)**: Ask user to verify from original
+- **If schedule not found**: Provide contact info for direct inquiry
+
+## Output
+
+- Opening hours for requested date
+- Contact info for confirmation
+- Note about common patterns
+
+## Common Patterns
 
 - **Weekdays (Tue/Wed/Fri):** Usually 1:00 - 6:00 pm
 - **Saturdays:** Varies (10am-1pm, 10am-2pm, 10am-3pm, or 10am-6pm)
 - **Sundays:** Usually 10:00 am - 1:00 pm (or Fully Booked)
 - **Mon/Thu:** Often Deep Cleaning days
 
-**Note:** Always verify with the actual schedule as hours change monthly.
+**Note:** Always verify with actual schedule as hours change monthly.

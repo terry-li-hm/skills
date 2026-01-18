@@ -163,3 +163,17 @@ GROUP BY EXTRACT(dow FROM day) ORDER BY EXTRACT(dow FROM day);
 | "analyze oura data" | Run full analysis, save to vault |
 | "what workouts did I do" | Query workout table |
 | "how stressed was I" | Query daily_stress table |
+
+## Error Handling
+
+- **If .env missing or invalid token**: Check `~/oura-data/.env` for valid `OURA_TOKEN`
+- **If API rate limited**: Wait and retry; Oura has generous limits but can throttle
+- **If DuckDB file locked**: Close other connections; only one write connection allowed
+- **If sync fails mid-backfill**: Re-run same command — it handles partial syncs gracefully
+- **If heartrate data huge**: Use `--heartrate` flag sparingly; consider date ranges
+
+## Privacy Notes
+
+- Health data is sensitive — keep `oura.duckdb` local only
+- CSV exports go to git but repo should be private
+- Never share token or export to shared locations

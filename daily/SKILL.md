@@ -1,6 +1,14 @@
+---
+name: daily
+description: End-of-day reflection to capture job search progress, learnings, and mood. Use when user says "daily", "end of day", "daily note", or at end of day.
+redirect: review --mode=daily
+---
+
 # Daily Reflection
 
-End-of-day reflection to capture job search progress, learnings, and mood.
+> **Note:** This skill has been merged into `/review`. Use `/review --mode=daily` for the same functionality.
+
+End-of-day reflection to capture job search progress, learnings, and mood. Creates or updates daily note in vault.
 
 ## Trigger
 
@@ -8,20 +16,19 @@ Use when:
 - End of day
 - User says "daily", "reflect", "end of day", "daily note"
 
-## Steps
+## Inputs
 
-1. **Get today's date** in `YYYY-MM-DD` format
+- **date** (optional): Defaults to today in YYYY-MM-DD format
+
+## Workflow
+
+1. **Get today's date** in `YYYY-MM-DD` format (HKT timezone)
 
 2. **Scan chat history** from `~/.claude/history.jsonl`:
-   - Filter entries where timestamp falls within today (HKT = UTC+8)
-   - Extract user prompts to identify: applications, decisions, tools set up, learnings
-   - Use this to prompt Terry or auto-populate sections
-
    ```python
    import json
    from datetime import datetime
 
-   # Today's timestamp range (HKT)
    today = datetime.now().strftime('%Y-%m-%d')
    today_start = datetime.strptime(f"{today} 00:00:00", '%Y-%m-%d %H:%M:%S').timestamp() * 1000 - (8 * 3600 * 1000)
    today_end = today_start + (24 * 3600 * 1000)
@@ -36,25 +43,25 @@ Use when:
 
 3. **Check for existing note** at `/Users/terry/notes/YYYY-MM-DD.md`
 
-4. **Walk through each section** by asking Terry:
+4. **Walk through each section** conversationally:
+   - **Job Search Activity**: Applications, status updates, pipeline changes
+   - **Key Learnings**: Insights about job search, interviews, companies
+   - **Tools/Skills**: New tools set up or skills practiced
+   - **Mood Check**: How are you feeling? (1-5 or a word)
 
-   **Job Search Activity**
-   - What did you apply to today?
-   - Any status updates on existing applications?
-   - What's next in the pipeline?
+5. **Create or update the note** using template below
 
-   **Key Learnings**
-   - Anything interesting you learned today?
-   - New insights about job search, interviews, or target companies?
+6. **Save to vault** at `/Users/terry/notes/YYYY-MM-DD.md`
 
-   **Tools/Skills**
-   - Any new tools set up or skills practiced?
+## Error Handling
 
-   **Mood Check**
-   - How are you feeling? (1-5 or a word)
+- **If history.jsonl unreadable**: Skip chat scan, proceed with manual input
+- **If note already exists**: Update rather than overwrite
+- **If user has nothing for a section**: Skip or put "—"
 
-5. **Create or update the note** with this template:
+## Output
 
+**Template:**
 ```markdown
 # YYYY-MM-DD
 
@@ -73,11 +80,10 @@ Use when:
 
 ```
 
-6. **Save to vault** at `/Users/terry/notes/YYYY-MM-DD.md`
+**Location:** `/Users/terry/notes/YYYY-MM-DD.md`
 
-## Notes
+## Examples
 
-- Keep it conversational, not interrogative
-- If Terry has nothing for a section, that's fine — skip or put "—"
-- If note already exists, update rather than overwrite
-- **Chat history as memory aid:** Use the extracted prompts to remind Terry of activities he may have forgotten. Surface items like "I see you worked on X today — should we add that?"
+**User**: "daily"
+**Action**: Scan chat history, ask about job activity, create note
+**Output**: Daily note saved to vault with structured reflection
