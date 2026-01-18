@@ -34,6 +34,7 @@ Fetch recent AI news from curated sources and summarize key developments. Quick 
 | Anthropic Blog | https://www.anthropic.com/news | Claude updates, research, safety | 1 |
 | OpenAI Developer Blog | https://developers.openai.com/blog | Codex, APIs, developer guides | 1 |
 | Eugene Yan | https://eugeneyan.com | Applied ML, RecSys, LLMs in production | 1 |
+| Latent.Space | https://www.latent.space | AI practitioner podcast (swyx), deep dives | 2 |
 
 ### Bank Tech Blogs (WebFetch)
 
