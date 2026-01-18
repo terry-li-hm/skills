@@ -48,6 +48,7 @@ Use when user asks about:
 - Instagram may show login popup - click X to dismiss
 - Profile page requires login to search, but individual posts are viewable
 - If "Profile isn't available" error, try accessing a specific post URL instead
+- **IMPORTANT:** Instagram compresses images - "1" and "6" can look identical in zoomed screenshots. When in doubt, ask user to verify the time from the original image, or trust their reading over the compressed version.
 
 ## Workflow
 
