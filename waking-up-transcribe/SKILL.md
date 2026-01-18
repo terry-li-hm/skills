@@ -21,12 +21,24 @@ Use when user says:
 
 ### 1. Capture Audio IDs (Browser)
 
-User must capture audio IDs from app.wakingup.com:
+**Note:** Waking Up uses React Server Components, so GraphQL interception doesn't work. Audio IDs must be captured from HLS streaming requests when sessions are clicked/played.
+
+#### Method A: DevTools Network Tab (Recommended)
+
+1. Open https://app.wakingup.com and log in
+2. Open DevTools → Network tab
+3. Filter by "hls" or "audios"
+4. Navigate to a pack and click on each session
+5. Look for requests matching: `courses/audios/{UUID}/hls/`
+6. Copy the UUID from each URL
+7. Note the title from the UI
+
+#### Method B: Console Script + Clicking
 
 1. Open https://app.wakingup.com and log in
 2. Open DevTools Console (F12)
 3. Paste contents of `~/repos/waking-up-transcripts/extract_audio_ids.js`
-4. **Just open a pack** - the v2 extractor captures IDs from GraphQL responses automatically!
+4. **Click on each session** to trigger HLS requests (just opening a pack won't capture IDs)
 5. Run `copyWakingUpSessions()` to copy sessions with metadata, or `copyNonMeditations()` to exclude guided meditations
 
 ### 2. Create Batch File
