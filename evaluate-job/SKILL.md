@@ -10,10 +10,14 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 ## Workflow
 
 1. **Navigate to job posting:**
-   - `tabs_create_mcp` → create new tab
-   - `navigate` → go to LinkedIn job URL
-   - `get_page_text` → extract full JD immediately (skip screenshots/scrolling)
+   - **Prefer Chrome:** `tabs_create_mcp` → create new tab → `navigate` → `get_page_text`
+   - **Fallback (Chrome unavailable):** Use `tavily-extract` with `extract_depth: advanced`
    - Extract: requirements, responsibilities, preferred qualifications, salary if disclosed, applicant stats
+
+   **Why Chrome over Tavily for LinkedIn:**
+   - LinkedIn blocks scrapers; Tavily gets partial content with login modals/noise
+   - Chrome sees fully rendered page as logged-in user
+   - Can click "Show more" to expand full JD if needed
 
 2. **Load context files** (can run in parallel with step 1) — Check user's CLAUDE.md for background, credentials, differentiators, current situation, and job hunting status
 
@@ -97,3 +101,14 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 ```
 - [[Role Title, Company]] (Date) - [One-line reason]
 ```
+
+## Batch Processing (Job Alert Emails)
+
+When processing LinkedIn job alert emails with multiple roles:
+
+1. **Get email content** via Gmail MCP
+2. **Extract job URLs** from the email
+3. **Quick-filter first:** Check titles against existing Applied/Passed lists in job notes — skip roles already evaluated
+4. **Fetch remaining JDs** using Chrome (preferred) or Tavily (fallback)
+5. **Summarize in table format:** Role | Company | Verdict | Key reason
+6. **Deep-dive only on APPLY/CONSIDER** — use full workflow above for those
