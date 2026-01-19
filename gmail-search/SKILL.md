@@ -90,6 +90,36 @@ for msg in messages:
     pass
 ```
 
+## Modifying Emails
+
+The script now supports marking emails as read and archiving:
+
+```python
+from gmail_rejection_search import get_gmail_service, mark_as_read, archive_email, mark_read_and_archive
+
+service = get_gmail_service()
+
+# Mark a single email as read
+mark_as_read(service, msg_id)
+
+# Archive a single email (remove from inbox)
+archive_email(service, msg_id)
+
+# Mark as read AND archive in one call
+mark_read_and_archive(service, msg_id)
+
+# Bulk operation example
+results = service.users().messages().list(
+    userId='me',
+    q='from:railway.app subject:failed',
+    maxResults=20
+).execute()
+for msg in results.get('messages', []):
+    mark_read_and_archive(service, msg['id'])
+```
+
+**Note**: After updating scope from `gmail.readonly` to `gmail.modify`, delete `token.pickle` and re-authenticate.
+
 ## Gmail Search Syntax
 
 Use Gmail's search operators in queries:
@@ -113,14 +143,25 @@ Combine with AND (space) or OR:
 - Token: `/Users/terry/notes/scripts/token.pickle` (created after first auth)
 - Setup notes: [[Gmail API Setup]]
 
-## Error Handling
+## Troubleshooting
 
-- **If credentials.json not found**: Download from Google Cloud Console → Clients → Desktop client 1
-- **If "Access blocked" or auth error**: Ensure email is added as test user in OAuth consent screen; delete `token.pickle` and re-authorize
-- **If no results found**: Try broader search terms; check if emails exist with those keywords
-- **If rate limited**: Wait and retry; script should handle automatically
-- **If token expired**: Delete `token.pickle`, re-run to trigger OAuth flow
-- **If API quota exceeded**: Check Google Cloud Console quotas; wait for reset
+**"credentials.json not found"**
+- Download from Google Cloud Console → Clients → Desktop client 1
+
+**"Access blocked" or auth error**
+- Ensure your email is added as a test user in OAuth consent screen
+- Delete `token.pickle` and re-authorize
+
+**"Insufficient Permission" when modifying emails**
+- The token was created with read-only scope
+- Delete `token.pickle` and re-run to get new token with modify scope
+
+**No results found**
+- Try broader search terms
+- Check if emails exist in your inbox with those keywords
+
+**Token expired**
+- Delete `token.pickle`, re-run to trigger OAuth flow
 
 ## Safety Notes
 
