@@ -2,12 +2,12 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#     "autogen-agentchat>=0.4",
-#     "autogen-ext[openai]>=0.4",
+#     "agent-framework-core>=1.0.0b260106",
+#     "openai>=1.0.0",
 # ]
 # ///
 """
-LLM Council - Karpathy-style multi-model deliberation using AutoGen.
+LLM Council - Karpathy-style multi-model deliberation using Microsoft Agent Framework.
 
 Multiple LLMs debate a question and a judge synthesizes the consensus.
 
@@ -22,13 +22,17 @@ import asyncio
 import os
 import sys
 
-from autogen_agentchat.agents import AssistantAgent
-from autogen_agentchat.teams import RoundRobinGroupChat
-from autogen_agentchat.conditions import MaxMessageTermination
-from autogen_ext.models.openai import OpenAIChatCompletionClient
+from agent_framework import (
+    ChatAgent,
+    GroupChatBuilder,
+    GroupChatState,
+    GroupChatResponseReceivedEvent,
+    AgentRunUpdateEvent,
+)
+from agent_framework.openai import OpenAIChatClient
 
 
-# Model configurations
+# Model configurations via OpenRouter
 EXPENSIVE_COUNCIL = [
     ("Claude", "anthropic/claude-sonnet-4"),
     ("GPT", "openai/gpt-4o"),
@@ -41,37 +45,32 @@ CHEAP_COUNCIL = [
     ("Gemini", "google/gemini-2.0-flash-lite-001"),
 ]
 
-MODEL_INFO = {
-    "vision": False,
-    "function_calling": True,
-    "json_output": True,
-    "family": "unknown",
-    "structured_output": True,
-}
+JUDGE_MODEL = "anthropic/claude-sonnet-4"
+OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 
 
-def create_model_client(model: str, api_key: str) -> OpenAIChatCompletionClient:
-    """Create OpenRouter-compatible model client."""
-    return OpenAIChatCompletionClient(
-        model=model,
+def create_chat_client(model: str, api_key: str) -> OpenAIChatClient:
+    """Create an OpenAIChatClient for Microsoft Agent Framework via OpenRouter."""
+    return OpenAIChatClient(
+        model_id=model,
         api_key=api_key,
-        base_url="https://openrouter.ai/api/v1",
-        model_info=MODEL_INFO,
+        base_url=OPENROUTER_BASE_URL,
     )
 
 
 def create_council_agents(
     council_config: list[tuple[str, str]],
     api_key: str,
-) -> list[AssistantAgent]:
+) -> list[ChatAgent]:
     """Create council member agents, each with a different model."""
     agents = []
 
     for name, model in council_config:
-        agent = AssistantAgent(
+        chat_client = create_chat_client(model, api_key)
+        agent = ChatAgent(
+            chat_client=chat_client,
             name=f"{name}Agent",
-            model_client=create_model_client(model, api_key),
-            system_message=f"""You are {name}, a council member in a multi-model deliberation.
+            instructions=f"""You are {name}, a council member in a multi-model deliberation.
 
 Your role:
 1. Share your perspective on the question
@@ -86,12 +85,13 @@ Be direct. Don't be sycophantic. If you disagree with another model, say why."""
     return agents
 
 
-def create_judge_agent(api_key: str, model: str = "anthropic/claude-sonnet-4") -> AssistantAgent:
+def create_judge_agent(api_key: str, model: str = JUDGE_MODEL) -> ChatAgent:
     """Create the judge who synthesizes the council's deliberation."""
-    return AssistantAgent(
+    chat_client = create_chat_client(model, api_key)
+    return ChatAgent(
+        chat_client=chat_client,
         name="Judge",
-        model_client=create_model_client(model, api_key),
-        system_message="""You are the Judge, responsible for synthesizing the council's deliberation.
+        instructions="""You are the Judge, responsible for synthesizing the council's deliberation.
 
 After the council members have shared their perspectives, you:
 1. Identify points of AGREEMENT across all members
@@ -117,6 +117,26 @@ Be balanced and fair. Acknowledge minority views. Don't just pick a winner.""",
     )
 
 
+def create_speaker_selector(council_names: list[str], rounds: int):
+    """Create a speaker selection function for round-robin + judge."""
+    total_council_turns = len(council_names) * rounds
+    total_turns = total_council_turns + 1  # +1 for judge
+
+    def select_next_speaker(state: GroupChatState) -> str:
+        """Round-robin through council members, then judge."""
+        round_idx = state.current_round
+
+        # Council members take turns for `rounds` iterations
+        if round_idx < total_council_turns:
+            speaker_idx = round_idx % len(council_names)
+            return council_names[speaker_idx]
+
+        # Judge speaks once after council deliberation
+        return "Judge"
+
+    return select_next_speaker, total_turns
+
+
 async def run_council(
     question: str,
     council_config: list[tuple[str, str]],
@@ -124,55 +144,87 @@ async def run_council(
     rounds: int = 1,
     verbose: bool = True,
 ) -> str:
-    """Run the council deliberation."""
+    """Run the council deliberation using Microsoft Agent Framework."""
 
     # Create agents
     council_agents = create_council_agents(council_config, api_key)
     judge = create_judge_agent(api_key)
 
-    # All participants: council members + judge
+    # All participants
     all_agents = council_agents + [judge]
-
-    # Calculate max messages: initial task + each council member speaks `rounds` times + judge
-    # RoundRobin cycles through all agents, first message is the task
-    max_messages = 1 + (len(council_agents) * rounds) + 1  # task + council rounds + judge
+    council_names = [a.name for a in council_agents]
 
     if verbose:
-        print(f"Council members: {[a.name for a in council_agents]}")
+        print(f"Council members: {council_names}")
         print(f"Rounds: {rounds}")
         print(f"Question: {question[:100]}{'...' if len(question) > 100 else ''}")
         print()
-
-    # Create the council as RoundRobinGroupChat
-    council = RoundRobinGroupChat(
-        participants=all_agents,
-        termination_condition=MaxMessageTermination(max_messages),
-    )
-
-    # Run the deliberation
-    if verbose:
         print("=" * 60)
         print("COUNCIL DELIBERATION")
         print("=" * 60)
         print()
 
-    result = await council.run(task=question)
+    # Create speaker selector and get total turns
+    speaker_selector, total_turns = create_speaker_selector(council_names, rounds)
 
-    # Extract and display messages
+    # Build the group chat workflow
+    workflow = (
+        GroupChatBuilder()
+        .with_select_speaker_func(speaker_selector)
+        .with_max_rounds(total_turns)
+        .participants(all_agents)
+        .build()
+    )
+
+    # Run the deliberation and collect responses
     output_lines = []
-    for msg in result.messages:
-        if verbose:
-            print(f"### {msg.source}")
-            print(msg.content)
+    current_speaker = None
+    current_text_parts = []
+
+    async for event in workflow.run_stream(question):
+        # Handle streaming updates from agents
+        if isinstance(event, AgentRunUpdateEvent):
+            speaker = event.executor_id
+            # Get text from event.data (AgentResponseUpdate)
+            text = ""
+            if event.data and hasattr(event.data, 'text'):
+                if isinstance(event.data.text, str):
+                    text = event.data.text
+                elif hasattr(event.data.text, 'text'):
+                    text = event.data.text.text or ""
+
+            # New speaker - print previous one and start collecting new
+            if speaker != current_speaker:
+                if current_speaker and current_text_parts:
+                    full_text = "".join(current_text_parts).strip()
+                    if full_text and verbose:
+                        print(f"### {current_speaker}")
+                        print(full_text)
+                        print()
+                    if full_text:
+                        output_lines.append(f"### {current_speaker}\n{full_text}")
+                current_speaker = speaker
+                current_text_parts = []
+
+            if text:
+                current_text_parts.append(text)
+
+    # Don't forget the last speaker
+    if current_speaker and current_text_parts:
+        full_text = "".join(current_text_parts).strip()
+        if full_text and verbose:
+            print(f"### {current_speaker}")
+            print(full_text)
             print()
-        output_lines.append(f"### {msg.source}\n{msg.content}")
+        if full_text:
+            output_lines.append(f"### {current_speaker}\n{full_text}")
 
     return "\n\n".join(output_lines)
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="LLM Council - Multi-model deliberation using AutoGen"
+        description="LLM Council - Multi-model deliberation using Microsoft Agent Framework"
     )
     parser.add_argument("question", help="The question for the council to deliberate")
     parser.add_argument(
@@ -204,7 +256,7 @@ def main():
     mode = "cheap" if args.cheap else "expensive"
 
     if not args.quiet:
-        print(f"Running LLM Council [{mode}]...")
+        print(f"Running LLM Council [{mode}] with Microsoft Agent Framework...")
 
     # Run council
     try:
@@ -217,6 +269,8 @@ def main():
         ))
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
+        import traceback
+        traceback.print_exc()
         sys.exit(1)
 
 

@@ -1,11 +1,11 @@
 ---
 name: llm-council
-description: Karpathy-style LLM Council using AutoGen. Multiple models deliberate on a question and a judge synthesizes consensus. Use for important decisions needing diverse AI perspectives.
+description: Karpathy-style LLM Council using Microsoft Agent Framework. Multiple models deliberate on a question and a judge synthesizes consensus. Use for important decisions needing diverse AI perspectives.
 ---
 
 # LLM Council
 
-Multi-model deliberation using AutoGen's RoundRobinGroupChat. Unlike `/multi-llm` which just shows parallel responses, this creates an actual debate where models respond to each other, followed by a judge synthesizing the consensus.
+Multi-model deliberation using Microsoft Agent Framework's GroupChatBuilder. Unlike `/multi-llm` which just shows parallel responses, this creates an actual debate where models respond to each other, followed by a judge synthesizing the consensus.
 
 ## When to Use
 
@@ -118,7 +118,14 @@ Start with a modular monolith with clear domain boundaries...
 | Output | Side-by-side responses | Consensus with reasoning |
 | Speed | Fast (~10s) | Slower (~30-60s) |
 | Use case | Quick comparison | Important decisions |
-| Framework | Raw httpx | AutoGen |
+| Framework | Raw httpx | Microsoft Agent Framework |
+
+## Framework
+
+This skill uses **Microsoft Agent Framework** (the successor to AutoGen), which provides:
+- `ChatAgent` for individual LLM agents
+- `GroupChatBuilder` for multi-agent orchestration
+- `OpenAIChatClient` with OpenRouter for multi-model access
 
 ## Files
 
