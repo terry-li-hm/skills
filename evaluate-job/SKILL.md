@@ -104,11 +104,4 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 
 ## Batch Processing (Job Alert Emails)
 
-When processing LinkedIn job alert emails with multiple roles:
-
-1. **Get email content** via Gmail MCP
-2. **Extract job URLs** from the email
-3. **Quick-filter first:** Check titles against existing Applied/Passed lists in job notes — skip roles already evaluated
-4. **Fetch remaining JDs** using Chrome (preferred) or Tavily (fallback)
-5. **Summarize in table format:** Role | Company | Verdict | Key reason
-6. **Deep-dive only on APPLY/CONSIDER** — use full workflow above for those
+For processing multiple jobs from LinkedIn alert emails, use `/process-job-alerts` skill instead. It handles batch filtering and calls this skill for deep-dives on promising roles.
