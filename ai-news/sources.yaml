@@ -90,6 +90,11 @@ bank_tech_blogs:
     focus: ML in banking, MLOps, fraud
     tier: 2
 
+  - name: Two Sigma Articles
+    url: https://www.twosigma.com/articles
+    focus: Quant investing, AI in finance, engineering
+    tier: 2
+
   - name: JPMorgan AI Research
     url: https://www.jpmorgan.com/technology/artificial-intelligence
     focus: Finance AI, NLP, quant research
