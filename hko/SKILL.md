@@ -30,21 +30,39 @@ Use when:
    with open('/tmp/hko_fnd.json') as f: fnd = json.load(f)
    with open('/tmp/hko_warn.json') as f: warn = json.load(f)
 
+   # Current conditions
    temps = {t['place']: t['value'] for t in now['temperature']['data']}
    time = now['temperature']['recordTime'][11:16]
    temp = temps.get('Shau Kei Wan', temps.get('Hong Kong Observatory'))
-   today = fnd['weatherForecast'][0]
-   lo, hi = today['forecastMintemp']['value'], today['forecastMaxtemp']['value']
 
-   # Check rainfall - look for Eastern District or Chai Wan
-   rain = ''
+   # Humidity
+   humidity = now.get('humidity', {}).get('data', [{}])[0].get('value', '?')
+
+   # UV index
+   uv = now.get('uvindex', {}).get('data', [{}])
+   uv_val = uv[0].get('value', '') if uv else ''
+   uv_str = f' | UV {uv_val}' if uv_val else ''
+
+   # Today's forecast
+   today = fnd['weatherForecast'][0]
+   tomorrow = fnd['weatherForecast'][1]
+   lo, hi = today['forecastMintemp']['value'], today['forecastMaxtemp']['value']
+   forecast_desc = today.get('forecastWeather', '')
+
+   # Tomorrow
+   tom_lo, tom_hi = tomorrow['forecastMintemp']['value'], tomorrow['forecastMaxtemp']['value']
+   tom_desc = tomorrow.get('forecastWeather', '')
+   tom_date = tomorrow.get('week', '')
+
+   # Rainfall - Eastern District or Chai Wan
+   rain_str = ''
    if 'rainfall' in now and 'data' in now['rainfall']:
        rain_data = {r['place']: r.get('max', 0) for r in now['rainfall']['data']}
        rain_val = rain_data.get('Eastern District', rain_data.get('Chai Wan', 0))
        if rain_val > 0:
-           rain = f' 🌧️ {rain_val}mm'
+           rain_str = f'🌧️ Rainfall: {rain_val}mm in past hour'
 
-   # Check warnings
+   # Warnings
    warnings = []
    warn_icons = {
        'WTCSGNL': '🌀',  # Typhoon signal
@@ -62,18 +80,31 @@ Use when:
        if isinstance(val, dict) and 'name' in val:
            icon = warn_icons.get(key, '⚠️')
            code = val.get('code', '')
-           # For typhoon, show signal number
            if key == 'WTCSGNL':
-               warnings.append(f'{icon} T{code[-1] if code else \"?\"}')
+               warnings.append(f'{icon} Typhoon Signal {code}')
            else:
                warnings.append(f'{icon} {val[\"name\"]}')
 
-   warn_str = ' | ' + ', '.join(warnings) if warnings else ''
-   print(f'🌡️ Shau Kei Wan: {temp}°C (Lo {lo}° / Hi {hi}°){rain}{warn_str} as of {time}')
+   # Output
+   print(f'## Shau Kei Wan Weather (as of {time})')
+   print()
+   print(f'**Now:** {temp}°C | Humidity {humidity}%{uv_str}')
+   print(f'**Today:** {lo}°-{hi}°C — {forecast_desc}')
+   print(f'**{tom_date}:** {tom_lo}°-{tom_hi}°C — {tom_desc}')
+
+   if rain_str:
+       print()
+       print(rain_str)
+
+   if warnings:
+       print()
+       print('**⚠️ Active Warnings:**')
+       for w in warnings:
+           print(f'  • {w}')
    "
    ```
 
-2. **Present quick one-liner** to user
+2. **Present the weather summary** to user
 
 ## Error Handling
 
@@ -82,10 +113,29 @@ Use when:
 
 ## Output
 
-Quick one-liner (rain/warnings shown only if active):
+**Normal day:**
 ```
-🌡️ Shau Kei Wan: 19°C (Lo 19° / Hi 23°) as of 08:00
-🌡️ Shau Kei Wan: 28°C (Lo 27° / Hi 32°) 🌧️ 5mm | 🌀 T8, ⛈️ Amber Rainstorm as of 14:00
+## Shau Kei Wan Weather (as of 08:00)
+
+**Now:** 24°C | Humidity 78% | UV 6
+**Today:** 23°-28°C — Cloudy with sunny intervals
+**Tuesday:** 24°-29°C — Mainly fine
+```
+
+**Bad weather day:**
+```
+## Shau Kei Wan Weather (as of 14:00)
+
+**Now:** 27°C | Humidity 95%
+**Today:** 26°-30°C — Squally showers and thunderstorms
+**Wednesday:** 25°-28°C — Rain with thunderstorms
+
+🌧️ Rainfall: 15mm in past hour
+
+**⚠️ Active Warnings:**
+  • 🌀 Typhoon Signal TC8NE
+  • ⛈️ Amber Rainstorm Warning Signal
+  • ⚡ Thunderstorm Warning
 ```
 
 ## Warning Types
