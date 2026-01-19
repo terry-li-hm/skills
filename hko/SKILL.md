@@ -32,7 +32,16 @@ Use when:
    temp = temps.get('Shau Kei Wan', temps.get('Hong Kong Observatory'))
    today = fnd['weatherForecast'][0]
    lo, hi = today['forecastMintemp']['value'], today['forecastMaxtemp']['value']
-   print(f'🌡️ Shau Kei Wan: {temp}°C (Lo {lo}° / Hi {hi}°) as of {time}')
+
+   # Check rainfall - look for Eastern District or Chai Wan
+   rain = ''
+   if 'rainfall' in now and 'data' in now['rainfall']:
+       rain_data = {r['place']: r.get('max', 0) for r in now['rainfall']['data']}
+       rain_val = rain_data.get('Eastern District', rain_data.get('Chai Wan', 0))
+       if rain_val > 0:
+           rain = f' 🌧️ Rain: {rain_val}mm'
+
+   print(f'🌡️ Shau Kei Wan: {temp}°C (Lo {lo}° / Hi {hi}°){rain} as of {time}')
    "
    ```
 
@@ -45,7 +54,8 @@ Use when:
 
 ## Output
 
-Quick one-liner:
+Quick one-liner (rain shown only if currently raining):
 ```
 🌡️ Shau Kei Wan: 19°C (Lo 19° / Hi 23°) as of 08:00
+🌡️ Shau Kei Wan: 19°C (Lo 19° / Hi 23°) 🌧️ Rain: 5mm as of 08:00
 ```
