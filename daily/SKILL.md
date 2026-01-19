@@ -24,22 +24,10 @@ Use when:
 
 1. **Get today's date** in `YYYY-MM-DD` format (HKT timezone)
 
-2. **Scan chat history** from `~/.claude/history.jsonl`:
-   ```python
-   import json
-   from datetime import datetime
-
-   today = datetime.now().strftime('%Y-%m-%d')
-   today_start = datetime.strptime(f"{today} 00:00:00", '%Y-%m-%d %H:%M:%S').timestamp() * 1000 - (8 * 3600 * 1000)
-   today_end = today_start + (24 * 3600 * 1000)
-
-   prompts = []
-   with open('/Users/terry/.claude/history.jsonl', 'r') as f:
-       for line in f:
-           entry = json.loads(line)
-           if today_start <= entry.get('timestamp', 0) <= today_end:
-               prompts.append(entry.get('display', ''))
-   ```
+2. **Scan chat history** using `/history` skill logic (proper HKT boundaries):
+   - Use the HKT-aware scanning from `/history` skill
+   - Get prompt count and time range for context
+   - See `/history` skill for full implementation
 
 3. **Fetch Oura data** using MCP tools:
    - `mcp__oura__get_today_readiness_data` — get readiness score, HRV, recovery index
