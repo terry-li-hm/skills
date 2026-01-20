@@ -35,13 +35,21 @@ COUNCIL = [
 JUDGE_MODEL = "anthropic/claude-opus-4.5"
 
 # Thinking models don't stream well - use non-streaming for these
-THINKING_MODELS = {"gemini-3-pro", "kimi-k2-thinking", "deepseek-r1", "o1", "o3"}
+# Use exact suffixes to avoid false positives (e.g., "o1" matching "gemini-pro-1.0")
+THINKING_MODEL_SUFFIXES = {
+    "gemini-3-pro-preview",
+    "kimi-k2-thinking",
+    "deepseek-r1",
+    "o1-preview", "o1-mini", "o1",
+    "o3-preview", "o3-mini", "o3",
+}
 
 
 def is_thinking_model(model: str) -> bool:
     """Check if model is a thinking model that doesn't stream well."""
-    model_lower = model.lower()
-    return any(tm in model_lower for tm in THINKING_MODELS)
+    # Extract model name after provider prefix (e.g., "openai/o1" -> "o1")
+    model_name = model.split("/")[-1].lower()
+    return model_name in THINKING_MODEL_SUFFIXES
 
 
 def query_model(
@@ -101,8 +109,6 @@ def query_model(
             content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL).strip()
 
         return content
-
-    return f"[Error: Failed to get response from {model}]"
 
 
 def query_model_streaming(
@@ -373,8 +379,10 @@ Be balanced and fair. Acknowledge minority views. Don't just pick a winner."""
         {"role": "user", "content": f"Question:\n{question}\n\n---\n\nCouncil Deliberation:\n\n{deliberation_text}"},
     ]
 
+    judge_model_name = JUDGE_MODEL.split("/")[-1]
+
     if verbose:
-        print("### Judge")
+        print(f"### Judge ({judge_model_name})")
 
     # Stream output live when verbose
     judge_response = query_model(api_key, JUDGE_MODEL, judge_messages, max_tokens=1200, stream=verbose)
@@ -382,7 +390,7 @@ Be balanced and fair. Acknowledge minority views. Don't just pick a winner."""
     if verbose:
         print()  # Extra newline after streamed response
 
-    output_parts.append(f"### Judge\n{judge_response}")
+    output_parts.append(f"### Judge ({judge_model_name})\n{judge_response}")
 
     # Post-process: replace anonymous names with real model names in output for readability
     # (Models deliberated anonymously to prevent bias, but output is readable)
