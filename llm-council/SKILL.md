@@ -1,11 +1,11 @@
 ---
 name: llm-council
-description: Karpathy-style LLM Council using Microsoft Agent Framework. Multiple models deliberate on a question and a judge synthesizes consensus. Use for important decisions needing diverse AI perspectives.
+description: LLM Council with 5 frontier models (Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2). Models deliberate on a question, each seeing previous responses, then a judge synthesizes consensus. Use for important decisions needing diverse AI perspectives.
 ---
 
 # LLM Council
 
-Multi-model deliberation using Microsoft Agent Framework's GroupChatBuilder. Unlike `/multi-llm` which just shows parallel responses, this creates an actual debate where models respond to each other, followed by a judge synthesizing the consensus.
+5 frontier models deliberate on a question. Unlike `/multi-llm` which shows parallel responses, this creates an actual debate where models see and respond to previous speakers, followed by a judge synthesizing the consensus.
 
 ## When to Use
 
@@ -32,15 +32,9 @@ Ask the user what question they want the council to deliberate, or use the quest
 
 ### Step 2: Run the Council
 
-**Standard (3 frontier models deliberate, then judge synthesizes):**
 ```bash
 cd /Users/terry/skills/llm-council
 uv run council.py "Should we use microservices or a monolith for this project?"
-```
-
-**Cheap mode (faster, less expensive):**
-```bash
-uv run council.py "your question" --cheap
 ```
 
 **Multiple rounds (deeper deliberation):**
@@ -62,23 +56,17 @@ Present this to the user, highlighting the key insights.
 
 | Flag | Description |
 |------|-------------|
-| `--cheap` | Use cheaper/faster models (haiku, gpt-4o-mini, gemini-flash-lite) |
-| `--rounds N` | Number of deliberation rounds before judge (default: 1) |
+| `--rounds N` | Number of deliberation rounds (default: 2, exits early on consensus) |
 | `--quiet` | Suppress progress output |
 
 ## Council Members
 
-**Expensive (default):**
-- Claude (claude-sonnet-4)
-- GPT (gpt-4o)
-- Gemini (gemini-2.0-flash)
-- Judge: Claude Sonnet 4
-
-**Cheap (`--cheap`):**
-- Claude (claude-3.5-haiku)
-- GPT (gpt-4o-mini)
-- Gemini (gemini-2.0-flash-lite)
-- Judge: Claude Sonnet 4
+- Claude (claude-opus-4.5)
+- GPT (gpt-5.2-pro)
+- Gemini (gemini-3-pro-preview)
+- Grok (grok-4)
+- Kimi (kimi-k2-thinking)
+- Judge: Claude Opus 4.5
 
 ## Example Output
 
@@ -116,16 +104,26 @@ Start with a modular monolith with clear domain boundaries...
 |--------|-----------|--------------|
 | Pattern | Parallel queries | Deliberation + synthesis |
 | Output | Side-by-side responses | Consensus with reasoning |
-| Speed | Fast (~10s) | Slower (~30-60s) |
+| Speed | Fast (~10s) | Slower (~60-90s) |
 | Use case | Quick comparison | Important decisions |
-| Framework | Raw httpx | Microsoft Agent Framework |
 
-## Framework
+## How It Works
 
-This skill uses **Microsoft Agent Framework** (the successor to AutoGen), which provides:
-- `ChatAgent` for individual LLM agents
-- `GroupChatBuilder` for multi-agent orchestration
-- `OpenAIChatClient` with OpenRouter for multi-model access
+**True Deliberation Protocol:**
+1. Claude speaks first, staking a clear position with key claims
+2. Each subsequent model MUST explicitly AGREE, DISAGREE, or BUILD ON previous speakers by name
+3. After each round, the system checks for consensus (4/5 agreement triggers early exit)
+4. Judge synthesizes the full deliberation
+
+**Engagement Requirements:**
+- Models reference previous speakers by name (e.g., "I agree with Claude that..." or "GPT's point overlooks...")
+- Explicit position statements prevent passive agreement
+- Anti-sycophancy prompts encourage genuine disagreement
+
+**Consensus Detection:**
+- Looks for explicit "CONSENSUS:" statements
+- Detects agreement language ("I agree with", "building on", "I concur")
+- Exits early when 4/5 models align, saving time and tokens
 
 ## Files
 
