@@ -86,51 +86,78 @@ def query_model_streaming(
 
     full_content = []
     in_think_block = False
+    error_msg = None
 
-    with httpx.stream(
-        "POST",
-        OPENROUTER_URL,
-        headers={"Authorization": f"Bearer {api_key}"},
-        json={
-            "model": model,
-            "messages": messages,
-            "max_tokens": max_tokens,
-            "stream": True,
-        },
-        timeout=timeout,
-    ) as response:
-        for line in response.iter_lines():
-            if not line or line.startswith(":"):
-                continue  # Skip empty lines and SSE comments
+    try:
+        with httpx.stream(
+            "POST",
+            OPENROUTER_URL,
+            headers={"Authorization": f"Bearer {api_key}"},
+            json={
+                "model": model,
+                "messages": messages,
+                "max_tokens": max_tokens,
+                "stream": True,
+            },
+            timeout=timeout,
+        ) as response:
+            # Check for HTTP errors
+            if response.status_code != 200:
+                error_msg = f"[Error: HTTP {response.status_code} from {model}]"
+            else:
+                for line in response.iter_lines():
+                    if not line or line.startswith(":"):
+                        continue  # Skip empty lines and SSE comments
 
-            if line.startswith("data: "):
-                data_str = line[6:]  # Remove "data: " prefix
-                if data_str.strip() == "[DONE]":
-                    break
+                    if line.startswith("data: "):
+                        data_str = line[6:]  # Remove "data: " prefix
+                        if data_str.strip() == "[DONE]":
+                            break
 
-                try:
-                    data = json_module.loads(data_str)
-                    if "choices" in data and data["choices"]:
-                        delta = data["choices"][0].get("delta", {})
-                        content = delta.get("content", "")
-                        if content:
-                            # Handle <think> blocks - don't print them
-                            if "<think>" in content:
-                                in_think_block = True
-                            if in_think_block:
-                                if "</think>" in content:
-                                    in_think_block = False
-                                    content = content.split("</think>", 1)[-1]
-                                else:
-                                    continue  # Skip content inside think block
+                        try:
+                            data = json_module.loads(data_str)
+                            # Check for API error in response
+                            if "error" in data:
+                                error_msg = f"[Error: {data['error'].get('message', data['error'])}]"
+                                break
 
-                            if content:
-                                print(content, end="", flush=True)
-                                full_content.append(content)
-                except json_module.JSONDecodeError:
-                    pass  # Skip malformed JSON
+                            if "choices" in data and data["choices"]:
+                                delta = data["choices"][0].get("delta", {})
+                                content = delta.get("content", "")
+                                if content:
+                                    # Handle <think> blocks - don't print them
+                                    if "<think>" in content:
+                                        in_think_block = True
+                                    if in_think_block:
+                                        if "</think>" in content:
+                                            in_think_block = False
+                                            content = content.split("</think>", 1)[-1]
+                                        else:
+                                            continue  # Skip content inside think block
+
+                                    if content:
+                                        print(content, end="", flush=True)
+                                        full_content.append(content)
+                        except json_module.JSONDecodeError:
+                            pass  # Skip malformed JSON
+
+    except httpx.TimeoutException:
+        error_msg = f"[Error: Timeout from {model}]"
+    except httpx.RequestError as e:
+        error_msg = f"[Error: Request failed for {model}: {e}]"
 
     print()  # Newline after streaming completes
+
+    # Handle errors or empty responses
+    if error_msg:
+        print(error_msg)
+        return error_msg
+
+    if not full_content:
+        empty_msg = f"[No response from {model}]"
+        print(empty_msg)
+        return empty_msg
+
     return "".join(full_content)
 
 
