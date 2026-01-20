@@ -1,173 +1,101 @@
----
-name: message
-description: Draft networking and follow-up messages for job search contacts. Use when user says "message", "draft message", "follow up", "outreach", "reach out to", or "nudge".
----
+# Message Response Skill
 
-# Message
+Draft responses to messages from recruiters, networking contacts, and others.
 
-Unified messaging skill for drafting networking outreach and follow-up messages. Use `--type` to select message type.
+## Triggers
 
-## Trigger
-
-Use when:
-- User says "message", "draft message to [name]"
-- User says "follow up on [company/person]", "nudge [company]"
-- User says "outreach to [name]", "reach out to [name]"
-- During weekly reset when follow-ups are identified
-
-## Inputs
-
-- **contact**: Name of person or company (required)
-- **type**: `cold` | `warm` | `followup` | `thankyou` (required or inferred)
-- **channel** (optional): `linkedin` | `email` | `whatsapp` (affects tone/length)
-- **context** (optional): Additional context about the relationship
+- "message" / "draft message"
+- "reply to [name]"
+- "[name] replied" / "[name] messaged"
+- "follow up with [name]"
+- "respond to [name]"
 
 ## Workflow
 
-1. **Check vault for context**:
-   - `/Users/terry/notes/Job Hunting.md` — networking section
-   - Any linked notes like `[[Contact Name]]`
-   - Search vault for mentions
+### 1. Find the Message
 
-2. **Gather information**:
-   - How Terry knows them
-   - Last interaction date
-   - Their current role/company
-   - Shared history or mutual connections
+Check these sources (in parallel where possible):
 
-3. **Research contact** (if needed):
-   - Current role on LinkedIn (web search)
-   - Recent activity or news
-   - Mutual connections
+- **Gmail**: `mcp__gmail__query_emails` with sender name
+- **LinkedIn**: Browser automation to check messaging
+- **WhatsApp**: Ask user to share the message (no direct access)
 
-4. **Assess timing** (for follow-ups):
-   | Time Since Last Contact | Recommendation |
-   |------------------------|----------------|
-   | < 1 week | Too soon, wait |
-   | 1-2 weeks | Good time for first follow-up |
-   | 2-3 weeks | Definitely follow up |
-   | 3+ weeks | Follow up, temper expectations |
+If user says "[name] replied" without specifying platform, check Gmail and LinkedIn first before asking.
 
-5. **Draft message** based on type and channel
+### 2. Get Context from Vault
 
-6. **Present draft** with timing notes
+Search the vault for background on this person:
 
-7. **Update vault** after sending
-
-## Message Types
-
-### Cold Outreach (`--type=cold`)
-First contact with someone Terry doesn't know well.
-
-```
-Hi [Name],
-
-I came across your work on [specific thing] and found it really interesting.
-
-I'm currently exploring opportunities in [area] and would love to learn more about your experience at [company]. Would you have 15-20 minutes for a quick chat?
-
-Best,
-Terry
+```bash
+grep -ri "[name]" /Users/terry/notes/*.md
 ```
 
-### Warm Reconnection (`--type=warm`)
-Re-engaging with former colleagues or acquaintances.
+Key files to check:
+- `Job Hunting.md` - recruiter interactions, role discussions
+- `Draft Outreach Messages*.md` - previous message drafts
+- Daily notes - recent interactions
 
-```
-Hi [Name],
+### 3. Understand the Conversation
 
-Hope you're doing well! It's been a while since [shared context].
+Review:
+- What was the last message Terry sent?
+- What is the person asking/proposing?
+- What's the relationship (recruiter, hiring manager, networking contact)?
+- Any pending action items or decisions?
 
-I'm currently exploring new opportunities in [area] and thought of you given your experience at [company/in field]. Would love to catch up briefly if you have a few minutes.
+### 4. Draft Reply
 
-[Sign-off]
-```
+Apply Terry's messaging preferences:
+- **Minimal exclamation marks** - one at most, prefer periods
+- **No redundant context** - don't repeat what they already know
+- **Trim filler** - keep it tight and direct
+- **Match tone** - professional but warm for recruiters
 
-### Follow-up (`--type=followup`)
-Following up on applications or previous outreach.
+For scheduling:
+- Check `[[Schedule]]` for availability
+- Propose specific times, not vague "next week"
+- Account for HKT timezone
 
-**Application follow-up:**
-```
-Hi [Name],
+### 5. Present and Confirm
 
-I wanted to follow up on my application for [Role]. I'm still very interested in the opportunity and happy to provide any additional information.
+Show:
+1. Summary of their message
+2. Relevant context from vault
+3. Draft reply
 
-Is there an update on the process?
+Ask Terry to confirm or adjust before sending.
 
-Best,
-Terry
-```
+### 6. Update Vault
 
-**Post-interview follow-up:**
-```
-Hi [Name],
+After message is sent, update:
+- `Job Hunting.md` with new status/next steps
+- Create follow-up reminder if needed
 
-Thanks again for the conversation on [day]. I enjoyed learning about [specific thing discussed].
+## Example Usage
 
-Looking forward to hearing about next steps.
+**User**: "german replied"
 
-Best,
-Terry
-```
+**Claude**:
+1. Checks Gmail → finds LinkedIn notification
+2. Opens LinkedIn messaging via browser
+3. Reads German's message about coffee meeting
+4. Finds context in vault (ConnectedGroup recruiter, senior data PM roles)
+5. Drafts reply with WhatsApp number and confirms Feb 2-5 works
+6. Presents draft for approval
 
-**Networking bump:**
-```
-Hi [Name],
+## Platform-Specific Notes
 
-Just bumping this in case it got buried — would still love to connect if you have a few minutes.
+### LinkedIn
+- Must use browser automation (requires login)
+- Can read and send messages via the messaging interface
+- Check for InMail vs regular messages
 
-No worries if timing doesn't work!
-```
+### Gmail
+- Use `mcp__gmail__query_emails` for search
+- Use `mcp__gmail__get_emails` for full content
+- Can send via `mcp__gmail__send_email` but cannot reply to threads (no thread ID support)
 
-### Thank You (`--type=thankyou`)
-Post-interview or post-meeting gratitude.
-
-```
-Hi [Name],
-
-Thank you for taking the time to speak with me today about the [Role] position at [Company].
-
-I especially enjoyed discussing [specific topic]. It reinforced my excitement about the opportunity to [specific contribution].
-
-Please let me know if you need any additional information. I look forward to hearing from you.
-
-Best,
-Terry
-```
-
-## Channel Guidelines
-
-| Channel | Tone | Length | Notes |
-|---------|------|--------|-------|
-| LinkedIn | Professional, concise | ~100 words max | Get to point quickly |
-| Email | Slightly longer OK | 150-200 words | Include subject line |
-| WhatsApp | Casual, brief | ~50 words | Conversational |
-
-## Error Handling
-
-- **If contact not in vault**: Ask for context or offer to research
-- **If timing unclear**: Ask when last contact was
-- **If purpose ambiguous**: Ask what outcome Terry wants
-
-## Output
-
-- Draft message tailored to channel
-- Suggested subject line (for email)
-- Timing recommendation
-- Notes on follow-up strategy
-
-## Tips
-
-- Specific > generic — reference something real
-- Make the ask easy (short call, quick intro)
-- Don't over-explain why job hunting
-- For HK contacts, adjust formality as appropriate
-- One follow-up is expected; three is pushy
-
-## Migration Note
-
-This skill replaces:
-- `/outreach` → use `/message --type=cold` or `--type=warm`
-- `/follow-up` → use `/message --type=followup`
-
-The old skills are kept for backwards compatibility.
+### WhatsApp
+- No direct MCP access
+- Ask user to paste the message
+- Draft reply for user to send manually
