@@ -14,7 +14,7 @@ These organisations use their own portals and often don't appear on LinkedIn:
 | Company | Career URL | Keywords |
 |---------|-----------|----------|
 | Cyberport | https://www.cyberport.hk/en/news/career_opportunities/ | AI, Data Science, Manager |
-| HKSTP | https://www.hkstp.org/en/about-us/career/ | AI, Data Science, Innovation |
+| HKSTP | https://careers.hkstp.org/go/LATEST-JOB/7846910/ | AI, Data Science, Innovation |
 | HKMA | https://www.hkma.gov.hk/eng/about-us/join-us/current-vacancies/ | AI, Data, Fintech |
 | WKCDA | https://wd3.myworkdaysite.com/recruiting/wkcda/External | Data, AI, Architecture |
 | SFC | https://www.sfc.hk/en/Career/Why-the-SFC/Join-us-as-an-experienced-professional/Current-Openings | Technology, Data, Fintech |
