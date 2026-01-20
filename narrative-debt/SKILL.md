@@ -9,11 +9,12 @@ Track stories told to each company across interview rounds. Detect contradiction
 
 ## Purpose
 
-Multi-round interviews create "narrative debt" — the obligation to be consistent with what you've said before. This skill:
-- Tracks which stories you've told to whom
-- Detects potential contradictions
-- Suggests complementary examples for later rounds
-- Prevents overusing the same story
+Track what you've said so YOU stay consistent. This skill:
+- Keeps your numbers/details straight across rounds (88% not 85%)
+- Flags if you told contradictory versions of the same story
+- Provides quick reference before interviews
+
+**Note:** Different interviewers rarely compare story details — they pass thumbs up/down, not transcripts. Don't overthink "avoiding repetition." Tell whatever story fits the question.
 
 ## Trigger
 
@@ -40,15 +41,11 @@ Use when:
    |-------|-------------|--------------|------------|
    | 1st | [Name] | [Story] | [Emphasis] |
 
-3. **Detect potential conflicts**:
-   - Same story, different emphasis → Flag for consistency
-   - Contradictory details (dates, numbers) → Warning
-   - Same story told 2+ times → Suggest alternatives
+3. **Check for conflicts**:
+   - Contradictory details (dates, numbers, outcomes) → Warning
+   - Same story, wildly different framing → Note for consistency
 
-4. **Recommend for next round**:
-   - Stories NOT yet told
-   - Complementary angles to prior stories
-   - Stories that address any concerns raised
+4. **Output key facts to keep consistent** (the actual value)
 
 ### Mode: Log (Post-Interview)
 
