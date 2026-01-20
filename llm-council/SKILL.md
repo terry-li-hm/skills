@@ -37,9 +37,19 @@ cd /Users/terry/skills/llm-council
 uv run council.py "Should we use microservices or a monolith for this project?"
 ```
 
+**Anonymous mode (reduces model bias, Karpathy-style):**
+```bash
+uv run council.py "your question" --anonymous
+```
+
+**Save transcript to file:**
+```bash
+uv run council.py "your question" --output transcript.md
+```
+
 **Multiple rounds (deeper deliberation):**
 ```bash
-uv run council.py "your question" --rounds 2
+uv run council.py "your question" --rounds 3
 ```
 
 ### Step 3: Present the Synthesis
@@ -57,6 +67,8 @@ Present this to the user, highlighting the key insights.
 | Flag | Description |
 |------|-------------|
 | `--rounds N` | Number of deliberation rounds (default: 2, exits early on consensus) |
+| `--output FILE` | Save transcript to file |
+| `--anonymous` | Use anonymous speaker labels (Speaker 1, 2, etc.) to reduce model bias |
 | `--quiet` | Suppress progress output |
 
 ## Council Members
@@ -124,6 +136,12 @@ Start with a modular monolith with clear domain boundaries...
 - Looks for explicit "CONSENSUS:" statements
 - Detects agreement language ("I agree with", "building on", "I concur")
 - Exits early when 4/5 models align, saving time and tokens
+
+**Anonymous Mode (Karpathy-style):**
+- Models see each other as "Speaker 1", "Speaker 2", etc.
+- Prevents models from playing favorites based on vendor reputation
+- Reduces sycophancy ("I agree with Claude because it's Claude")
+- Identity legend revealed at the end of the transcript
 
 ## Files
 

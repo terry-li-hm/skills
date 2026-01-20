@@ -19,6 +19,7 @@ import httpx
 import os
 import re
 import sys
+from pathlib import Path
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
@@ -99,13 +100,24 @@ def run_council(
     api_key: str,
     rounds: int = 1,
     verbose: bool = True,
+    anonymous: bool = False,
 ) -> str:
     """Run the council deliberation."""
 
     council_names = [name for name, _ in council_config]
 
+    # Anonymous mode: use "Speaker 1", "Speaker 2", etc. (Karpathy-style)
+    if anonymous:
+        display_names = {name: f"Speaker {i+1}" for i, (name, _) in enumerate(council_config)}
+        name_to_model = {name: model for name, model in council_config}
+    else:
+        display_names = {name: name for name, _ in council_config}
+
     if verbose:
-        print(f"Council members: {council_names}")
+        if anonymous:
+            print(f"Council members: {[display_names[n] for n in council_names]} (anonymous mode)")
+        else:
+            print(f"Council members: {council_names}")
         print(f"Rounds: {rounds}")
         print(f"Question: {question[:100]}{'...' if len(question) > 100 else ''}")
         print()
@@ -141,21 +153,23 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
 
     # Run deliberation rounds
     for round_num in range(rounds):
-        round_speakers = []  # Track speakers in this round
+        round_speakers = []  # Track speakers in this round (display names)
         for idx, (name, model) in enumerate(council_config):
+            dname = display_names[name]  # Use anonymous name if enabled
+
             # Choose prompt based on position
             if idx == 0 and round_num == 0:
                 # First speaker of first round - no one to reference
-                system_prompt = first_speaker_system.format(name=name, round_num=round_num + 1)
+                system_prompt = first_speaker_system.format(name=dname, round_num=round_num + 1)
             else:
                 # All others must engage with previous speakers
                 # For first speaker of round 2+, reference all previous speakers
                 if round_speakers:
                     previous = ", ".join(round_speakers)
                 else:
-                    previous = ", ".join([n for n, _ in council_config])  # All from prior round
+                    previous = ", ".join([display_names[n] for n, _ in council_config])
                 system_prompt = council_system.format(
-                    name=name,
+                    name=dname,
                     round_num=round_num + 1,
                     previous_speakers=previous
                 )
@@ -166,25 +180,26 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
                 {"role": "user", "content": f"Question for the council:\n\n{question}"},
             ]
 
-            # Add conversation history
+            # Add conversation history (using display names)
             for speaker, text in conversation:
+                speaker_dname = display_names[speaker]
                 messages.append({
                     "role": "assistant" if speaker == name else "user",
-                    "content": f"[{speaker}]: {text}" if speaker != name else text,
+                    "content": f"[{speaker_dname}]: {text}" if speaker != name else text,
                 })
 
             if verbose:
-                print(f"### {name}Agent")
+                print(f"### {dname}Agent")
 
             response = query_model(api_key, model, messages)
-            conversation.append((name, response))
-            round_speakers.append(name)
+            conversation.append((name, response))  # Store real name internally
+            round_speakers.append(dname)
 
             if verbose:
                 print(response)
                 print()
 
-            output_parts.append(f"### {name}Agent\n{response}")
+            output_parts.append(f"### {dname}Agent\n{response}")
 
         # Check for consensus after each completed round
         converged, reason = detect_consensus(conversation, len(council_config))
@@ -218,9 +233,9 @@ Format your response as:
 
 Be balanced and fair. Acknowledge minority views. Don't just pick a winner."""
 
-    # Build judge's view of the conversation
+    # Build judge's view of the conversation (using display names)
     deliberation_text = "\n\n".join(
-        f"**{speaker}**: {text}" for speaker, text in conversation
+        f"**{display_names[speaker]}**: {text}" for speaker, text in conversation
     )
 
     judge_messages = [
@@ -238,6 +253,15 @@ Be balanced and fair. Acknowledge minority views. Don't just pick a winner."""
         print()
 
     output_parts.append(f"### Judge\n{judge_response}")
+
+    # Add identity legend for anonymous mode
+    if anonymous:
+        legend = "\n---\n\n## Speaker Identities\n\n"
+        for name, model in council_config:
+            legend += f"- **{display_names[name]}**: {name} ({model})\n"
+        output_parts.append(legend)
+        if verbose:
+            print(legend)
 
     return "\n\n".join(output_parts)
 
@@ -258,6 +282,15 @@ def main():
         action="store_true",
         help="Suppress progress output",
     )
+    parser.add_argument(
+        "--output", "-o",
+        help="Save transcript to file",
+    )
+    parser.add_argument(
+        "--anonymous",
+        action="store_true",
+        help="Use anonymous speaker labels (Speaker 1, 2, etc.) to reduce model bias",
+    )
     args = parser.parse_args()
 
     # Get API key
@@ -267,18 +300,27 @@ def main():
         sys.exit(1)
 
     if not args.quiet:
-        print("Running LLM Council...")
+        mode = "anonymous mode" if args.anonymous else "standard mode"
+        print(f"Running LLM Council ({mode})...")
         print()
 
     # Run council
     try:
-        run_council(
+        transcript = run_council(
             question=args.question,
             council_config=COUNCIL,
             api_key=api_key,
             rounds=args.rounds,
             verbose=not args.quiet,
+            anonymous=args.anonymous,
         )
+
+        # Save transcript if requested
+        if args.output:
+            Path(args.output).write_text(transcript)
+            if not args.quiet:
+                print(f"Transcript saved to: {args.output}")
+
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         import traceback
