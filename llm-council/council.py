@@ -27,9 +27,9 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 COUNCIL = [
     ("Claude", "anthropic/claude-opus-4.5"),
     ("GPT", "openai/gpt-5.2-pro"),
-    ("Gemini", "google/gemini-3-pro-preview"),
+    ("Gemini", "google/gemini-2.5-pro"),
     ("Grok", "x-ai/grok-4"),
-    ("Kimi", "moonshotai/kimi-k2-thinking"),
+    ("DeepSeek", "deepseek/deepseek-v3.2"),
 ]
 
 JUDGE_MODEL = "anthropic/claude-opus-4.5"

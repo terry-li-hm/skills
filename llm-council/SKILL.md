@@ -75,9 +75,9 @@ Present this to the user, highlighting the key insights.
 
 - Claude (claude-opus-4.5)
 - GPT (gpt-5.2-pro)
-- Gemini (gemini-3-pro-preview)
+- Gemini (gemini-2.5-pro)
 - Grok (grok-4)
-- Kimi (kimi-k2-thinking)
+- DeepSeek (deepseek-v3.2)
 - Judge: Claude Opus 4.5
 
 ## Example Output
