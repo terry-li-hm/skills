@@ -12,13 +12,18 @@ Models: Claude Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2 Thinking
 Usage:
     uv run council.py "Should I use microservices or monolith?"
     uv run council.py "your question" --rounds 2
+    uv run council.py "your question" --context "architecture decision"
 """
 
 import argparse
+import asyncio
 import httpx
+import json
 import os
 import re
+import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
@@ -358,6 +363,158 @@ def query_model_streaming(
     return "".join(full_content)
 
 
+async def query_model_async(
+    client: httpx.AsyncClient,
+    model: str,
+    messages: list[dict],
+    name: str,
+    fallback: tuple[str, str] | None = None,
+    google_api_key: str | None = None,
+    moonshot_api_key: str | None = None,
+    max_tokens: int = 500,
+    retries: int = 2,
+) -> tuple[str, str, str]:
+    """
+    Async query for parallel blind phase.
+    Returns (name, model_name, response).
+    """
+    model_name = model.split("/")[-1]
+
+    for attempt in range(retries + 1):
+        try:
+            response = await client.post(
+                OPENROUTER_URL,
+                json={
+                    "model": model,
+                    "messages": messages,
+                    "max_tokens": max_tokens,
+                },
+            )
+
+            if response.status_code != 200:
+                if attempt < retries:
+                    continue
+                # Try fallback
+                break
+
+            data = response.json()
+
+            if "error" in data:
+                if attempt < retries:
+                    continue
+                break
+
+            if "choices" not in data or not data["choices"]:
+                if attempt < retries:
+                    continue
+                break
+
+            content = data["choices"][0]["message"]["content"]
+
+            if not content or not content.strip():
+                if attempt < retries:
+                    continue
+                break
+
+            # Clean up reasoning model outputs
+            if "<think>" in content:
+                content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL).strip()
+
+            return (name, model_name, content)
+
+        except (httpx.RequestError, httpx.RemoteProtocolError):
+            if attempt < retries:
+                continue
+            break
+
+    # Try fallbacks synchronously (they're not async-friendly)
+    if fallback:
+        fallback_provider, fallback_model = fallback
+        if fallback_provider == "google" and google_api_key:
+            response = query_google_ai_studio(google_api_key, fallback_model, messages, max_tokens=max_tokens)
+            return (name, fallback_model, response)
+        elif fallback_provider == "moonshot" and moonshot_api_key:
+            response = query_moonshot(moonshot_api_key, fallback_model, messages, max_tokens=max_tokens)
+            return (name, fallback_model, response)
+
+    return (name, model_name, f"[No response from {model_name} after {retries + 1} attempts]")
+
+
+async def run_blind_phase_parallel(
+    question: str,
+    council_config: list[tuple[str, str, tuple[str, str] | None]],
+    api_key: str,
+    google_api_key: str | None = None,
+    moonshot_api_key: str | None = None,
+    verbose: bool = True,
+) -> list[tuple[str, str, str]]:
+    """
+    Parallel blind first-pass: all models stake claims simultaneously.
+    Returns list of (name, model_name, claims).
+    ~4x faster than sequential (15-25s vs 50-100s).
+    """
+    blind_system = """You are participating in the BLIND PHASE of a council deliberation.
+
+Stake your initial position on the question BEFORE seeing what others think.
+This prevents anchoring bias.
+
+Provide a CLAIM SKETCH (not a full response):
+1. Your core position (1-2 sentences)
+2. Top 3 supporting claims or considerations
+3. Key assumption or uncertainty
+
+Keep it concise (~100 words). The full deliberation comes later."""
+
+    if verbose:
+        print("=" * 60)
+        print("BLIND PHASE (independent claims)")
+        print("=" * 60)
+        print()
+
+    messages = [
+        {"role": "system", "content": blind_system},
+        {"role": "user", "content": f"Question:\n\n{question}"},
+    ]
+
+    async with httpx.AsyncClient(
+        headers={"Authorization": f"Bearer {api_key}"},
+        timeout=120.0,
+    ) as client:
+        tasks = [
+            query_model_async(
+                client, model, messages, name, fallback,
+                google_api_key, moonshot_api_key
+            )
+            for name, model, fallback in council_config
+        ]
+
+        if verbose:
+            print("(querying all models in parallel...)")
+
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+
+    # Process results, handling any exceptions
+    blind_claims = []
+    for i, result in enumerate(results):
+        name, model, _ = council_config[i]
+        model_name = model.split("/")[-1]
+
+        if isinstance(result, Exception):
+            blind_claims.append((name, model_name, f"[Error: {result}]"))
+        else:
+            blind_claims.append(result)
+
+    # Print results
+    if verbose:
+        print()
+        for name, model_name, claims in blind_claims:
+            print(f"### {model_name} (blind)")
+            print(claims)
+            print()
+
+    return blind_claims
+
+
 def sanitize_speaker_content(content: str) -> str:
     """
     Sanitize speaker content to prevent prompt injection.
@@ -477,17 +634,18 @@ def run_council(
     verbose: bool = True,
     anonymous: bool = True,
     blind: bool = True,
+    context: str | None = None,
 ) -> str:
     """Run the council deliberation."""
 
     council_names = [name for name, _, _ in council_config]
     blind_claims = []
 
-    # Run blind phase first if enabled
+    # Run blind phase first if enabled (now parallel!)
     if blind:
-        blind_claims = run_blind_phase(
+        blind_claims = asyncio.run(run_blind_phase_parallel(
             question, council_config, api_key, google_api_key, moonshot_api_key, verbose
-        )
+        ))
 
     # Anonymous mode: use "Speaker 1", "Speaker 2", etc. (Karpathy-style)
     if anonymous:
@@ -652,7 +810,12 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
             break
 
     # Judge synthesizes
-    judge_system = """You are the Judge, responsible for synthesizing the council's deliberation.
+    # Build judge system prompt with optional context
+    context_hint = ""
+    if context:
+        context_hint = f"\n\nContext about this question: {context}\nConsider this context when weighing perspectives and forming recommendations."
+
+    judge_system = f"""You are the Judge, responsible for synthesizing the council's deliberation.{context_hint}
 
 After the council members have shared their perspectives, you:
 1. Identify points of AGREEMENT across all members
@@ -747,6 +910,15 @@ def main():
         action="store_true",
         help="Skip blind first-pass (faster, but more anchoring bias)",
     )
+    parser.add_argument(
+        "--context", "-c",
+        help="Context hint for the judge (e.g., 'architecture decision', 'ethics question')",
+    )
+    parser.add_argument(
+        "--share",
+        action="store_true",
+        help="Upload transcript to secret GitHub Gist and print URL",
+    )
     args = parser.parse_args()
 
     # Get API keys
@@ -787,6 +959,7 @@ def main():
             verbose=not args.quiet,
             anonymous=not args.named,
             blind=use_blind,
+            context=args.context,
         )
 
         # Save transcript if requested
@@ -794,6 +967,58 @@ def main():
             Path(args.output).write_text(transcript)
             if not args.quiet:
                 print(f"Transcript saved to: {args.output}")
+
+        # Upload to secret gist if requested
+        if args.share:
+            try:
+                # Create temp file with transcript
+                import tempfile
+                with tempfile.NamedTemporaryFile(
+                    mode='w', suffix='.md', prefix='council-', delete=False
+                ) as f:
+                    # Add header with question
+                    f.write(f"# LLM Council Deliberation\n\n")
+                    f.write(f"**Question:** {args.question}\n\n")
+                    if args.context:
+                        f.write(f"**Context:** {args.context}\n\n")
+                    f.write(f"**Date:** {datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n---\n\n")
+                    f.write(transcript)
+                    temp_path = f.name
+
+                # Use gh CLI to create secret gist
+                result = subprocess.run(
+                    ["gh", "gist", "create", temp_path, "--desc", f"LLM Council: {args.question[:50]}"],
+                    capture_output=True, text=True
+                )
+                os.unlink(temp_path)  # Clean up temp file
+
+                if result.returncode == 0:
+                    gist_url = result.stdout.strip()
+                    print(f"\n🔗 Shared: {gist_url}")
+                else:
+                    print(f"Gist creation failed: {result.stderr}", file=sys.stderr)
+            except FileNotFoundError:
+                print("Error: 'gh' CLI not found. Install with: brew install gh", file=sys.stderr)
+
+        # Log to JSONL history (include gist URL if created)
+        gist_url = None
+        if args.share:
+            try:
+                gist_url = result.stdout.strip() if result.returncode == 0 else None
+            except NameError:
+                pass  # result not defined if gh CLI not found
+        history_file = Path(__file__).parent / "council_history.jsonl"
+        log_entry = {
+            "timestamp": datetime.now().isoformat(),
+            "question": args.question[:200],  # Truncate long questions
+            "gist": gist_url,
+            "context": args.context,
+            "rounds": args.rounds,
+            "blind": use_blind,
+            "models": [name for name, _, _ in COUNCIL],
+        }
+        with open(history_file, "a") as f:
+            f.write(json.dumps(log_entry) + "\n")
 
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)

@@ -77,6 +77,16 @@ Present this to the user, highlighting the key insights.
 uv run council.py "your question" --no-blind
 ```
 
+**Add context for the judge:**
+```bash
+uv run council.py "your question" --context "architecture decision"
+```
+
+**Share via secret Gist:**
+```bash
+uv run council.py "your question" --share  # → prints gist URL
+```
+
 ## Options
 
 | Flag | Description |
@@ -85,6 +95,8 @@ uv run council.py "your question" --no-blind
 | `--output FILE` | Save transcript to file |
 | `--named` | Let models see real names during deliberation (may increase bias) |
 | `--no-blind` | Skip blind first-pass (faster, but first speaker anchors others) |
+| `--context TEXT` | Context hint for judge (e.g., "architecture decision", "ethics question") |
+| `--share` | Upload transcript to secret GitHub Gist and print URL |
 | `--quiet` | Suppress progress output |
 
 ## Council Members
@@ -132,13 +144,13 @@ Start with a modular monolith with clear domain boundaries...
 |--------|-----------|--------------|
 | Pattern | Parallel queries | Blind claims → Deliberation → Synthesis |
 | Output | Side-by-side responses | Consensus with reasoning |
-| Speed | Fast (~10s) | ~90-120s (with blind), ~60-90s (--no-blind) |
+| Speed | Fast (~10s) | ~60-90s (parallel blind), ~45-60s (--no-blind) |
 | Use case | Quick comparison | Important decisions |
 
 ## How It Works
 
 **Blind First-Pass (Anti-Anchoring):**
-1. All models generate short "claim sketches" INDEPENDENTLY — no one sees others
+1. All models generate short "claim sketches" INDEPENDENTLY and IN PARALLEL (~15-25s)
 2. This prevents the "first speaker lottery" where whoever speaks first anchors the debate
 3. Each model commits to an initial position before seeing any other responses
 4. Use `--no-blind` to skip this phase for speed
@@ -183,7 +195,13 @@ Start with a modular monolith with clear domain boundaries...
 - Output transcript shows real model names for readability
 - Use `--named` to let models also see real names (may increase bias)
 
+**History Logging:**
+- Each council run is logged to `council_history.jsonl` (JSONL format)
+- Tracks: timestamp, question, context, rounds, models used
+- Useful for reviewing past deliberations
+
 ## Files
 
 - Script: `/Users/terry/skills/llm-council/council.py`
+- History: `/Users/terry/skills/llm-council/council_history.jsonl`
 - This skill: `/Users/terry/skills/llm-council/SKILL.md`
