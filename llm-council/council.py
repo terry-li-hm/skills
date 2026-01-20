@@ -22,14 +22,16 @@ import sys
 from pathlib import Path
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+GOOGLE_AI_STUDIO_URL = "https://generativelanguage.googleapis.com/v1beta/models"
 
-# Model configurations (all via OpenRouter)
+# Model configurations (all via OpenRouter, with fallbacks where available)
+# Format: (name, openrouter_model, fallback_model) - fallback_model is optional
 COUNCIL = [
-    ("Claude", "anthropic/claude-opus-4.5"),
-    ("GPT", "openai/gpt-5.2-pro"),
-    ("Gemini", "google/gemini-3-pro-preview"),
-    ("Grok", "x-ai/grok-4"),
-    ("Kimi", "moonshotai/kimi-k2-thinking"),
+    ("Claude", "anthropic/claude-opus-4.5", None),
+    ("GPT", "openai/gpt-5.2-pro", None),
+    ("Gemini", "google/gemini-3-pro-preview", "gemini-2.5-pro"),  # AI Studio fallback
+    ("Grok", "x-ai/grok-4", None),
+    ("Kimi", "moonshotai/kimi-k2-thinking", None),
 ]
 
 JUDGE_MODEL = "anthropic/claude-opus-4.5"
@@ -109,6 +111,93 @@ def query_model(
             content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL).strip()
 
         return content
+
+    return f"[Error: Failed to get response from {model}]"
+
+
+def query_google_ai_studio(
+    api_key: str,
+    model: str,
+    messages: list[dict],
+    max_tokens: int = 8192,
+    timeout: float = 120.0,
+    retries: int = 2,
+) -> str:
+    """Query Google AI Studio directly (fallback for Gemini models)."""
+    # Convert OpenAI-style messages to Gemini format
+    contents = []
+    system_instruction = None
+
+    for msg in messages:
+        role = msg["role"]
+        content = msg["content"]
+
+        if role == "system":
+            system_instruction = content
+        elif role == "user":
+            contents.append({"role": "user", "parts": [{"text": content}]})
+        elif role == "assistant":
+            contents.append({"role": "model", "parts": [{"text": content}]})
+
+    # Build request body
+    body = {
+        "contents": contents,
+        "generationConfig": {
+            "maxOutputTokens": max_tokens,
+        }
+    }
+    if system_instruction:
+        body["systemInstruction"] = {"parts": [{"text": system_instruction}]}
+
+    url = f"{GOOGLE_AI_STUDIO_URL}/{model}:generateContent?key={api_key}"
+
+    for attempt in range(retries + 1):
+        try:
+            response = httpx.post(url, json=body, timeout=timeout)
+
+            if response.status_code != 200:
+                if attempt < retries:
+                    continue
+                return f"[Error: HTTP {response.status_code} from AI Studio {model}]"
+
+            data = response.json()
+
+            if "error" in data:
+                if attempt < retries:
+                    continue
+                return f"[Error: {data['error'].get('message', data['error'])}]"
+
+            # Extract text from Gemini response format
+            candidates = data.get("candidates", [])
+            if not candidates:
+                if attempt < retries:
+                    continue
+                return f"[Error: No candidates from AI Studio {model}]"
+
+            parts = candidates[0].get("content", {}).get("parts", [])
+            if not parts:
+                if attempt < retries:
+                    continue
+                return f"[Error: No content from AI Studio {model}]"
+
+            content = parts[0].get("text", "")
+            if not content.strip():
+                if attempt < retries:
+                    continue
+                return f"[No response from AI Studio {model} after {retries + 1} attempts]"
+
+            return content
+
+        except httpx.TimeoutException:
+            if attempt < retries:
+                continue
+            return f"[Error: Timeout from AI Studio {model}]"
+        except httpx.RequestError as e:
+            if attempt < retries:
+                continue
+            return f"[Error: Request failed for AI Studio {model}: {e}]"
+
+    return f"[Error: Failed to get response from AI Studio {model}]"
 
 
 def query_model_streaming(
@@ -224,21 +313,22 @@ def detect_consensus(conversation: list[tuple[str, str]], council_size: int) -> 
 
 def run_council(
     question: str,
-    council_config: list[tuple[str, str]],
+    council_config: list[tuple[str, str, str | None]],
     api_key: str,
+    google_api_key: str | None = None,
     rounds: int = 1,
     verbose: bool = True,
     anonymous: bool = True,
 ) -> str:
     """Run the council deliberation."""
 
-    council_names = [name for name, _ in council_config]
+    council_names = [name for name, _, _ in council_config]
 
     # Anonymous mode: use "Speaker 1", "Speaker 2", etc. (Karpathy-style)
     if anonymous:
-        display_names = {name: f"Speaker {i+1}" for i, (name, _) in enumerate(council_config)}
+        display_names = {name: f"Speaker {i+1}" for i, (name, _, _) in enumerate(council_config)}
     else:
-        display_names = {name: name for name, _ in council_config}
+        display_names = {name: name for name, _, _ in council_config}
 
     if verbose:
         print(f"Council members: {council_names}")
@@ -280,7 +370,7 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
     # Run deliberation rounds
     for round_num in range(rounds):
         round_speakers = []  # Track speakers in this round (display names)
-        for idx, (name, model) in enumerate(council_config):
+        for idx, (name, model, fallback) in enumerate(council_config):
             dname = display_names[name]  # Use anonymous name if enabled
 
             # Choose prompt based on position
@@ -293,7 +383,7 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
                 if round_speakers:
                     previous = ", ".join(round_speakers)
                 else:
-                    previous = ", ".join([display_names[n] for n, _ in council_config])
+                    previous = ", ".join([display_names[n] for n, _, _ in council_config])
                 system_prompt = council_system.format(
                     name=dname,
                     round_num=round_num + 1,
@@ -326,8 +416,17 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
             # Stream output live when verbose (thinking models use non-streaming)
             response = query_model(api_key, model, messages, stream=verbose)
 
+            # Try fallback if OpenRouter failed and fallback is available
+            used_fallback = False
+            if response.startswith("[") and fallback and google_api_key:
+                if verbose:
+                    print(f"(OpenRouter failed, trying AI Studio fallback: {fallback}...)", flush=True)
+                response = query_google_ai_studio(google_api_key, fallback, messages)
+                used_fallback = True
+                model_name = fallback  # Update model name for output
+
             # Print response for thinking models (since they don't stream)
-            if verbose and is_thinking_model(model):
+            if verbose and (is_thinking_model(model) or used_fallback):
                 print(response)
             conversation.append((name, response))  # Store short name internally for reference tracking
             round_speakers.append(dname)
@@ -396,7 +495,7 @@ Be balanced and fair. Acknowledge minority views. Don't just pick a winner."""
     # (Models deliberated anonymously to prevent bias, but output is readable)
     if anonymous:
         final_output = "\n\n".join(output_parts)
-        for name, model in council_config:
+        for name, model, _ in council_config:
             anon_name = display_names[name]
             model_name = model.split("/")[-1]
             # Replace "[Speaker 1]" -> "[claude-opus-4.5]", "Speaker 1's" -> "claude-opus-4.5's", etc.
@@ -437,15 +536,20 @@ def main():
     )
     args = parser.parse_args()
 
-    # Get API key
+    # Get API keys
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
         print("Error: OPENROUTER_API_KEY environment variable not set", file=sys.stderr)
         sys.exit(1)
 
+    # Optional: Google AI Studio key for Gemini fallback
+    google_api_key = os.environ.get("GOOGLE_API_KEY")
+
     if not args.quiet:
         mode = "named mode" if args.named else "anonymous mode"
         print(f"Running LLM Council ({mode})...")
+        if google_api_key:
+            print("(Google AI Studio fallback enabled for Gemini)")
         print()
 
     # Run council
@@ -454,6 +558,7 @@ def main():
             question=args.question,
             council_config=COUNCIL,
             api_key=api_key,
+            google_api_key=google_api_key,
             rounds=args.rounds,
             verbose=not args.quiet,
             anonymous=not args.named,

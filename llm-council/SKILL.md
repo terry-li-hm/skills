@@ -19,9 +19,14 @@ For quick parallel comparisons, use `/multi-llm` instead (faster, simpler).
 
 ## Prerequisites
 
-**OpenRouter API key** set in environment:
+**OpenRouter API key** (required):
 ```bash
 export OPENROUTER_API_KEY=sk-or-v1-...
+```
+
+**Google AI Studio key** (optional, enables Gemini fallback):
+```bash
+export GOOGLE_API_KEY=AIza...
 ```
 
 ## Instructions
@@ -148,6 +153,11 @@ Start with a modular monolith with clear domain boundaries...
 - Built-in retry (up to 3 attempts) for failed or empty responses
 - If a model fails after retries, shows "[No response from model after 3 attempts]"
 - Council continues with remaining models; judge synthesizes available responses
+
+**Gemini AI Studio Fallback:**
+- If `GOOGLE_API_KEY` is set, Gemini queries fall back to AI Studio when OpenRouter fails
+- Helps work around OpenRouter reliability issues with Gemini models
+- Fallback uses `gemini-2.5-pro` via Google's native API
 
 **Anonymous Deliberation, Readable Output (Karpathy-style):**
 - Models see each other as "Speaker 1", "Speaker 2", etc. during deliberation
