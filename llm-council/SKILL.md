@@ -83,15 +83,15 @@ Present this to the user, highlighting the key insights.
 ## Example Output
 
 ```
-### Claude
+### claude-opus-4.5
 For a startup, I'd lean toward monolith initially. Microservices add operational
 complexity that's hard to justify without a large team...
 
-### GPT
-I partially agree with Claude on starting simple, but I'd push back on the
-"monolith first" dogma. If you have clear domain boundaries...
+### gpt-5.2-pro
+I partially agree with claude-opus-4.5 on starting simple, but I'd push back on
+the "monolith first" dogma. If you have clear domain boundaries...
 
-### Gemini
+### gemini-3-pro-preview
 Building on both points: the real question isn't architecture pattern, it's
 team structure. Conway's Law applies here...
 
@@ -101,7 +101,7 @@ All council members agree that team size and operational maturity matter more
 than the architecture pattern itself...
 
 ## Points of Disagreement
-Claude emphasizes simplicity-first, GPT argues for forward-looking design...
+claude-opus-4.5 emphasizes simplicity-first, gpt-5.2-pro argues for forward-looking design...
 
 ## Synthesis
 The council converges on a "modular monolith" approach...

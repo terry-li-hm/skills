@@ -308,9 +308,12 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
                     "content": f"[{speaker_dname}]: {text}" if speaker != name else text,
                 })
 
+            # Extract model name without provider prefix (e.g., "claude-opus-4.5" from "anthropic/claude-opus-4.5")
+            model_name = model.split("/")[-1]
+
             if verbose:
-                # Show real name in output even when models see anonymous names
-                print(f"### {name}")
+                # Show full model name in output
+                print(f"### {model_name}")
                 if is_thinking_model(model):
                     print("(thinking...)", flush=True)
 
@@ -320,13 +323,13 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
             # Print response for thinking models (since they don't stream)
             if verbose and is_thinking_model(model):
                 print(response)
-            conversation.append((name, response))  # Store real name internally
+            conversation.append((name, response))  # Store short name internally for reference tracking
             round_speakers.append(dname)
 
             if verbose:
                 print()  # Extra newline after streamed response
 
-            output_parts.append(f"### {name}\n{response}")
+            output_parts.append(f"### {model_name}\n{response}")
 
         # Check for consensus after each completed round
         converged, reason = detect_consensus(conversation, len(council_config))
@@ -381,18 +384,19 @@ Be balanced and fair. Acknowledge minority views. Don't just pick a winner."""
 
     output_parts.append(f"### Judge\n{judge_response}")
 
-    # Post-process: replace anonymous names with real names in output for readability
+    # Post-process: replace anonymous names with real model names in output for readability
     # (Models deliberated anonymously to prevent bias, but output is readable)
     if anonymous:
         final_output = "\n\n".join(output_parts)
-        for name, _ in council_config:
+        for name, model in council_config:
             anon_name = display_names[name]
-            # Replace "[Speaker 1]" -> "[Claude]", "Speaker 1's" -> "Claude's", etc.
-            final_output = final_output.replace(f"### {anon_name}", f"### {name}")
-            final_output = final_output.replace(f"[{anon_name}]", f"[{name}]")
-            final_output = final_output.replace(f"**{anon_name}**", f"**{name}**")
-            final_output = final_output.replace(f"with {anon_name}", f"with {name}")
-            final_output = final_output.replace(f"{anon_name}'s", f"{name}'s")
+            model_name = model.split("/")[-1]
+            # Replace "[Speaker 1]" -> "[claude-opus-4.5]", "Speaker 1's" -> "claude-opus-4.5's", etc.
+            final_output = final_output.replace(f"### {anon_name}", f"### {model_name}")
+            final_output = final_output.replace(f"[{anon_name}]", f"[{model_name}]")
+            final_output = final_output.replace(f"**{anon_name}**", f"**{model_name}**")
+            final_output = final_output.replace(f"with {anon_name}", f"with {model_name}")
+            final_output = final_output.replace(f"{anon_name}'s", f"{model_name}'s")
         return final_output
 
     return "\n\n".join(output_parts)
