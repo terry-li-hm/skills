@@ -34,9 +34,11 @@ Analyze LinkedIn job postings against user's background, current pipeline health
    - **Easy Apply roles:** Ask whether to proceed with application now
    - **Company website roles:** Add to "To Apply" list in job tracking (external ATS requires more effort; note for later)
 
-7. **Create vault note:**
-   - Filename: `[[Role Title, Company]]`
-   - Include: Full JD, fit analysis table, recommendation reasoning
+7. **Create vault note (ALWAYS, even for PASS):**
+   - Filename: `[[Role Title - Company]]`
+   - **MUST include full JD details:** Copy requirements, responsibilities, qualifications verbatim from the posting
+   - Include: Fit analysis table, recommendation reasoning
+   - This creates a record for future reference and pattern recognition
 
 8. **Update job tracking** — Add to appropriate section in user's job hunting notes
 
@@ -72,11 +74,15 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 
 ## Requirements
 
-[From JD]
+[COPY FULL REQUIREMENTS FROM JD - verbatim bullet points]
 
 ## Responsibilities
 
-[From JD]
+[COPY FULL RESPONSIBILITIES FROM JD - verbatim bullet points]
+
+## Preferred/Nice-to-Have
+
+[If listed separately in JD]
 
 ## Fit Analysis
 
