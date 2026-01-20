@@ -52,11 +52,23 @@ Use when:
    - Top 2-3 actions
    - Key calendar items
 
-4. **Offer AI news scan** for interview talking points (`/ai-news`)
+4. **Run integrated scans** (in parallel where possible):
+   - `/anti-signals` — Review rejection patterns, update rules
+   - `/hm-tracker` scan — Check for HMs entering hiring window
+   - `/market-radar` scan — Check for new hiring signals
 
-5. **Update weekly note**
+5. **Offer AI news scan** for interview talking points (`/ai-news`)
 
-6. **Update Job Hunting.md** if changes recorded
+6. **Update weekly note**
+
+7. **Update Job Hunting.md** if changes recorded
+
+## Integration
+
+This skill integrates with:
+- `/anti-signals` — Monthly pattern review
+- `/hm-tracker` — Scan for HMs in hiring window
+- `/market-radar` — Scan for new hiring signals
 
 ## Error Handling
 
@@ -90,6 +102,13 @@ Use when:
 
 ## Networking Waiting
 - [Contact] — [status]
+
+## HM Tracker
+| Name | Company | Days In Role | Status |
+|------|---------|--------------|--------|
+
+## Market Signals
+[Any new signals from /market-radar]
 
 ## Notes
 [Any market context or observations]

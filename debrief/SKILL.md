@@ -48,15 +48,27 @@ Use when:
    - What they seemed to want vs. how you presented
    - Learning for future similar roles
 
-3. **Update Job Hunting.md**:
-   - Add rows to Market Signals tables
+3. **Update vault files**:
+   - Add rows to Market Signals tables in [[Job Hunting]]
    - Update Positioning Insights if pattern emerges
    - Update the specific role's status in Applied Jobs
 
-4. **Suggest prep adjustments**:
+4. **Run integrated skills**:
+   - `/narrative-debt` (log mode) — Record which stories were told
+   - `/counter-intel` (update mode) — Update interviewer profile with signals
+
+5. **Suggest prep adjustments**:
    - If an objection is recurring, suggest reframing
    - If a hook consistently lands, note to emphasize it
    - Update Core Story Bank if relevant
+
+## Integration
+
+This skill integrates with:
+- `/narrative-debt` — Logs stories told for consistency tracking
+- `/counter-intel` — Updates interviewer profiles with new signals
+- [[Interviewer Profiles]] — Central storage for interviewer intel
+- [[Story Telling Log]] — Central storage for story usage
 
 ## Error Handling
 

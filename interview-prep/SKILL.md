@@ -28,7 +28,12 @@ Use when:
    - `/Users/terry/notes/Interview Preparation.md` — general prep notes (if exists)
    - `/Users/terry/notes/Job Hunting.md` — notes on this role/company
 
-2. **Research company** via web search:
+2. **Run integrated skills** (in parallel where possible):
+   - `/contact-prep` — If interviewer name known, surface relationship history
+   - `/counter-intel` — Research interviewer background and style
+   - `/narrative-debt` — Check what stories already told to this company
+
+3. **Research company** via web search:
    - **Recent news** — last 3-6 months, anything notable
    - **Tech stack** — especially data/ML infrastructure
    - **Culture signals** — values, work style, reviews
@@ -41,6 +46,8 @@ Use when:
    | [Requirement] | [Matching experience/story] |
 
 4. **Select 3-5 stories** from Core Story Bank most relevant to this role
+   - Cross-check with narrative debt log to avoid repetition
+   - Prioritize stories NOT yet told to this company
 
 5. **Generate 5-7 questions to ask** (tailored to research findings):
    - Role-specific (day-to-day, expectations, success metrics)
@@ -54,6 +61,15 @@ Use when:
    - Red flags from research
 
 7. **Save prep notes** to vault (optional)
+
+## Integration
+
+This skill integrates with:
+- `/contact-prep` — Relationship context for known interviewers
+- `/counter-intel` — Interviewer research and profile building
+- `/narrative-debt` — Story consistency across interview rounds
+
+After interview, prompt user for `/debrief` to capture signals.
 
 ## Error Handling
 

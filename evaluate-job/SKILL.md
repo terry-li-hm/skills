@@ -28,19 +28,24 @@ Analyze LinkedIn job postings against user's background, current pipeline health
    - **Thin** (<5 active, no interviews): Lower bar — CONSIDER "good enough" roles
    - Consider urgency of user's situation when weighing trade-offs
 
-5. **Output recommendation:** APPLY, CONSIDER, or PASS with clear reasoning
+5. **Check anti-signals**:
+   - Read Anti-Signals section from [[Job Hunting]]
+   - If role matches a known pattern, add warning
+   - Factor into recommendation (APPLY → CONSIDER if pattern match)
 
-6. **If APPLY:**
+6. **Output recommendation:** APPLY, CONSIDER, or PASS with clear reasoning
+
+7. **If APPLY:**
    - **Easy Apply roles:** Ask whether to proceed with application now
    - **Company website roles:** Add to "To Apply" list in job tracking (external ATS requires more effort; note for later)
 
-7. **Create vault note (ALWAYS, even for PASS):**
+8. **Create vault note (ALWAYS, even for PASS):**
    - Filename: `[[Role Title - Company]]`
    - **MUST include full JD details:** Copy requirements, responsibilities, qualifications verbatim from the posting
    - Include: Fit analysis table, recommendation reasoning
    - This creates a record for future reference and pattern recognition
 
-8. **Update job tracking** — Add to appropriate section in user's job hunting notes
+9. **Update job tracking** — Add to appropriate section in user's job hunting notes
 
 **Note:** No reliable way to close browser tabs via MCP — leave tab open for user to close manually.
 
@@ -54,6 +59,7 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 | **Tech Stack** | Alignment with user's technical strengths? |
 | **Competition** | Applicant count, seniority distribution, education levels |
 | **Salary** | Compare to current compensation if known |
+| **Anti-Signal** | Does this match a known rejection pattern? |
 
 ## Note Template
 
@@ -94,6 +100,7 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 | Tech Stack | ✅/⚠️/❌ | |
 | Competition | ✅/⚠️/❌ | |
 | Salary | ✅/⚠️/❌ | |
+| Anti-Signal | ✅/⚠️/❌ | |
 
 ## Recommendation
 
