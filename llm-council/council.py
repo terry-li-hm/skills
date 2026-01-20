@@ -68,20 +68,29 @@ def query_model(
     """Query a model via OpenRouter with retry logic for flaky models."""
     # Thinking models don't stream well - fall back to non-streaming
     if stream and not is_thinking_model(model):
-        return query_model_streaming(api_key, model, messages, max_tokens, timeout)
+        result = query_model_streaming(api_key, model, messages, max_tokens, timeout)
+        # If streaming failed (connection drop, etc.), fall through to non-streaming with retries
+        if not result.startswith("["):
+            return result
+        print(f"(Streaming failed, retrying without streaming...)", flush=True)
 
     # Retry logic for thinking models (can be flaky via OpenRouter)
     for attempt in range(retries + 1):
-        response = httpx.post(
-            OPENROUTER_URL,
-            headers={"Authorization": f"Bearer {api_key}"},
-            json={
-                "model": model,
-                "messages": messages,
-                "max_tokens": max_tokens,
-            },
-            timeout=timeout,
-        )
+        try:
+            response = httpx.post(
+                OPENROUTER_URL,
+                headers={"Authorization": f"Bearer {api_key}"},
+                json={
+                    "model": model,
+                    "messages": messages,
+                    "max_tokens": max_tokens,
+                },
+                timeout=timeout,
+            )
+        except (httpx.RequestError, httpx.RemoteProtocolError) as e:
+            if attempt < retries:
+                continue  # Retry on connection errors
+            return f"[Error: Connection failed for {model}: {e}]"
 
         if response.status_code != 200:
             if attempt < retries:
@@ -331,8 +340,8 @@ def query_model_streaming(
 
     except httpx.TimeoutException:
         error_msg = f"[Error: Timeout from {model}]"
-    except httpx.RequestError as e:
-        error_msg = f"[Error: Request failed for {model}: {e}]"
+    except (httpx.RequestError, httpx.RemoteProtocolError) as e:
+        error_msg = f"[Error: Connection failed for {model}: {e}]"
 
     print()  # Newline after streaming completes
 
