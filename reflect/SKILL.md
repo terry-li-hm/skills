@@ -101,7 +101,7 @@ Review the full conversation and extract items for each category above. Be selec
 
 ### Step 2: Present Summary
 
-Show Terry what you found:
+Show Terry what you found in a concise summary, then use `AskUserQuestion` to let him choose what to do:
 
 ```
 ## Session Reflection
@@ -125,9 +125,12 @@ Show Terry what you found:
 
 ### Daily Note Updates
 - [items for today's note]
-
-Proceed with updates?
 ```
+
+Then use `AskUserQuestion` with options like:
+- "Apply all updates" — Update CLAUDE.md, daily note, and any skills
+- "Skip this time" — No updates, end session
+- "Let me pick" — (Other) for selective updates
 
 ### Step 3: Apply Updates (after confirmation)
 
