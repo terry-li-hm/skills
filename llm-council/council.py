@@ -41,8 +41,12 @@ def query_model(
     messages: list[dict],
     max_tokens: int = 800,
     timeout: float = 120.0,
+    stream: bool = False,
 ) -> str:
     """Query a model via OpenRouter and return the response text."""
+    if stream:
+        return query_model_streaming(api_key, model, messages, max_tokens, timeout)
+
     response = httpx.post(
         OPENROUTER_URL,
         headers={"Authorization": f"Bearer {api_key}"},
@@ -68,6 +72,66 @@ def query_model(
         content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL).strip()
 
     return content
+
+
+def query_model_streaming(
+    api_key: str,
+    model: str,
+    messages: list[dict],
+    max_tokens: int = 800,
+    timeout: float = 120.0,
+) -> str:
+    """Query a model with streaming output - prints tokens as they arrive."""
+    import json as json_module
+
+    full_content = []
+    in_think_block = False
+
+    with httpx.stream(
+        "POST",
+        OPENROUTER_URL,
+        headers={"Authorization": f"Bearer {api_key}"},
+        json={
+            "model": model,
+            "messages": messages,
+            "max_tokens": max_tokens,
+            "stream": True,
+        },
+        timeout=timeout,
+    ) as response:
+        for line in response.iter_lines():
+            if not line or line.startswith(":"):
+                continue  # Skip empty lines and SSE comments
+
+            if line.startswith("data: "):
+                data_str = line[6:]  # Remove "data: " prefix
+                if data_str.strip() == "[DONE]":
+                    break
+
+                try:
+                    data = json_module.loads(data_str)
+                    if "choices" in data and data["choices"]:
+                        delta = data["choices"][0].get("delta", {})
+                        content = delta.get("content", "")
+                        if content:
+                            # Handle <think> blocks - don't print them
+                            if "<think>" in content:
+                                in_think_block = True
+                            if in_think_block:
+                                if "</think>" in content:
+                                    in_think_block = False
+                                    content = content.split("</think>", 1)[-1]
+                                else:
+                                    continue  # Skip content inside think block
+
+                            if content:
+                                print(content, end="", flush=True)
+                                full_content.append(content)
+                except json_module.JSONDecodeError:
+                    pass  # Skip malformed JSON
+
+    print()  # Newline after streaming completes
+    return "".join(full_content)
 
 
 def detect_consensus(conversation: list[tuple[str, str]], council_size: int) -> tuple[bool, str]:
@@ -191,13 +255,13 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
             if verbose:
                 print(f"### {dname}Agent")
 
-            response = query_model(api_key, model, messages)
+            # Stream output live when verbose
+            response = query_model(api_key, model, messages, stream=verbose)
             conversation.append((name, response))  # Store real name internally
             round_speakers.append(dname)
 
             if verbose:
-                print(response)
-                print()
+                print()  # Extra newline after streamed response
 
             output_parts.append(f"### {dname}Agent\n{response}")
 
@@ -246,11 +310,11 @@ Be balanced and fair. Acknowledge minority views. Don't just pick a winner."""
     if verbose:
         print("### Judge")
 
-    judge_response = query_model(api_key, JUDGE_MODEL, judge_messages, max_tokens=1200)
+    # Stream output live when verbose
+    judge_response = query_model(api_key, JUDGE_MODEL, judge_messages, max_tokens=1200, stream=verbose)
 
     if verbose:
-        print(judge_response)
-        print()
+        print()  # Extra newline after streamed response
 
     output_parts.append(f"### Judge\n{judge_response}")
 
