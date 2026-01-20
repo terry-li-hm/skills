@@ -72,6 +72,11 @@ The judge's output includes:
 
 Present this to the user, highlighting the key insights.
 
+**Skip blind phase (faster but more anchoring bias):**
+```bash
+uv run council.py "your question" --no-blind
+```
+
 ## Options
 
 | Flag | Description |
@@ -79,6 +84,7 @@ Present this to the user, highlighting the key insights.
 | `--rounds N` | Number of deliberation rounds (default: 2, exits early on consensus) |
 | `--output FILE` | Save transcript to file |
 | `--named` | Let models see real names during deliberation (may increase bias) |
+| `--no-blind` | Skip blind first-pass (faster, but first speaker anchors others) |
 | `--quiet` | Suppress progress output |
 
 ## Council Members
@@ -124,16 +130,22 @@ Start with a modular monolith with clear domain boundaries...
 
 | Aspect | /multi-llm | /llm-council |
 |--------|-----------|--------------|
-| Pattern | Parallel queries | Deliberation + synthesis |
+| Pattern | Parallel queries | Blind claims → Deliberation → Synthesis |
 | Output | Side-by-side responses | Consensus with reasoning |
-| Speed | Fast (~10s) | Slower (~60-90s) |
+| Speed | Fast (~10s) | ~90-120s (with blind), ~60-90s (--no-blind) |
 | Use case | Quick comparison | Important decisions |
 
 ## How It Works
 
-**True Deliberation Protocol:**
-1. Claude speaks first, staking a clear position with key claims
-2. Each subsequent model MUST explicitly AGREE, DISAGREE, or BUILD ON previous speakers by name
+**Blind First-Pass (Anti-Anchoring):**
+1. All models generate short "claim sketches" INDEPENDENTLY — no one sees others
+2. This prevents the "first speaker lottery" where whoever speaks first anchors the debate
+3. Each model commits to an initial position before seeing any other responses
+4. Use `--no-blind` to skip this phase for speed
+
+**Deliberation Protocol:**
+1. All models see everyone's blind claims, then deliberate
+2. Each model MUST explicitly AGREE, DISAGREE, or BUILD ON previous speakers by name
 3. After each round, the system checks for consensus (4/5 agreement triggers early exit)
 4. Judge synthesizes the full deliberation
 

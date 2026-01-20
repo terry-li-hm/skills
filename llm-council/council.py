@@ -358,6 +358,20 @@ def query_model_streaming(
     return "".join(full_content)
 
 
+def sanitize_speaker_content(content: str) -> str:
+    """
+    Sanitize speaker content to prevent prompt injection.
+    Wraps content in a way that prevents it from being interpreted as instructions.
+    """
+    # Strip any explicit instruction-like patterns
+    sanitized = content.replace("SYSTEM:", "[SYSTEM]:")
+    sanitized = sanitized.replace("INSTRUCTION:", "[INSTRUCTION]:")
+    sanitized = sanitized.replace("IGNORE PREVIOUS", "[IGNORE PREVIOUS]")
+    sanitized = sanitized.replace("OVERRIDE:", "[OVERRIDE]:")
+
+    return sanitized
+
+
 def detect_consensus(conversation: list[tuple[str, str]], council_size: int) -> tuple[bool, str]:
     """Detect if council has converged. Returns (converged, reason)."""
     if len(conversation) < council_size:
@@ -382,6 +396,77 @@ def detect_consensus(conversation: list[tuple[str, str]], council_size: int) -> 
     return False, "no consensus"
 
 
+def run_blind_phase(
+    question: str,
+    council_config: list[tuple[str, str, tuple[str, str] | None]],
+    api_key: str,
+    google_api_key: str | None = None,
+    moonshot_api_key: str | None = None,
+    verbose: bool = True,
+) -> list[tuple[str, str, str]]:
+    """
+    Blind first-pass: each model stakes claims independently without seeing others.
+    Returns list of (name, model_name, claims).
+    """
+    blind_system = """You are participating in the BLIND PHASE of a council deliberation.
+
+Stake your initial position on the question BEFORE seeing what others think.
+This prevents anchoring bias.
+
+Provide a CLAIM SKETCH (not a full response):
+1. Your core position (1-2 sentences)
+2. Top 3 supporting claims or considerations
+3. Key assumption or uncertainty
+
+Keep it concise (~100 words). The full deliberation comes later."""
+
+    blind_claims = []
+
+    if verbose:
+        print("=" * 60)
+        print("BLIND PHASE (independent claims)")
+        print("=" * 60)
+        print()
+
+    for name, model, fallback in council_config:
+        model_name = model.split("/")[-1]
+
+        if verbose:
+            print(f"### {model_name} (blind)")
+            if is_thinking_model(model):
+                print("(thinking...)", flush=True)
+
+        messages = [
+            {"role": "system", "content": blind_system},
+            {"role": "user", "content": f"Question:\n\n{question}"},
+        ]
+
+        response = query_model(api_key, model, messages, max_tokens=500, stream=verbose)
+
+        # Try fallback if needed
+        if response.startswith("[") and fallback:
+            fallback_provider, fallback_model = fallback
+            if fallback_provider == "google" and google_api_key:
+                if verbose:
+                    print(f"(fallback: {fallback_model}...)", flush=True)
+                response = query_google_ai_studio(google_api_key, fallback_model, messages, max_tokens=500)
+                model_name = fallback_model
+            elif fallback_provider == "moonshot" and moonshot_api_key:
+                if verbose:
+                    print(f"(fallback: {fallback_model}...)", flush=True)
+                response = query_moonshot(moonshot_api_key, fallback_model, messages, max_tokens=500)
+                model_name = fallback_model
+
+        if verbose and is_thinking_model(model):
+            print(response)
+        if verbose:
+            print()
+
+        blind_claims.append((name, model_name, response))
+
+    return blind_claims
+
+
 def run_council(
     question: str,
     council_config: list[tuple[str, str, tuple[str, str] | None]],
@@ -391,10 +476,18 @@ def run_council(
     rounds: int = 1,
     verbose: bool = True,
     anonymous: bool = True,
+    blind: bool = True,
 ) -> str:
     """Run the council deliberation."""
 
     council_names = [name for name, _, _ in council_config]
+    blind_claims = []
+
+    # Run blind phase first if enabled
+    if blind:
+        blind_claims = run_blind_phase(
+            question, council_config, api_key, google_api_key, moonshot_api_key, verbose
+        )
 
     # Anonymous mode: use "Speaker 1", "Speaker 2", etc. (Karpathy-style)
     if anonymous:
@@ -418,7 +511,31 @@ def run_council(
     conversation = []
     output_parts = []
 
-    # First speaker prompt (no prior speakers to reference)
+    # Add blind claims to output if we have them
+    if blind_claims:
+        for name, model_name, claims in blind_claims:
+            output_parts.append(f"### {model_name} (blind)\n{claims}")
+
+    # Build blind claims context for deliberation prompts (sanitized)
+    blind_context = ""
+    if blind_claims:
+        blind_lines = []
+        for name, _, claims in blind_claims:
+            dname = display_names[name]
+            blind_lines.append(f"**{dname}**: {sanitize_speaker_content(claims)}")
+        blind_context = "\n\n".join(blind_lines)
+
+    # First speaker prompt when blind phase was run (has context of all blind claims)
+    first_speaker_with_blind = """You are {name}, speaking first in Round {round_num} of a council deliberation.
+
+You've seen everyone's BLIND CLAIMS (their independent initial positions). Now engage:
+1. Reference at least ONE other speaker's blind claim
+2. Agree, disagree, or build on their position
+3. Develop your own position further based on what you've learned
+
+Be direct. Challenge weak arguments. Don't be sycophantic."""
+
+    # First speaker prompt (no blind phase, no prior speakers to reference)
     first_speaker_system = """You are {name}, speaking first in Round {round_num} of a council deliberation.
 
 As the first speaker, stake a clear position on the question. Be specific and substantive so others can engage with your points.
@@ -429,7 +546,7 @@ End with 2-3 key claims that others should respond to."""
     council_system = """You are {name}, participating in Round {round_num} of a council deliberation.
 
 REQUIREMENTS for your response:
-1. Reference at least ONE previous speaker by name (e.g., "I agree with Claude that..." or "GPT's point about X overlooks...")
+1. Reference at least ONE previous speaker by name (e.g., "I agree with Speaker 1 that..." or "Speaker 2's point about X overlooks...")
 2. State explicitly: AGREE, DISAGREE, or BUILD ON their specific point
 3. Add ONE new consideration not yet raised
 
@@ -445,10 +562,14 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
         for idx, (name, model, fallback) in enumerate(council_config):
             dname = display_names[name]  # Use anonymous name if enabled
 
-            # Choose prompt based on position
+            # Choose prompt based on position and whether blind phase ran
             if idx == 0 and round_num == 0:
-                # First speaker of first round - no one to reference
-                system_prompt = first_speaker_system.format(name=dname, round_num=round_num + 1)
+                if blind_claims:
+                    # First speaker with blind context
+                    system_prompt = first_speaker_with_blind.format(name=dname, round_num=round_num + 1)
+                else:
+                    # First speaker of first round - no one to reference
+                    system_prompt = first_speaker_system.format(name=dname, round_num=round_num + 1)
             else:
                 # All others must engage with previous speakers
                 # For first speaker of round 2+, reference all previous speakers
@@ -463,17 +584,22 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
                 )
 
             # Build messages for this agent
+            user_content = f"Question for the council:\n\n{question}"
+            if blind_context:
+                user_content += f"\n\n---\n\nBLIND CLAIMS (independent initial positions):\n\n{blind_context}"
+
             messages = [
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": f"Question for the council:\n\n{question}"},
+                {"role": "user", "content": user_content},
             ]
 
-            # Add conversation history (using display names)
+            # Add conversation history (using display names, sanitized)
             for speaker, text in conversation:
                 speaker_dname = display_names[speaker]
+                sanitized_text = sanitize_speaker_content(text)
                 messages.append({
                     "role": "assistant" if speaker == name else "user",
-                    "content": f"[{speaker_dname}]: {text}" if speaker != name else text,
+                    "content": f"[{speaker_dname}]: {sanitized_text}" if speaker != name else sanitized_text,
                 })
 
             # Extract model name without provider prefix (e.g., "claude-opus-4.5" from "anthropic/claude-opus-4.5")
@@ -550,9 +676,9 @@ Format your response as:
 
 Be balanced and fair. Acknowledge minority views. Don't just pick a winner."""
 
-    # Build judge's view of the conversation (using display names)
+    # Build judge's view of the conversation (using display names, sanitized)
     deliberation_text = "\n\n".join(
-        f"**{display_names[speaker]}**: {text}" for speaker, text in conversation
+        f"**{display_names[speaker]}**: {sanitize_speaker_content(text)}" for speaker, text in conversation
     )
 
     judge_messages = [
@@ -616,6 +742,11 @@ def main():
         action="store_true",
         help="Show real model names instead of anonymous Speaker 1, 2, etc.",
     )
+    parser.add_argument(
+        "--no-blind",
+        action="store_true",
+        help="Skip blind first-pass (faster, but more anchoring bias)",
+    )
     args = parser.parse_args()
 
     # Get API keys
@@ -628,9 +759,13 @@ def main():
     google_api_key = os.environ.get("GOOGLE_API_KEY")
     moonshot_api_key = os.environ.get("MOONSHOT_API_KEY")
 
+    use_blind = not args.no_blind
+
     if not args.quiet:
-        mode = "named mode" if args.named else "anonymous mode"
-        print(f"Running LLM Council ({mode})...")
+        mode_parts = []
+        mode_parts.append("named" if args.named else "anonymous")
+        mode_parts.append("blind first-pass" if use_blind else "no blind phase")
+        print(f"Running LLM Council ({', '.join(mode_parts)})...")
         fallbacks = []
         if google_api_key:
             fallbacks.append("Gemini→AI Studio")
@@ -651,6 +786,7 @@ def main():
             rounds=args.rounds,
             verbose=not args.quiet,
             anonymous=not args.named,
+            blind=use_blind,
         )
 
         # Save transcript if requested
