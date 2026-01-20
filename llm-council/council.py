@@ -100,7 +100,7 @@ def run_council(
     api_key: str,
     rounds: int = 1,
     verbose: bool = True,
-    anonymous: bool = False,
+    anonymous: bool = True,
 ) -> str:
     """Run the council deliberation."""
 
@@ -287,9 +287,9 @@ def main():
         help="Save transcript to file",
     )
     parser.add_argument(
-        "--anonymous",
+        "--named",
         action="store_true",
-        help="Use anonymous speaker labels (Speaker 1, 2, etc.) to reduce model bias",
+        help="Show real model names instead of anonymous Speaker 1, 2, etc.",
     )
     args = parser.parse_args()
 
@@ -300,7 +300,7 @@ def main():
         sys.exit(1)
 
     if not args.quiet:
-        mode = "anonymous mode" if args.anonymous else "standard mode"
+        mode = "named mode" if args.named else "anonymous mode"
         print(f"Running LLM Council ({mode})...")
         print()
 
@@ -312,7 +312,7 @@ def main():
             api_key=api_key,
             rounds=args.rounds,
             verbose=not args.quiet,
-            anonymous=args.anonymous,
+            anonymous=not args.named,
         )
 
         # Save transcript if requested
