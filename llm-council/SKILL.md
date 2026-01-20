@@ -137,6 +137,11 @@ Start with a modular monolith with clear domain boundaries...
 - Detects agreement language ("I agree with", "building on", "I concur")
 - Exits early when 4/5 models align, saving time and tokens
 
+**Live Streaming Output:**
+- Responses stream token-by-token as they're generated
+- See the discussion unfold in real-time
+- Use `--quiet` to disable (waits for full response)
+
 **Anonymous by Default (Karpathy-style):**
 - Models see each other as "Speaker 1", "Speaker 2", etc.
 - Prevents models from playing favorites based on vendor reputation
