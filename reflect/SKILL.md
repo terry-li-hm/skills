@@ -46,17 +46,7 @@ Look for:
 
 **Add to relevant CLAUDE.md section or create new one if needed.**
 
-### 3. Daily Note Updates
-
-Activity worth logging in the daily note (`/Users/terry/notes/YYYY-MM-DD.md`).
-
-Categories:
-- **Job search activity** — applications sent, responses received, interviews scheduled
-- **Key learnings** — technical insights, career realizations
-- **Tools/skills set up** — new capabilities configured
-- **Mood check** — optional, only if naturally came up
-
-### 4. Workflow Improvements
+### 3. Workflow Improvements
 
 Skills, patterns, or automations worth documenting.
 
@@ -67,7 +57,7 @@ Look for:
 
 **Action:** Create new skill or update existing one, or add to CLAUDE.md.
 
-### 5. Follow-up Tasks
+### 4. Follow-up Tasks
 
 Things to do next session or soon.
 
@@ -79,7 +69,7 @@ Look for:
 
 **Add to daily note or a dedicated follow-ups section.**
 
-### 6. Compound Check
+### 5. Compound Check
 
 Anything worth extracting to a reusable artifact? (Per Dan Shipper's compound engineering: if no file is edited, compounding didn't happen.)
 
@@ -89,6 +79,16 @@ Look for:
 - **Pattern worth documenting** — Decision heuristic, objection handling, market insight
 
 **Action:** Update the relevant Obsidian note or create a new artifact. Be selective — only compound things you'd reuse 3+ times.
+
+### 6. Daily Note Updates
+
+Activity worth logging in the daily note (`/Users/terry/notes/YYYY-MM-DD.md`).
+
+Categories:
+- **Job search activity** — applications sent, responses received, interviews scheduled
+- **Key learnings** — technical insights, career realizations
+- **Tools/skills set up** — new capabilities configured
+- **Mood check** — optional, only if naturally came up
 
 ## Instructions
 
@@ -112,9 +112,6 @@ Show Terry what you found:
 ### Preferences Learned
 - [item] → will add to [location]
 
-### Daily Note Updates
-- [items for today's note]
-
 ### Workflow Improvements
 - [item] → [proposed action]
 
@@ -125,6 +122,9 @@ Show Terry what you found:
 - [ ] Core Story Bank addition?
 - [ ] Template/script worth saving?
 - [ ] Pattern worth documenting?
+
+### Daily Note Updates
+- [items for today's note]
 
 Proceed with updates?
 ```

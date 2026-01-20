@@ -7,7 +7,7 @@
 LLM Council - Multi-model deliberation via OpenRouter.
 
 5 frontier models debate a question and a judge synthesizes the consensus.
-Models: Claude Opus 4.5, GPT-5.2, Gemini 2.5 Pro, Grok 4, DeepSeek v3.2
+Models: Claude Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2 Thinking
 
 Usage:
     uv run council.py "Should I use microservices or monolith?"
@@ -27,24 +27,34 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 COUNCIL = [
     ("Claude", "anthropic/claude-opus-4.5"),
     ("GPT", "openai/gpt-5.2-pro"),
-    ("Gemini", "google/gemini-2.5-pro"),
+    ("Gemini", "google/gemini-3-pro-preview"),
     ("Grok", "x-ai/grok-4"),
-    ("DeepSeek", "deepseek/deepseek-v3.2"),
+    ("Kimi", "moonshotai/kimi-k2-thinking"),
 ]
 
 JUDGE_MODEL = "anthropic/claude-opus-4.5"
+
+# Thinking models don't stream well - use non-streaming for these
+THINKING_MODELS = {"gemini-3-pro", "kimi-k2-thinking", "deepseek-r1", "o1", "o3"}
+
+
+def is_thinking_model(model: str) -> bool:
+    """Check if model is a thinking model that doesn't stream well."""
+    model_lower = model.lower()
+    return any(tm in model_lower for tm in THINKING_MODELS)
 
 
 def query_model(
     api_key: str,
     model: str,
     messages: list[dict],
-    max_tokens: int = 800,
+    max_tokens: int = 1500,  # Higher for thinking models (reasoning + content)
     timeout: float = 120.0,
     stream: bool = False,
 ) -> str:
     """Query a model via OpenRouter."""
-    if stream:
+    # Thinking models don't stream well - fall back to non-streaming
+    if stream and not is_thinking_model(model):
         return query_model_streaming(api_key, model, messages, max_tokens, timeout)
 
     response = httpx.post(
@@ -82,7 +92,7 @@ def query_model_streaming(
     api_key: str,
     model: str,
     messages: list[dict],
-    max_tokens: int = 800,
+    max_tokens: int = 1500,  # Higher for thinking models
     timeout: float = 120.0,
 ) -> str:
     """Query a model with streaming output - prints tokens as they arrive."""
@@ -208,10 +218,9 @@ def run_council(
         display_names = {name: name for name, _ in council_config}
 
     if verbose:
+        print(f"Council members: {council_names}")
         if anonymous:
-            print(f"Council members: {[display_names[n] for n in council_names]} (anonymous mode)")
-        else:
-            print(f"Council members: {council_names}")
+            print("(Models see each other as Speaker 1, 2, etc. to prevent bias)")
         print(f"Rounds: {rounds}")
         print(f"Question: {question[:100]}{'...' if len(question) > 100 else ''}")
         print()
@@ -283,17 +292,24 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
                 })
 
             if verbose:
-                print(f"### {dname}Agent")
+                # Show real name in output even when models see anonymous names
+                print(f"### {name}Agent")
+                if is_thinking_model(model):
+                    print("(thinking...)", flush=True)
 
-            # Stream output live when verbose
+            # Stream output live when verbose (thinking models use non-streaming)
             response = query_model(api_key, model, messages, stream=verbose)
+
+            # Print response for thinking models (since they don't stream)
+            if verbose and is_thinking_model(model):
+                print(response)
             conversation.append((name, response))  # Store real name internally
             round_speakers.append(dname)
 
             if verbose:
                 print()  # Extra newline after streamed response
 
-            output_parts.append(f"### {dname}Agent\n{response}")
+            output_parts.append(f"### {name}Agent\n{response}")
 
         # Check for consensus after each completed round
         converged, reason = detect_consensus(conversation, len(council_config))
@@ -348,14 +364,19 @@ Be balanced and fair. Acknowledge minority views. Don't just pick a winner."""
 
     output_parts.append(f"### Judge\n{judge_response}")
 
-    # Add identity legend for anonymous mode
+    # Post-process: replace anonymous names with real names in output for readability
+    # (Models deliberated anonymously to prevent bias, but output is readable)
     if anonymous:
-        legend = "\n---\n\n## Speaker Identities\n\n"
-        for name, model in council_config:
-            legend += f"- **{display_names[name]}**: {name} ({model})\n"
-        output_parts.append(legend)
-        if verbose:
-            print(legend)
+        final_output = "\n\n".join(output_parts)
+        for name, _ in council_config:
+            anon_name = display_names[name]
+            # Replace "Speaker 1Agent" -> "ClaudeAgent", "[Speaker 1]" -> "[Claude]", etc.
+            final_output = final_output.replace(f"{anon_name}Agent", f"{name}Agent")
+            final_output = final_output.replace(f"[{anon_name}]", f"[{name}]")
+            final_output = final_output.replace(f"**{anon_name}**", f"**{name}**")
+            final_output = final_output.replace(f"with {anon_name}", f"with {name}")
+            final_output = final_output.replace(f"{anon_name}'s", f"{name}'s")
+        return final_output
 
     return "\n\n".join(output_parts)
 

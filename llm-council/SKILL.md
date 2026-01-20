@@ -42,7 +42,7 @@ uv run council.py "Should we use microservices or a monolith for this project?"
 uv run council.py "your question" --output transcript.md
 ```
 
-**Named mode (show real model names instead of Speaker 1, 2, etc.):**
+**Named mode (let models see each other's real names - may increase bias):**
 ```bash
 uv run council.py "your question" --named
 ```
@@ -68,16 +68,16 @@ Present this to the user, highlighting the key insights.
 |------|-------------|
 | `--rounds N` | Number of deliberation rounds (default: 2, exits early on consensus) |
 | `--output FILE` | Save transcript to file |
-| `--named` | Show real model names (default is anonymous: Speaker 1, 2, etc.) |
+| `--named` | Let models see real names during deliberation (may increase bias) |
 | `--quiet` | Suppress progress output |
 
 ## Council Members
 
 - Claude (claude-opus-4.5)
 - GPT (gpt-5.2-pro)
-- Gemini (gemini-2.5-pro)
+- Gemini (gemini-3-pro-preview)
 - Grok (grok-4)
-- DeepSeek (deepseek-v3.2)
+- Kimi (kimi-k2-thinking)
 - Judge: Claude Opus 4.5
 
 ## Example Output
@@ -142,12 +142,12 @@ Start with a modular monolith with clear domain boundaries...
 - See the discussion unfold in real-time
 - Use `--quiet` to disable (waits for full response)
 
-**Anonymous by Default (Karpathy-style):**
-- Models see each other as "Speaker 1", "Speaker 2", etc.
+**Anonymous Deliberation, Readable Output (Karpathy-style):**
+- Models see each other as "Speaker 1", "Speaker 2", etc. during deliberation
 - Prevents models from playing favorites based on vendor reputation
 - Reduces sycophancy ("I agree with Claude because it's Claude")
-- Identity legend revealed at the end of the transcript
-- Use `--named` to show real model names instead
+- Output transcript shows real model names for readability
+- Use `--named` to let models also see real names (may increase bias)
 
 ## Files
 
