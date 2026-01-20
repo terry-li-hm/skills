@@ -140,7 +140,14 @@ Start with a modular monolith with clear domain boundaries...
 **Live Streaming Output:**
 - Responses stream token-by-token as they're generated
 - See the discussion unfold in real-time
+- Thinking models (Gemini 3 Pro, Kimi K2) use non-streaming with "(thinking...)" indicator
 - Use `--quiet` to disable (waits for full response)
+
+**Retry Logic for Thinking Models:**
+- Thinking models can be flaky via OpenRouter (intermittent empty responses)
+- Built-in retry (up to 3 attempts) for failed or empty responses
+- If a model fails after retries, shows "[No response from model after 3 attempts]"
+- Council continues with remaining models; judge synthesizes available responses
 
 **Anonymous Deliberation, Readable Output (Karpathy-style):**
 - Models see each other as "Speaker 1", "Speaker 2", etc. during deliberation
