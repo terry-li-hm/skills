@@ -79,6 +79,17 @@ Look for:
 
 **Add to daily note or a dedicated follow-ups section.**
 
+### 6. Compound Check
+
+Anything worth extracting to a reusable artifact? (Per Dan Shipper's compound engineering: if no file is edited, compounding didn't happen.)
+
+Look for:
+- **Core Story Bank addition** — New STAR story, interview insight, or reframeable experience
+- **Template/script worth saving** — Outreach message that worked, question that landed well
+- **Pattern worth documenting** — Decision heuristic, objection handling, market insight
+
+**Action:** Update the relevant Obsidian note or create a new artifact. Be selective — only compound things you'd reuse 3+ times.
+
 ## Instructions
 
 ### Step 1: Scan Conversation
@@ -109,6 +120,11 @@ Show Terry what you found:
 
 ### Follow-up Tasks
 - [item]
+
+### Compound Check
+- [ ] Core Story Bank addition?
+- [ ] Template/script worth saving?
+- [ ] Pattern worth documenting?
 
 Proceed with updates?
 ```
