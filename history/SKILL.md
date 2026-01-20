@@ -29,40 +29,65 @@ from datetime import datetime, timedelta, timezone
 # HKT is UTC+8
 HKT = timezone(timedelta(hours=8))
 
-def get_prompts_for_date(target_date_str):
-    """Get prompts for a specific date in HKT."""
+def scan_history(target_date_str, limit=50):
+    """Scan history.jsonl for a specific date in HKT."""
     target_date = datetime.strptime(target_date_str, '%Y-%m-%d').replace(tzinfo=HKT)
 
-    # Day boundaries in HKT
+    # Day boundaries in HKT → Unix milliseconds
     day_start = target_date.replace(hour=0, minute=0, second=0, microsecond=0)
     day_end = day_start + timedelta(days=1)
-
-    # Convert to milliseconds timestamp (history.jsonl uses ms)
-    start_ts = day_start.timestamp() * 1000
-    end_ts = day_end.timestamp() * 1000
+    start_ms = int(day_start.timestamp() * 1000)
+    end_ms = int(day_end.timestamp() * 1000)
 
     prompts = []
+    sessions = {}
+
     with open('/Users/terry/.claude/history.jsonl', 'r') as f:
         for line in f:
             try:
                 entry = json.loads(line)
                 ts = entry.get('timestamp', 0)
-                if start_ts <= ts < end_ts:
-                    prompts.append({
-                        'time': datetime.fromtimestamp(ts/1000, tz=HKT).strftime('%H:%M'),
-                        'prompt': entry.get('display', '')[:100]
-                    })
-            except json.JSONDecodeError:
+                if not isinstance(ts, int) or not (start_ms <= ts < end_ms):
+                    continue
+
+                ts_hkt = datetime.fromtimestamp(ts/1000, tz=HKT)
+                sess = entry.get('sessionId', 'unknown')
+                prompt = entry.get('display', entry.get('prompt', ''))
+
+                prompts.append({
+                    'time': ts_hkt.strftime('%H:%M'),
+                    'session': sess[:8],
+                    'prompt': prompt[:100].replace('\n', ' ')
+                })
+
+                # Track sessions
+                if sess not in sessions:
+                    sessions[sess] = {'count': 0, 'first': ts_hkt, 'last': ts_hkt}
+                sessions[sess]['count'] += 1
+                sessions[sess]['last'] = ts_hkt
+
+            except (json.JSONDecodeError, Exception):
                 continue
 
-    return prompts
+    return {
+        'date': target_date_str,
+        'total': len(prompts),
+        'sessions': [
+            {'id': sid[:8], 'count': s['count'],
+             'range': f"{s['first'].strftime('%H:%M')}-{s['last'].strftime('%H:%M')}"}
+            for sid, s in sorted(sessions.items(), key=lambda x: x[1]['first'])
+        ],
+        'prompts': prompts[-limit:] if limit else prompts
+    }
 
 # Usage
-today_hkt = datetime.now(HKT).strftime('%Y-%m-%d')
-prompts = get_prompts_for_date(today_hkt)
-print(f"Found {len(prompts)} prompts for {today_hkt}")
-for p in prompts[:20]:  # Show first 20
-    print(f"  {p['time']} - {p['prompt']}...")
+today = datetime.now(HKT).strftime('%Y-%m-%d')
+result = scan_history(today)
+print(f"Date: {result['date']} (HKT)")
+print(f"Total: {result['total']} prompts across {len(result['sessions'])} sessions\n")
+print("Sessions:")
+for s in result['sessions']:
+    print(f"  [{s['id']}] {s['count']:3d} prompts ({s['range']})")
 ```
 
 3. **Return summary**:
