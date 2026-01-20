@@ -83,15 +83,15 @@ Present this to the user, highlighting the key insights.
 ## Example Output
 
 ```
-### ClaudeAgent
+### Claude
 For a startup, I'd lean toward monolith initially. Microservices add operational
 complexity that's hard to justify without a large team...
 
-### GPTAgent
+### GPT
 I partially agree with Claude on starting simple, but I'd push back on the
 "monolith first" dogma. If you have clear domain boundaries...
 
-### GeminiAgent
+### Gemini
 Building on both points: the real question isn't architecture pattern, it's
 team structure. Conway's Law applies here...
 

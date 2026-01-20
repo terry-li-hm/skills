@@ -51,41 +51,58 @@ def query_model(
     max_tokens: int = 1500,  # Higher for thinking models (reasoning + content)
     timeout: float = 120.0,
     stream: bool = False,
+    retries: int = 2,  # Retry for thinking models that can be flaky
 ) -> str:
-    """Query a model via OpenRouter."""
+    """Query a model via OpenRouter with retry logic for flaky models."""
     # Thinking models don't stream well - fall back to non-streaming
     if stream and not is_thinking_model(model):
         return query_model_streaming(api_key, model, messages, max_tokens, timeout)
 
-    response = httpx.post(
-        OPENROUTER_URL,
-        headers={"Authorization": f"Bearer {api_key}"},
-        json={
-            "model": model,
-            "messages": messages,
-            "max_tokens": max_tokens,
-        },
-        timeout=timeout,
-    )
+    # Retry logic for thinking models (can be flaky via OpenRouter)
+    for attempt in range(retries + 1):
+        response = httpx.post(
+            OPENROUTER_URL,
+            headers={"Authorization": f"Bearer {api_key}"},
+            json={
+                "model": model,
+                "messages": messages,
+                "max_tokens": max_tokens,
+            },
+            timeout=timeout,
+        )
 
-    if response.status_code != 200:
-        return f"[Error: HTTP {response.status_code} from {model}]"
+        if response.status_code != 200:
+            if attempt < retries:
+                continue  # Retry on HTTP errors
+            return f"[Error: HTTP {response.status_code} from {model}]"
 
-    data = response.json()
+        data = response.json()
 
-    if "error" in data:
-        return f"[Error: {data['error'].get('message', data['error'])}]"
+        if "error" in data:
+            if attempt < retries:
+                continue  # Retry on API errors
+            return f"[Error: {data['error'].get('message', data['error'])}]"
 
-    if "choices" not in data or not data["choices"]:
-        return f"[Error: No response from {model}]"
+        if "choices" not in data or not data["choices"]:
+            if attempt < retries:
+                continue  # Retry on empty choices
+            return f"[Error: No response from {model}]"
 
-    content = data["choices"][0]["message"]["content"]
+        content = data["choices"][0]["message"]["content"]
 
-    # Clean up reasoning model outputs (DeepSeek R1's <think> tags)
-    if "<think>" in content:
-        content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL).strip()
+        # Check for empty content (thinking models can return empty)
+        if not content or not content.strip():
+            if attempt < retries:
+                continue  # Retry on empty content
+            return f"[No response from {model} after {retries + 1} attempts]"
 
-    return content
+        # Clean up reasoning model outputs (DeepSeek R1's <think> tags)
+        if "<think>" in content:
+            content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL).strip()
+
+        return content
+
+    return f"[Error: Failed to get response from {model}]"
 
 
 def query_model_streaming(
@@ -293,7 +310,7 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
 
             if verbose:
                 # Show real name in output even when models see anonymous names
-                print(f"### {name}Agent")
+                print(f"### {name}")
                 if is_thinking_model(model):
                     print("(thinking...)", flush=True)
 
@@ -309,7 +326,7 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
             if verbose:
                 print()  # Extra newline after streamed response
 
-            output_parts.append(f"### {name}Agent\n{response}")
+            output_parts.append(f"### {name}\n{response}")
 
         # Check for consensus after each completed round
         converged, reason = detect_consensus(conversation, len(council_config))
@@ -370,8 +387,8 @@ Be balanced and fair. Acknowledge minority views. Don't just pick a winner."""
         final_output = "\n\n".join(output_parts)
         for name, _ in council_config:
             anon_name = display_names[name]
-            # Replace "Speaker 1Agent" -> "ClaudeAgent", "[Speaker 1]" -> "[Claude]", etc.
-            final_output = final_output.replace(f"{anon_name}Agent", f"{name}Agent")
+            # Replace "[Speaker 1]" -> "[Claude]", "Speaker 1's" -> "Claude's", etc.
+            final_output = final_output.replace(f"### {anon_name}", f"### {name}")
             final_output = final_output.replace(f"[{anon_name}]", f"[{name}]")
             final_output = final_output.replace(f"**{anon_name}**", f"**{name}**")
             final_output = final_output.replace(f"with {anon_name}", f"with {name}")
