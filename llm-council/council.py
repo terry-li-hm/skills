@@ -4,10 +4,10 @@
 # dependencies = ["httpx"]
 # ///
 """
-LLM Council - Multi-model deliberation with direct API calls.
+LLM Council - Multi-model deliberation via OpenRouter.
 
 5 frontier models debate a question and a judge synthesizes the consensus.
-Models: Claude Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2 Thinking
+Models: Claude Opus 4.5, GPT-5.2, Gemini 2.5 Pro, Grok 4, DeepSeek v3.2
 
 Usage:
     uv run council.py "Should I use microservices or monolith?"
@@ -23,11 +23,11 @@ from pathlib import Path
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
-# Model configurations
+# Model configurations (all via OpenRouter)
 COUNCIL = [
     ("Claude", "anthropic/claude-opus-4.5"),
     ("GPT", "openai/gpt-5.2-pro"),
-    ("Gemini", "google/gemini-3-pro-preview"),
+    ("Gemini", "google/gemini-2.5-pro"),
     ("Grok", "x-ai/grok-4"),
     ("DeepSeek", "deepseek/deepseek-v3.2"),
 ]
@@ -43,7 +43,7 @@ def query_model(
     timeout: float = 120.0,
     stream: bool = False,
 ) -> str:
-    """Query a model via OpenRouter and return the response text."""
+    """Query a model via OpenRouter."""
     if stream:
         return query_model_streaming(api_key, model, messages, max_tokens, timeout)
 
@@ -57,6 +57,10 @@ def query_model(
         },
         timeout=timeout,
     )
+
+    if response.status_code != 200:
+        return f"[Error: HTTP {response.status_code} from {model}]"
+
     data = response.json()
 
     if "error" in data:
@@ -200,7 +204,6 @@ def run_council(
     # Anonymous mode: use "Speaker 1", "Speaker 2", etc. (Karpathy-style)
     if anonymous:
         display_names = {name: f"Speaker {i+1}" for i, (name, _) in enumerate(council_config)}
-        name_to_model = {name: model for name, model in council_config}
     else:
         display_names = {name: name for name, _ in council_config}
 
