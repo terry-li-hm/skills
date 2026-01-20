@@ -29,6 +29,11 @@ export OPENROUTER_API_KEY=sk-or-v1-...
 export GOOGLE_API_KEY=AIza...
 ```
 
+**Moonshot API key** (optional, enables Kimi fallback):
+```bash
+export MOONSHOT_API_KEY=sk-...
+```
+
 ## Instructions
 
 ### Step 1: Get the Question
@@ -154,10 +159,10 @@ Start with a modular monolith with clear domain boundaries...
 - If a model fails after retries, shows "[No response from model after 3 attempts]"
 - Council continues with remaining models; judge synthesizes available responses
 
-**Gemini AI Studio Fallback:**
-- If `GOOGLE_API_KEY` is set, Gemini queries fall back to AI Studio when OpenRouter fails
-- Helps work around OpenRouter reliability issues with Gemini models
-- Fallback uses `gemini-2.5-pro` via Google's native API
+**Fallbacks for Flaky Models:**
+- **Gemini**: If `GOOGLE_API_KEY` is set, falls back to AI Studio (`gemini-2.5-pro`) when OpenRouter fails
+- **Kimi**: If `MOONSHOT_API_KEY` is set, falls back to Moonshot API (`kimi-k2`) when OpenRouter fails
+- Helps work around OpenRouter reliability issues with thinking models
 
 **Anonymous Deliberation, Readable Output (Karpathy-style):**
 - Models see each other as "Speaker 1", "Speaker 2", etc. during deliberation

@@ -23,15 +23,17 @@ from pathlib import Path
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 GOOGLE_AI_STUDIO_URL = "https://generativelanguage.googleapis.com/v1beta/models"
+MOONSHOT_URL = "https://api.moonshot.cn/v1/chat/completions"
 
 # Model configurations (all via OpenRouter, with fallbacks where available)
-# Format: (name, openrouter_model, fallback_model) - fallback_model is optional
+# Format: (name, openrouter_model, fallback) - fallback is (provider, model) or None
+# Providers: "google" = AI Studio, "moonshot" = Moonshot API
 COUNCIL = [
     ("Claude", "anthropic/claude-opus-4.5", None),
     ("GPT", "openai/gpt-5.2-pro", None),
-    ("Gemini", "google/gemini-3-pro-preview", "gemini-2.5-pro"),  # AI Studio fallback
+    ("Gemini", "google/gemini-3-pro-preview", ("google", "gemini-2.5-pro")),
     ("Grok", "x-ai/grok-4", None),
-    ("Kimi", "moonshotai/kimi-k2-thinking", None),
+    ("Kimi", "moonshotai/kimi-k2-thinking", ("moonshot", "kimi-k2")),
 ]
 
 JUDGE_MODEL = "anthropic/claude-opus-4.5"
@@ -200,6 +202,66 @@ def query_google_ai_studio(
     return f"[Error: Failed to get response from AI Studio {model}]"
 
 
+def query_moonshot(
+    api_key: str,
+    model: str,
+    messages: list[dict],
+    max_tokens: int = 8192,
+    timeout: float = 120.0,
+    retries: int = 2,
+) -> str:
+    """Query Moonshot API directly (fallback for Kimi models). Uses OpenAI-compatible format."""
+    for attempt in range(retries + 1):
+        try:
+            response = httpx.post(
+                MOONSHOT_URL,
+                headers={"Authorization": f"Bearer {api_key}"},
+                json={
+                    "model": model,
+                    "messages": messages,
+                    "max_tokens": max_tokens,
+                },
+                timeout=timeout,
+            )
+
+            if response.status_code != 200:
+                if attempt < retries:
+                    continue
+                return f"[Error: HTTP {response.status_code} from Moonshot {model}]"
+
+            data = response.json()
+
+            if "error" in data:
+                if attempt < retries:
+                    continue
+                return f"[Error: {data['error'].get('message', data['error'])}]"
+
+            if "choices" not in data or not data["choices"]:
+                if attempt < retries:
+                    continue
+                return f"[Error: No response from Moonshot {model}]"
+
+            content = data["choices"][0]["message"]["content"]
+
+            if not content or not content.strip():
+                if attempt < retries:
+                    continue
+                return f"[No response from Moonshot {model} after {retries + 1} attempts]"
+
+            return content
+
+        except httpx.TimeoutException:
+            if attempt < retries:
+                continue
+            return f"[Error: Timeout from Moonshot {model}]"
+        except httpx.RequestError as e:
+            if attempt < retries:
+                continue
+            return f"[Error: Request failed for Moonshot {model}: {e}]"
+
+    return f"[Error: Failed to get response from Moonshot {model}]"
+
+
 def query_model_streaming(
     api_key: str,
     model: str,
@@ -313,9 +375,10 @@ def detect_consensus(conversation: list[tuple[str, str]], council_size: int) -> 
 
 def run_council(
     question: str,
-    council_config: list[tuple[str, str, str | None]],
+    council_config: list[tuple[str, str, tuple[str, str] | None]],
     api_key: str,
     google_api_key: str | None = None,
+    moonshot_api_key: str | None = None,
     rounds: int = 1,
     verbose: bool = True,
     anonymous: bool = True,
@@ -418,12 +481,22 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
 
             # Try fallback if OpenRouter failed and fallback is available
             used_fallback = False
-            if response.startswith("[") and fallback and google_api_key:
-                if verbose:
-                    print(f"(OpenRouter failed, trying AI Studio fallback: {fallback}...)", flush=True)
-                response = query_google_ai_studio(google_api_key, fallback, messages)
-                used_fallback = True
-                model_name = fallback  # Update model name for output
+            if response.startswith("[") and fallback:
+                fallback_provider, fallback_model = fallback
+
+                if fallback_provider == "google" and google_api_key:
+                    if verbose:
+                        print(f"(OpenRouter failed, trying AI Studio fallback: {fallback_model}...)", flush=True)
+                    response = query_google_ai_studio(google_api_key, fallback_model, messages)
+                    used_fallback = True
+                    model_name = fallback_model
+
+                elif fallback_provider == "moonshot" and moonshot_api_key:
+                    if verbose:
+                        print(f"(OpenRouter failed, trying Moonshot fallback: {fallback_model}...)", flush=True)
+                    response = query_moonshot(moonshot_api_key, fallback_model, messages)
+                    used_fallback = True
+                    model_name = fallback_model
 
             # Print response for thinking models (since they don't stream)
             if verbose and (is_thinking_model(model) or used_fallback):
@@ -542,14 +615,20 @@ def main():
         print("Error: OPENROUTER_API_KEY environment variable not set", file=sys.stderr)
         sys.exit(1)
 
-    # Optional: Google AI Studio key for Gemini fallback
+    # Optional: fallback API keys
     google_api_key = os.environ.get("GOOGLE_API_KEY")
+    moonshot_api_key = os.environ.get("MOONSHOT_API_KEY")
 
     if not args.quiet:
         mode = "named mode" if args.named else "anonymous mode"
         print(f"Running LLM Council ({mode})...")
+        fallbacks = []
         if google_api_key:
-            print("(Google AI Studio fallback enabled for Gemini)")
+            fallbacks.append("Gemini→AI Studio")
+        if moonshot_api_key:
+            fallbacks.append("Kimi→Moonshot")
+        if fallbacks:
+            print(f"(Fallbacks enabled: {', '.join(fallbacks)})")
         print()
 
     # Run council
@@ -559,6 +638,7 @@ def main():
             council_config=COUNCIL,
             api_key=api_key,
             google_api_key=google_api_key,
+            moonshot_api_key=moonshot_api_key,
             rounds=args.rounds,
             verbose=not args.quiet,
             anonymous=not args.named,
