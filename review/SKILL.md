@@ -35,6 +35,9 @@ End-of-day reflection capturing job search progress, learnings, and mood.
    - **Tools/Skills**: New tools or skills practiced
    - **Mood**: How are you feeling? (1-5 or word)
 5. Create or update daily note
+6. **Prompt for overnight queue** (if evening):
+   - "Want to queue overnight tasks? I can run job alerts and pipeline scan while you sleep."
+   - If yes, invoke `/queue-overnight`
 
 **Output template:**
 ```markdown
