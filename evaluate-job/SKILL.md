@@ -15,8 +15,8 @@ Analyze LinkedIn job postings against user's background, current pipeline health
    - Extract: requirements, responsibilities, preferred qualifications, salary if disclosed, applicant stats
 
    **Why Chrome over Tavily for LinkedIn:**
-   - LinkedIn blocks scrapers; Tavily gets partial content with login modals/noise
-   - Chrome sees fully rendered page as logged-in user
+   - Tavily with `extract_depth: advanced` gets the full JD text, but **misses applicant stats** (count, seniority breakdown, education distribution) — these require being logged in
+   - Chrome sees the full page as logged-in user, including competition metrics critical for fit analysis
    - Can click "Show more" to expand full JD if needed
 
 2. **Load context files** (can run in parallel with step 1) — Check user's CLAUDE.md for background, credentials, differentiators, current situation, and job hunting status
