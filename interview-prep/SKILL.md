@@ -60,7 +60,13 @@ Use when:
    - Salary expectations if likely to come up
    - Red flags from research
 
-7. **Save prep notes** to vault (optional)
+7. **Review with Judge:**
+   - Run prep output through `/judge` with `technical` criteria
+   - Check: completeness, appropriate_depth, actionable
+   - If verdict is `needs_work`: revise (max 2 iterations)
+   - Ensures prep is comprehensive and interview-ready
+
+8. **Save prep notes** to vault (optional)
 
 ## Integration
 

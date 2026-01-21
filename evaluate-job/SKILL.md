@@ -44,19 +44,25 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 
 7. **Output recommendation:** APPLY, CONSIDER, or PASS with clear reasoning
 
-8. **Create vault note — MANDATORY for ALL outcomes:**
+8. **Review with Judge:**
+   - Run evaluation through `/judge` with `job-eval` criteria
+   - Check: fit_analysis, red_flags, specificity, recommendation, career_direction
+   - If verdict is `needs_work`: revise analysis (max 2 iterations)
+   - Ensures recommendation is specific and actionable, not vague
+
+9. **Create vault note — MANDATORY for ALL outcomes:**
    - **Do this immediately after giving recommendation — don't wait for user to ask**
    - Filename: `[[Role Title - Company]]`
    - **MUST include full JD details:** Copy requirements, responsibilities, qualifications verbatim from the posting
    - Include: Fit analysis table, recommendation reasoning
    - This creates a record for future reference, pattern recognition, and duplicate detection
 
-9. **Update job tracking:**
-   - **APPLY:** Add to "Applied Jobs" or "To Apply" section in [[Job Hunting]]
-   - **PASS:** Add to "Passed On" section with one-line reason
-   - **CONSIDER:** Note in appropriate section with context
+10. **Update job tracking:**
+    - **APPLY:** Add to "Applied Jobs" or "To Apply" section in [[Job Hunting]]
+    - **PASS:** Add to "Passed On" section with one-line reason
+    - **CONSIDER:** Note in appropriate section with context
 
-10. **If APPLY:**
+11. **If APPLY:**
     - **Easy Apply roles:** Ask whether to proceed with application now
     - **Company website roles:** Add to "To Apply" list (external ATS requires more effort; note for later)
 

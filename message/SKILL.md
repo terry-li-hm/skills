@@ -56,16 +56,24 @@ For scheduling:
 - Propose specific times, not vague "next week"
 - Account for HKT timezone
 
-### 5. Present and Confirm
+### 5. Review with Judge
+
+Before presenting to Terry, run the draft through `/judge`:
+- Use `outreach` criteria for networking/cold messages
+- Use `default` criteria for simple replies
+- If verdict is `needs_work`: revise based on feedback (max 2 iterations)
+- Ensure personalization, clear ask, and appropriate length
+
+### 6. Present and Confirm
 
 Show:
 1. Summary of their message
 2. Relevant context from vault
-3. Draft reply
+3. Draft reply (judge-reviewed)
 
 Ask Terry to confirm or adjust before sending.
 
-### 6. Update Vault
+### 7. Update Vault
 
 After message is sent, update:
 - `Job Hunting.md` with new status/next steps

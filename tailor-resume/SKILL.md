@@ -48,7 +48,13 @@ Use when:
    - Connect AI/ML work to role requirements
    - Surface leadership/management experience
 
-6. **Output tailored materials**
+6. **Review with Judge:**
+   - Run output through `/judge` with `default` criteria
+   - Check: goal_alignment, completeness, accuracy, actionable
+   - If verdict is `needs_work`: revise (max 2 iterations)
+   - Ensures output is specific, accurate, and actionable
+
+7. **Output tailored materials**
 
 ## Output
 
