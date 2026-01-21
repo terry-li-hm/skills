@@ -32,6 +32,11 @@ web_sources:
     focus: Codex, APIs, developer guides
     tier: 1
 
+  - name: The Batch (Andrew Ng)
+    url: https://www.deeplearning.ai/the-batch/
+    focus: Weekly AI news, Andrew Ng's letters, DeepLearning.AI
+    tier: 1
+
   - name: Evident Banking Brief
     url: https://evidentinsights.com/bankingbrief/
     focus: AI in financial services
