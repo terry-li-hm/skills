@@ -2,38 +2,51 @@
 
 Use this skill when performing web searches.
 
-## Search Tool Priority
+## Search Tool Selection
 
-When searching the web, use tools in this order:
-
-1. **Google** (`mcp__google-search__search`) — Best result quality, use as default for general searches
-2. **Google Read** (`mcp__google-search__read_webpage`) — To extract content from URLs found via Google
-3. **Brave News** (`mcp__brave-search__brave_news_search`) — Only for recent news specifically (last 24h-7d)
-4. **Tavily** (`mcp__tavily__tavily-search`) — Only when deep content extraction needed (`search_depth: advanced`)
-
-Avoid defaulting to Tavily/Brave for general searches when Google is available.
+| Tool | Best For | Output |
+|------|----------|--------|
+| **Built-in WebSearch** | Quick factual answers | Synthesized summary + source URLs |
+| **Brave Search** | Raw rankings, snippets, news | Title + description snippets |
+| **Tavily** | Deep research, full content | Extracted page content |
 
 ## When to Use Each
 
-### Google (Default)
-- General information searches
-- Company/product research
-- Technical documentation
-- Job listings
-- Local Hong Kong searches (use Chinese/Cantonese keywords for better results)
+### Built-in WebSearch (Default for Facts)
+- Quick factual questions ("When was X released?")
+- General information lookups
+- When you want a pre-synthesized answer with sources
+- Fast, single-call answers
 
-### Brave News
-- Breaking news (last 24 hours)
-- Recent events (last week)
-- News-specific queries
+### Brave Search
+- **`brave_web_search`** — Raw search results when you need to see what's ranking
+- **`brave_news_search`** — Breaking news (last 24h-7d), recent events
+- **`brave_video_search`** — Finding videos on a topic
+- **`brave_image_search`** — Finding images
+- **`brave_local_search`** — Local businesses (requires Pro plan)
 
 ### Tavily
-- When you need to extract and analyze full page content
-- Deep research requiring `search_depth: advanced`
-- When Google results need more context
+- **`tavily-search`** — When you need actual page content, not just snippets
+  - Use `search_depth: "advanced"` for thorough research
+  - Use `topic: "news"` for news-specific searches
+- **`tavily-extract`** — Extract content from specific URLs
+- **`tavily-crawl`** — Map and crawl entire sites
+- Best for research requiring full context analysis
+
+### Google Search (Currently Broken)
+- `mcp__google-search__search` returns API access error
+- Skip until API is configured
 
 ## Hong Kong Local Searches
 
 For Hong Kong local searches (restaurants, activities, places), use Chinese/Cantonese keywords for better results:
 - "柴灣遊戲室" instead of "Chai Wan playhouse"
 - "銅鑼灣餐廳" instead of "Causeway Bay restaurant"
+
+## Search Strategy
+
+1. **Single fact needed?** → Built-in WebSearch
+2. **Need to see raw results?** → Brave
+3. **Need full page content?** → Tavily with `search_depth: "advanced"`
+4. **News specifically?** → Brave News or Tavily with `topic: "news"`
+5. **Multiple sources to compare?** → Tavily extract on specific URLs
