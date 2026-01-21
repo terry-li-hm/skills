@@ -12,40 +12,53 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 1. **Navigate to job posting:**
    - **Prefer Chrome:** `tabs_create_mcp` → create new tab → `navigate` → `get_page_text`
    - **Fallback (Chrome unavailable):** Use `tavily-extract` with `extract_depth: advanced`
-   - Extract: requirements, responsibilities, preferred qualifications, salary if disclosed, applicant stats
+   - Extract: company name, role title, requirements, responsibilities, preferred qualifications, salary if disclosed, applicant stats
 
    **Why Chrome over Tavily for LinkedIn:**
    - Tavily with `extract_depth: advanced` gets the full JD text, but **misses applicant stats** (count, seniority breakdown, education distribution) — these require being logged in
    - Chrome sees the full page as logged-in user, including competition metrics critical for fit analysis
    - Can click "Show more" to expand full JD if needed
 
-2. **Load context files** (can run in parallel with step 1) — Check user's CLAUDE.md for background, credentials, differentiators, current situation, and job hunting status
+2. **Check for duplicates** (before full analysis):
+   - Search vault for existing note matching company + role (e.g., `[[*Role* - *Company*]]`)
+   - Check [[Job Hunting]] "Applied Jobs" and "Passed On" sections for the company name
+   - If match found:
+     - Show user what was found (existing note, application status, date)
+     - Ask: "Already evaluated/applied to [match]. Proceed with analysis anyway?"
+     - If user says no, stop early — no further analysis needed
+   - This prevents duplicate work and catches related roles at the same company
 
-3. **Analyze fit** across dimensions (see Fit Dimensions below)
+3. **Load context files** (can run in parallel with step 1) — Check user's CLAUDE.md for background, credentials, differentiators, current situation, and job hunting status
 
-4. **Factor pipeline health:**
+4. **Analyze fit** across dimensions (see Fit Dimensions below)
+
+5. **Factor pipeline health:**
    - **Healthy** (5+ active, interviews scheduled): Maintain standards — PASS on poor fits
    - **Thin** (<5 active, no interviews): Lower bar — CONSIDER "good enough" roles
    - Consider urgency of user's situation when weighing trade-offs
 
-5. **Check anti-signals**:
+6. **Check anti-signals**:
    - Read Anti-Signals section from [[Job Hunting]]
    - If role matches a known pattern, add warning
    - Factor into recommendation (APPLY → CONSIDER if pattern match)
 
-6. **Output recommendation:** APPLY, CONSIDER, or PASS with clear reasoning
+7. **Output recommendation:** APPLY, CONSIDER, or PASS with clear reasoning
 
-7. **If APPLY:**
-   - **Easy Apply roles:** Ask whether to proceed with application now
-   - **Company website roles:** Add to "To Apply" list in job tracking (external ATS requires more effort; note for later)
-
-8. **Create vault note (ALWAYS, even for PASS):**
+8. **Create vault note — MANDATORY for ALL outcomes:**
+   - **Do this immediately after giving recommendation — don't wait for user to ask**
    - Filename: `[[Role Title - Company]]`
    - **MUST include full JD details:** Copy requirements, responsibilities, qualifications verbatim from the posting
    - Include: Fit analysis table, recommendation reasoning
-   - This creates a record for future reference and pattern recognition
+   - This creates a record for future reference, pattern recognition, and duplicate detection
 
-9. **Update job tracking** — Add to appropriate section in user's job hunting notes
+9. **Update job tracking:**
+   - **APPLY:** Add to "Applied Jobs" or "To Apply" section in [[Job Hunting]]
+   - **PASS:** Add to "Passed On" section with one-line reason
+   - **CONSIDER:** Note in appropriate section with context
+
+10. **If APPLY:**
+    - **Easy Apply roles:** Ask whether to proceed with application now
+    - **Company website roles:** Add to "To Apply" list (external ATS requires more effort; note for later)
 
 **Note:** No reliable way to close browser tabs via MCP — leave tab open for user to close manually.
 
@@ -112,7 +125,7 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 ## Passed On Format
 
 ```
-- [[Role Title, Company]] (Date) - [One-line reason]
+- [[Role Title - Company]] (Date) - [One-line reason]
 ```
 
 ## Batch Processing (Job Alert Emails)
