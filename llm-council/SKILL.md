@@ -32,6 +32,13 @@ A simple "What's kept you here for 10 years?" often beats a carefully crafted "W
 
 The council optimizes for strategy; sometimes you need to optimize for being human.
 
+**Match context depth to question type:**
+
+- **Strategic decisions** (career moves, negotiations, trade-offs): provide rich context — full background, constraints, risks, history. Models need the full picture.
+- **Social/conversational questions** (interview questions, outreach messages, networking): provide minimal context + clear tone constraints. Too much context leads to over-optimization.
+
+The constraint ("make it natural") often does more work than the context.
+
 ## Prerequisites
 
 **OpenRouter API key** (required):
