@@ -61,6 +61,8 @@ A simple "What's kept you here for 10 years?" often beats a carefully crafted "W
 
 The council optimizes for strategy; sometimes you need to optimize for being human.
 
+See also: `/outreach` skill has style refinement lessons learned from council-assisted message drafting.
+
 **Match context depth to question type:**
 
 - **Strategic decisions** (career moves, negotiations, trade-offs): provide rich context — full background, constraints, risks, history. Models need the full picture.
