@@ -17,6 +17,20 @@ Use this skill when:
 
 For quick parallel comparisons, use `/multi-llm` instead (faster, simpler).
 
+## Post-Council Review
+
+**Always sanity-check the council output before acting on it.**
+
+After the council runs, Claude (in the main conversation) should critique the synthesis:
+- Did the council overcorrect on any point?
+- Did they miss obvious scenarios or questions?
+- Does the advice actually fit your specific context and local norms?
+- Any groupthink where everyone agreed too fast?
+
+The council provides diverse strategic perspectives, but it lacks your full context. The real value comes from: **council output → Claude critique with your context → your judgment**.
+
+Don't skip the critique step — that's where domain-specific issues surface.
+
 ## Prompting Tips
 
 **For social/conversational contexts** (interview questions, networking messages, outreach):
