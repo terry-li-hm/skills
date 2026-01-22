@@ -127,6 +127,12 @@ Show Terry what you found in a concise summary, then use `AskUserQuestion` to le
 - [items for today's note]
 ```
 
+**Add a light recommendation after the summary:**
+
+- If mistakes found → `**Recommend: Apply** (mistake worth recording)`
+- If no findings → `**Recommend: Skip** (nothing significant)`
+- Otherwise → omit (user decides from summary)
+
 Then use `AskUserQuestion` with options like:
 - "Apply all" — Update daily note, CLAUDE.md (if mistakes/preferences), skills (if improvements), and compound artifacts
 - "Skip" — No updates, end session
@@ -141,6 +147,18 @@ Then use `AskUserQuestion` with options like:
 3. **Daily note** — Create or update `/Users/terry/notes/YYYY-MM-DD.md`
 4. **Skills** — Create/update in `/Users/terry/skills/`
 5. **Follow-ups** — Add to daily note under "## Follow-ups"
+
+### Step 3b: Confirm Changes
+
+After applying updates, show:
+
+```
+✅ **Applied:**
+- [File]: [What changed]
+- [Committed to git] or [No git changes]
+```
+
+Only list items actually written. Skip this section if nothing was applied.
 
 ### Step 4: Commit Changes
 
