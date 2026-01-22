@@ -132,3 +132,22 @@ Would you have 20 minutes for a quick chat? I'd love to hear your perspective on
 - Make the ask easy to say yes to (short call, quick intro)
 - Don't over-explain why you're job hunting
 - For Hong Kong contacts, adjust formality as appropriate
+
+## Style Refinement (Lessons Learned)
+
+**Match their style:**
+- If they wrote "Wed", use "Wed" not "Wednesday"
+- If they're casual, be casual. If formal, match it.
+- Mirroring signals you're on the same wavelength.
+
+**Opener choices:**
+- "Thanks, [Name]!" > "Great to hear back!" — uses their name, avoids "wow you replied" energy
+- "Sounds great!" is clean and neutral
+
+**Don't over-optimize:**
+- If you're generating 5+ alternatives for a 2-sentence message, stop. The original was probably fine.
+- Council/LLM feedback is useful but can over-engineer social messages.
+
+**Peer vs senior dynamics:**
+- Same title at bigger company = effectively senior. Small deference signals (going to them, letting them pick time/place) are appropriate.
+- Don't time-box peer coffees ("20-30 mins" creates junior energy). Let it flow.

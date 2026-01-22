@@ -31,6 +31,21 @@ The council provides diverse strategic perspectives, but it lacks your full cont
 
 Don't skip the critique step — that's where domain-specific issues surface.
 
+## Saving Transcripts
+
+For important decisions, save the transcript to the vault:
+
+```bash
+uv run council.py "your question" --output "/Users/terry/notes/LLM Council - [Topic] - $(date +%Y-%m-%d).md"
+```
+
+Or copy the output file after running:
+```bash
+cp /private/tmp/claude/-Users-terry/tasks/<task-id>.output "/Users/terry/notes/LLM Council - [Topic] - YYYY-MM-DD.md"
+```
+
+This creates a record of the deliberation for future reference — useful when revisiting decisions or preparing for follow-up conversations.
+
 ## Prompting Tips
 
 **For social/conversational contexts** (interview questions, networking messages, outreach):
