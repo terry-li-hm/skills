@@ -222,6 +222,24 @@ Start with a modular monolith with clear domain boundaries...
 - Tracks: timestamp, question, context, rounds, models used
 - Useful for reviewing past deliberations
 
+## Known Limitations
+
+1. **No social calibration** — The council optimizes for strategic analysis, not social appropriateness. It may produce analytically correct but socially tone-deaf outputs (e.g., interview questions that sound like interrogations).
+
+2. **Models don't question the premise** — If you ask "what questions should I ask?", models will answer that. They won't step back and ask "is this the right framing?" or "what stage of the process are you in?"
+
+3. **Judge follows the herd** — The synthesis faithfully reflects the deliberation but rarely challenges whether the converged answer is actually good for the use case.
+
+4. **Model failures can be silent** — When Gemini or Kimi fail (common), the council continues with fewer models. Errors are logged but easy to miss.
+
+## Future Improvements (Ideas)
+
+- Auto-detect social/conversational questions and inject tone constraints
+- Add "social calibration" judge pass for interview/outreach questions
+- Prompt one model to challenge the framing/premise
+- More prominent model failure warnings
+- Stage awareness for multi-round processes (interviews, negotiations)
+
 ## Files
 
 - Script: `/Users/terry/skills/llm-council/council.py`
