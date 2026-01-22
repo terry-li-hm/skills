@@ -20,6 +20,7 @@ import asyncio
 import httpx
 import json
 import os
+import random
 import re
 import subprocess
 import sys
@@ -485,6 +486,7 @@ async def run_blind_phase_parallel(
     google_api_key: str | None = None,
     moonshot_api_key: str | None = None,
     verbose: bool = True,
+    persona: str | None = None,
 ) -> list[tuple[str, str, str]]:
     """
     Parallel blind first-pass: all models stake claims simultaneously.
@@ -502,6 +504,15 @@ Provide a CLAIM SKETCH (not a full response):
 3. Key assumption or uncertainty
 
 Keep it concise (~100 words). The full deliberation comes later."""
+
+    # Inject persona context if provided
+    if persona:
+        blind_system += f"""
+
+IMPORTANT CONTEXT about the person asking:
+{persona}
+
+Factor this into your advice — don't just give strategically optimal answers, consider what fits THIS person."""
 
     if verbose:
         print("=" * 60)
@@ -676,6 +687,8 @@ def run_council(
     blind: bool = True,
     context: str | None = None,
     social_mode: bool = False,
+    persona: str | None = None,
+    advocate_idx: int | None = None,
 ) -> tuple[str, list[str]]:
     """Run the council deliberation. Returns (transcript, failed_models)."""
 
@@ -686,7 +699,7 @@ def run_council(
     # Run blind phase first if enabled (now parallel!)
     if blind:
         blind_claims = asyncio.run(run_blind_phase_parallel(
-            question, council_config, api_key, google_api_key, moonshot_api_key, verbose
+            question, council_config, api_key, google_api_key, moonshot_api_key, verbose, persona
         ))
         # Track failures from blind phase
         for name, model_name, claims in blind_claims:
@@ -740,11 +753,16 @@ Simple and human beats strategic and comprehensive. Optimize for being relatable
     # Devil's advocate prompt (for one speaker to challenge the premise)
     devils_advocate_addition = """
 
-SPECIAL ROLE: You are the devil's advocate. Before answering, step back and ask:
-- Is this the right question to ask?
-- What assumptions are baked in that might be wrong?
-- Is there a simpler framing that would serve the user better?
-Challenge the premise if needed, don't just answer the question as posed."""
+SPECIAL ROLE: You are the DEVIL'S ADVOCATE. Your job is to push back HARD.
+
+REQUIREMENTS:
+1. You MUST explicitly DISAGREE with at least one major point from the other speakers
+2. Identify the weakest assumption in the emerging consensus and attack it
+3. Consider: What would make this advice WRONG? What's the contrarian take?
+4. If everyone is converging too fast, that's a red flag — find the hidden complexity
+
+Don't just "add nuance" or "build on" — find something to genuinely challenge.
+If you can't find real disagreement, say why the consensus might be groupthink."""
 
     # First speaker prompt when blind phase was run (has context of all blind claims)
     first_speaker_with_blind = """You are {name}, speaking first in Round {round_num} of a council deliberation.
@@ -808,8 +826,17 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
             if social_mode:
                 system_prompt += social_constraint
 
-            # Assign devil's advocate role to 3rd speaker (idx=2) in first round
-            if idx == 2 and round_num == 0:
+            # Inject persona context if provided
+            if persona:
+                system_prompt += f"""
+
+IMPORTANT CONTEXT about the person asking:
+{persona}
+
+Factor this into your advice — don't just give strategically optimal answers, consider what fits THIS person."""
+
+            # Assign devil's advocate role to designated speaker in first round
+            if idx == advocate_idx and round_num == 0:
                 system_prompt += devils_advocate_addition
 
             # Build messages for this agent
@@ -1008,6 +1035,16 @@ def main():
         action="store_true",
         help="Enable social calibration mode (for interview questions, outreach, networking)",
     )
+    parser.add_argument(
+        "--persona", "-p",
+        help="Context about the person asking (e.g., 'builder who hates process work, enjoys creating things')",
+    )
+    parser.add_argument(
+        "--advocate",
+        type=int,
+        choices=[1, 2, 3, 4, 5],
+        help="Which speaker (1-5) should be devil's advocate (default: random)",
+    )
     args = parser.parse_args()
 
     # Auto-detect social context if not explicitly set
@@ -1046,6 +1083,17 @@ def main():
 
     # Run council
     try:
+        # Determine devil's advocate index (0-based internally, 1-based for user)
+        advocate_idx = (args.advocate - 1) if args.advocate else random.randint(0, len(COUNCIL) - 1)
+
+        if not args.quiet and args.persona:
+            print(f"(Persona context: {args.persona})")
+            print()
+        if not args.quiet:
+            advocate_name = COUNCIL[advocate_idx][0]
+            print(f"(Devil's advocate: {advocate_name})")
+            print()
+
         transcript, failed_models = run_council(
             question=args.question,
             council_config=COUNCIL,
@@ -1058,6 +1106,8 @@ def main():
             blind=use_blind,
             context=args.context,
             social_mode=social_mode,
+            persona=args.persona,
+            advocate_idx=advocate_idx,
         )
 
         # Print prominent failure summary if any models failed

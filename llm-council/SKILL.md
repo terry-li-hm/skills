@@ -126,6 +126,16 @@ uv run council.py "your question" --named
 uv run council.py "your question" --rounds 3
 ```
 
+**With persona context (so council considers personal fit):**
+```bash
+uv run council.py "your question" --persona "builder who enjoys creating things, hates process work"
+```
+
+**Specify devil's advocate (default: random):**
+```bash
+uv run council.py "your question" --advocate 2  # GPT will be devil's advocate
+```
+
 ### Step 3: Present the Synthesis
 
 The judge's output includes:
@@ -162,6 +172,8 @@ uv run council.py "your question" --share  # → prints gist URL
 | `--context TEXT` | Context hint for judge (e.g., "architecture decision", "ethics question") |
 | `--share` | Upload transcript to secret GitHub Gist and print URL |
 | `--social` | Enable social calibration mode (auto-detected for interview/networking questions) |
+| `--persona TEXT` | Context about the person asking (e.g., "builder who hates process work") |
+| `--advocate N` | Which speaker (1-5) should be devil's advocate (default: random) |
 | `--quiet` | Suppress progress output |
 
 ## Council Members
@@ -282,17 +294,19 @@ Start with a modular monolith with clear domain boundaries...
 
 1. **~~No social calibration~~** ✅ FIXED — Use `--social` flag or let auto-detection handle it. Social mode adds conversational constraints, devil's advocate role, and judge calibration check.
 
-2. **~~Models don't question the premise~~** ✅ FIXED — One speaker (3rd) is now assigned devil's advocate role to challenge the framing.
+2. **~~Models don't question the premise~~** ✅ FIXED — Devil's advocate role (random by default, or specify with `--advocate N`) with stronger prompt that REQUIRES explicit disagreement.
 
 3. **Judge follows the herd** — The synthesis faithfully reflects the deliberation. In social mode, the judge now includes a calibration check, but may still over-index on consensus.
 
 4. **~~Model failures can be silent~~** ✅ FIXED — Failed models are now prominently displayed at the end with a summary of how many models contributed.
 
+5. **~~Doesn't consider personal fit~~** ✅ FIXED — Use `--persona "description"` to inject context about the person asking. Models will factor personal fit into advice, not just strategic optimality.
+
 ## Remaining Improvements (Ideas)
 
 - Stage awareness for multi-round processes (interviews, negotiations)
-- Allow user to specify which speaker gets devil's advocate role
 - Add "re-run with social mode" suggestion when output seems over-optimized
+- Pre-flight check: "Is this council-worthy?" before burning API calls
 
 ## Files
 
