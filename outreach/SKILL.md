@@ -146,7 +146,8 @@ Would you have 20 minutes for a quick chat? I'd love to hear your perspective on
 
 **Don't over-optimize:**
 - If you're generating 5+ alternatives for a 2-sentence message, stop. The original was probably fine.
-- `/llm-council` with `--social` flag is useful for important messages, but can over-engineer simple ones. Use for high-stakes outreach, skip for routine replies.
+- `/ask-llms` for quick message feedback on routine drafts
+- `/llm-council --social` for high-stakes outreach (senior contacts, critical asks). Can over-engineer simple messages.
 
 **Peer vs senior dynamics:**
 - Same title at bigger company = effectively senior. Small deference signals (going to them, letting them pick time/place) are appropriate.

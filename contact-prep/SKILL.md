@@ -87,6 +87,7 @@ Use when:
 
 - Updates [[Contact Index]] after call (via `/debrief`)
 - Links to [[Interviewer Profiles]] if contact has interviewed Terry
+- For important meetings, use `/llm-council --social` to deliberate on approach, questions to ask, and things to avoid
 
 ## Examples
 

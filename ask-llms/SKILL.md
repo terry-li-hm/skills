@@ -14,6 +14,7 @@ Use this skill when:
 - Need diverse perspectives on a problem or decision
 - Want quick "second opinions" from multiple models
 - Curious about model differences on a topic
+- Quick feedback on outreach messages (see `/outreach` for style tips)
 
 ## Prerequisites
 
