@@ -17,6 +17,21 @@ Use this skill when:
 
 For quick parallel comparisons, use `/multi-llm` instead (faster, simpler).
 
+## Prompting Tips
+
+**For social/conversational contexts** (interview questions, networking messages, outreach):
+
+LLMs tend to over-optimize for thoroughness and information extraction. When you ask "what questions should I ask in an interview?", they'll produce structured, multi-part diagnostic questions that sound like an interrogation, not a conversation.
+
+**Fix:** Explicitly include constraints like:
+- "Make it feel like a natural conversation, not a candidate asking strategic questions"
+- "Something you'd actually ask over coffee"
+- "Simple and human, not structured and comprehensive"
+
+A simple "What's kept you here for 10 years?" often beats a carefully crafted "When engagements fail, who owns the narrative and how is responsibility assigned in performance reviews?"
+
+The council optimizes for strategy; sometimes you need to optimize for being human.
+
 ## Prerequisites
 
 **OpenRouter API key** (required):
