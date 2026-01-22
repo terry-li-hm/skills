@@ -17,6 +17,17 @@ Use this skill when:
 
 For quick parallel comparisons, use `/multi-llm` instead (faster, simpler).
 
+## When NOT to Use
+
+Skip the council when:
+- **You're just thinking out loud** — exploratory discussions where you're still forming the question
+- **Claude already has good context** — if we've been discussing the topic and understand your preferences, direct conversation is faster
+- **The answer depends on personal preference** — council excels at objective trade-offs, not "what would I enjoy more"
+- **We've already converged** — if discussion has reached a natural conclusion, running council just to validate is overkill
+- **Speed matters** — council takes 60-90 seconds and costs several dollars; sometimes a quick take is better
+
+The council tends to overcomplicate things and produce verbose consensus. It's best for high-stakes decisions where you genuinely don't know the answer and want to stress-test your thinking.
+
 ## Post-Council Review
 
 **Always sanity-check the council output before acting on it.**
