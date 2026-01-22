@@ -43,6 +43,14 @@ COUNCIL = [
 
 JUDGE_MODEL = "anthropic/claude-opus-4.5"
 
+# Keywords that suggest social/conversational context (auto-detect)
+SOCIAL_KEYWORDS = [
+    "interview", "ask him", "ask her", "ask them", "question to ask",
+    "networking", "outreach", "message", "email", "linkedin",
+    "coffee chat", "informational", "reach out", "follow up",
+    "what should i say", "how should i respond", "conversation",
+]
+
 # Thinking models don't stream well - use non-streaming for these
 # Use exact suffixes to avoid false positives (e.g., "o1" matching "gemini-pro-1.0")
 THINKING_MODEL_SUFFIXES = {
@@ -59,6 +67,12 @@ def is_thinking_model(model: str) -> bool:
     # Extract model name after provider prefix (e.g., "openai/o1" -> "o1")
     model_name = model.split("/")[-1].lower()
     return model_name in THINKING_MODEL_SUFFIXES
+
+
+def detect_social_context(question: str) -> bool:
+    """Auto-detect if the question is about social/conversational context."""
+    question_lower = question.lower()
+    return any(keyword in question_lower for keyword in SOCIAL_KEYWORDS)
 
 
 def query_model(
@@ -635,17 +649,23 @@ def run_council(
     anonymous: bool = True,
     blind: bool = True,
     context: str | None = None,
-) -> str:
-    """Run the council deliberation."""
+    social_mode: bool = False,
+) -> tuple[str, list[str]]:
+    """Run the council deliberation. Returns (transcript, failed_models)."""
 
     council_names = [name for name, _, _ in council_config]
     blind_claims = []
+    failed_models = []  # Track model failures for summary
 
     # Run blind phase first if enabled (now parallel!)
     if blind:
         blind_claims = asyncio.run(run_blind_phase_parallel(
             question, council_config, api_key, google_api_key, moonshot_api_key, verbose
         ))
+        # Track failures from blind phase
+        for name, model_name, claims in blind_claims:
+            if claims.startswith("["):
+                failed_models.append(f"{model_name} (blind): {claims}")
 
     # Anonymous mode: use "Speaker 1", "Speaker 2", etc. (Karpathy-style)
     if anonymous:
@@ -682,6 +702,23 @@ def run_council(
             dname = display_names[name]
             blind_lines.append(f"**{dname}**: {sanitize_speaker_content(claims)}")
         blind_context = "\n\n".join(blind_lines)
+
+    # Social mode constraint (appended to prompts when enabled)
+    social_constraint = """
+
+SOCIAL CALIBRATION: This is a social/conversational context (interview, networking, outreach).
+Your output should feel natural in conversation - something you'd actually say over coffee.
+Avoid structured, multi-part diagnostic questions that sound like interrogation.
+Simple and human beats strategic and comprehensive. Optimize for being relatable, not thorough."""
+
+    # Devil's advocate prompt (for one speaker to challenge the premise)
+    devils_advocate_addition = """
+
+SPECIAL ROLE: You are the devil's advocate. Before answering, step back and ask:
+- Is this the right question to ask?
+- What assumptions are baked in that might be wrong?
+- Is there a simpler framing that would serve the user better?
+Challenge the premise if needed, don't just answer the question as posed."""
 
     # First speaker prompt when blind phase was run (has context of all blind claims)
     first_speaker_with_blind = """You are {name}, speaking first in Round {round_num} of a council deliberation.
@@ -741,6 +778,14 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
                     previous_speakers=previous
                 )
 
+            # Add social calibration constraint if enabled
+            if social_mode:
+                system_prompt += social_constraint
+
+            # Assign devil's advocate role to 3rd speaker (idx=2) in first round
+            if idx == 2 and round_num == 0:
+                system_prompt += devils_advocate_addition
+
             # Build messages for this agent
             user_content = f"Question for the council:\n\n{question}"
             if blind_context:
@@ -794,6 +839,11 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
             # Print response for thinking models (since they don't stream)
             if verbose and (is_thinking_model(model) or used_fallback):
                 print(response)
+
+            # Track model failures
+            if response.startswith("["):
+                failed_models.append(f"{model_name}: {response}")
+
             conversation.append((name, response))  # Store short name internally for reference tracking
             round_speakers.append(dname)
 
@@ -815,6 +865,13 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
     if context:
         context_hint = f"\n\nContext about this question: {context}\nConsider this context when weighing perspectives and forming recommendations."
 
+    social_judge_section = ""
+    if social_mode:
+        social_judge_section = """
+
+## Social Calibration Check
+[Would the recommendation feel natural in conversation? Is it something you'd actually say, or does it sound like strategic over-optimization? If the council produced something too formal/structured, suggest a simpler, more human alternative.]"""
+
     judge_system = f"""You are the Judge, responsible for synthesizing the council's deliberation.{context_hint}
 
 After the council members have shared their perspectives, you:
@@ -822,6 +879,7 @@ After the council members have shared their perspectives, you:
 2. Identify points of DISAGREEMENT and explain the different views
 3. Provide a SYNTHESIS that captures the council's collective wisdom
 4. Give a final RECOMMENDATION based on the deliberation
+{"5. SOCIAL CALIBRATION: Check if the recommendation would feel natural in actual conversation" if social_mode else ""}
 
 Format your response as:
 
@@ -836,8 +894,8 @@ Format your response as:
 
 ## Recommendation
 [Your final recommendation based on the deliberation]
-
-Be balanced and fair. Acknowledge minority views. Don't just pick a winner."""
+{social_judge_section}
+Be balanced and fair. Acknowledge minority views. Don't just pick a winner.{" For social contexts, prioritize natural/human output over strategic optimization." if social_mode else ""}"""
 
     # Build judge's view of the conversation (using display names, sanitized)
     deliberation_text = "\n\n".join(
@@ -875,9 +933,9 @@ Be balanced and fair. Acknowledge minority views. Don't just pick a winner."""
             final_output = final_output.replace(f"**{anon_name}**", f"**{model_name}**")
             final_output = final_output.replace(f"with {anon_name}", f"with {model_name}")
             final_output = final_output.replace(f"{anon_name}'s", f"{model_name}'s")
-        return final_output
+        return final_output, failed_models
 
-    return "\n\n".join(output_parts)
+    return "\n\n".join(output_parts), failed_models
 
 
 def main():
@@ -919,7 +977,18 @@ def main():
         action="store_true",
         help="Upload transcript to secret GitHub Gist and print URL",
     )
+    parser.add_argument(
+        "--social",
+        action="store_true",
+        help="Enable social calibration mode (for interview questions, outreach, networking)",
+    )
     args = parser.parse_args()
+
+    # Auto-detect social context if not explicitly set
+    social_mode = args.social or detect_social_context(args.question)
+    if social_mode and not args.social and not args.quiet:
+        print("(Auto-detected social context - enabling social calibration mode)")
+        print()
 
     # Get API keys
     api_key = os.environ.get("OPENROUTER_API_KEY")
@@ -937,6 +1006,8 @@ def main():
         mode_parts = []
         mode_parts.append("named" if args.named else "anonymous")
         mode_parts.append("blind first-pass" if use_blind else "no blind phase")
+        if social_mode:
+            mode_parts.append("social calibration")
         print(f"Running LLM Council ({', '.join(mode_parts)})...")
         fallbacks = []
         if google_api_key:
@@ -949,7 +1020,7 @@ def main():
 
     # Run council
     try:
-        transcript = run_council(
+        transcript, failed_models = run_council(
             question=args.question,
             council_config=COUNCIL,
             api_key=api_key,
@@ -960,7 +1031,21 @@ def main():
             anonymous=not args.named,
             blind=use_blind,
             context=args.context,
+            social_mode=social_mode,
         )
+
+        # Print prominent failure summary if any models failed
+        if failed_models and not args.quiet:
+            print()
+            print("=" * 60)
+            print("⚠️  MODEL FAILURES")
+            print("=" * 60)
+            for failure in failed_models:
+                print(f"  • {failure}")
+            working_count = len(COUNCIL) - len(set(f.split(":")[0].split(" (")[0] for f in failed_models))
+            print(f"\nCouncil ran with {working_count}/{len(COUNCIL)} models")
+            print("=" * 60)
+            print()
 
         # Save transcript if requested
         if args.output:

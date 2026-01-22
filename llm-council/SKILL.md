@@ -119,6 +119,7 @@ uv run council.py "your question" --share  # → prints gist URL
 | `--no-blind` | Skip blind first-pass (faster, but first speaker anchors others) |
 | `--context TEXT` | Context hint for judge (e.g., "architecture decision", "ethics question") |
 | `--share` | Upload transcript to secret GitHub Gist and print URL |
+| `--social` | Enable social calibration mode (auto-detected for interview/networking questions) |
 | `--quiet` | Suppress progress output |
 
 ## Council Members
@@ -222,23 +223,34 @@ Start with a modular monolith with clear domain boundaries...
 - Tracks: timestamp, question, context, rounds, models used
 - Useful for reviewing past deliberations
 
+**Social Calibration Mode:**
+- Auto-detected when question contains: "interview", "ask him/her", "networking", "outreach", "message", etc.
+- Or enable explicitly with `--social` flag
+- Adds conversational constraints to all speakers: "feel natural, not like strategic interrogation"
+- Assigns devil's advocate role to one speaker to challenge the premise
+- Judge includes "Social Calibration Check" section to sanity-check if output is human-appropriate
+- Helps avoid over-optimized, tone-deaf outputs for social contexts
+
+**Model Failure Warnings:**
+- Failed models are prominently displayed at the end of output
+- Shows which models failed and why (HTTP errors, timeouts, empty responses)
+- Reports how many models actually contributed: "Council ran with 3/5 models"
+
 ## Known Limitations
 
-1. **No social calibration** — The council optimizes for strategic analysis, not social appropriateness. It may produce analytically correct but socially tone-deaf outputs (e.g., interview questions that sound like interrogations).
+1. **~~No social calibration~~** ✅ FIXED — Use `--social` flag or let auto-detection handle it. Social mode adds conversational constraints, devil's advocate role, and judge calibration check.
 
-2. **Models don't question the premise** — If you ask "what questions should I ask?", models will answer that. They won't step back and ask "is this the right framing?" or "what stage of the process are you in?"
+2. **~~Models don't question the premise~~** ✅ FIXED — One speaker (3rd) is now assigned devil's advocate role to challenge the framing.
 
-3. **Judge follows the herd** — The synthesis faithfully reflects the deliberation but rarely challenges whether the converged answer is actually good for the use case.
+3. **Judge follows the herd** — The synthesis faithfully reflects the deliberation. In social mode, the judge now includes a calibration check, but may still over-index on consensus.
 
-4. **Model failures can be silent** — When Gemini or Kimi fail (common), the council continues with fewer models. Errors are logged but easy to miss.
+4. **~~Model failures can be silent~~** ✅ FIXED — Failed models are now prominently displayed at the end with a summary of how many models contributed.
 
-## Future Improvements (Ideas)
+## Remaining Improvements (Ideas)
 
-- Auto-detect social/conversational questions and inject tone constraints
-- Add "social calibration" judge pass for interview/outreach questions
-- Prompt one model to challenge the framing/premise
-- More prominent model failure warnings
 - Stage awareness for multi-round processes (interviews, negotiations)
+- Allow user to specify which speaker gets devil's advocate role
+- Add "re-run with social mode" suggestion when output seems over-optimized
 
 ## Files
 
