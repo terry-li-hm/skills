@@ -85,6 +85,11 @@ def query_model(
     retries: int = 2,  # Retry for thinking models that can be flaky
 ) -> str:
     """Query a model via OpenRouter with retry logic for flaky models."""
+    # Thinking models need more tokens and longer timeout
+    if is_thinking_model(model):
+        max_tokens = max(max_tokens, 4000)  # Reasoning uses tokens before content
+        timeout = max(timeout, 180.0)  # Thinking takes longer
+
     # Thinking models don't stream well - fall back to non-streaming
     if stream and not is_thinking_model(model):
         result = query_model_streaming(api_key, model, messages, max_tokens, timeout)
@@ -130,8 +135,14 @@ def query_model(
 
         content = data["choices"][0]["message"]["content"]
 
-        # Check for empty content (thinking models can return empty)
+        # Check for empty content (thinking models can return empty while still reasoning)
         if not content or not content.strip():
+            # Check if there's reasoning content - means model needs more tokens
+            reasoning = data["choices"][0]["message"].get("reasoning", "")
+            if reasoning and reasoning.strip():
+                if attempt < retries:
+                    continue
+                return f"[Model still thinking - needs more tokens. Partial reasoning: {reasoning[:150]}...]"
             if attempt < retries:
                 continue  # Retry on empty content
             return f"[No response from {model} after {retries + 1} attempts]"
@@ -388,6 +399,9 @@ async def query_model_async(
     max_tokens: int = 500,
     retries: int = 2,
 ) -> tuple[str, str, str]:
+    # Thinking models need more tokens (reasoning uses tokens before content)
+    if is_thinking_model(model):
+        max_tokens = max(max_tokens, 2000)
     """
     Async query for parallel blind phase.
     Returns (name, model_name, response).
@@ -425,7 +439,17 @@ async def query_model_async(
 
             content = data["choices"][0]["message"]["content"]
 
+            # For thinking models, content might be empty while reasoning has the output
+            # In this case, the model is still "thinking" - we need more tokens or to wait
             if not content or not content.strip():
+                # Check if there's reasoning content we can use as fallback
+                reasoning = data["choices"][0]["message"].get("reasoning", "")
+                if reasoning and reasoning.strip():
+                    # Model is still thinking - this means max_tokens was too low
+                    # Return the reasoning as a note
+                    if attempt < retries:
+                        continue
+                    return (name, model_name, f"[Model still thinking - increase max_tokens. Partial: {reasoning[:200]}...]")
                 if attempt < retries:
                     continue
                 break
@@ -612,7 +636,9 @@ Keep it concise (~100 words). The full deliberation comes later."""
             {"role": "user", "content": f"Question:\n\n{question}"},
         ]
 
-        response = query_model(api_key, model, messages, max_tokens=500, stream=verbose)
+        # Thinking models need more tokens for reasoning before content
+        blind_max_tokens = 2000 if is_thinking_model(model) else 500
+        response = query_model(api_key, model, messages, max_tokens=blind_max_tokens, stream=verbose)
 
         # Try fallback if needed
         if response.startswith("[") and fallback:
