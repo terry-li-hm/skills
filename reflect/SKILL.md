@@ -128,9 +128,11 @@ Show Terry what you found in a concise summary, then use `AskUserQuestion` to le
 ```
 
 Then use `AskUserQuestion` with options like:
-- "Apply all updates" — Update CLAUDE.md, daily note, and any skills
-- "Skip this time" — No updates, end session
+- "Apply all" — Update daily note, CLAUDE.md (if mistakes/preferences), skills (if improvements), and compound artifacts
+- "Skip" — No updates, end session
 - "Let me pick" — (Other) for selective updates
+
+**Note:** Compound check items (story bank, templates, patterns) and skill improvements should ideally be applied during the session when discovered. Reflection confirms they were captured and creates the daily note summary.
 
 ### Step 3: Apply Updates (after confirmation)
 
