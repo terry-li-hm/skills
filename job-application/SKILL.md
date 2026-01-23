@@ -1,3 +1,8 @@
+---
+name: job-application
+description: Standard answers and preferences for job application forms. Use when filling applications.
+---
+
 # Job Application Form Preferences
 
 Standard answers for job application forms. Use these defaults when filling application forms.

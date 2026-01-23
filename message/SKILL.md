@@ -1,3 +1,8 @@
+---
+name: message
+description: Draft responses to recruiter, networking, and other messages. Use when the user asks to reply or draft a message.
+---
+
 # Message Response Skill
 
 Draft responses to messages from recruiters, networking contacts, and others.

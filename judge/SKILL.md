@@ -1,3 +1,8 @@
+---
+name: judge
+description: Review drafts and analyses against quality criteria. Use after generating output that benefits from a second pass.
+---
+
 # Judge Skill
 
 Reusable quality review for skill outputs. Call this after generating drafts, analyses, or any output that benefits from a second pass.

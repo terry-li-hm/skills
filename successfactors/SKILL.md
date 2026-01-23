@@ -1,3 +1,8 @@
+---
+name: successfactors
+description: Automate and work around SAP SuccessFactors job application portals. Use when filling SuccessFactors-based forms.
+---
+
 # SuccessFactors Portal Automation
 
 Workarounds for automating SAP SuccessFactors career portals, which use custom UI widgets that resist standard form automation.

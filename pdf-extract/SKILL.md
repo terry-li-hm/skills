@@ -1,3 +1,8 @@
+---
+name: pdf-extract
+description: Extract text from PDFs with OCR fallback. Use when the user needs PDF text or OCR from scanned documents.
+---
+
 # PDF Extract
 
 Extract text from PDFs, including large and image-based (scanned) documents.
