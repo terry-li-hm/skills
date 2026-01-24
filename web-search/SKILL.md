@@ -122,6 +122,31 @@ mcp__tavily__tavily-map
 5. Perplexity ⭐⭐⭐
 6. Brave ⭐⭐⭐
 
+## WeChat Articles (mp.weixin.qq.com)
+
+WeChat public articles are heavily protected. **All direct access methods fail:**
+
+| Method | Result |
+|--------|--------|
+| WebFetch | CAPTCHA block |
+| Serper scrape | CAPTCHA block |
+| Jina Reader (r.jina.ai) | CAPTCHA block |
+| Claude in Chrome | Domain blocked by safety policy |
+| Playwright + stealth | CAPTCHA block |
+| AgentQL | CAPTCHA block |
+
+**Workaround that works:**
+1. Search for article title/keywords on mirror sites
+2. Common mirrors: **163.com**, **zhihu.com**, **csdn.net**
+3. Use `WebSearch` with Chinese title + site names
+
+Example:
+```
+WebSearch: "长时间运行Agent Cursor Anthropic" site:163.com OR site:zhihu.com
+```
+
+Popular WeChat tech articles often get republished within days.
+
 ## Removed Tools
 
 - **Google Search (direct API)** — Removed 2026-01-21. "Custom Search JSON API not enabled" error. Serper provides same Google results.
