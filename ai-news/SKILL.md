@@ -63,7 +63,14 @@ Sources are defined in `sources.yaml` in this skill directory. Categories:
    - Pick 2-3 most relevant videos
    - Extract transcripts using youtube-transcript skill
 
-4. **Apply stale filtering**: Skip sources with no articles <30 days old
+4. **WeChat scan** (Chinese practitioner content):
+   - WebSearch with `site:mp.weixin.qq.com/s/` queries from `sources.yaml`
+   - Filter to short URLs only (format: `/s/ABC123`)
+   - Extract via `wechat.imagenie.us/extract` API
+   - Limit to 5 articles to avoid rate limits
+   - See `wechat-article` skill for full extraction details
+
+5. **Apply stale filtering**: Skip sources with no articles <30 days old
 
 ### Smol AI Deep Read
 
@@ -94,6 +101,10 @@ When user says "smol deep" or "full smol":
 ## Chinese AI News (中文)
 ### 机器之心 (Synced)
 - **[Title]** (Date) — One-line summary
+
+## WeChat Articles (微信公众号) [Deep mode only]
+- **[Title]** — One-line summary
+- **[Title]** — One-line summary
 
 ## X Highlights
 - **@karpathy:** [Recent post summary]

@@ -208,3 +208,25 @@ youtube_queries:
   - "LLM enterprise applications"
   - "AI in banking fintech"
   - "machine learning production"
+
+# WeChat public account articles (微信公众号)
+# Uses WebSearch with site: operator to find short URLs, then wechat.imagenie.us to extract
+wechat_search:
+  tier: 2  # Deep mode only (adds latency)
+  extraction_api: https://wechat.imagenie.us/extract
+  queries:
+    - query: "AI Agent 大模型 site:mp.weixin.qq.com/s/"
+      focus: Agent development, Chinese practitioner insights
+    - query: "Cursor Claude Anthropic site:mp.weixin.qq.com/s/"
+      focus: AI coding tools, Western tool adoption in China
+    - query: "MCP Skills 智能体 site:mp.weixin.qq.com/s/"
+      focus: MCP ecosystem, agent skills
+    - query: "Coze 扣子 Agent site:mp.weixin.qq.com/s/"
+      focus: Coze/ByteDance agent platform
+    - query: "提示词工程 Prompt site:mp.weixin.qq.com/s/"
+      focus: Prompt engineering practices
+  max_articles: 5  # Limit to avoid rate limits
+  notes: |
+    Only short URLs work with extraction API (mp.weixin.qq.com/s/ABC123).
+    Long URLs with ?__biz= params need conversion via search first.
+    See wechat-article skill for full extraction workflow.
