@@ -5,226 +5,85 @@ description: Extract transcripts/subtitles from YouTube videos. Use when the use
 
 # YouTube Transcript Extractor
 
-This skill extracts transcripts from YouTube videos using the `youtube-transcript-api` library.
+Extract transcripts from YouTube videos using yt-dlp (primary) with youtube-transcript-api as fallback.
 
 ## When to Use
 
-Use this skill when the user:
-- Asks to get the transcript of a YouTube video
-- Wants to extract subtitles or captions from a YouTube video
-- Needs the text content from a YouTube video for analysis, summarization, or other purposes
-- Provides a YouTube URL or video ID and asks for its transcript
+- User asks for transcript/subtitles from a YouTube video
+- User wants to analyze or summarize video content
+- User provides a YouTube URL or video ID
 
-## Instructions
-
-### Step 1: Extract the Video ID
-
-From a YouTube URL, extract the video ID:
-- `https://www.youtube.com/watch?v=VIDEO_ID` → use `VIDEO_ID`
-- `https://youtu.be/VIDEO_ID` → use `VIDEO_ID`
-- `https://www.youtube.com/embed/VIDEO_ID` → use `VIDEO_ID`
-- If the user provides just the ID (e.g., `dQw4w9WgXcQ`), use it directly
-
-### Step 2: Install Dependencies
-
-Ensure the `youtube-transcript-api` package is installed:
+## Quick Start
 
 ```bash
-pip install youtube-transcript-api
+uv run ~/skills/youtube-transcript/extract_transcript.py "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
 
-### Step 3: Extract the Transcript
+## Options
 
-Use the Python script provided in this skill or write inline Python code:
+| Flag | Description |
+|------|-------------|
+| `-l, --language` | Language code(s) in priority order (default: en) |
+| `-t, --timestamps` | Include timestamps in output |
+| `-c, --clean` | Remove [Music], [Applause], speaker labels |
+| `-o, --output FILE` | Save to file instead of stdout |
+| `--method` | Force method: `auto`, `ytdlp`, or `api` |
+| `--browser` | Browser for cookies: `chrome`, `firefox`, `safari`, `edge`, `brave` |
+| `--cookies` | Path to Netscape-format cookies.txt file |
 
-```python
-from youtube_transcript_api import YouTubeTranscriptApi
-
-def get_transcript(video_id, languages=['en']):
-    """
-    Extract transcript from a YouTube video.
-
-    Args:
-        video_id: The YouTube video ID (not the full URL)
-        languages: List of language codes in priority order (default: ['en'])
-
-    Returns:
-        A list of transcript snippets with text, start time, and duration
-    """
-    ytt_api = YouTubeTranscriptApi()
-    try:
-        transcript = ytt_api.fetch(video_id, languages=languages)
-        return transcript
-    except Exception as e:
-        return f"Error fetching transcript: {e}"
-
-# Example usage
-video_id = "VIDEO_ID_HERE"
-transcript = get_transcript(video_id)
-
-# Print the full transcript text
-for snippet in transcript:
-    print(snippet.text)
-```
-
-### Step 4: Format the Output
-
-You can format the transcript in different ways:
-
-**Plain text (concatenated):**
-```python
-full_text = " ".join([snippet.text for snippet in transcript])
-print(full_text)
-```
-
-**With timestamps:**
-```python
-for snippet in transcript:
-    minutes = int(snippet.start // 60)
-    seconds = int(snippet.start % 60)
-    print(f"[{minutes:02d}:{seconds:02d}] {snippet.text}")
-```
-
-**As JSON:**
-```python
-from youtube_transcript_api.formatters import JSONFormatter
-formatter = JSONFormatter()
-json_output = formatter.format_transcript(transcript, indent=2)
-print(json_output)
-```
-
-**As SRT subtitle format:**
-```python
-from youtube_transcript_api.formatters import SRTFormatter
-formatter = SRTFormatter()
-srt_output = formatter.format_transcript(transcript)
-print(srt_output)
-```
-
-### Step 5: Clean Up the Transcript (Optional)
-
-YouTube transcripts often contain artifacts that you may want to remove:
-
-| Artifact | Example | Description |
-|----------|---------|-------------|
-| Annotations | `[Music]`, `[Applause]` | Sound/action descriptions |
-| Speaker labels | `>> JOHN:`, `SPEAKER 1:` | Speaker identifiers |
-| HTML entities | `&amp;`, `&#39;` | Encoded characters |
-
-Use the cleanup function to remove these:
-
-```python
-import html
-import re
-
-def clean_transcript_text(text, remove_annotations=True):
-    """Clean up transcript text by removing artifacts."""
-    # Decode HTML entities
-    text = html.unescape(text)
-
-    if remove_annotations:
-        # Remove [Music], [Applause], etc.
-        text = re.sub(r'\[[^\]]*\]', '', text)
-
-    # Remove speaker labels
-    text = re.sub(r'(?:^|\s)>>?\s*[A-Z][A-Z\s]*:', '', text)
-    text = re.sub(r'(?:^|\s)SPEAKER\s*\d*:', '', text, flags=re.IGNORECASE)
-
-    # Normalize whitespace
-    text = ' '.join(text.split())
-    return text
-
-# Apply cleanup to transcript
-full_text = " ".join([snippet.text for snippet in transcript])
-clean_text = clean_transcript_text(full_text)
-print(clean_text)
-```
-
-Or use the CLI script with the `--clean` flag:
+## Examples
 
 ```bash
-python extract_transcript.py VIDEO_ID --clean
+# Basic
+uv run ~/skills/youtube-transcript/extract_transcript.py dQw4w9WgXcQ
+
+# Clean output, save to file
+uv run ~/skills/youtube-transcript/extract_transcript.py VIDEO_ID --clean -o /tmp/transcript.txt
+
+# Use browser cookies for auth (if bot detection triggers)
+uv run ~/skills/youtube-transcript/extract_transcript.py VIDEO_ID --browser chrome
 ```
 
-## Available Formatters
+## YouTube Bot Detection (Common Issue)
 
-- `JSONFormatter` - JSON format
-- `TextFormatter` - Plain text
-- `WebVTTFormatter` - WebVTT subtitle format
-- `SRTFormatter` - SRT subtitle format
-- `PrettyPrintFormatter` - Human-readable format
+YouTube aggressively blocks scripted access. If you see "Sign in to confirm you're not a bot":
 
-## Language Support
-
-To get transcripts in specific languages:
-
-```python
-# Try German first, then English
-transcript = ytt_api.fetch(video_id, languages=['de', 'en'])
-
-# List all available transcripts for a video
-transcript_list = ytt_api.list(video_id)
-for t in transcript_list:
-    print(f"{t.language} ({t.language_code}) - Generated: {t.is_generated}")
+### Option 1: Use Browser Cookies
+```bash
+uv run ~/skills/youtube-transcript/extract_transcript.py VIDEO_ID --browser chrome
 ```
+**Note:** Requires the browser to have an active YouTube/Google login. May fail if:
+- Browser cookies are encrypted (Chrome on macOS)
+- Browser is sandboxed (Safari)
 
-## Translation
+### Option 2: Export Cookies Manually
+1. Install browser extension: "Get cookies.txt LOCALLY" or similar
+2. Visit YouTube while logged in
+3. Export cookies to file
+4. Use: `--cookies /path/to/cookies.txt`
 
-If a transcript supports translation:
+### Option 3: Use Browser Automation (Nuclear Option)
+If all else fails, use Claude in Chrome or similar browser automation to:
+1. Navigate to video
+2. Open transcript panel (click "..." → "Show transcript")
+3. Extract text from the page
 
-```python
-transcript_list = ytt_api.list(video_id)
-transcript = transcript_list.find_transcript(['en'])
+## Requirements
 
-if transcript.is_translatable:
-    translated = transcript.translate('es')  # Translate to Spanish
-    result = translated.fetch()
-```
+- **deno** — Required by yt-dlp for YouTube. Install: `brew install deno`
+- **yt-dlp** — Auto-installed by `uv run`
+- **youtube-transcript-api** — Auto-installed by `uv run`
 
-## Error Handling
+## How It Works
 
-Common errors to handle:
-- **TranscriptsDisabled**: Video has transcripts disabled
-- **NoTranscriptFound**: No transcript available in requested languages
-- **VideoUnavailable**: Video is private, deleted, or region-blocked
+1. **yt-dlp** (primary) — Downloads VTT subtitles directly. More reliable but requires deno runtime and may need authentication.
 
-```python
-from youtube_transcript_api import YouTubeTranscriptApi
-from youtube_transcript_api._errors import (
-    TranscriptsDisabled,
-    NoTranscriptFound,
-    VideoUnavailable
-)
+2. **youtube-transcript-api** (fallback) — Python API for transcripts. Often blocked by YouTube on cloud/VPN IPs.
 
-try:
-    transcript = ytt_api.fetch(video_id)
-except TranscriptsDisabled:
-    print("Transcripts are disabled for this video")
-except NoTranscriptFound:
-    print("No transcript found in the requested language")
-except VideoUnavailable:
-    print("Video is unavailable")
-```
+## Known Limitations
 
-## Error Handling
-
-- **If TranscriptsDisabled**: Video has transcripts disabled — inform user, no workaround
-- **If NoTranscriptFound**: No transcript in requested language — try other languages or auto-generated
-- **If VideoUnavailable**: Video is private, deleted, or region-blocked — inform user
-- **If rate limited**: YouTube may throttle; wait and retry
-- **If IP blocked**: Cloud server IPs may be blocked; suggest user run locally or use proxy
-
-## Limitations
-
+- YouTube actively blocks scripted access — authentication often required
 - Age-restricted videos may not be accessible
-- Some videos have transcripts disabled by the uploader
-- Cloud server IPs may be blocked by YouTube (use proxies if needed)
+- Some videos have transcripts disabled by uploader
 - Auto-generated transcripts may contain errors
-
-## Example Workflow
-
-1. User provides: `https://www.youtube.com/watch?v=dQw4w9WgXcQ`
-2. Extract video ID: `dQw4w9WgXcQ`
-3. Run the extraction script
-4. Return the transcript text to the user
-5. Optionally summarize or analyze the content as requested
+- Cloud server IPs are frequently blocked
