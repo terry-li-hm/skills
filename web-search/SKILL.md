@@ -124,58 +124,12 @@ mcp__tavily__tavily-map
 
 ## WeChat Articles (mp.weixin.qq.com)
 
-WeChat public articles are heavily protected. Most direct access methods fail.
+**See the dedicated `wechat-article` skill for full workflow.**
 
-### ✅ Primary Method: wechat.imagenie.us
-
-A Cloudflare Workers API that handles WeChat's anti-bot protection.
-
-**⚠️ IMPORTANT: Only short URLs work!**
-- ✅ Works: `https://mp.weixin.qq.com/s/nnysYJCNQA-SPUefOPBwZw`
-- ❌ Fails: `https://mp.weixin.qq.com/s?__biz=...&mid=...&idx=...&sn=...`
-
-```bash
-# POST /extract endpoint (recommended for Claude)
-curl -X POST "https://wechat.imagenie.us/extract" \
-  -H "Content-Type: application/json" \
-  -d '{"url":"https://mp.weixin.qq.com/s/ABC123","format":"markdown"}'
-
-# GET endpoint (for curl with headers)
-curl -H "Accept: text/markdown" "https://wechat.imagenie.us/https://mp.weixin.qq.com/s/ABC123"
-```
-
-**Endpoints:**
-- `POST /extract` — Best for programmatic use, returns JSON with markdown/html
-- `GET /{wechat-url}` — Returns HTML (or Markdown with `Accept: text/markdown` header)
-- `GET /health` — Service status check
-
-**Features:** Multi-layer caching, WeChat footer removal, LLM-friendly markdown formatting
-
-**Finding short URLs:** Use WebSearch with `site:mp.weixin.qq.com/s/` to find articles with short URL format.
-
-### ✅ Fallback: Mirror Sites
-
-If the API fails, search for article reposts:
-1. Search for article title/keywords on mirror sites
-2. Common mirrors: **163.com**, **zhihu.com**, **csdn.net**
-3. Use `WebSearch` with Chinese title + site names
-
-```
-WebSearch: "长时间运行Agent Cursor Anthropic" site:163.com OR site:zhihu.com
-```
-
-Popular WeChat tech articles often get republished within days.
-
-### ❌ Methods That Don't Work
-
-| Method | Result |
-|--------|--------|
-| WebFetch direct | CAPTCHA block |
-| Serper scrape | CAPTCHA block |
-| Jina Reader (r.jina.ai) | CAPTCHA block |
-| Claude in Chrome | Domain blocked by safety policy |
-| Playwright + stealth | CAPTCHA block |
-| AgentQL | CAPTCHA block |
+Quick reference:
+- **Primary:** `wechat.imagenie.us` API (only short URLs: `/s/ABC123`)
+- **Fallback:** Mirror sites (163.com, zhihu.com, csdn.net)
+- **Direct access fails:** WebFetch, Serper, Jina, Claude in Chrome all get CAPTCHA blocked
 
 ## Removed Tools
 
