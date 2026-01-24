@@ -124,28 +124,51 @@ mcp__tavily__tavily-map
 
 ## WeChat Articles (mp.weixin.qq.com)
 
-WeChat public articles are heavily protected. **All direct access methods fail:**
+WeChat public articles are heavily protected. Most direct access methods fail.
 
-| Method | Result |
-|--------|--------|
-| WebFetch | CAPTCHA block |
-| Serper scrape | CAPTCHA block |
-| Jina Reader (r.jina.ai) | CAPTCHA block |
-| Claude in Chrome | Domain blocked by safety policy |
-| Playwright + stealth | CAPTCHA block |
-| AgentQL | CAPTCHA block |
+### ✅ Primary Method: wechat.imagenie.us
 
-**Workaround that works:**
+A Cloudflare Workers API that handles WeChat's anti-bot protection:
+
+```bash
+# Direct access (returns HTML)
+WebFetch: https://wechat.imagenie.us/https://mp.weixin.qq.com/s/ABC123
+
+# For Markdown output, use curl with header:
+curl -H "Accept: text/markdown" https://wechat.imagenie.us/https://mp.weixin.qq.com/s/ABC123
+```
+
+**Endpoints:**
+- `GET /{wechat-url}` — Returns HTML (or Markdown with `Accept: text/markdown` header)
+- `POST /extract` — Programmatic extraction with format field
+- `GET /health` — Service status check
+- `GET /status` — Operational info
+
+**Features:** Multi-layer caching, WeChat footer removal, LLM-friendly markdown formatting
+
+### ✅ Fallback: Mirror Sites
+
+If the API fails, search for article reposts:
 1. Search for article title/keywords on mirror sites
 2. Common mirrors: **163.com**, **zhihu.com**, **csdn.net**
 3. Use `WebSearch` with Chinese title + site names
 
-Example:
 ```
 WebSearch: "长时间运行Agent Cursor Anthropic" site:163.com OR site:zhihu.com
 ```
 
 Popular WeChat tech articles often get republished within days.
+
+### ❌ Methods That Don't Work
+
+| Method | Result |
+|--------|--------|
+| WebFetch direct | CAPTCHA block |
+| Serper scrape | CAPTCHA block |
+| Jina Reader (r.jina.ai) | CAPTCHA block |
+| Claude in Chrome | Domain blocked by safety policy |
+| Playwright + stealth | CAPTCHA block |
+| AgentQL | CAPTCHA block |
 
 ## Removed Tools
 
