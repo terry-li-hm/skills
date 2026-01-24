@@ -128,23 +128,30 @@ WeChat public articles are heavily protected. Most direct access methods fail.
 
 ### ✅ Primary Method: wechat.imagenie.us
 
-A Cloudflare Workers API that handles WeChat's anti-bot protection:
+A Cloudflare Workers API that handles WeChat's anti-bot protection.
+
+**⚠️ IMPORTANT: Only short URLs work!**
+- ✅ Works: `https://mp.weixin.qq.com/s/nnysYJCNQA-SPUefOPBwZw`
+- ❌ Fails: `https://mp.weixin.qq.com/s?__biz=...&mid=...&idx=...&sn=...`
 
 ```bash
-# Direct access (returns HTML)
-WebFetch: https://wechat.imagenie.us/https://mp.weixin.qq.com/s/ABC123
+# POST /extract endpoint (recommended for Claude)
+curl -X POST "https://wechat.imagenie.us/extract" \
+  -H "Content-Type: application/json" \
+  -d '{"url":"https://mp.weixin.qq.com/s/ABC123","format":"markdown"}'
 
-# For Markdown output, use curl with header:
-curl -H "Accept: text/markdown" https://wechat.imagenie.us/https://mp.weixin.qq.com/s/ABC123
+# GET endpoint (for curl with headers)
+curl -H "Accept: text/markdown" "https://wechat.imagenie.us/https://mp.weixin.qq.com/s/ABC123"
 ```
 
 **Endpoints:**
+- `POST /extract` — Best for programmatic use, returns JSON with markdown/html
 - `GET /{wechat-url}` — Returns HTML (or Markdown with `Accept: text/markdown` header)
-- `POST /extract` — Programmatic extraction with format field
 - `GET /health` — Service status check
-- `GET /status` — Operational info
 
 **Features:** Multi-layer caching, WeChat footer removal, LLM-friendly markdown formatting
+
+**Finding short URLs:** Use WebSearch with `site:mp.weixin.qq.com/s/` to find articles with short URL format.
 
 ### ✅ Fallback: Mirror Sites
 
