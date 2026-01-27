@@ -5,21 +5,26 @@ description: Scan chat history with proper HKT timezone handling. Use when revie
 
 # History
 
-Scan `~/.claude/history.jsonl` with proper HKT (UTC+8) day boundaries.
+Scan chat history from multiple sources (`~/.claude/history.jsonl`, `~/.codex/history.jsonl`) with proper HKT (UTC+8) day boundaries.
 
 ## Trigger
 
-- `/history` — today's prompts
+- `/history` — today's prompts across all tools
 - `/history yesterday` — yesterday's prompts
 - `/history 2026-01-18` — specific date
+- `/history --tool=Codex` — filter by specific tool
 
 ## Workflow
 
 Run the persistent script at `~/scripts/chat_history.py`:
 
 ```bash
-# Today's prompts
+# Today's prompts (all tools)
 python ~/scripts/chat_history.py
+
+# Filter by tool (Claude or Codex)
+python ~/scripts/chat_history.py --tool=Claude
+python ~/scripts/chat_history.py --tool=Codex
 
 # Yesterday's prompts
 python ~/scripts/chat_history.py yesterday
@@ -42,13 +47,13 @@ Total: 142 prompts across 8 sessions
 Time range: 09:15 - 23:45
 
 Sessions:
-  [797013a0]  12 prompts (07:16-10:05)
-  [f4764f0c]   9 prompts (07:20-09:50)
+  [797013a0]  12 prompts (07:16-10:05) - Claude
+  [f4764f0c]   9 prompts (07:20-09:50) - Codex
   ...
 
 Recent prompts (last 50):
-  09:15 [797013a0] check my gmail...
-  09:22 [797013a0] update the note...
+  09:15 [797013a0] (Claude) check my gmail...
+  09:22 [797013a0] (Claude) update the note...
   ...
 ```
 
