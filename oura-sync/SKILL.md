@@ -1,6 +1,8 @@
 ---
 name: oura-sync
 description: Sync Oura Ring data to local DuckDB and backup CSV to GitHub. Use when user says "sync oura", "backup oura data", "oura stats", or wants to query their sleep/readiness/resilience data.
+github_url: https://github.com/terry-li-hm/oura-data
+github_hash: d89d067
 ---
 
 # Oura Data Sync

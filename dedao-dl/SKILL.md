@@ -1,6 +1,8 @@
 ---
 name: dedao-dl
 description: Download courses, ebooks, and audiobooks from Dedao (得到) app using dedao-dl. Use when user says "download dedao", "dedao course", "dedao ebook", "get dedao content", or wants to download content from 得到 app.
+github_url: https://github.com/yann0917/dedao-dl
+github_hash: 7a8097a
 ---
 
 # Dedao Downloader (得到下载器)
