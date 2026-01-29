@@ -1,6 +1,6 @@
 ---
 name: llm-council
-description: LLM Council with 5 frontier models (Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2). Models deliberate on a question, each seeing previous responses, then a judge synthesizes consensus. Use for important decisions needing diverse AI perspectives.
+description: LLM Council with 5 frontier models (Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2.5). Models deliberate on a question, each seeing previous responses, then a judge synthesizes consensus. Use for important decisions needing diverse AI perspectives.
 ---
 
 # LLM Council
@@ -182,7 +182,7 @@ uv run council.py "your question" --share  # → prints gist URL
 - GPT (gpt-5.2-pro)
 - Gemini (gemini-3-pro-preview)
 - Grok (grok-4)
-- Kimi (kimi-k2-thinking)
+- Kimi (kimi-k2.5)
 - Judge: Claude Opus 4.5
 
 ## Example Output
@@ -251,7 +251,7 @@ Start with a modular monolith with clear domain boundaries...
 **Live Streaming Output:**
 - Responses stream token-by-token as they're generated
 - See the discussion unfold in real-time
-- Thinking models (Gemini 3 Pro, Kimi K2) use non-streaming with "(thinking...)" indicator
+- Thinking models (Gemini 3 Pro, Kimi K2.5) use non-streaming with "(thinking...)" indicator
 - Use `--quiet` to disable (waits for full response)
 
 **Retry Logic for Thinking Models:**
@@ -262,7 +262,7 @@ Start with a modular monolith with clear domain boundaries...
 
 **Fallbacks for Flaky Models:**
 - **Gemini**: If `GOOGLE_API_KEY` is set, falls back to AI Studio (`gemini-2.5-pro`) when OpenRouter fails
-- **Kimi**: If `MOONSHOT_API_KEY` is set, falls back to Moonshot API (`kimi-k2`) when OpenRouter fails
+- **Kimi**: If `MOONSHOT_API_KEY` is set, falls back to Moonshot API (`kimi-k2.5`) when OpenRouter fails
 - Helps work around OpenRouter reliability issues with thinking models
 
 **Anonymous Deliberation, Readable Output (Karpathy-style):**

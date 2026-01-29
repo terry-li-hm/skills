@@ -7,7 +7,7 @@
 LLM Council - Multi-model deliberation via OpenRouter.
 
 5 frontier models debate a question and a judge synthesizes the consensus.
-Models: Claude Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2 Thinking
+Models: Claude Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2.5
 
 Usage:
     uv run council.py "Should I use microservices or monolith?"
@@ -39,7 +39,7 @@ COUNCIL = [
     ("GPT", "openai/gpt-5.2-pro", None),
     ("Gemini", "google/gemini-3-pro-preview", ("google", "gemini-2.5-pro")),
     ("Grok", "x-ai/grok-4", None),
-    ("Kimi", "moonshotai/kimi-k2-thinking", ("moonshot", "kimi-k2")),
+    ("Kimi", "moonshotai/kimi-k2.5", ("moonshot", "kimi-k2.5")),
 ]
 
 JUDGE_MODEL = "anthropic/claude-opus-4.5"
@@ -56,7 +56,7 @@ SOCIAL_KEYWORDS = [
 # Use exact suffixes to avoid false positives (e.g., "o1" matching "gemini-pro-1.0")
 THINKING_MODEL_SUFFIXES = {
     "gemini-3-pro-preview",
-    "kimi-k2-thinking",
+    "kimi-k2.5",
     "deepseek-r1",
     "o1-preview", "o1-mini", "o1",
     "o3-preview", "o3-mini", "o3",
