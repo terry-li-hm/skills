@@ -96,6 +96,37 @@ After message is sent, update:
 5. Drafts reply with WhatsApp number and confirms Feb 2-5 works
 6. Presents draft for approval
 
+## Networking Outreach Templates
+
+Reference: `[[Networking Outreach Templates]]` in vault.
+
+### Post-Event Contact (Direct)
+
+Use when: Met someone at event, want to follow up with job interest.
+
+> Hi [Name] — great meeting you at [Event], and congrats on [milestone if applicable]. I'm exploring my next chapter — if there's anything on your radar where my background might be a fit, I'd welcome the conversation. Open to a quick coffee next week?
+
+**Principles:**
+- Coffee/chat is the primary ask
+- "Exploring my next chapter" signals search without desperation
+- Don't ask them to "flag openings" in writing — save for verbal
+- Send within 48 hours while fresh
+
+### Softer Version (Peer Exchange First)
+
+Use when: Build relationship before signaling job interest.
+
+> Hi [Name] — great meeting you at [Event]. I'm exploring my next chapter and would enjoy swapping notes on [shared domain]. Would you be open to a quick coffee or call next week?
+
+**Key difference:** Job signal is implicit. Save direct discussion for meeting.
+
+### Key Principles (from LLM Council)
+
+- Don't deputize contacts as informal recruiters (HR policy conflicts)
+- Keep explicit job discussions verbal, off written record
+- Personalize with specific event/milestone references
+- Clear, single ask — don't stack requests
+
 ## Platform-Specific Notes
 
 ### LinkedIn

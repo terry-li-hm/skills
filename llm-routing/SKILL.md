@@ -99,8 +99,41 @@ export MOONSHOT_API_KEY=...
 | `/llm-council` | ~$0.50-1.00 |
 | `/remote-llm` | Free (local) |
 
+## Coding Tools (Claude Code vs OpenCode)
+
+Separate from querying multiple LLMs — this is about which coding assistant to use.
+
+| Tool | SWE-bench | Cost | Best For |
+|------|-----------|------|----------|
+| **Claude Code (Opus 4.5)** | 80.9% | ~$3/M tokens | Complex multi-file, highest accuracy |
+| **OpenCode + GLM-4.7** | 73.8% | **Unlimited** | New tasks, bilingual, quota conservation |
+| **OpenCode + Gemini 3 Flash** | 78.0% | ~$0.50/M | Speed when GLM unavailable |
+
+### When to Switch to OpenCode
+
+**Stay in Claude Code** if context is already built — switch costs (re-explaining, re-reading) usually exceed savings.
+
+**Suggest OpenCode (GLM-4.7)** when:
+- New task without existing Claude Code context
+- Weekly Claude Code quota running high (>70%)
+- Bilingual projects (TC/SC/EN) — GLM's multilingual edge
+
+### GLM-4.7 Notes
+
+- Terry has unlimited quota via Coding Max (valid to 2027-01-28)
+- SWE-bench Multilingual: 66.7% — strong for bilingual
+- Preserved Thinking: keeps reasoning across agentic turns
+
+### Quota Conservation
+
+When Claude Code usage is high:
+- Default to OpenCode for new tasks
+- Shorter responses, fewer exploratory reads
+- Skip optional verification unless critical
+
 ## Related Skills
 
 - `/ask-llms` — Parallel queries implementation
 - `/llm-council` — Deliberation implementation
 - `/remote-llm` — Local LLM prompt crafting
+- `/opencode-delegate` — Delegate tasks to OpenCode
