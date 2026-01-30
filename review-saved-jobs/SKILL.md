@@ -145,4 +145,5 @@ This skill **invokes `/evaluate-job`** for each promising role after quick-filte
 
 ## Related Skills
 
-- `/evaluate-job` - Deep evaluation of single job posting
+- `/evaluate-job` — Deep evaluation of single job posting
+- `chrome-automation` — Reference for Chrome browser best practices

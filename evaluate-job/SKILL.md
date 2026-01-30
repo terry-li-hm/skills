@@ -140,3 +140,8 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 ## Batch Processing
 
 For multiple jobs, run this skill sequentially on each URL. Start with quick duplicate check before full analysis.
+
+## Related Skills
+
+- `chrome-automation` — Reference for Chrome browser best practices (read this for gotchas)
+- `/review-saved-jobs` — Batch processing of LinkedIn saved jobs (chains to this skill)
