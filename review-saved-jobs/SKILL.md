@@ -67,20 +67,12 @@ For roles that pass quick-filter:
 
 1. **Click on job title** to open details panel
 2. **Wait for load** (2 seconds)
-3. **Extract details** via `get_page_text`:
-   - Full requirements
-   - Responsibilities
-   - Salary (if disclosed)
-   - Applicant stats (count, seniority breakdown)
-4. **Check duplicates:**
-   - Search vault for company name
-   - Check if already applied or passed
-5. **Run evaluation:**
-   - Use `/evaluate-job` workflow inline
-   - Fit analysis across all dimensions
-   - Output recommendation: APPLY/CONSIDER/PASS
-6. **Create vault note** (mandatory)
-7. **Update Job Hunting** tracking
+3. **Get the job URL** from the browser tab
+4. **Chain to `/evaluate-job`:**
+   - Invoke the skill with the LinkedIn job URL
+   - `/evaluate-job` handles: full JD extraction, fit analysis, vault note creation, Job Hunting updates
+   - Wait for evaluation to complete before moving to next role
+5. **Record outcome** in session tracking (APPLY/CONSIDER/PASS)
 
 ### 6. Track Progress
 
@@ -133,15 +125,23 @@ If saved jobs list is long:
 | "apply" | Proceed with Easy Apply |
 | "done" | Stop processing, output summary |
 
-## Integration with /evaluate-job
+## Chaining with /evaluate-job
 
-This skill uses `/evaluate-job` workflow inline for each promising role:
-- Fit analysis dimensions
-- Anti-signal checking
-- Vault note creation
-- Job Hunting tracking
+This skill **invokes `/evaluate-job`** for each promising role after quick-filtering:
 
-The difference: `/evaluate-job` is for a single URL; this skill handles batch processing of the saved jobs list.
+1. Quick-filter identifies roles worth evaluating (by title, company, freshness)
+2. For each promising role, extract the LinkedIn job URL
+3. Call `/evaluate-job <url>` — this handles:
+   - Full JD extraction
+   - Fit analysis across all dimensions
+   - Anti-signal checking
+   - Vault note creation (mandatory)
+   - Job Hunting tracking updates
+4. Record the outcome and move to next role
+
+**Division of labor:**
+- `/review-saved-jobs` — Batch processing, quick-filtering, session tracking
+- `/evaluate-job` — Deep evaluation of individual roles
 
 ## Related Skills
 
