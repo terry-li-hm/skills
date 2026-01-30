@@ -24,14 +24,14 @@ Delegate coding tasks to OpenCode (Gemini/GLM-powered) for background execution.
 
 ## Commands
 
-### Run headless task (recommended: Gemini 3 Flash High)
+### Run headless task (default: GLM-4.7 — unlimited quota)
 ```bash
-opencode run -m opencode/gemini-3-flash --variant high --title "Task Name" "Detailed prompt"
+opencode run -m opencode/glm-4.7 --title "Task Name" "Detailed prompt"
 ```
 
-### Run with default model
+### Run with Gemini 3 Flash (fallback for speed)
 ```bash
-opencode run --title "Task Name" "Detailed prompt with clear success criteria"
+opencode run -m opencode/gemini-3-flash --variant high --title "Task Name" "Detailed prompt"
 ```
 
 ### Resume a session
@@ -93,37 +93,36 @@ Session JSON includes:
 
 Use `-m <model>` and optionally `--variant <level>` to select model.
 
-### Recommended: Gemini 3 Flash High
+### Default: GLM-4.7 (unlimited quota)
+```bash
+-m opencode/glm-4.7
+```
+- **Terry has Coding Max annual plan (valid to 2027-01-28) — unlimited quota**
+- SWE-bench Multilingual: 66.7% — best for TC/SC/EN mixed codebases
+- LiveCodeBench V6: 84.9 (beats Claude Sonnet 4.5)
+- Preserved Thinking: keeps reasoning across agentic turns
+- Good for: most tasks, bilingual projects, Chinese documentation
+
+### Fallback: Gemini 3 Flash (speed)
 ```bash
 -m opencode/gemini-3-flash --variant high
 ```
 - Released Dec 2025, "doctorate-level" reasoning
-- 3x faster than Gemini 2.5 Pro
-- Best balance of speed, cost, and capability
+- 3x faster than GLM-4.7
+- ⚠️ Higher hallucination rate — verify outputs in accuracy-critical contexts
 
 ### Available Models
 | Model | SWE-bench | Use Case |
 |-------|-----------|----------|
-| `opencode/gemini-3-flash` | 78.0% | Fast, cheap, good for most tasks |
-| `opencode/glm-4.7` | 73.8% | Bilingual (TC/SC/EN), multilingual codebases |
+| `opencode/glm-4.7` ⭐ | 73.8% | **Default** — unlimited quota |
+| `opencode/gemini-3-flash` | 78.0% | Speed-critical tasks |
 | `opencode/gemini-3-pro` | 76.2% | More capable, slower |
 | `opencode/claude-sonnet-4-5` | 77.2% | When you need Claude quality |
-| `opencode/gpt-5.2-codex` | — | Alternative for coding tasks |
-
-### GLM-4.7 (智谱清言)
-```bash
--m opencode/glm-4.7
-```
-- **SWE-bench Multilingual: 66.7%** — best for TC/SC/EN mixed codebases
-- LiveCodeBench V6: 84.9 (beats Claude Sonnet 4.5)
-- Preserved Thinking: keeps reasoning across agentic turns
-- Terry has Coding Max annual plan (valid to 2027-01-28) — unlimited quota
-- Good for: bank-faq-chatbot, bilingual projects, Chinese documentation
 
 ### Model Selection Tips
+- **Default**: GLM-4.7 (no cost, good quality)
 - **Speed-critical**: Gemini 3 Flash
-- **Bilingual codebase**: GLM-4.7
-- **Accuracy-critical banking**: Verify outputs from Gemini 3 Flash (higher hallucination rate)
+- **Accuracy-critical banking**: Verify outputs from Gemini (higher hallucination rate)
 
 ### Variant Levels
 - `--variant high` — More reasoning effort (recommended)
