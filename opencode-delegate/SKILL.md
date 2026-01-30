@@ -18,7 +18,12 @@ Delegate coding tasks to OpenCode (Gemini-powered) for background execution.
 
 ## Commands
 
-### Run headless task
+### Run headless task (recommended: Gemini 3 Flash High)
+```bash
+opencode run -m opencode/gemini-3-flash --variant high --title "Task Name" "Detailed prompt"
+```
+
+### Run with default model
 ```bash
 opencode run --title "Task Name" "Detailed prompt with clear success criteria"
 ```
@@ -78,13 +83,30 @@ Session JSON includes:
 - `summary`: {additions, deletions, files}
 - `time`: {created, updated}
 
-## Model Info
+## Model Selection
 
-OpenCode uses **Gemini 2.5 Pro** by default:
-- SWE-bench: 78.0% (vs Opus 4.5: 80.9%)
-- Cost: ~$0.50/M input (vs Opus: ~$3/M)
-- Good for: Defined tasks, refactoring, code generation
-- Weaker at: Complex reasoning, ambiguous requirements
+Use `-m <model>` and optionally `--variant <level>` to select model.
+
+### Recommended: Gemini 3 Flash High
+```bash
+-m opencode/gemini-3-flash --variant high
+```
+- Released Dec 2025, "doctorate-level" reasoning
+- 3x faster than Gemini 2.5 Pro
+- Best balance of speed, cost, and capability
+
+### Available Models
+| Model | Use Case |
+|-------|----------|
+| `opencode/gemini-3-flash` | Fast, cheap, good for most tasks |
+| `opencode/gemini-3-pro` | More capable, slower |
+| `opencode/claude-sonnet-4-5` | When you need Claude quality |
+| `opencode/gpt-5.2-codex` | Alternative for coding tasks |
+
+### Variant Levels
+- `--variant high` — More reasoning effort (recommended)
+- `--variant max` — Maximum reasoning (slower, costlier)
+- `--variant minimal` — Fastest, least reasoning
 
 ## Monitoring Background Tasks
 
