@@ -96,12 +96,28 @@ Use `-m <model>` and optionally `--variant <level>` to select model.
 - Best balance of speed, cost, and capability
 
 ### Available Models
-| Model | Use Case |
-|-------|----------|
-| `opencode/gemini-3-flash` | Fast, cheap, good for most tasks |
-| `opencode/gemini-3-pro` | More capable, slower |
-| `opencode/claude-sonnet-4-5` | When you need Claude quality |
-| `opencode/gpt-5.2-codex` | Alternative for coding tasks |
+| Model | SWE-bench | Use Case |
+|-------|-----------|----------|
+| `opencode/gemini-3-flash` | 78.0% | Fast, cheap, good for most tasks |
+| `opencode/glm-4.7` | 73.8% | Bilingual (TC/SC/EN), multilingual codebases |
+| `opencode/gemini-3-pro` | 76.2% | More capable, slower |
+| `opencode/claude-sonnet-4-5` | 77.2% | When you need Claude quality |
+| `opencode/gpt-5.2-codex` | — | Alternative for coding tasks |
+
+### GLM-4.7 (智谱清言)
+```bash
+-m opencode/glm-4.7
+```
+- **SWE-bench Multilingual: 66.7%** — best for TC/SC/EN mixed codebases
+- LiveCodeBench V6: 84.9 (beats Claude Sonnet 4.5)
+- Preserved Thinking: keeps reasoning across agentic turns
+- Terry has Coding Max annual plan (valid to 2027-01-28) — unlimited quota
+- Good for: bank-faq-chatbot, bilingual projects, Chinese documentation
+
+### Model Selection Tips
+- **Speed-critical**: Gemini 3 Flash
+- **Bilingual codebase**: GLM-4.7
+- **Accuracy-critical banking**: Verify outputs from Gemini 3 Flash (higher hallucination rate)
 
 ### Variant Levels
 - `--variant high` — More reasoning effort (recommended)
