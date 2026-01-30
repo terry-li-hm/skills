@@ -1,6 +1,12 @@
+---
+name: visual-browser
+description: Browser automation using Computer Vision (Gemini 3 Flash). Use as fallback when agent-browser fails on icon-only buttons, complex Canvas/JS UIs, or visual audits.
+user_invocable: false
+---
+
 # Visual Browser Skill
 
-This skill allows the agent to interact with the web using **Computer Vision** and spatial reasoning via the `browser-use` library and Gemini 2.0 Flash. Unlike text-only scrapers, it can "see" the page, handle complex layouts, and interact with elements based on their visual appearance.
+This skill allows the agent to interact with the web using **Computer Vision** and spatial reasoning via the `browser-use` library and Gemini 3 Flash. Unlike text-only scrapers, it can "see" the page, handle complex layouts, and interact with elements based on their visual appearance.
 
 ## Usage
 

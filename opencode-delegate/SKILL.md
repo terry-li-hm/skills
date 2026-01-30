@@ -1,6 +1,12 @@
+---
+name: opencode-delegate
+description: Delegate coding tasks to OpenCode for background execution. Use when user says "delegate to opencode", "run in opencode", or wants to offload well-defined coding tasks to a cheaper model.
+user_invocable: false
+---
+
 # OpenCode Delegate
 
-Delegate coding tasks to OpenCode (Gemini-powered) for background execution.
+Delegate coding tasks to OpenCode (Gemini/GLM-powered) for background execution.
 
 ## When to Use
 
