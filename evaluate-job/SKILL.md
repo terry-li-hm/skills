@@ -20,6 +20,8 @@ Analyze LinkedIn job postings against user's background, current pipeline health
    - Browser sees the full page as logged-in user, including competition metrics
    - Can click "Show more" to expand full JD if needed
 
+   **Extraction tip:** `read_page` captures the full accessibility tree including content below the viewport — no scrolling needed. Just navigate, wait 2 seconds for load, then `read_page` once to get the complete JD.
+
 2. **Check for duplicates** (before full analysis):
    - Search vault for existing note matching company + role (e.g., `[[*Role* - *Company*]]`)
    - Check [[Job Hunting]] "Applied Jobs" and "Passed On" sections for the company name
