@@ -40,10 +40,13 @@ Analyze LinkedIn job postings against user's background, current pipeline health
    - **Thin** (<5 active, no interviews): Lower bar — CONSIDER "good enough" roles
    - Consider urgency of user's situation when weighing trade-offs
 
-6. **Check for red flags**:
-   - Review past rejections for similar roles
-   - If role matches a known rejection pattern, add warning
-   - Factor into recommendation (APPLY → CONSIDER if pattern match)
+6. **Check for red flags** (feedback loop from `/debrief`):
+   - Review [[Job Hunting]] → Market Signals for relevant patterns:
+     - **Objections:** What got pushback in similar roles?
+     - **Wins:** What hooks landed that this role could use?
+     - **Persona Mismatches:** Did similar roles expect different positioning?
+   - Review [[Job Hunting]] → Anti-Signals for known rejection patterns
+   - If role matches a pattern, flag it in analysis and factor into recommendation
 
 7. **Output recommendation:** APPLY, CONSIDER, or PASS with clear reasoning
 
@@ -143,5 +146,7 @@ For multiple jobs, run this skill sequentially on each URL. Start with quick dup
 
 ## Related Skills
 
-- `chrome-automation` — Reference for Chrome browser best practices (read this for gotchas)
+- `chrome-automation` — Browser best practices (read_page, wait times, tab creation)
+- `vault-pathfinding` — Vault paths and conventions (where to read/write notes)
 - `/review-saved-jobs` — Batch processing of LinkedIn saved jobs (chains to this skill)
+- `/debrief` — Captures interview signals that feed back into this skill's red flag check

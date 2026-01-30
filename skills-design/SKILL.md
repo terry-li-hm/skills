@@ -1,3 +1,9 @@
+---
+name: skills-design
+description: Reference for designing skills as abstractions. Consult when creating new skills or refactoring existing ones.
+user_invocable: false
+---
+
 # Skills Design Guide
 
 Skills are **abstractions** — just like in software development.
@@ -124,9 +130,9 @@ One-line purpose.
 ## Audit Findings (Jan 31, 2026)
 
 **High Priority:**
-- [ ] Create `vault-pathfinding` reference
-- [ ] Create `llm-routing` reference
-- [ ] Add feedback loop: debrief signals → evaluate-job
+- [x] Create `vault-pathfinding` reference ✓
+- [x] Create `llm-routing` reference ✓
+- [x] Add feedback loop: debrief signals → evaluate-job ✓
 
 **Medium Priority:**
 - [ ] Create `content-fetch` reference
