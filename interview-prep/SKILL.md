@@ -39,6 +39,11 @@ Use when:
    - **Key people** — who Terry might meet, their background
    - **Challenges** — problems they're likely solving
 
+4. **Get fresh AI news** (for AI-forward companies):
+   - Run `/ai-news quick` for recent developments and talking points
+   - Especially useful if interview is >1 week away
+   - Shows awareness of industry trends
+
 3. **Map role to experience**:
    | Role Requirement | Terry's Relevant Experience |
    |------------------|----------------------------|
@@ -67,11 +72,12 @@ Use when:
 
 8. **Save prep notes** to vault (optional)
 
-## Integration
+## Related Skills
 
-This skill integrates with:
 - `/counter-intel` — Interviewer research and profile building
 - `/debrief` — Capture signals after the interview
+- `/ai-news` — Fresh AI news for talking points
+- `vault-pathfinding` — Vault paths for reading context files
 
 ## Error Handling
 
