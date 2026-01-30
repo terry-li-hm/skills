@@ -53,9 +53,9 @@ Use when:
    - Update Positioning Insights if pattern emerges
    - Update the specific role's status in Applied Jobs
 
-4. **Run integrated skills**:
-   - `/narrative-debt` (log mode) — Record which stories were told
+4. **Update interviewer profile**:
    - `/counter-intel` (update mode) — Update interviewer profile with signals
+   - Note which stories were told for future reference
 
 5. **Suggest prep adjustments**:
    - If an objection is recurring, suggest reframing
@@ -65,10 +65,8 @@ Use when:
 ## Integration
 
 This skill integrates with:
-- `/narrative-debt` — Logs stories told for consistency tracking
 - `/counter-intel` — Updates interviewer profiles with new signals
 - [[Interviewer Profiles]] — Central storage for interviewer intel
-- [[Story Telling Log]] — Central storage for story usage
 
 ## Error Handling
 

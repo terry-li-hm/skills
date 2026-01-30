@@ -146,5 +146,3 @@ The difference: `/evaluate-job` is for a single URL; this skill handles batch pr
 ## Related Skills
 
 - `/evaluate-job` - Deep evaluation of single job posting
-- `/process-job-alerts` - Process LinkedIn job alert emails
-- `/scan-pipeline` - Review overall job pipeline status

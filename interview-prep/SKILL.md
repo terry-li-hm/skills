@@ -28,10 +28,9 @@ Use when:
    - `/Users/terry/notes/Interview Preparation.md` — general prep notes (if exists)
    - `/Users/terry/notes/Job Hunting.md` — notes on this role/company
 
-2. **Run integrated skills** (in parallel where possible):
-   - `/contact-prep` — If interviewer name known, surface relationship history
+2. **Research interviewer** (if name known):
    - `/counter-intel` — Research interviewer background and style
-   - `/narrative-debt` — Check what stories already told to this company
+   - Search vault for past interactions with this person
 
 3. **Research company** via web search:
    - **Recent news** — last 3-6 months, anything notable
@@ -71,11 +70,8 @@ Use when:
 ## Integration
 
 This skill integrates with:
-- `/contact-prep` — Relationship context for known interviewers
 - `/counter-intel` — Interviewer research and profile building
-- `/narrative-debt` — Story consistency across interview rounds
-
-After interview, prompt user for `/debrief` to capture signals.
+- `/debrief` — Capture signals after the interview
 
 ## Error Handling
 

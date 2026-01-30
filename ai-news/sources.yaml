@@ -32,6 +32,19 @@ web_sources:
     focus: Codex, APIs, developer guides
     tier: 1
 
+  - name: Cursor Blog
+    url: https://cursor.com/blog
+    focus: AI coding agents, MoE training, inference optimization, systems engineering
+    tier: 1
+    notes: |
+      High-quality technical content. Research posts on custom models, CUDA kernels,
+      multi-agent coordination. Primary source for AI coding tool internals.
+
+  - name: Fireworks AI Blog
+    url: https://fireworks.ai/blog
+    focus: Inference optimization, speculative decoding, model serving
+    tier: 2
+
   - name: The Batch (Andrew Ng)
     url: https://www.deeplearning.ai/the-batch/
     focus: Weekly AI news, Andrew Ng's letters, DeepLearning.AI

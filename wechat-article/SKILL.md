@@ -70,8 +70,12 @@ If wechat.imagenie.us fails:
    ```
 
 2. **Serper scrape** — Try mirror URL directly:
-   ```
-   mcp__serper__scrape with mirror URL
+   ```bash
+   # OpenClaw
+   mcporter call serper.scrape url="[mirror URL]"
+   
+   # Claude Code
+   mcp__serper__scrape
    ```
 
 ## Complete Workflow

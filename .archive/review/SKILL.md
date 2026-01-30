@@ -27,17 +27,15 @@ End-of-day reflection capturing job search progress, learnings, and mood.
 
 **Workflow:**
 1. Get today's date (YYYY-MM-DD, HKT timezone)
-2. Scan chat history from `~/.claude/history.jsonl` for today's activity
-3. Check for existing note at `/Users/terry/notes/YYYY-MM-DD.md`
+2. Scan recent conversation for today's activity
+3. Check for existing note at `~/notes/YYYY-MM-DD.md`
 4. Walk through sections conversationally:
    - **Job Search Activity**: Applications, status updates, pipeline
    - **Learnings**: Insights about job search, interviews, companies
    - **Tools/Skills**: New tools or skills practiced
    - **Mood**: How are you feeling? (1-5 or word)
 5. Create or update daily note
-6. **Prompt for overnight queue** (if evening):
-   - "Want to queue overnight tasks? I can run job alerts and pipeline scan while you sleep."
-   - If yes, invoke `/queue-overnight`
+6. **Check if anything needs follow-up tomorrow**
 
 **Output template:**
 ```markdown
@@ -76,7 +74,7 @@ End-of-session capture of mistakes, preferences, and follow-ups.
 ## Session Reflection
 
 ### Mistakes to Record
-- [item] → will add to CLAUDE.md
+- [item] → will add to MEMORY.md or daily note
 
 ### Preferences Learned
 - [item] → will add to [location]
@@ -91,13 +89,12 @@ Proceed with updates?
 ```
 
 3. After confirmation, apply updates:
-   - CLAUDE.md mistakes → append to "Record Mistakes Here"
+   - Mistakes/learnings → update MEMORY.md or daily note
    - Daily note → create/update with follow-ups
    - Skills → create/update as needed
 
 4. Commit changes:
 ```bash
-cd ~/claude-config && git add -A && git commit -m "Update CLAUDE.md" && git push
 cd ~/skills && git add -A && git commit -m "Update skills" && git push
 ```
 
@@ -150,9 +147,10 @@ cd ~/skills && git add -A && git commit -m "Update skills from review" && git pu
 
 ## Files
 
-- Daily notes: `/Users/terry/notes/YYYY-MM-DD.md`
-- CLAUDE.md: `/Users/terry/CLAUDE.md`
-- Skills: `/Users/terry/skills/`
+- Daily notes: `~/notes/YYYY-MM-DD.md`
+- Job context: `~/notes/CLAUDE.md`
+- OpenClaw memory: `~/clawd/MEMORY.md`
+- Skills: `~/skills/`
 
 ## Migration Note
 

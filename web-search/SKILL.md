@@ -6,13 +6,27 @@ user_invocable: false
 
 # Web Search Tool Selection Guide
 
-Reference for choosing the optimal MCP search tool based on use case. Updated 2026-01-21 after comparative testing.
+Reference for choosing the optimal search tool based on use case. Updated 2026-01-30.
+
+## Calling Convention
+
+**Claude Code (native MCP):**
+```
+mcp__perplexity__perplexity_search
+```
+
+**OpenClaw (via mcporter):**
+```bash
+mcporter call perplexity.perplexity_search query="..."
+```
+
+Config: `~/clawd/config/mcporter.json` (imported from Claude Code)
 
 ## Available Tools
 
 | Tool | Type | Best For |
 |------|------|----------|
-| **WebSearch** | Built-in | General purpose, synthesized summaries |
+| **web_search** | Built-in | General purpose, quick searches (Brave API) |
 | **Perplexity** | MCP | Deep research, detailed analysis |
 | **Serper** | MCP | Google results, regional targeting |
 | **Exa** | MCP | Code context, semantic search |
@@ -46,23 +60,30 @@ Reference for choosing the optimal MCP search tool based on use case. Updated 20
 
 ## Tool Details
 
-### WebSearch (Built-in)
+### web_search (Built-in)
 - Best all-around for quick answers
 - Returns synthesized summaries, not just links
 - Good formatting with key points extracted
 
 ### Perplexity (MCP)
-```
-mcp__perplexity__perplexity_search  — Standard search
-mcp__perplexity__perplexity_research — Deep research mode
-mcp__perplexity__perplexity_reason  — Reasoning mode
-mcp__perplexity__perplexity_ask     — Conversational
+```bash
+# OpenClaw
+mcporter call perplexity.perplexity_search query="..."
+mcporter call perplexity.perplexity_ask userContent="..."
+
+# Claude Code
+mcp__perplexity__perplexity_search
+mcp__perplexity__perplexity_ask
 ```
 - Excellent for AI news — detailed excerpts with analysis
-- `strip_thinking: true` to save context tokens
 
 ### Serper (MCP)
-```
+```bash
+# OpenClaw
+mcporter call serper.search query="..." num=10
+mcporter call serper.search query="..." gl=hk hl=zh  # Regional
+
+# Claude Code
 mcp__serper__google_search
 mcp__serper__scrape
 ```
@@ -72,7 +93,13 @@ mcp__serper__scrape
 - Clean structured JSON output
 
 ### Exa (MCP)
-```
+```bash
+# OpenClaw
+mcporter call exa.web_search_exa query="..." numResults=5 type=deep
+mcporter call exa.get_code_context_exa query="React hooks"
+mcporter call exa.company_research_exa companyName="Anthropic"
+
+# Claude Code
 mcp__exa__web_search_exa
 mcp__exa__get_code_context_exa
 ```
@@ -81,28 +108,35 @@ mcp__exa__get_code_context_exa
 - Returns full text snippets
 
 ### Brave (MCP)
-```
+```bash
+# OpenClaw
+mcporter call brave-search.brave_web_search query="..."
+mcporter call brave-search.brave_news_search query="..."
+mcporter call brave-search.brave_video_search query="..."
+
+# Claude Code
 mcp__brave-search__brave_web_search
 mcp__brave-search__brave_news_search
 mcp__brave-search__brave_video_search
-mcp__brave-search__brave_image_search
-mcp__brave-search__brave_local_search
 ```
 - Alternative to Google index
 - Video search is useful
 - News search can return unrelated results — use with caution
 
 ### Tavily (MCP)
-```
+```bash
+# OpenClaw
+mcporter call tavily.tavily-search query="..."
+mcporter call tavily.tavily-extract urls='["https://..."]'
+
+# Claude Code
 mcp__tavily__tavily-search
 mcp__tavily__tavily-extract
 mcp__tavily__tavily-crawl
-mcp__tavily__tavily-map
 ```
 - `tavily-extract` good for scraping specific URLs
 - `tavily-crawl` for site mapping
 - News search is weak (returns press releases)
-- `topic: "news"` parameter available but unreliable
 
 ## Quality Rankings (2026-01-21)
 

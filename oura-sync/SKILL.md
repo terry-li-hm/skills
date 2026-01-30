@@ -17,6 +17,23 @@ Sync sleep, readiness, resilience, activity, workout, stress, and more from Oura
 - **Token:** `~/oura-data/.env`
 - **Analysis:** `[[Oura Data Analysis]]` in vault
 
+## Quick Access (MCP)
+
+For real-time data without sync, use MCP server via mcporter:
+
+```bash
+# OpenClaw
+mcporter call oura.get_sleep_data
+mcporter call oura.get_readiness_data
+mcporter call oura.get_activity_data
+mcporter call oura.get_heart_rate_data
+
+# Claude Code
+mcp__oura__get_sleep_data
+```
+
+Use MCP for quick checks. Use DuckDB sync for historical analysis.
+
 ## Commands
 
 ### Sync Data

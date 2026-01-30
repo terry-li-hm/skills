@@ -14,6 +14,19 @@ Use when:
 - User wants to catch up on AI developments
 - Interview prep needs talking points
 
+## Default Lens: Capco Principal Consultant
+
+Terry is a Principal Consultant, AI Solution Lead at Capco. Frame AI news through this lens:
+- **Governance & regulatory:** What are banks struggling to comply with?
+- **Client advisory angle:** What would you tell a bank CRO/CTO?
+- **Competitive landscape:** What are other consultancies saying?
+- **Gaps:** Where is adoption outpacing oversight?
+
+Always include governance-focused web searches alongside regular sources:
+- "AI governance financial services banking [year]"
+- "HKMA GenAI regulation" (for HK context)
+- "site:capco.com AI" (know your employer's positions)
+
 ## Inputs
 
 - **mode** (optional): "quick" (Tier 1 only) | "deep" (all sources) | default is quick

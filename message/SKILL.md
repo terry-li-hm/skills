@@ -19,11 +19,11 @@ Draft responses to messages from recruiters, networking contacts, and others.
 
 ### 1. Find the Message
 
-Check these sources (in parallel where possible):
+Check these sources:
 
-- **Gmail**: `mcp__gmail__query_emails` with sender name
+- **Gmail**: `gog gmail search "from:[name]"` or `mcporter call gmail.search_emails query="from:[name]"`
 - **LinkedIn**: Browser automation to check messaging
-- **WhatsApp**: Ask user to share the message (no direct access)
+- **WhatsApp**: Ask user to share the message (or check via wacli if configured)
 
 If user says "[name] replied" without specifying platform, check Gmail and LinkedIn first before asking.
 
@@ -99,16 +99,15 @@ After message is sent, update:
 ## Platform-Specific Notes
 
 ### LinkedIn
-- Must use browser automation (requires login)
+- Use browser automation (requires login)
 - Can read and send messages via the messaging interface
 - Check for InMail vs regular messages
 
 ### Gmail
-- Use `mcp__gmail__query_emails` for search
-- Use `mcp__gmail__get_emails` for full content
-- Can send via `mcp__gmail__send_email` but cannot reply to threads (no thread ID support)
+- **OpenClaw:** Use `gog` skill (`gog gmail search`, `gog gmail get`)
+- **MCP:** `mcporter call gmail.search_emails`, `mcporter call gmail.get_email`
+- Can send via `gog gmail send` or MCP
 
 ### WhatsApp
-- No direct MCP access
-- Ask user to paste the message
+- Use `wacli` if configured, otherwise ask user to paste the message
 - Draft reply for user to send manually

@@ -23,14 +23,12 @@ Use when:
 1. **Get file path and target** — Ask user if not provided
 
 2. **Get browser context**:
-   ```
-   Use mcp__claude-in-chrome__tabs_context_mcp to get current tab
-   ```
+   - **OpenClaw:** `browser action=snapshot` to see current page
+   - **Claude Code:** Use Chrome extension to get current tab
 
 3. **Find file input elements**:
-   ```
-   Use mcp__claude-in-chrome__find with query "file input or upload button"
-   ```
+   - Look for `<input type="file">` elements in the page
+   - Or upload buttons/dropzones
 
 4. **Read and encode the local file**:
    ```bash

@@ -10,13 +10,14 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 ## Workflow
 
 1. **Navigate to job posting:**
-   - **Prefer Chrome:** `tabs_create_mcp` → create new tab → `navigate` → `get_page_text`
-   - **Fallback (Chrome unavailable):** Use `tavily-extract` with `extract_depth: advanced`
+   - **OpenClaw:** Use `browser` tool → `snapshot` or `screenshot` to read the page
+   - **Claude Code:** Use Chrome extension (`profile="chrome"`) or `web_fetch`
+   - **Fallback:** `mcporter call tavily.tavily-extract urls='["URL"]'`
    - Extract: company name, role title, requirements, responsibilities, preferred qualifications, salary if disclosed, applicant stats
 
-   **Why Chrome over Tavily for LinkedIn:**
-   - Tavily with `extract_depth: advanced` gets the full JD text, but **misses applicant stats** (count, seniority breakdown, education distribution) — these require being logged in
-   - Chrome sees the full page as logged-in user, including competition metrics critical for fit analysis
+   **Why browser over fetch for LinkedIn:**
+   - Fetch/extract misses **applicant stats** (count, seniority breakdown) — requires being logged in
+   - Browser sees the full page as logged-in user, including competition metrics
    - Can click "Show more" to expand full JD if needed
 
 2. **Check for duplicates** (before full analysis):
@@ -37,9 +38,9 @@ Analyze LinkedIn job postings against user's background, current pipeline health
    - **Thin** (<5 active, no interviews): Lower bar — CONSIDER "good enough" roles
    - Consider urgency of user's situation when weighing trade-offs
 
-6. **Check anti-signals**:
-   - Read Anti-Signals section from [[Job Hunting]]
-   - If role matches a known pattern, add warning
+6. **Check for red flags**:
+   - Review past rejections for similar roles
+   - If role matches a known rejection pattern, add warning
    - Factor into recommendation (APPLY → CONSIDER if pattern match)
 
 7. **Output recommendation:** APPLY, CONSIDER, or PASS with clear reasoning
@@ -134,6 +135,6 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 - [[Role Title - Company]] (Date) - [One-line reason]
 ```
 
-## Batch Processing (Job Alert Emails)
+## Batch Processing
 
-For processing multiple jobs from LinkedIn alert emails, use `/process-job-alerts` skill instead. It handles batch filtering and calls this skill for deep-dives on promising roles.
+For multiple jobs, run this skill sequentially on each URL. Start with quick duplicate check before full analysis.
