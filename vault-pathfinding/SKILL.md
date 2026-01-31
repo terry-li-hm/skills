@@ -6,7 +6,7 @@ user_invocable: false
 
 # Vault Pathfinding
 
-Standard paths and conventions for Terry's Obsidian vault at `/Users/terry/notes/`.
+Standard paths and conventions for Terry's Obsidian vault at `~/notes/`.
 
 ## Core Files
 
@@ -72,13 +72,13 @@ If a file doesn't exist:
 
 ```bash
 # Find all evaluations for a company
-grep -l "Company Name" /Users/terry/notes/*.md
+grep -l "Company Name" ~/notes/*.md
 
 # Find all roles with a specific anti-signal
-grep -l "too junior" /Users/terry/notes/Job\ Hunting\ -\ Passed\ Roles.md
+grep -l "too junior" ~/notes/Job\ Hunting\ -\ Passed\ Roles.md
 
 # Find recent daily notes
-ls -t /Users/terry/notes/2026-*.md | head -5
+ls -t ~/notes/2026-*.md | head -5
 ```
 
 ## Related Skills

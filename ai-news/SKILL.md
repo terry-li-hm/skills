@@ -38,7 +38,7 @@ Sources are defined in `sources.yaml` in this skill directory. Categories:
 - **Web sources**: Blogs, newsletters (WebFetch)
 - **Bank tech blogs**: Financial services AI (WebFetch)
 - **Chinese sources**: 机器之心, 量子位, 新智元 (RSS)
-- **X accounts**: @karpathy, @emollick, etc. (browser automation)
+- **X accounts**: @karpathy, @emollick, etc. (via `bird` CLI)
 - **YouTube**: Video search + transcript extraction
 
 **Tier 1**: Always fetch (~15 sources, fast)
@@ -67,9 +67,14 @@ Sources are defined in `sources.yaml` in this skill directory. Categories:
 
 1. **Fetch all Tier 1 + Tier 2 sources**
 
-2. **Fetch X accounts** (browser automation):
+2. **Fetch X accounts** (via `bird` CLI — portable):
+   ```bash
+   bird user-tweets karpathy -n 5 --cookie-source chrome
+   bird user-tweets emollick -n 5 --cookie-source chrome
+   ```
    - All accounts from both tiers
    - Skip if user says "quick"
+   - See `/x-twitter` skill for full CLI reference
 
 3. **YouTube videos** (Brave Video Search):
    - Search AI-related queries from `sources.yaml`
@@ -130,5 +135,5 @@ When user says "smol deep" or "full smol":
 
 ## Files
 
-- Sources config: `/Users/terry/skills/ai-news/sources.yaml`
-- This skill: `/Users/terry/skills/ai-news/SKILL.md`
+- Sources config: `sources.yaml` (in this skill directory)
+- Related: `/x-twitter` skill for X account fetching

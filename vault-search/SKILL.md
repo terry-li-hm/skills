@@ -36,12 +36,12 @@ Read `[[Vault Index]]` to identify which section/hub notes are relevant.
 
 ```bash
 # Top-level notes
-grep -il "term" /Users/terry/notes/*.md
+grep -il "term" ~/notes/*.md
 
 # Key subdirectories
-grep -ril "term" /Users/terry/notes/Articles/
-grep -ril "term" /Users/terry/notes/memory/
-grep -ril "term" /Users/terry/notes/patterns/
+grep -ril "term" ~/notes/Articles/
+grep -ril "term" ~/notes/memory/
+grep -ril "term" ~/notes/patterns/
 ```
 
 ### 4. Check Hub Notes

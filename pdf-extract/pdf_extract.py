@@ -23,8 +23,9 @@ import tempfile
 import urllib.request
 import urllib.parse
 
-# LlamaParse API key
-LLAMA_PARSE_API_KEY = os.environ.get("LLAMA_CLOUD_API_KEY", "llx-UxlgOJXufB0O71OheKnQBoc0yeJQNzaixKH1Kdp8T2rkH84D")
+# LlamaParse API key - get from https://cloud.llamaindex.ai
+# Set LLAMA_CLOUD_API_KEY env var to enable cloud parsing
+LLAMA_PARSE_API_KEY = os.environ.get("LLAMA_CLOUD_API_KEY")
 
 
 def download_if_url(source):

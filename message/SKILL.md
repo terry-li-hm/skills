@@ -23,7 +23,7 @@ Check these sources:
 
 - **Gmail**: `gog gmail search "from:[name]"` or `mcporter call gmail.search_emails query="from:[name]"`
 - **LinkedIn**: Browser automation to check messaging
-- **WhatsApp**: Ask user to share the message (or check via wacli if configured)
+- **WhatsApp**: `wacli messages --contact "[name or number]"` or `wacli chats` to list recent
 
 If user says "[name] replied" without specifying platform, check Gmail and LinkedIn first before asking.
 
@@ -139,6 +139,19 @@ Use when: Build relationship before signaling job interest.
 - **MCP:** `mcporter call gmail.search_emails`, `mcporter call gmail.get_email`
 - Can send via `gog gmail send` or MCP
 
-### WhatsApp
-- Use `wacli` if configured, otherwise ask user to paste the message
-- Draft reply for user to send manually
+### WhatsApp (via `wacli` CLI)
+```bash
+# List recent chats
+wacli chats --limit 20
+
+# Search messages from a contact
+wacli messages --contact "+852XXXXXXXX" --limit 10
+
+# Send a message
+wacli send --to "+852XXXXXXXX" --text "Message here"
+
+# Search all messages
+wacli messages --search "keyword" --limit 20
+```
+- Requires prior auth: `wacli auth` (scan QR once)
+- See `/whatsapp` skill for full CLI reference

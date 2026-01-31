@@ -2,6 +2,7 @@
 name: chrome-automation
 description: Reference skill for Claude in Chrome browser automation best practices. Not user-invocable — use as internal guidance when automating Chrome.
 user_invocable: false
+platform: claude-code
 ---
 
 # Chrome Automation Best Practices

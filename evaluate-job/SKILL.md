@@ -1,6 +1,8 @@
 ---
 name: evaluate-job
 description: Evaluate LinkedIn job postings for fit. This skill should be used when the user shares a LinkedIn job URL and wants analysis of whether to apply. Triggers on LinkedIn job links, "evaluate this role", or requests to analyze job fit.
+platform: claude-code
+platform_note: Requires Chrome browser automation for LinkedIn login. Other platforms need alternative job extraction method.
 ---
 
 # Evaluate Job

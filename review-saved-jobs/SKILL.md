@@ -1,6 +1,8 @@
 ---
 name: review-saved-jobs
 description: Review saved LinkedIn jobs systematically. Use when user says "review saved jobs", "check saved jobs", "go through my saved jobs", or wants to batch process their LinkedIn saved jobs list.
+platform: claude-code
+platform_note: Requires Chrome browser automation for LinkedIn login.
 ---
 
 # Review Saved Jobs

@@ -53,10 +53,12 @@ uv run ~/skills/pdf-extract/pdf_extract.py <pdf-path-or-url> [output-path] [--lo
 
 ## API Key
 
-LlamaParse API key is embedded in the script. To override:
+LlamaParse requires an API key. Set the environment variable:
 ```bash
 export LLAMA_CLOUD_API_KEY=your-key-here
 ```
+
+Without the API key, the script falls back to local extraction (pymupdf4llm → OCR).
 
 Free tier: 1000 pages/day. Get key at https://cloud.llamaindex.ai
 
