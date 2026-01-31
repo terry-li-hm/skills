@@ -1,14 +1,14 @@
 [project]
-name = "llm-council"
+name = "frontier-council"
 version = "0.1.0"
 description = "Multi-model deliberation for important decisions. 5 frontier LLMs debate, then a judge synthesizes consensus."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
 authors = [
-    { name = "Terry Li" }
+    { name = "Terry Li", email = "terry.li.hm@gmail.com" }
 ]
-keywords = ["llm", "ai", "deliberation", "multi-model", "council", "openrouter"]
+keywords = ["llm", "ai", "deliberation", "multi-model", "council", "openrouter", "frontier", "debate"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
@@ -24,14 +24,14 @@ dependencies = [
 ]
 
 [project.scripts]
-llm-council = "llm_council.cli:main"
+frontier-council = "frontier_council.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/terryli710/llm-council"
+Homepage = "https://github.com/terry-li-hm/skills"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["llm_council"]
+packages = ["frontier_council"]

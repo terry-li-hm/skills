@@ -1,6 +1,8 @@
-# LLM Council
+# Frontier Council
 
 Multi-model deliberation for important decisions. 5 frontier LLMs debate a question, then a judge synthesizes consensus.
+
+Inspired by [Andrej Karpathy's LLM Council](https://github.com/karpathy/llm-council), with added blind phase (anti-anchoring), explicit engagement requirements, devil's advocate role, and social calibration mode.
 
 ## Models
 
@@ -14,12 +16,12 @@ Multi-model deliberation for important decisions. 5 frontier LLMs debate a quest
 ## Installation
 
 ```bash
-pip install llm-council
+pip install frontier-council
 ```
 
 Or with uv:
 ```bash
-uv tool install llm-council
+uv tool install frontier-council
 ```
 
 ## Setup
@@ -39,22 +41,22 @@ export MOONSHOT_API_KEY=sk-...     # Kimi fallback
 
 ```bash
 # Basic question
-llm-council "Should we use microservices or monolith?"
+frontier-council "Should we use microservices or monolith?"
 
 # With social calibration (for interview/networking questions)
-llm-council "What questions should I ask in the interview?" --social
+frontier-council "What questions should I ask in the interview?" --social
 
 # With persona context
-llm-council "Should I take the job?" --persona "builder who hates process work"
+frontier-council "Should I take the job?" --persona "builder who hates process work"
 
 # Multiple rounds
-llm-council "Architecture decision" --rounds 3
+frontier-council "Architecture decision" --rounds 3
 
 # Save transcript
-llm-council "Career question" --output transcript.md
+frontier-council "Career question" --output transcript.md
 
 # Share via GitHub Gist
-llm-council "Important decision" --share
+frontier-council "Important decision" --share
 ```
 
 ## Options
@@ -106,7 +108,7 @@ Skip the council when:
 ## Python API
 
 ```python
-from llm_council import run_council, COUNCIL
+from frontier_council import run_council, COUNCIL
 import os
 
 api_key = os.environ["OPENROUTER_API_KEY"]

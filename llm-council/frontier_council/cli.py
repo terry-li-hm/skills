@@ -1,4 +1,4 @@
-"""CLI entry point for llm-council."""
+"""CLI entry point for frontier-council."""
 
 import argparse
 import json
@@ -22,10 +22,10 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  llm-council "Should we use microservices or monolith?"
-  llm-council "What questions should I ask?" --social
-  llm-council "Career decision" --persona "builder who hates process work"
-  llm-council "Architecture choice" --rounds 3 --output transcript.md
+  frontier-council "Should we use microservices or monolith?"
+  frontier-council "What questions should I ask?" --social
+  frontier-council "Career decision" --persona "builder who hates process work"
+  frontier-council "Architecture choice" --rounds 3 --output transcript.md
         """,
     )
     parser.add_argument("question", help="The question for the council to deliberate")

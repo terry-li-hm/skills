@@ -1,4 +1,4 @@
-"""LLM Council - Multi-model deliberation for important decisions."""
+"""Frontier Council - Multi-model deliberation for important decisions."""
 
 __version__ = "0.1.0"
 
