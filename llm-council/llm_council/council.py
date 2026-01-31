@@ -643,12 +643,14 @@ REQUIREMENTS for your response:
 1. Reference at least ONE previous speaker by name (e.g., "I agree with Speaker 1 that..." or "Speaker 2's point about X overlooks...")
 2. State explicitly: AGREE, DISAGREE, or BUILD ON their specific point
 3. Add ONE new consideration not yet raised
+4. Keep response under 250 words — be concise and practical
 
 If you fully agree with emerging consensus, say: "CONSENSUS: [the agreed position]"
 
 Previous speakers this round: {previous_speakers}
 
-Be direct. Challenge weak arguments. Don't be sycophantic."""
+Be direct. Challenge weak arguments. Don't be sycophantic.
+Prioritize PRACTICAL, ACTIONABLE advice over academic observations. Avoid jargon."""
 
     for round_num in range(rounds):
         round_speakers = []
@@ -784,7 +786,13 @@ Format your response as:
 ## Recommendation
 [Your final recommendation based on the deliberation]
 {social_judge_section}
-Be balanced and fair. Acknowledge minority views. Don't just pick a winner.{" For social contexts, prioritize natural/human output over strategic optimization." if social_mode else ""}"""
+Be balanced and fair. Acknowledge minority views. Don't just pick a winner.{" For social contexts, prioritize natural/human output over strategic optimization." if social_mode else ""}
+
+IMPORTANT: In your Recommendation, clearly distinguish:
+- **Do Now** — practical actions the user can take immediately
+- **Consider Later** — interesting ideas that require more infrastructure or scale
+
+Don't recommend building infrastructure for problems that don't exist yet."""
 
     deliberation_text = "\n\n".join(
         f"**{display_names[speaker]}**: {sanitize_speaker_content(text)}" for speaker, text in conversation

@@ -72,6 +72,15 @@ LLMs over-optimize for thoroughness. Add constraints like:
 - Strategic decisions: provide rich context (full background, constraints, history)
 - Social questions: minimal context + clear tone constraints
 
+**For architecture/design questions:**
+
+Provide scale and constraints upfront to avoid premature optimization advice:
+- "This is a single-user system" (avoids multi-user concerns)
+- "We have 500 notes, not 50,000" (avoids scaling infrastructure)
+- "Manual processes are acceptable" (avoids automation overkill)
+
+Without these constraints, council tends to suggest infrastructure for problems that don't exist yet.
+
 ## See Also
 
 - Full documentation: `cat /Users/terry/skills/llm-council/README.md`
