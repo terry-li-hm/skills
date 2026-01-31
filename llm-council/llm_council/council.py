@@ -1,30 +1,9 @@
-#!/usr/bin/env python3
-# /// script
-# requires-python = ">=3.11"
-# dependencies = ["httpx"]
-# ///
-"""
-LLM Council - Multi-model deliberation via OpenRouter.
+"""Core council deliberation logic."""
 
-5 frontier models debate a question and a judge synthesizes the consensus.
-Models: Claude Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2.5
-
-Usage:
-    uv run council.py "Should I use microservices or monolith?"
-    uv run council.py "your question" --rounds 2
-    uv run council.py "your question" --context "architecture decision"
-"""
-
-import argparse
 import asyncio
 import httpx
 import json
-import os
-import random
 import re
-import subprocess
-import sys
-from datetime import datetime
 from pathlib import Path
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
@@ -53,7 +32,6 @@ SOCIAL_KEYWORDS = [
 ]
 
 # Thinking models don't stream well - use non-streaming for these
-# Use exact suffixes to avoid false positives (e.g., "o1" matching "gemini-pro-1.0")
 THINKING_MODEL_SUFFIXES = {
     "gemini-3-pro-preview",
     "kimi-k2.5",
@@ -65,7 +43,6 @@ THINKING_MODEL_SUFFIXES = {
 
 def is_thinking_model(model: str) -> bool:
     """Check if model is a thinking model that doesn't stream well."""
-    # Extract model name after provider prefix (e.g., "openai/o1" -> "o1")
     model_name = model.split("/")[-1].lower()
     return model_name in THINKING_MODEL_SUFFIXES
 
@@ -80,26 +57,22 @@ def query_model(
     api_key: str,
     model: str,
     messages: list[dict],
-    max_tokens: int = 1500,  # Higher for thinking models (reasoning + content)
+    max_tokens: int = 1500,
     timeout: float = 120.0,
     stream: bool = False,
-    retries: int = 2,  # Retry for thinking models that can be flaky
+    retries: int = 2,
 ) -> str:
     """Query a model via OpenRouter with retry logic for flaky models."""
-    # Thinking models need more tokens and longer timeout
     if is_thinking_model(model):
-        max_tokens = max(max_tokens, 4000)  # Reasoning uses tokens before content
-        timeout = max(timeout, 180.0)  # Thinking takes longer
+        max_tokens = max(max_tokens, 4000)
+        timeout = max(timeout, 180.0)
 
-    # Thinking models don't stream well - fall back to non-streaming
     if stream and not is_thinking_model(model):
         result = query_model_streaming(api_key, model, messages, max_tokens, timeout)
-        # If streaming failed (connection drop, etc.), fall through to non-streaming with retries
         if not result.startswith("["):
             return result
-        print(f"(Streaming failed, retrying without streaming...)", flush=True)
+        print("(Streaming failed, retrying without streaming...)", flush=True)
 
-    # Retry logic for thinking models (can be flaky via OpenRouter)
     for attempt in range(retries + 1):
         try:
             response = httpx.post(
@@ -114,41 +87,38 @@ def query_model(
             )
         except (httpx.RequestError, httpx.RemoteProtocolError) as e:
             if attempt < retries:
-                continue  # Retry on connection errors
+                continue
             return f"[Error: Connection failed for {model}: {e}]"
 
         if response.status_code != 200:
             if attempt < retries:
-                continue  # Retry on HTTP errors
+                continue
             return f"[Error: HTTP {response.status_code} from {model}]"
 
         data = response.json()
 
         if "error" in data:
             if attempt < retries:
-                continue  # Retry on API errors
+                continue
             return f"[Error: {data['error'].get('message', data['error'])}]"
 
         if "choices" not in data or not data["choices"]:
             if attempt < retries:
-                continue  # Retry on empty choices
+                continue
             return f"[Error: No response from {model}]"
 
         content = data["choices"][0]["message"]["content"]
 
-        # Check for empty content (thinking models can return empty while still reasoning)
         if not content or not content.strip():
-            # Check if there's reasoning content - means model needs more tokens
             reasoning = data["choices"][0]["message"].get("reasoning", "")
             if reasoning and reasoning.strip():
                 if attempt < retries:
                     continue
                 return f"[Model still thinking - needs more tokens. Partial reasoning: {reasoning[:150]}...]"
             if attempt < retries:
-                continue  # Retry on empty content
+                continue
             return f"[No response from {model} after {retries + 1} attempts]"
 
-        # Clean up reasoning model outputs (DeepSeek R1's <think> tags)
         if "<think>" in content:
             content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL).strip()
 
@@ -166,7 +136,6 @@ def query_google_ai_studio(
     retries: int = 2,
 ) -> str:
     """Query Google AI Studio directly (fallback for Gemini models)."""
-    # Convert OpenAI-style messages to Gemini format
     contents = []
     system_instruction = None
 
@@ -181,7 +150,6 @@ def query_google_ai_studio(
         elif role == "assistant":
             contents.append({"role": "model", "parts": [{"text": content}]})
 
-    # Build request body
     body = {
         "contents": contents,
         "generationConfig": {
@@ -209,7 +177,6 @@ def query_google_ai_studio(
                     continue
                 return f"[Error: {data['error'].get('message', data['error'])}]"
 
-            # Extract text from Gemini response format
             candidates = data.get("candidates", [])
             if not candidates:
                 if attempt < retries:
@@ -250,7 +217,7 @@ def query_moonshot(
     timeout: float = 120.0,
     retries: int = 2,
 ) -> str:
-    """Query Moonshot API directly (fallback for Kimi models). Uses OpenAI-compatible format."""
+    """Query Moonshot API directly (fallback for Kimi models)."""
     for attempt in range(retries + 1):
         try:
             response = httpx.post(
@@ -306,7 +273,7 @@ def query_model_streaming(
     api_key: str,
     model: str,
     messages: list[dict],
-    max_tokens: int = 1500,  # Higher for thinking models
+    max_tokens: int = 1500,
     timeout: float = 120.0,
 ) -> str:
     """Query a model with streaming output - prints tokens as they arrive."""
@@ -329,22 +296,20 @@ def query_model_streaming(
             },
             timeout=timeout,
         ) as response:
-            # Check for HTTP errors
             if response.status_code != 200:
                 error_msg = f"[Error: HTTP {response.status_code} from {model}]"
             else:
                 for line in response.iter_lines():
                     if not line or line.startswith(":"):
-                        continue  # Skip empty lines and SSE comments
+                        continue
 
                     if line.startswith("data: "):
-                        data_str = line[6:]  # Remove "data: " prefix
+                        data_str = line[6:]
                         if data_str.strip() == "[DONE]":
                             break
 
                         try:
                             data = json_module.loads(data_str)
-                            # Check for API error in response
                             if "error" in data:
                                 error_msg = f"[Error: {data['error'].get('message', data['error'])}]"
                                 break
@@ -353,7 +318,6 @@ def query_model_streaming(
                                 delta = data["choices"][0].get("delta", {})
                                 content = delta.get("content", "")
                                 if content:
-                                    # Handle <think> blocks - don't print them
                                     if "<think>" in content:
                                         in_think_block = True
                                     if in_think_block:
@@ -361,22 +325,21 @@ def query_model_streaming(
                                             in_think_block = False
                                             content = content.split("</think>", 1)[-1]
                                         else:
-                                            continue  # Skip content inside think block
+                                            continue
 
                                     if content:
                                         print(content, end="", flush=True)
                                         full_content.append(content)
                         except json_module.JSONDecodeError:
-                            pass  # Skip malformed JSON
+                            pass
 
     except httpx.TimeoutException:
         error_msg = f"[Error: Timeout from {model}]"
     except (httpx.RequestError, httpx.RemoteProtocolError) as e:
         error_msg = f"[Error: Connection failed for {model}: {e}]"
 
-    print()  # Newline after streaming completes
+    print()
 
-    # Handle errors or empty responses
     if error_msg:
         print(error_msg)
         return error_msg
@@ -400,13 +363,10 @@ async def query_model_async(
     max_tokens: int = 500,
     retries: int = 2,
 ) -> tuple[str, str, str]:
-    # Thinking models need more tokens (reasoning uses tokens before content)
+    """Async query for parallel blind phase. Returns (name, model_name, response)."""
     if is_thinking_model(model):
         max_tokens = max(max_tokens, 2000)
-    """
-    Async query for parallel blind phase.
-    Returns (name, model_name, response).
-    """
+
     model_name = model.split("/")[-1]
 
     for attempt in range(retries + 1):
@@ -423,7 +383,6 @@ async def query_model_async(
             if response.status_code != 200:
                 if attempt < retries:
                     continue
-                # Try fallback
                 break
 
             data = response.json()
@@ -440,14 +399,9 @@ async def query_model_async(
 
             content = data["choices"][0]["message"]["content"]
 
-            # For thinking models, content might be empty while reasoning has the output
-            # In this case, the model is still "thinking" - we need more tokens or to wait
             if not content or not content.strip():
-                # Check if there's reasoning content we can use as fallback
                 reasoning = data["choices"][0]["message"].get("reasoning", "")
                 if reasoning and reasoning.strip():
-                    # Model is still thinking - this means max_tokens was too low
-                    # Return the reasoning as a note
                     if attempt < retries:
                         continue
                     return (name, model_name, f"[Model still thinking - increase max_tokens. Partial: {reasoning[:200]}...]")
@@ -455,7 +409,6 @@ async def query_model_async(
                     continue
                 break
 
-            # Clean up reasoning model outputs
             if "<think>" in content:
                 content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL).strip()
 
@@ -466,7 +419,7 @@ async def query_model_async(
                 continue
             break
 
-    # Try fallbacks synchronously (they're not async-friendly)
+    # Try fallbacks synchronously
     if fallback:
         fallback_provider, fallback_model = fallback
         if fallback_provider == "google" and google_api_key:
@@ -488,11 +441,7 @@ async def run_blind_phase_parallel(
     verbose: bool = True,
     persona: str | None = None,
 ) -> list[tuple[str, str, str]]:
-    """
-    Parallel blind first-pass: all models stake claims simultaneously.
-    Returns list of (name, model_name, claims).
-    ~4x faster than sequential (15-25s vs 50-100s).
-    """
+    """Parallel blind first-pass: all models stake claims simultaneously."""
     blind_system = """You are participating in the BLIND PHASE of a council deliberation.
 
 Stake your initial position on the question BEFORE seeing what others think.
@@ -505,7 +454,6 @@ Provide a CLAIM SKETCH (not a full response):
 
 Keep it concise (~100 words). The full deliberation comes later."""
 
-    # Inject persona context if provided
     if persona:
         blind_system += f"""
 
@@ -542,7 +490,6 @@ Factor this into your advice — don't just give strategically optimal answers, 
 
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
-    # Process results, handling any exceptions
     blind_claims = []
     for i, result in enumerate(results):
         name, model, _ = council_config[i]
@@ -553,7 +500,6 @@ Factor this into your advice — don't just give strategically optimal answers, 
         else:
             blind_claims.append(result)
 
-    # Print results
     if verbose:
         print()
         for name, model_name, claims in blind_claims:
@@ -565,16 +511,11 @@ Factor this into your advice — don't just give strategically optimal answers, 
 
 
 def sanitize_speaker_content(content: str) -> str:
-    """
-    Sanitize speaker content to prevent prompt injection.
-    Wraps content in a way that prevents it from being interpreted as instructions.
-    """
-    # Strip any explicit instruction-like patterns
+    """Sanitize speaker content to prevent prompt injection."""
     sanitized = content.replace("SYSTEM:", "[SYSTEM]:")
     sanitized = sanitized.replace("INSTRUCTION:", "[INSTRUCTION]:")
     sanitized = sanitized.replace("IGNORE PREVIOUS", "[IGNORE PREVIOUS]")
     sanitized = sanitized.replace("OVERRIDE:", "[OVERRIDE]:")
-
     return sanitized
 
 
@@ -585,12 +526,10 @@ def detect_consensus(conversation: list[tuple[str, str]], council_size: int) -> 
 
     recent = [text for _, text in conversation[-council_size:]]
 
-    # Check for explicit CONSENSUS signals
     consensus_count = sum(1 for text in recent if "CONSENSUS:" in text.upper())
-    if consensus_count >= council_size - 1:  # 4 of 5
+    if consensus_count >= council_size - 1:
         return True, "explicit consensus signals"
 
-    # Check for strong agreement language (avoid false positives from "building on")
     agreement_phrases = ["i agree with", "i concur", "we all agree", "consensus emerging"]
     agreement_count = sum(
         1 for text in recent
@@ -600,79 +539,6 @@ def detect_consensus(conversation: list[tuple[str, str]], council_size: int) -> 
         return True, "agreement language detected"
 
     return False, "no consensus"
-
-
-def run_blind_phase(
-    question: str,
-    council_config: list[tuple[str, str, tuple[str, str] | None]],
-    api_key: str,
-    google_api_key: str | None = None,
-    moonshot_api_key: str | None = None,
-    verbose: bool = True,
-) -> list[tuple[str, str, str]]:
-    """
-    Blind first-pass: each model stakes claims independently without seeing others.
-    Returns list of (name, model_name, claims).
-    """
-    blind_system = """You are participating in the BLIND PHASE of a council deliberation.
-
-Stake your initial position on the question BEFORE seeing what others think.
-This prevents anchoring bias.
-
-Provide a CLAIM SKETCH (not a full response):
-1. Your core position (1-2 sentences)
-2. Top 3 supporting claims or considerations
-3. Key assumption or uncertainty
-
-Keep it concise (~100 words). The full deliberation comes later."""
-
-    blind_claims = []
-
-    if verbose:
-        print("=" * 60)
-        print("BLIND PHASE (independent claims)")
-        print("=" * 60)
-        print()
-
-    for name, model, fallback in council_config:
-        model_name = model.split("/")[-1]
-
-        if verbose:
-            print(f"### {model_name} (blind)")
-            if is_thinking_model(model):
-                print("(thinking...)", flush=True)
-
-        messages = [
-            {"role": "system", "content": blind_system},
-            {"role": "user", "content": f"Question:\n\n{question}"},
-        ]
-
-        # Thinking models need more tokens for reasoning before content
-        blind_max_tokens = 2000 if is_thinking_model(model) else 500
-        response = query_model(api_key, model, messages, max_tokens=blind_max_tokens, stream=verbose)
-
-        # Try fallback if needed
-        if response.startswith("[") and fallback:
-            fallback_provider, fallback_model = fallback
-            if fallback_provider == "google" and google_api_key:
-                if verbose:
-                    print(f"(fallback: {fallback_model}...)", flush=True)
-                response = query_google_ai_studio(google_api_key, fallback_model, messages, max_tokens=500)
-                model_name = fallback_model
-            elif fallback_provider == "moonshot" and moonshot_api_key:
-                if verbose:
-                    print(f"(fallback: {fallback_model}...)", flush=True)
-                response = query_moonshot(moonshot_api_key, fallback_model, messages, max_tokens=500)
-                model_name = fallback_model
-
-        if verbose and is_thinking_model(model):
-            print(response)
-        if verbose:
-            print()
-
-        blind_claims.append((name, model_name, response))
-
-    return blind_claims
 
 
 def run_council(
@@ -694,19 +560,16 @@ def run_council(
 
     council_names = [name for name, _, _ in council_config]
     blind_claims = []
-    failed_models = []  # Track model failures for summary
+    failed_models = []
 
-    # Run blind phase first if enabled (now parallel!)
     if blind:
         blind_claims = asyncio.run(run_blind_phase_parallel(
             question, council_config, api_key, google_api_key, moonshot_api_key, verbose, persona
         ))
-        # Track failures from blind phase
         for name, model_name, claims in blind_claims:
             if claims.startswith("["):
                 failed_models.append(f"{model_name} (blind): {claims}")
 
-    # Anonymous mode: use "Speaker 1", "Speaker 2", etc. (Karpathy-style)
     if anonymous:
         display_names = {name: f"Speaker {i+1}" for i, (name, _, _) in enumerate(council_config)}
     else:
@@ -724,16 +587,13 @@ def run_council(
         print("=" * 60)
         print()
 
-    # Build conversation history
     conversation = []
     output_parts = []
 
-    # Add blind claims to output if we have them
     if blind_claims:
         for name, model_name, claims in blind_claims:
             output_parts.append(f"### {model_name} (blind)\n{claims}")
 
-    # Build blind claims context for deliberation prompts (sanitized)
     blind_context = ""
     if blind_claims:
         blind_lines = []
@@ -742,7 +602,6 @@ def run_council(
             blind_lines.append(f"**{dname}**: {sanitize_speaker_content(claims)}")
         blind_context = "\n\n".join(blind_lines)
 
-    # Social mode constraint (appended to prompts when enabled)
     social_constraint = """
 
 SOCIAL CALIBRATION: This is a social/conversational context (interview, networking, outreach).
@@ -750,7 +609,6 @@ Your output should feel natural in conversation - something you'd actually say o
 Avoid structured, multi-part diagnostic questions that sound like interrogation.
 Simple and human beats strategic and comprehensive. Optimize for being relatable, not thorough."""
 
-    # Devil's advocate prompt (for one speaker to challenge the premise)
     devils_advocate_addition = """
 
 SPECIAL ROLE: You are the DEVIL'S ADVOCATE. Your job is to push back HARD.
@@ -764,7 +622,6 @@ REQUIREMENTS:
 Don't just "add nuance" or "build on" — find something to genuinely challenge.
 If you can't find real disagreement, say why the consensus might be groupthink."""
 
-    # First speaker prompt when blind phase was run (has context of all blind claims)
     first_speaker_with_blind = """You are {name}, speaking first in Round {round_num} of a council deliberation.
 
 You've seen everyone's BLIND CLAIMS (their independent initial positions). Now engage:
@@ -774,14 +631,12 @@ You've seen everyone's BLIND CLAIMS (their independent initial positions). Now e
 
 Be direct. Challenge weak arguments. Don't be sycophantic."""
 
-    # First speaker prompt (no blind phase, no prior speakers to reference)
     first_speaker_system = """You are {name}, speaking first in Round {round_num} of a council deliberation.
 
 As the first speaker, stake a clear position on the question. Be specific and substantive so others can engage with your points.
 
 End with 2-3 key claims that others should respond to."""
 
-    # Subsequent speaker prompt (must engage with previous speakers)
     council_system = """You are {name}, participating in Round {round_num} of a council deliberation.
 
 REQUIREMENTS for your response:
@@ -795,23 +650,17 @@ Previous speakers this round: {previous_speakers}
 
 Be direct. Challenge weak arguments. Don't be sycophantic."""
 
-    # Run deliberation rounds
     for round_num in range(rounds):
-        round_speakers = []  # Track speakers in this round (display names)
+        round_speakers = []
         for idx, (name, model, fallback) in enumerate(council_config):
-            dname = display_names[name]  # Use anonymous name if enabled
+            dname = display_names[name]
 
-            # Choose prompt based on position and whether blind phase ran
             if idx == 0 and round_num == 0:
                 if blind_claims:
-                    # First speaker with blind context
                     system_prompt = first_speaker_with_blind.format(name=dname, round_num=round_num + 1)
                 else:
-                    # First speaker of first round - no one to reference
                     system_prompt = first_speaker_system.format(name=dname, round_num=round_num + 1)
             else:
-                # All others must engage with previous speakers
-                # For first speaker of round 2+, reference all previous speakers
                 if round_speakers:
                     previous = ", ".join(round_speakers)
                 else:
@@ -822,11 +671,9 @@ Be direct. Challenge weak arguments. Don't be sycophantic."""
                     previous_speakers=previous
                 )
 
-            # Add social calibration constraint if enabled
             if social_mode:
                 system_prompt += social_constraint
 
-            # Inject persona context if provided
             if persona:
                 system_prompt += f"""
 
@@ -835,11 +682,9 @@ IMPORTANT CONTEXT about the person asking:
 
 Factor this into your advice — don't just give strategically optimal answers, consider what fits THIS person."""
 
-            # Assign devil's advocate role to designated speaker in first round
             if idx == advocate_idx and round_num == 0:
                 system_prompt += devils_advocate_addition
 
-            # Build messages for this agent
             user_content = f"Question for the council:\n\n{question}"
             if blind_context:
                 user_content += f"\n\n---\n\nBLIND CLAIMS (independent initial positions):\n\n{blind_context}"
@@ -849,7 +694,6 @@ Factor this into your advice — don't just give strategically optimal answers, 
                 {"role": "user", "content": user_content},
             ]
 
-            # Add conversation history (using display names, sanitized)
             for speaker, text in conversation:
                 speaker_dname = display_names[speaker]
                 sanitized_text = sanitize_speaker_content(text)
@@ -858,19 +702,15 @@ Factor this into your advice — don't just give strategically optimal answers, 
                     "content": f"[{speaker_dname}]: {sanitized_text}" if speaker != name else sanitized_text,
                 })
 
-            # Extract model name without provider prefix (e.g., "claude-opus-4.5" from "anthropic/claude-opus-4.5")
             model_name = model.split("/")[-1]
 
             if verbose:
-                # Show full model name in output
                 print(f"### {model_name}")
                 if is_thinking_model(model):
                     print("(thinking...)", flush=True)
 
-            # Stream output live when verbose (thinking models use non-streaming)
             response = query_model(api_key, model, messages, stream=verbose)
 
-            # Try fallback if OpenRouter failed and fallback is available
             used_fallback = False
             if response.startswith("[") and fallback:
                 fallback_provider, fallback_model = fallback
@@ -889,31 +729,27 @@ Factor this into your advice — don't just give strategically optimal answers, 
                     used_fallback = True
                     model_name = fallback_model
 
-            # Print response for thinking models (since they don't stream)
             if verbose and (is_thinking_model(model) or used_fallback):
                 print(response)
 
-            # Track model failures
             if response.startswith("["):
                 failed_models.append(f"{model_name}: {response}")
 
-            conversation.append((name, response))  # Store short name internally for reference tracking
+            conversation.append((name, response))
             round_speakers.append(dname)
 
             if verbose:
-                print()  # Extra newline after streamed response
+                print()
 
             output_parts.append(f"### {model_name}\n{response}")
 
-        # Check for consensus after each completed round
         converged, reason = detect_consensus(conversation, len(council_config))
         if converged:
             if verbose:
                 print(f">>> CONSENSUS DETECTED ({reason}) - proceeding to judge\n")
             break
 
-    # Judge synthesizes
-    # Build judge system prompt with optional context
+    # Judge synthesis
     context_hint = ""
     if context:
         context_hint = f"\n\nContext about this question: {context}\nConsider this context when weighing perspectives and forming recommendations."
@@ -950,7 +786,6 @@ Format your response as:
 {social_judge_section}
 Be balanced and fair. Acknowledge minority views. Don't just pick a winner.{" For social contexts, prioritize natural/human output over strategic optimization." if social_mode else ""}"""
 
-    # Build judge's view of the conversation (using display names, sanitized)
     deliberation_text = "\n\n".join(
         f"**{display_names[speaker]}**: {sanitize_speaker_content(text)}" for speaker, text in conversation
     )
@@ -965,22 +800,18 @@ Be balanced and fair. Acknowledge minority views. Don't just pick a winner.{" Fo
     if verbose:
         print(f"### Judge ({judge_model_name})")
 
-    # Stream output live when verbose
     judge_response = query_model(api_key, JUDGE_MODEL, judge_messages, max_tokens=1200, stream=verbose)
 
     if verbose:
-        print()  # Extra newline after streamed response
+        print()
 
     output_parts.append(f"### Judge ({judge_model_name})\n{judge_response}")
 
-    # Post-process: replace anonymous names with real model names in output for readability
-    # (Models deliberated anonymously to prevent bias, but output is readable)
     if anonymous:
         final_output = "\n\n".join(output_parts)
         for name, model, _ in council_config:
             anon_name = display_names[name]
             model_name = model.split("/")[-1]
-            # Replace "[Speaker 1]" -> "[claude-opus-4.5]", "Speaker 1's" -> "claude-opus-4.5's", etc.
             final_output = final_output.replace(f"### {anon_name}", f"### {model_name}")
             final_output = final_output.replace(f"[{anon_name}]", f"[{model_name}]")
             final_output = final_output.replace(f"**{anon_name}**", f"**{model_name}**")
@@ -989,204 +820,3 @@ Be balanced and fair. Acknowledge minority views. Don't just pick a winner.{" Fo
         return final_output, failed_models
 
     return "\n\n".join(output_parts), failed_models
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="LLM Council - Multi-model deliberation"
-    )
-    parser.add_argument("question", help="The question for the council to deliberate")
-    parser.add_argument(
-        "--rounds",
-        type=int,
-        default=2,
-        help="Number of deliberation rounds (default: 2, exits early on consensus)",
-    )
-    parser.add_argument(
-        "--quiet",
-        action="store_true",
-        help="Suppress progress output",
-    )
-    parser.add_argument(
-        "--output", "-o",
-        help="Save transcript to file",
-    )
-    parser.add_argument(
-        "--named",
-        action="store_true",
-        help="Show real model names instead of anonymous Speaker 1, 2, etc.",
-    )
-    parser.add_argument(
-        "--no-blind",
-        action="store_true",
-        help="Skip blind first-pass (faster, but more anchoring bias)",
-    )
-    parser.add_argument(
-        "--context", "-c",
-        help="Context hint for the judge (e.g., 'architecture decision', 'ethics question')",
-    )
-    parser.add_argument(
-        "--share",
-        action="store_true",
-        help="Upload transcript to secret GitHub Gist and print URL",
-    )
-    parser.add_argument(
-        "--social",
-        action="store_true",
-        help="Enable social calibration mode (for interview questions, outreach, networking)",
-    )
-    parser.add_argument(
-        "--persona", "-p",
-        help="Context about the person asking (e.g., 'builder who hates process work, enjoys creating things')",
-    )
-    parser.add_argument(
-        "--advocate",
-        type=int,
-        choices=[1, 2, 3, 4, 5],
-        help="Which speaker (1-5) should be devil's advocate (default: random)",
-    )
-    args = parser.parse_args()
-
-    # Auto-detect social context if not explicitly set
-    social_mode = args.social or detect_social_context(args.question)
-    if social_mode and not args.social and not args.quiet:
-        print("(Auto-detected social context - enabling social calibration mode)")
-        print()
-
-    # Get API keys
-    api_key = os.environ.get("OPENROUTER_API_KEY")
-    if not api_key:
-        print("Error: OPENROUTER_API_KEY environment variable not set", file=sys.stderr)
-        sys.exit(1)
-
-    # Optional: fallback API keys
-    google_api_key = os.environ.get("GOOGLE_API_KEY")
-    moonshot_api_key = os.environ.get("MOONSHOT_API_KEY")
-
-    use_blind = not args.no_blind
-
-    if not args.quiet:
-        mode_parts = []
-        mode_parts.append("named" if args.named else "anonymous")
-        mode_parts.append("blind first-pass" if use_blind else "no blind phase")
-        if social_mode:
-            mode_parts.append("social calibration")
-        print(f"Running LLM Council ({', '.join(mode_parts)})...")
-        fallbacks = []
-        if google_api_key:
-            fallbacks.append("Gemini→AI Studio")
-        if moonshot_api_key:
-            fallbacks.append("Kimi→Moonshot")
-        if fallbacks:
-            print(f"(Fallbacks enabled: {', '.join(fallbacks)})")
-        print()
-
-    # Run council
-    try:
-        # Determine devil's advocate index (0-based internally, 1-based for user)
-        advocate_idx = (args.advocate - 1) if args.advocate else random.randint(0, len(COUNCIL) - 1)
-
-        if not args.quiet and args.persona:
-            print(f"(Persona context: {args.persona})")
-            print()
-        if not args.quiet:
-            advocate_name = COUNCIL[advocate_idx][0]
-            print(f"(Devil's advocate: {advocate_name})")
-            print()
-
-        transcript, failed_models = run_council(
-            question=args.question,
-            council_config=COUNCIL,
-            api_key=api_key,
-            google_api_key=google_api_key,
-            moonshot_api_key=moonshot_api_key,
-            rounds=args.rounds,
-            verbose=not args.quiet,
-            anonymous=not args.named,
-            blind=use_blind,
-            context=args.context,
-            social_mode=social_mode,
-            persona=args.persona,
-            advocate_idx=advocate_idx,
-        )
-
-        # Print prominent failure summary if any models failed
-        if failed_models and not args.quiet:
-            print()
-            print("=" * 60)
-            print("⚠️  MODEL FAILURES")
-            print("=" * 60)
-            for failure in failed_models:
-                print(f"  • {failure}")
-            working_count = len(COUNCIL) - len(set(f.split(":")[0].split(" (")[0] for f in failed_models))
-            print(f"\nCouncil ran with {working_count}/{len(COUNCIL)} models")
-            print("=" * 60)
-            print()
-
-        # Save transcript if requested
-        if args.output:
-            Path(args.output).write_text(transcript)
-            if not args.quiet:
-                print(f"Transcript saved to: {args.output}")
-
-        # Upload to secret gist if requested
-        if args.share:
-            try:
-                # Create temp file with transcript
-                import tempfile
-                with tempfile.NamedTemporaryFile(
-                    mode='w', suffix='.md', prefix='council-', delete=False
-                ) as f:
-                    # Add header with question
-                    f.write(f"# LLM Council Deliberation\n\n")
-                    f.write(f"**Question:** {args.question}\n\n")
-                    if args.context:
-                        f.write(f"**Context:** {args.context}\n\n")
-                    f.write(f"**Date:** {datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n---\n\n")
-                    f.write(transcript)
-                    temp_path = f.name
-
-                # Use gh CLI to create secret gist
-                result = subprocess.run(
-                    ["gh", "gist", "create", temp_path, "--desc", f"LLM Council: {args.question[:50]}"],
-                    capture_output=True, text=True
-                )
-                os.unlink(temp_path)  # Clean up temp file
-
-                if result.returncode == 0:
-                    gist_url = result.stdout.strip()
-                    print(f"\n🔗 Shared: {gist_url}")
-                else:
-                    print(f"Gist creation failed: {result.stderr}", file=sys.stderr)
-            except FileNotFoundError:
-                print("Error: 'gh' CLI not found. Install with: brew install gh", file=sys.stderr)
-
-        # Log to JSONL history (include gist URL if created)
-        gist_url = None
-        if args.share:
-            try:
-                gist_url = result.stdout.strip() if result.returncode == 0 else None
-            except NameError:
-                pass  # result not defined if gh CLI not found
-        history_file = Path(__file__).parent / "council_history.jsonl"
-        log_entry = {
-            "timestamp": datetime.now().isoformat(),
-            "question": args.question[:200],  # Truncate long questions
-            "gist": gist_url,
-            "context": args.context,
-            "rounds": args.rounds,
-            "blind": use_blind,
-            "models": [name for name, _, _ in COUNCIL],
-        }
-        with open(history_file, "a") as f:
-            f.write(json.dumps(log_entry) + "\n")
-
-    except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
-        import traceback
-        traceback.print_exc()
-        sys.exit(1)
-
-
-if __name__ == "__main__":
-    main()
