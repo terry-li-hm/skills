@@ -30,10 +30,15 @@ Daily briefing to start the day with focus.
    - Check `~/clawd/MEMORY.md` for recent context
    - If job hunting active: check `~/notes/Active Pipeline.md`
 
-5. **Weather check** (optional):
+5. **Check overnight OpenCode runs** (if any):
+   - Look in `~/notes/opencode-runs/` for recent run directories
+   - Read `summary.md` from any runs in the last 24 hours
+   - Summarize findings: what ran, what succeeded/failed, key outputs
+
+6. **Weather check** (optional):
    - `/hko` for Hong Kong weather if going out
 
-6. **Deliver a concise briefing**:
+7. **Deliver a concise briefing**:
    - Today's date and day of week
    - Scheduled events
    - Top priorities / focus areas
