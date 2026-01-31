@@ -1,6 +1,7 @@
 ---
 name: llm-council
 description: LLM Council with 5 frontier models (Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2.5). Models deliberate on a question, each seeing previous responses, then a judge synthesizes consensus. Use for important decisions needing diverse AI perspectives.
+github_url: https://github.com/terry-li-hm/frontier-council
 ---
 
 # LLM Council
@@ -25,6 +26,10 @@ description: LLM Council with 5 frontier models (Opus 4.5, GPT-5.2, Gemini 3 Pro
 ## Prerequisites
 
 ```bash
+# Install (one-time)
+uv tool install frontier-council
+
+# API keys
 export OPENROUTER_API_KEY=sk-or-v1-...    # Required
 export GOOGLE_API_KEY=AIza...              # Optional: Gemini fallback
 export MOONSHOT_API_KEY=sk-...             # Optional: Kimi fallback
@@ -39,16 +44,16 @@ Ask the user what question they want the council to deliberate, or use the quest
 ### Step 2: Run the Council
 
 ```bash
-llm-council "Should we use microservices or a monolith for this project?"
+frontier-council "Should we use microservices or a monolith for this project?"
 ```
 
 **Common options:**
 ```bash
-llm-council "question" --social              # Interview/networking questions
-llm-council "question" --persona "context"   # Add personal context
-llm-council "question" --rounds 3            # More deliberation
-llm-council "question" --output file.md      # Save transcript
-llm-council "question" --share               # Upload to secret Gist
+frontier-council "question" --social              # Interview/networking questions
+frontier-council "question" --persona "context"   # Add personal context
+frontier-council "question" --rounds 3            # More deliberation
+frontier-council "question" --output file.md      # Save transcript
+frontier-council "question" --share               # Upload to secret Gist
 ```
 
 ### Step 3: Review and Critique
@@ -83,5 +88,5 @@ Without these constraints, council tends to suggest infrastructure for problems 
 
 ## See Also
 
-- Full documentation: `cat /Users/terry/skills/llm-council/README.md`
-- Python API available: `from llm_council import run_council`
+- Repository: https://github.com/terry-li-hm/frontier-council
+- PyPI: https://pypi.org/project/frontier-council/
