@@ -2,6 +2,7 @@
 name: llm-council
 description: LLM Council with 5 frontier models (Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2.5). Models deliberate on a question, each seeing previous responses, then a judge synthesizes consensus. Use for important decisions needing diverse AI perspectives.
 github_url: https://github.com/terry-li-hm/frontier-council
+github_hash: f2641b9
 ---
 
 # LLM Council
@@ -29,6 +30,9 @@ github_url: https://github.com/terry-li-hm/frontier-council
 # Install (one-time)
 uv tool install frontier-council
 
+# Or install from local dev:
+cd ~/code/frontier-council && pip install -e .
+
 # API keys
 export OPENROUTER_API_KEY=sk-or-v1-...    # Required
 export GOOGLE_API_KEY=AIza...              # Optional: Gemini fallback
@@ -41,28 +45,144 @@ export MOONSHOT_API_KEY=sk-...             # Optional: Kimi fallback
 
 Ask the user what question they want the council to deliberate, or use the question they provided.
 
-### Step 2: Run the Council
+### Step 2: Gather Context (for important decisions)
+
+For job/career decisions, read relevant vault files and compose into `--persona`:
 
 ```bash
-frontier-council "Should we use microservices or a monolith for this project?"
+# Read context files
+CLAUDE_MD=$(cat /Users/terry/notes/CLAUDE.md | head -100)
+PIPELINE=$(cat "/Users/terry/notes/Active Pipeline.md" | head -50)
+
+# Compose persona
+PERSONA="Background: Terry is AGM & Head of Data Science at CITIC, being counselled out.
+Current pipeline: $PIPELINE"
+```
+
+For other decisions, use simpler context or skip this step.
+
+### Step 3: Run the Council
+
+**Basic usage:**
+```bash
+frontier-council "Should we use microservices or a monolith?"
+```
+
+**With structured output (recommended for agent workflows):**
+```bash
+frontier-council "Should I accept the Standard Chartered offer?" \
+  --format json \
+  --persona "$PERSONA" \
+  --context "job-offer"
 ```
 
 **Common options:**
 ```bash
-frontier-council "question" --social              # Interview/networking questions
-frontier-council "question" --persona "context"   # Add personal context
-frontier-council "question" --rounds 3            # More deliberation
-frontier-council "question" --output file.md      # Save transcript
-frontier-council "question" --share               # Upload to secret Gist
+frontier-council "question" --format json           # Machine-parseable output
+frontier-council "question" --format yaml           # Structured but readable
+frontier-council "question" --social                # Interview/networking questions
+frontier-council "question" --persona "context"     # Add personal context
+frontier-council "question" --rounds 3              # More deliberation
+frontier-council "question" --output file.md        # Save transcript
+frontier-council "question" --share                 # Upload to secret Gist
 ```
 
-### Step 3: Review and Critique
+### Step 4: Parse and Present (when using --format json)
 
-Present the judge's synthesis, then critique it:
-- Did the council overcorrect on any point?
-- Did they miss obvious scenarios?
-- Does the advice fit the user's specific context?
-- Any groupthink where everyone agreed too fast?
+When using `--format json`, the output ends with a JSON block after `---`:
+
+```json
+{
+  "schema_version": "1.0",
+  "question": "Should I accept the Standard Chartered offer?",
+  "decision": "Accept the offer with negotiation on start date",
+  "confidence": "high",
+  "reasoning_summary": "Council agreed that...",
+  "dissents": [{"model": "Grok", "concern": "Consider counter-offer timing"}],
+  "action_items": [
+    {"action": "Send acceptance email", "priority": "high"},
+    {"action": "Negotiate start date", "priority": "medium"}
+  ],
+  "meta": {
+    "timestamp": "2026-01-31T14:30:00",
+    "models_used": ["claude-opus-4.5", "gpt-5.2", "gemini-3-pro", "grok-4", "kimi-k2.5"],
+    "rounds": 2,
+    "duration_seconds": 67,
+    "estimated_cost_usd": 0.85
+  }
+}
+```
+
+Parse this and present:
+1. **Decision** with confidence level
+2. **Key reasoning** (summary)
+3. **Dissenting views** (if any)
+4. **Claude's critique** — did they miss anything? Does it fit Terry's context?
+
+### Step 5: Offer Follow-Up Actions
+
+After presenting the council's recommendation, use AskUserQuestion:
+
+**Question:** "What would you like to do with this decision?"
+
+**Options:**
+1. **Create tasks** — Add action_items to task list
+2. **Save to vault** — Create decision record in `~/notes/Decisions/`
+3. **Draft messages** — Draft follow-up messages based on action_items
+4. **Just note it** — No further action needed
+
+### Step 6: Execute Selected Action
+
+**If "Create tasks":**
+Use TaskCreate for each action_item with appropriate priority.
+
+**If "Save to vault":**
+Create note at `~/notes/Decisions/LLM Council - {Topic} - {YYYY-MM-DD}.md`:
+
+```markdown
+---
+date: {date}
+type: decision
+question: "{question}"
+status: pending
+decision: "{decision}"
+confidence: {confidence}
+participants:
+  - claude-opus-4.5
+  - gpt-5.2
+  - gemini-3-pro
+  - grok-4
+  - kimi-k2.5
+tags:
+  - decision
+  - llm-council
+---
+
+**Related:** [[Active Pipeline]] | [[Job Hunting]]
+
+# {Title from question}
+
+## Question
+{question}
+
+## Decision
+{decision}
+
+## Reasoning
+{reasoning_summary}
+
+## Dissents
+{for each dissent: - **{model}:** {concern}}
+
+## Action Items
+{for each action: - [ ] {action}}
+
+---
+*Council convened: {date} | {models count} models | {rounds} rounds | ~${cost}*
+```
+
+**If "Draft messages":**
+Review action_items and offer to draft relevant messages (acceptance emails, follow-ups, etc.)
 
 ## Prompting Tips
 
@@ -86,7 +206,16 @@ Provide scale and constraints upfront to avoid premature optimization advice:
 
 Without these constraints, council tends to suggest infrastructure for problems that don't exist yet.
 
+## Output Formats
+
+| Format | Use Case |
+|--------|----------|
+| `prose` (default) | Human reading, exploratory |
+| `json` | Agent workflows, parsing, automation |
+| `yaml` | Human-readable structured output |
+
 ## See Also
 
 - Repository: https://github.com/terry-li-hm/frontier-council
 - PyPI: https://pypi.org/project/frontier-council/
+- Plan: `/Users/terry/skills/plans/2026-01-31-feat-frontier-council-claude-code-integration-plan.md`
