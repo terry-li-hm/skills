@@ -72,6 +72,16 @@ These sites return login walls via web scraping tools — must use browser autom
 
 **Avoid triggering JavaScript alerts, confirms, or prompts** — they block all further browser events. If you must interact with dialog-triggering elements, warn the user first.
 
+## Session Cleanup
+
+**Always navigate to the idle page after completing browser automation tasks:**
+
+```
+https://terry-li-hm.github.io/claude-home/
+```
+
+This keeps the browser in a clean, non-distracting state instead of leaving it on a logged-in dashboard or sensitive page. The idle page shows a minimal dark background with subtle day/time in the corner.
+
 ## Related Skills
 
 - `/evaluate-job` — Uses Chrome for LinkedIn job extraction
