@@ -18,60 +18,72 @@ Use when:
 
 ## Workflow
 
-Run all three checks in parallel:
+Run Gmail CLI and WhatsApp check in parallel, then browser for LinkedIn.
 
 ### 1. WhatsApp (wacli)
 ```bash
-wacli chats --limit 15 --json | jq '[.[] | select(.unread > 0)] | length'
-# If unread > 0, get details:
-wacli chats --limit 15 --json | jq '.[] | select(.unread > 0) | {name: .name, unread: .unread, last: .last_message.text[0:80]}'
+# Check connection first
+wacli doctor | grep CONNECTED
+
+# If CONNECTED=false, reconnect:
+wacli sync &  # runs in background, takes ~10s
+
+# List recent chats (unread count NOT available in JSON output)
+wacli chats list --limit 15 --json | jq '.data[] | {name: .Name, last: .LastMessageTS}'
 ```
+
+**Limitation:** `wacli` doesn't expose unread count. Show recent chats and let user identify what needs attention based on timestamps.
 
 ### 2. LinkedIn DMs (browser automation)
-Use agent-browser or Claude in Chrome:
-- Navigate to linkedin.com/messaging
-- Check for unread indicator (badge count)
-- List recent conversations with unread status
+Use Claude in Chrome:
+```
+1. Navigate to linkedin.com/messaging
+2. Read page with depth 8-10
+3. Look for conversations where last message is NOT "You:" prefix
+4. Check for unread badge in nav (e.g., "5 unread")
+```
 
-### 3. Gmail (MCP)
-```
-mcp__gmail__search_emails with query: "is:unread -category:promotions -category:social"
-```
-Or use `gog`:
+Key elements to find:
+- Nav badge: `generic "X unread"` near Messaging link
+- Conversation list: messages starting with contact name (not "You:") = incoming
+
+### 3. Gmail (gog CLI)
 ```bash
-gog gmail messages list --query "is:unread -category:promotions -category:social" --max 10
+# Search unread, excluding noise
+gog gmail search "is:unread -category:promotions -category:social -from:jobalerts-noreply@linkedin.com" --max 10
 ```
+
+Priority keywords to flag: interview, offer, recruiter, following up, schedule
 
 ## Output Format
-
-Present a unified summary:
 
 ```
 ## Message Check (HKT timestamp)
 
-**WhatsApp** — 2 unread
-- German Recruiter: "Thanks for your time yesterday..."
-- Family Group: "Dinner Sunday?"
+**WhatsApp** — Connected ✓
+- Recent: [list recent chats with timestamps]
+- [Note any that look like they need response based on timing]
 
-**LinkedIn** — 1 unread
-- Sarah Chen (HSBC Recruiter): New message
+**LinkedIn** — X unread (or "0 unread")
+- [List conversations with incoming messages]
+- Flag recruiters/job-related
 
-**Gmail** — 3 unread (excluding promos/social)
-- interview@company.com: "Interview confirmation..."
-- recruiter@firm.com: "Following up on..."
-- newsletter@... (skipped, low priority)
+**Gmail** — X unread (filtered)
+- ⚠️ [urgent items first]
+- [other items]
 
 ---
-Priority: [Highlight any job-hunt related messages]
+Priority: [Highlight job-hunt related messages needing response]
 ```
 
 ## Error Handling
 
 | Channel | If fails | Fallback |
 |---------|----------|----------|
+| WhatsApp | CONNECTED=false | Run `wacli sync &`, wait 10s, retry |
 | WhatsApp | "Not authenticated" | Tell user to run `wacli auth` |
 | LinkedIn | Login wall | Use Claude in Chrome with active session |
-| Gmail | MCP error | Try `gog gmail` CLI instead |
+| Gmail | CLI error | Use Gmail MCP tools |
 
 ## Integration
 
@@ -81,6 +93,7 @@ Priority: [Highlight any job-hunt related messages]
 
 ## Cautions
 
-- LinkedIn browser automation may be slow (5-10 sec)
+- LinkedIn browser automation takes 5-10 sec
 - WhatsApp requires prior `wacli auth` setup
-- Gmail filters out promotions/social by default (override with explicit query if needed)
+- WhatsApp unread count not available — rely on timestamps and "You:" prefix detection
+- Gmail filters out promotions/social by default
