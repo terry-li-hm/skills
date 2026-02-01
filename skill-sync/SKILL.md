@@ -1,6 +1,6 @@
 ---
 name: skill-sync
-description: Sync skills across Claude Code, OpenClaw, and OpenCode. Use when creating new skills or to verify all platforms have the same skills.
+description: "MUST run after creating or modifying any skill. Syncs skills to all 3 platforms (Claude Code, OpenClaw, OpenCode). Without this, new skills won't work everywhere."
 ---
 
 # Skill Sync
