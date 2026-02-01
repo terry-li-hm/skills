@@ -1,5 +1,5 @@
 ---
-name: skills-design
+name: design-skill
 description: Guide for designing skills. Use when creating new skills, refactoring existing ones, or reviewing skill architecture.
 ---
 
@@ -59,6 +59,10 @@ Outputs from one skill should feed back into related skills.
     ↓
 /interview-prep → incorporates learnings
 ```
+
+### 6. Naming: Verb-First for Actions
+- **Action skills** → verb-first: `evaluate-job`, `sync-skills`, `design-skill`
+- **Trigger/lookup skills** → short nouns fine: `todo`, `hko`, `morning`
 
 ## Skill Clusters
 
