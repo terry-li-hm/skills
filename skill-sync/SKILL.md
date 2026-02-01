@@ -19,12 +19,20 @@ Ensure all three AI platforms have access to the same skills.
 ## Commands
 
 ### `/skill-sync`
-Sync all skills from `~/skills/` to all three platforms.
+Sync all skills and clean up stale symlinks.
 
 ```bash
+# 1. Remove stale symlinks (point to non-existent targets)
+for dir in ~/.claude/skills ~/.openclaw/skills ~/.opencode/skills; do
+  for link in "$dir"/*; do
+    [ -L "$link" ] && [ ! -e "$link" ] && rm "$link"
+  done
+done
+
+# 2. Sync valid skills (must have SKILL.md)
 for skill in ~/skills/*/; do
   name=$(basename "$skill")
-  [ -d "$skill" ] || continue
+  [ -f "$skill/SKILL.md" ] || continue  # Only sync if SKILL.md exists
   ln -sf "$skill" ~/.claude/skills/"$name"
   ln -sf "$skill" ~/.openclaw/skills/"$name"
   ln -sf "$skill" ~/.opencode/skills/"$name"
@@ -32,7 +40,7 @@ done
 ```
 
 ### `/skill-sync check`
-Show which skills are missing from each platform.
+Show stale symlinks and missing skills.
 
 ### `/skill-sync new <name>`
 Create a new skill with proper structure and sync to all platforms:
