@@ -1,7 +1,6 @@
 ---
 name: skills-design
-description: Reference for designing skills as abstractions. Consult when creating new skills or refactoring existing ones.
-user_invocable: false
+description: Guide for designing skills. Use when creating new skills, refactoring existing ones, or reviewing skill architecture.
 ---
 
 # Skills Design Guide
