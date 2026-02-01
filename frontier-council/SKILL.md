@@ -206,6 +206,43 @@ Provide scale and constraints upfront to avoid premature optimization advice:
 
 Without these constraints, council tends to suggest infrastructure for problems that don't exist yet.
 
+**For domain-specific questions (banking, healthcare, etc.):**
+
+Inject regulatory context into the question:
+- "Context: HKMA-regulated environment, MRM requirements apply"
+- "Context: Healthcare with HIPAA constraints"
+- "Context: EU with GDPR/AI Act considerations"
+
+This surfaces compliance concerns early rather than as afterthoughts.
+
+## Model Tendencies
+
+Each model has predictable biases. Use this to interpret results:
+
+| Model | Tendency | Useful For |
+|-------|----------|------------|
+| **Claude Opus** | Balanced, thorough, safety-conscious | Synthesis, nuance |
+| **GPT-5.2** | Practical, implementation-focused | Actionable steps |
+| **Gemini 3 Pro** | Technical depth, systems thinking | Architecture |
+| **Grok 4** | Contrarian, challenges consensus | Stress-testing ideas |
+| **Kimi K2.5** | Detail-oriented, edge cases | Completeness check |
+
+**If you want more disagreement:** Explicitly ask "Have one model argue the contrarian position" or "Challenge the consensus view."
+
+**If council is too cautious:** Add constraint "Assume this is a startup, not an enterprise" or "Speed matters more than perfection."
+
+## Known Issues
+
+**JSON output truncation:** For long deliberations, the JSON block may get cut off. Always use `--output file.md` to capture the full transcript:
+
+```bash
+frontier-council "complex question" --format json --output /tmp/council.md
+```
+
+Then parse the JSON from the saved file.
+
+**Follow-up friction:** After council concludes, there's no built-in way to drill into specific points. Workaround: copy the relevant section and ask Claude directly, or re-run with a narrower question.
+
 ## Output Formats
 
 | Format | Use Case |
