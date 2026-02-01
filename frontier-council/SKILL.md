@@ -2,7 +2,7 @@
 name: frontier-council
 description: Frontier Council with 5 frontier models (Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2.5). Models deliberate on a question, each seeing previous responses, then a judge synthesizes consensus. Use for important decisions needing diverse AI perspectives.
 github_url: https://github.com/terry-li-hm/frontier-council
-github_hash: 515d990
+github_hash: 89696b9
 ---
 
 # LLM Council
@@ -246,6 +246,23 @@ Each model has predictable biases. Use this to interpret results:
 **If you want more disagreement:** Explicitly ask "Have one model argue the contrarian position" or "Challenge the consensus view."
 
 **If council is too cautious:** Add constraint "Assume this is a startup, not an enterprise" or "Speed matters more than perfection."
+
+## Challenger Strategy
+
+**Default challenger: Claude** (not Grok)
+
+Reasoning:
+- Grok is naturally contrarian — it will push back regardless of the `--challenger` flag
+- Claude is normally agreeable but has deep domain knowledge
+- Assigning Claude as challenger = Claude's depth + explicit contrarian framing
+- This gives you **two sources of pushback**: prompted-Claude + natural-Grok
+
+**When to override:**
+- `--challenger gemini` — For architecture questions where Gemini's systems thinking + contrarian = interesting angles
+- `--challenger gpt` — For implementation questions where practical skepticism helps
+- `--challenger grok` — If you want Grok to be *even more* contrarian (rare)
+
+**Anti-pattern:** Don't double up on Grok (e.g., adding second Grok instance as challenger). Same model = similar reasoning patterns, more cost without more diversity.
 
 ## Known Issues
 
