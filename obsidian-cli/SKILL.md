@@ -32,7 +32,8 @@ obsidian-cli print-default
 
 ### Set Default Vault
 ```bash
-obsidian-cli set-default --vault "notes" --path "/Users/terry/notes"
+# Takes vault name as arg (path auto-discovered from Obsidian config)
+obsidian-cli set-default notes
 ```
 
 ### Open Note in Obsidian
