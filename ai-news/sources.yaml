@@ -48,6 +48,11 @@ web_sources:
       Founder of OpenClaw/VibeTunnel. High-signal posts on building agentic stacks
       and the shift from practitioner to agentic engineer.
 
+  - name: Good AI List
+    url: https://goodailist.com/repos
+    focus: AI repository trending/velocity (Agents, RAG, production tools)
+    tier: 1
+
   - name: Fireworks AI Blog
     url: https://fireworks.ai/blog
     focus: Inference optimization, speculative decoding, model serving
