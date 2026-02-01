@@ -29,13 +29,22 @@ for dir in ~/.claude/skills ~/.openclaw/skills ~/.opencode/skills; do
   done
 done
 
-# 2. Sync valid skills (must have SKILL.md)
-for skill in ~/skills/*/; do
-  name=$(basename "$skill")
-  [ -f "$skill/SKILL.md" ] || continue  # Only sync if SKILL.md exists
-  ln -sf "$skill" ~/.claude/skills/"$name"
-  ln -sf "$skill" ~/.openclaw/skills/"$name"
-  ln -sf "$skill" ~/.opencode/skills/"$name"
+# 2. Sync skills (dirs with SKILL.md) and aliases (top-level symlinks)
+for item in ~/skills/*; do
+  name=$(basename "$item")
+  [ "$name" = "TEMPLATE.md" ] && continue  # Skip template
+
+  # Sync if: directory with SKILL.md OR top-level symlink (alias)
+  if [ -d "$item" ] && [ -f "$item/SKILL.md" ]; then
+    ln -sf "$item" ~/.claude/skills/"$name"
+    ln -sf "$item" ~/.openclaw/skills/"$name"
+    ln -sf "$item" ~/.opencode/skills/"$name"
+  elif [ -L "$item" ] && [ ! -d "$item" ]; then
+    # Top-level symlink (alias like llm-council -> frontier-council)
+    ln -sf "$(readlink -f "$item")" ~/.claude/skills/"$name"
+    ln -sf "$(readlink -f "$item")" ~/.openclaw/skills/"$name"
+    ln -sf "$(readlink -f "$item")" ~/.opencode/skills/"$name"
+  fi
 done
 ```
 
