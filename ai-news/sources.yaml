@@ -40,6 +40,14 @@ web_sources:
       High-quality technical content. Research posts on custom models, CUDA kernels,
       multi-agent coordination. Primary source for AI coding tool internals.
 
+  - name: steipete.me
+    url: https://steipete.me
+    focus: AI workflows, agentic engineering, vibe coding, macOS AI tools
+    tier: 1
+    notes: |
+      Founder of OpenClaw/VibeTunnel. High-signal posts on building agentic stacks
+      and the shift from practitioner to agentic engineer.
+
   - name: Fireworks AI Blog
     url: https://fireworks.ai/blog
     focus: Inference optimization, speculative decoding, model serving
@@ -176,6 +184,11 @@ x_accounts:
     focus: Deep learning, AI education
     tier: 1
 
+  - handle: "@steipete"
+    name: Peter Steinberger
+    focus: Agentic engineering, vibe coding, OpenClaw architect
+    tier: 1
+
   - handle: "@emollick"
     name: Ethan Mollick
     focus: AI + work/productivity, Wharton
@@ -185,6 +198,21 @@ x_accounts:
     name: Eugene Yan
     focus: Applied ML, RecSys, Amazon, practical AI
     tier: 1
+
+  - handle: "@rauchg"
+    name: Guillermo Rauch
+    focus: AI deployment, Vercel, real-time web AI
+    tier: 2
+
+  - handle: "@shl"
+    name: Sahil Lavingia
+    focus: Indie agents, automation, lean business
+    tier: 2
+
+  - handle: "@atroyn"
+    name: Anton (Chroma)
+    focus: Vector databases, AI infra, memory systems
+    tier: 2
 
   - handle: "@dotey"
     name: Dotey

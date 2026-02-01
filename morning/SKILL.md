@@ -35,10 +35,14 @@ Daily briefing to start the day with focus.
    - Read `summary.md` from any runs in the last 24 hours
    - Summarize findings: what ran, what succeeded/failed, key outputs
 
-6. **Weather check** (optional):
+6. **Check TODO.md**:
+   - Read `~/notes/TODO.md` for pending tasks
+   - Display any unchecked items `- [ ]` prominently
+
+7. **Weather check** (optional):
    - `/hko` for Hong Kong weather if going out
 
-7. **Deliver a concise briefing**:
+8. **Deliver a concise briefing**:
    - Today's date and day of week
    - Scheduled events
    - Top priorities / focus areas
