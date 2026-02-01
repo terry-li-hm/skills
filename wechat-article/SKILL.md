@@ -1,7 +1,7 @@
 ---
 name: wechat-article
 description: Fetch and extract content from WeChat public account articles. Use when user shares a WeChat URL or asks to read a WeChat article.
-user_invocable: true
+user_invocable: false
 ---
 
 # WeChat Article Extractor

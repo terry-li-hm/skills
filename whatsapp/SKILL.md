@@ -1,7 +1,7 @@
 ---
 name: whatsapp
 description: Read and send WhatsApp messages using the wacli CLI. Use when user asks to check WhatsApp, read messages, or send a WhatsApp message.
-user_invocable: true
+user_invocable: false
 github_url: https://github.com/nickschwab/wacli
 ---
 
