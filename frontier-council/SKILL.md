@@ -264,6 +264,18 @@ Reasoning:
 
 **Anti-pattern:** Don't double up on Grok (e.g., adding second Grok instance as challenger). Same model = similar reasoning patterns, more cost without more diversity.
 
+## Lessons from Usage
+
+**Tension is where the value is.** Consensus is boring — dissent forces sharper thinking. When Grok pushed back on "over-engineering" while others defended compliance depth, that tension produced the best insight (stage-appropriate compliance). If council reaches quick agreement, probe harder.
+
+**Models default to enterprise-grade.** Without constraints, 4/5 models suggest infrastructure for problems that don't exist yet. Always add constraints upfront: "this is a POC", "single-user system", "speed > perfection", "manual processes acceptable".
+
+**Domain expertise emerges when prompted.** Banking-specific concerns (Records & Evidence Layer, eDiscovery, escalation burden) only surfaced because "banking clients" was in the question. Use `--domain` flag or state regulatory context explicitly.
+
+**Vocabulary translation matters.** "Audit trail" lands better than "episodic memory" with compliance stakeholders. Council caught this — useful reminder to code-switch terminology for audience.
+
+**Synthesis > individual responses.** Individual answers overlap. Judge pulling out consensus vs dissent is where value concentrates. The debate format earns its cost in the synthesis.
+
 ## Known Issues
 
 **JSON output truncation:** For long deliberations, the JSON block may get cut off. Always use `--output file.md` to capture the full transcript:
