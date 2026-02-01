@@ -1,6 +1,6 @@
 ---
-name: llm-council
-description: LLM Council with 5 frontier models (Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2.5). Models deliberate on a question, each seeing previous responses, then a judge synthesizes consensus. Use for important decisions needing diverse AI perspectives.
+name: frontier-council
+description: Frontier Council with 5 frontier models (Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2.5). Models deliberate on a question, each seeing previous responses, then a judge synthesizes consensus. Use for important decisions needing diverse AI perspectives.
 github_url: https://github.com/terry-li-hm/frontier-council
 github_hash: f2641b9
 ---
