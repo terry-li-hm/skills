@@ -22,31 +22,52 @@ Ensure all three AI platforms have access to the same skills.
 Sync all skills and clean up stale symlinks.
 
 ```bash
-# 1. Remove stale symlinks (point to non-existent targets)
-for dir in ~/.claude/skills ~/.openclaw/skills ~/.opencode/skills; do
+# Use absolute paths to avoid symlink bugs
+SKILLS_DIR="$HOME/skills"
+TARGETS=("$HOME/.claude/skills" "$HOME/.openclaw/skills" "$HOME/.opencode/skills")
+
+# 1. Ensure target directories exist
+for dir in "${TARGETS[@]}"; do
+  mkdir -p "$dir"
+done
+
+# 2. Remove stale symlinks (point to non-existent targets)
+for dir in "${TARGETS[@]}"; do
   for link in "$dir"/*; do
     [ -L "$link" ] && [ ! -e "$link" ] && rm "$link"
   done
 done
 
-# 2. Sync skills (dirs with SKILL.md) and aliases (top-level symlinks)
-for item in ~/skills/*; do
-  name=$(basename "$item")
-  [ "$name" = "TEMPLATE.md" ] && continue  # Skip template
+# 3. Clean up any nested symlinks inside skill directories (bug recovery)
+for skill in "$SKILLS_DIR"/*/; do
+  name=$(basename "$skill")
+  [ -L "$skill/$name" ] && rm "$skill/$name"
+done
 
-  # Sync if: directory with SKILL.md OR top-level symlink (alias)
+# 4. Sync skills (dirs with SKILL.md)
+for item in "$SKILLS_DIR"/*; do
+  name=$(basename "$item")
+  [ "$name" = "TEMPLATE.md" ] && continue
+  [ "$name" = ".git" ] && continue
+  [ "$name" = ".archive" ] && continue
+
+  # Skip symlinks in source (aliases handled by their targets)
+  [ -L "$item" ] && continue
+
+  # Only sync directories with SKILL.md
   if [ -d "$item" ] && [ -f "$item/SKILL.md" ]; then
-    ln -sf "$item" ~/.claude/skills/"$name"
-    ln -sf "$item" ~/.openclaw/skills/"$name"
-    ln -sf "$item" ~/.opencode/skills/"$name"
-  elif [ -L "$item" ] && [ ! -d "$item" ]; then
-    # Top-level symlink (alias like llm-council -> frontier-council)
-    ln -sf "$(readlink -f "$item")" ~/.claude/skills/"$name"
-    ln -sf "$(readlink -f "$item")" ~/.openclaw/skills/"$name"
-    ln -sf "$(readlink -f "$item")" ~/.opencode/skills/"$name"
+    for dir in "${TARGETS[@]}"; do
+      ln -sfn "$item" "$dir/$name"
+    done
   fi
 done
 ```
+
+**Key fixes:**
+- Uses `ln -sfn` (no-dereference) to handle existing symlinks correctly
+- Absolute paths throughout to avoid cwd-related bugs
+- Cleans up nested symlinks inside skill dirs (recovery from previous bug)
+- Skips `.git`, `.archive`, and source symlinks
 
 ### `/skill-sync check`
 Show stale symlinks and missing skills.
