@@ -45,7 +45,12 @@ Link to reference skills instead of inlining best practices.
 - `chrome-automation` — Browser best practices
 ```
 
-### 4. Close Feedback Loops
+### 4. Descriptions Carry Instructions
+Skill descriptions are seen by all agents. Put "MUST do X" in the description rather than repeating in each agent's instruction file (CLAUDE.md, TOOLS.md, etc). Saves tokens.
+
+**Example:** `/skill-sync` description says "MUST run after creating skills" — no need to repeat in CLAUDE.md.
+
+### 5. Close Feedback Loops
 Outputs from one skill should feed back into related skills.
 
 ```
