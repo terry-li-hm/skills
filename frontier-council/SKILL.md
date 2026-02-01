@@ -2,7 +2,7 @@
 name: frontier-council
 description: Frontier Council with 5 frontier models (Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2.5). Models deliberate on a question, each seeing previous responses, then a judge synthesizes consensus. Use for important decisions needing diverse AI perspectives.
 github_url: https://github.com/terry-li-hm/frontier-council
-github_hash: f2641b9
+github_hash: 515d990
 ---
 
 # LLM Council
@@ -85,7 +85,21 @@ frontier-council "question" --persona "context"     # Add personal context
 frontier-council "question" --rounds 3              # More deliberation
 frontier-council "question" --output file.md        # Save transcript
 frontier-council "question" --share                 # Upload to secret Gist
+frontier-council "question" --domain banking        # Inject regulatory context
+frontier-council "question" --challenger gemini     # Assign contrarian role
+frontier-council "question" --followup              # Interactive drill-down after synthesis
 ```
+
+**Domain-specific deliberation (banking, healthcare, etc.):**
+```bash
+frontier-council "Should we build an agent for KYC?" \
+  --domain banking \
+  --challenger gemini \
+  --followup \
+  --output counsel.md
+```
+
+Available domains: `banking`, `healthcare`, `eu`, `fintech`, `bio`
 
 ### Step 4: Parse and Present (when using --format json)
 
@@ -208,10 +222,12 @@ Without these constraints, council tends to suggest infrastructure for problems 
 
 **For domain-specific questions (banking, healthcare, etc.):**
 
-Inject regulatory context into the question:
-- "Context: HKMA-regulated environment, MRM requirements apply"
-- "Context: Healthcare with HIPAA constraints"
-- "Context: EU with GDPR/AI Act considerations"
+Use `--domain` flag to auto-inject regulatory context:
+```bash
+frontier-council "question" --domain banking   # HKMA/MAS/FCA, MRM requirements
+frontier-council "question" --domain healthcare # HIPAA constraints
+frontier-council "question" --domain eu        # GDPR/AI Act considerations
+```
 
 This surfaces compliance concerns early rather than as afterthoughts.
 
@@ -241,7 +257,7 @@ frontier-council "complex question" --format json --output /tmp/council.md
 
 Then parse the JSON from the saved file.
 
-**Follow-up friction:** After council concludes, there's no built-in way to drill into specific points. Workaround: copy the relevant section and ask Claude directly, or re-run with a narrower question.
+**Follow-up friction:** ~~After council concludes, there's no built-in way to drill into specific points.~~ **Fixed:** Use `--followup` flag for interactive drill-down after judge synthesis.
 
 ## Output Formats
 

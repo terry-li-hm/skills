@@ -18,29 +18,18 @@ except ImportError:
     sys.exit(1)
 
 
-SYSTEM_PROMPT = """You control a browser via agent-browser CLI. Output exactly ONE command per turn.
+SYSTEM_PROMPT = """Browser controller. ONE command only.
 
-Commands:
-  click @e5        Click element with ref=e5
-  type @e3 "text"  Type text into element with ref=e3
-  scroll down      Scroll down
-  scroll up        Scroll up
-  wait 2000        Wait 2 seconds
-  done [message]   Task complete, optional final message
+Commands: click @e5 | type @e5 "text" | scroll down | wait 2000 | done [result]
 
-Examples:
-  Snapshot: button "Submit" [ref=e7]
-  Task: click submit → Output: click @e7
+CRITICAL: When reporting results, COPY-PASTE the EXACT text you see in the snapshot.
+DO NOT paraphrase. DO NOT say "I don't have access". The answer IS in the snapshot.
 
-  Snapshot: textbox "email" [ref=e4]
-  Task: enter test@example.com → Output: type @e4 "test@example.com"
+Example - if snapshot shows:
+  - text: Our hours are 9am-5pm Monday to Friday
+Then say: done Our hours are 9am-5pm Monday to Friday
 
-  Task complete → Output: done The form was submitted successfully
-
-Rules:
-- Output ONLY the command, no explanation
-- Use exact @ref values from the snapshot
-- Say 'done' when the task is complete or cannot proceed"""
+NEVER generate your own response. ONLY quote what the snapshot shows."""
 
 
 def run_agent_browser(cmd: list[str], verbose: bool = False) -> str:
@@ -98,6 +87,10 @@ def main():
     parser.add_argument("--task", required=True, help="Task to perform")
     parser.add_argument("--max-steps", type=int, default=20, help="Max steps (default: 20)")
     parser.add_argument("--verbose", "-v", action="store_true", help="Print each step")
+    parser.add_argument("--headed", action="store_true", help="Show browser window")
+    parser.add_argument("--wait", type=int, default=1500, help="Initial page load wait (ms)")
+    parser.add_argument("--model", default="google/gemini-2.0-flash-001",
+                        help="Model to use (default: gemini-2.0-flash-001)")
     args = parser.parse_args()
 
     api_key = os.environ.get("OPENROUTER_API_KEY")
@@ -113,7 +106,14 @@ def main():
     # Open URL
     if args.verbose:
         print(f"Opening {args.url}...", file=sys.stderr)
-    run_agent_browser(["open", args.url], args.verbose)
+    open_cmd = ["open", args.url]
+    if args.headed:
+        open_cmd.append("--headed")
+    run_agent_browser(open_cmd, args.verbose)
+
+    # Wait for page load
+    if args.wait > 0:
+        run_agent_browser(["wait", str(args.wait)], args.verbose)
 
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT},
@@ -136,11 +136,12 @@ def main():
         # Ask Gemini
         try:
             response = client.chat.completions.create(
-                model="google/gemini-2.0-flash-001",
+                model=args.model,
                 messages=messages,
                 max_tokens=100
             )
-            cmd = response.choices[0].message.content.strip()
+            # Take only first line (Gemini sometimes outputs multiple commands)
+            cmd = response.choices[0].message.content.strip().split('\n')[0].strip()
         except Exception as e:
             print(f"Error calling Gemini: {e}", file=sys.stderr)
             break
