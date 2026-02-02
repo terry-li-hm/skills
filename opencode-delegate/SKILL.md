@@ -26,8 +26,11 @@ Delegate coding tasks to OpenCode (Gemini/GLM-powered) for background execution.
 
 ### Run headless task (default: GLM-4.7 — unlimited quota)
 ```bash
-opencode run -m opencode/glm-4.7 --title "Task Name" "Detailed prompt"
+# Always run in background to avoid blocking Claude session
+opencode run -m opencode/glm-4.7 --title "Task Name" "Detailed prompt" &
 ```
+
+**Best practice**: Always append `&` when running from Claude Code. This backgrounds the task so you can continue working or dispatch more tasks in parallel.
 
 ### Run with Gemini 3 Flash (fallback for speed)
 ```bash
