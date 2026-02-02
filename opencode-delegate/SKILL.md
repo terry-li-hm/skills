@@ -27,8 +27,10 @@ Delegate coding tasks to OpenCode (Gemini/GLM-powered) for background execution.
 ### Run headless task (default: GLM-4.7 — unlimited quota)
 ```bash
 # Always run in background to avoid blocking Claude session
-opencode run -m opencode/glm-4.7 --title "Task Name" "Detailed prompt" &
+opencode run -m zhipuai-coding-plan/glm-4.7 --title "Task Name" "Detailed prompt" &
 ```
+
+> **⚠️ Provider Matters:** Use `zhipuai-coding-plan/glm-4.7` (BigModel direct) NOT `opencode/glm-4.7` (OpenCode proxy with separate billing).
 
 **Best practice**: Always append `&` when running from Claude Code. This backgrounds the task so you can continue working or dispatch more tasks in parallel.
 
@@ -98,9 +100,10 @@ Use `-m <model>` and optionally `--variant <level>` to select model.
 
 ### Default: GLM-4.7 (unlimited quota)
 ```bash
--m opencode/glm-4.7
+-m zhipuai-coding-plan/glm-4.7
 ```
 - **Terry has Coding Max annual plan (valid to 2027-01-28) — unlimited quota**
+- **MUST use `zhipuai-coding-plan/` prefix** — `opencode/glm-4.7` routes through OpenCode billing (has limits)
 - SWE-bench Multilingual: 66.7% — best for TC/SC/EN mixed codebases
 - LiveCodeBench V6: 84.9 (beats Claude Sonnet 4.5)
 - Preserved Thinking: keeps reasoning across agentic turns
@@ -117,15 +120,17 @@ Use `-m <model>` and optionally `--variant <level>` to select model.
 ### Available Models
 | Model | SWE-bench | Use Case |
 |-------|-----------|----------|
-| `opencode/glm-4.7` ⭐ | 73.8% | **Default** — unlimited quota |
+| `zhipuai-coding-plan/glm-4.7` ⭐ | 73.8% | **Default** — unlimited via BigModel |
+| `opencode/glm-4.7` | 73.8% | ❌ Has OpenCode billing limits |
 | `opencode/gemini-3-flash` | 78.0% | Speed-critical tasks |
 | `opencode/gemini-3-pro` | 76.2% | More capable, slower |
 | `opencode/claude-sonnet-4-5` | 77.2% | When you need Claude quality |
 
 ### Model Selection Tips
-- **Default**: GLM-4.7 (no cost, good quality)
+- **Default**: `zhipuai-coding-plan/glm-4.7` (unlimited via BigModel Coding Max)
 - **Speed-critical**: Gemini 3 Flash
 - **Accuracy-critical banking**: Verify outputs from Gemini (higher hallucination rate)
+- **⚠️ Avoid**: `opencode/glm-4.7` has separate billing that depletes
 
 ### Variant Levels
 - `--variant high` — More reasoning effort (recommended)
@@ -190,13 +195,13 @@ After creating a plan with Claude:
 
 ```bash
 # Execute phases sequentially
-opencode run -m opencode/glm-4.7 --title "Phase 1" \
+opencode run -m zhipuai-coding-plan/glm-4.7 --title "Phase 1" \
   "Execute Phase 1 from docs/plans/YYYY-MM-DD-plan.md.
    Read the plan first, then implement."
 
 # Or parallel for independent phases
-opencode run ... --title "Phase 2" "Execute Phase 2..." &
-opencode run ... --title "Phase 3" "Execute Phase 3..." &
+opencode run -m zhipuai-coding-plan/glm-4.7 --title "Phase 2" "Execute Phase 2..." &
+opencode run -m zhipuai-coding-plan/glm-4.7 --title "Phase 3" "Execute Phase 3..." &
 wait
 ```
 
