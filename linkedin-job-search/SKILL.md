@@ -44,14 +44,18 @@ Example: `TD AI` + Toronto (627 results) is more reliable than `f_C=1482` filter
 
 ## Best Search Pattern: Company + AI + City
 
-| Target | Search | Location | Results |
-|--------|--------|----------|---------|
-| TD Bank AI roles | `TD AI` | Toronto | 627 |
-| CIBC AI roles | `CIBC AI` | Toronto | Try |
-| Scotiabank AI roles | `Scotiabank AI` | Toronto | Try |
-| RBC AI roles | `RBC AI` | Toronto | Try |
+| Target | Search | Location | Results (Feb 2026) |
+|--------|--------|----------|-------------------|
+| TD Bank AI roles | `TD AI` | Toronto | 390 |
+| Scotiabank AI roles | `Scotiabank AI` | Toronto | 486 |
+| CIBC AI roles | `CIBC AI` | Toronto | 111 |
+| RBC AI roles | `RBC AI` | Toronto | 0 (no mid-senior) |
+| BMO AI roles | `BMO AI` | Toronto | 0 (no mid-senior) |
+| Barclays AI roles | `Barclays AI` | United Kingdom | 133 |
 
 This catches all AI-related roles at the company, then you scan the list for relevant titles.
+
+**Note:** RBC and BMO return 0 results with Mid-Senior filter — may post AI roles elsewhere or have different hiring patterns.
 
 ## Terry-Specific Search Patterns (Overseas)
 
@@ -73,13 +77,15 @@ Tested and working searches for roles matching Terry's background:
 
 For banking AI roles in Canada, prioritize these employers:
 
-| Bank | Alumni (CNCBI/HKUST) | Notes |
-|------|---------------------|-------|
-| TD Bank | 12 / 31 | Strong Financial Crime AI |
-| CIBC | 7 / 18 | AI Audit roles |
-| Scotiabank | Check | Model Validation |
-| RBC | Check | Largest Canadian bank |
-| BMO | Check | - |
+| Bank | Alumni (CNCBI/HKUST) | AI Roles (Feb 2026) | Best Finds |
+|------|---------------------|---------------------|------------|
+| TD Bank | 12 / 31 | 390 | AVP Financial Crime AI, Senior Manager AI Vulnerability |
+| Scotiabank | ? / 27 | 486 | Senior Manager AI & Ethics Governance |
+| CIBC | 7 / 18 | 111 | Senior Audit Manager Data & AI Risk, Sr. AI Scientist |
+| RBC | ? / ? | 0 | No mid-senior AI roles posted |
+| BMO | ? / ? | 0 | No mid-senior AI roles posted |
+
+**Priority:** TD > Scotiabank > CIBC (based on role fit and alumni network)
 
 ## Weekly Monitoring Routine (Overseas)
 
