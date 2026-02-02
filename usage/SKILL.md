@@ -49,6 +49,8 @@ claude-monitor --plan max20
 | Max5 | $100 | ~88K tokens/5min window |
 | Max20 | $200 | ~220K tokens/5min window |
 
+**Terry's weekly reset:** Saturday 6pm HKT
+
 The equivalent API cost shown by ccusage helps gauge value — if you're consistently using >$200/month equivalent, Max20 is worth it.
 
 ## Aliases
