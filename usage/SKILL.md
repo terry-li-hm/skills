@@ -53,6 +53,24 @@ claude-monitor --plan max20
 
 The equivalent API cost shown by ccusage helps gauge value — if you're consistently using >$200/month equivalent, Max20 is worth it.
 
+## Weekly Limit Tracking
+
+Anthropic doesn't disclose the exact weekly cap, but community reports suggest **~$600 equiv** for Max20 before throttling.
+
+**Estimated thresholds:**
+| % Used | Equiv Cost | Status |
+|--------|------------|--------|
+| 0-70% | $0-420 | ✅ Safe |
+| 70-85% | $420-510 | ⚠️ Caution — pace yourself |
+| 85-95% | $510-570 | 🟠 Warning — consider switching to Sonnet |
+| 95%+ | $570+ | 🔴 Danger — likely to hit limit |
+
+**To calculate weekly usage:**
+1. Find last Saturday 6pm HKT
+2. Sum equiv cost since then
+3. Calculate days until next Saturday 6pm
+4. Show % of estimated cap and burn rate
+
 ## Aliases
 
 These are defined in ~/.zshrc:
@@ -63,14 +81,43 @@ These are defined in ~/.zshrc:
 
 # Prompt
 
-Run this command to get current month usage:
+## Step 1: Get usage data
 
 ```bash
-ccusage daily -s $(date +%Y%m01) --breakdown
+ccusage daily -s $(date -v-sat +%Y%m%d) --breakdown
 ```
 
-Then summarize with:
-1. **Table** showing daily tokens and equivalent cost
-2. **Model mix** — % Opus vs Haiku vs Sonnet
-3. **Value assessment** — Compare equiv cost to Max20 ($200/mo) to show ROI
-4. **Tip** — Mention `cm` alias for live monitoring if user wants real-time tracking
+(This gets usage since last Saturday. If today IS Saturday, adjust to previous week's Saturday.)
+
+## Step 2: Calculate weekly status
+
+1. **Find last reset:** Most recent Saturday 6pm HKT before now
+2. **Sum equiv cost** since that reset
+3. **Calculate % of estimated $600 cap**
+4. **Days remaining** until next Saturday 6pm HKT
+
+## Step 3: Summarize with weekly warning
+
+Output format:
+
+```
+**Weekly Limit Status**
+- Reset: [last Sat date] 6pm → [next Sat date] 6pm HKT
+- Days remaining: X.X days
+- Used this week: $XXX equiv (~XX% of est. cap)
+- Status: [✅ Safe | ⚠️ Caution | 🟠 Warning | 🔴 Danger]
+- Burn rate: $XX/day → projected $XXX by reset
+
+**This Month**
+| Day | Tokens | Cost |
+...
+
+**Recommendation:** [Pace advice based on status]
+```
+
+## Thresholds
+
+- ✅ **Safe** (0-70%, <$420): No concerns
+- ⚠️ **Caution** (70-85%, $420-510): Pace yourself, avoid heavy sessions
+- 🟠 **Warning** (85-95%, $510-570): Switch to Sonnet for routine tasks
+- 🔴 **Danger** (95%+, >$570): High risk of hitting limit, use Haiku/Sonnet only
