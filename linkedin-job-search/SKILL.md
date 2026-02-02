@@ -40,7 +40,24 @@ Use LinkedIn's "Save" feature to batch jobs for later review. See `/review-saved
 
 **Better approach:** Use company name as keyword + "AI" + location.
 
-Example: `TD AI` + Toronto (627 results) is more reliable than `f_C=1482` filter.
+Example: `TD AI` + Toronto (390 results) is more reliable than `f_C=1482` filter.
+
+## Seniority Filter Caveat
+
+**`f_E=4` (Mid-Senior level) can miss relevant senior roles.**
+
+Example: `RBC AI` + Toronto with Mid-Senior filter → **0 results**. Without filter → **454 results**, including:
+- Senior Manager, AI Governance
+- Sr. Director, Data Science
+- Associate Director, Data Analytics & ML
+- Lead Data Scientist, Fraud AI
+
+**Why:** Companies classify levels differently. "Associate Director" or "Lead" may not map to LinkedIn's "Mid-Senior" category.
+
+**Recommendation:**
+1. First search **without** seniority filter to see full market
+2. Scan titles manually for senior roles
+3. Only use filter when results are overwhelming (500+)
 
 ## Best Search Pattern: Company + AI + City
 
@@ -81,11 +98,13 @@ For banking AI roles in Canada, prioritize these employers:
 |------|---------------------|---------------------|------------|
 | TD Bank | 12 / 31 | 390 | AVP Financial Crime AI, Senior Manager AI Vulnerability |
 | Scotiabank | ? / 27 | 486 | Senior Manager AI & Ethics Governance |
+| RBC | ? / 46 | 454* | Senior Manager AI Governance, Sr. Director Data Science |
 | CIBC | 7 / 18 | 111 | Senior Audit Manager Data & AI Risk, Sr. AI Scientist |
-| RBC | ? / ? | 0 | No mid-senior AI roles posted |
 | BMO | ? / ? | 0 | No mid-senior AI roles posted |
 
-**Priority:** TD > Scotiabank > CIBC (based on role fit and alumni network)
+*RBC shows 0 with Mid-Senior filter, 454 without. See "Seniority Filter Caveat" above.
+
+**Priority:** TD > Scotiabank > RBC > CIBC (based on role fit and alumni network)
 
 ## Weekly Monitoring Routine (Overseas)
 
