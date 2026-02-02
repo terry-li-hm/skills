@@ -285,6 +285,21 @@ Reasoning:
 
 **Synthesis > individual responses.** Individual answers overlap. Judge pulling out consensus vs dissent is where value concentrates. The debate format earns its cost in the synthesis.
 
+### Lessons from Technical Optimization (Feb 2026)
+
+**Include real metrics, not just descriptions.** Council gave theoretical advice ("kill the reranker") that backfired in practice. If we'd included actual latency breakdown (`rewrite=2s, retrieve=2s, rerank=1s, select=3s`), they could have identified the real bottleneck.
+
+**State deployment constraints explicitly.** Council assumed we could "move reranker local" — but we're on serverless (Railway/Vercel). Add constraints like:
+- "API-only, no local inference"
+- "Serverless deployment"
+- "Can't self-host models"
+
+**Ask for testable hypotheses, not just recommendations.** Instead of "kill the reranker", ask council to frame as: "IF you disable X, THEN expect Y. Test by Z." This makes advice actionable and falsifiable.
+
+**Separate quick wins from rearchitecture.** Council mixed "reduce candidates" (5 min fix) with "index-time expansion" (days of work). Ask them to categorize by effort/impact.
+
+**Test > theorize.** Some council recommendations were wrong when tested. For optimization questions, run quick benchmarks yourself rather than debating theory. Council is better for **directional** guidance than specific parameter tuning.
+
 ## Known Issues
 
 **JSON output truncation:** For long deliberations, the JSON block may get cut off. Always use `--output file.md` to capture the full transcript:
