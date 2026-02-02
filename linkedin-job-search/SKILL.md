@@ -82,14 +82,36 @@ This catches all AI-related roles at the company, then you scan the list for sen
 
 ## New Zealand Banks
 
-| Bank | AI Roles (no filter) | Notes |
-|------|---------------------|-------|
-| **ASB** | 63 | Best NZ bank — Head of Fraud, Chapter Lead roles |
-| ANZ | 27 | Mostly BA/Data roles |
-| Westpac | 0 | — |
-| BNZ | 0 | — |
+| Bank | Search Keyword | Results | Notes |
+|------|---------------|---------|-------|
+| **ASB** | `ASB AI` | 63 | Best NZ bank — Head of Fraud, Chapter Lead roles |
+| **Westpac NZ** | `Westpac New Zealand` | 41 | Full name required! `Westpac AI` returns 0 |
+| ANZ | `ANZ` | 27 | Mostly BA/Data roles |
+| BNZ | `BNZ Bank` | 0 | No results (LinkedIn redirects to ANZ) |
 
-**Key insight:** ASB Bank (owned by Commonwealth Bank Australia) is the only NZ bank with senior AI roles.
+**Key insights:**
+- **ASB Bank** (owned by Commonwealth Bank Australia) has the most senior AI roles in NZ
+- **Westpac NZ** has 41 roles but requires full company name — `Westpac AI` returns 0
+- **BNZ** genuinely has no roles posted
+
+## Company Naming Caveats
+
+**Short company names + "AI" can fail for some banks.**
+
+### NZ Banks
+`Westpac AI` + New Zealand → **0 results**. `Westpac New Zealand` → **41 results**.
+
+### UK Banks
+`Lloyds AI` + UK → **0 results**. `Lloyds Banking Group` → **304 results**.
+
+**Pattern:** Use full company name for banks where short name + "AI" fails. Test both approaches.
+
+| Bank | Fails | Works |
+|------|-------|-------|
+| Westpac NZ | `Westpac AI` | `Westpac New Zealand` |
+| Lloyds UK | `Lloyds AI` | `Lloyds Banking Group` |
+| HSBC UK | — | `HSBC AI` ✓ |
+| Barclays UK | — | `Barclays AI` ✓ |
 
 ## Terry-Specific Search Patterns (Overseas)
 
