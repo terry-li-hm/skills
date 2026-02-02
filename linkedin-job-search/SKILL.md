@@ -74,10 +74,22 @@ Example: `RBC AI` + Toronto with Mid-Senior filter → **0 results**. Without fi
 | BMO AI roles | `BMO AI` | Toronto | 272 |
 | Barclays AI roles | `Barclays AI` | United Kingdom | 133 |
 | CIBC AI roles | `CIBC AI` | Toronto | 111 |
+| ASB AI roles | `ASB AI` | New Zealand | 63 |
 
-This catches all AI-related roles at the company, then you scan the list for senior titles (AVP, VP, Director, Senior Manager).
+This catches all AI-related roles at the company, then you scan the list for senior titles (AVP, VP, Director, Senior Manager, Head, Lead).
 
 **Important:** Search WITHOUT seniority filter. RBC/BMO show 0 with filter, 400+ without.
+
+## New Zealand Banks
+
+| Bank | AI Roles (no filter) | Notes |
+|------|---------------------|-------|
+| **ASB** | 63 | Best NZ bank — Head of Fraud, Chapter Lead roles |
+| ANZ | 27 | Mostly BA/Data roles |
+| Westpac | 0 | — |
+| BNZ | 0 | — |
+
+**Key insight:** ASB Bank (owned by Commonwealth Bank Australia) is the only NZ bank with senior AI roles.
 
 ## Terry-Specific Search Patterns (Overseas)
 
