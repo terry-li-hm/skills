@@ -38,7 +38,20 @@ Use LinkedIn's "Save" feature to batch jobs for later review. See `/review-saved
 
 **`f_C=` company filter is unreliable.** Often returns "No matching jobs" even when roles exist.
 
-**Better approach:** Search by role title keywords + location, not by company ID.
+**Better approach:** Use company name as keyword + "AI" + location.
+
+Example: `TD AI` + Toronto (627 results) is more reliable than `f_C=1482` filter.
+
+## Best Search Pattern: Company + AI + City
+
+| Target | Search | Location | Results |
+|--------|--------|----------|---------|
+| TD Bank AI roles | `TD AI` | Toronto | 627 |
+| CIBC AI roles | `CIBC AI` | Toronto | Try |
+| Scotiabank AI roles | `Scotiabank AI` | Toronto | Try |
+| RBC AI roles | `RBC AI` | Toronto | Try |
+
+This catches all AI-related roles at the company, then you scan the list for relevant titles.
 
 ## Terry-Specific Search Patterns (Overseas)
 
