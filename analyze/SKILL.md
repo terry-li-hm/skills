@@ -1,19 +1,27 @@
 ---
-name: analyze-link
-description: Universal link analyzer with auto-routing. Use when user shares any URL. Detects content type (article, job, repo, company, paper, video) and routes to appropriate handler. Triggers on any URL share, "check this", "what is this", or "analyze this link".
+name: analyze
+description: Universal content analyzer. Handles URLs or pasted content. Auto-detects type (article, job, repo, company, paper, video) and routes to appropriate handler. Triggers on any URL, pasted text, "check this", "what is this", "read this", or "analyze this".
 ---
 
-# Analyze Link
+# Analyze
 
-Universal entry point for any URL. Detects content type, routes to specialized handler or graceful fallback. Removes cognitive load of choosing the right skill.
+Universal entry point for anything user shares — URL or pasted content. Detects input type, routes to appropriate handler or graceful fallback. One skill for all analysis.
 
 ## Workflow
 
-1. **Fetch & Classify** — Get URL content, detect type from URL pattern + page structure
-2. **Route** — Send to appropriate handler (specialized, lightweight, or fallback)
-3. **Ontology Injection** — Before generating note, grep vault for existing tags/MOCs to use
-4. **Save** — Write note with type-appropriate YAML frontmatter
-5. **Log** — Append to telemetry for future optimization
+1. **Detect Input Type**
+   - Starts with `http://` or `https://` → URL, go to step 2
+   - Otherwise → pasted content, treat as article (step 3)
+
+2. **Fetch & Classify URL** — Get content, detect type from URL pattern + page structure
+
+3. **Route** — Send to appropriate handler (specialized, lightweight, or fallback)
+
+4. **Ontology Injection** — Before generating note, grep vault for existing tags/MOCs to use
+
+5. **Save** — Write note with type-appropriate YAML frontmatter
+
+6. **Log** — Append to telemetry for future optimization
 
 ## Content Type Detection
 
@@ -39,11 +47,36 @@ Universal entry point for any URL. Detects content type, routes to specialized h
 
 ### Tier 1: Specialized (full evaluation)
 
-**Articles** — Use /evaluate-article logic (without /judge step):
-- Worth Noting check
-- Key Ideas (3-5 bullets)
-- My Take (2-4 sentences)
-- Interlink with vault
+**Articles** (URLs or pasted content):
+
+Worth Noting check first:
+| NOTE | SKIP |
+|------|------|
+| Novel ideas, frameworks | Marketing fluff |
+| Relevant to work/interests | Paywalled with no content |
+| Contrarian or well-argued | Beginner explainers |
+| Actionable insights | News without insight |
+
+If NOTE, create:
+```yaml
+---
+source: [URL or "pasted content"]
+type: article
+author: [if known]
+date_read: [today]
+tags: []
+---
+
+## Key Ideas
+- [3-5 bullets, dense, no fluff]
+
+## My Take
+[2-4 sentences: why this matters, connections, critique]
+```
+
+If SKIP:
+> **Skip** — [reason]
+> TL;DR: [2-3 sentence gist]
 
 **Jobs** — Route to `/evaluate-job`
 
@@ -168,9 +201,9 @@ ls ~/notes/*MOC*.md ~/notes/Maps/*.md 2>/dev/null
 
 ## Telemetry
 
-Append to `~/notes/Meta/Link Analyzer Telemetry.md`:
+Append to `~/notes/Meta/Analyze Telemetry.md`:
 ```
-| [date] | [URL] | [detected_type] | [confidence] | [override?] |
+| [date] | [input] | [detected_type] | [confidence] | [override?] |
 ```
 
 Review weekly to see which content types need specialized handlers.
@@ -196,6 +229,6 @@ For skips, output:
 
 ## Integration
 
-This skill supersedes direct invocation of `/evaluate-article` for new links. Users can still call `/evaluate-article` directly if they know it's an article.
+This skill replaces `/evaluate-article`. Use `/analyze` for all content — URLs or pasted text.
 
-`/evaluate-job` remains separate for LinkedIn job URLs — this router just dispatches to it.
+`/evaluate-job` remains separate for LinkedIn job URLs — this skill dispatches to it for job posts.
