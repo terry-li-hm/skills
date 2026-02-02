@@ -54,25 +54,30 @@ Example: `RBC AI` + Toronto with Mid-Senior filter → **0 results**. Without fi
 
 **Why:** Companies classify levels differently. "Associate Director" or "Lead" may not map to LinkedIn's "Mid-Senior" category.
 
-**Recommendation:**
-1. First search **without** seniority filter to see full market
-2. Scan titles manually for senior roles
-3. Only use filter when results are overwhelming (500+)
+**Recommendation: Don't use seniority filter by default.**
+1. Search **without** `f_E=4` to see full market
+2. Scan titles manually for senior roles (Senior Manager, Director, VP, AVP)
+3. Only add filter if results exceed 500+ and need narrowing
+
+**URL parameter reference:**
+- `f_E=4` = Mid-Senior level (unreliable)
+- `f_TPR=r604800` = Posted in past week
+- `sortBy=R` = Sort by relevance
 
 ## Best Search Pattern: Company + AI + City
 
-| Target | Search | Location | Results (Feb 2026) |
-|--------|--------|----------|-------------------|
-| TD Bank AI roles | `TD AI` | Toronto | 390 |
+| Target | Search | Location | Results (Feb 2026, no filter) |
+|--------|--------|----------|------------------------------|
 | Scotiabank AI roles | `Scotiabank AI` | Toronto | 486 |
-| CIBC AI roles | `CIBC AI` | Toronto | 111 |
-| RBC AI roles | `RBC AI` | Toronto | 0 (no mid-senior) |
-| BMO AI roles | `BMO AI` | Toronto | 0 (no mid-senior) |
+| RBC AI roles | `RBC AI` | Toronto | 454 |
+| TD Bank AI roles | `TD AI` | Toronto | 390 |
+| BMO AI roles | `BMO AI` | Toronto | 272 |
 | Barclays AI roles | `Barclays AI` | United Kingdom | 133 |
+| CIBC AI roles | `CIBC AI` | Toronto | 111 |
 
-This catches all AI-related roles at the company, then you scan the list for relevant titles.
+This catches all AI-related roles at the company, then you scan the list for senior titles (AVP, VP, Director, Senior Manager).
 
-**Note:** RBC and BMO return 0 results with Mid-Senior filter — may post AI roles elsewhere or have different hiring patterns.
+**Important:** Search WITHOUT seniority filter. RBC/BMO show 0 with filter, 400+ without.
 
 ## Terry-Specific Search Patterns (Overseas)
 
@@ -94,17 +99,17 @@ Tested and working searches for roles matching Terry's background:
 
 For banking AI roles in Canada, prioritize these employers:
 
-| Bank | Alumni (CNCBI/HKUST) | AI Roles (Feb 2026) | Best Finds |
-|------|---------------------|---------------------|------------|
-| TD Bank | 12 / 31 | 390 | AVP Financial Crime AI, Senior Manager AI Vulnerability |
+| Bank | Alumni (CNCBI/HKUST) | AI Roles (no filter) | Best Finds |
+|------|---------------------|----------------------|------------|
 | Scotiabank | ? / 27 | 486 | Senior Manager AI & Ethics Governance |
-| RBC | ? / 46 | 454* | Senior Manager AI Governance, Sr. Director Data Science |
+| RBC | ? / 46 | 454 | Senior Manager AI Governance, Sr. Director Data Science |
+| TD Bank | 12 / 31 | 390 | AVP Financial Crime AI, Senior Manager AI Vulnerability |
+| BMO | ? / 26 | 272 | Senior Manager GenAI, VP AI Engineer |
 | CIBC | 7 / 18 | 111 | Senior Audit Manager Data & AI Risk, Sr. AI Scientist |
-| BMO | ? / ? | 0 | No mid-senior AI roles posted |
 
-*RBC shows 0 with Mid-Senior filter, 454 without. See "Seniority Filter Caveat" above.
+**Note:** All counts are WITHOUT seniority filter. With `f_E=4` filter, RBC and BMO show 0.
 
-**Priority:** TD > Scotiabank > RBC > CIBC (based on role fit and alumni network)
+**Priority for Terry:** TD (AVP Financial Crime) > Scotiabank (AI Governance) > RBC (AI Governance) > BMO (GenAI) > CIBC (Audit)
 
 ## Weekly Monitoring Routine (Overseas)
 
