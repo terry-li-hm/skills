@@ -56,3 +56,19 @@ The equivalent API cost shown by ccusage helps gauge value — if you're consist
 These are defined in ~/.zshrc:
 - `cu` — Quick current month daily view
 - `cm` — Launch live monitor
+
+---
+
+# Prompt
+
+Run this command to get current month usage:
+
+```bash
+ccusage daily -s $(date +%Y%m01) --breakdown
+```
+
+Then summarize with:
+1. **Table** showing daily tokens and equivalent cost
+2. **Model mix** — % Opus vs Haiku vs Sonnet
+3. **Value assessment** — Compare equiv cost to Max20 ($200/mo) to show ROI
+4. **Tip** — Mention `cm` alias for live monitoring if user wants real-time tracking
