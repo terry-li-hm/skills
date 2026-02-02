@@ -220,6 +220,15 @@ Provide scale and constraints upfront to avoid premature optimization advice:
 
 Without these constraints, council tends to suggest infrastructure for problems that don't exist yet.
 
+**For skill/tool design questions:**
+
+Council optimizes for architecture but often misses input edge cases. Add:
+- "What input variations should this handle?" (e.g., URLs vs pasted content)
+- "What edge cases might break this?" (e.g., hybrid content types)
+- "What would make users reach for a different tool instead?"
+
+This stress-tests the input surface, not just the processing logic.
+
 **For domain-specific questions (banking, healthcare, etc.):**
 
 Use `--domain` flag to auto-inject regulatory context:
