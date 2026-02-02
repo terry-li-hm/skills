@@ -147,3 +147,70 @@ OpenCode often self-recovers from errors by:
 3. Retrying
 
 If it fails repeatedly on the same error, take over interactively.
+
+## Compound Engineering Integration
+
+**Best pattern for complex features**: Claude plans, OpenCode executes.
+
+### The Workflow
+
+```
+Claude (Planning)                    OpenCode (Execution)
+─────────────────                    ────────────────────
+/frontier-council
+    ↓ (architecture deliberation)
+/workflows:plan
+    ↓ (structured plan created)
+Review plan ──────────────────────→  Execute Phase 1
+                                         ↓
+                                     Execute Phases 2-4 (parallel)
+                                         ↓
+/workflows:review ←───────────────  Return results
+    ↓
+/compound (document learnings)
+```
+
+### Why Split This Way?
+
+| Task Type | Tool | Reason |
+|-----------|------|--------|
+| Architecture decisions | Claude | High-judgment, trade-offs |
+| Council deliberation | Claude | Multi-model synthesis |
+| Structured planning | Claude | Context aggregation |
+| File reads/writes | OpenCode | Bulk work, free |
+| Refactoring | OpenCode | Mechanical transforms |
+| Code review | Claude | Pattern recognition |
+
+### Execution Pattern
+
+After creating a plan with Claude:
+
+```bash
+# Execute phases sequentially
+opencode run -m opencode/glm-4.7 --title "Phase 1" \
+  "Execute Phase 1 from docs/plans/YYYY-MM-DD-plan.md.
+   Read the plan first, then implement."
+
+# Or parallel for independent phases
+opencode run ... --title "Phase 2" "Execute Phase 2..." &
+opencode run ... --title "Phase 3" "Execute Phase 3..." &
+wait
+```
+
+### Key Insight
+
+**Plans are prompts.** A well-structured plan (`/workflows:plan`) is essentially a detailed prompt for OpenCode. Include:
+- Exact file paths
+- Code snippets to create
+- Verification commands
+- Constraints and patterns to follow
+
+### Cost Comparison
+
+| Approach | Cost (complex feature) |
+|----------|------------------------|
+| All in Opus | $5-10 |
+| Claude plan + OpenCode execute | $2-3 |
+| All in OpenCode | $0 but lower quality planning |
+
+The sweet spot: Claude for judgment, OpenCode for execution.
