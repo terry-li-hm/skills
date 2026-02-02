@@ -94,13 +94,16 @@ These are defined in ~/.zshrc:
 
 # Prompt
 
-## Step 1: Get usage data
+## Step 1: Get usage data + limit history
 
 ```bash
-ccusage daily -s $(date -v-sat +%Y%m%d) --breakdown
-```
+# Current month usage
+ccusage daily -s $(date +%Y%m01) --breakdown
 
-(This gets usage since last Saturday. If today IS Saturday, adjust to previous week's Saturday.)
+# Recent limit hits (last 5)
+grep -rh '"text":"You'\''ve hit your limit' ~/.claude/projects/-Users-terry/*.jsonl 2>/dev/null | \
+  grep -o '"timestamp":"[^"]*"\|"text":"[^"]*"' | paste - - | sort -u | tail -5
+```
 
 ## Step 2: Calculate weekly status
 
@@ -117,15 +120,19 @@ Output format:
 **Weekly Limit Status**
 - Reset: [last Sat date] 6pm → [next Sat date] 6pm HKT
 - Days remaining: X.X days
-- Used this week: $XXX equiv (~XX% of est. cap)
+- Used this week: $XXX equiv (~XX% of ~$800 cap)
 - Status: [✅ Safe | ⚠️ Caution | 🟠 Warning | 🔴 Danger]
 - Burn rate: $XX/day → projected $XXX by reset
+
+**Recent Limit Hits**
+- [date] — hit at ~$XXX, reset [time]
+- [date] — hit at ~$XXX, reset [time]
 
 **This Month**
 | Day | Tokens | Cost |
 ...
 
-**Recommendation:** [Pace advice based on status]
+**Recommendation:** [Pace advice based on status and history]
 ```
 
 ## Thresholds (calibrated)
