@@ -55,21 +55,34 @@ The equivalent API cost shown by ccusage helps gauge value — if you're consist
 
 ## Weekly Limit Tracking
 
-Anthropic doesn't disclose the exact weekly cap, but community reports suggest **~$600 equiv** for Max20 before throttling.
+Anthropic doesn't disclose the exact weekly cap. Based on Terry's actual limit hits:
+- **Jan 23:** Hit limit ~$800-1000 into the week
+- **Jan 30:** Hit limit ~$700-900 into the week
 
-**Estimated thresholds:**
+**Calibrated estimate: ~$800 equiv** for Max20 weekly cap.
+
+**Thresholds (calibrated to Terry's data):**
 | % Used | Equiv Cost | Status |
 |--------|------------|--------|
-| 0-70% | $0-420 | ✅ Safe |
-| 70-85% | $420-510 | ⚠️ Caution — pace yourself |
-| 85-95% | $510-570 | 🟠 Warning — consider switching to Sonnet |
-| 95%+ | $570+ | 🔴 Danger — likely to hit limit |
+| 0-60% | $0-480 | ✅ Safe |
+| 60-75% | $480-600 | ⚠️ Caution — pace yourself |
+| 75-90% | $600-720 | 🟠 Warning — switch to Sonnet for routine tasks |
+| 90%+ | $720+ | 🔴 Danger — high risk of hitting limit |
+
+**Historical limit hits (from ~/.claude logs):**
+- 2026-01-23 12:07 HKT — "resets Jan 24 6pm"
+- 2026-01-30 07:28 HKT — "resets 6pm" (Saturday)
 
 **To calculate weekly usage:**
 1. Find last Saturday 6pm HKT
 2. Sum equiv cost since then
 3. Calculate days until next Saturday 6pm
-4. Show % of estimated cap and burn rate
+4. Show % of estimated $800 cap and burn rate
+
+**To find historical limit hits:**
+```bash
+grep -rh '"text":"You'\''ve hit your limit' ~/.claude/projects/-Users-terry/*.jsonl | grep -o '"timestamp":"[^"]*"\|"text":"[^"]*"' | paste - - | sort -u
+```
 
 ## Aliases
 
@@ -115,9 +128,9 @@ Output format:
 **Recommendation:** [Pace advice based on status]
 ```
 
-## Thresholds
+## Thresholds (calibrated)
 
-- ✅ **Safe** (0-70%, <$420): No concerns
-- ⚠️ **Caution** (70-85%, $420-510): Pace yourself, avoid heavy sessions
-- 🟠 **Warning** (85-95%, $510-570): Switch to Sonnet for routine tasks
-- 🔴 **Danger** (95%+, >$570): High risk of hitting limit, use Haiku/Sonnet only
+- ✅ **Safe** (0-60%, <$480): No concerns
+- ⚠️ **Caution** (60-75%, $480-600): Pace yourself, avoid heavy sessions
+- 🟠 **Warning** (75-90%, $600-720): Switch to Sonnet for routine tasks
+- 🔴 **Danger** (90%+, >$720): High risk of hitting limit, use Haiku/Sonnet only
