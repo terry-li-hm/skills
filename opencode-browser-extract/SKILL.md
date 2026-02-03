@@ -135,3 +135,22 @@ done
 ```
 
 Run overnight: `nohup ~/scripts/garp-batch-extract.sh > /tmp/garp-extract.log 2>&1 &`
+
+## Overnight Batch Reliability (Observed Feb 2026)
+
+**Expect ~35-40% success rate** for overnight batch runs. Failure modes observed:
+
+| Failure Type | Frequency | Symptom |
+|--------------|-----------|---------|
+| Playwright MCP disconnect | ~30% | "Bridge extension isn't connected" |
+| Auth session timeout | ~15% | Login page returned instead of content |
+| JS evaluate timeout | ~10% | Exit code 124, no file created |
+| GLM hallucination | ~5% | Typos in URL, wrong tool names |
+
+**Mitigation strategies:**
+1. **Run in 2 passes:** First pass overnight, second pass next morning for failures
+2. **Skip existing files:** Script checks `if [[ -f "$output_file" ]]` to avoid re-downloading
+3. **Shorter batches:** 20-30 sections more reliable than 70+
+4. **Keep Chrome active:** Playwright MCP connection more stable with Chrome in foreground
+
+**Alternative for high-value content:** Use Claude in Chrome directly (100% reliable, higher token cost)
