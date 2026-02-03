@@ -154,6 +154,17 @@ tail -f /private/tmp/claude-501/-Users-terry/tasks/<task-id>.output
 # Or use TaskOutput tool with the task ID
 ```
 
+**⚠️ Output files are often empty** — OpenCode doesn't reliably capture stdout to the task output file. If the file is empty, check the session JSON instead:
+```bash
+# Find recent sessions for the project
+/bin/ls -lt ~/.local/share/opencode/storage/session/<project-hash>/
+
+# Read session summary (shows additions, deletions, files changed)
+cat ~/.local/share/opencode/storage/session/<project-hash>/ses_<id>.json
+```
+
+The session JSON's `summary` field tells you if OpenCode actually made changes, even when output is empty.
+
 ## Error Handling
 
 OpenCode often self-recovers from errors by:
