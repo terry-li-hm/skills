@@ -66,6 +66,23 @@ When extracting multiple pages:
 opencode run "Append contents of /tmp/s1.txt, /tmp/s2.txt to /path/to/note.md"
 ```
 
+## Tab Management (IMPORTANT)
+
+Each OpenCode + Playwright session creates new Chrome tabs. Parallel sessions multiply this quickly.
+
+**Best practices:**
+- **Limit parallelism:** Max 2-3 concurrent OpenCode sessions on iMac
+- **Clean up after:** Close tabs after extraction completes
+- **Sequential for reliability:** One section at a time works better than parallel
+
+**Quick tab cleanup:**
+```bash
+# Get tab IDs
+# Use mcp__browser-tabs__get_tabs to list, then close_tab_by_id for each duplicate
+```
+
+Or manually: Cmd+W to close tabs in Chrome.
+
 ## Troubleshooting
 
 | Issue | Cause | Fix |
@@ -73,7 +90,9 @@ opencode run "Append contents of /tmp/s1.txt, /tmp/s2.txt to /path/to/note.md"
 | JS evaluate timeout | Default Playwright timeout too short | Add `--timeout-action 60000` |
 | URL typos (garpleearning) | GLM hallucination | Usually self-corrects, or spell out carefully |
 | "Using subagents" stall | Prompt too complex | Simplify to single task |
-| Chrome tabs accumulating | Playwright creates new tabs | Close manually or add `--reuse-tabs` |
+| Chrome tabs accumulating | Playwright creates new tabs | Clean up manually after each session |
+| Parallel sessions conflict | Multiple sessions share browser | Run sequentially or limit to 2-3 |
+| Exit code 124 | Timeout (often on "Done" message) | File may still be created - check |
 
 ## Example: GARP Learning Extraction
 
