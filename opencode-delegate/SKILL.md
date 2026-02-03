@@ -26,17 +26,19 @@ Delegate coding tasks to OpenCode (Gemini/GLM-powered) for background execution.
 
 ### Run headless task (default: GLM-4.7 — unlimited quota)
 ```bash
-# Always run in background to avoid blocking Claude session
-opencode run -m zhipuai-coding-plan/glm-4.7 --title "Task Name" "Detailed prompt" &
+# Use lean config (no MCPs) for fast ~15s startup
+OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-4.7 --title "Task Name" "Detailed prompt" &
 ```
 
 > **⚠️ Provider Matters:** Use `zhipuai-coding-plan/glm-4.7` (BigModel direct) NOT `opencode/glm-4.7` (OpenCode proxy with separate billing).
+
+> **⚠️ Use Lean Config:** `OPENCODE_HOME=~/.opencode-lean` skips MCP servers (gmail, search, browser, etc.) — cuts startup from ~60s to ~15s. Coding tasks don't need MCPs.
 
 **Best practice**: Always append `&` when running from Claude Code. This backgrounds the task so you can continue working or dispatch more tasks in parallel.
 
 ### Run with Gemini 3 Flash (fallback for speed)
 ```bash
-opencode run -m opencode/gemini-3-flash --variant high --title "Task Name" "Detailed prompt"
+OPENCODE_HOME=~/.opencode-lean opencode run -m opencode/gemini-3-flash --variant high --title "Task Name" "Detailed prompt"
 ```
 
 ### Resume a session
@@ -45,6 +47,11 @@ opencode -s <session-id>
 # Or continue last session:
 opencode -c
 ```
+
+> **Note:** Resume uses full `opencode` (not lean) since sessions may need MCP access.
+
+### Terminal alias
+For quick interactive use from terminal: `ol` (defined in .zshrc) is equivalent to lean config.
 
 ### Find session IDs
 ```bash
@@ -194,14 +201,14 @@ Review plan ──────────────────────�
 After creating a plan with Claude:
 
 ```bash
-# Execute phases sequentially
-opencode run -m zhipuai-coding-plan/glm-4.7 --title "Phase 1" \
+# Execute phases sequentially (use lean config for fast startup)
+OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-4.7 --title "Phase 1" \
   "Execute Phase 1 from docs/plans/YYYY-MM-DD-plan.md.
    Read the plan first, then implement."
 
 # Or parallel for independent phases
-opencode run -m zhipuai-coding-plan/glm-4.7 --title "Phase 2" "Execute Phase 2..." &
-opencode run -m zhipuai-coding-plan/glm-4.7 --title "Phase 3" "Execute Phase 3..." &
+OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-4.7 --title "Phase 2" "Execute Phase 2..." &
+OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-4.7 --title "Phase 3" "Execute Phase 3..." &
 wait
 ```
 
