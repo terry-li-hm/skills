@@ -60,6 +60,26 @@ For quick interactive use from terminal: `ol` (defined in .zshrc) is equivalent 
 cat ~/.local/share/opencode/storage/session/<project-hash>/*.json
 ```
 
+## PII Masking
+
+When delegating prompts that contain personal information, mask first:
+
+```bash
+# Mask sensitive info before delegation
+cd /Users/terry/skills/pii-mask
+masked=$(uv run mask.py "Prompt with terry@email.com and 6187 2354")
+
+# Then delegate the masked version
+OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-4.7 --title "Task" "$masked"
+```
+
+**Preview what gets masked:**
+```bash
+uv run mask.py --dry-run "Contact Terry at +852 6187 2354"
+```
+
+See `/Users/terry/skills/pii-mask/SKILL.md` for details on what gets detected.
+
 ## Prompt Engineering for Delegation
 
 Good delegation prompts include:

@@ -23,6 +23,20 @@ Use this skill when:
 export OPENROUTER_API_KEY=sk-or-v1-...
 ```
 
+## PII Masking
+
+When questions contain personal information, mask before sending:
+
+```bash
+cd /Users/terry/skills/pii-mask
+masked=$(uv run mask.py "Question with personal details...")
+
+cd /Users/terry/skills/ask-llms
+uv run council.py "$masked"
+```
+
+Preview: `uv run mask.py --dry-run "your question"` — see `/Users/terry/skills/pii-mask/SKILL.md`
+
 ## Instructions
 
 ### Step 1: Get the Question
