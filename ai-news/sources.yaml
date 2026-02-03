@@ -83,10 +83,18 @@ web_sources:
     focus: AI research, policy, Jack Clark
     tier: 2
 
-  - name: Latent.Space
+  - name: Global AI News
     url: https://www.latent.space
     focus: AI practitioner podcast (swyx), deep dives
     tier: 2
+
+  - name: Interconnects
+    url: https://www.interconnects.ai
+    focus: AI scaling laws, alignment, Nathan Lambert
+    tier: 1
+    notes: |
+      Primary source for "System 2" reasoning and inference-time scaling insights.
+      Essential for AgentOps and safety narratives.
 
 bank_tech_blogs:
   # Tier 1 - Reliable, frequent updates
