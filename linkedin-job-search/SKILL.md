@@ -145,6 +145,29 @@ For banking AI roles in Canada, prioritize these employers:
 
 **Priority for Terry:** TD (AVP Financial Crime) > Scotiabank (AI Governance) > RBC (AI Governance) > BMO (GenAI) > CIBC (Audit)
 
+## Browser Automation: Scrolling & Pagination
+
+**When scanning results via Claude in Chrome or agent-browser:**
+
+1. **Scroll the job list panel, not the whole page** — LinkedIn uses a left sidebar for job listings. Scroll within that panel to load more results.
+
+2. **Pagination is unreliable in automation** — Clicking page numbers (1, 2, 3...) often fails silently. Instead:
+   - Scroll down repeatedly (5-10 scroll ticks) to load more results
+   - Each scroll loads ~7-10 more jobs
+   - Scroll 3-5 times to see 25-50 jobs
+
+3. **Senior AI roles are sparse** — In a search like "TD AI" (1,544 results), most are:
+   - IC ML Scientist positions (not leadership)
+   - Analytics roles (not AI)
+   - Wrong domain (Quant, Digitization, etc.)
+   - AVP/VP + AI + specific domain = rare (maybe 1-3 per company)
+
+4. **Scan strategy for senior AI roles:**
+   - Scroll through first 25-50 results
+   - Look for keywords: AVP, VP, Director, Senior Manager + AI/ML/GenAI
+   - Skip: Analyst, Scientist, Engineer (IC roles)
+   - Skip: Analytics, Quant, Data (not AI-specific)
+
 ## Weekly Monitoring Routine (Overseas)
 
 1. Run each domain keyword search once/week
