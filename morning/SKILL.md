@@ -39,6 +39,12 @@ Daily briefing to start the day with focus.
    - Read `~/notes/TODO.md` for pending tasks
    - Display any unchecked items `- [ ]` prominently
 
+7. **Scan Gmail for interview confirmations** (past 48 hours):
+   - `gog gmail search "interview confirmed OR virtual interview OR interview scheduled" | head -10`
+   - Look for subjects containing: "confirmed", "scheduled", "interview", "Teams meeting"
+   - Cross-check against TODO.md — if an interview is in email but NOT in TODO.md, flag it
+   - Add any missing interviews to TODO.md with date, time, platform, interviewer
+
 7. **Weather check** (optional):
    - `/hko` for Hong Kong weather if going out
 
