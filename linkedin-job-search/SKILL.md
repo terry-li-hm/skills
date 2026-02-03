@@ -36,11 +36,28 @@ Use LinkedIn's "Save" feature to batch jobs for later review. See `/review-saved
 
 ## Company Filter Caveat
 
-**`f_C=` company filter is unreliable.** Often returns "No matching jobs" even when roles exist.
+**`f_C=` company filter works but is location-sensitive.**
 
-**Better approach:** Use company name as keyword + "AI" + location.
+Without explicit location, LinkedIn defaults to your profile/IP location. For overseas job searches from Hong Kong:
 
-Example: `TD AI` + Toronto (390 results) is more reliable than `f_C=1482` filter.
+| Search | Location | Results |
+|--------|----------|---------|
+| `f_C=2775` + `AVP Financial Crime` | (default: HK) | **0** ❌ |
+| `f_C=2775` + `AVP Financial Crime` | `Canada` | **1** ✅ |
+
+**For overseas searches, ALWAYS specify location explicitly:**
+```
+f_C=2775&keywords=AI&location=Canada
+```
+
+**Keyword approach is still simpler:** `TD AI` + Canada works without needing the company ID.
+
+| Approach | Pros | Cons |
+|----------|------|------|
+| Company filter (`f_C=`) | Guaranteed company match | Need company ID, location-sensitive |
+| Keyword (`TD AI`) | Simple, no ID needed | May include other "TD"-named companies |
+
+**Recommendation:** Use keyword approach (`Company AI` + location) for scanning. Use company filter for verification if needed.
 
 ## Seniority Filter Caveat
 
