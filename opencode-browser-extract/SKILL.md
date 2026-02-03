@@ -31,15 +31,24 @@ Without these timeouts, complex pages (like GARP Learning) will timeout during J
 
 ## Working Pattern
 
-Simple, single-task prompts work best. GLM overthinks multi-step instructions.
+**Numbered steps work best.** GLM follows explicit numbered instructions more reliably than prose.
 
 ```bash
-# Basic extraction
-opencode run "Playwright: go to [URL], click OK if dialog, JS: document.body.innerText.slice(0,8000), save to /tmp/output.txt"
+# BEST: Numbered steps (most reliable)
+timeout 150 opencode run "1. playwright_browser_navigate to [URL] 2. playwright_browser_click OK 3. playwright_browser_evaluate JS: document.body.innerText.slice(0,8000) 4. Write to /tmp/output.txt"
 
-# Targeted extraction (smaller content)
-opencode run "Playwright: go to [URL], JS: document.querySelector('main')?.innerText?.slice(0,5000), save to /tmp/output.txt"
+# OK: Prose style (less reliable, may timeout before file write)
+timeout 120 opencode run "Playwright: go to [URL], click OK if dialog, JS: document.body.innerText.slice(0,8000), save to /tmp/output.txt"
 ```
+
+**Why numbered steps work:**
+- GLM executes each step in sequence without overthinking
+- Explicit tool names (`playwright_browser_navigate`) reduce hallucination
+- File write step executes before timeout
+
+**Timeout guidance:**
+- Use `timeout 150` for numbered steps (needs time for all 4 steps)
+- Exit code 124 often still succeeds if Write step shows in output
 
 ## What Works
 
@@ -97,5 +106,32 @@ Or manually: Cmd+W to close tabs in Chrome.
 ## Example: GARP Learning Extraction
 
 ```bash
-timeout 120 opencode run "Playwright: go to https://garplearning.benchprep.com/app/rai26#read/section/231-problem-specification-and-feature-selection, click OK, JS: document.body.innerText.slice(0,8000), save to /tmp/garp231.txt"
+# Single section (numbered steps - recommended)
+timeout 150 opencode run "1. playwright_browser_navigate to https://garplearning.benchprep.com/app/rai26#read/section/60-model-validation 2. playwright_browser_click OK 3. playwright_browser_evaluate JS: document.body.innerText.slice(0,8000) 4. Write to /tmp/garp_m5_60.txt"
 ```
+
+## Batch Extraction Script
+
+For extracting many sections overnight:
+
+```bash
+#!/bin/bash
+# Save as ~/scripts/garp-batch-extract.sh
+
+SECTIONS=(
+  "learning-objectives-13:lo"
+  "10-introduction-2:10"
+  "20-data-governance:20"
+  # Add more sections...
+)
+
+for item in "${SECTIONS[@]}"; do
+  section="${item%%:*}"
+  slug="${item##*:}"
+  echo "Extracting $section -> /tmp/garp_m5_$slug.txt"
+  timeout 150 opencode run "1. playwright_browser_navigate to https://garplearning.benchprep.com/app/rai26#read/section/$section 2. playwright_browser_click OK 3. playwright_browser_evaluate JS: document.body.innerText.slice(0,8000) 4. Write to /tmp/garp_m5_$slug.txt"
+  sleep 5  # Brief pause between extractions
+done
+```
+
+Run overnight: `nohup ~/scripts/garp-batch-extract.sh > /tmp/garp-extract.log 2>&1 &`
