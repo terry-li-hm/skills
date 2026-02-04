@@ -70,8 +70,12 @@ web_sources:
 
   - name: Every
     url: https://every.to
-    focus: AI business strategy, Dan Shipper
+    focus: AI tools for knowledge workers, accessible commentary
     tier: 2
+    notes: |
+      Good for zeitgeist and practical tool reviews. Not deep technical insight.
+      Treats surface-level findings as bigger insights than they are.
+      Skim for "what are people trying with AI this week", not strategy.
 
   - name: Hacker News
     url: https://news.ycombinator.com
@@ -81,7 +85,18 @@ web_sources:
   - name: Import AI
     url: https://jack-clark.net
     focus: AI research, policy, Jack Clark
+    tier: 1
+    notes: |
+      Weekly research summaries with policy context. High signal-to-noise.
+      Good for staying current on research without reading papers directly.
+
+  - name: Gwern
+    url: https://gwern.net
+    focus: Deep technical essays, scaling laws, AI philosophy
     tier: 2
+    notes: |
+      Long-form essays requiring time to digest. Not news — evergreen thinking.
+      Check monthly for new posts. Essential for first-principles AI understanding.
 
   - name: Global AI News
     url: https://www.latent.space
