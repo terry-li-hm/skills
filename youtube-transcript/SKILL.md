@@ -1,7 +1,8 @@
 ---
 name: youtube-transcript
 description: Extract transcripts/subtitles from YouTube videos. Use when the user wants to get the transcript, captions, or subtitles from a YouTube video URL or video ID.
-user_invocable: false---
+user_invocable: false
+---
 
 # YouTube Transcript Extractor
 
