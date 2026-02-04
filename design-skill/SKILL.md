@@ -64,6 +64,32 @@ Outputs from one skill should feed back into related skills.
 - **Action skills** → verb-first: `evaluate-job`, `sync-skills`, `design-skill`
 - **Trigger/lookup skills** → short nouns fine: `todo`, `hko`, `morning`
 
+### 7. Self-Contained Skills
+Keep scripts/code inside the skill directory, not scattered elsewhere.
+
+**Good:**
+```
+~/skills/mcp-sync/
+  ├── SKILL.md        # Documentation
+  └── mcp-sync.py     # Implementation
+```
+
+**Bad:**
+```
+~/skills/mcp-sync/SKILL.md    # Docs here
+~/scripts/mcp-sync.py         # Script elsewhere (disconnected)
+```
+
+If you need an alias or symlink for convenience, point *from* external location *to* skill:
+```bash
+ln -sf ~/skills/mcp-sync/mcp-sync.py ~/scripts/mcp-sync.py
+```
+
+**Benefits:**
+- Version controlled together
+- Portable — clone `~/skills` and everything's there
+- Single source of truth
+
 ## Skill Clusters
 
 ### Job Hunting
