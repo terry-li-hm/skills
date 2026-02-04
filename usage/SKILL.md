@@ -61,6 +61,10 @@ Anthropic doesn't disclose the exact weekly cap. Based on Terry's actual limit h
 
 **Calibrated estimate: ~$800 equiv** for Max20 weekly cap.
 
+**Safe daily budget:** ~$115/day for full 7-day week. Days over $300 need balancing with light days.
+
+**Subjective calibration:** When you *feel* 75% used, you're probably 85-90%. Gut feel underestimates actual usage.
+
 **Thresholds (calibrated to Terry's data):**
 | % Used | Equiv Cost | Status |
 |--------|------------|--------|
@@ -119,10 +123,12 @@ Output format:
 ```
 **Weekly Limit Status**
 - Reset: [last Sat date] 6pm → [next Sat date] 6pm HKT
-- Days remaining: X.X days
+- Days elapsed / remaining: X.X / X.X days
 - Used this week: $XXX equiv (~XX% of ~$800 cap)
 - Status: [✅ Safe | ⚠️ Caution | 🟠 Warning | 🔴 Danger]
-- Burn rate: $XX/day → projected $XXX by reset
+- Daily burn rate: $XX/day (safe: ~$115/day)
+- Days at current pace: X.X days until cap
+- Projected by reset: $XXX
 
 **Recent Limit Hits**
 - [date] — hit at ~$XXX, reset [time]
