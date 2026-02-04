@@ -1,42 +1,58 @@
 ---
 name: mcp-sync
-description: Sync MCP servers from Claude Code to Codex and OpenCode. Use when adding a new MCP server or checking sync status.
+description: Sync MCP servers across Claude Code, Codex, and OpenCode from a standalone canonical config. Use when adding or updating MCP servers.
 user_invocable: true
 ---
 
 # MCP Sync
 
-Syncs MCP server configurations from Claude Code (canonical) to Codex and OpenCode.
+Syncs MCP server configurations across all three AI coding tools from a single source of truth.
 
 ## Architecture
 
 ```
-~/agent-config/claude/claude.json   ← Canonical source (with API keys)
-        ↓
-~/.codex/config.toml                ← TOML, API keys as ${VAR}
-~/.opencode/mcp.json                ← JSON, API keys stripped
+~/agent-config/mcp-servers.json   ← Canonical source (clean, version-controlled)
+        ↓ mcp-sync --apply
+claude mcp add ...                ← Commands printed (run manually)
+~/.codex/config.toml              ← Auto-updated (TOML)
+~/.opencode/mcp.json              ← Auto-updated (JSON)
 ```
 
 ## Usage
 
 ```bash
-# Dry run - show what would change
-mcp-sync
-
-# Apply changes
-mcp-sync --apply
+mcp-sync           # Dry run - show what would change
+mcp-sync --apply   # Update Codex/OpenCode, print Claude commands
 ```
 
 ## Workflow
 
-1. **Add server via Claude:** `claude mcp add <name> -- <command>`
+1. **Add/edit server in canonical:** `~/agent-config/mcp-servers.json`
 2. **Run sync:** `mcp-sync --apply`
+3. **For Claude Code:** Run the printed `claude mcp add` commands (if not already configured)
 
-Or edit `~/agent-config/claude/claude.json` directly, then sync.
+## Canonical Config Format
+
+```json
+{
+  "mcpServers": {
+    "server-name": {
+      "command": "npx",
+      "args": ["-y", "package-name"],
+      "env": {
+        "API_KEY": "${API_KEY}"
+      }
+    }
+  },
+  "_codexExtras": {
+    "context7": { "url": "https://..." }
+  }
+}
+```
 
 ## Notes
 
-- API keys stored only in Claude config (version controlled)
-- Codex uses `${VAR}` env var references
-- OpenCode gets API keys stripped (reads from env at runtime)
-- Codex-only servers (`context7`, `serena`) are auto-added
+- Env vars use `${VAR}` syntax — actual values read from environment at runtime
+- `_codexExtras` contains Codex-only servers (context7, serena)
+- Claude Code commands are printed but not auto-executed (requires manual run)
+- OpenCode strips env var values (reads from env at runtime)
