@@ -26,13 +26,17 @@ wacli-ro contacts search "<name>"
 
 ## Usage
 
-1. Use `wacli-ro chats list` to see recent conversations
-2. Use `wacli-ro contacts search` to find a contact's JID
-3. Use `wacli-ro messages list --chat "<JID>"` to read specific chat
+1. **Sync first** to get latest messages: `wacli-ro sync --timeout 15s`
+2. Use `wacli-ro chats list` to see recent conversations
+3. Use `wacli-ro contacts search` to find a contact's JID
+4. Use `wacli-ro messages list --chat "<JID>"` to read specific chat
 
 ## Important
 
+- **ALWAYS sync before reading** — database can be stale
 - **ALWAYS use `wacli-ro`** — not `wacli` directly
 - `wacli-ro` blocks send commands at the script level
-- JIDs look like: `85290336894@s.whatsapp.net` (phone) or `12345@g.us` (group)
-- Sync if messages seem stale: `wacli-ro sync`
+- JIDs come in two forms — check **both** if messages seem missing:
+  - Phone: `85290336894@s.whatsapp.net`
+  - LID: `191778963615876@lid` (newer WhatsApp format)
+- Same contact may have both JID types in `chats list` — check both for complete history
