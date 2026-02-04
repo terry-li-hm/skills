@@ -34,15 +34,20 @@ wc -l ~/notes/Learnings\ Inbox.md
 
 **Goal:** Inbox should have <15 active entries after cleanup.
 
-### 2. Stale Note Scan
+### 2. Decay Report
 
-Find notes not modified in 90+ days:
+Run the decay report script for structured analysis:
 
 ```bash
-find ~/notes -name "*.md" -mtime +90 -type f | grep -v ".obsidian" | head -30
+uv run ~/scripts/vault-decay-report.py
 ```
 
-For each stale note, decide:
+This surfaces:
+- **Orphans** — Notes with no incoming wikilinks (candidates for linking or archiving)
+- **Cold notes** — Notes with access tracking that haven't been touched in 30+ days
+- **Tracked notes** — Shows current access counts for people/entity notes
+
+For each flagged note, decide:
 
 | Action | When |
 |--------|------|
@@ -140,8 +145,36 @@ For time-constrained sessions:
 3. Skip daily archival
 4. Note anything deferred for full review
 
+### 7. QMD Index Update
+
+Keep the semantic search index fresh:
+
+```bash
+qmd update        # Re-index changed files
+qmd status        # Check index health
+qmd embed         # Update embeddings (slow, run in background if many changes)
+```
+
+If embeddings are stale (>100 pending), run in background:
+```bash
+nohup qmd embed > /tmp/qmd-embed.log 2>&1 &
+```
+
+### 8. Access Tracking Review
+
+For notes with `type: person` frontmatter, review access patterns:
+
+```bash
+grep -l "type: person" ~/notes/*.md | xargs grep -l "access_count"
+```
+
+- Notes with `access_count > 5` — Key relationships, keep fresh
+- Notes with `last_accessed` > 30 days — Consider if relationship is cooling
+- Notes with `access_count = 1` — Barely used, evaluate if worth tracking
+
 ## Related
 
 - `/skill-review` — Companion monthly skill audit
 - `/daily` — Creates daily notes this skill eventually archives
 - `/retro` — Session reflection that feeds Learnings Inbox
+- `~/scripts/vault-decay-report.py` — Orphan and cold note detection
