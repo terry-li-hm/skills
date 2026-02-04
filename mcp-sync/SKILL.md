@@ -25,6 +25,11 @@ mcp-sync           # Dry run - show what would change
 mcp-sync --apply   # Update Codex/OpenCode, print Claude commands
 ```
 
+## Files
+
+- `SKILL.md` — This documentation
+- `mcp-sync.py` — Sync script (symlinked to `~/scripts/mcp-sync.py`)
+
 ## Workflow
 
 1. **Add/edit server in canonical:** `~/agent-config/mcp-servers.json`
