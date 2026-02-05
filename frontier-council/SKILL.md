@@ -1,13 +1,13 @@
 ---
 name: frontier-council
-description: Frontier Council with 5 frontier models (Opus 4.5, GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2.5). Models deliberate on a question, each seeing previous responses, then a judge synthesizes consensus. Use for important decisions needing diverse AI perspectives.
+description: Frontier Council with 4 frontier models (GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2.5) deliberating, then Claude Opus 4.5 judging. Creates actual debate where models respond to each other, with rotating challenger for sustained disagreement. Use for important decisions needing diverse AI perspectives.
 github_url: https://github.com/terry-li-hm/frontier-council
-github_hash: 9c25481
+github_hash: 196ec8c
 ---
 
 # LLM Council
 
-5 frontier models deliberate on a question. Unlike `/ask-llms` which shows parallel responses, this creates an actual debate where models see and respond to previous speakers, followed by a judge synthesizing the consensus.
+4 frontier models deliberate on a question, then Claude Opus 4.5 judges and adds its own perspective. Unlike `/ask-llms` which shows parallel responses, this creates an actual debate where models see and respond to previous speakers, with a rotating challenger ensuring sustained disagreement.
 
 ## When to Use
 
