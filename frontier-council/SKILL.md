@@ -244,40 +244,41 @@ This surfaces compliance concerns early rather than as afterthoughts.
 
 Each model has predictable biases. Use this to interpret results:
 
+**Council (deliberators):**
+
 | Model | Tendency | Useful For |
 |-------|----------|------------|
-| **Claude Opus** | Balanced, thorough, safety-conscious | Synthesis, nuance |
 | **GPT-5.2** | Practical, implementation-focused | Actionable steps |
 | **Gemini 3 Pro** | Technical depth, systems thinking | Architecture |
 | **Grok 4** | Contrarian, challenges consensus | Stress-testing ideas |
 | **Kimi K2.5** | Detail-oriented, edge cases | Completeness check |
 
-**If you want more disagreement:** Explicitly ask "Have one model argue the contrarian position" or "Challenge the consensus view."
+**Judge (Claude Opus 4.5):** Balanced, thorough, safety-conscious. Synthesizes deliberation and adds independent perspective via "Judge's Own Take" section.
+
+**If you want more disagreement:** The rotating challenger ensures someone is always pushing back. For extra tension, use `--challenger grok` to start with Grok (naturally contrarian + explicit challenger prompt = maximum pushback).
 
 **If council is too cautious:** Add constraint "Assume this is a startup, not an enterprise" or "Speed matters more than perfection."
 
 ## Challenger Strategy
 
-**Default challenger: Claude** (not Grok)
+**Default challenger: GPT** (rotates each round)
 
 Reasoning:
-- Grok is naturally contrarian — it will push back regardless of the `--challenger` flag
-- Claude is normally agreeable but has deep domain knowledge
-- Assigning Claude as challenger = Claude's depth + explicit contrarian framing
-- This gives you **two sources of pushback**: prompted-Claude + natural-Grok
+- Grok is naturally contrarian — it pushes back regardless of the `--challenger` flag
+- GPT as default challenger = practical skepticism + explicit contrarian framing
+- This gives you **two sources of pushback**: prompted-GPT + natural-Grok
+- Challenger rotates: GPT R1 → Gemini R2 → Grok R3 → Kimi R4 → GPT R5...
 
 **When to override:**
 - `--challenger gemini` — For architecture questions where Gemini's systems thinking + contrarian = interesting angles
-- `--challenger gpt` — For implementation questions where practical skepticism helps
 - `--challenger grok` — If you want Grok to be *even more* contrarian (rare)
-
-**Anti-pattern:** Don't double up on Grok (e.g., adding second Grok instance as challenger). Same model = similar reasoning patterns, more cost without more diversity.
+- `--challenger kimi` — For edge-case-focused pushback
 
 ## Lessons from Usage
 
 **Tension is where the value is.** Consensus is boring — dissent forces sharper thinking. When Grok pushed back on "over-engineering" while others defended compliance depth, that tension produced the best insight (stage-appropriate compliance). If council reaches quick agreement, probe harder.
 
-**Models default to enterprise-grade.** Without constraints, 4/5 models suggest infrastructure for problems that don't exist yet. Always add constraints upfront: "this is a POC", "single-user system", "speed > perfection", "manual processes acceptable".
+**Models default to enterprise-grade.** Without constraints, the council models suggest infrastructure for problems that don't exist yet. Always add constraints upfront: "this is a POC", "single-user system", "speed > perfection", "manual processes acceptable".
 
 **Domain expertise emerges when prompted.** Banking-specific concerns (Records & Evidence Layer, eDiscovery, escalation burden) only surfaced because "banking clients" was in the question. Use `--domain` flag or state regulatory context explicitly.
 
