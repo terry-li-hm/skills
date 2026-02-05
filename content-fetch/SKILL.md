@@ -63,12 +63,25 @@ When WebFetch returns a redirect message:
 ```
 1. WebFetch (fast, cached)
    ↓ fails
-2. tavily_extract (better at complex pages)
+2. Jina Reader (free, simple)
    ↓ fails
-3. Browser automation (for login-required)
+3. tavily_extract (better at complex pages)
    ↓ fails
-4. Ask user for copy/paste
+4. Browser automation (for login-required)
+   ↓ fails
+5. Ask user for copy/paste
 ```
+
+### Jina Reader
+
+Free, no API key. Prepend `https://r.jina.ai/` to any URL:
+
+```bash
+curl -s -H "Accept: text/markdown" "https://r.jina.ai/https://example.com/article"
+```
+
+**Handles:** Most general web pages, blogs, docs
+**Fails on:** WeChat, login-required sites, some anti-scrape sites
 
 ## Login-Required Sites
 
@@ -77,6 +90,39 @@ These always need browser automation:
 - X/Twitter
 - WhatsApp Web
 - Most banking/corporate sites
+
+## Chinese Platform Gotchas
+
+### WeChat (mp.weixin.qq.com)
+
+**Primary:** `wechat-article` skill (uses wechat.imagenie.us API)
+
+**Backup options if API dies:**
+1. **Firecrawl** — AI-driven, paid (500 free/month). Sign up at firecrawl.dev
+   ```bash
+   pip install firecrawl-py
+   # Use getattr() not .get() for v2 API
+   ```
+2. **Playwright with WeChat UA** — Browser automation with mobile User-Agent
+3. **Mirror search** — Articles often reposted to zhihu.com, 163.com, csdn.net
+
+**URL tip:** Short URLs (`/s/ABC123`) more stable than long URLs (`?__biz=...`) which trigger CAPTCHAs.
+
+### Xiaohongshu (小红书)
+
+Images require Referer header or you get 403:
+
+```python
+headers = {
+    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X)...',
+    'Referer': 'https://www.xiaohongshu.com/'
+}
+requests.get(image_url, headers=headers)
+```
+
+### Douyin / Bilibili
+
+Require browser automation for most content. Heavy anti-scrape.
 
 ## Content Extraction Prompts
 
