@@ -99,6 +99,7 @@ bird returns structured output with:
 - **Read-only recommended**: Posting can trigger bot detection
 - **Rate limits**: Don't fetch too many tweets too quickly
 - **Cookie expiry**: If auth fails, user needs to re-login to X in Chrome
+- **SSH/tmux Keychain failure**: `bird --cookie-source chrome` fails over SSH/tmux because macOS Keychain requires GUI security context. Error: "Failed to read macOS Keychain (Chrome Safe Storage): exit 36". **Fallback**: Use Claude in Chrome `get_page_text` to extract tweet text directly from the page.
 
 ## Integration with AI News Skill
 
