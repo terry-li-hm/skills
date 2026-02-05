@@ -135,3 +135,31 @@ The `/message` skill uses `wacli` for WhatsApp message retrieval and sending. Th
 | "Session expired" | Run `wacli auth` again |
 | Contact not found | Use phone number with country code (+852...) |
 | Messages not syncing | Run `wacli sync` to backfill history |
+| Sent messages missing | See LID/JID splitting issue below |
+
+## Known Issue: LID/JID Splitting
+
+**Symptom:** Querying a chat shows only incoming messages — your sent messages are missing.
+
+**Cause:** WhatsApp uses two JID formats for the same contact:
+- `XXXXXXXXXX@s.whatsapp.net` (phone number format)
+- `YYYYYYYY@lid` (Linked ID format)
+
+Messages get split between them. When you query one JID, you only see half the conversation.
+
+**Diagnosis:**
+```bash
+sqlite3 ~/.wacli/wacli.db "SELECT chat_jid, from_me, COUNT(*) FROM messages WHERE chat_name LIKE '%ContactName%' GROUP BY chat_jid, from_me;"
+```
+
+**Workaround:** Query the phone number JID (`@s.whatsapp.net`) which usually has both directions:
+```bash
+wacli messages list --chat "85298765432@s.whatsapp.net" --limit 20
+```
+
+**Or merge in database** (one-time):
+```bash
+sqlite3 ~/.wacli/wacli.db "UPDATE messages SET chat_jid='85298765432@s.whatsapp.net' WHERE chat_jid='YYYYYYYY@lid';"
+```
+
+**Upstream:** [Issue #31](https://github.com/steipete/wacli/issues/31)
