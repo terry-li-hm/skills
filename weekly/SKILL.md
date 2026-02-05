@@ -1,0 +1,96 @@
+---
+name: weekly
+description: Weekly synthesis and review. Use when user says "weekly", "weekly review", "week in review", or on Sundays.
+user_invocable: true
+---
+
+# Weekly Synthesis
+
+Create a weekly synthesis of work, thinking, and progress.
+
+## Triggers
+
+- "weekly", "weekly review", "week in review"
+- Sunday weekly reset (complements the existing Sunday protocol in vault CLAUDE.md)
+
+## Workflow
+
+1. **Determine the week range** (Mon-Sun, HKT)
+
+2. **Gather the week's data**:
+   - Read daily notes for the week: `~/notes/YYYY-MM-DD.md`
+   - Read `~/notes/Active Pipeline.md` for pipeline changes
+   - Read `~/notes/TODO.md` for completed/outstanding items
+   - Scan `~/notes/Learnings Inbox.md` for entries this week
+   - Check git log for skills/vault commits: `cd ~/skills && git log --oneline --since="7 days ago"`
+   - Check `~/notes/memory/` for OpenClaw daily logs
+
+3. **Synthesize into themes** — don't just list events, find patterns:
+   - What topics kept coming up?
+   - What moved forward vs what stalled?
+   - Where did energy go?
+
+4. **Create weekly note** at `~/notes/Weekly/YYYY-Www.md` (e.g., `2026-W06.md`):
+
+```markdown
+# Week of YYYY-MM-DD
+
+## At a Glance
+
+- Days active: X/7
+- Daily notes: [list]
+- Pipeline changes: [summary]
+
+## Key Themes
+
+### [Theme 1]
+- Where it appeared: [contexts]
+- Progress: [what moved]
+- Next: [what's next]
+
+### [Theme 2]
+...
+
+## Progress
+
+### Job Hunt
+- Applications: [count]
+- Interviews: [count]
+- Pipeline changes: [moved forward / stalled / new leads]
+
+### Skills & Tools
+- New/updated skills: [list]
+- Tool changes: [any]
+
+### Projects
+- [Project]: [status change]
+
+## Learnings Captured
+
+- [Summary of Learnings Inbox entries from this week]
+
+## Energy Audit
+
+- What gave energy: [activities, wins]
+- What drained: [friction, blockers]
+- Adjust next week: [what to do differently]
+
+## Open Loops
+
+- [ ] [Unresolved items carrying into next week]
+
+## Next Week's Focus
+
+1. [Primary]
+2. [Secondary]
+3. [Explore]
+```
+
+5. **Keep it honest** — this is for pattern recognition, not performance reporting. Short weeks with little output are fine to note as such.
+
+## Notes
+
+- Create `~/notes/Weekly/` directory if it doesn't exist
+- Link back to daily notes and relevant vault notes
+- If it's also Sunday, this runs alongside the existing weekly reset protocol (pipeline review, networking status, etc.) — the synthesis captures the broader picture, the reset is action-oriented
+- The energy audit is the most valuable section long-term — it reveals what work is sustainable
