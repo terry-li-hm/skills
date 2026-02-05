@@ -11,8 +11,8 @@ Check WhatsApp messages safely using `wacli-ro` (read-only wrapper). **Send is b
 ## Available Commands
 
 ```bash
-# Alias for convenience (wacli-ro is not in PATH by design)
-alias wacli-ro='/Users/terry/scripts/wacli-ro'
+# wacli-ro is not in PATH by design (prompt injection protection)
+# Claude Code: use `mdfind -name wacli-ro` to locate if needed
 
 # List recent chats
 wacli-ro chats list --limit 20
@@ -37,7 +37,7 @@ wacli-ro contacts search "<name>"
 ## Important
 
 - **ALWAYS sync before reading** — database can be stale
-- **ALWAYS use `wacli-ro`** — not `wacli` directly (full path: `/Users/terry/scripts/wacli-ro`)
+- **ALWAYS use `wacli-ro`** — not `wacli` directly
 - `wacli-ro` is intentionally NOT in PATH to prevent OpenClaw/prompt injection from using it
 - `wacli-ro` blocks send commands at the script level
 - JIDs come in two forms — check **both** if messages seem missing:
