@@ -301,6 +301,14 @@ Reasoning:
 
 **Test > theorize.** Some council recommendations were wrong when tested. For optimization questions, run quick benchmarks yourself rather than debating theory. Council is better for **directional** guidance than specific parameter tuning.
 
+### Lessons from Judge Over-Aggregation (Feb 2026)
+
+**The judge's diagnosis is sharper than its prescription.** In a CV review, the judge correctly identified "minimum effective change is the goal" — then recommended 6 changes. The deliberation generates momentum: 4 models produce detailed suggestions, and even the synthesiser aggregates instead of filtering.
+
+**Fix applied:** Judge prompt now enforces "Prescription Discipline" — max 3 "Do Now" items, must argue against each before including it, and must explicitly list what it's dropping. The gravitational pull of the council is "add more"; the judge's pull must be "do less."
+
+**Pattern for callers:** When presenting council results, treat the judge's *framing* as more reliable than its *action list*. If the framing says "this is mostly fine, small adjustments needed" but the action list has 6 items, trust the framing.
+
 ## Known Issues
 
 **JSON output truncation:** For long deliberations, the JSON block may get cut off. Always use `--output file.md` to capture the full transcript:
