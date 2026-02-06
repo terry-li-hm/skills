@@ -16,6 +16,7 @@ Patterns for fetching and extracting content from URLs.
 | WeChat articles | `wechat-article` script | Manual copy |
 | YouTube | `youtube-transcript` | yt-dlp |
 | PDFs | `pdf-extract` (LlamaParse) | Local OCR |
+| Xiaohongshu (XHS) | `xhs-extract` script | Playwright MCP |
 | Login-required | Browser automation | None |
 
 ## WebFetch Patterns
