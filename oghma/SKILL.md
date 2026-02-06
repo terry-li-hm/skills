@@ -7,31 +7,40 @@ description: Search AI coding memories extracted from Claude Code, Codex, OpenCl
 
 Search memories extracted from AI coding tool transcripts.
 
-## Commands
+## MCP Tools (Preferred)
 
-**Search memories:**
+Use these directly — no CLI needed:
+
+| Tool | Purpose |
+|------|---------|
+| `oghma_search` | Search memories (keyword, vector, or hybrid mode) |
+| `oghma_get` | Get a memory by ID |
+| `oghma_stats` | Database statistics |
+| `oghma_add` | Write a memory directly |
+| `oghma_categories` | List categories with counts |
+
+**Search modes:**
+- `keyword` (default) — FTS5 full-text search, ordered by recency
+- `vector` — semantic similarity via embeddings, with mild recency tiebreaker
+- `hybrid` — RRF fusion of keyword + vector with recency boost (~1.5x for today, decaying)
+
+**Adding memories directly:**
+```
+oghma_add(content="insight here", category="gotcha", source_tool="manual")
+```
+
+## CLI Commands
+
+**Search:**
 ```bash
 oghma search "query" --limit 10
-```
-
-**Filter by category:**
-```bash
 oghma search "query" --category learning    # or: preference, project_context, gotcha, workflow
-```
-
-**Filter by tool:**
-```bash
 oghma search "query" --tool claude_code     # or: codex, openclaw, opencode
 ```
 
-**Check status:**
+**Status:**
 ```bash
 oghma status
-```
-
-**Export memories:**
-```bash
-oghma export --output-dir /path/to/dir --format markdown
 ```
 
 ## Categories
@@ -44,25 +53,9 @@ oghma export --output-dir /path/to/dir --format markdown
 | `gotcha` | Pitfalls, bugs, things that don't work as expected |
 | `workflow` | Processes, commands, how to do things |
 
-## Examples
-
-```bash
-# Find Python-related learnings
-oghma search "python" --category learning
-
-# Find interview context
-oghma search "interview" --category project_context
-
-# Find gotchas about a tool
-oghma search "playwright" --category gotcha
-
-# Search across all categories
-oghma search "async"
-```
-
 ## When to Use
 
 - User asks "what did we discuss about X?"
 - User wants to recall past insights or decisions
-- User asks about gotchas or pitfalls
 - Before starting work on a topic, check for relevant memories
+- After discovering something worth persisting, use `oghma_add`
