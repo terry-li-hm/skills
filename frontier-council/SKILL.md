@@ -88,6 +88,7 @@ frontier-council "question" --share                 # Upload to secret Gist
 frontier-council "question" --domain banking        # Inject regulatory context
 frontier-council "question" --challenger gemini     # Assign contrarian role
 frontier-council "question" --followup              # Interactive drill-down after synthesis
+frontier-council "question" --practical             # Actionable rules only, no philosophy
 ```
 
 **Domain-specific deliberation (banking, healthcare, etc.):**
@@ -308,6 +309,16 @@ Reasoning:
 **Fix applied:** Judge prompt now enforces "Prescription Discipline" — max 3 "Do Now" items, must argue against each before including it, and must explicitly list what it's dropping. The gravitational pull of the council is "add more"; the judge's pull must be "do less."
 
 **Pattern for callers:** When presenting council results, treat the judge's *framing* as more reliable than its *action list*. If the framing says "this is mostly fine, small adjustments needed" but the action list has 6 items, trust the framing.
+
+### Lessons from Operational Questions (Feb 2026)
+
+**Models spiral into philosophy on operational questions.** When asked "when should I read vs extract?", the council spent rounds debating cognitive science and "psychological ownership" instead of producing concrete triggers. The judge flagged it: "spent too much energy debating 'do you need the vibe?'"
+
+**Fix applied:** Added `--practical` flag that injects "focus on actionable triggers and concrete rules, avoid philosophy/theory" into all prompts (blind, first-speaker, subsequent, judge). Also added baseline "Prioritize PRACTICAL, ACTIONABLE advice" to blind and first-speaker prompts (previously only in subsequent-speaker prompt, so the spiral started in round 1).
+
+**JSON extraction was fundamentally broken.** The old `extract_structured_summary()` used naive string matching (`'recommend' in line_lower`) on the judge's prose — producing garbled action_items and truncated reasoning. Replaced with a Haiku second-pass that extracts structured JSON from the prose. New fields: `do_now`, `consider_later`, `skip` (matching the judge's triage structure). Falls back to old method if the API call fails. Cost: ~$0.005/extraction.
+
+**Rule of thumb:** Use `--practical` for operational/workflow questions. Skip it for strategic decisions where the philosophical dimensions are actually useful.
 
 ## Known Issues
 
