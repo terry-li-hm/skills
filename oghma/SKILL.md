@@ -7,7 +7,7 @@ description: Search AI coding memories from Claude Code, Codex, OpenClaw, OpenCo
 
 Search memories extracted from AI coding tool transcripts.
 
-## MCP Tools (Preferred)
+## MCP Tools (Claude Code, Codex — preferred when available)
 
 Use these directly — no CLI needed:
 
@@ -20,13 +20,24 @@ Use these directly — no CLI needed:
 | `oghma_categories` | List categories with counts |
 
 **Search modes:**
-- `keyword` (default) — FTS5 full-text search, ordered by recency
-- `vector` — semantic similarity via embeddings, with mild recency tiebreaker
-- `hybrid` — RRF fusion of keyword + vector with recency boost (~1.5x for today, decaying)
+- `keyword` — FTS5 full-text search, ordered by recency
+- `vector` — semantic similarity via embeddings
+- `hybrid` (default) — RRF fusion of keyword + vector with recency boost
 
 **Adding memories directly:**
 ```
 oghma_add(content="insight here", category="gotcha", source_tool="manual")
+```
+
+## mcporter (OpenClaw, OpenCode — when MCP tools aren't native)
+
+```bash
+mcporter call oghma.oghma_search query="sqlite-vec"
+mcporter call oghma.oghma_search query="deployment" category="gotcha"
+mcporter call oghma.oghma_search query="API keys" source_tool="openclaw"
+mcporter call oghma.oghma_get memory_id=123
+mcporter call oghma.oghma_add content="Always use pnpm" category="preference"
+mcporter call oghma.oghma_stats
 ```
 
 ## CLI Commands
