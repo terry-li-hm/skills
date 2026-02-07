@@ -1,88 +1,103 @@
 ---
 name: chrome-automation
-description: Reference skill for Claude in Chrome browser automation best practices. Not user-invocable — use as internal guidance when automating Chrome.
+description: Reference skill for browser automation via agent-browser CLI. Not user-invocable — use as internal guidance.
 user_invocable: false
 platform: claude-code
-platform_note: Reference for Claude in Chrome MCP tools. OpenClaw has equivalent browser tools with different API.
+platform_note: Reference for agent-browser CLI. Chrome MCP disabled to save ~15-18K tokens/turn.
 ---
 
-# Chrome Automation Best Practices
+# Browser Automation Reference
 
-Reference for Claude in Chrome MCP tools. Consult when doing browser automation.
+Uses `agent-browser` CLI via Bash. Zero token overhead when idle.
 
-## Session Startup
+## Two Modes
 
-1. **Always create a new tab** at session start using `tabs_create_mcp`
-2. Only use tabs you created in this session — never reuse tab IDs from previous sessions
-3. If a tool returns "tab doesn't exist", call `tabs_context_mcp` to get fresh tab IDs
+| Mode | Command | Use case |
+|------|---------|----------|
+| **Public web** | `agent-browser open <url>` | Scraping, public pages |
+| **Authenticated** | `agent-browser --cdp 9222 open <url>` | LinkedIn, Gmail, WhatsApp Web |
 
-## Reading Page Content
+Authenticated mode requires Chrome launched with `--remote-debugging-port=9222`.
 
-- **`read_page` captures the full accessibility tree** including content below the viewport
-- No scrolling needed to get below-fold content
-- Workflow: navigate → wait 2 seconds → `read_page` once
-- Use `max_chars` parameter if page is large (default 50000)
+## Core Commands
 
-## Window Sizing
+```bash
+# Navigate
+agent-browser open https://example.com
 
-- **Resize window before `read_page`** to reduce tokens
-- 800x600 for chat apps (WhatsApp, messaging)
-- 1024x768 for general browsing
-- Large viewports waste context on empty space
+# Read page (accessibility tree with refs — best for AI)
+agent-browser snapshot
 
-## Page Load
+# Extract text content
+agent-browser get text
 
-- Always **wait 2 seconds** after navigation before reading
-- If content shows loading placeholders, wait longer or refresh
-- LinkedIn job pages may need extra time to hydrate
+# Click by ref (from snapshot)
+agent-browser click @ref_12
 
-## Common Gotchas
+# Type into element
+agent-browser type @ref_5 "hello world"
 
-| Issue | Solution |
-|-------|----------|
-| Tab ID invalid | Call `tabs_context_mcp` to refresh |
-| Content not loading | Wait longer, or navigate directly to URL |
-| Screenshot from wrong tab | Verify `tabId` in tool response matches intended tab |
-| LinkedIn "Saved" toggles | Clicking "Saved" unsaves — use three-dot menu for actions |
-| WhatsApp message direction | Left/white = incoming, right/green = outgoing |
-| Gmail contenteditable | `form_input` unreliable on Gmail compose — write draft to file instead |
+# Fill (clear first, then type)
+agent-browser fill @ref_5 "hello world"
 
-## Tool Selection
+# Screenshot
+agent-browser screenshot /path/to/file.png
 
-| Task | Tool |
-|------|------|
-| Get page structure/content | `read_page` |
-| Extract article text | `get_page_text` |
-| Click elements | `computer` with `ref` parameter |
-| Type text | `computer` action=type |
-| Navigate | `navigate` |
-| Screenshot for debugging | `computer` action=screenshot |
-| Create new tab | `tabs_create_mcp` |
-| List available tabs | `tabs_context_mcp` |
+# Get page title/URL
+agent-browser get title
+agent-browser get url
+
+# Wait for element or time
+agent-browser wait 2000
+agent-browser wait "button.submit"
+
+# Scroll
+agent-browser scroll down 500
+
+# Run JavaScript
+agent-browser eval "document.title"
+```
+
+## Workflow Pattern
+
+```bash
+# 1. Open page
+agent-browser open https://example.com
+
+# 2. Wait for load
+agent-browser wait 2000
+
+# 3. Get structure (snapshot = accessibility tree with refs)
+agent-browser snapshot
+
+# 4. Interact using @ref from snapshot
+agent-browser click @ref_3
+agent-browser fill @ref_7 "search term"
+```
+
+## Authenticated Sessions
+
+```bash
+# Connect to running Chrome via CDP
+agent-browser --cdp 9222 open https://linkedin.com/feed
+agent-browser --cdp 9222 snapshot
+agent-browser --cdp 9222 get text
+```
+
+Chrome must be launched with: `open -a "Google Chrome" --args --remote-debugging-port=9222`
 
 ## Login-Required Sites
 
-These sites return login walls via web scraping tools — must use browser automation:
+These need `--cdp 9222` (authenticated mode):
 - LinkedIn
 - X/Twitter
 - WhatsApp Web
-- Gmail (for some operations)
+- Gmail (some operations)
 
-## Alerts and Dialogs
+## Tips
 
-**Avoid triggering JavaScript alerts, confirms, or prompts** — they block all further browser events. If you must interact with dialog-triggering elements, warn the user first.
-
-## Session Cleanup
-
-**Always navigate to the idle page after completing browser automation tasks:**
-
-```
-https://terry-li-hm.github.io/claude-home/
-```
-
-This keeps the browser in a clean, non-distracting state instead of leaving it on a logged-in dashboard or sensitive page. The idle page shows a minimal dark background with subtle day/time in the corner.
-
-## Related Skills
-
-- `/evaluate-job` — Uses Chrome for LinkedIn job extraction
-- `/review-saved-jobs` — Batch processes LinkedIn saved jobs
+- `snapshot` > `screenshot` for token efficiency (text vs image)
+- `get text` for article extraction (like `get_page_text` was)
+- Use `--headed` flag to see the browser window for debugging
+- Sessions persist — no need to re-open between commands
+- `agent-browser close` to clean up when done
