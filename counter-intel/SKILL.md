@@ -1,6 +1,7 @@
 ---
 name: counter-intel
 description: Build interviewer profiles and track negotiation signals before meetings.
+user_invocable: true
 ---
 
 # Counter-Intel

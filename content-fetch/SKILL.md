@@ -12,7 +12,7 @@ Patterns for fetching and extracting content from URLs.
 
 | URL Type | Primary Tool | Fallback |
 |----------|--------------|----------|
-| General web | `WebFetch` | `tavily_extract` |
+| General web | `WebFetch` | Jina Reader |
 | WeChat articles | `wechat-article` script | Manual copy |
 | YouTube | `youtube-transcript` | yt-dlp |
 | PDFs | `pdf-extract` (LlamaParse) | Local OCR |
@@ -54,7 +54,7 @@ When WebFetch returns a redirect message:
 | Error | Meaning | Action |
 |-------|---------|--------|
 | `INVALID_URL` | Malformed URL | Check URL format |
-| `POOR_CONTENT_QUALITY` | Extraction failed | Try tavily_extract |
+| `POOR_CONTENT_QUALITY` | Extraction failed | Try Jina Reader or browser automation |
 | 404 | Page not found | URL may have expired |
 | 429 | Rate limited | Wait and retry |
 | Login wall | Requires auth | Use browser automation |
@@ -66,11 +66,9 @@ When WebFetch returns a redirect message:
    ↓ fails
 2. Jina Reader (free, simple)
    ↓ fails
-3. tavily_extract (better at complex pages)
+3. Browser automation (for login-required or complex pages)
    ↓ fails
-4. Browser automation (for login-required)
-   ↓ fails
-5. Ask user for copy/paste
+4. Ask user for copy/paste
 ```
 
 ### Jina Reader

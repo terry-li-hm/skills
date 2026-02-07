@@ -1,6 +1,7 @@
 ---
 name: history
 description: Scan chat history with proper HKT timezone handling. Use when reviewing what was discussed on a specific day.
+user_invocable: true
 ---
 
 # History

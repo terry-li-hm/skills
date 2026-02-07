@@ -1,6 +1,7 @@
 ---
 name: career-coach
 description: Career strategy and coaching — signal reframing, positioning, offer evaluation, job transition advice.
+user_invocable: true
 ---
 
 # Career Coach

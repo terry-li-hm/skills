@@ -1,6 +1,7 @@
 ---
 name: ask-llms
 description: Query multiple LLMs in parallel via OpenRouter and compare responses. "ask llms"
+user_invocable: true
 ---
 
 # Ask LLMs

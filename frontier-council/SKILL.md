@@ -3,6 +3,7 @@ name: frontier-council
 description: 4 frontier models deliberate, then Claude judges. For high-stakes decisions needing diverse AI perspectives.
 github_url: https://github.com/terry-li-hm/frontier-council
 github_hash: 196ec8c
+user_invocable: true
 ---
 
 # LLM Council

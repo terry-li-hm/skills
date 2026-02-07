@@ -1,6 +1,7 @@
 ---
 name: file-upload
 description: Upload local files to websites via JavaScript DataTransfer API, bypassing native file picker.
+user_invocable: false
 ---
 
 # File Upload

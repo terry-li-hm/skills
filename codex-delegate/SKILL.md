@@ -129,9 +129,9 @@ codex exec -c model="o3" "Use o3 for this task"
 
 Codex has the same MCP servers as Claude Code:
 - context7 (library docs)
-- gmail, oura, browser-tabs
-- perplexity, exa, serper, brave-search, tavily (search)
-- serena (code analysis)
+- perplexity (search, research, reasoning)
+
+Note: MCP availability may differ from Claude Code. Check `codex` config for current list.
 
 ## Cost Awareness
 

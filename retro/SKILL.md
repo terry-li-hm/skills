@@ -1,6 +1,7 @@
 ---
 name: retro
 description: End-of-session retrospective. Scan for non-obvious learnings worth capturing.
+user_invocable: true
 ---
 
 # Retro

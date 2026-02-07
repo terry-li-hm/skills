@@ -1,6 +1,7 @@
 ---
 name: debrief
 description: Capture signals from interviews and recruiter calls. Updates Market Signals in Job Hunting.md.
+user_invocable: true
 ---
 
 # Debrief

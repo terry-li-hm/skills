@@ -1,6 +1,7 @@
 ---
 name: todo
 description: Manage TODO.md in the vault. Use when user says "todo", "add todo", "todos", "check todo", or "done with".
+user_invocable: true
 ---
 
 # Todo

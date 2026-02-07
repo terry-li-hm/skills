@@ -14,7 +14,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-07.
 |------|------|----------|
 | **WebSearch** | Built-in | General purpose, quick searches |
 | **Perplexity** | MCP | Deep research, reasoning, AI news |
-| **Tavily** | MCP | Content extraction, crawling, site mapping |
+| **WebFetch** | Built-in | Scrape specific URLs to markdown |
 
 ## Use Case Routing
 
@@ -24,8 +24,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-07.
 | AI news | `WebSearch` or `perplexity_search` |
 | Deep research with citations | `perplexity_research` |
 | Complex analysis / reasoning | `perplexity_reason` |
-| Scrape a specific URL | `tavily_extract` |
-| Crawl a website | `tavily_crawl` / `tavily_map` |
+| Scrape a specific URL | `WebFetch` |
 | Code & documentation | Context7 plugin or `perplexity_search` |
 | Job search | `WebSearch` → `perplexity_search` |
 | Company research | `perplexity_research` |
@@ -42,21 +41,20 @@ Reference for choosing the optimal search tool. Updated 2026-02-07.
 - `perplexity_research` — comprehensive deep research with citations
 - `perplexity_reason` — complex analysis with reasoning chain
 
-### Tavily (MCP)
-- `tavily_search` — general web search
-- `tavily_extract` — scrape specific URLs to markdown
-- `tavily_crawl` — crawl site with depth/breadth control
-- `tavily_map` — map site structure (URL discovery)
-- `tavily_research` — multi-source research
+### WebFetch (Built-in)
+- Fetches URL, converts HTML to markdown, processes with prompt
+- 15-minute cache, handles redirects
+- Falls back to Jina Reader or browser automation for complex pages
 
 ## WeChat Articles (mp.weixin.qq.com)
 
 See the dedicated `wechat-article` skill.
 
-## Removed Tools (2026-02-07)
+## Removed Tools
 
-- **Serper** — Google search via API. Redundant with WebSearch + Perplexity.
+- **Tavily** — Content extraction, crawling, site mapping. Removed 2026-02-07. Replaced by WebFetch + Perplexity.
+- **Serper** — Google search via API. Removed 2026-02-07. Redundant with WebSearch + Perplexity.
 - **Exa** — Semantic search, code context. Replaced by Context7 plugin + Perplexity.
 - **Brave** — Alternative search index, video/image/news. Rarely used unique features.
 
-API keys preserved in backup. Reinstall from `~/.claude.json.backup.*` if needed.
+API keys preserved in backup. Re-enable commands in MEMORY.md if needed.

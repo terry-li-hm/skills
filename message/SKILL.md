@@ -1,6 +1,7 @@
 ---
 name: message
 description: Draft responses to recruiter, networking, and other messages. Use when the user asks to reply or draft a message.
+user_invocable: true
 ---
 
 # Message Response Skill

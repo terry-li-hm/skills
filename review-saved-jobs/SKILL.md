@@ -3,6 +3,7 @@ name: review-saved-jobs
 description: Review saved LinkedIn jobs systematically for fit assessment. "review saved jobs"
 requires: browser-automation
 platform_note: Requires browser automation with LinkedIn login. Works on Claude Code (Chrome MCP) and OpenClaw (browser tool).
+user_invocable: true
 ---
 
 # Review Saved Jobs

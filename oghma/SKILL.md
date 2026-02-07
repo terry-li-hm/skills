@@ -1,6 +1,7 @@
 ---
 name: oghma
 description: Search AI coding memories from Claude Code, Codex, OpenClaw, OpenCode transcripts. "search memories"
+user_invocable: true
 ---
 
 # Oghma Memory Search

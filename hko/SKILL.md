@@ -1,6 +1,7 @@
 ---
 name: hko
 description: HK Observatory weather — temperature, rain, typhoon/rainstorm warnings. "weather", "天氣"
+user_invocable: true
 ---
 
 # Hong Kong Observatory Weather

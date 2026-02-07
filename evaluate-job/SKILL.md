@@ -2,7 +2,8 @@
 name: evaluate-job
 description: Evaluate LinkedIn job postings for fit. Triggers on job URLs or "evaluate this role".
 requires: browser-automation
-platform_note: Requires browser automation with LinkedIn login. Works on Claude Code (Chrome MCP) and OpenClaw (browser tool). OpenCode needs external browser or tavily-extract fallback.
+platform_note: Requires browser automation with LinkedIn login. Works on Claude Code (Chrome MCP) and OpenClaw (browser tool).
+user_invocable: true
 ---
 
 # Evaluate Job
@@ -14,7 +15,6 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 1. **Navigate to job posting:**
    - **OpenClaw:** Use `browser` tool → `snapshot` or `screenshot` to read the page
    - **Claude Code:** Use Chrome extension (`profile="chrome"`) or `web_fetch`
-   - **Fallback:** `mcporter call tavily.tavily-extract urls='["URL"]'`
    - Extract: company name, role title, requirements, responsibilities, preferred qualifications, salary if disclosed, applicant stats
 
    **Why browser over fetch for LinkedIn:**

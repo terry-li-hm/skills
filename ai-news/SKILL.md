@@ -1,6 +1,7 @@
 ---
 name: ai-news
 description: Check AI news sources for recent developments. Use when user says "ai news", "check ai news", "what's new in AI", or wants to catch up on AI developments.
+user_invocable: true
 ---
 
 # AI News Check

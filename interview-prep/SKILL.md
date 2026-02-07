@@ -1,6 +1,7 @@
 ---
 name: interview-prep
 description: Prepare for interviews — company research, story matching, question prediction. "interview prep"
+user_invocable: true
 ---
 
 # Interview Prep

@@ -1,6 +1,7 @@
 ---
 name: pdf-extract
 description: Extract text from PDFs with OCR fallback. Use when the user needs PDF text or OCR from scanned documents.
+user_invocable: true
 ---
 
 # PDF Extract

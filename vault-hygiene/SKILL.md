@@ -1,6 +1,7 @@
 ---
 name: vault-hygiene
 description: Monthly vault maintenance — consolidate Learnings Inbox, archive stale notes, clean up dailies. Use on first Sunday of month alongside /skill-review.
+user_invocable: true
 ---
 
 # Vault Hygiene

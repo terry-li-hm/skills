@@ -1,6 +1,7 @@
 ---
 name: skill-sync
 description: "MUST run after creating/modifying skills. Syncs to Claude Code, OpenClaw, and OpenCode."
+user_invocable: true
 ---
 
 # Skill Sync

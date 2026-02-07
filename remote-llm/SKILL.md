@@ -1,6 +1,7 @@
 ---
 name: remote-llm
 description: Craft prompts for local/work LLMs when code can't be shared directly (e.g. proprietary code).
+user_invocable: true
 ---
 
 # Remote LLM Workflow

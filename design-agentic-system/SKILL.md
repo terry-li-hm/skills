@@ -1,6 +1,7 @@
 ---
 name: design-agentic-system
 description: "Design agentic AI systems for enterprise/banking clients. Use when advising on AI architecture, scoping agent projects, or creating design deliverables."
+user_invocable: true
 ---
 
 # Design Agentic System

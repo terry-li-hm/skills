@@ -69,13 +69,9 @@ If wechat.imagenie.us fails:
    WebSearch: "article title" site:163.com OR site:zhihu.com OR site:csdn.net
    ```
 
-2. **Serper scrape** — Try mirror URL directly:
-   ```bash
-   # OpenClaw
-   mcporter call serper.scrape url="[mirror URL]"
-   
-   # Claude Code
-   mcp__serper__scrape
+2. **WebFetch mirror** — Try mirror URL directly:
+   ```
+   WebFetch(mirror_url, prompt="Extract the main article content")
    ```
 
 ## Complete Workflow

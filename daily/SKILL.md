@@ -1,6 +1,7 @@
 ---
 name: daily
 description: End-of-day log. Capture activity, learnings, and mood in a daily note. Use when user says "daily", "end of day", "eod", or at end of day.
+user_invocable: true
 ---
 
 # Daily

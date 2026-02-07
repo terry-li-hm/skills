@@ -1,6 +1,7 @@
 ---
 name: xhs-extract
 description: Extract text and images from Xiaohongshu (小红书/XHS) post URLs. Use when user shares an XHS link or says "xhs", "xiaohongshu", "小红书".
+user_invocable: true
 ---
 
 # XHS Post Extractor

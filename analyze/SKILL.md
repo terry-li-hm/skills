@@ -1,6 +1,7 @@
 ---
 name: analyze
 description: Universal content analyzer. Auto-detects type (article, job, repo, video) and routes to handler. "analyze this"
+user_invocable: true
 ---
 
 # Analyze
