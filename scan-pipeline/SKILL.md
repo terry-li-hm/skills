@@ -1,6 +1,7 @@
 ---
 name: scan-pipeline
 description: Review job hunting pipeline status, identify stale applications, suggest follow-ups. Use when user says "scan pipeline", "check pipeline", "what's stale", or for weekly reset prep.
+user_invocable: true
 ---
 
 # Scan Pipeline
@@ -22,7 +23,8 @@ Use when:
 ## Workflow
 
 1. **Read current state**:
-   - `/Users/terry/notes/Job Hunting.md` — main pipeline
+   - `/Users/terry/notes/Active Pipeline.md` — live pipeline (source of truth)
+   - `/Users/terry/notes/Job Hunting.md` — archive (comp, market signals, passed roles)
    - `/Users/terry/notes/CLAUDE.md` — context
 
 2. **Analyze pipeline**:

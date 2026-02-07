@@ -98,7 +98,14 @@ Run this alongside the synthesis every Sunday:
 4. **Applications to send** — Any "noted but not applied" worth pursuing?
 5. **Priorities for the week** — Top 2-3 actions
 6. **AI news** — Run `/ai-news` to stay current (interview talking points)
-7. **First Sunday only** — Run `/vault-hygiene` and `/skill-review` for monthly maintenance
+7. **First Sunday only** — Monthly maintenance:
+   - `/skill-review` — Audit skills for staleness, drift, gaps
+   - **Vault hygiene** (inline checklist):
+     a. Learnings Inbox — consolidate entries into topic notes, target <15 active
+     b. Decay report — `uv run ~/scripts/vault-decay-report.py` for orphans/cold notes
+     c. Daily note archival — archive notes >60 days old to `~/notes/.archive/dailies/`
+     d. Broken links — verify `[[wikilinks]]` in CLAUDE.md still resolve
+     e. QMD reindex — `qmd update && qmd status` (run `qmd embed` in background if stale)
 
 [[Active Pipeline]] is source of truth for live pipeline; [[Job Hunting]] is the archive.
 
