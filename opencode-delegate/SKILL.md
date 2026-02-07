@@ -123,46 +123,19 @@ Session JSON includes:
 
 ## Model Selection
 
-Use `-m <model>` and optionally `--variant <level>` to select model.
+Use `-m <model>` and optionally `--variant <level>`.
 
-### Default: GLM-4.7 (unlimited quota)
-```bash
--m zhipuai-coding-plan/glm-4.7
-```
-- **Terry has Coding Max annual plan (valid to 2027-01-28) — unlimited quota**
-- **MUST use `zhipuai-coding-plan/` prefix** — `opencode/glm-4.7` routes through OpenCode billing (has limits)
-- SWE-bench Multilingual: 66.7% — best for TC/SC/EN mixed codebases
-- LiveCodeBench V6: 84.9 (beats Claude Sonnet 4.5)
-- Preserved Thinking: keeps reasoning across agentic turns
-- Good for: most tasks, bilingual projects, Chinese documentation
+| Model | Use Case |
+|-------|----------|
+| `zhipuai-coding-plan/glm-4.7` ⭐ | **Default** — unlimited via BigModel Coding Max (valid to 2027-01-28) |
+| `opencode/gemini-3-flash` | Speed-critical — 3x faster, higher hallucination rate |
+| `opencode/gemini-3-pro` | More capable, slower |
+| `opencode/claude-sonnet-4-5` | When you need Claude quality |
+| `opencode/glm-4.7` | ❌ Avoid — separate OpenCode billing |
 
-### Fallback: Gemini 3 Flash (speed)
-```bash
--m opencode/gemini-3-flash --variant high
-```
-- Released Dec 2025, "doctorate-level" reasoning
-- 3x faster than GLM-4.7
-- ⚠️ Higher hallucination rate — verify outputs in accuracy-critical contexts
+> **⚠️ MUST use `zhipuai-coding-plan/` prefix** for GLM-4.7 — `opencode/glm-4.7` depletes.
 
-### Available Models
-| Model | SWE-bench | Use Case |
-|-------|-----------|----------|
-| `zhipuai-coding-plan/glm-4.7` ⭐ | 73.8% | **Default** — unlimited via BigModel |
-| `opencode/glm-4.7` | 73.8% | ❌ Has OpenCode billing limits |
-| `opencode/gemini-3-flash` | 78.0% | Speed-critical tasks |
-| `opencode/gemini-3-pro` | 76.2% | More capable, slower |
-| `opencode/claude-sonnet-4-5` | 77.2% | When you need Claude quality |
-
-### Model Selection Tips
-- **Default**: `zhipuai-coding-plan/glm-4.7` (unlimited via BigModel Coding Max)
-- **Speed-critical**: Gemini 3 Flash
-- **Accuracy-critical banking**: Verify outputs from Gemini (higher hallucination rate)
-- **⚠️ Avoid**: `opencode/glm-4.7` has separate billing that depletes
-
-### Variant Levels
-- `--variant high` — More reasoning effort (recommended)
-- `--variant max` — Maximum reasoning (slower, costlier)
-- `--variant minimal` — Fastest, least reasoning
+Variant levels: `--variant high` (recommended) | `max` (slower) | `minimal` (fastest)
 
 ## Monitoring Background Tasks
 
@@ -194,69 +167,14 @@ OpenCode often self-recovers from errors by:
 
 If it fails repeatedly on the same error, take over interactively.
 
-## Compound Engineering Integration
+## CE Integration
 
-**Best pattern for complex features**: Claude plans, OpenCode executes.
-
-### The Workflow
-
-```
-Claude (Planning)                    OpenCode (Execution)
-─────────────────                    ────────────────────
-/frontier-council
-    ↓ (architecture deliberation)
-/workflows:plan
-    ↓ (structured plan created)
-Review plan ──────────────────────→  Execute Phase 1
-                                         ↓
-                                     Execute Phases 2-4 (parallel)
-                                         ↓
-/workflows:review ←───────────────  Return results
-    ↓
-/compound (document learnings)
-```
-
-### Why Split This Way?
-
-| Task Type | Tool | Reason |
-|-----------|------|--------|
-| Architecture decisions | Claude | High-judgment, trade-offs |
-| Council deliberation | Claude | Multi-model synthesis |
-| Structured planning | Claude | Context aggregation |
-| File reads/writes | OpenCode | Bulk work, free |
-| Refactoring | OpenCode | Mechanical transforms |
-| Code review | Claude | Pattern recognition |
-
-### Execution Pattern
-
-After creating a plan with Claude:
+See `delegation-reference` skill for the full Claude-plans/OpenCode-executes workflow. Key pattern:
 
 ```bash
-# Execute phases sequentially (use lean config for fast startup)
-OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-4.7 --title "Phase 1" \
-  "Execute Phase 1 from docs/plans/YYYY-MM-DD-plan.md.
-   Read the plan first, then implement."
-
-# Or parallel for independent phases
-OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-4.7 --title "Phase 2" "Execute Phase 2..." &
-OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-4.7 --title "Phase 3" "Execute Phase 3..." &
-wait
+# Execute plan phases (sequential or parallel)
+OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-4.7 \
+  --title "Phase 1" "Execute Phase 1 from docs/plans/YYYY-MM-DD-plan.md." &
 ```
 
-### Key Insight
-
-**Plans are prompts.** A well-structured plan (`/workflows:plan`) is essentially a detailed prompt for OpenCode. Include:
-- Exact file paths
-- Code snippets to create
-- Verification commands
-- Constraints and patterns to follow
-
-### Cost Comparison
-
-| Approach | Cost (complex feature) |
-|----------|------------------------|
-| All in Opus | $5-10 |
-| Claude plan + OpenCode execute | $2-3 |
-| All in OpenCode | $0 but lower quality planning |
-
-The sweet spot: Claude for judgment, OpenCode for execution.
+**Plans are prompts** — include exact file paths, code snippets, verification commands, and constraints.

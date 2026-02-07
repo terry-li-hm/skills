@@ -244,94 +244,31 @@ This surfaces compliance concerns early rather than as afterthoughts.
 
 ## Model Tendencies
 
-Each model has predictable biases. Use this to interpret results:
-
-**Council (deliberators):**
-
 | Model | Tendency | Useful For |
 |-------|----------|------------|
 | **GPT-5.2** | Practical, implementation-focused | Actionable steps |
 | **Gemini 3 Pro** | Technical depth, systems thinking | Architecture |
 | **Grok 4** | Contrarian, challenges consensus | Stress-testing ideas |
 | **Kimi K2.5** | Detail-oriented, edge cases | Completeness check |
+| **Claude Opus 4.5** (Judge) | Balanced, safety-conscious | Synthesis |
 
-**Judge (Claude Opus 4.5):** Balanced, thorough, safety-conscious. Synthesizes deliberation and adds independent perspective via "Judge's Own Take" section.
+**Default challenger:** GPT (rotates each round). Grok is naturally contrarian regardless, so GPT as explicit challenger gives two sources of pushback.
 
-**If you want more disagreement:** The rotating challenger ensures someone is always pushing back. For extra tension, use `--challenger grok` to start with Grok (naturally contrarian + explicit challenger prompt = maximum pushback).
+**Override:** `--challenger gemini` (architecture), `--challenger grok` (max pushback), `--challenger kimi` (edge cases).
 
-**If council is too cautious:** Add constraint "Assume this is a startup, not an enterprise" or "Speed matters more than perfection."
+## Key Lessons
 
-## Challenger Strategy
+See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 
-**Default challenger: GPT** (rotates each round)
-
-Reasoning:
-- Grok is naturally contrarian — it pushes back regardless of the `--challenger` flag
-- GPT as default challenger = practical skepticism + explicit contrarian framing
-- This gives you **two sources of pushback**: prompted-GPT + natural-Grok
-- Challenger rotates: GPT R1 → Gemini R2 → Grok R3 → Kimi R4 → GPT R5...
-
-**When to override:**
-- `--challenger gemini` — For architecture questions where Gemini's systems thinking + contrarian = interesting angles
-- `--challenger grok` — If you want Grok to be *even more* contrarian (rare)
-- `--challenger kimi` — For edge-case-focused pushback
-
-## Lessons from Usage
-
-**Tension is where the value is.** Consensus is boring — dissent forces sharper thinking. When Grok pushed back on "over-engineering" while others defended compliance depth, that tension produced the best insight (stage-appropriate compliance). If council reaches quick agreement, probe harder.
-
-**Models default to enterprise-grade.** Without constraints, the council models suggest infrastructure for problems that don't exist yet. Always add constraints upfront: "this is a POC", "single-user system", "speed > perfection", "manual processes acceptable".
-
-**Domain expertise emerges when prompted.** Banking-specific concerns (Records & Evidence Layer, eDiscovery, escalation burden) only surfaced because "banking clients" was in the question. Use `--domain` flag or state regulatory context explicitly.
-
-**Vocabulary translation matters.** "Audit trail" lands better than "episodic memory" with compliance stakeholders. Council caught this — useful reminder to code-switch terminology for audience.
-
-**Synthesis > individual responses.** Individual answers overlap. Judge pulling out consensus vs dissent is where value concentrates. The debate format earns its cost in the synthesis.
-
-### Lessons from Technical Optimization (Feb 2026)
-
-**Include real metrics, not just descriptions.** Council gave theoretical advice ("kill the reranker") that backfired in practice. If we'd included actual latency breakdown (`rewrite=2s, retrieve=2s, rerank=1s, select=3s`), they could have identified the real bottleneck.
-
-**State deployment constraints explicitly.** Council assumed we could "move reranker local" — but we're on serverless (Railway/Vercel). Add constraints like:
-- "API-only, no local inference"
-- "Serverless deployment"
-- "Can't self-host models"
-
-**Ask for testable hypotheses, not just recommendations.** Instead of "kill the reranker", ask council to frame as: "IF you disable X, THEN expect Y. Test by Z." This makes advice actionable and falsifiable.
-
-**Separate quick wins from rearchitecture.** Council mixed "reduce candidates" (5 min fix) with "index-time expansion" (days of work). Ask them to categorize by effort/impact.
-
-**Test > theorize.** Some council recommendations were wrong when tested. For optimization questions, run quick benchmarks yourself rather than debating theory. Council is better for **directional** guidance than specific parameter tuning.
-
-### Lessons from Judge Over-Aggregation (Feb 2026)
-
-**The judge's diagnosis is sharper than its prescription.** In a CV review, the judge correctly identified "minimum effective change is the goal" — then recommended 6 changes. The deliberation generates momentum: 4 models produce detailed suggestions, and even the synthesiser aggregates instead of filtering.
-
-**Fix applied:** Judge prompt now enforces "Prescription Discipline" — max 3 "Do Now" items, must argue against each before including it, and must explicitly list what it's dropping. The gravitational pull of the council is "add more"; the judge's pull must be "do less."
-
-**Pattern for callers:** When presenting council results, treat the judge's *framing* as more reliable than its *action list*. If the framing says "this is mostly fine, small adjustments needed" but the action list has 6 items, trust the framing.
-
-### Lessons from Operational Questions (Feb 2026)
-
-**Models spiral into philosophy on operational questions.** When asked "when should I read vs extract?", the council spent rounds debating cognitive science and "psychological ownership" instead of producing concrete triggers. The judge flagged it: "spent too much energy debating 'do you need the vibe?'"
-
-**Fix applied:** Added `--practical` flag that injects "focus on actionable triggers and concrete rules, avoid philosophy/theory" into all prompts (blind, first-speaker, subsequent, judge). Also added baseline "Prioritize PRACTICAL, ACTIONABLE advice" to blind and first-speaker prompts (previously only in subsequent-speaker prompt, so the spiral started in round 1).
-
-**JSON extraction was fundamentally broken.** The old `extract_structured_summary()` used naive string matching (`'recommend' in line_lower`) on the judge's prose — producing garbled action_items and truncated reasoning. Replaced with a Haiku second-pass that extracts structured JSON from the prose. New fields: `do_now`, `consider_later`, `skip` (matching the judge's triage structure). Falls back to old method if the API call fails. Cost: ~$0.005/extraction.
-
-**Rule of thumb:** Use `--practical` for operational/workflow questions. Skip it for strategic decisions where the philosophical dimensions are actually useful.
+- **Add constraints upfront** — models default to enterprise-grade without "this is a POC" / "single-user" / "speed > perfection"
+- **Include real metrics** for optimization questions, not just descriptions
+- **Use `--practical`** for operational questions (models spiral into philosophy otherwise)
+- **Trust the judge's framing over its action list** — it diagnoses well but over-aggregates prescriptions
 
 ## Known Issues
 
-**JSON output truncation:** For long deliberations, the JSON block may get cut off. Always use `--output file.md` to capture the full transcript:
-
-```bash
-frontier-council "complex question" --format json --output /tmp/council.md
-```
-
-Then parse the JSON from the saved file.
-
-**Follow-up friction:** ~~After council concludes, there's no built-in way to drill into specific points.~~ **Fixed:** Use `--followup` flag for interactive drill-down after judge synthesis.
+- **JSON output truncation:** Use `--output file.md` to capture full transcript
+- **Follow-up:** Use `--followup` flag for interactive drill-down after synthesis
 
 ## Output Formats
 
