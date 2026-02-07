@@ -88,6 +88,35 @@ Create a weekly synthesis of work, thinking, and progress.
 
 5. **Keep it honest** — this is for pattern recognition, not performance reporting. Short weeks with little output are fine to note as such.
 
+## AI Tooling Health (weekly)
+
+Run these checks every Sunday and include results in the weekly note under `## Tooling Health`:
+
+1. **CLAUDE.md & MEMORY.md** — Check line counts (`wc -l`). Flag if CLAUDE.md >300 or MEMORY.md >150. Look for stale instructions, contradictions, or sections that no longer apply.
+2. **Skills inventory** — `ls ~/skills/*/SKILL.md | wc -l` for total count. `cd ~/skills && git log --oneline --since="7 days ago"` for changes. Flag skills not invoked in 30+ days (check `~/.claude/history.jsonl` for recent `/skill` usage).
+3. **MCP servers** — `claude mcp list` to verify health. Flag any disconnected, orphaned from experiments, or version-drifted servers.
+4. **Token consumption** — Run `cu` alias for Max20 usage stats. Note weekly trend and any spikes.
+5. **Oghma health** — `oghma_stats` for DB size, memory count, extraction backlog.
+6. **OpenClaw crons** — Read `~/.openclaw/cron/jobs.json`, flag disabled jobs that should be cleaned up or re-enabled. Count active vs disabled.
+7. **QMD index** — `qmd status` for collection health and staleness.
+
+Include a summary table in the weekly note:
+
+```markdown
+## Tooling Health
+
+| Metric | Value | Status |
+|--------|-------|--------|
+| CLAUDE.md lines | X | ✅/⚠️ |
+| MEMORY.md lines | X | ✅/⚠️ |
+| Skills (total) | X | — |
+| Skills (changed this week) | X | — |
+| MCP servers | X connected | ✅/⚠️ |
+| Max20 usage | X% weekly | ✅/⚠️ |
+| Oghma memories | X | — |
+| OpenClaw crons (active/total) | X/Y | — |
+```
+
 ## Sunday Reset Checklist
 
 Run this alongside the synthesis every Sunday:
