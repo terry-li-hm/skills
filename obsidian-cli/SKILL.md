@@ -124,5 +124,4 @@ The CLI adds overhead. Only use when you need its special capabilities (move wit
 
 ## Integration
 
-- Complements `vault-pathfinding` skill for linking conventions
-- Works alongside direct file operations—choose the right tool for the job
+- Works alongside direct file operations — choose the right tool for the job

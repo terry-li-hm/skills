@@ -45,7 +45,7 @@ echo "- [ ] <task>" >> ~/notes/TODO.md
 
 ## Notes
 
-- Single source: `~/notes/TODO.md` (symlinked from `~/clawd/TODO.md`)
+- Single source: `~/notes/TODO.md`
 - All 3 agents (Claude Code, OpenClaw, OpenCode) share this file
 - Tasks can be grouped under `## Headings`
 - Completed items stay in file (for history) unless user asks to clean up

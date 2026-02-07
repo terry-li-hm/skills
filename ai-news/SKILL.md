@@ -15,18 +15,18 @@ Use when:
 - User wants to catch up on AI developments
 - Interview prep needs talking points
 
-## Default Lens: Capco Principal Consultant
+## Default Lens: Banking AI Practitioner (Job Hunting)
 
-Terry is a Principal Consultant, AI Solution Lead at Capco. Frame AI news through this lens:
-- **Governance & regulatory:** What are banks struggling to comply with?
-- **Client advisory angle:** What would you tell a bank CRO/CTO?
-- **Competitive landscape:** What are other consultancies saying?
-- **Gaps:** Where is adoption outpacing oversight?
+Terry is job hunting after 3 years leading Data Science at CITIC Bank International. Frame AI news through this lens:
+- **Banking/fintech relevance:** What matters for AI roles in financial services?
+- **Interview talking points:** What developments show domain expertise?
+- **Governance & regulatory:** What are regulators saying about AI in banking?
+- **Market signals:** Which companies are hiring/investing in AI?
 
-Always include governance-focused web searches alongside regular sources:
+Include governance and market-focused searches:
 - "AI governance financial services banking [year]"
 - "HKMA GenAI regulation" (for HK context)
-- "site:capco.com AI" (know your employer's positions)
+- "AI hiring financial services Hong Kong"
 
 ## Inputs
 

@@ -36,7 +36,7 @@ Scan for **non-obvious** stuff only:
 
 1. Quick scan of conversation
 2. If nothing non-obvious → "Nothing to capture, we're good"
-3. If something surfaces → update `~/clawd/MEMORY.md` or today's daily note
+3. If something surfaces → update MEMORY.md (`~/.claude/projects/-Users-terry/memory/MEMORY.md`) or today's daily note
 4. Done. No ceremony.
 
 ## Output

@@ -20,7 +20,7 @@ uv run /Users/terry/skills/visual-browser/browse.py "Find the latest AI news on 
 
 - **Visual Navigation:** Identifies elements by their visual features, not just HTML selectors.
 - **Dynamic Interaction:** Handles JS-heavy sites, modals, and complex state changes.
-- **Multimodal Reasoning:** Uses Gemini 2.0 Flash's vision capabilities to plan and execute browser actions.
+- **Multimodal Reasoning:** Uses Gemini 3 Flash's vision capabilities to plan and execute browser actions.
 
 ## Configuration
 

@@ -2,7 +2,7 @@
 name: whatsapp
 description: Read and send WhatsApp messages using the wacli CLI. Use when user asks to check WhatsApp, read messages, or send a WhatsApp message.
 user_invocable: false
-github_url: https://github.com/nickschwab/wacli
+github_url: https://github.com/steipete/wacli
 ---
 
 # WhatsApp Access
@@ -115,6 +115,25 @@ wacli send --to "+852..." --text "Your reply here"
 In `wacli messages` output:
 - `from_me: true` — Messages you sent
 - `from_me: false` — Messages you received
+
+## Read-Only Mode (wacli-ro)
+
+For safety (especially from OpenClaw/prompt injection), use `wacli-ro` instead of `wacli` when only reading:
+
+```bash
+# wacli-ro is NOT in PATH by design — locate via:
+# ~/scripts/wacli-ro or ~/agent-config/scripts/wacli-ro
+
+wacli-ro sync --timeout 15s     # Sync first
+wacli-ro chats list --limit 20  # List chats
+wacli-ro messages list "<JID>" --limit 10
+wacli-ro messages search "<query>" --limit 10
+wacli-ro contacts search "<name>"
+```
+
+- `wacli-ro` blocks send commands at the script level
+- **ALWAYS sync before reading** — database can be stale
+- Default for automated/cron contexts — use full `wacli` only when user explicitly asks to send
 
 ## Cautions
 

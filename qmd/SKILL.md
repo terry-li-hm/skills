@@ -74,5 +74,4 @@ claude mcp add qmd -s user -- qmd mcp
 
 ## Related
 
-- `/vault-hygiene` — Monthly maintenance includes QMD update
-- `/vault-search` — Term expansion search (different approach)
+- `/weekly` — Sunday maintenance checklist includes QMD reindex

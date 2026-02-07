@@ -160,4 +160,4 @@ curl -s -X POST "https://wechat.imagenie.us/extract" \
 ## Related
 
 - See `web-search` skill for mirror site search strategies
-- See `evaluate-article` skill for article analysis workflow
+- See `analyze` skill for article analysis workflow

@@ -99,7 +99,7 @@ Use when:
 
 ## Common File Paths
 
-- CV: `/Users/terry/Library/Mobile Documents/com~apple~CloudDocs/Terry_Li_CV_2026-01-10.pdf`
+- CV: Search for latest `Terry_Li_CV*.pdf` (location may change — check iCloud Drive, Downloads, or Desktop)
 - Notes: `/Users/terry/notes/`
 
 ## Limitations

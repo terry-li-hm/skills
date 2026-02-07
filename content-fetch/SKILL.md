@@ -142,7 +142,7 @@ Require browser automation for most content. Heavy anti-scrape.
 
 ## Related Skills
 
-- `evaluate-article` — Article evaluation workflow
+- `analyze` — Article evaluation workflow (replaced evaluate-article)
 - `wechat-article` — WeChat-specific extraction
 - `youtube-transcript` — YouTube transcript extraction
 - `pdf-extract` — PDF text extraction

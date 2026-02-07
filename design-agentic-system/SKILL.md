@@ -17,6 +17,8 @@ Structured framework for designing agentic AI systems, calibrated for banking/fi
 
 ## Quick Start
 
+Terry has 3 years building AI/ML in banking (CITIC Bank International — AML models, GenAI chatbot, HKMA GenAI Sandbox). Use this domain experience to ground recommendations.
+
 Ask the user:
 1. **What problem?** (customer service, operations, research, etc.)
 2. **What stage?** (POC, Pilot, Production)
