@@ -88,9 +88,23 @@ Create a weekly synthesis of work, thinking, and progress.
 
 5. **Keep it honest** — this is for pattern recognition, not performance reporting. Short weeks with little output are fine to note as such.
 
+## Sunday Reset Checklist
+
+Run this alongside the synthesis every Sunday:
+
+1. **Pipeline status** — Update [[Active Pipeline]] (offer, interviewing, warm leads, dead)
+2. **Networking status** — Who's in motion, who needs follow-up?
+3. **Follow-ups due** — Applications or contacts to nudge this week?
+4. **Applications to send** — Any "noted but not applied" worth pursuing?
+5. **Priorities for the week** — Top 2-3 actions
+6. **AI news** — Run `/ai-news` to stay current (interview talking points)
+7. **First Sunday only** — Run `/vault-hygiene` and `/skill-review` for monthly maintenance
+
+[[Active Pipeline]] is source of truth for live pipeline; [[Job Hunting]] is the archive.
+
 ## Notes
 
 - Create `~/notes/Weekly/` directory if it doesn't exist
 - Link back to daily notes and relevant vault notes
-- If it's also Sunday, this runs alongside the existing weekly reset protocol (pipeline review, networking status, etc.) — the synthesis captures the broader picture, the reset is action-oriented
+- The synthesis captures the broader picture; the reset checklist is action-oriented
 - The energy audit is the most valuable section long-term — it reveals what work is sustainable
