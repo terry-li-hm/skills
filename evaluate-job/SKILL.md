@@ -149,6 +149,5 @@ For multiple jobs, run this skill sequentially on each URL. Start with quick dup
 ## Related Skills
 
 - `chrome-automation` — Browser best practices (read_page, wait times, tab creation)
-- `vault-pathfinding` — Vault paths and conventions (where to read/write notes)
 - `/review-saved-jobs` — Batch processing of LinkedIn saved jobs (chains to this skill)
 - `/debrief` — Captures interview signals that feed back into this skill's red flag check

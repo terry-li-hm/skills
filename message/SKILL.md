@@ -97,62 +97,12 @@ After message is sent, update:
 5. Drafts reply with WhatsApp number and confirms Feb 2-5 works
 6. Presents draft for approval
 
-## Networking Outreach Templates
+## Outreach Templates
 
-Reference: `[[Networking Outreach Templates]]` in vault.
+See `[[Networking Outreach Templates]]` in vault for message templates and principles.
 
-### Post-Event Contact (Direct)
+## Platform Notes
 
-Use when: Met someone at event, want to follow up with job interest.
-
-> Hi [Name] — great meeting you at [Event], and congrats on [milestone if applicable]. I'm exploring my next chapter — if there's anything on your radar where my background might be a fit, I'd welcome the conversation. Open to a quick coffee next week?
-
-**Principles:**
-- Coffee/chat is the primary ask
-- "Exploring my next chapter" signals search without desperation
-- Don't ask them to "flag openings" in writing — save for verbal
-- Send within 48 hours while fresh
-
-### Softer Version (Peer Exchange First)
-
-Use when: Build relationship before signaling job interest.
-
-> Hi [Name] — great meeting you at [Event]. I'm exploring my next chapter and would enjoy swapping notes on [shared domain]. Would you be open to a quick coffee or call next week?
-
-**Key difference:** Job signal is implicit. Save direct discussion for meeting.
-
-### Key Principles (from LLM Council)
-
-- Don't deputize contacts as informal recruiters (HR policy conflicts)
-- Keep explicit job discussions verbal, off written record
-- Personalize with specific event/milestone references
-- Clear, single ask — don't stack requests
-
-## Platform-Specific Notes
-
-### LinkedIn
-- Use browser automation (requires login)
-- Can read and send messages via the messaging interface
-- Check for InMail vs regular messages
-
-### Gmail
-- **OpenClaw:** Use `gog` skill (`gog gmail search`, `gog gmail get`)
-- **MCP:** `mcporter call gmail.search_emails`, `mcporter call gmail.get_email`
-- Can send via `gog gmail send` or MCP
-
-### WhatsApp (via `wacli` CLI)
-```bash
-# List recent chats
-wacli chats --limit 20
-
-# Search messages from a contact
-wacli messages --contact "+852XXXXXXXX" --limit 10
-
-# Send a message
-wacli send --to "+852XXXXXXXX" --text "Message here"
-
-# Search all messages
-wacli messages --search "keyword" --limit 20
-```
-- Requires prior auth: `wacli auth` (scan QR once)
-- See `/whatsapp` skill for full CLI reference
+- **LinkedIn:** Browser automation (requires login)
+- **Gmail:** `gog gmail search/get/send` — see `gmail` skill
+- **WhatsApp:** `wacli` CLI — see `whatsapp` skill

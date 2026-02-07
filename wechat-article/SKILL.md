@@ -74,38 +74,6 @@ If wechat.imagenie.us fails:
    WebFetch(mirror_url, prompt="Extract the main article content")
    ```
 
-## Complete Workflow
-
-```
-User provides WeChat URL
-         │
-         ▼
-   Is short URL?
-    (/s/ABC123)
-         │
-    ┌────┴────┐
-   Yes        No
-    │          │
-    ▼          ▼
-  Use API   Search for
-  directly  short URL
-    │          │
-    ▼          ▼
-  Success?  Found short URL?
-    │          │
-   ┌┴┐        ┌┴┐
-  Yes No    Yes  No
-   │   │     │    │
-   ▼   │     ▼    ▼
-Return │   Use   Search
-content│   API   mirrors
-       │     │    │
-       └──┬──┘    │
-          ▼       ▼
-       Search   Scrape
-       mirrors  mirror
-```
-
 ## Example Usage
 
 **Input:** `https://mp.weixin.qq.com/s/nnysYJCNQA-SPUefOPBwZw`
@@ -119,42 +87,19 @@ curl -s -X POST "https://wechat.imagenie.us/extract" \
 
 **Output:** Full article in Markdown format.
 
-## API Reference
-
-### wechat.imagenie.us
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/extract` | POST | Extract article (recommended) |
-| `/{url}` | GET | Direct access (HTML default) |
-| `/health` | GET | Service health check |
-| `/status` | GET | Service status |
-
-**POST /extract body:**
-```json
-{
-  "url": "https://mp.weixin.qq.com/s/ABC123",
-  "format": "markdown"  // or "json", "html"
-}
-```
-
-**Headers for GET:**
-- `Accept: text/markdown` — Returns Markdown instead of HTML
-
 ## Error Handling
 
-| Error | Cause | Solution |
-|-------|-------|----------|
-| `INVALID_URL` | Long URL format | Search for short URL |
-| `POOR_CONTENT_QUALITY` | Extraction failed | Try mirror sites |
-| 404 | URL encoding issue | Use POST /extract instead |
-| 429 | Rate limited | Wait and retry |
+| Error | Solution |
+|-------|----------|
+| `INVALID_URL` | Long URL — search for short URL first |
+| `POOR_CONTENT_QUALITY` | Try mirror sites |
+| 404 | Use POST `/extract` instead of GET |
+| 429 | Rate limited — wait and retry |
 
 ## Limitations
 
 - Only short URLs work with the API
 - Some articles may be deleted or restricted
-- Rate limits apply to the extraction service
 - Mirror sites may have outdated versions
 
 ## Related
