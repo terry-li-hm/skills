@@ -29,18 +29,7 @@ Use these directly — no CLI needed:
 oghma_add(content="insight here", category="gotcha", source_tool="manual")
 ```
 
-## mcporter (OpenClaw, OpenCode — when MCP tools aren't native)
-
-```bash
-mcporter call oghma.oghma_search query="sqlite-vec"
-mcporter call oghma.oghma_search query="deployment" category="gotcha"
-mcporter call oghma.oghma_search query="API keys" source_tool="openclaw"
-mcporter call oghma.oghma_get memory_id=123
-mcporter call oghma.oghma_add content="Always use pnpm" category="preference"
-mcporter call oghma.oghma_stats
-```
-
-## CLI Commands
+## CLI (OpenClaw, OpenCode, or any shell)
 
 **Search:**
 ```bash
