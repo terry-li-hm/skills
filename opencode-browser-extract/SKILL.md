@@ -1,6 +1,6 @@
 ---
 name: opencode-browser-extract
-description: Extract web page content using OpenCode + Playwright MCP. Use when you need to scrape text from authenticated pages (like GARP Learning) while saving Claude tokens. Requires Playwright MCP configured with extended timeouts.
+description: Extract web page content via OpenCode + Playwright MCP. For authenticated pages, saves Claude tokens.
 user_invocable: false
 ---
 

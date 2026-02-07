@@ -1,6 +1,6 @@
 ---
 name: summarize
-description: Summarize or extract text/transcripts from URLs, podcasts, and local files. Use when user asks to summarize a link, transcribe a YouTube video, or extract content from a URL.
+description: Summarize or extract text from URLs, podcasts, and local files. "summarize this"
 user_invocable: true
 github_url: https://github.com/steipete/summarize
 ---

@@ -1,6 +1,6 @@
 ---
 name: evaluate-ai-repo
-description: Evaluate AI tooling repos (Claude Code configs, MCP servers, agent frameworks) for adoption into existing setup. Use when discovering popular repos and deciding what to cherry-pick.
+description: Evaluate AI tooling repos (configs, MCP servers, agent frameworks) for adoption into existing setup.
 user_invocable: true
 ---
 

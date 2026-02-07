@@ -1,6 +1,6 @@
 ---
 name: interview-prep
-description: Prepare for an upcoming interview by researching the company, pulling relevant stories, and matching experience to role requirements. Use when user says "prep for [company]", "interview prep", or has an interview scheduled.
+description: Prepare for interviews — company research, story matching, question prediction. "interview prep"
 ---
 
 # Interview Prep

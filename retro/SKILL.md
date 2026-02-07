@@ -1,6 +1,6 @@
 ---
 name: retro
-description: End-of-session retrospective. Scan for non-obvious learnings that might have slipped through. Use when user says "retro", "wrap up", "what did we learn", or at end of meaty sessions.
+description: End-of-session retrospective. Scan for non-obvious learnings worth capturing.
 ---
 
 # Retro

@@ -1,6 +1,6 @@
 ---
 name: codex-delegate
-description: Delegate complex coding tasks to Codex (GPT-5.2-codex). Use for hard debugging, complex features, or when OpenCode/GLM isn't cutting it. The "senior engineer" escalation.
+description: Delegate complex coding tasks to Codex (GPT-5.2-codex). Paid escalation for hard bugs.
 user_invocable: false
 ---
 

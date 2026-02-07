@@ -1,6 +1,6 @@
 ---
 name: analyze
-description: Universal content analyzer. Handles URLs or pasted content. Auto-detects type (article, job, repo, company, paper, video) and routes to appropriate handler. Triggers on any URL, pasted text, "check this", "what is this", "read this", or "analyze this".
+description: Universal content analyzer. Auto-detects type (article, job, repo, video) and routes to handler. "analyze this"
 ---
 
 # Analyze

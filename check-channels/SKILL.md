@@ -1,6 +1,6 @@
 ---
 name: check-channels
-description: Unified sweep of WhatsApp, LinkedIn DMs, and Gmail for new messages. Use when user says "check messages", "any replies?", "check channels", or wants to see if anyone reached out.
+description: Unified sweep of WhatsApp, LinkedIn DMs, and Gmail for new messages. "check messages"
 user_invocable: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: peekaboo
-description: Capture and automate macOS UI with the Peekaboo CLI. Use when user needs screenshots, UI inspection, mouse/keyboard automation, or app/window management on macOS.
+description: macOS UI capture and automation via Peekaboo CLI — screenshots, clicks, inspection.
 user_invocable: false
 github_url: https://github.com/steipete/peekaboo
 github_hash: 69376fa

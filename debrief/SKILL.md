@@ -1,6 +1,6 @@
 ---
 name: debrief
-description: Capture signals from interviews and recruiter calls. Extract objections, wins, and mismatches to update Market Signals in Job Hunting.md. Use after any interview or meaningful recruiter conversation.
+description: Capture signals from interviews and recruiter calls. Updates Market Signals in Job Hunting.md.
 ---
 
 # Debrief

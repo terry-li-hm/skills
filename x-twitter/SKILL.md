@@ -1,6 +1,6 @@
 ---
 name: x-twitter
-description: Read and search X/Twitter using the bird CLI. Use when user asks about tweets, wants to check what someone posted, search X, or monitor AI news on Twitter.
+description: Read and search X/Twitter using the bird CLI. "check tweets", "search X"
 user_invocable: false
 github_url: https://github.com/steipete/bird
 github_hash: d3dd4a0

@@ -1,6 +1,6 @@
 ---
 name: usage
-description: Check Claude Code Max plan usage stats. Use when user says "usage", "check usage", "how much have I used", "token usage", or wants to see Claude Code consumption.
+description: Check Claude Code Max plan usage stats and token consumption. "usage"
 user_invocable: true
 ---
 

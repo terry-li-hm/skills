@@ -1,6 +1,6 @@
 ---
 name: career-coach
-description: Career strategy and coaching for job transitions. Use when user asks for career advice, signal reframing, positioning help, offer evaluation, or "what should I do about [career situation]". NOT for message drafting (use /message) or interview prep (use /interview-prep).
+description: Career strategy and coaching — signal reframing, positioning, offer evaluation, job transition advice.
 ---
 
 # Career Coach

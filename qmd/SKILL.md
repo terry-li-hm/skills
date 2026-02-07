@@ -1,6 +1,6 @@
 ---
 name: qmd
-description: Semantic search over the vault using QMD. Use when Obsidian grep misses relevant content or when searching for "notes about X" rather than "notes containing X".
+description: Semantic search over the vault using QMD. For conceptual queries beyond literal grep.
 user_invocable: false
 github_url: https://github.com/tobi/qmd
 ---

@@ -1,6 +1,6 @@
 ---
 name: remote-llm
-description: Craft prompts for Terry to run on local/work LLMs when code can't be shared directly. Use when Terry mentions proprietary code, work systems, or needs help with code he can't paste.
+description: Craft prompts for local/work LLMs when code can't be shared directly (e.g. proprietary code).
 ---
 
 # Remote LLM Workflow

@@ -1,6 +1,6 @@
 ---
 name: ask-llms
-description: Query multiple LLMs in parallel via OpenRouter and compare their responses. Use when the user wants diverse perspectives from different models on a question.
+description: Query multiple LLMs in parallel via OpenRouter and compare responses. "ask llms"
 ---
 
 # Ask LLMs

@@ -1,6 +1,6 @@
 ---
 name: counter-intel
-description: Build interviewer negotiation profiles. Research interviewers before meetings and track signals for offer negotiation. Use before interviews or when preparing for negotiations.
+description: Build interviewer profiles and track negotiation signals before meetings.
 ---
 
 # Counter-Intel

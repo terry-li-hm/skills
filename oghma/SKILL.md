@@ -1,6 +1,6 @@
 ---
 name: oghma
-description: Search AI coding memories extracted from Claude Code, Codex, OpenClaw, and OpenCode transcripts. Use when user asks "what did we learn about X", "search memories for Y", "do I have any gotchas about Z", or wants to recall past insights.
+description: Search AI coding memories from Claude Code, Codex, OpenClaw, OpenCode transcripts. "search memories"
 ---
 
 # Oghma Memory Search

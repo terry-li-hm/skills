@@ -1,6 +1,6 @@
 ---
 name: fresh
-description: Re-sync with reality before resuming work. Use when switching context, resuming after a break, or when things feel "off". Grounds AI in external state, not chat memory.
+description: Re-sync with external state before resuming work. Grounds AI in reality, not stale memory.
 user_invocable: true
 ---
 

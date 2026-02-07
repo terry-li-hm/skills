@@ -1,6 +1,6 @@
 ---
 name: visual-browser
-description: Browser automation using Computer Vision (Gemini 3 Flash). Use as fallback when agent-browser fails on icon-only buttons, complex Canvas/JS UIs, or visual audits.
+description: Browser automation via Gemini Flash vision. Fallback when agent-browser fails on visual UIs.
 user_invocable: false
 ---
 

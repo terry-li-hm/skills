@@ -1,6 +1,6 @@
 ---
 name: hko
-description: Check current temperature, rain, and weather warnings (typhoon, rainstorm, etc.) from HK Observatory API. Use when user says "hko", "weather", "temperature", "typhoon", or "天氣".
+description: HK Observatory weather — temperature, rain, typhoon/rainstorm warnings. "weather", "天氣"
 ---
 
 # Hong Kong Observatory Weather

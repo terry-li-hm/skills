@@ -1,6 +1,6 @@
 ---
 name: file-upload
-description: Upload local files to websites without triggering native file picker dialogs. Uses JavaScript DataTransfer API. Use when user says "upload file", "attach CV", "upload resume", or needs to upload to a web form.
+description: Upload local files to websites via JavaScript DataTransfer API, bypassing native file picker.
 ---
 
 # File Upload

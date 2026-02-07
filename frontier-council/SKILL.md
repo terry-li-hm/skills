@@ -1,6 +1,6 @@
 ---
 name: frontier-council
-description: Frontier Council with 4 frontier models (GPT-5.2, Gemini 3 Pro, Grok 4, Kimi K2.5) deliberating, then Claude Opus 4.5 judging. Creates actual debate where models respond to each other, with rotating challenger for sustained disagreement. Use for important decisions needing diverse AI perspectives.
+description: 4 frontier models deliberate, then Claude judges. For high-stakes decisions needing diverse AI perspectives.
 github_url: https://github.com/terry-li-hm/frontier-council
 github_hash: 196ec8c
 ---
