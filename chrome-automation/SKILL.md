@@ -1,103 +1,52 @@
 ---
 name: chrome-automation
-description: Reference skill for browser automation via agent-browser CLI. Not user-invocable — use as internal guidance.
+description: Reference skill for Claude in Chrome browser automation best practices. Not user-invocable — use as internal guidance when automating Chrome.
 user_invocable: false
 platform: claude-code
-platform_note: Reference for agent-browser CLI. Chrome MCP disabled to save ~15-18K tokens/turn.
+platform_note: DORMANT — Chrome extension disabled (saves ~15-18K tokens/turn). Re-enable in chrome://extensions if needed. Prefer agent-browser CLI.
 ---
 
-# Browser Automation Reference
+# Chrome Automation Best Practices
 
-Uses `agent-browser` CLI via Bash. Zero token overhead when idle.
+Reference for Claude in Chrome MCP tools. **Currently disabled** — using agent-browser CLI instead. Re-enable Chrome extension if you need interactive browser control on Terry's visible tabs.
 
-## Two Modes
+## When to Re-enable
 
-| Mode | Command | Use case |
-|------|---------|----------|
-| **Public web** | `agent-browser open <url>` | Scraping, public pages |
-| **Authenticated** | `agent-browser --cdp 9222 open <url>` | LinkedIn, Gmail, WhatsApp Web |
+- Complex interactive tasks where Terry wants to watch and intervene
+- Tasks that need real-time tab awareness (multiple tabs, switching)
+- Debugging visual issues that need screenshot + click loops
 
-Authenticated mode requires Chrome launched with `--remote-debugging-port=9222`.
+## Session Startup
 
-## Core Commands
+1. **Always create a new tab** at session start using `tabs_create_mcp`
+2. Only use tabs you created in this session — never reuse tab IDs from previous sessions
+3. If a tool returns "tab doesn't exist", call `tabs_context_mcp` to get fresh tab IDs
 
-```bash
-# Navigate
-agent-browser open https://example.com
+## Reading Page Content
 
-# Read page (accessibility tree with refs — best for AI)
-agent-browser snapshot
+- **`read_page` captures the full accessibility tree** including content below the viewport
+- No scrolling needed to get below-fold content
+- Workflow: navigate → wait 2 seconds → `read_page` once
+- Use `max_chars` parameter if page is large (default 50000)
 
-# Extract text content
-agent-browser get text
+## Window Sizing
 
-# Click by ref (from snapshot)
-agent-browser click @ref_12
+- **Resize window before `read_page`** to reduce tokens
+- 800x600 for chat apps (WhatsApp, messaging)
+- 1024x768 for general browsing
 
-# Type into element
-agent-browser type @ref_5 "hello world"
+## Common Gotchas
 
-# Fill (clear first, then type)
-agent-browser fill @ref_5 "hello world"
+| Issue | Solution |
+|-------|----------|
+| Tab ID invalid | Call `tabs_context_mcp` to refresh |
+| LinkedIn "Saved" toggles | Clicking "Saved" unsaves — use three-dot menu |
+| WhatsApp message direction | Left/white = incoming, right/green = outgoing |
+| Gmail contenteditable | `form_input` unreliable on Gmail compose |
 
-# Screenshot
-agent-browser screenshot /path/to/file.png
+## Session Cleanup
 
-# Get page title/URL
-agent-browser get title
-agent-browser get url
-
-# Wait for element or time
-agent-browser wait 2000
-agent-browser wait "button.submit"
-
-# Scroll
-agent-browser scroll down 500
-
-# Run JavaScript
-agent-browser eval "document.title"
+Navigate to idle page after browser tasks:
 ```
-
-## Workflow Pattern
-
-```bash
-# 1. Open page
-agent-browser open https://example.com
-
-# 2. Wait for load
-agent-browser wait 2000
-
-# 3. Get structure (snapshot = accessibility tree with refs)
-agent-browser snapshot
-
-# 4. Interact using @ref from snapshot
-agent-browser click @ref_3
-agent-browser fill @ref_7 "search term"
+https://terry-li-hm.github.io/claude-home/
 ```
-
-## Authenticated Sessions
-
-```bash
-# Connect to running Chrome via CDP
-agent-browser --cdp 9222 open https://linkedin.com/feed
-agent-browser --cdp 9222 snapshot
-agent-browser --cdp 9222 get text
-```
-
-Chrome must be launched with: `open -a "Google Chrome" --args --remote-debugging-port=9222`
-
-## Login-Required Sites
-
-These need `--cdp 9222` (authenticated mode):
-- LinkedIn
-- X/Twitter
-- WhatsApp Web
-- Gmail (some operations)
-
-## Tips
-
-- `snapshot` > `screenshot` for token efficiency (text vs image)
-- `get text` for article extraction (like `get_page_text` was)
-- Use `--headed` flag to see the browser window for debugging
-- Sessions persist — no need to re-open between commands
-- `agent-browser close` to clean up when done
