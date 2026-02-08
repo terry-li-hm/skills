@@ -42,9 +42,15 @@ Daily briefing to start the day with focus.
    - Read `summary.md` from any runs in the last 24 hours
    - Summarize findings: what ran, what succeeded/failed, key outputs
 
-7. **Check TODO.md**:
-   - Read `~/notes/TODO.md` for pending tasks
-   - Display any unchecked items `- [ ]` prominently
+7. **Check TODO.md** (Today view):
+   - Run `/todo today` logic: get today's date (`date +%Y-%m-%d`), read `~/notes/TODO.md`
+   - For each unchecked `- [ ]` line:
+     - SKIP if line has `someday`
+     - SKIP if line has `when:YYYY-MM-DD` where date > today (not yet started)
+     - INCLUDE everything else (Anytime tasks, tasks where `when:` <= today, tasks with `due:`)
+   - Show overdue items first (`due:` date < today) with a warning prefix
+   - Then show today's actionable items grouped by section
+   - End with count: "X tasks today, Y overdue"
 
 8. **Scan Gmail for interview confirmations** (past 48 hours):
    - `gog gmail search "interview confirmed OR virtual interview OR interview scheduled" | head -10`
