@@ -31,29 +31,58 @@ Scan for **non-obvious** stuff only:
 | **Hidden friction** | Something took 4 attempts — why? |
 | **Surprising wins** | That worked way better than expected — why? |
 | **Mistakes I missed** | Wrong assumption I didn't notice until now |
+| **Tool gotchas** | API quirk, config trap, undocumented behaviour |
 
 ## Workflow
 
 1. Quick scan of conversation
 2. If nothing non-obvious → "Nothing to capture, we're good"
-3. If something surfaces → update MEMORY.md (`~/.claude/projects/-Users-terry/memory/MEMORY.md`) or today's daily note
+3. If something surfaces → **dedup**, **route**, and optionally **promote**
 4. Done. No ceremony.
+
+### Step 3a: Dedup
+
+Before writing anything, `oghma_search` for the insight (keyword mode, 3 results). If already captured with same substance, skip it — just mention "already in Oghma" in output.
+
+### Step 3b: Route by Type
+
+Don't dump everything into MEMORY.md. Route to the store that fits:
+
+| Type | Destination |
+|------|-------------|
+| Tool gotcha / how-to | `~/docs/solutions/` (learnings-researcher queryable) |
+| Workflow preference | `oghma_add` with category `preference` |
+| Cross-session agent context | MEMORY.md (`~/.claude/projects/-Users-terry/memory/MEMORY.md`) |
+| General insight | `~/notes/Learnings Inbox.md` |
+| Activity-specific | Today's daily note |
+
+For `~/docs/solutions/`, create a simple markdown file in the appropriate category subdirectory. No YAML schema required — keep it lightweight. Just the gotcha, why it happens, and the fix.
+
+### Step 3c: Pattern Promotion
+
+If an insight matches something already in Oghma (dedup search returned a hit with similar theme), flag it:
+
+> "This keeps coming up — worth promoting to MEMORY.md?"
+
+Only suggest, never auto-promote. Terry decides.
 
 ## Output
 
 If something found:
 ```
 **Retro:**
-- [Learning] → added to MEMORY.md
+- [Learning] → [destination]
+- [Learning] → already in Oghma, skipped
 ```
 
 If nothing:
 ```
-Nothing non-obvious this session. ✓
+Nothing non-obvious this session.
 ```
 
 ## Notes
 
-- This is a sweep, not a ritual
+- This is a sweep, not a ritual — 30 seconds, not 3 minutes
 - Obvious corrections should've been captured on-the-fly
 - Focus on patterns and implicit signals
+- One insight well-routed beats five dumped in the same file
