@@ -18,16 +18,18 @@ Reference for choosing the optimal search tool. Updated 2026-02-07.
 
 ## Use Case Routing
 
-| Need | Tool |
-|------|------|
-| Quick answer / general search | `WebSearch` (built-in) |
-| AI news | `WebSearch` or `perplexity_search` |
-| Deep research with citations | `perplexity_research` |
-| Complex analysis / reasoning | `perplexity_reason` |
-| Scrape a specific URL | `WebFetch` |
-| Code & documentation | Context7 plugin or `perplexity_search` |
-| Job search | `WebSearch` → `perplexity_search` |
-| Company research | `perplexity_research` |
+| Need | Tool | Why |
+|------|------|-----|
+| Quick answer / general search | `WebSearch` | Fast, no MCP overhead |
+| Structured survey ("list the platforms for X") | `perplexity_ask` | Concise, tabular, low fabrication risk |
+| Deep analysis of novel questions | `perplexity_research` | Breadth + citations, but needs filtering |
+| Complex reasoning / trade-off analysis | `perplexity_reason` | Reasoning chain, best for hard questions |
+| Verify claims / get primary sources | `WebSearch` | Returns links, no hallucinated synthesis |
+| AI news | `WebSearch` or `perplexity_search` | Both work, WebSearch is faster |
+| Scrape a specific URL | `WebFetch` | HTML → markdown with prompt |
+| Code & documentation | Context7 plugin or `perplexity_search` | Context7 preferred for library docs |
+| Job search | `WebSearch` → `perplexity_search` | WebSearch first, Perplexity for depth |
+| Company research | `perplexity_ask` or `perplexity_research` | Ask for overview, Research for deep dive |
 
 ## Tool Details
 
@@ -37,9 +39,14 @@ Reference for choosing the optimal search tool. Updated 2026-02-07.
 
 ### Perplexity (MCP)
 - `perplexity_search` — web search with excerpts
-- `perplexity_ask` — conversational Q&A
-- `perplexity_research` — comprehensive deep research with citations
+- `perplexity_ask` — conversational Q&A. **Best for structured surveys** (list platforms, compare options). ~80% signal, concise, low fabrication risk.
+- `perplexity_research` — comprehensive deep research with citations. **Best for novel/deep questions** where breadth matters. ~40% signal — over-produces for simple surveys, ingests SEO content uncritically, round metrics from fabricated case studies pass through. Always filter output manually.
 - `perplexity_reason` — complex analysis with reasoning chain
+
+### Perplexity Quality Notes
+- **All Perplexity tools inherit search index bias.** If a vendor publishes 4+ SEO comparison articles, they'll dominate results and skew recommendations. Cross-check with WebSearch.
+- **Don't default to the most expensive tool.** `perplexity_ask` > `perplexity_research` for "what exists?" questions. Reserve Research for "what does this mean?" questions.
+- **Never cite Perplexity metrics without checking the underlying source.** Fabricated case studies with round numbers (75% decrease, 40% increase) are common in its output.
 
 ### WebFetch (Built-in)
 - Fetches URL, converts HTML to markdown, processes with prompt
