@@ -31,18 +31,23 @@ Daily briefing to start the day with focus.
    - Check `~/clawd/MEMORY.md` for recent context
    - If job hunting active: check `~/notes/Active Pipeline.md`
 
-5. **Check scout intel** (OpenClaw overnight output):
+5. **Staleness check** (context gap detection):
+   - Run `stat -f '%Sm' -t '%Y-%m-%d' ~/notes/WORKING.md ~/notes/Active\ Pipeline.md ~/notes/TODO.md`
+   - If any file's last-modified date is >48h old, flag it: "WORKING.md last updated X — may be behind reality"
+   - This catches status updates shared in conversation but not flushed to vault before `/clear`
+
+6. **Check scout intel** (OpenClaw overnight output):
    - Read `~/signals.log` — the job-heartbeat cron writes recruiter signals here
    - If there are entries from last 24h, summarize: new signals, suppressions, anything needing action
    - Check `~/.openclaw/workspace/memory/` for today's or yesterday's daily notes from OpenClaw
    - Note any cron findings that need Claude Code follow-up
 
-6. **Check overnight OpenCode runs** (if any):
+7. **Check overnight OpenCode runs** (if any):
    - Look in `~/notes/opencode-runs/` for recent run directories
    - Read `summary.md` from any runs in the last 24 hours
    - Summarize findings: what ran, what succeeded/failed, key outputs
 
-7. **Check TODO.md** (Today view):
+8. **Check TODO.md** (Today view):
    - Run `/todo today` logic: get today's date (`date +%Y-%m-%d`), read `~/notes/TODO.md`
    - For each unchecked `- [ ]` line:
      - SKIP if line has `someday`
@@ -52,16 +57,16 @@ Daily briefing to start the day with focus.
    - Then show today's actionable items grouped by section
    - End with count: "X tasks today, Y overdue"
 
-8. **Scan Gmail for interview confirmations** (past 48 hours):
+9. **Scan Gmail for interview confirmations** (past 48 hours):
    - `gog gmail search "interview confirmed OR virtual interview OR interview scheduled" | head -10`
    - Look for subjects containing: "confirmed", "scheduled", "interview", "Teams meeting"
    - Cross-check against TODO.md — if an interview is in email but NOT in TODO.md, flag it
    - Add any missing interviews to TODO.md with date, time, platform, interviewer
 
-9. **Weather check** (optional):
-   - `/hko` for Hong Kong weather if going out
+10. **Weather check** (optional):
+    - `/hko` for Hong Kong weather if going out
 
-10. **Deliver a concise briefing**:
+11. **Deliver a concise briefing**:
    - Today's date and day of week
    - Scheduled events
    - Top priorities / focus areas
