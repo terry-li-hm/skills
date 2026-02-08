@@ -69,6 +69,15 @@ Create a weekly synthesis of work, thinking, and progress.
 
 - [Summary of Learnings Inbox entries from this week]
 
+### Inbox Triage (do every week)
+
+Review `~/notes/Learnings Inbox.md` and for each entry:
+- **Promote** → Move to a proper note (e.g., topic note, `~/docs/solutions/`, MEMORY.md) if it has lasting value
+- **Keep** → Leave in inbox if too fresh to judge (< 1 week old)
+- **Delete** → Remove if outdated, wrong, or already captured elsewhere
+
+Target: inbox stays under 15 active entries. If it's growing, triage harder.
+
 ## Energy Audit
 
 - What gave energy: [activities, wins]
@@ -130,7 +139,7 @@ Run this alongside the synthesis every Sunday:
 7. **First Sunday only** — Monthly maintenance:
    - `/skill-review` — Audit skills for staleness, drift, gaps
    - **Vault hygiene** (inline checklist):
-     a. Learnings Inbox — consolidate entries into topic notes, target <15 active
+     a. Learnings Inbox — deep consolidation pass (weekly triage keeps it manageable; monthly pass catches stragglers)
      b. Decay report — `uv run ~/scripts/vault-decay-report.py` for orphans/cold notes
      c. Daily note archival — archive notes >60 days old to `~/notes/.archive/dailies/`
      d. Broken links — verify `[[wikilinks]]` in CLAUDE.md still resolve
