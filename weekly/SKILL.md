@@ -130,13 +130,14 @@ Include a summary table in the weekly note:
 
 Run this alongside the synthesis every Sunday:
 
-1. **Pipeline status** — Update [[Active Pipeline]] (offer, interviewing, warm leads, dead)
-2. **Networking status** — Who's in motion, who needs follow-up?
-3. **Follow-ups due** — Applications or contacts to nudge this week?
-4. **Applications to send** — Any "noted but not applied" worth pursuing?
-5. **Priorities for the week** — Top 2-3 actions
-6. **AI news** — Run `/ai-news` to stay current (interview talking points)
-7. **First Sunday only** — Monthly maintenance:
+1. **TODO.md prune** — Clear completed items, flag anything untouched for 2+ weeks (stale → delete or reschedule)
+2. **Pipeline status** — Update [[Active Pipeline]] (offer, interviewing, warm leads, dead)
+3. **Networking status** — Who's in motion, who needs follow-up?
+4. **Follow-ups due** — Applications or contacts to nudge this week?
+5. **Applications to send** — Any "noted but not applied" worth pursuing?
+6. **Priorities for the week** — Top 2-3 actions
+7. **AI news** — Run `/ai-news` to stay current (interview talking points)
+8. **First Sunday only** — Monthly maintenance:
    - `/skill-review` — Audit skills for staleness, drift, gaps
    - **Vault hygiene** (inline checklist):
      a. Learnings Inbox — deep consolidation pass (weekly triage keeps it manageable; monthly pass catches stragglers)
