@@ -18,7 +18,8 @@ End-of-day log → daily note.
 1. **Get today's date** (YYYY-MM-DD, HKT)
 
 2. **Review what happened today**:
-   - Scan conversation for activity
+   - **Scan ALL chat history for today** — run `python ~/scripts/chat_history.py --full` (from `/history` skill). Terry runs 10-30+ sessions/day; the current session is only a fraction of the day's activity.
+   - Scan current conversation for additional context
    - Ask if anything else worth noting
 
 3. **Create/update daily note** at `~/notes/YYYY-MM-DD.md`:
