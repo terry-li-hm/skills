@@ -19,6 +19,7 @@ Analyze LinkedIn job postings against user's background, current pipeline health
    - Fetch/extract misses **applicant stats** (count, seniority breakdown) — requires being logged in
    - Browser sees the full page as logged-in user, including competition metrics
    - Can click "Show more" to expand full JD if needed
+   - **Salary attribution:** WebFetch cannot distinguish LinkedIn's estimated salary range from employer-disclosed salary. When using fetch, mark any salary as `(LinkedIn estimate — not employer-disclosed)` unless the JD text explicitly states the range. Browser can visually confirm the source.
 
    **Extraction tip:** `read_page` captures the full accessibility tree including content below the viewport — no scrolling needed. Just navigate, wait 2 seconds for load, then `read_page` once to get the complete JD.
 
@@ -84,7 +85,7 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 | **Industry** | Strategic value? Transferable credibility? |
 | **Tech Stack** | Alignment with user's technical strengths? |
 | **Competition** | Applicant count, seniority distribution, education levels |
-| **Salary** | Compare to current compensation if known |
+| **Salary** | Compare to current compensation if known. For foreign currencies, **always use Python** for FX conversion — never mental math. Flag LinkedIn estimates vs employer-disclosed. |
 | **Anti-Signal** | Does this match a known rejection pattern? |
 
 ## Note Template
@@ -101,7 +102,7 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 **Title:**
 **Company:**
 **Location:**
-**Salary:** [if disclosed]
+**Salary:** [if disclosed — mark "(LinkedIn estimate)" vs "(employer-disclosed)"]
 **Applicants:** [count] ([seniority breakdown])
 
 ## Requirements
