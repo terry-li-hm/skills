@@ -1,6 +1,6 @@
 ---
 name: todo
-description: Manage TODO.md in the vault with Things 3-style scheduling. Use when user says "todo", "add todo", "todos", "check todo", "done with", "overdue", or "someday".
+description: Manage TODO.md in the vault with Things 3-style scheduling. Use when user says "todo", "add todo", "check todo", "done with", "overdue", or "someday".
 user_invocable: true
 ---
 
@@ -37,7 +37,7 @@ Dates are always ISO-8601 (`YYYY-MM-DD`). Regex patterns for parsing:
 
 ## Commands
 
-### `/todo` or `/todos` (Today view — default)
+### `/todo` (Today view — default)
 
 Show today's actionable tasks. This is the **default** when no subcommand is given.
 
