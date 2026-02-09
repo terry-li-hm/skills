@@ -22,14 +22,14 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 
    **Extraction tip:** `read_page` captures the full accessibility tree including content below the viewport — no scrolling needed. Just navigate, wait 2 seconds for load, then `read_page` once to get the complete JD.
 
-2. **Check for duplicates** (before full analysis):
+2. **Check for duplicates and same-employer saturation** (before full analysis):
    - Search vault for existing note matching company + role (e.g., `[[*Role* - *Company*]]`)
    - Check [[Job Hunting]] "Applied Jobs" and "Passed On" sections for the company name
    - If match found:
      - Show user what was found (existing note, application status, date)
      - Ask: "Already evaluated/applied to [match]. Proceed with analysis anyway?"
      - If user says no, stop early — no further analysis needed
-   - This prevents duplicate work and catches related roles at the same company
+   - **Same-employer batch detection:** If 3+ roles at the same company have been evaluated (in vault or current session), flag it: "Multiple roles at [Company] — consider picking your strongest match rather than scatter-applying across the same division." This prevents diluted applications and signals desperation to recruiters who may see multiple apps.
 
 3. **Load context files** (can run in parallel with step 1) — Check user's CLAUDE.md for background, credentials, differentiators, current situation, and job hunting status
 
@@ -39,6 +39,7 @@ Analyze LinkedIn job postings against user's background, current pipeline health
    - **Healthy** (5+ active, interviews scheduled): Maintain standards — PASS on poor fits
    - **Thin** (<5 active, no interviews): Lower bar — CONSIDER "good enough" roles
    - Consider urgency of user's situation when weighing trade-offs
+   - **Offer-signed hard filter:** When an offer is already signed, apply stricter competition thresholds — especially for roles requiring relocation. ~90+ applicants on a relocation role = auto-PASS regardless of credential match. The ROI of competing against 100 people when starting a new job in weeks is near zero.
 
 6. **Check for red flags** (feedback loop from `/debrief`):
    - Review [[Job Hunting]] → Market Signals for relevant patterns:
