@@ -53,7 +53,7 @@ For job/career decisions, read relevant vault files and compose into `--persona`
 ```bash
 # Read context files
 CLAUDE_MD=$(cat /Users/terry/notes/CLAUDE.md | head -100)
-PIPELINE=$(cat "/Users/terry/notes/Active Pipeline.md" | head -50)
+PIPELINE=$(cat "/Users/terry/notes/Capco Transition.md" | head -50)
 
 # Compose persona
 PERSONA="Background: Terry is AGM & Head of Data Science at CITIC, being counselled out.
@@ -174,7 +174,7 @@ tags:
   - llm-council
 ---
 
-**Related:** [[Active Pipeline]] | [[Job Hunting]]
+**Related:** [[Capco Transition]] | [[Job Hunting]]
 
 # {Title from question}
 

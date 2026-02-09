@@ -40,7 +40,7 @@ qmd vsearch "preparing for banking interviews"
 qmd query "what's my relationship with Kelvin Chan"
 
 # Get full document
-qmd get "notes/Active Pipeline.md"
+qmd get "notes/Capco Transition.md"
 
 # Search specific collection
 qmd search "recruiter" -c notes

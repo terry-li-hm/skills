@@ -19,7 +19,7 @@ Create a weekly synthesis of work, thinking, and progress.
 
 2. **Gather the week's data**:
    - Read daily notes for the week: `~/notes/YYYY-MM-DD.md`
-   - Read `~/notes/Active Pipeline.md` for pipeline changes
+   - Read `~/notes/Capco Transition.md` for transition status
    - Read `~/notes/TODO.md` for completed/outstanding items
    - Scan `~/notes/Learnings Inbox.md` for entries this week
    - Check git log for skills/vault commits: `cd ~/skills && git log --oneline --since="7 days ago"`
@@ -131,11 +131,9 @@ Include a summary table in the weekly note:
 Run this alongside the synthesis every Sunday:
 
 1. **TODO.md prune** — Clear completed items, flag anything untouched for 2+ weeks (stale → delete or reschedule)
-2. **Pipeline status** — Update [[Active Pipeline]] (offer, interviewing, warm leads, dead)
-3. **Networking status** — Who's in motion, who needs follow-up?
-4. **Follow-ups due** — Applications or contacts to nudge this week?
-5. **Applications to send** — Any "noted but not applied" worth pursuing?
-6. **Priorities for the week** — Top 2-3 actions
+2. **Transition status** — Update [[Capco Transition]] (PILON, onboarding, handover)
+3. **Networking status** — Who's in motion, who needs follow-up? (BOCHK bridge, Capco contacts)
+4. **Priorities for the week** — Top 2-3 actions
 7. **AI news** — Run `/ai-news` to stay current (interview talking points)
 8. **First Sunday only** — Monthly maintenance:
    - `/skill-review` — Audit skills for staleness, drift, gaps
@@ -146,7 +144,7 @@ Run this alongside the synthesis every Sunday:
      d. Broken links — verify `[[wikilinks]]` in CLAUDE.md still resolve
      e. QMD reindex — `qmd update && qmd status` (run `qmd embed` in background if stale)
 
-[[Active Pipeline]] is source of truth for live pipeline; [[Job Hunting]] is the archive.
+[[Capco Transition]] is source of truth for exit/onboarding; [[Job Hunting]] is the archive.
 
 ## Notes
 

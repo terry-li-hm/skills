@@ -29,10 +29,10 @@ Daily briefing to start the day with focus.
 4. **Check for active priorities**:
    - Read `~/notes/CLAUDE.md` for current focus areas
    - Check `~/clawd/MEMORY.md` for recent context
-   - If job hunting active: check `~/notes/Active Pipeline.md`
+   - Check `~/notes/Capco Transition.md` for resignation/onboarding status
 
 5. **Staleness check** (context gap detection):
-   - Run `stat -f '%Sm' -t '%Y-%m-%d' ~/notes/WORKING.md ~/notes/Active\ Pipeline.md ~/notes/TODO.md`
+   - Run `stat -f '%Sm' -t '%Y-%m-%d' ~/notes/WORKING.md ~/notes/Capco\ Transition.md ~/notes/TODO.md`
    - If any file's last-modified date is >48h old, flag it: "WORKING.md last updated X — may be behind reality"
    - This catches status updates shared in conversation but not flushed to vault before `/clear`
 
