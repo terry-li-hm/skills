@@ -157,7 +157,7 @@ Remove all checked items (`- [x]`) if requested.
 ## Notes
 
 - Single source: `~/notes/TODO.md`
-- All 3 agents (Claude Code, OpenClaw, OpenCode) share this file
+- All agents (Claude Code, OpenCode) share this file
 - Tasks grouped under `## Headings` — preserve section structure
 - Completed items stay in file for history unless user asks to clean up
 - Dates are always ISO-8601 (`YYYY-MM-DD`), always in HKT context

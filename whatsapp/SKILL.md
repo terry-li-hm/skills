@@ -118,12 +118,9 @@ In `wacli messages` output:
 
 ## Read-Only Mode (wacli-ro)
 
-For safety (especially from OpenClaw/prompt injection), use `wacli-ro` instead of `wacli` when only reading:
+For safety in automated contexts, use `wacli-ro` instead of `wacli` when only reading:
 
 ```bash
-# wacli-ro is NOT in PATH by design — locate via:
-# ~/scripts/wacli-ro or ~/agent-config/scripts/wacli-ro
-
 wacli-ro sync --timeout 15s     # Sync first
 wacli-ro chats list --limit 20  # List chats
 wacli-ro messages list "<JID>" --limit 10
@@ -133,7 +130,6 @@ wacli-ro contacts search "<name>"
 
 - `wacli-ro` blocks send commands at the script level
 - **ALWAYS sync before reading** — database can be stale
-- Default for automated/cron contexts — use full `wacli` only when user explicitly asks to send
 
 ## Cautions
 

@@ -36,11 +36,9 @@ Daily briefing to start the day with focus.
    - If any file's last-modified date is >48h old, flag it: "WORKING.md last updated X — may be behind reality"
    - This catches status updates shared in conversation but not flushed to vault before `/clear`
 
-6. **Check scout intel** (OpenClaw overnight output):
-   - Read `~/signals.log` — the job-heartbeat cron writes recruiter signals here
-   - If there are entries from last 24h, summarize: new signals, suppressions, anything needing action
-   - Check `~/.openclaw/workspace/memory/` for today's or yesterday's daily notes from OpenClaw
-   - Note any cron findings that need Claude Code follow-up
+6. **Check cron logs** (overnight output):
+   - Check `~/logs/cron-weather.log` and `~/logs/cron-capco.log` for recent entries
+   - Note any failures or missing deliveries
 
 7. **Check overnight OpenCode runs** (if any):
    - Look in `~/notes/opencode-runs/` for recent run directories

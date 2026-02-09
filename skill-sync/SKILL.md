@@ -1,12 +1,12 @@
 ---
 name: skill-sync
-description: "MUST run after creating/modifying skills. Syncs to Claude Code, OpenClaw, and OpenCode."
+description: "MUST run after creating/modifying skills. Syncs to Claude Code and OpenCode."
 user_invocable: true
 ---
 
 # Skill Sync
 
-Ensure all three AI platforms have access to the same skills.
+Ensure both AI platforms have access to the same skills.
 
 ## Locations
 
@@ -14,7 +14,6 @@ Ensure all three AI platforms have access to the same skills.
 |----------|-----------------|
 | Source | `~/skills/` |
 | Claude Code | `~/.claude/skills/` |
-| OpenClaw | `~/.openclaw/skills/` |
 | OpenCode | `~/.opencode/skills/` |
 
 ## Commands
@@ -25,7 +24,7 @@ Sync all skills and clean up stale symlinks.
 ```bash
 # Use absolute paths to avoid symlink bugs
 SKILLS_DIR="$HOME/skills"
-TARGETS=("$HOME/.claude/skills" "$HOME/.openclaw/skills" "$HOME/.opencode/skills")
+TARGETS=("$HOME/.claude/skills" "$HOME/.opencode/skills")
 
 # 1. Ensure target directories exist
 for dir in "${TARGETS[@]}"; do
@@ -95,4 +94,4 @@ cd ~/skills && git add -A && git commit -m "Update <skill-name>" && git push
 
 - Source of truth is always `~/skills/`
 - Symlinks point TO source, not copies
-- All three platforms read SKILL.md format (Agent Skills spec)
+- Both platforms read SKILL.md format (Agent Skills spec)

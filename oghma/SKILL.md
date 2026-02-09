@@ -1,6 +1,6 @@
 ---
 name: oghma
-description: Search AI coding memories from Claude Code, Codex, OpenClaw, OpenCode transcripts. "search memories"
+description: Search AI coding memories from Claude Code, Codex, OpenCode transcripts. "search memories"
 user_invocable: true
 ---
 
@@ -30,13 +30,13 @@ Use these directly — no CLI needed:
 oghma_add(content="insight here", category="gotcha", source_tool="manual")
 ```
 
-## CLI (OpenClaw, OpenCode, or any shell)
+## CLI (OpenCode or any shell)
 
 **Search:**
 ```bash
 oghma search "query" --limit 10
 oghma search "query" --category learning    # or: preference, project_context, gotcha, workflow
-oghma search "query" --tool claude_code     # or: codex, openclaw, opencode
+oghma search "query" --tool claude_code     # or: codex, opencode
 ```
 
 **Status:**

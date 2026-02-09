@@ -23,7 +23,7 @@ Create a weekly synthesis of work, thinking, and progress.
    - Read `~/notes/TODO.md` for completed/outstanding items
    - Scan `~/notes/Learnings Inbox.md` for entries this week
    - Check git log for skills/vault commits: `cd ~/skills && git log --oneline --since="7 days ago"`
-   - Check `~/notes/memory/` for OpenClaw daily logs
+   - Check `~/logs/` for cron output logs
 
 3. **Synthesize into themes** — don't just list events, find patterns:
    - What topics kept coming up?
@@ -106,7 +106,7 @@ Run these checks every Sunday and include results in the weekly note under `## T
 3. **MCP servers** — `claude mcp list` to verify health. Flag any disconnected, orphaned from experiments, or version-drifted servers.
 4. **Token consumption** — Run `cu` alias for Max20 usage stats. Note weekly trend and any spikes.
 5. **Oghma health** — `oghma_stats` for DB size, memory count, extraction backlog.
-6. **OpenClaw crons** — Read `~/.openclaw/cron/jobs.json`, flag disabled jobs that should be cleaned up or re-enabled. Count active vs disabled.
+6. **Cron scripts** — Check `~/scripts/crons/` and `~/logs/cron-*.log` for failures or stale output.
 7. **QMD index** — `qmd status` for collection health and staleness.
 
 Include a summary table in the weekly note:
@@ -123,7 +123,7 @@ Include a summary table in the weekly note:
 | MCP servers | X connected | ✅/⚠️ |
 | Max20 usage | X% weekly | ✅/⚠️ |
 | Oghma memories | X | — |
-| OpenClaw crons (active/total) | X/Y | — |
+| Cron scripts (healthy/total) | X/Y | — |
 ```
 
 ## Sunday Reset Checklist
