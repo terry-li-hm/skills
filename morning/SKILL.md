@@ -55,11 +55,9 @@ Daily briefing to start the day with focus.
    - Then show today's actionable items grouped by section
    - End with count: "X tasks today, Y overdue"
 
-9. **Scan Gmail for interview confirmations** (past 48 hours):
-   - `gog gmail search "interview confirmed OR virtual interview OR interview scheduled" | head -10`
-   - Look for subjects containing: "confirmed", "scheduled", "interview", "Teams meeting"
-   - Cross-check against TODO.md — if an interview is in email but NOT in TODO.md, flag it
-   - Add any missing interviews to TODO.md with date, time, platform, interviewer
+9. **Scan Gmail for Capco/HR emails** (past 48 hours):
+   - `gog gmail search "capco OR first advantage OR background check OR PILON OR alison" | head -10`
+   - Flag anything requiring action (document requests, buyout confirmation, start date changes)
 
 10. **Weather check** (optional):
     - `/hko` for Hong Kong weather if going out
