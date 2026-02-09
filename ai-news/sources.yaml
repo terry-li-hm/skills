@@ -53,6 +53,14 @@ web_sources:
     focus: AI repository trending/velocity (Agents, RAG, production tools)
     tier: 1
 
+  - name: Brendan Gregg
+    url: https://www.brendangregg.com/blog/
+    focus: Systems performance, AI infrastructure cost, eBPF, datacenter observability
+    tier: 2
+    notes: |
+      Joined OpenAI Feb 2026. Posts on AI datacenter perf optimization
+      are high-signal for enterprise AI cost discussions. Skip deep kernel internals.
+
   - name: Fireworks AI Blog
     url: https://fireworks.ai/blog
     focus: Inference optimization, speculative decoding, model serving
@@ -226,6 +234,11 @@ x_accounts:
     name: Eugene Yan
     focus: Applied ML, RecSys, Amazon, practical AI
     tier: 1
+
+  - handle: "@brendangregg"
+    name: Brendan Gregg
+    focus: Systems performance, AI infra cost, OpenAI perf engineering
+    tier: 2
 
   - handle: "@rauchg"
     name: Guillermo Rauch
