@@ -28,11 +28,17 @@ One command to delegate coding tasks. Routes to the right tool, packages context
 
 Before building the command, gather what the delegate needs to be self-sufficient:
 
-- **Read relevant files** mentioned in the task (full content, not snippets)
-- **Include file paths** as absolute paths
-- **Include error output** if debugging
+- **Include file paths** as absolute paths — let the delegate read files itself
+- **Include error output** if debugging (trimmed to relevant lines)
 - **Include constraints** ("don't modify X", "keep existing patterns")
 - **Include verification** ("run `pytest tests/` to verify")
+
+**CRITICAL — Prompt Length Limits:**
+- **OpenCode: hard limit ~4K chars.** Prompts >5K chars silently fail (exits 0, writes nothing).
+- **Codex: ~8K chars safe**, can handle more context.
+- **Never inline full file contents** in the prompt. Instead, give paths and tell the delegate to read them.
+- **One focused task per prompt.** If you have 3 independent tasks, launch 3 separate delegations.
+- Count your prompt length before sending. If it exceeds the limit, split or trim.
 
 ### 2. Build and Run
 
@@ -61,13 +67,23 @@ After launching, tell the user:
 
 ## Prompt Template
 
+Keep under **4K chars for OpenCode**, **8K for Codex**. Never inline file contents — give paths.
+
 ```
-[Goal]: <what to achieve>
-[Files]: <absolute paths to read/modify>
-[Context]: <relevant code, errors, constraints>
-[Verify]: <command to confirm success>
-[Constraints]: <what NOT to do>
+In <file path>, <what to change>.
+
+<Specific instructions — method names, line numbers, logic to add/modify>
+
+<Constraints — what NOT to touch>
+
+Run <test command> after changes to verify.
 ```
+
+**Good (380 chars):**
+> In src/oghma/cli.py, add a new CLI command 'promote' that takes a memory_id argument. Fetch the memory with storage.get_memory_by_id(), update its category to 'promoted' with a new update_memory_category() method in storage.py. Use rich for output. Run pytest after.
+
+**Bad (5K+ chars):**
+> Here is the full content of cli.py: [600 lines]... Here is storage.py: [800 lines]... Now add a promote command...
 
 ## Proactive Delegation
 
@@ -77,9 +93,20 @@ When a coding task arrives that's clearly routine (refactoring, file moves, test
 
 This saves Claude tokens for work that actually needs orchestration and judgment.
 
+## Failure Modes
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Exits 0, no files changed | Prompt >5K chars | Shorten prompt, remove inline content |
+| Timeout after 5min | Task too small (<25 lines) or too vague | Give more specific instructions or do it directly |
+| Wrong files modified | Ambiguous paths | Use absolute paths, specify exact method/line |
+
+**If OpenCode fails twice on the same task:** Escalate to Codex or do it directly. Don't retry with the same prompt.
+
 ## Notes
 
 - **OpenCode model:** Always `zhipuai-coding-plan/glm-4.7` (NOT `opencode/glm-4.7` which depletes credits)
 - **Lean config:** `OPENCODE_HOME=~/.opencode-lean` skips MCPs, cuts startup from 60s to 15s
+- **Prompt budget:** ~4K chars max for OpenCode, ~8K for Codex. When in doubt, `echo -n "prompt" | wc -c`
 - **PII:** If prompt contains personal info, mask first: `cd ~/skills/pii-mask && uv run mask.py "<prompt>"`
 - **Output often empty:** OpenCode doesn't reliably capture stdout. Check session JSON instead.
