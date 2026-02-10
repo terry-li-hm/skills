@@ -11,6 +11,7 @@ web_sources:
   # General AI News
   - name: Smol AI News
     url: https://news.smol.ai
+    rss: https://news.smol.ai/rss.xml
     focus: Practitioner-focused, swyx
     tier: 1
     cadence: daily
@@ -34,7 +35,7 @@ web_sources:
 
   - name: Anthropic Blog
     url: https://www.anthropic.com/news
-    rss: https://www.anthropic.com/rss.xml
+    # No RSS feed available
     focus: Claude updates, research, safety
     tier: 1
     cadence: twice_weekly
@@ -87,7 +88,7 @@ web_sources:
 
   - name: The Batch (Andrew Ng)
     url: https://www.deeplearning.ai/the-batch/
-    rss: https://www.deeplearning.ai/the-batch/feed/
+    # No RSS feed available
     focus: Weekly AI news, Andrew Ng's letters, DeepLearning.AI
     tier: 1
     cadence: weekly
@@ -116,7 +117,7 @@ web_sources:
 
   - name: Import AI
     url: https://jack-clark.net
-    rss: https://jack-clark.net/feed/
+    rss: https://importai.substack.com/feed
     focus: AI research, policy, Jack Clark
     tier: 1
     cadence: weekly
@@ -167,7 +168,7 @@ bank_tech_blogs:
 
   - name: Plaid Blog
     url: https://plaid.com/blog
-    rss: https://plaid.com/blog/feed/
+    # No RSS feed available
     focus: Open banking, MCP, infra
     tier: 1
     cadence: weekly
