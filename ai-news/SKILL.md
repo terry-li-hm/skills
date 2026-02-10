@@ -47,6 +47,17 @@ Sources are defined in `sources.yaml` in this skill directory. Categories:
 
 ## Workflow
 
+### Step 0: Dedup Check (all modes)
+
+Before fetching, read the last entry in `[[AI News Log]]` (`~/notes/AI News Log.md`):
+1. Read the file up to the first `---` separator after the latest `## YYYY-MM-DD` heading
+2. Extract all article titles/topics already logged
+3. After fetching sources, filter out items that match existing log entries (fuzzy match on title keywords)
+4. Only present and log **genuinely new items** (delta)
+5. If the last log entry is from today, append new items to that entry instead of creating a new one
+
+This prevents ~60% duplication when running `/ai-news` on consecutive days.
+
 ### Quick Mode (default)
 
 1. **Load sources** from `sources.yaml`, filter to Tier 1
