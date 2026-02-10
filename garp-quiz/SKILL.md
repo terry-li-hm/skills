@@ -81,6 +81,7 @@ After the user answers:
 - Give a brief explanation (2-3 sentences max)
 - If incorrect, highlight the key distinction they missed
 - Reference the specific concept from the curriculum
+- Check `~/notes/GARP RAI Trap Patterns.md` — if this miss matches an existing pattern, name it (e.g., "This is the 'conditioning on prediction vs truth' trap again")
 
 **Key Concept quality matters** — the History table's Key Concept column doubles as study material. Write each entry as a mini-flashcard with the precise distinction, not a vague description:
 - Bad: "Confused fairness measures"
@@ -101,6 +102,10 @@ Append to `~/notes/GARP RAI Quiz Tracker.md`:
   - MISS → set interval to 1, next_due to tomorrow
   - OK → double the current interval (cap at 14), set next_due to today + new interval
   - New topic (no schedule row yet) → add row with interval based on result
+
+### 6b. Update Trap Patterns
+
+If any session misses reveal a **new thinking pattern** (not just a repeat of an existing one), append to `~/notes/GARP RAI Trap Patterns.md` under the appropriate section — or create a new section. Keep entries as mnemonics/decision rules, not verbose explanations.
 
 ### 7. Loop or Finish
 
