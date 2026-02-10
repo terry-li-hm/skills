@@ -36,15 +36,24 @@ Scan for **non-obvious** stuff only:
 ## Workflow
 
 1. Quick scan of conversation
-2. If nothing non-obvious → "Nothing to capture, we're good"
-3. If something surfaces → **dedup**, **route**, and optionally **promote**
-4. Done. No ceremony.
+2. **TODO sweep** — check if anything done this session should be marked in `~/notes/TODO.md`
+3. If nothing non-obvious → "Nothing to capture, we're good"
+4. If something surfaces → **dedup**, **route**, and optionally **promote**
+5. Done. No ceremony.
 
-### Step 3a: Dedup
+### Step 2: TODO Sweep
+
+Scan conversation for completed actions that match open items in `~/notes/TODO.md`:
+- Messages sent, forms submitted, tasks finished → mark `[x]` with brief note
+- New commitments or deadlines mentioned → add as new TODO items
+- Keep it fast — skim for verbs like "sent", "done", "submitted", "ordered", "confirmed"
+- If nothing matches, skip silently
+
+### Step 4a: Dedup
 
 Before writing anything, `oghma_search` for the insight (keyword mode, 3 results). If already captured with same substance, skip it — just mention "already in Oghma" in output.
 
-### Step 3b: Route by Type
+### Step 4b: Route by Type
 
 Don't dump everything into MEMORY.md. Route to the store that fits:
 
@@ -58,7 +67,7 @@ Don't dump everything into MEMORY.md. Route to the store that fits:
 
 For `~/docs/solutions/`, create a simple markdown file in the appropriate category subdirectory. No YAML schema required — keep it lightweight. Just the gotcha, why it happens, and the fix.
 
-### Step 3c: Pattern Promotion
+### Step 4c: Pattern Promotion
 
 If an insight matches something already in Oghma (dedup search returned a hit with similar theme), flag it:
 
