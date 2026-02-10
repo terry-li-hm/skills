@@ -19,7 +19,7 @@ Download courses, ebooks, and audiobooks from the Dedao (得到/iGet) app. Suppo
 command -v dedao-dl >/dev/null 2>&1 && echo "dedao-dl installed: $(dedao-dl -v)" || echo "NOT INSTALLED"
 
 # Check login status
-dedao-dl whoami 2>/dev/null || echo "NOT LOGGED IN"
+dedao-dl who 2>/dev/null || echo "NOT LOGGED IN"
 ```
 
 ### If NOT Installed
