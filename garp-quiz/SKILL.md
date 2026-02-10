@@ -1,11 +1,14 @@
 ---
 name: garp-quiz
 description: GARP RAI exam quiz with adaptive focus on weak areas. "garp quiz", "quiz me", "rai quiz"
+model: sonnet
 ---
 
 # GARP Quiz
 
 Daily quiz skill for GARP RAI exam prep (Apr 4, 2026). Tracks mistakes, adapts focus toward weak areas.
+
+**Model: Sonnet.** This is a formulaic skill (read → generate MCQ → evaluate → update). Opus is overkill — save it for judgment calls.
 
 ## Trigger
 
@@ -59,6 +62,8 @@ Read the relevant raw content file for the chosen topic:
 - `~/notes/GARP RAI Module 4 - Raw Content.md`
 - `~/notes/GARP RAI Module 5 - Raw Content.md`
 
+**Token efficiency:** Don't read entire module files. Use Grep to find the relevant section heading, then Read with `offset`/`limit` to pull only the ~30-50 lines needed for that topic. For a 5-question session across 2-3 modules, read the TOC (first 30 lines) once per module to locate sections, then targeted reads only.
+
 Also check `~/notes/GARP RAI Practice Exam.md` — if there's an unused practice exam question on the chosen topic, prefer using it (real exam questions > generated ones).
 
 Generate ONE exam-style MCQ:
@@ -93,15 +98,18 @@ For correct answers, still capture the core insight — it reinforces retention 
 
 ### 6. Update Tracker
 
-Append to `~/notes/GARP RAI Quiz Tracker.md`:
-- Add entry to History table
-- Update per-topic stats
-- Update total stats
-- If incorrect, add to "Recent Misses" section with the key concept
-- **Update Spaced Repetition Schedule:**
+Update `~/notes/GARP RAI Quiz Tracker.md` **using Edit tool** (surgical edits, not full file rewrites):
+- Edit the Summary table (total, correct, rate, sessions)
+- Edit the specific Topic Performance rows that changed
+- Edit the specific Spaced Repetition Schedule rows that changed
+- Append new entries to History table
+- If incorrect, append to "Recent Misses" table
+- **Spaced Repetition Schedule:**
   - MISS → set interval to 1, next_due to tomorrow
   - OK → double the current interval (cap at 14), set next_due to today + new interval
   - New topic (no schedule row yet) → add row with interval based on result
+
+**Token efficiency:** Use Edit to modify specific table rows, not Write to rewrite the entire file. The tracker grows over time — full rewrites waste tokens proportional to history length.
 
 ### 6b. Update Trap Patterns
 
@@ -186,3 +194,5 @@ The tracker file (`~/notes/GARP RAI Quiz Tracker.md`) uses this structure:
 - For generated questions, vary the question stems: "Which of the following...", "A bank is...", "An analyst is...", "Which statement correctly..."
 - Weight toward M3/M4/M5 (focus modules, 55-75% of exam)
 - Track the session's question count in a running variable, don't re-read tracker between questions
+- **Run `/compact` between sessions** if doing multiple sessions in one conversation — context snowballs
+- **One session = one conversation** is ideal; batch sessions waste tokens on accumulated context
