@@ -82,6 +82,14 @@ After the user answers:
 - If incorrect, highlight the key distinction they missed
 - Reference the specific concept from the curriculum
 
+**Key Concept quality matters** — the History table's Key Concept column doubles as study material. Write each entry as a mini-flashcard with the precise distinction, not a vague description:
+- Bad: "Confused fairness measures"
+- Good: "Equal opportunity = TPR only. Equalized odds = TPR + TNR. Predictive rate parity = precision."
+- Bad: "Wrong about model governance roles"
+- Good: "Board sets risk appetite (not model risk function). 3rd line audits the validators."
+
+For correct answers, still capture the core insight — it reinforces retention on review.
+
 ### 6. Update Tracker
 
 Append to `~/notes/GARP RAI Quiz Tracker.md`:
