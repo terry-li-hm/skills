@@ -1,6 +1,11 @@
 # AI News Sources Configuration
 # Tier 1: Always fetch (high-signal, frequent updates)
 # Tier 2: Deep scan only (user says "deep", "full", or "all sources")
+#
+# cadence: daily | twice_weekly | weekly | biweekly | monthly
+#   Used by cron to skip sources unlikely to have new content since last fetch.
+# rss: Direct RSS/Atom feed URL (preferred for cron — structured, reliable)
+# url: Web page URL (fallback — needs HTML scraping)
 
 web_sources:
   # General AI News
@@ -8,42 +13,53 @@ web_sources:
     url: https://news.smol.ai
     focus: Practitioner-focused, swyx
     tier: 1
+    cadence: daily
     notes: |
       Homepage shows one headline/day. Full issues at news.smol.ai/issues/YY-MM-DD-slug
       For deep read: fetch last 3-5 full issues
 
   - name: Simon Willison
     url: https://simonwillison.net
+    rss: https://simonwillison.net/atom/everything/
     focus: LLMs, open source, hands-on
     tier: 1
+    cadence: daily
 
   - name: Eugene Yan
     url: https://eugeneyan.com
+    rss: https://eugeneyan.com/rss/
     focus: Applied ML, RecSys, LLMs in production
     tier: 1
+    cadence: monthly
 
   - name: Anthropic Blog
     url: https://www.anthropic.com/news
+    rss: https://www.anthropic.com/rss.xml
     focus: Claude updates, research, safety
     tier: 1
+    cadence: twice_weekly
 
   - name: OpenAI Developer Blog
     url: https://developers.openai.com/blog
     focus: Codex, APIs, developer guides
     tier: 1
+    cadence: weekly
 
   - name: Cursor Blog
     url: https://cursor.com/blog
     focus: AI coding agents, MoE training, inference optimization, systems engineering
     tier: 1
+    cadence: weekly
     notes: |
       High-quality technical content. Research posts on custom models, CUDA kernels,
       multi-agent coordination. Primary source for AI coding tool internals.
 
   - name: steipete.me
     url: https://steipete.me
+    rss: https://steipete.me/rss.xml
     focus: AI workflows, agentic engineering, vibe coding, macOS AI tools
     tier: 1
+    cadence: biweekly
     notes: |
       Founder of OpenClaw/VibeTunnel. High-signal posts on building agentic stacks
       and the shift from practitioner to agentic engineer.
@@ -52,11 +68,13 @@ web_sources:
     url: https://goodailist.com/repos
     focus: AI repository trending/velocity (Agents, RAG, production tools)
     tier: 1
+    cadence: daily
 
   - name: Brendan Gregg
     url: https://www.brendangregg.com/blog/
     focus: Systems performance, AI infrastructure cost, eBPF, datacenter observability
     tier: 2
+    cadence: monthly
     notes: |
       Joined OpenAI Feb 2026. Posts on AI datacenter perf optimization
       are high-signal for enterprise AI cost discussions. Skip deep kernel internals.
@@ -65,21 +83,26 @@ web_sources:
     url: https://fireworks.ai/blog
     focus: Inference optimization, speculative decoding, model serving
     tier: 2
+    cadence: biweekly
 
   - name: The Batch (Andrew Ng)
     url: https://www.deeplearning.ai/the-batch/
+    rss: https://www.deeplearning.ai/the-batch/feed/
     focus: Weekly AI news, Andrew Ng's letters, DeepLearning.AI
     tier: 1
+    cadence: weekly
 
   - name: Evident Banking Brief
     url: https://evidentinsights.com/bankingbrief/
     focus: AI in financial services
     tier: 2
+    cadence: weekly
 
   - name: Every
     url: https://every.to
     focus: AI tools for knowledge workers, accessible commentary
     tier: 2
+    cadence: twice_weekly
     notes: |
       Good for zeitgeist and practical tool reviews. Not deep technical insight.
       Treats surface-level findings as bigger insights than they are.
@@ -89,32 +112,41 @@ web_sources:
     url: https://news.ycombinator.com
     focus: Tech/startup news, community picks
     tier: 2
+    cadence: daily
 
   - name: Import AI
     url: https://jack-clark.net
+    rss: https://jack-clark.net/feed/
     focus: AI research, policy, Jack Clark
     tier: 1
+    cadence: weekly
     notes: |
       Weekly research summaries with policy context. High signal-to-noise.
       Good for staying current on research without reading papers directly.
 
   - name: Gwern
     url: https://gwern.net
+    rss: https://gwern.net/atom.xml
     focus: Deep technical essays, scaling laws, AI philosophy
     tier: 2
+    cadence: monthly
     notes: |
       Long-form essays requiring time to digest. Not news — evergreen thinking.
       Check monthly for new posts. Essential for first-principles AI understanding.
 
   - name: Global AI News
     url: https://www.latent.space
+    rss: https://www.latent.space/feed
     focus: AI practitioner podcast (swyx), deep dives
     tier: 2
+    cadence: weekly
 
   - name: Interconnects
     url: https://www.interconnects.ai
+    rss: https://robotic.substack.com/feed
     focus: AI scaling laws, alignment, Nathan Lambert
     tier: 1
+    cadence: twice_weekly
     notes: |
       Primary source for "System 2" reasoning and inference-time scaling insights.
       Essential for AgentOps and safety narratives.
@@ -125,94 +157,116 @@ bank_tech_blogs:
     url: https://layer6.ai/blog
     focus: ML research, recommender systems, Toronto
     tier: 1
+    cadence: biweekly
 
   - name: Monzo Tech
     url: https://monzo.com/blog/topic/technology
     focus: ML platform, fraud, UK neobank
     tier: 1
+    cadence: biweekly
 
   - name: Plaid Blog
     url: https://plaid.com/blog
+    rss: https://plaid.com/blog/feed/
     focus: Open banking, MCP, infra
     tier: 1
+    cadence: weekly
 
   - name: Sardine Blog
     url: https://www.sardine.ai/blog
     focus: Fraud ML, feature stores
     tier: 1
+    cadence: biweekly
 
   - name: Chainalysis Blog
     url: https://www.chainalysis.com/blog
     focus: Crypto compliance, blockchain analytics
     tier: 1
+    cadence: weekly
 
   # Tier 2 - Less frequent or JS-heavy
   - name: Capital One Tech
     url: https://www.capitalone.com/tech/machine-learning/
     focus: ML in banking, MLOps, fraud
     tier: 2
+    cadence: biweekly
 
   - name: Two Sigma Articles
     url: https://www.twosigma.com/articles
     focus: Quant investing, AI in finance, engineering
     tier: 2
+    cadence: monthly
 
   - name: JPMorgan AI Research
     url: https://www.jpmorgan.com/technology/artificial-intelligence
     focus: Finance AI, NLP, quant research
     tier: 2
+    cadence: monthly
 
   - name: Goldman Sachs Insights
     url: https://www.goldmansachs.com/insights/topics/artificial-intelligence.html
     focus: AI market analysis, enterprise AI
     tier: 2
+    cadence: monthly
 
   - name: Nubank (Building)
     url: https://building.nubank.com/data-science-machine-learning/
     focus: ML ops, real-time ML, Brazil
     tier: 2
+    cadence: monthly
 
   - name: Stripe Blog
     url: https://stripe.com/blog
     focus: Payments ML, fraud detection, Radar
     tier: 2
+    cadence: biweekly
     notes: JS-heavy, may need browser automation
 
   - name: DBS Tech Blog
     url: https://medium.com/dbs-tech-blog
+    rss: https://medium.com/feed/dbs-tech-blog
     focus: Singapore, AI-fuelled banking
     tier: 2
+    cadence: biweekly
 
   - name: Wise Engineering
     url: https://medium.com/wise-engineering
+    rss: https://medium.com/feed/wise-engineering
     focus: 150+ ML models, fraud/AML
     tier: 2
+    cadence: monthly
 
   - name: Revolut Tech
     url: https://medium.com/revolut/tagged/machine-learning
     focus: Fraud detection, Sherlock
     tier: 2
+    cadence: monthly
 
   - name: Upstart Tech
     url: https://medium.com/upstart-tech
+    rss: https://medium.com/feed/upstart-tech
     focus: AI lending, credit ML
     tier: 2
+    cadence: monthly
 
 chinese_sources:
   - name: 机器之心 (Synced)
     rss: https://wechat2rss.xlab.app/feed/51e92aad2728acdd1fda7314be32b16639353001.xml
     focus: AI research, industry news (CN)
     tier: 1
+    cadence: daily
 
   - name: 量子位 (QbitAI)
     rss: https://wechat2rss.xlab.app/feed/7131b577c61365cb47e81000738c10d872685908.xml
     focus: AI startups, products, China scene (CN)
     tier: 1
+    cadence: daily
 
   - name: 新智元
     rss: https://wechat2rss.xlab.app/feed/ede30346413ea70dbef5d485ea5cbb95cca446e7.xml
     focus: AI news, Western research translations (CN)
     tier: 2
+    cadence: daily
 
 x_accounts:
   - handle: "@karpathy"

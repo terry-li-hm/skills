@@ -45,31 +45,42 @@ Sources are defined in `sources.yaml` in this skill directory. Categories:
 **Tier 1**: Always fetch (~15 sources, fast)
 **Tier 2**: Deep scan only (~50+ sources, comprehensive)
 
+## Daily Automation (Cron)
+
+A cron job runs at **7:15 AM HKT** daily (`~/scripts/crons/ai-news-daily.py`):
+- Fetches Tier 1 RSS sources + web scrapes — **zero LLM tokens**
+- Date-based dedup: only articles published after last scan
+- Title-prefix dedup: catches undated web scrapes already in log
+- Cadence-aware: skips sources unlikely to have new content (e.g., weekly newsletters not fetched daily)
+- State tracked in `~/.cache/ai-news-state.json`
+- Appends delta to `[[AI News Log]]`, sends summary to Telegram
+
+**Manual `/ai-news` is for**: deep dives, ad-hoc checks, or when you want LLM-powered analysis/relevance filtering beyond what the cron captures.
+
 ## Workflow
 
 ### Step 0: Dedup Check (all modes)
 
 Before fetching, read the last entry in `[[AI News Log]]` (`~/notes/AI News Log.md`):
-1. Read the file up to the first `---` separator after the latest `## YYYY-MM-DD` heading
-2. Extract all article titles/topics already logged
-3. After fetching sources, filter out items that match existing log entries (fuzzy match on title keywords)
-4. Only present and log **genuinely new items** (delta)
-5. If the last log entry is from today, append new items to that entry instead of creating a new one
-
-This prevents ~60% duplication when running `/ai-news` on consecutive days.
+1. Note the most recent `## YYYY-MM-DD` heading — this is the "since" date
+2. Pass this date into every WebFetch prompt: "List articles published **after [date]** only"
+3. Check `cadence` field from `sources.yaml` — skip sources unlikely to have new content
+4. After fetching, filter out items whose title prefix (first 6 significant words) already appears in the log
+5. Only present and log **genuinely new items** (delta)
 
 ### Quick Mode (default)
 
-1. **Load sources** from `sources.yaml`, filter to Tier 1
+1. **Load sources** from `sources.yaml`, filter to Tier 1, apply cadence skip
 
-2. **Fetch web sources in parallel** (WebFetch):
+2. **Fetch web sources in parallel** (WebFetch) with date-aware prompts:
+   - "List articles published after [YYYY-MM-DD] only. If none, say 'No new articles.'"
    - Smol AI News, Simon Willison, Eugene Yan
    - Anthropic Blog, OpenAI Developer Blog
    - Layer 6, Monzo, Plaid, Sardine, Chainalysis
    - 机器之心, 量子位 (RSS)
 
 3. **Extract & summarize**:
-   - Last 3-5 articles from each source
+   - Only new articles (post-dedup)
    - Title, date, one-line summary
    - Highlight relevance to AI/ML in banking
 
