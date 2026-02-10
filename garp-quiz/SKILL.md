@@ -25,13 +25,23 @@ Read `~/notes/GARP RAI Quiz Tracker.md`. Parse:
 - Per-topic error counts and rates
 - Total stats
 - Recent misses (last 10)
+- Spaced repetition schedule (interval + next due date per topic)
 
 ### 2. Pick Topic
 
-**Adaptive selection** (unless topic forced):
-- 60% chance: pick from weakest topics (highest error rate, minimum 2 attempts)
-- 30% chance: pick from undertested topics (fewest attempts)
-- 10% chance: random topic
+**Spaced repetition selection** (unless topic forced):
+
+Priority order:
+1. **Overdue topics** — any topic where `next_due ≤ today`, sorted by most overdue first. Among equally overdue, prefer lower success rate.
+2. **Undertested topics** — topics with 0 attempts (never scheduled). Weight toward M3/M4/M5.
+3. **Random** — if nothing is due and all topics have been tested, pick randomly from topics whose next_due is soonest.
+
+Within a single session, avoid picking the same topic twice unless all due topics have been used.
+
+**Interval progression (simplified SM-2):**
+- **MISS** → interval resets to **1 day**
+- **OK** → interval doubles: 1 → 2 → 4 → 7 → 14 (capped at 14 days given exam proximity)
+- New topics start at interval **1** after first attempt
 
 Topic categories (map to exam modules):
 - `M1-classical-ai`, `M1-ml-types`, `M1-ai-risks`
@@ -79,6 +89,10 @@ Append to `~/notes/GARP RAI Quiz Tracker.md`:
 - Update per-topic stats
 - Update total stats
 - If incorrect, add to "Recent Misses" section with the key concept
+- **Update Spaced Repetition Schedule:**
+  - MISS → set interval to 1, next_due to tomorrow
+  - OK → double the current interval (cap at 14), set next_due to today + new interval
+  - New topic (no schedule row yet) → add row with interval based on result
 
 ### 7. Loop or Finish
 
@@ -112,6 +126,15 @@ The tracker file (`~/notes/GARP RAI Quiz Tracker.md`) uses this structure:
 | M3-bias-unfairness | 1 | 1 | 100% |
 | M3-xai | 1 | 1 | 100% |
 | M3-autonomy-safety | 1 | 1 | 100% |
+
+## Spaced Repetition Schedule
+
+| Topic | Interval | Next Due |
+|-------|----------|----------|
+| M3-fairness-measures | 1 | 2026-02-11 |
+| M3-bias-unfairness | 2 | 2026-02-12 |
+| M3-xai | 2 | 2026-02-12 |
+| M3-autonomy-safety | 2 | 2026-02-12 |
 
 ## Recent Misses
 

@@ -25,132 +25,103 @@ Use when:
 
 ## Commands
 
+All commands use subcommand pattern: `wacli <resource> <action> [flags]`.
+
 ### Check Auth Status
 ```bash
 wacli doctor
 ```
 
+### Sync Messages
+```bash
+wacli sync --once               # Sync until idle, then exit
+wacli sync --once --refresh-contacts  # Also refresh contact names
+```
+**Always sync before reading** — database can be stale.
+
 ### List Recent Chats
 ```bash
-wacli chats --limit 20
-wacli chats --limit 20 --json  # For structured output
+wacli chats list --limit 20
+wacli chats list --limit 20 --json       # Structured output
+wacli chats list --query "Gavin"         # Filter by name
+```
+
+### Read Messages from a Chat
+```bash
+# By chat JID (from chats list output)
+wacli messages list --chat "85298765432@s.whatsapp.net" --limit 20
+
+# With date filters
+wacli messages list --chat "85298765432@s.whatsapp.net" --after 2026-02-01 --limit 20
 ```
 
 ### Search Messages
 ```bash
-# Search by contact (phone number or name)
-wacli messages --contact "+85261872354" --limit 10
-
 # Search by keyword across all chats
-wacli messages --search "interview" --limit 20
+wacli messages search "interview" --limit 20
 
-# Combine contact + keyword
-wacli messages --contact "German" --search "coffee" --limit 10
-```
+# Search within a specific chat
+wacli messages search "buyout" --chat "85298765432@s.whatsapp.net" --limit 10
 
-### Read Specific Chat
-```bash
-# By phone number
-wacli messages --contact "+85298765432" --limit 20
-
-# By chat ID (from chats list)
-wacli messages --chat "85298765432@s.whatsapp.net" --limit 20
+# With date filters
+wacli messages search "coffee" --after 2026-01-01 --limit 10
 ```
 
 ### Send Message
+**`wacli send` requires an interactive terminal** — Claude cannot run it directly.
+Draft the command for the user to copy-paste:
 ```bash
-# Send text
-wacli send --to "+85298765432" --text "Thanks for your message!"
+# Send to contact (user runs this themselves)
+wacli send --to "+85298765432" "Thanks for your message!"
 
 # Send to group (use group JID from chats list)
-wacli send --to "120363123456789@g.us" --text "Hello group"
+wacli send --to "120363123456789@g.us" "Hello group"
+```
+
+### Contacts
+```bash
+wacli contacts search "Gavin" --limit 10
+wacli contacts show "85298765432@s.whatsapp.net"
 ```
 
 ### Download Media
 ```bash
-# Download media from a message
-wacli media --message-id "ABC123" --output ~/Downloads/
-```
-
-### Contact Management
-```bash
-# List contacts
-wacli contacts --limit 50
-
-# Search contacts
-wacli contacts --search "recruiter"
+wacli media download --id "ABC123" --chat "85298765432@s.whatsapp.net" --output ~/Downloads/
 ```
 
 ## Output Formats
 
 Add `--json` to any command for structured JSON output:
 ```bash
-wacli chats --limit 10 --json
-wacli messages --contact "+852..." --json
+wacli chats list --limit 10 --json
+wacli messages list --chat "852..." --json
 ```
 
 ## Common Patterns
 
-### Check for new messages from recruiters
+### Check for new messages from a contact
 ```bash
-wacli chats --limit 10 --json | jq '.[] | select(.unread > 0)'
+wacli sync --once 2>/dev/null
+wacli messages list --chat "<JID>" --after 2026-02-10 --limit 10
 ```
 
-### Find messages from a specific person
+### Find a contact's JID
 ```bash
-wacli messages --search "German" --limit 20
+wacli chats list --query "Gavin"
+# Or:
+wacli contacts search "Gavin"
 ```
 
-### Reply to last message in a chat
+### View full conversation context
 ```bash
-# Get last message to see context
-wacli messages --contact "+852..." --limit 1
-
-# Send reply
-wacli send --to "+852..." --text "Your reply here"
+wacli messages list --chat "<JID>" --limit 30
 ```
 
 ## Message Direction
 
 In `wacli messages` output:
-- `from_me: true` — Messages you sent
-- `from_me: false` — Messages you received
-
-## Read-Only Mode (wacli-ro)
-
-For safety in automated contexts, use `wacli-ro` instead of `wacli` when only reading:
-
-```bash
-wacli-ro sync --timeout 15s     # Sync first
-wacli-ro chats list --limit 20  # List chats
-wacli-ro messages list "<JID>" --limit 10
-wacli-ro messages search "<query>" --limit 10
-wacli-ro contacts search "<name>"
-```
-
-- `wacli-ro` blocks send commands at the script level
-- **ALWAYS sync before reading** — database can be stale
-
-## Cautions
-
-- **QR expires**: If disconnected, need to re-auth with `wacli auth`
-- **Rate limits**: Don't send too many messages too quickly
-- **Media**: Large media downloads may take time
-- **Groups**: Use group JID (ends with `@g.us`) not phone number
-
-## Integration with Message Skill
-
-The `/message` skill uses `wacli` for WhatsApp message retrieval and sending. This is the underlying CLI reference.
-
-## Troubleshooting
-
-| Issue | Solution |
-|-------|----------|
-| "Not authenticated" | Run `wacli auth` and scan QR |
-| "Session expired" | Run `wacli auth` again |
-| Contact not found | Use phone number with country code (+852...) |
-| Messages not syncing | Run `wacli sync` to backfill history |
-| Sent messages missing | See LID/JID splitting issue below |
+- `FROM: me` — Messages you sent
+- `FROM: <JID>` — Messages you received (shows sender JID)
 
 ## Known Issue: LID/JID Splitting
 
@@ -167,14 +138,17 @@ Messages get split between them. When you query one JID, you only see half the c
 sqlite3 ~/.wacli/wacli.db "SELECT chat_jid, from_me, COUNT(*) FROM messages WHERE chat_name LIKE '%ContactName%' GROUP BY chat_jid, from_me;"
 ```
 
-**Workaround:** Query the phone number JID (`@s.whatsapp.net`) which usually has both directions:
-```bash
-wacli messages list --chat "85298765432@s.whatsapp.net" --limit 20
-```
-
-**Or merge in database** (one-time):
-```bash
-sqlite3 ~/.wacli/wacli.db "UPDATE messages SET chat_jid='85298765432@s.whatsapp.net' WHERE chat_jid='YYYYYYYY@lid';"
-```
+**Workaround:** Query the phone number JID (`@s.whatsapp.net`) which usually has both directions. If only `@lid` exists, query that instead. Check `wacli chats list` for available JIDs.
 
 **Upstream:** [Issue #31](https://github.com/steipete/wacli/issues/31)
+
+## Cautions
+
+- **QR expires**: If disconnected, need to re-auth with `wacli auth`
+- **Rate limits**: Don't send too many messages too quickly
+- **Groups**: Use group JID (ends with `@g.us`) not phone number
+- **Send safety**: `wacli send` is blocked from non-interactive terminals — always draft command for user
+
+## Integration with Message Skill
+
+The `/message` skill uses `wacli` for WhatsApp message retrieval and sending. This is the underlying CLI reference.
