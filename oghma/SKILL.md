@@ -6,35 +6,13 @@ user_invocable: true
 
 # Oghma Memory Search
 
-Search memories extracted from AI coding tool transcripts.
+Search memories extracted from AI coding tool transcripts via CLI.
 
-## MCP Tools (Claude Code, Codex — preferred when available)
-
-Use these directly — no CLI needed:
-
-| Tool | Purpose |
-|------|---------|
-| `oghma_search` | Search memories (keyword, vector, or hybrid mode) |
-| `oghma_get` | Get a memory by ID |
-| `oghma_stats` | Database statistics |
-| `oghma_add` | Write a memory directly |
-| `oghma_categories` | List categories with counts |
-
-**Search modes:**
-- `keyword` — FTS5 full-text search, ordered by recency
-- `vector` — semantic similarity via embeddings
-- `hybrid` (default) — RRF fusion of keyword + vector with recency boost
-
-**Adding memories directly:**
-```
-oghma_add(content="insight here", category="gotcha", source_tool="manual")
-```
-
-## CLI (OpenCode or any shell)
+## CLI Usage
 
 **Search:**
 ```bash
-oghma search "query" --limit 10
+oghma search "query" --mode hybrid --limit 5
 oghma search "query" --category learning    # or: preference, project_context, gotcha, workflow
 oghma search "query" --tool claude_code     # or: codex, opencode
 ```
@@ -43,6 +21,11 @@ oghma search "query" --tool claude_code     # or: codex, opencode
 ```bash
 oghma status
 ```
+
+**Search modes:**
+- `keyword` (default) — FTS5 full-text search, ordered by recency
+- `vector` — semantic similarity via embeddings
+- `hybrid` — RRF fusion of keyword + vector with recency boost (best quality)
 
 ## Categories
 
@@ -59,4 +42,4 @@ oghma status
 - User asks "what did we discuss about X?"
 - User wants to recall past insights or decisions
 - Before starting work on a topic, check for relevant memories
-- After discovering something worth persisting, use `oghma_add`
+- Prefer `--mode hybrid` for best results
