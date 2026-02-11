@@ -75,7 +75,7 @@ Don't dump everything into MEMORY.md. Route to the store that fits:
 | Type | Destination |
 |------|-------------|
 | Tool gotcha / how-to | `~/docs/solutions/` (learnings-researcher queryable) |
-| Workflow preference | `oghma_add` with category `preference` |
+| Workflow preference | `~/notes/Learnings Inbox.md` (or relevant vault note if one exists) |
 | Cross-session agent context | MEMORY.md (`~/.claude/projects/-Users-terry/memory/MEMORY.md`) |
 | General insight | `~/notes/Learnings Inbox.md` |
 | Activity-specific | Today's daily note |
