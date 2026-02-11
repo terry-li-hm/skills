@@ -54,7 +54,7 @@ Within a single session, avoid picking the same topic twice unless all due topic
 
 Topic categories (map to exam modules):
 - `M1-classical-ai`, `M1-ml-types`, `M1-ai-risks`
-- `M2-data-prep`, `M2-clustering`, `M2-regression-classification`, `M2-neural-networks`, `M2-semi-rl`, `M2-model-eval`, `M2-nlp-genai`
+- `M2-intro-tools`, `M2-data-prep`, `M2-clustering`, `M2-econometric`, `M2-regression-classification`, `M2-semi-supervised`, `M2-neural-networks`, `M2-semi-rl`, `M2-model-estimation`, `M2-model-eval`, `M2-nlp-traditional`, `M2-nlp-genai`
 - `M3-bias-unfairness`, `M3-fairness-measures`, `M3-xai`, `M3-autonomy-safety`, `M3-reputational-existential`, `M3-genai-risks`
 - `M4-ethical-frameworks`, `M4-ethics-principles`, `M4-regulatory`
 - `M5-data-governance`, `M5-model-governance`, `M5-model-risk-roles`, `M5-genai-governance`
@@ -82,7 +82,7 @@ Generate ONE exam-style MCQ:
 
 Use `AskUserQuestion` with the question text as the `question` field and A-D as `options`.
 - `header`: "Q{n}" where n is the session question number
-- Each option's `description`: keep brief (the label carries the answer text)
+- Each option's `description`: minimal and non-revealing — must not define the concept or give away the answer. Use generic filler like "Select if this is correct" or omit meaningful detail entirely. The label carries the answer text.
 - `multiSelect`: false
 
 ### 5. Evaluate & Explain
@@ -202,3 +202,4 @@ The tracker file (`~/notes/GARP RAI Quiz Tracker.md`) uses this structure:
 - Track the session's question count in a running variable, don't re-read tracker between questions
 - **Run `/compact` between sessions** if doing multiple sessions in one conversation — context snowballs
 - **One session = one conversation** is ideal; batch sessions waste tokens on accumulated context
+- **Study strategy:** Frontier council + evidence-based research in `~/notes/GARP RAI Study Strategy - Council.md`
