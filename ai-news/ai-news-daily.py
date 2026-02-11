@@ -397,11 +397,11 @@ def main():
 
     print(f"Logged {total} new articles.", file=sys.stderr)
 
-    # Telegram
-    tg_msg = format_telegram(results)
-    if tg_msg and TG_NOTIFY.exists():
-        subprocess.run([str(TG_NOTIFY), tg_msg], check=False)
-        print("Telegram sent.", file=sys.stderr)
+    # Telegram disabled — Terry prefers pull-based reading via Claude
+    # tg_msg = format_telegram(results)
+    # if tg_msg and TG_NOTIFY.exists():
+    #     subprocess.run([str(TG_NOTIFY), tg_msg], check=False)
+    #     print("Telegram sent.", file=sys.stderr)
 
 
 if __name__ == "__main__":

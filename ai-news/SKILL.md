@@ -45,17 +45,19 @@ Sources are defined in `sources.yaml` in this skill directory. Categories:
 **Tier 1**: Always fetch (~15 sources, fast)
 **Tier 2**: Deep scan only (~50+ sources, comprehensive)
 
-## Daily Automation (Cron)
+## Architecture
 
-A cron job runs at **7:15 AM HKT** daily (`~/scripts/crons/ai-news-daily.py`):
-- Fetches Tier 1 RSS sources + web scrapes — **zero LLM tokens**
-- Date-based dedup: only articles published after last scan
-- Title-prefix dedup: catches undated web scrapes already in log
-- Cadence-aware: skips sources unlikely to have new content (e.g., weekly newsletters not fetched daily)
-- State tracked in `~/.cache/ai-news-state.json`
-- Appends delta to `[[AI News Log]]`, sends summary to Telegram
+**Cron** (silent collector, 6:30 PM HKT daily, `~/skills/ai-news/ai-news-daily.py`):
+- Fetches Tier 1 RSS + web scrapes — **zero LLM tokens**
+- Date-based + title-prefix dedup, cadence-aware skipping
+- Appends delta to `[[AI News Log]]` — no Telegram, no push
+- State in `~/.cache/ai-news-state.json`
 
-**Manual `/ai-news` is for**: deep dives, ad-hoc checks, or when you want LLM-powered analysis/relevance filtering beyond what the cron captures.
+**`/ai-news`** (conversational, pull-based):
+- Terry asks when he feels like it — "what's new in AI", "ai news", evening wind-down
+- Claude reads `[[AI News Log]]`, synthesizes highlights, discusses
+- Recommends 0-2 articles worth reading in full (flag with "read this one yourself")
+- For everything else, Claude's digest + discussion IS the reading experience
 
 ## Workflow
 
