@@ -36,10 +36,25 @@ Scan for **non-obvious** stuff only:
 ## Workflow
 
 1. Quick scan of conversation
-2. **TODO sweep** — check if anything done this session should be marked in `~/notes/TODO.md`
-3. If nothing non-obvious → "Nothing to capture, we're good"
-4. If something surfaces → **dedup**, **route**, and optionally **promote**
-5. Done. No ceremony.
+2. **Session log** — append a summary block to today's daily note (`~/notes/YYYY-MM-DD.md`)
+3. **TODO sweep** — check if anything done this session should be marked in `~/notes/TODO.md`
+4. If nothing non-obvious → "Nothing to capture, we're good"
+5. If something surfaces → **dedup**, **route**, and optionally **promote**
+6. Done. No ceremony.
+
+### Step 2: Session Log
+
+Append a session summary to today's daily note under `## Activity`. Create the file if it doesn't exist. Each entry is a block, not a one-liner:
+
+```markdown
+### HH:MM–HH:MM — [Brief title]
+- What was accomplished
+- Key decisions made or options explored
+- Blockers hit, friction points
+- What's left unfinished (if anything)
+```
+
+This feeds `/daily` — by EOD the note is already populated. Write with enough detail that Terry can reflect on whether the time was well spent. Don't editorialize ("productive session!") — just log what happened.
 
 ### Step 2: TODO Sweep
 
