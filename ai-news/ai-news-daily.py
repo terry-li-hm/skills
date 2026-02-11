@@ -15,7 +15,6 @@ Cron: 15 7 * * * (7:15 AM HKT daily)
 
 import json
 import re
-import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -29,7 +28,6 @@ from bs4 import BeautifulSoup
 SOURCES_YAML = Path.home() / "skills" / "ai-news" / "sources.yaml"
 NEWS_LOG = Path.home() / "notes" / "AI News Log.md"
 STATE_FILE = Path.home() / ".cache" / "ai-news-state.json"
-TG_NOTIFY = Path.home() / "scripts" / "tg-notify.sh"
 
 HKT = timezone(timedelta(hours=8))
 NOW = datetime.now(HKT)
@@ -227,44 +225,6 @@ def format_markdown(results: dict[str, list[dict]]) -> str:
     return "\n".join(lines)
 
 
-# Sources to highlight in Telegram (perspective-driven, worth reading in full)
-HIGHLIGHT_SOURCES = {
-    "Import AI", "Interconnects", "Simon Willison", "The Batch (Andrew Ng)",
-    "Layer 6 (TD Bank)", "Sardine Blog",
-}
-
-
-def format_telegram(results: dict[str, list[dict]]) -> str:
-    highlights = []
-    also_new = []
-
-    for source, articles in results.items():
-        for a in articles:
-            link = a.get("link", "")
-            if link:
-                entry = f"[{a['title']}]({link})"
-            else:
-                entry = a["title"]
-            if source in HIGHLIGHT_SOURCES:
-                highlights.append(entry)
-            else:
-                also_new.append(entry)
-
-    if not highlights and not also_new:
-        return ""
-
-    lines = [f"*Evening Reading {TODAY}*"]
-    if highlights:
-        lines.append("")
-        lines.append("*Worth reading:*")
-        for h in highlights:
-            lines.append(f"  {h}")
-    if also_new:
-        lines.append("")
-        lines.append(f"_+{len(also_new)} more in AI News Log_")
-
-    return "\n".join(lines)
-
 
 MAX_LOG_LINES = 500
 ARCHIVE_DIR = Path.home() / "notes"
@@ -397,11 +357,6 @@ def main():
 
     print(f"Logged {total} new articles.", file=sys.stderr)
 
-    # Telegram disabled — Terry prefers pull-based reading via Claude
-    # tg_msg = format_telegram(results)
-    # if tg_msg and TG_NOTIFY.exists():
-    #     subprocess.run([str(TG_NOTIFY), tg_msg], check=False)
-    #     print("Telegram sent.", file=sys.stderr)
 
 
 if __name__ == "__main__":
