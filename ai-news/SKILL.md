@@ -84,12 +84,26 @@ Defined in `sources.yaml` in this skill directory. Key high-signal sources for p
 
 Full source list with cadence and RSS URLs in `sources.yaml`.
 
+## WeChat Articles
+
+WeChat 公众号 (e.g. 机器之心, 量子位, 歸藏的AI工具箱) are major Chinese AI commentary sources. To extract:
+
+```bash
+# Extract text only
+summarize "https://mp.weixin.qq.com/s/ARTICLE_ID" --extract-only --model anthropic/claude-sonnet-4
+
+# With summary
+summarize "https://mp.weixin.qq.com/s/ARTICLE_ID" --model anthropic/claude-sonnet-4
+```
+
+Works because `summarize` uses a Chrome User-Agent that bypasses WeChat's CAPTCHA. See `content-fetch` skill for details.
+
 ## Deep Mode
 
 Still available when user says "deep", "full", "all sources":
 - Fetches all Tier 1 + Tier 2 sources via WebFetch
 - X accounts via `bird` CLI
-- WeChat articles via search + extraction API
+- WeChat articles via `summarize` CLI (bypasses CAPTCHA)
 - See `sources.yaml` for full list
 
 ## Files

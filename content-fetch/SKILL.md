@@ -13,7 +13,7 @@ Patterns for fetching and extracting content from URLs.
 | URL Type | Primary Tool | Fallback |
 |----------|--------------|----------|
 | General web | `WebFetch` | Jina Reader |
-| WeChat articles | `wechat-article` script | Manual copy |
+| WeChat articles | `summarize --extract` CLI | Jina Reader, manual copy |
 | YouTube | `youtube-transcript` | yt-dlp |
 | PDFs | `pdf-extract` (LlamaParse) | Local OCR |
 | Xiaohongshu (XHS) | `xhs-extract` script | Playwright MCP |
@@ -94,16 +94,23 @@ These always need browser automation:
 
 ### WeChat (mp.weixin.qq.com)
 
-**Primary:** `wechat-article` skill (uses wechat.imagenie.us API)
+**Primary:** `summarize` CLI — bypasses WeChat CAPTCHA where WebFetch and Jina fail.
 
-**Backup options if API dies:**
-1. **Firecrawl** — AI-driven, paid (500 free/month). Sign up at firecrawl.dev
-   ```bash
-   pip install firecrawl-py
-   # Use getattr() not .get() for v2 API
-   ```
-2. **Playwright with WeChat UA** — Browser automation with mobile User-Agent
-3. **Mirror search** — Articles often reposted to zhihu.com, 163.com, csdn.net
+```bash
+# Extract text only (no LLM summary)
+summarize "https://mp.weixin.qq.com/s/ARTICLE_ID" --extract-only --model anthropic/claude-sonnet-4
+
+# With summary
+summarize "https://mp.weixin.qq.com/s/ARTICLE_ID" --model anthropic/claude-sonnet-4
+```
+
+**Why it works:** Uses a Chrome 123 User-Agent string (`Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36...`) with standard Node.js fetch. WebFetch and Jina use bot-like UAs that trigger WeChat's CAPTCHA. If the Chrome UA also gets blocked, `summarize` auto-falls back to Firecrawl (needs `FIRECRAWL_API_KEY`).
+
+**Note:** `wechat-article` script (wechat.imagenie.us API) is dead (404 as of Feb 2026).
+
+**Backup options:**
+1. **Firecrawl** — AI-driven, paid (500 free/month). Configure: `export FIRECRAWL_API_KEY=...`
+2. **Mirror search** — Articles often reposted to zhihu.com, 163.com, csdn.net
 
 **URL tip:** Short URLs (`/s/ABC123`) more stable than long URLs (`?__biz=...`) which trigger CAPTCHAs.
 
