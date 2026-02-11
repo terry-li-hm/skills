@@ -99,6 +99,8 @@ This saves Claude tokens for work that actually needs orchestration and judgment
 |---------|-------|-----|
 | Exits 0, no files changed | Prompt >5K chars | Shorten prompt, remove inline content |
 | Timeout after 5min | Task too small (<25 lines) or too vague | Give more specific instructions or do it directly |
+| Hangs indefinitely | GLM-4.7 connection stall | Kill and write directly. Set Bash timeout or use `run_in_background` with periodic checks |
+| Empty output with `&` | Shell backgrounds before OpenCode starts | Never use `&` — use Bash tool's `run_in_background: true` instead |
 | Wrong files modified | Ambiguous paths | Use absolute paths, specify exact method/line |
 
 **If OpenCode fails twice on the same task:** Escalate to Codex (`codex --model o4-mini "prompt"`, paid — uses OpenAI credits) or do it directly in Claude. Don't retry with the same prompt.
