@@ -69,3 +69,13 @@ Before presenting research conclusions, verify:
 - **Perplexity confidence = reliability.** It synthesizes thin sources into authoritative-sounding prose. 60 citations doesn't mean 60 independent sources — often 3-4 blog posts recycled.
 - **Research and decision in same session.** For purchases and irreversible decisions, sleep on it. Same-session research → purchase is a pattern we've identified as consistently suboptimal.
 - **Skipping red-team for things we like.** Confirmation bias is strongest when the initial result matches our preference. Always search "[thing] problems" before committing.
+- **Adding tools before testing process.** Resist researching new search tools until the protocol has been tested enough to reveal a specific gap.
+
+## Usage Log
+
+Track each use to evaluate whether the protocol adds value. After ~10 entries, review for patterns.
+
+<!-- Format: date | topic | type | counter-search found something? | spot-check changed conclusion? | notes -->
+| Date | Topic | Type | Counter-Search Hit? | Spot-Check Changed Conclusion? | Notes |
+|------|-------|------|---------------------|-------------------------------|-------|
+| *awaiting first use* | | | | | |
