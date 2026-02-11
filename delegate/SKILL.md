@@ -101,7 +101,7 @@ This saves Claude tokens for work that actually needs orchestration and judgment
 | Timeout after 5min | Task too small (<25 lines) or too vague | Give more specific instructions or do it directly |
 | Wrong files modified | Ambiguous paths | Use absolute paths, specify exact method/line |
 
-**If OpenCode fails twice on the same task:** Escalate to Codex or do it directly. Don't retry with the same prompt.
+**If OpenCode fails twice on the same task:** Escalate to Codex (`codex --model o4-mini "prompt"`, paid — uses OpenAI credits) or do it directly in Claude. Don't retry with the same prompt.
 
 ## Notes
 

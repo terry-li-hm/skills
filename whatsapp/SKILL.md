@@ -148,6 +148,7 @@ sqlite3 ~/.wacli/wacli.db "SELECT chat_jid, from_me, COUNT(*) FROM messages WHER
 - **Rate limits**: Don't send too many messages too quickly
 - **Groups**: Use group JID (ends with `@g.us`) not phone number
 - **Send safety**: `wacli send` is blocked from non-interactive terminals — always draft command for user
+- **Automated contexts**: For cron scripts or non-interactive agents, use read-only commands only (`chats list`, `messages list`, `messages search`). Never attempt `wacli send` from automated pipelines.
 
 ## Integration with Message Skill
 
