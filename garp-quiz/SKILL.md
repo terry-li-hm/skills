@@ -43,9 +43,13 @@ Priority order:
 
 Within a single session, avoid picking the same topic twice unless all due topics have been used.
 
+**Session composition guard:** Cap weak topics (≤50% success rate) at **3 out of 5** questions per session. Fill remaining slots with consolidation topics (>50%). This prevents demoralizing all-weak sessions.
+
+**Same-day cooldown:** Do not retest a topic that was already tested earlier the same day, even across sessions. Spaced repetition needs sleep — same-day retests only measure short-term recall.
+
 **Interval progression (simplified SM-2):**
 - **MISS** → interval resets to **1 day**
-- **OK** → interval doubles: 1 → 2 → 4 → 7 → 14 (capped at 14 days given exam proximity)
+- **OK** → interval doubles: 1 → 2 → 4 → 8 → 14 (capped at 14 days given exam proximity)
 - New topics start at interval **1** after first attempt
 
 Topic categories (map to exam modules):
@@ -105,7 +109,7 @@ Update `~/notes/GARP RAI Quiz Tracker.md` **using Edit tool** (surgical edits, n
 - Edit the specific Topic Performance rows that changed
 - Edit the specific Spaced Repetition Schedule rows that changed
 - Append new entries to History table
-- If incorrect, append to "Recent Misses" table
+- If incorrect, append to "Recent Misses" table (cap at 10 entries — drop oldest when exceeding)
 - **Spaced Repetition Schedule:**
   - MISS → set interval to 1, next_due to tomorrow
   - OK → double the current interval (cap at 14), set next_due to today + new interval
