@@ -24,6 +24,8 @@ Daily quiz skill for GARP RAI exam prep (Apr 4, 2026). Tracks mistakes, adapts f
 
 ### 1. Read Tracker
 
+**File check:** If ~/notes/GARP RAI Quiz Tracker.md does not exist, tell the user: 'No quiz tracker found. Run a first quiz session to create it — I will initialize the tracker after your first question.' Then proceed with the quiz using default equal weights for all topics (skip spaced repetition for the first session).
+
 Read `~/notes/GARP RAI Quiz Tracker.md`. Parse:
 - Per-topic error counts and rates
 - Total stats
