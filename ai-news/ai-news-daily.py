@@ -84,9 +84,17 @@ def load_title_prefixes() -> set[str]:
         return set()
     content = NEWS_LOG.read_text()
     prefixes = set()
-    for match in re.finditer(r'\*\*["\u201c]?(.+?)["\u201d]?\*\*', content):
+    # Match **"Title"**, **Title**, **[Title](url)** patterns
+    for match in re.finditer(
+        r'\*\*["\u201c]?(?:\[)?(.+?)(?:\]\([^)]*\))?["\u201d]?\*\*', content
+    ):
         title = match.group(1).strip()
         prefix = _title_prefix(title)
+        if prefix:
+            prefixes.add(prefix)
+    # Also match "Quoted titles" in narrative-style manual entries
+    for match in re.finditer(r'["\u201c]([^"\u201d]{15,})["\u201d]', content):
+        prefix = _title_prefix(match.group(1).strip())
         if prefix:
             prefixes.add(prefix)
     return prefixes
@@ -143,7 +151,8 @@ def fetch_rss(url: str, since_date: str, max_items: int = 5) -> list[dict]:
             if date_str and date_str <= since_date:
                 continue
             summary = _extract_summary(entry)
-            articles.append({"title": title, "date": date_str, "summary": summary})
+            link = entry.get("link", "")
+            articles.append({"title": title, "date": date_str, "summary": summary, "link": link})
             if len(articles) >= max_items:
                 break
         return articles
@@ -182,13 +191,18 @@ def fetch_web(url: str, max_items: int = 5) -> list[dict]:
         )[:max_items]:
             title = tag.get_text().strip()
             if title and len(title) > 10:
-                articles.append({"title": title, "date": "", "summary": ""})
+                link = tag.get("href", "")
+                if link and not link.startswith("http"):
+                    # Resolve relative URLs
+                    from urllib.parse import urljoin
+                    link = urljoin(url, link)
+                articles.append({"title": title, "date": "", "summary": "", "link": link})
 
         if not articles:
             for tag in soup.select("h2, h3")[:max_items]:
                 title = tag.get_text().strip()
                 if title and len(title) > 20:
-                    articles.append({"title": title, "date": "", "summary": ""})
+                    articles.append({"title": title, "date": "", "summary": "", "link": ""})
 
         return articles
     except Exception as e:
@@ -207,21 +221,48 @@ def format_markdown(results: dict[str, list[dict]]) -> str:
         for a in articles:
             date_part = f" ({a['date']})" if a["date"] else ""
             summary_part = f" — {a['summary']}" if a["summary"] else ""
-            lines.append(f"- **{a['title']}**{date_part}{summary_part}")
+            title_part = f"[{a['title']}]({a['link']})" if a.get("link") else a["title"]
+            lines.append(f"- **{title_part}**{date_part}{summary_part}")
         lines.append("")
     return "\n".join(lines)
 
 
+# Sources to highlight in Telegram (perspective-driven, worth reading in full)
+HIGHLIGHT_SOURCES = {
+    "Import AI", "Interconnects", "Simon Willison", "The Batch (Andrew Ng)",
+    "Layer 6 (TD Bank)", "Sardine Blog",
+}
+
+
 def format_telegram(results: dict[str, list[dict]]) -> str:
-    lines = [f"*AI News {TODAY}*\n"]
-    count = 0
-    for articles in results.values():
+    highlights = []
+    also_new = []
+
+    for source, articles in results.items():
         for a in articles:
-            lines.append(f"- {a['title']}")
-            count += 1
-    if count == 0:
+            link = a.get("link", "")
+            if link:
+                entry = f"[{a['title']}]({link})"
+            else:
+                entry = a["title"]
+            if source in HIGHLIGHT_SOURCES:
+                highlights.append(entry)
+            else:
+                also_new.append(entry)
+
+    if not highlights and not also_new:
         return ""
-    lines.append(f"\n_{count} new items_")
+
+    lines = [f"*Evening Reading {TODAY}*"]
+    if highlights:
+        lines.append("")
+        lines.append("*Worth reading:*")
+        for h in highlights:
+            lines.append(f"  {h}")
+    if also_new:
+        lines.append("")
+        lines.append(f"_+{len(also_new)} more in AI News Log_")
+
     return "\n".join(lines)
 
 
