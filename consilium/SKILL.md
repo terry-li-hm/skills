@@ -1,8 +1,8 @@
 ---
-name: frontier-council
+name: consilium
 description: 4 frontier models deliberate, then Claude judges. For high-stakes decisions needing diverse AI perspectives.
-github_url: https://github.com/terry-li-hm/frontier-council
-github_hash: 196ec8c
+github_url: https://github.com/terry-li-hm/consilium
+github_hash: e8043f3
 user_invocable: true
 ---
 
@@ -29,10 +29,10 @@ user_invocable: true
 
 ```bash
 # Install (one-time)
-uv tool install frontier-council
+uv tool install consilium
 
 # Or install from local dev:
-cd ~/code/frontier-council && pip install -e .
+cd ~/code/consilium && pip install -e .
 
 # API keys
 export OPENROUTER_API_KEY=sk-or-v1-...    # Required
@@ -66,12 +66,12 @@ For other decisions, use simpler context or skip this step.
 
 **Basic usage:**
 ```bash
-frontier-council "Should we use microservices or a monolith?"
+consilium "Should we use microservices or a monolith?"
 ```
 
 **With structured output (recommended for agent workflows):**
 ```bash
-frontier-council "Should I accept the Standard Chartered offer?" \
+consilium "Should I accept the Standard Chartered offer?" \
   --format json \
   --persona "$PERSONA" \
   --context "job-offer"
@@ -79,22 +79,22 @@ frontier-council "Should I accept the Standard Chartered offer?" \
 
 **Common options:**
 ```bash
-frontier-council "question" --format json           # Machine-parseable output
-frontier-council "question" --format yaml           # Structured but readable
-frontier-council "question" --social                # Interview/networking questions
-frontier-council "question" --persona "context"     # Add personal context
-frontier-council "question" --rounds 3              # More deliberation
-frontier-council "question" --output file.md        # Save transcript
-frontier-council "question" --share                 # Upload to secret Gist
-frontier-council "question" --domain banking        # Inject regulatory context
-frontier-council "question" --challenger gemini     # Assign contrarian role
-frontier-council "question" --followup              # Interactive drill-down after synthesis
-frontier-council "question" --practical             # Actionable rules only, no philosophy
+consilium "question" --format json           # Machine-parseable output
+consilium "question" --format yaml           # Structured but readable
+consilium "question" --social                # Interview/networking questions
+consilium "question" --persona "context"     # Add personal context
+consilium "question" --rounds 3              # More deliberation
+consilium "question" --output file.md        # Save transcript
+consilium "question" --share                 # Upload to secret Gist
+consilium "question" --domain banking        # Inject regulatory context
+consilium "question" --challenger gemini     # Assign contrarian role
+consilium "question" --followup              # Interactive drill-down after synthesis
+consilium "question" --practical             # Actionable rules only, no philosophy
 ```
 
 **Domain-specific deliberation (banking, healthcare, etc.):**
 ```bash
-frontier-council "Should we build an agent for KYC?" \
+consilium "Should we build an agent for KYC?" \
   --domain banking \
   --challenger gemini \
   --followup \
@@ -235,9 +235,9 @@ This stress-tests the input surface, not just the processing logic.
 
 Use `--domain` flag to auto-inject regulatory context:
 ```bash
-frontier-council "question" --domain banking   # HKMA/MAS/FCA, MRM requirements
-frontier-council "question" --domain healthcare # HIPAA constraints
-frontier-council "question" --domain eu        # GDPR/AI Act considerations
+consilium "question" --domain banking   # HKMA/MAS/FCA, MRM requirements
+consilium "question" --domain healthcare # HIPAA constraints
+consilium "question" --domain eu        # GDPR/AI Act considerations
 ```
 
 This surfaces compliance concerns early rather than as afterthoughts.
@@ -280,6 +280,6 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 
 ## See Also
 
-- Repository: https://github.com/terry-li-hm/frontier-council
-- PyPI: https://pypi.org/project/frontier-council/
-- Plan: `/Users/terry/skills/plans/2026-01-31-feat-frontier-council-claude-code-integration-plan.md`
+- Repository: https://github.com/terry-li-hm/consilium
+- PyPI: https://pypi.org/project/consilium/
+- Plan: `/Users/terry/skills/plans/2026-01-31-feat-consilium-claude-code-integration-plan.md`
