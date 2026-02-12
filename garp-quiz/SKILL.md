@@ -85,6 +85,14 @@ Use `AskUserQuestion` with the question text as the `question` field and A-D as 
 - Each option's `description`: minimal and non-revealing — must not define the concept or give away the answer. Use generic filler like "Select if this is correct" or omit meaningful detail entirely. The label carries the answer text.
 - `multiSelect`: false
 
+**Confidence check:** After the user answers, use a second `AskUserQuestion`:
+- `header`: "Confidence"
+- `question`: "Were you confident in that answer?"
+- Options: "Confident" / "Guessing"
+- `multiSelect`: false
+
+This affects spaced repetition scoring (see Step 6).
+
 ### 5. Evaluate & Explain
 
 After the user answers:
@@ -110,10 +118,12 @@ Update `~/notes/GARP RAI Quiz Tracker.md` **using Edit tool** (surgical edits, n
 - Edit the specific Spaced Repetition Schedule rows that changed
 - Append new entries to History table
 - If incorrect, append to "Recent Misses" table (cap at 10 entries — drop oldest when exceeding)
-- **Spaced Repetition Schedule:**
+- **Spaced Repetition Schedule (confidence-aware):**
   - MISS → set interval to 1, next_due to tomorrow
-  - OK → double the current interval (cap at 14), set next_due to today + new interval
+  - OK + Confident → double the current interval (cap at 14), set next_due to today + new interval
+  - OK + Guessing → interval stays at 1, next_due to tomorrow (lucky guess doesn't advance mastery)
   - New topic (no schedule row yet) → add row with interval based on result
+- **History table:** Record result as `OK`, `OK-GUESS`, or `MISS` to distinguish confident vs lucky correct answers
 
 **Token efficiency:** Use Edit to modify specific table rows, not Write to rewrite the entire file. The tracker grows over time — full rewrites waste tokens proportional to history length.
 
@@ -191,6 +201,15 @@ The tracker file (`~/notes/GARP RAI Quiz Tracker.md`) uses this structure:
 - Questions presented via `AskUserQuestion` (interactive MCQ UI)
 - Results tracked in `~/notes/GARP RAI Quiz Tracker.md`
 - Session summary in chat after final question
+
+## Mode Selection
+
+Choose mode based on topic accuracy:
+
+- **< 50% accuracy:** Use **definition drill mode** (free recall, no MCQ). Present the term, user types what they remember, compare against source. MCQ lets users pattern-match from options — free recall forces actual retrieval and gives honest signal on knowledge gaps. Reference: `~/notes/GARP RAI Definition Drills.md`.
+- **>= 50% accuracy:** Use **MCQ quiz mode** (standard AskUserQuestion flow). Tests under exam-like conditions once definitions are solid.
+
+Progression: drill until user can recite definitions cold → then switch to MCQ to test under pressure.
 
 ## Notes
 
