@@ -1,17 +1,17 @@
 ---
-name: retro
-description: End-of-session retrospective. Scan for non-obvious learnings worth capturing.
+name: wrap
+description: End-of-session wrap-up. TODO sweep, session log, then capture non-obvious learnings.
 user_invocable: true
 ---
 
-# Retro
+# Wrap
 
-Quick cleanup sweep at end of session — catch what "Compound As You Go" missed.
+End-of-session wrap-up — TODO sweep, session log, then catch what "Compound As You Go" missed.
 
 ## Triggers
 
-- "retro", "wrap up", "let's wrap"
-- "what did we learn"
+- "wrap", "wrap up", "let's wrap"
+- "retro", "what did we learn"
 - End of long/meaty session
 
 ## When to Skip
@@ -35,12 +35,20 @@ Scan for **non-obvious** stuff only:
 
 ## Workflow
 
-1. Quick scan of conversation
+1. **TODO sweep** — FIRST, before anything else. Check if anything done this session should be marked in `~/notes/TODO.md`. This is mechanical and must not be skipped.
 2. **Session log** — append a summary block to today's daily note (`~/notes/YYYY-MM-DD.md`)
-3. **TODO sweep** — check if anything done this session should be marked in `~/notes/TODO.md`
+3. Quick scan of conversation for non-obvious learnings
 4. If nothing non-obvious → "Nothing to capture, we're good"
 5. If something surfaces → **dedup**, **route**, and optionally **promote**
 6. Done. No ceremony.
+
+### Step 1: TODO Sweep
+
+Scan conversation for completed actions that match open items in `~/notes/TODO.md`:
+- Messages sent, forms submitted, tasks finished → mark `[x]` with brief note
+- New commitments or deadlines mentioned → add as new TODO items
+- Keep it fast — skim for verbs like "sent", "done", "submitted", "ordered", "confirmed"
+- If nothing matches, skip silently
 
 ### Step 2: Session Log
 
@@ -56,19 +64,11 @@ Append a session summary to today's daily note under `## Activity`. Create the f
 
 This feeds `/daily` — by EOD the note is already populated. Write with enough detail that Terry can reflect on whether the time was well spent. Don't editorialize ("productive session!") — just log what happened.
 
-### Step 3: TODO Sweep
-
-Scan conversation for completed actions that match open items in `~/notes/TODO.md`:
-- Messages sent, forms submitted, tasks finished → mark `[x]` with brief note
-- New commitments or deadlines mentioned → add as new TODO items
-- Keep it fast — skim for verbs like "sent", "done", "submitted", "ordered", "confirmed"
-- If nothing matches, skip silently
-
-### Step 4a: Dedup
+### Step 3a: Dedup
 
 Before writing anything, `oghma_search` for the insight (keyword mode, 3 results). If already captured with same substance, skip it — just mention "already in Oghma" in output.
 
-### Step 4b: Route by Type
+### Step 3b: Route by Type
 
 Don't dump everything into MEMORY.md. Route to the store that fits:
 
@@ -82,7 +82,7 @@ Don't dump everything into MEMORY.md. Route to the store that fits:
 
 For `~/docs/solutions/`, create a simple markdown file in the appropriate category subdirectory. No YAML schema required — keep it lightweight. Just the gotcha, why it happens, and the fix.
 
-### Step 4c: Pattern Promotion
+### Step 3c: Pattern Promotion
 
 If an insight matches something already in Oghma (dedup search returned a hit with similar theme), flag it:
 
@@ -96,7 +96,7 @@ Only suggest, never auto-promote. Terry decides.
 
 If something found:
 ```
-**Retro:**
+**Wrap:**
 - [Learning] → saved to [destination + path]
 - [Learning] → already in Oghma, skipped
 ```
