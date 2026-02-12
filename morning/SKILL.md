@@ -6,7 +6,9 @@ user_invocable: true
 
 # Morning Review
 
-Daily briefing to start the day with focus.
+Overnight delta brief — what changed since you slept.
+
+The `/daily` skill previews tomorrow's plate at end of day. This skill focuses on **what's new** since then: overnight messages, weather, and anything that shifted.
 
 ## Triggers
 
@@ -18,71 +20,59 @@ Daily briefing to start the day with focus.
 
 1. **Get today's date and day of week**
 
-2. **Check calendar** (if available):
-   - `gog calendar today` for scheduled events
-   - Note any meetings, calls, or deadlines
-
-3. **Review yesterday's daily note** (if exists):
-   - Path: `~/notes/YYYY-MM-DD.md`
-   - Look for incomplete items or carryover tasks
-
-4. **Check for active priorities**:
-   - Read `~/notes/CLAUDE.md` for current focus areas
-   - Check `~/clawd/MEMORY.md` for recent context
-   - Check `~/notes/Capco Transition.md` for resignation/onboarding status
-
-5. **Staleness check** (context gap detection):
+2. **Staleness check** (context gap detection):
    - Run `stat -f '%Sm' -t '%Y-%m-%d' ~/notes/WORKING.md ~/notes/Capco\ Transition.md ~/notes/TODO.md`
    - If any file's last-modified date is >48h old, flag it: "WORKING.md last updated X — may be behind reality"
-   - This catches status updates shared in conversation but not flushed to vault before `/clear`
 
-6. **Check cron logs** (overnight output):
+3. **Yesterday's daily note** — quick glance:
+   - Read `~/notes/YYYY-MM-DD.md` (yesterday)
+   - Pull the `## Tomorrow` section if it exists — this is the plate preview from last night
+   - Pull any `## Follow-ups` items — these are carryover
+
+4. **Overnight messages** (the core value of this skill):
+   - Scan Gmail for Capco/HR emails (past 24h): `gog gmail search "capco OR first advantage OR background check OR PILON OR alison" | head -10`
+   - Flag anything requiring action
+
+5. **Check cron logs** (overnight output):
    - Check `~/logs/cron-weather.log` and `~/logs/cron-capco.log` for recent entries
    - Note any failures or missing deliveries
 
-7. **Check overnight OpenCode runs** (if any):
+6. **Check overnight OpenCode runs** (if any):
    - Look in `~/notes/opencode-runs/` for recent run directories
    - Read `summary.md` from any runs in the last 24 hours
-   - Summarize findings: what ran, what succeeded/failed, key outputs
 
-8. **Check TODO.md** (Today view):
-   - Run `/todo today` logic: get today's date (`date +%Y-%m-%d`), read `~/notes/TODO.md`
-   - For each unchecked `- [ ]` line:
-     - SKIP if line has `someday`
-     - SKIP if line has `when:YYYY-MM-DD` where date > today (not yet started)
-     - INCLUDE everything else (Anytime tasks, tasks where `when:` <= today, tasks with `due:`)
-   - Show overdue items first (`due:` date < today) with a warning prefix
-   - Then show today's actionable items grouped by section
-   - End with count: "X tasks today, Y overdue"
+7. **Weather** (action-oriented only):
+   - `/hko` — focus on warnings (typhoon, rainstorm, extreme heat) and rain probability
+   - Skip if already delivered by cron and no warnings active
 
-9. **Scan Gmail for Capco/HR emails** (past 48 hours):
-   - `gog gmail search "capco OR first advantage OR background check OR PILON OR alison" | head -10`
-   - Flag anything requiring action (document requests, buyout confirmation, start date changes)
+8. **Overdue + today's deadlines** (quick scan, not full TODO review):
+   - Read `~/notes/TODO.md`
+   - Surface only: items with `due:` <= today, items with `when:` <= today
+   - Skip someday items, skip items due later this week
+   - This is a reminder, not a restatement — daily's tomorrow preview already set expectations
 
-10. **Weather check** (optional):
-    - `/hko` for Hong Kong weather if going out
-
-11. **Deliver a concise briefing**:
-   - Today's date and day of week
-   - Scheduled events
-   - Top priorities / focus areas
-   - Any carryover from yesterday
-   - Keep it short — a quick summary, not a wall of text
+9. **Deliver the brief** — concise, no filler:
 
 ## Output Format
 
 ```
-**Tuesday, January 20, 2026**
+**Tuesday, February 12, 2026**
 
-Calendar:
-- [Scheduled events]
+Overnight:
+- [New messages, cron results, or "Quiet night."]
 
-Focus today:
-- [Priority 1]
-- [Priority 2]
+Warnings:
+- [Weather warnings, staleness flags, or omit section]
 
-Pending from yesterday:
-- [Carryover items if any]
+Today:
+- [Deadlines + overdue items from TODO, or "Plate as previewed last night."]
 
-Weather: [if relevant]
+Carryover:
+- [From yesterday's Follow-ups/Tomorrow, or omit if none]
 ```
+
+## Notes
+
+- This is a delta brief, not a full situational review. Daily already closed last night's loop.
+- If yesterday had no daily note (skipped `/daily`), fall back to fuller review: include TODO scan + priority check from vault context files.
+- Keep the brief under 15 lines. The point is to start working, not to read a report.
