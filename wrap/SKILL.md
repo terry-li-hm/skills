@@ -52,17 +52,18 @@ Scan conversation for completed actions that match open items in `~/notes/TODO.m
 
 ### Step 2: Session Log
 
-Append a session summary to today's daily note under `## Activity`. Create the file if it doesn't exist. Each entry is a block, not a one-liner:
+Append a session summary to today's daily note under `## Activity`. Create the file if it doesn't exist. Each entry is a **concise** block — key points only, with `[[interlinks]]` to vault notes where detail lives.
 
 ```markdown
 ### HH:MM–HH:MM — [Brief title]
-- What was accomplished
-- Key decisions made or options explored
-- Blockers hit, friction points
+- Key outcome or decision (1-3 bullets max)
+- Link to vault note if detail exists: see [[Note Name]]
 - What's left unfinished (if anything)
 ```
 
-This feeds `/daily` — by EOD the note is already populated. Write with enough detail that Terry can reflect on whether the time was well spent. Don't editorialize ("productive session!") — just log what happened.
+**Keep it tight.** 2-3 bullets per block. Implementation details (CLI flags, iteration counts, error specifics) belong in vault notes or `~/docs/solutions/`, not the daily log. The daily note answers "what did I do and what matters" at a glance — not a session replay.
+
+This feeds `/daily` — by EOD the note is already populated. Don't editorialize ("productive session!") — just log what happened.
 
 ### Step 3a: Dedup
 
