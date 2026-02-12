@@ -64,14 +64,15 @@ For other decisions, use simpler context or skip this step.
 
 ### Step 3: Run the Council
 
-**Basic usage:**
+**Basic usage (--quiet since Claude reads the transcript, not the terminal):**
 ```bash
-consilium "Should we use microservices or a monolith?"
+consilium "Should we use microservices or a monolith?" --quiet
 ```
 
 **With structured output (recommended for agent workflows):**
 ```bash
 consilium "Should I accept the Standard Chartered offer?" \
+  --quiet \
   --format json \
   --persona "$PERSONA" \
   --context "job-offer"
