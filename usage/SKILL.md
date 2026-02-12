@@ -66,10 +66,33 @@ The equivalent API cost shown by ccusage helps gauge value — if you're consist
 
 **To calculate:** Find last Saturday 6pm HKT, sum equiv cost since then, show % of ~$800 cap.
 
-**Find limit hits:**
+**Find limit hits** (must use Python — bash guard blocks grep on `~/.claude/projects`):
 ```bash
-grep -rh '"text":"You'\''ve hit your limit' ~/.claude/projects/-Users-terry/*.jsonl 2>/dev/null | \
-  grep -o '"timestamp":"[^"]*"\|"text":"[^"]*"' | paste - - | sort -u | tail -5
+python3 -c "
+import glob, json, os
+from collections import Counter
+
+hits = []
+for f in glob.glob(os.path.expanduser('~/.claude/projects/-Users-terry/*.jsonl')):
+    with open(f) as fh:
+        for line in fh:
+            if 'hit your limit' in line.lower() or \"you've hit\" in line.lower():
+                try:
+                    data = json.loads(line)
+                    ts = data.get('timestamp', '')
+                    if ts: hits.append(ts)
+                except: pass
+
+hits.sort()
+# Count by date (UTC dates shown — add 8h for HKT)
+by_date = Counter(h[:10] for h in hits)
+print('Limit hits by date:')
+for d, c in sorted(by_date.items()):
+    print(f'  {d}: {c} events')
+print(f'\nTotal: {len(hits)} events across {len(by_date)} days')
+print(f'\nNote: A single incident can generate 100+ retry events/sec.')
+print('Count distinct time windows, not raw events.')
+"
 ```
 
 ## Aliases
