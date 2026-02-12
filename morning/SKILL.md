@@ -37,12 +37,10 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Check `~/logs/cron-weather.log` and `~/logs/cron-capco.log` for recent entries
    - Note any failures or missing deliveries
 
-6. **Check overnight OpenCode queue** (if any):
-   - Read `~/notes/WORKING.md` — look for `## Overnight Queue` section
-   - If present: check each listed output file exists and isn't empty (`wc -l`)
-   - Report: which arrived, which failed silently (missing or 0 bytes)
-   - Flag files for review: "3/3 overnight tasks landed — review when ready"
-   - If no Overnight Queue section, skip silently
+6. **Check overnight OpenCode results** (two sources):
+   - **Recurring queue:** Check `~/notes/opencode-runs/` for last night's run — read the most recent `summary.md` (by date folder). Report task count, pass/fail, and flag anything NEEDS_ATTENTION or CRITICAL.
+   - **Ad-hoc queue:** Read `~/notes/WORKING.md` — look for `## Overnight Queue` section. If present, check each listed output file exists and isn't empty (`wc -l`). Report which arrived, which failed silently.
+   - If neither has results, skip silently.
 
 7. **Weather** (action-oriented only):
    - `/hko` — focus on warnings (typhoon, rainstorm, extreme heat) and rain probability
