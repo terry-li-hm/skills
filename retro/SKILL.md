@@ -56,7 +56,7 @@ Append a session summary to today's daily note under `## Activity`. Create the f
 
 This feeds `/daily` — by EOD the note is already populated. Write with enough detail that Terry can reflect on whether the time was well spent. Don't editorialize ("productive session!") — just log what happened.
 
-### Step 2: TODO Sweep
+### Step 3: TODO Sweep
 
 Scan conversation for completed actions that match open items in `~/notes/TODO.md`:
 - Messages sent, forms submitted, tasks finished → mark `[x]` with brief note
@@ -92,10 +92,12 @@ Only suggest, never auto-promote. Terry decides.
 
 ## Output
 
+**Write first, then summarise.** Route each finding to its destination (MEMORY.md, Learnings Inbox, solutions, daily note) — then print the summary so Terry sees what was captured and where.
+
 If something found:
 ```
 **Retro:**
-- [Learning] → [destination]
+- [Learning] → saved to [destination + path]
 - [Learning] → already in Oghma, skipped
 ```
 
