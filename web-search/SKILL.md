@@ -6,49 +6,73 @@ user_invocable: false
 
 # Web Search Tool Selection Guide
 
-Reference for choosing the optimal search tool. Updated 2026-02-07.
+Reference for choosing the optimal search tool. Updated 2026-02-13.
 
 ## Available Tools (Active)
 
-| Tool | Type | Best For |
-|------|------|----------|
-| **WebSearch** | Built-in | General purpose, quick searches |
-| **Perplexity** | MCP | Deep research, reasoning, AI news |
-| **WebFetch** | Built-in | Scrape specific URLs to markdown |
+| Tool | Type | Cost | Best For |
+|------|------|------|----------|
+| **WebSearch** | Built-in | Free | General purpose, quick searches |
+| **Perplexity CLI** | Bash script | $0.006–0.40/query | Deep research, reasoning |
+| **Perplexity MCP** | MCP server | Same as CLI | Same, but no model control |
+| **WebFetch** | Built-in | Free | Scrape specific URLs to markdown |
+
+## Cost Tiers — Route by Budget
+
+| Tier | Tool | Cost/query | Use When |
+|------|------|------------|----------|
+| **Free** | `WebSearch` | $0 | Default for everything |
+| **Cheap** | `perplexity.sh search` | ~$0.006 | Need cited synthesis, WebSearch insufficient |
+| **Mid** | `perplexity.sh ask` / `reason` | ~$0.01 | Structured surveys, complex reasoning |
+| **Expensive** | `perplexity.sh research` | ~$0.40 | Deep novel research only. **Always ask before using.** |
+
+**Default to free tier.** Only escalate when the cheaper tool genuinely can't answer.
 
 ## Use Case Routing
 
 | Need | Tool | Why |
 |------|------|-----|
-| Quick answer / general search | `WebSearch` | Fast, no MCP overhead |
-| Structured survey ("list the platforms for X") | `perplexity_ask` | Concise, tabular, low fabrication risk |
-| Deep analysis of novel questions | `perplexity_research` | Breadth + citations, but needs filtering |
-| Complex reasoning / trade-off analysis | `perplexity_reason` | Reasoning chain, best for hard questions |
+| Quick answer / general search | `WebSearch` | Free, fast, no overhead |
+| Structured survey ("list the platforms for X") | `perplexity.sh ask` | Concise, tabular, low fabrication |
+| Deep analysis of novel questions | `perplexity.sh research` | Breadth + citations. **$0.40/query — confirm first** |
+| Complex reasoning / trade-off analysis | `perplexity.sh reason` | Reasoning chain, best for hard questions |
 | Verify claims / get primary sources | `WebSearch` | Returns links, no hallucinated synthesis |
-| AI news | `WebSearch` or `perplexity_search` | Both work, WebSearch is faster |
+| AI news | `WebSearch` | Free, sufficient for news |
 | Scrape a specific URL | `WebFetch` | HTML → markdown with prompt |
-| Code & documentation | Context7 plugin or `perplexity_search` | Context7 preferred for library docs |
-| Job search | `WebSearch` → `perplexity_search` | WebSearch first, Perplexity for depth |
-| Company research | `perplexity_ask` or `perplexity_research` | Ask for overview, Research for deep dive |
+| Code & documentation | Context7 plugin | Best for library docs |
+| Job/company research | `WebSearch` → `perplexity.sh ask` | Free first, paid for depth |
 
-## Tool Details
+## Perplexity CLI (`~/scripts/perplexity.sh`)
 
-### WebSearch (Built-in)
+Lightweight bash wrapper around the Perplexity API. Replaces MCP for most uses.
+
+```bash
+# Modes and their models:
+perplexity.sh search "query"    # sonar          ~$0.006
+perplexity.sh ask "query"       # sonar-pro      ~$0.01
+perplexity.sh reason "query"    # sonar-reasoning-pro ~$0.01
+perplexity.sh research "query"  # sonar-deep-research ~$0.40 ← EXPENSIVE
+```
+
+**Advantages over MCP:** explicit model control, no npx startup, no running process, transparent cost.
+
+**MCP is still available** for convenience (native tool calls vs Bash). Same models, same cost — but you can't pick sonar vs sonar-pro per request. MCP auto-routes: `perplexity_search`→sonar, `perplexity_ask`→sonar-pro, `perplexity_research`→sonar-deep-research, `perplexity_reason`→sonar-reasoning-pro.
+
+## Perplexity Quality Notes
+
+- **All Perplexity tools inherit search index bias.** If a vendor publishes 4+ SEO comparison articles, they'll dominate results. Cross-check with WebSearch.
+- **Don't default to the most expensive tool.** `ask` > `research` for "what exists?" questions. Reserve `research` for "what does this mean?" questions.
+- **Never cite Perplexity metrics without checking the underlying source.** Fabricated case studies with round numbers (75% decrease, 40% increase) are common.
+- **`strip_thinking: true`** on MCP reasoning calls saves significant tokens.
+
+## WebSearch (Built-in)
+
 - Default for quick answers — fast, good summaries
-- No MCP overhead, always available
+- No cost, always available
+- Returns links for verification
 
-### Perplexity (MCP)
-- `perplexity_search` — web search with excerpts
-- `perplexity_ask` — conversational Q&A. **Best for structured surveys** (list platforms, compare options). ~80% signal, concise, low fabrication risk.
-- `perplexity_research` — comprehensive deep research with citations. **Best for novel/deep questions** where breadth matters. ~40% signal — over-produces for simple surveys, ingests SEO content uncritically, round metrics from fabricated case studies pass through. Always filter output manually.
-- `perplexity_reason` — complex analysis with reasoning chain
+## WebFetch (Built-in)
 
-### Perplexity Quality Notes
-- **All Perplexity tools inherit search index bias.** If a vendor publishes 4+ SEO comparison articles, they'll dominate results and skew recommendations. Cross-check with WebSearch.
-- **Don't default to the most expensive tool.** `perplexity_ask` > `perplexity_research` for "what exists?" questions. Reserve Research for "what does this mean?" questions.
-- **Never cite Perplexity metrics without checking the underlying source.** Fabricated case studies with round numbers (75% decrease, 40% increase) are common in its output.
-
-### WebFetch (Built-in)
 - Fetches URL, converts HTML to markdown, processes with prompt
 - 15-minute cache, handles redirects
 - Falls back to Jina Reader or browser automation for complex pages
@@ -59,9 +83,9 @@ See the dedicated `wechat-article` skill.
 
 ## Removed Tools
 
-- **Tavily** — Content extraction, crawling, site mapping. Removed 2026-02-07. Replaced by WebFetch + Perplexity.
-- **Serper** — Google search via API. Removed 2026-02-07. Redundant with WebSearch + Perplexity.
-- **Exa** — Semantic search, code context. Replaced by Context7 plugin + Perplexity.
-- **Brave** — Alternative search index, video/image/news. Rarely used unique features.
+- **Tavily** — Removed 2026-02-07. Replaced by WebFetch + Perplexity.
+- **Serper** — Removed 2026-02-07. Redundant with WebSearch + Perplexity.
+- **Exa** — Replaced by Context7 plugin + Perplexity.
+- **Brave** — Rarely used unique features.
 
-API keys preserved in backup. Re-enable commands in MEMORY.md if needed.
+API keys preserved in `~/.secrets`. Re-enable if needed.
