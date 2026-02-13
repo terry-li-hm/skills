@@ -132,12 +132,36 @@ sleep 5  # Wait for SPA to render
 agent-browser --cdp 9222 get url  # Verify
 ```
 
-## Form Filling: JS eval vs Playwright fill
+## Form Filling: fill vs type vs eval
 
-- **Playwright `fill`** fires proper events that update React/Angular state — prefer this
-- **JS `eval`** with `nativeInputValueSetter` updates DOM only — framework state may not sync
-- **Workday career portals** block Playwright actions entirely (anti-automation) — see `~/docs/solutions/browser-automation/workday-anti-automation.md`
-- For Workday: use automation for login + CV upload + simple fields, manual for dropdowns on later steps
+**Use `fill`, not `type`** for React/Angular inputs. `type` simulates keystrokes but doesn't trigger React's `onChange` — text appears but submit buttons stay disabled. `fill` fires proper synthetic events.
+
+```bash
+# BAD — React won't detect this
+agent-browser type --text "my message" --ref "input[0]"
+
+# GOOD — triggers proper React events
+agent-browser fill --text "my message" --ref "input[0]"
+```
+
+Only use `type` when you need character-by-character simulation (autocomplete testing). Note: `type` APPENDS, `fill` REPLACES.
+
+**JS `eval`** with `nativeInputValueSetter` updates DOM only — framework state may not sync. Use as last resort.
+
+**Workday career portals** block Playwright actions entirely (anti-automation) — see `~/docs/solutions/browser-automation/workday-anti-automation.md`. Use automation for login + CV upload + simple fields, manual for dropdowns.
+
+## Refs Shift After Actions
+
+After any action (click, fill, scroll), element refs become stale — DOM mutations invalidate the index. **Always re-snapshot before each action:**
+
+```bash
+agent-browser snapshot          # get refs
+agent-browser click --ref "button[2]"
+agent-browser snapshot          # MUST re-snapshot — refs shifted
+agent-browser fill --ref "input[0]" --text "hello"  # now safe
+```
+
+Anti-pattern: chaining multiple actions using refs from a single snapshot.
 
 ## Shell Quoting for eval
 
@@ -149,11 +173,31 @@ EOF
 agent-browser --cdp 9222 eval "$(cat /tmp/script.js)"
 ```
 
-## Reliability Reference
+## Reliability Tier List
 
-See `~/docs/solutions/browser-automation/agent-browser-what-works.md` for the full tier list of what works and what doesn't on heavy SPAs (Workday, etc.).
+### Always works
+- `get url`, `get title`, `eval "JS"`, `snapshot`, `upload`
 
-**Quick rule:** `eval` for navigation/clicks, `fill @ref` + `Tab` for text inputs, `upload` for files, `check "#id"` for checkboxes. Only dropdowns on heavy SPAs need manual interaction. First application took 2h (learning); subsequent ones ~10-15min with this playbook. Always load personal details from `~/notes/Personal Details for Applications.md`.
+### Usually works
+- `fill @ref "text"`, `check "#id"`, `select @ref "value"` (simple dropdowns), `press "Enter"/"Tab"`
+
+### Unreliable on heavy SPAs
+- `click @ref`, `fill @ref` on complex widgets, `scrollintoview @ref`, `open "url"`
+
+### Never works
+- Headless on career sites (anti-bot), JS `.value =` for React state sync
+
+### Fallback Table
+
+| Fails | Do instead |
+|-------|-----------|
+| `open "url"` timeout | `eval "window.location.href = 'url'"` + `sleep 5` |
+| `click @ref` timeout | `eval "document.querySelector('selector').click()"` |
+| `fill` doesn't sync React | `fill @ref "text"` + `press "Tab"` (blur triggers state) |
+| `snapshot` timeout | `eval` to extract form fields directly |
+| All Playwright actions timeout | Form is automation-proof — manual for submission |
+
+**Quick rule:** `eval` for navigation/clicks, `fill @ref` + `Tab` for text inputs, `upload` for files, `check "#id"` for checkboxes. Only dropdowns on heavy SPAs need manual interaction.
 
 ## Playwright CDP Fallback
 

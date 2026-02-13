@@ -55,6 +55,21 @@ gog gmail send \
 
 Always confirm with user before executing send.
 
+### Create Draft (with attachments / threading)
+```bash
+gog gmail drafts create \
+  --to "recipient@example.com" \
+  --cc "cc@example.com" \
+  --subject "Re: Thread Subject" \
+  --reply-to-message-id "<message_id>" \
+  --body "Message body" \
+  --attach /path/to/file1.pdf \
+  --attach /path/to/file2.pdf
+```
+- `--reply-to-message-id` threads the draft correctly (sets In-Reply-To/References headers)
+- `--attach` is repeatable for multiple files
+- The `send` command does NOT have a `--draft` flag — use `drafts create` instead
+
 ### Delete Draft
 ```bash
 gog gmail drafts delete <draft_id> --force
