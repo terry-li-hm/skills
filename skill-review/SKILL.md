@@ -1,6 +1,6 @@
 ---
 name: skill-review
-description: Monthly review of skills for staleness, drift, and gaps. Use on first Sunday of month or when skills feel out of sync.
+description: Monthly review of skills for staleness, drift, and gaps. Use on first Friday of month or when skills feel out of sync.
 user_invocable: true
 ---
 
