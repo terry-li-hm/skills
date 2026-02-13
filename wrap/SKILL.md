@@ -76,12 +76,14 @@ Don't dump everything into MEMORY.md. Route to the store that fits:
 | Type | Destination |
 |------|-------------|
 | Tool gotcha / how-to | `~/docs/solutions/` (learnings-researcher queryable) |
-| Workflow preference | `~/notes/Learnings Inbox.md` (or relevant vault note if one exists) |
+| Workflow preference | Relevant vault note, or today's daily note if no note exists |
 | Cross-session agent context | MEMORY.md (`~/.claude/projects/-Users-terry/memory/MEMORY.md`) |
-| General insight | `~/notes/Learnings Inbox.md` |
+| General insight | Relevant vault note, or `~/docs/solutions/` |
 | Activity-specific | Today's daily note |
 
 For `~/docs/solutions/`, create a simple markdown file in the appropriate category subdirectory. No YAML schema required — keep it lightweight. Just the gotcha, why it happens, and the fix.
+
+**No staging area.** Route directly to the final destination. If you genuinely don't know where something belongs, put it in today's daily note — `/daily` will catch it.
 
 ### Step 3c: Pattern Promotion
 
