@@ -110,7 +110,7 @@ Examples:
 
 ### `/todo done <partial match>`
 
-Mark a task as done by partial text match. Find the line, replace `- [ ]` with `- [x]`.
+Mark a task as done by partial text match. Find the line, replace `- [ ]` with `- [x]`, then move the completed line to `~/notes/TODO Archive.md` (append under a dated section header like `## Archived YYYY-MM-DD`, creating one if today's doesn't exist).
 
 ### `/todo schedule <match> <date>`
 
@@ -142,7 +142,11 @@ Remove `someday` tag from a task. Task becomes Anytime (visible in Today view).
 
 ### `/todo clean`
 
-Remove all checked items (`- [x]`) if requested.
+Move all checked items (`- [x]`) to `~/notes/TODO Archive.md` under a dated section header, then remove them from TODO.md.
+
+### `/todo spare`
+
+Show the `🔋 Spare Capacity` section items — low-priority maintenance for when token budget has headroom.
 
 ## File Format
 
@@ -159,7 +163,11 @@ Remove all checked items (`- [x]`) if requested.
 - Single source: `~/notes/TODO.md`
 - All agents (Claude Code, OpenCode) share this file
 - Tasks grouped under `## Headings` — preserve section structure
-- Completed items stay in file for history unless user asks to clean up
+- **Completed items are archived to `~/notes/TODO Archive.md`**, not left inline
+- **Reflections/journaling items live in `~/notes/Reflections Queue.md`** — not TODO.md
+- **`🔋 Spare Capacity` section** = low-priority maintenance for spare token budget
+- **`Someday` subsection** at the bottom of Spare Capacity = deferred indefinitely
 - Dates are always ISO-8601 (`YYYY-MM-DD`), always in HKT context
 - Tasks with no date tags are "Anytime" — shown in Today and All views
 - When comparing dates, use `date +%Y-%m-%d` (system is HKT)
+- Related files: `[[TODO Archive]]` · `[[Reflections Queue]]`

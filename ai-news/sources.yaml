@@ -95,8 +95,8 @@ web_sources:
 
   - name: Evident Banking Brief
     url: https://evidentinsights.com/bankingbrief/
-    focus: AI in financial services
-    tier: 2
+    focus: AI in financial services, bank AI rankings and benchmarks
+    tier: 1
     cadence: weekly
 
   - name: Every
