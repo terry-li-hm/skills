@@ -33,28 +33,35 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Scan Gmail for Capco/HR emails (past 24h): `gog gmail search "capco OR first advantage OR background check OR PILON OR alison" | head -10`
    - Flag anything requiring action
 
-5. **Check cron logs** (overnight output):
+5. **Cora email brief** (AI-triaged inbox summary):
+   - Fetch the latest Cora brief: `gog gmail search "from:briefs@cora.computer" --max 1 | head -5`
+   - Read the brief: `gog gmail read <ID>`
+   - Cora sends briefs at ~8am and ~3pm (configurable). Surface the key stats: emails handled %, emails needing attention, emails archived
+   - If Cora flagged emails needing attention > 0, list them
+   - If no brief found in last 24h, skip silently
+
+6. **Check cron logs** (overnight output):
    - Check `~/logs/cron-weather.log` and `~/logs/cron-capco.log` for recent entries
    - Note any failures or missing deliveries
 
-6. **Check overnight OpenCode results** (two sources):
+7. **Check overnight OpenCode results** (two sources):
    - **Recurring queue:** Check `~/notes/opencode-runs/` for last night's run — read the most recent `summary.md` (by date folder). Report task count, pass/fail, and flag anything NEEDS_ATTENTION or CRITICAL.
    - **Ad-hoc queue:** Read `~/notes/WORKING.md` — look for `## Overnight Queue` section. If present, check each listed output file exists and isn't empty (`wc -l`). Report which arrived, which failed silently.
    - If neither has results, skip silently.
 
-7. **Weather** (action-oriented only):
+8. **Weather** (action-oriented only):
    - `/hko` — focus on warnings (typhoon, rainstorm, extreme heat) and rain probability
    - Skip if already delivered by cron and no warnings active
 
-8. **Overdue + today's deadlines** (quick scan, not full TODO review):
+9. **Overdue + today's deadlines** (quick scan, not full TODO review):
    - Read `~/notes/TODO.md`
    - Surface only: items with `due:` <= today, items with `when:` <= today
    - Skip someday items, skip items due later this week
    - This is a reminder, not a restatement — daily's tomorrow preview already set expectations
 
-9. **Friday nudge** — if today is Friday, append to the brief: "It's Friday — run `/weekly` this afternoon for your weekly review."
+10. **Friday nudge** — if today is Friday, append to the brief: "It's Friday — run `/weekly` this afternoon for your weekly review."
 
-10. **Deliver the brief** — concise, no filler:
+11. **Deliver the brief** — concise, no filler:
 
 ## Output Format
 
@@ -63,6 +70,9 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 
 Overnight:
 - [New messages, cron results, or "Quiet night."]
+
+Inbox (Cora):
+- [Stats from latest brief, or omit if no brief]
 
 Warnings:
 - [Weather warnings, staleness flags, or omit section]
