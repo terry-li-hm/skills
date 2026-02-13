@@ -73,7 +73,7 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 
 11. **If APPLY:**
     - **Easy Apply roles:** Ask whether to proceed with application now
-    - **Company website roles:** Offer to help via `agent-browser --session <company> --headed` (persistent session preserves login for future applications at same company). Add to "To Apply" list if user prefers to apply manually.
+    - **Company website roles:** Offer to help via `agent-browser --cdp 9222` (CDP Chrome). For form filling, always check `~/notes/Personal Details for Applications.md` for correct name (李浩銘), address, and personal details. Note: Workday portals block Playwright actions on later form steps — use automation for login/upload/early steps, expect manual completion for dropdowns and submission.
 
 **Note:** No reliable way to close browser tabs via MCP — leave tab open for user to close manually.
 
