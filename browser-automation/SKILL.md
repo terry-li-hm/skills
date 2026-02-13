@@ -138,7 +138,7 @@ agent-browser --cdp 9222 eval "$(cat /tmp/script.js)"
 
 See `~/docs/solutions/browser-automation/agent-browser-what-works.md` for the full tier list of what works and what doesn't on heavy SPAs (Workday, etc.).
 
-**Quick rule:** Use agent-browser for **reading, login, and file upload**. Don't attempt full form filling on Workday/React SPAs — Chrome autofill + manual is faster. If full UI automation is ever needed, use Peekaboo (real OS-level clicks bypass anti-automation).
+**Quick rule:** `eval` for navigation/clicks, `fill @ref` + `Tab` for text inputs, `upload` for files, `check "#id"` for checkboxes. Only dropdowns on heavy SPAs need manual interaction. First application took 2h (learning); subsequent ones ~10-15min with this playbook. Always load personal details from `~/notes/Personal Details for Applications.md`.
 
 ## Tips
 
