@@ -39,9 +39,18 @@ End-of-day log → daily note.
 [1-5 or word, with brief colour if Terry offers it]
 ```
 
-5. **Quick reflection** — based on the session logs, offer a 1-2 sentence observation on how the day went (time allocation, focus vs scatter, energy patterns). Keep it honest, not cheerful.
+5. **Triage Learnings Inbox** (`~/notes/Learnings Inbox.md`)
+   - Read today's entries (current date section only — don't review the whole file)
+   - For each entry, decide:
+     - **Promote:** Tool gotcha → MEMORY.md. Reusable pattern → `~/docs/solutions/`. Personal insight → vault note. Move the entry and leave a `[[link]]` in the Archived section.
+     - **Delete:** One-off context (product shortlists, session-specific debugging, project-specific fixes already shipped). Just remove it.
+     - **Keep (rare):** Only if it needs more evidence before promoting. Mark with `<!-- keep: reason -->`.
+   - After triage, check total file length. If >100 lines (excluding Archived section), prune oldest unlinked entries.
+   - Report: "Inbox: X promoted, Y deleted, Z kept. Now N lines."
 
-6. **Tomorrow preview** — scan for what's queued tomorrow:
+6. **Quick reflection** — based on the session logs, offer a 1-2 sentence observation on how the day went (time allocation, focus vs scatter, energy patterns). Keep it honest, not cheerful.
+
+7. **Tomorrow preview** — scan for what's queued tomorrow:
    - Get tomorrow's date (`date -v+1d +%Y-%m-%d`)
    - Read `~/notes/TODO.md` and surface:
      - Items with `due:` = tomorrow (deadlines)
