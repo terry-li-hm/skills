@@ -73,7 +73,7 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 
 11. **If APPLY:**
     - **Easy Apply roles:** Ask whether to proceed with application now
-    - **Company website roles:** Add to "To Apply" list (external ATS requires more effort; note for later)
+    - **Company website roles:** Offer to help via `agent-browser --session <company> --headed` (persistent session preserves login for future applications at same company). Add to "To Apply" list if user prefers to apply manually.
 
 **Note:** No reliable way to close browser tabs via MCP — leave tab open for user to close manually.
 

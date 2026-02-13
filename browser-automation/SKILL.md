@@ -10,12 +10,15 @@ platform_note: Primary browser automation tool. Zero token overhead when idle. R
 
 Zero token overhead. Invoked via Bash.
 
-## Two Modes
+## Three Modes
 
 | Mode | Command prefix | Use case |
 |------|---------------|----------|
-| **Headless** | `agent-browser` | Public web, scraping |
-| **Authenticated** | `agent-browser --cdp 9222` | LinkedIn, Gmail, WhatsApp, X |
+| **Headless** | `agent-browser` | Public web, scraping (ephemeral) |
+| **Persistent** | `agent-browser --session <name>` | Sites requiring login via agent-browser (cookies persist across runs) |
+| **Authenticated** | `agent-browser --cdp 9222` | LinkedIn, Gmail, WhatsApp, X (Terry's own Chrome) |
+
+**Persistent mode** keeps cookies/state between runs. Use `--headed` for initial login, then headless for subsequent visits. Name sessions by site (e.g., `--session manulife`, `--session workday`).
 
 **Authenticated mode** connects to Terry's running Chrome via CDP.
 Chrome must be launched with: `open -a "Google Chrome" --args --remote-debugging-port=9222`
@@ -63,10 +66,26 @@ agent-browser press Enter        # keyboard
 agent-browser screenshot         # screenshot to stdout
 ```
 
+## Persistent Session Workflow
+
+```bash
+# First time: headed so user can log in
+agent-browser --session manulife --headed open https://careers.manulife.com
+# User logs in manually...
+
+# Subsequent runs: headless, cookies remembered
+agent-browser --session manulife open https://careers.manulife.com/jobs/12345
+agent-browser --session manulife snapshot -i
+agent-browser --session manulife fill @ref_3 "answer"
+```
+
+**Default to persistent sessions** for any site requiring login. Prefer `--session <site-name>` over ephemeral headless mode when form-filling or applying to jobs.
+
 ## Tips
 
 - `snapshot` over `screenshot` for token efficiency (text vs image tokens)
 - `get text` is the best way to extract article content
-- Use `--headed` to see the browser window (debugging)
+- Use `--headed` to see the browser window (debugging or initial login)
 - Sessions persist between commands — no need to re-open
+- Persistent sessions (`--session`) persist cookies across separate CLI invocations
 - Check `lsof -i :9222` to verify Chrome CDP is running
