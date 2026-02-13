@@ -10,18 +10,43 @@ platform_note: Primary browser automation tool. Zero token overhead when idle. R
 
 Zero token overhead. Invoked via Bash.
 
-## Three Modes
+## Chrome CDP Setup
+
+Terry's daily Chrome runs with CDP enabled via a wrapper app:
+
+- **App:** `/Applications/Chrome CDP.app` — launches Chrome with `--remote-debugging-port=9222`
+- **Profile:** `~/chrome-debug-profile/` — copied from main Chrome profile (trimmed to ~700MB)
+- **Always-on CDP:** port 9222 available whenever Chrome is running
+- **Original Chrome.app** still installed but not used for daily browsing
+
+**Profile refresh:** If cookies/logins get stale, re-copy from main profile:
+```bash
+osascript -e 'tell application "Chrome CDP" to quit'
+rsync -a \
+  --exclude='OptGuideOnDeviceModel' \
+  --exclude='optimization_guide_model_store' \
+  --exclude='extensions_crx_cache' \
+  --exclude='component_crx_cache' \
+  --exclude='Safe Browsing' \
+  --exclude='WasmTtsEngine' \
+  --exclude='Crashpad' \
+  --exclude='Default/File System' \
+  --exclude='Default/Service Worker' \
+  --exclude='Default/GPUCache' \
+  "$HOME/Library/Application Support/Google/Chrome/" \
+  "$HOME/chrome-debug-profile/"
+```
+
+## Two Modes
 
 | Mode | Command prefix | Use case |
 |------|---------------|----------|
 | **Headless** | `agent-browser` | Public web, scraping (ephemeral) |
-| **Persistent** | `agent-browser --session <name>` | Sites requiring login via agent-browser (cookies persist across runs) |
-| **Authenticated** | `agent-browser --cdp 9222` | LinkedIn, Gmail, WhatsApp, X (Terry's own Chrome) |
+| **Authenticated** | `agent-browser --cdp 9222` | Any site requiring login — LinkedIn, Gmail, career portals, etc. |
 
-**Persistent mode** keeps cookies/state between runs. Use `--headed` for initial login, then headless for subsequent visits. Name sessions by site (e.g., `--session manulife`, `--session workday`).
+**Authenticated mode** is the default for most tasks since CDP is always available.
 
-**Authenticated mode** connects to Terry's running Chrome via CDP.
-Chrome must be launched with: `open -a "Google Chrome" --args --remote-debugging-port=9222`
+**Persistent sessions** (`--session <name>`) are a fallback for when CDP Chrome isn't running.
 
 ## Core Workflow
 
@@ -52,6 +77,7 @@ Always use `--cdp 9222`:
 - X/Twitter
 - WhatsApp Web
 - Gmail (some operations)
+- External career portals (Manulife, Workday, etc.)
 
 ## Useful Commands
 
@@ -66,20 +92,21 @@ agent-browser press Enter        # keyboard
 agent-browser screenshot         # screenshot to stdout
 ```
 
-## Persistent Session Workflow
+## Multi-Tab Handling
 
+CDP connects to the active tab. To switch tabs or find a specific one:
 ```bash
-# First time: headed so user can log in
-agent-browser --session manulife --headed open https://careers.manulife.com
-# User logs in manually...
+# List all tabs
+curl -s http://localhost:9222/json/list | python3 -c "
+import sys, json
+for t in json.load(sys.stdin):
+    if t.get('type') == 'page':
+        print(f\"{t['id'][:12]}  {t['url'][:100]}\")
+"
 
-# Subsequent runs: headless, cookies remembered
-agent-browser --session manulife open https://careers.manulife.com/jobs/12345
-agent-browser --session manulife snapshot -i
-agent-browser --session manulife fill @ref_3 "answer"
+# Navigate current tab to target (switches context)
+agent-browser --cdp 9222 open "https://target-url.com"
 ```
-
-**Default to persistent sessions** for any site requiring login. Prefer `--session <site-name>` over ephemeral headless mode when form-filling or applying to jobs.
 
 ## Tips
 
@@ -87,5 +114,5 @@ agent-browser --session manulife fill @ref_3 "answer"
 - `get text` is the best way to extract article content
 - Use `--headed` to see the browser window (debugging or initial login)
 - Sessions persist between commands — no need to re-open
-- Persistent sessions (`--session`) persist cookies across separate CLI invocations
 - Check `lsof -i :9222` to verify Chrome CDP is running
+- Chrome CDP requires non-default `--user-data-dir` — that's why we use `~/chrome-debug-profile/`
