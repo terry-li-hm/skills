@@ -52,7 +52,9 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Skip someday items, skip items due later this week
    - This is a reminder, not a restatement — daily's tomorrow preview already set expectations
 
-9. **Deliver the brief** — concise, no filler:
+9. **Friday nudge** — if today is Friday, append to the brief: "It's Friday — run `/weekly` this afternoon for your weekly review."
+
+10. **Deliver the brief** — concise, no filler:
 
 ## Output Format
 
