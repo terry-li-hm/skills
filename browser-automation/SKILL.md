@@ -37,6 +37,14 @@ rsync -a \
   "$HOME/chrome-debug-profile/"
 ```
 
+## Pre-flight Check
+
+Always verify Chrome CDP is running before any CDP operation:
+```bash
+pgrep -f "Chrome CDP" >/dev/null || open "/Applications/Chrome CDP.app" && sleep 5
+```
+Without this, commands timeout with unhelpful errors (`Timeout 10000ms exceeded. waiting for locator(':root')`).
+
 ## Two Modes
 
 | Mode | Command prefix | Use case |
@@ -51,7 +59,7 @@ rsync -a \
 ## Core Workflow
 
 ```bash
-agent-browser open https://example.com    # navigate
+agent-browser open https://example.com    # navigate (may timeout on SPAs)
 agent-browser wait 2000                    # let it load
 agent-browser snapshot                     # accessibility tree with @refs
 agent-browser click @ref_3                 # interact by ref
@@ -59,6 +67,13 @@ agent-browser fill @ref_7 "search term"   # clear + type
 agent-browser get text                     # extract page text
 agent-browser screenshot out.png           # visual capture
 agent-browser close                        # cleanup
+```
+
+**Warning:** `snapshot <url>` and `open <url>` can snapshot/load the **existing active tab** instead of navigating. Always navigate first via `eval`, then snapshot separately:
+```bash
+agent-browser --cdp 9222 eval "window.location.href = 'https://target.com'"
+sleep 8
+agent-browser --cdp 9222 snapshot
 ```
 
 ## Authenticated Workflow
@@ -139,6 +154,18 @@ agent-browser --cdp 9222 eval "$(cat /tmp/script.js)"
 See `~/docs/solutions/browser-automation/agent-browser-what-works.md` for the full tier list of what works and what doesn't on heavy SPAs (Workday, etc.).
 
 **Quick rule:** `eval` for navigation/clicks, `fill @ref` + `Tab` for text inputs, `upload` for files, `check "#id"` for checkboxes. Only dropdowns on heavy SPAs need manual interaction. First application took 2h (learning); subsequent ones ~10-15min with this playbook. Always load personal details from `~/notes/Personal Details for Applications.md`.
+
+## Playwright CDP Fallback
+
+When agent-browser commands hang or timeout repeatedly, bypass it and connect via Playwright directly:
+```python
+from playwright.async_api import async_playwright
+async with async_playwright() as p:
+    browser = await p.chromium.connect_over_cdp("http://localhost:9222")
+    page = browser.contexts[0].pages[0]  # or [-1] for last tab
+    text = await page.evaluate("document.body.innerText")
+```
+Use `curl localhost:9222/json/list` to identify which tab index to target. More reliable than agent-browser for bulk text extraction.
 
 ## Tips
 
