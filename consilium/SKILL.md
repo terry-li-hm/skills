@@ -1,6 +1,6 @@
 ---
 name: consilium
-description: 4 frontier models deliberate, then Claude judges. For high-stakes decisions needing diverse AI perspectives.
+description: 4 frontier models deliberate, then Claude judges. ~$0.50/run — use for any decision worth 5+ minutes of thought.
 github_url: https://github.com/terry-li-hm/consilium
 github_hash: e8043f3
 user_invocable: true
@@ -12,10 +12,13 @@ user_invocable: true
 
 ## When to Use
 
-- Important decisions that benefit from diverse perspectives
+At ~$0.50/run, the cost threshold is negligible. Use whenever:
+
+- **Any decision worth >5 minutes of deliberation** — the council is cheaper than your time
 - You want models to actually debate, not just answer in parallel
 - You need a synthesized recommendation, not raw comparison
 - Exploring trade-offs where different viewpoints matter
+- Questions with cognitive, social, or behavioural dimensions (council catches hidden angles Claude underestimates)
 
 ## When NOT to Use
 
@@ -23,7 +26,7 @@ user_invocable: true
 - **Claude has good context** — if we've been discussing the topic, direct conversation is faster
 - **Personal preference** — council excels at objective trade-offs, not "what would I enjoy"
 - **Already converged** — if discussion reached a conclusion, council just validates
-- **Speed matters** — takes 60-90s and costs several dollars
+- **Speed matters** — takes 60-90s (cost is negligible at ~$0.50)
 
 ## Prerequisites
 
@@ -125,7 +128,7 @@ When using `--format json`, the output ends with a JSON block after `---`:
     "models_used": ["claude-opus-4.5", "gpt-5.2", "gemini-3-pro", "grok-4", "kimi-k2.5"],
     "rounds": 2,
     "duration_seconds": 67,
-    "estimated_cost_usd": 0.85
+    "estimated_cost_usd": 0.53
   }
 }
 ```
