@@ -12,7 +12,7 @@ Claude orchestrates, delegates execute. Match task complexity to the right tool.
 
 | Complexity | Delegate to | Model | Cost | Use for |
 |------------|-------------|-------|------|---------|
-| Routine | OpenCode | GLM-4.7 | Free | Bulk ops, refactoring, tests, boilerplate |
+| Routine | OpenCode | GLM-5 | Free | Bulk ops, refactoring, tests, boilerplate |
 | Complex | Codex | GPT-5.2-codex | Paid | Hard bugs, complex features, architecture |
 | Complex | Cursor Agent | GPT-5, Sonnet-4 | Free/Subscription | Complex tasks, MCP integration |
 | Judgment | Claude Code | Opus 4.5 | Subscription | Planning, review, vault access, user interaction |
@@ -34,13 +34,13 @@ Task arrives
 
 ## OpenCode (Default Delegation)
 
-GLM-4.7 via BigModel — free and unlimited (Coding Max plan).
+GLM-5 via BigModel — free and unlimited (Coding Max plan).
 
 **Delegate:** Reading/writing files, bash/git, refactoring, cleanup, tests, docs, boilerplate, codebase exploration.
 
 **Command:**
 ```bash
-OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-4.7 --title "Task" "prompt"
+OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-5 --title "Task" "prompt"
 ```
 
 See `delegate` skill for details.

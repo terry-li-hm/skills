@@ -40,7 +40,7 @@ Mask personally identifiable information before sending prompts to external LLMs
 # Mask a prompt before delegation
 cd /Users/terry/skills/pii-mask
 masked=$(uv run mask.py "My salary is 2.5M HKD, call me at 6187 2354")
-OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-4.7 --title "Task" "$masked"
+OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-5 --title "Task" "$masked"
 ```
 
 ### Dry-run (preview what gets masked)

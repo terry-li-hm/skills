@@ -106,19 +106,19 @@ Separate from querying multiple LLMs — this is about which coding assistant to
 | Tool | SWE-bench | Cost | Best For |
 |------|-----------|------|----------|
 | **Claude Code (Opus 4.5)** | 80.9% | ~$3/M tokens | Complex multi-file, highest accuracy |
-| **OpenCode + GLM-4.7** | 73.8% | **Unlimited** | New tasks, bilingual, quota conservation |
+| **OpenCode + GLM-5** | 73.8% | **Unlimited** | New tasks, bilingual, quota conservation |
 | **OpenCode + Gemini 3 Flash** | 78.0% | ~$0.50/M | Speed when GLM unavailable |
 
 ### When to Switch to OpenCode
 
 **Stay in Claude Code** if context is already built — switch costs (re-explaining, re-reading) usually exceed savings.
 
-**Suggest OpenCode (GLM-4.7)** when:
+**Suggest OpenCode (GLM-5)** when:
 - New task without existing Claude Code context
 - Weekly Claude Code quota running high (>70%)
 - Bilingual projects (TC/SC/EN) — GLM's multilingual edge
 
-### GLM-4.7 Notes
+### GLM-5 Notes
 
 - Terry has unlimited quota via Coding Max (valid to 2027-01-28)
 - SWE-bench Multilingual: 66.7% — strong for bilingual

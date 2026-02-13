@@ -18,7 +18,7 @@ One command to delegate coding tasks. Routes to the right tool, packages context
 
 | Signal | Route to | Why |
 |--------|----------|-----|
-| Routine coding, refactoring, bulk ops, tests | **OpenCode** (GLM-4.7) | Free, unlimited |
+| Routine coding, refactoring, bulk ops, tests | **OpenCode** (GLM-5) | Free, unlimited |
 | OpenCode failed 2-3x, deep bug, complex feature | **Codex** (GPT-5.2-codex) | Smarter, paid |
 | Needs vault, user decisions, judgment | **Stay in Claude** | Context advantage |
 
@@ -45,7 +45,7 @@ Before building the command, gather what the delegate needs to be self-sufficien
 **OpenCode (default):**
 ```bash
 OPENCODE_HOME=~/.opencode-lean opencode run \
-  -m zhipuai-coding-plan/glm-4.7 \
+  -m zhipuai-coding-plan/glm-5 \
   --title "<short title>" \
   "<packaged prompt>" &
 ```
@@ -99,7 +99,7 @@ This saves Claude tokens for work that actually needs orchestration and judgment
 |---------|-------|-----|
 | Exits 0, no files changed | Prompt >5K chars | Shorten prompt, remove inline content |
 | Timeout after 5min | Task too small (<25 lines) or too vague | Give more specific instructions or do it directly |
-| Hangs indefinitely | GLM-4.7 connection stall | Kill and write directly. Set Bash timeout or use `run_in_background` with periodic checks |
+| Hangs indefinitely | GLM-5 connection stall | Kill and write directly. Set Bash timeout or use `run_in_background` with periodic checks |
 | Empty output with `&` | Shell backgrounds before OpenCode starts | Never use `&` — use Bash tool's `run_in_background: true` instead |
 | Wrong files modified | Ambiguous paths | Use absolute paths, specify exact method/line |
 
@@ -107,7 +107,7 @@ This saves Claude tokens for work that actually needs orchestration and judgment
 
 ## Notes
 
-- **OpenCode model:** Always `zhipuai-coding-plan/glm-4.7` (NOT `opencode/glm-4.7` which depletes credits)
+- **OpenCode model:** Always `zhipuai-coding-plan/glm-5` (NOT `opencode/glm-5` which depletes credits)
 - **Lean config:** `OPENCODE_HOME=~/.opencode-lean` skips MCPs, cuts startup from 60s to 15s
 - **Prompt budget:** ~4K chars max for OpenCode, ~8K for Codex. When in doubt, `echo -n "prompt" | wc -c`
 - **PII:** If prompt contains personal info, mask first: `cd ~/skills/pii-mask && uv run mask.py "<prompt>"`
