@@ -14,7 +14,7 @@ Patterns for fetching and extracting content from URLs.
 |----------|--------------|----------|
 | General web | `WebFetch` | Jina Reader |
 | WeChat articles | `summarize --extract` CLI | Jina Reader, manual copy |
-| YouTube | `youtube-transcript` | yt-dlp |
+| YouTube | `summarize` | yt-dlp |
 | PDFs | `pdf-extract` (LlamaParse) | Local OCR |
 | Xiaohongshu (XHS) | `xhs-extract` script | Playwright MCP |
 | Login-required | Browser automation | None |
@@ -151,6 +151,6 @@ Require browser automation for most content. Heavy anti-scrape.
 
 - `analyze` — Article evaluation workflow (replaced evaluate-article)
 - `wechat-article` — WeChat-specific extraction
-- `youtube-transcript` — YouTube transcript extraction
+- `summarize` — Content summarization including YouTube transcripts
 - `pdf-extract` — PDF text extraction
 - `chrome-automation` — Browser fallback patterns

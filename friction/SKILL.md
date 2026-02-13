@@ -47,4 +47,4 @@ Manual signal for "something went wrong here worth remembering." Captures the mo
 
 - This is a manual trigger by design. Automated sentiment detection was evaluated and rejected (Feb 2026 council decision) — manual signal has higher precision.
 - Keep entries terse. If the learning is obvious ("typo in filename"), skip it.
-- If `/retro` would be more appropriate (end of session, broad sweep), suggest that instead.
+- If `/wrap` would be more appropriate (end of session, broad sweep), suggest that instead.

@@ -43,7 +43,7 @@ GLM-4.7 via BigModel — free and unlimited (Coding Max plan).
 OPENCODE_HOME=~/.opencode-lean opencode run -m zhipuai-coding-plan/glm-4.7 --title "Task" "prompt"
 ```
 
-See `opencode-delegate` skill for details.
+See `delegate` skill for details.
 
 ## Codex (Escalation for Hard Tasks)
 

@@ -11,7 +11,7 @@ End-of-session wrap-up — TODO sweep, session log, then catch what "Compound As
 ## Triggers
 
 - "wrap", "wrap up", "let's wrap"
-- "retro", "what did we learn"
+- "what did we learn"
 - End of long/meaty session
 
 ## When to Skip

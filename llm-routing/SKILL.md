@@ -136,4 +136,4 @@ When Claude Code usage is high:
 - `/ask-llms` — Parallel queries implementation
 - `/llm-council` — Deliberation implementation
 - `/remote-llm` — Local LLM prompt crafting
-- `/opencode-delegate` — Delegate tasks to OpenCode
+- `/delegate` — Delegate tasks to OpenCode/Codex
