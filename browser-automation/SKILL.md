@@ -108,11 +108,40 @@ for t in json.load(sys.stdin):
 agent-browser --cdp 9222 open "https://target-url.com"
 ```
 
+## SPA Page Load (Workday, etc.)
+
+Heavy SPAs often timeout on `open` (waits for `load` event). Workaround:
+```bash
+agent-browser --cdp 9222 eval "window.location.href = 'https://example.com'"
+sleep 5  # Wait for SPA to render
+agent-browser --cdp 9222 get url  # Verify
+```
+
+## Form Filling: JS eval vs Playwright fill
+
+- **Playwright `fill`** fires proper events that update React/Angular state — prefer this
+- **JS `eval`** with `nativeInputValueSetter` updates DOM only — framework state may not sync
+- **Workday career portals** block Playwright actions entirely (anti-automation) — see `~/docs/solutions/browser-automation/workday-anti-automation.md`
+- For Workday: use automation for login + CV upload + simple fields, manual for dropdowns on later steps
+
+## Shell Quoting for eval
+
+Smart quotes cause SyntaxError. For complex JS, use heredoc:
+```bash
+cat > /tmp/script.js << 'EOF'
+// your JS here
+EOF
+agent-browser --cdp 9222 eval "$(cat /tmp/script.js)"
+```
+
 ## Tips
 
 - `snapshot` over `screenshot` for token efficiency (text vs image tokens)
-- `get text` is the best way to extract article content
+- `get text "selector"` for element text (v0.9.3 requires selector arg)
 - Use `--headed` to see the browser window (debugging or initial login)
 - Sessions persist between commands — no need to re-open
 - Check `lsof -i :9222` to verify Chrome CDP is running
 - Chrome CDP requires non-default `--user-data-dir` — that's why we use `~/chrome-debug-profile/`
+- If no tabs open: `curl -s -X PUT "http://localhost:9222/json/new?about:blank"` to create one
+- Close unused tabs to save RAM: `curl -s "http://localhost:9222/json/close/<TAB_ID>"`
+- **Keep agent-browser updated:** `pnpm update -g agent-browser` (v0.9.3 fixed EAGAIN errors on 8GB Macs)

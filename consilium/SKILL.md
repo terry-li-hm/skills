@@ -69,12 +69,17 @@ For other decisions, use simpler context or skip this step.
 
 **Basic usage (--quiet since Claude reads the transcript, not the terminal):**
 ```bash
-consilium "Should we use microservices or a monolith?" --quiet
+uv tool run consilium "Should we use microservices or a monolith?" --quiet \
+  --output ~/notes/Decisions/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
+
+> **Always save transcripts to vault.** Use `--output ~/notes/Decisions/LLM Council - {Topic} - {date}.md`. `/tmp/` files get wiped on reboot — you lose the raw reasoning.
+
+> **Note:** Always use `uv tool run consilium` instead of bare `consilium`. The mise shim points to system Python which can't find the module.
 
 **With structured output (recommended for agent workflows):**
 ```bash
-consilium "Should I accept the Standard Chartered offer?" \
+uv tool run consilium "Should I accept the Standard Chartered offer?" \
   --quiet \
   --format json \
   --persona "$PERSONA" \
@@ -83,22 +88,22 @@ consilium "Should I accept the Standard Chartered offer?" \
 
 **Common options:**
 ```bash
-consilium "question" --format json           # Machine-parseable output
-consilium "question" --format yaml           # Structured but readable
-consilium "question" --social                # Interview/networking questions
-consilium "question" --persona "context"     # Add personal context
-consilium "question" --rounds 3              # More deliberation
-consilium "question" --output file.md        # Save transcript
-consilium "question" --share                 # Upload to secret Gist
-consilium "question" --domain banking        # Inject regulatory context
-consilium "question" --challenger gemini     # Assign contrarian role
-consilium "question" --followup              # Interactive drill-down after synthesis
-consilium "question" --practical             # Actionable rules only, no philosophy
+uv tool run consilium "question" --format json           # Machine-parseable output
+uv tool run consilium "question" --format yaml           # Structured but readable
+uv tool run consilium "question" --social                # Interview/networking questions
+uv tool run consilium "question" --persona "context"     # Add personal context
+uv tool run consilium "question" --rounds 3              # More deliberation
+uv tool run consilium "question" --output file.md        # Save transcript
+uv tool run consilium "question" --share                 # Upload to secret Gist
+uv tool run consilium "question" --domain banking        # Inject regulatory context
+uv tool run consilium "question" --challenger gemini     # Assign contrarian role
+uv tool run consilium "question" --followup              # Interactive drill-down after synthesis
+uv tool run consilium "question" --practical             # Actionable rules only, no philosophy
 ```
 
 **Domain-specific deliberation (banking, healthcare, etc.):**
 ```bash
-consilium "Should we build an agent for KYC?" \
+uv tool run consilium "Should we build an agent for KYC?" \
   --domain banking \
   --challenger gemini \
   --followup \
@@ -239,9 +244,9 @@ This stress-tests the input surface, not just the processing logic.
 
 Use `--domain` flag to auto-inject regulatory context:
 ```bash
-consilium "question" --domain banking   # HKMA/MAS/FCA, MRM requirements
-consilium "question" --domain healthcare # HIPAA constraints
-consilium "question" --domain eu        # GDPR/AI Act considerations
+uv tool run consilium "question" --domain banking   # HKMA/MAS/FCA, MRM requirements
+uv tool run consilium "question" --domain healthcare # HIPAA constraints
+uv tool run consilium "question" --domain eu        # GDPR/AI Act considerations
 ```
 
 This surfaces compliance concerns early rather than as afterthoughts.
