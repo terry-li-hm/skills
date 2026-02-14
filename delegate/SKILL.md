@@ -105,10 +105,26 @@ This saves Claude tokens for work that actually needs orchestration and judgment
 
 **If OpenCode fails twice on the same task:** Escalate to Codex (`codex --model o4-mini "prompt"`, paid — uses OpenAI credits) or do it directly in Claude. Don't retry with the same prompt.
 
+## PII Masking
+
+When prompts contain personal info (salary, phone, names), mask before sending to external LLMs:
+
+```bash
+cd /Users/terry/skills/pii-mask
+masked=$(uv run mask.py "Question with personal details...")
+```
+
+Preview what gets masked: `uv run mask.py --dry-run "your text"`
+Custom entities only: `uv run mask.py --entities "PHONE_NUMBER,EMAIL_ADDRESS" "text"`
+
+**Detected entities:** Email, phone (+852 format), names, credit cards, IPs, locations, HK IDs, dates, URLs.
+Uses Microsoft Presidio with HK-specific custom patterns.
+
+**When NOT to mask:** Prompts to Claude Code directly (same trust boundary), code-only prompts, when PII is essential to the task.
+
 ## Notes
 
 - **OpenCode model:** Always `zhipuai-coding-plan/glm-5` (NOT `opencode/glm-5` which depletes credits)
 - **Lean config:** `OPENCODE_HOME=~/.opencode-lean` skips MCPs, cuts startup from 60s to 15s
 - **Prompt budget:** ~4K chars max for OpenCode, ~8K for Codex. When in doubt, `echo -n "prompt" | wc -c`
-- **PII:** If prompt contains personal info, mask first: `cd ~/skills/pii-mask && uv run mask.py "<prompt>"`
 - **Output often empty:** OpenCode doesn't reliably capture stdout. Check session JSON instead.

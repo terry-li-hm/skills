@@ -89,14 +89,35 @@ The script outputs each model's response with clear separators. Highlight:
 | `--timeout N` | Timeout in seconds (default: 60 cheap, 180 expensive) |
 | `--models "a,b,c"` | Override with custom models |
 
-## vs /llm-council
+## Routing: Which LLM Tool?
 
-| Aspect | /ask-llms | /llm-council |
-|--------|-----------|--------------|
-| Pattern | Parallel queries | Deliberation + synthesis |
-| Output | Side-by-side responses | Consensus with reasoning |
-| Speed | Fast (~10-30s) | Slower (~60-90s) |
-| Use case | Quick comparison | Important decisions |
+```
+Is this about proprietary/work code?
+  YES → /remote-llm (craft prompt for local LLM)
+  NO ↓
+Is this an important decision with trade-offs?
+  YES → /consilium (5 models deliberate, ~$0.50)
+  NO ↓
+Need multiple perspectives quickly?
+  YES → /ask-llms (parallel queries)
+  NO → Just use Claude directly
+```
+
+| Tool | Use When | Cost |
+|------|----------|------|
+| `/ask-llms` | Quick comparison, parallel queries | $0.01-0.30 |
+| `/consilium` | Important decisions, deliberation needed | $0.50-1.00 |
+| `/remote-llm` | Proprietary code, can't share directly | Free |
+
+### Coding Delegation (separate concern)
+
+| Tool | Best For | Cost |
+|------|----------|------|
+| Claude Code (Opus) | Complex multi-file, planning, judgment | Subscription |
+| OpenCode (GLM-5) | Routine coding, unlimited | Free |
+| Codex (GPT-5.2) | Hard bugs, escalation | Paid |
+
+Stay in Claude Code if context is already built. Suggest OpenCode for new tasks or when quota >70%.
 
 ## Files
 
