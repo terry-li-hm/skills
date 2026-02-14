@@ -34,6 +34,8 @@ Full autonomous:
 
 ## Review Agents
 
+**Review ordering:** Spec compliance BEFORE code quality. If the code doesn't match what was requested, reviewing its quality is wasted effort. When using multiple review agents, run `pattern-recognition-specialist` (does it match the spec?) before `kieran-*-reviewer` (is it well-built?).
+
 Invoke via Task tool when reviewing code:
 
 | Agent | Use For |

@@ -62,6 +62,22 @@ Skill descriptions are seen by all agents. Put "MUST do X" in the description ra
 
 **Example:** `/skill-sync` description says "MUST run after creating skills" — no need to repeat in CLAUDE.md.
 
+### 4b. Descriptions = When to Use, NOT What It Does (CSO)
+
+**Tested finding from obra/superpowers:** Descriptions that summarize the skill's workflow cause Claude to follow the description as a shortcut instead of reading the full SKILL.md. A description saying "dispatches subagent per task with code review between tasks" caused Claude to do ONE review, even though the skill's flowchart specified TWO reviews (spec compliance then code quality).
+
+**Fix:** Descriptions should only specify *triggering conditions*. Never summarize the process.
+
+```yaml
+# BAD: Summarizes workflow — Claude shortcuts
+description: Use when executing plans - dispatches subagent per task with code review between tasks
+
+# GOOD: Just triggering conditions
+description: Use when executing implementation plans with independent tasks in the current session
+```
+
+**Audit your skills:** Check descriptions for process summaries and strip them out.
+
 ### 5. Close Feedback Loops
 Outputs from one skill should feed back into related skills.
 
