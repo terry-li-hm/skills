@@ -49,29 +49,37 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - **Ad-hoc queue:** Read `~/notes/WORKING.md` — look for `## Overnight Queue` section. If present, check each listed output file exists and isn't empty (`wc -l`). Report which arrived, which failed silently.
    - If neither has results, skip silently.
 
-8. **Weather** (action-oriented only):
+8. **Health scores** (from Oura Ring):
+   - Run: `oura scores` (requires `OURA_TOKEN` in env — set in `~/.zshenv`)
+   - Include the one-line output in the brief under "Health:"
+   - If it fails or returns all `--`, skip silently (ring may not have synced)
+
+9. **Weather** (action-oriented only):
    - `/hko` — focus on warnings (typhoon, rainstorm, extreme heat) and rain probability
    - Skip if already delivered by cron and no warnings active
 
-9. **Things inbox drain** (mobile captures → TODO.md):
+10. **Things inbox drain** (mobile captures → TODO.md):
    - Run `python3 ~/scripts/things-drain.py`
    - If items were drained, include them in the brief under "Captured:" with a note to triage
    - If inbox empty, skip silently
 
-10. **Overdue + today's deadlines** (quick scan, not full TODO review):
+11. **Overdue + today's deadlines** (quick scan, not full TODO review):
    - Read `~/notes/TODO.md`
    - Surface only: items with `due:` <= today, items with `when:` <= today
    - Skip someday items, skip items due later this week
    - This is a reminder, not a restatement — daily's tomorrow preview already set expectations
 
-11. **Friday nudge** — if today is Friday, append to the brief: "It's Friday — run `/weekly` this afternoon for your weekly review."
+12. **Friday nudge** — if today is Friday, append to the brief: "It's Friday — run `/weekly` this afternoon for your weekly review."
 
-12. **Deliver the brief** — concise, no filler:
+13. **Deliver the brief** — concise, no filler:
 
 ## Output Format
 
 ```
 **Tuesday, February 12, 2026**
+
+Health:
+- Sleep 82  Readiness 79  Activity 91 [or omit if unavailable]
 
 Overnight:
 - [New messages, cron results, or "Quiet night."]
