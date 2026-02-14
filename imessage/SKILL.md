@@ -1,7 +1,7 @@
 ---
 name: imessage
 description: Send iMessages via CLI. Use when user wants to text wife or send an iMessage to someone.
-user_invocable: false
+user_invocable: true
 ---
 
 # iMessage
