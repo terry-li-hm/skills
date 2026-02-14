@@ -1,6 +1,7 @@
 ---
 name: garp-quiz
 description: GARP RAI exam quiz with adaptive focus on weak areas. "garp quiz", "quiz me", "rai quiz"
+user_invocable: true
 model: sonnet
 ---
 
