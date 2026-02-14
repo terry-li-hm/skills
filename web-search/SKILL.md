@@ -23,7 +23,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-14.
 | **Free** | `WebSearch` | $0 | Default for everything |
 | **Cheap** | `pplx search` | ~$0.006 | Need cited synthesis, WebSearch insufficient |
 | **Mid** | `pplx ask` / `pplx reason` | ~$0.01 | Structured surveys, complex reasoning |
-| **Expensive** | `pplx research` | ~$0.40 | Deep novel research only. **Always ask before using.** |
+| **Expensive** | `pplx research` | ~$0.40 | Deep novel research. Use freely when it adds value. |
 
 **Default to free tier.** Only escalate when the cheaper tool genuinely can't answer.
 
@@ -33,7 +33,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-14.
 |------|------|-----|
 | Quick answer / general search | `WebSearch` | Free, fast, no overhead |
 | Structured survey ("list the platforms for X") | `pplx ask` | Concise, tabular, low fabrication |
-| Deep analysis of novel questions | `pplx research` | Breadth + citations. **$0.40/query — confirm first** |
+| Deep analysis of novel questions | `pplx research` | Breadth + citations. ~$0.40/query |
 | Complex reasoning / trade-off analysis | `pplx reason` | Reasoning chain, best for hard questions |
 | Verify claims / get primary sources | `WebSearch` | Returns links, no hallucinated synthesis |
 | AI news | `WebSearch` | Free, sufficient for news |
@@ -71,7 +71,7 @@ For Hong Kong local services (doctors, restaurants, tradespeople, government ser
 ## Perplexity Quality Notes
 
 - **All Perplexity tools inherit search index bias.** If a vendor publishes 4+ SEO comparison articles, they'll dominate results. Cross-check with WebSearch.
-- **Don't default to the most expensive tool.** `ask` > `research` for "what exists?" questions. Reserve `research` for "what does this mean?" questions.
+- **Route by question type.** `ask` for "what exists?" questions. `research` for "what does this mean?" or anything requiring depth. Cost is acceptable — use `research` freely when it adds value.
 - **Never cite Perplexity metrics without checking the underlying source.** Fabricated case studies with round numbers (75% decrease, 40% increase) are common.
 
 ## WebSearch (Built-in)
