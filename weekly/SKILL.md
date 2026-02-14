@@ -162,15 +162,7 @@ Run this alongside the synthesis every Friday:
 3. **Networking status** — Who's in motion, who needs follow-up? (BOCHK bridge, Capco contacts)
 4. **Priorities for the week** — Top 2-3 actions
 7. **AI landscape** — Run `/ai-review` for weekly synthesis (client talking points). `/ai-news` feeds it raw material.
-8. **First Friday only** — Monthly maintenance (add `/ai-review` deep monthly review):
-   - `/digest` — Run content digest for all sources (`digest --dry-run` first, then `digest`)
-   - `/skill-review` — Audit skills for staleness, drift, gaps
-   - **Vault hygiene** (inline checklist):
-     a. Solutions KB — review `~/docs/solutions/` for stale or duplicate entries
-     b. Decay report — `uv run ~/scripts/vault-decay-report.py` for orphans/cold notes
-     c. Daily note archival — archive notes >60 days old to `~/notes/.archive/dailies/`
-     d. Broken links — verify `[[wikilinks]]` in CLAUDE.md still resolve
-     e. QMD reindex — `qmd update && qmd status` (run `qmd embed` in background if stale)
+8. **First Friday only** — Run `/monthly` (content digests, skill review, AI deep review, vault hygiene)
 
 [[Capco Transition]] is source of truth for exit/onboarding; [[Job Hunting]] is the archive.
 
