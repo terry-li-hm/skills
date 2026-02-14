@@ -79,7 +79,11 @@ Review recent sessions for patterns:
 - [ ] Deprecate Z
 ```
 
-### 6. Save to Vault
+### 6. External Inspiration
+
+Quick skim of [obra/superpowers releases](https://github.com/obra/superpowers/releases) for new skill patterns worth cherry-picking. Don't adopt wholesale — just note anything novel.
+
+### 7. Save to Vault
 
 Save review to `/Users/terry/notes/Skill Review - YYYY-MM.md`
 
