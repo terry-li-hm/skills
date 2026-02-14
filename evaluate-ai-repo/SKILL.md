@@ -103,7 +103,7 @@ If repo is actively maintained, create a `/sync-*` skill to track updates:
 
 After evaluation, create:
 1. **Decision record** in `~/notes/Decisions/` with rationale
-2. **Learning** in `~/notes/Learnings Inbox.md` if non-obvious insights
+2. **Learning** in `~/docs/solutions/` or `MEMORY.md` if non-obvious insights
 3. **Sync skill** if repo worth tracking long-term
 
 ## Example: everything-claude-code

@@ -28,7 +28,7 @@ Manual signal for "something went wrong here worth remembering." Captures the mo
    |------|----------|
    | Tool/API gotcha | `~/docs/solutions/` |
    | Skill gap or design issue | `~/skills/` relevant skill |
-   | Process/workflow issue | `~/notes/Learnings Inbox.md` |
+   | Process/workflow issue | Relevant vault note or daily note |
    | Recurring pattern | `MEMORY.md` (if 3+ occurrences) |
 
 3. **Write** — Append a concise entry to the appropriate location:

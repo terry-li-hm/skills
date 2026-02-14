@@ -21,7 +21,7 @@ Create a weekly synthesis of work, thinking, and progress.
    - Read daily notes for the week: `~/notes/YYYY-MM-DD.md`
    - Read `~/notes/Capco Transition.md` for transition status
    - Read `~/notes/TODO.md` for completed/outstanding items
-   - Scan `~/notes/Learnings Inbox.md` for entries this week
+   - Check `~/docs/solutions/` and `MEMORY.md` for entries this week
    - Check git log for skills/vault commits: `cd ~/skills && git log --oneline --since="7 days ago"`
    - Check `~/logs/` for cron output logs
 
@@ -53,10 +53,10 @@ Create a weekly synthesis of work, thinking, and progress.
 
 ## Progress
 
-### Job Hunt
-- Applications: [count]
-- Interviews: [count]
-- Pipeline changes: [moved forward / stalled / new leads]
+### Career / Capco
+- Onboarding progress: [status]
+- Client engagements: [any updates]
+- Network: [new contacts, follow-ups]
 
 ### Skills & Tools
 - New/updated skills: [list]
@@ -67,16 +67,7 @@ Create a weekly synthesis of work, thinking, and progress.
 
 ## Learnings Captured
 
-- [Summary of Learnings Inbox entries from this week]
-
-### Inbox Triage (do every week)
-
-Review `~/notes/Learnings Inbox.md` and for each entry:
-- **Promote** → Move to a proper note (e.g., topic note, `~/docs/solutions/`, MEMORY.md) if it has lasting value
-- **Keep** → Leave in inbox if too fresh to judge (< 1 week old)
-- **Delete** → Remove if outdated, wrong, or already captured elsewhere
-
-Target: inbox stays under 15 active entries. If it's growing, triage harder.
+- [Summary of learnings routed to `~/docs/solutions/`, `MEMORY.md`, or skills this week]
 
 ## Health & Recovery
 
@@ -174,7 +165,7 @@ Run this alongside the synthesis every Friday:
 8. **First Friday only** — Monthly maintenance (add `/ai-review` deep monthly review):
    - `/skill-review` — Audit skills for staleness, drift, gaps
    - **Vault hygiene** (inline checklist):
-     a. Learnings Inbox — deep consolidation pass (weekly triage keeps it manageable; monthly pass catches stragglers)
+     a. Solutions KB — review `~/docs/solutions/` for stale or duplicate entries
      b. Decay report — `uv run ~/scripts/vault-decay-report.py` for orphans/cold notes
      c. Daily note archival — archive notes >60 days old to `~/notes/.archive/dailies/`
      d. Broken links — verify `[[wikilinks]]` in CLAUDE.md still resolve

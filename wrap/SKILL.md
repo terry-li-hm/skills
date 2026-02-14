@@ -95,7 +95,7 @@ Only suggest, never auto-promote. Terry decides.
 
 ## Output
 
-**Write first, then summarise.** Route each finding to its destination (MEMORY.md, Learnings Inbox, solutions, daily note) — then print the summary so Terry sees what was captured and where.
+**Write first, then summarise.** Route each finding to its destination (MEMORY.md, `~/docs/solutions/`, relevant skill, daily note) — then print the summary so Terry sees what was captured and where.
 
 If something found:
 ```

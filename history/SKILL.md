@@ -6,9 +6,7 @@ user_invocable: true
 
 # History
 
-Scan chat history from Claude Code/Codex sources (`~/.claude/history.jsonl`, `~/.codex/history.jsonl`) with proper HKT (UTC+8) day boundaries.
-
-**Note:** This skill is for Claude Code/Codex history. For OpenClaw sessions, use `sessions_history` tool or check `~/.openclaw/state/sessions/`.
+Scan chat history from Claude Code sources (`~/.claude/projects/`) with proper HKT (UTC+8) day boundaries.
 
 ## Trigger
 
