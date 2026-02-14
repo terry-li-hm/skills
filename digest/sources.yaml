@@ -12,3 +12,28 @@
   type: youtube
   handle: "@PeterAttiaMD"
   vault_path: Health/Peter Attia
+
+- name: Lex Fridman
+  type: youtube
+  handle: "@lexfridman"
+  vault_path: AI & Tech/Lex Fridman
+
+- name: a16z
+  type: youtube
+  handle: "@a16z"
+  vault_path: AI & Tech/a16z
+
+- name: Dwarkesh Patel
+  type: youtube
+  handle: "@DwarkeshPatel"
+  vault_path: AI & Tech/Dwarkesh Patel
+
+- name: All-In Podcast
+  type: youtube
+  handle: "@alaboratory"
+  vault_path: AI & Tech/All-In
+
+- name: Latent Space
+  type: youtube
+  handle: "@LatentSpaceTV"
+  vault_path: AI & Tech/Latent Space

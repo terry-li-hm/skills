@@ -60,6 +60,14 @@ pplx log --stats        # cost summary by mode
 
 Reasoning responses (`pplx reason`) strip `<think>` tags by default. Use `--raw` to preserve.
 
+## HK Local Search — Use Chinese
+
+For Hong Kong local services (doctors, restaurants, tradespeople, government services), **always search in Chinese first**. Chinese-language results surface local review sites (Sundaykiss, OpenRice, HK01, 親子王國) that English queries miss entirely. Perplexity with Chinese queries is especially effective — it synthesises Chinese-language sources into structured answers with names, addresses, and prices.
+
+- **Pattern:** `pplx search "香港 [service] 推薦 [area] 口碑好"`
+- **Example:** `pplx search "香港脊椎側彎骨科醫生推薦 私家 2026 口碑好"` returned 3 named doctors with fees and MTR exits — English query only found institutional websites.
+- **Also applies to:** WebSearch with Chinese keywords as a free first pass.
+
 ## Perplexity Quality Notes
 
 - **All Perplexity tools inherit search index bias.** If a vendor publishes 4+ SEO comparison articles, they'll dominate results. Cross-check with WebSearch.
