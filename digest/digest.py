@@ -1,11 +1,12 @@
 #!/usr/bin/env -S uv run --script
 # /// script
-# dependencies = ["pyyaml", "httpx", "openai", "yt-dlp", "youtube-transcript-api"]
+# dependencies = ["pyyaml", "httpx", "openai", "yt-dlp", "youtube-transcript-api", "feedparser", "mlx-whisper"]
 # ///
 """
-Content Digest — Monthly insight extraction from YouTube channels.
+Content Digest — Monthly insight extraction from YouTube channels and podcasts.
 
-Fetches recent episodes via yt-dlp, extracts transcripts, runs LLM insight
+Fetches recent episodes via yt-dlp or podcast RSS, extracts transcripts
+(YouTube API → yt-dlp subs → podcast audio + Whisper), runs LLM insight
 extraction via OpenRouter, and writes digest notes to the Obsidian vault.
 
 Usage:
@@ -14,7 +15,7 @@ Usage:
 Examples:
     digest                     # All sources, last 30 days
     digest huberman            # Just Huberman
-    digest rhonda --days 60    # Rhonda Patrick, last 60 days
+    digest "lex" --days 60     # Lex Fridman, last 60 days
     digest --dry-run           # List episodes only
 """
 
@@ -126,11 +127,148 @@ def list_youtube_videos(handle: str, max_items: int = 15) -> list[dict]:
 
 
 # ---------------------------------------------------------------------------
+# Podcast RSS listing
+# ---------------------------------------------------------------------------
+
+def list_podcast_episodes(rss_url: str, max_items: int = 15) -> list[dict]:
+    """List recent episodes from a podcast RSS feed."""
+    import feedparser
+
+    feed = feedparser.parse(rss_url)
+    episodes = []
+    for entry in feed.entries[:max_items]:
+        # Find audio enclosure
+        audio_url = None
+        for link in entry.get("links", []):
+            if link.get("type", "").startswith("audio/"):
+                audio_url = link["href"]
+                break
+        if not audio_url:
+            for enc in entry.get("enclosures", []):
+                if enc.get("type", "").startswith("audio/"):
+                    audio_url = enc["href"]
+                    break
+        if not audio_url:
+            continue
+
+        # Parse date
+        date = None
+        for date_field in ("published_parsed", "updated_parsed"):
+            parsed = entry.get(date_field)
+            if parsed:
+                from time import mktime
+                date = datetime.fromtimestamp(mktime(parsed), tz=timezone.utc)
+                break
+
+        # Parse duration
+        duration_s = "0"
+        itunes_dur = entry.get("itunes_duration", "")
+        if itunes_dur:
+            parts = str(itunes_dur).split(":")
+            try:
+                if len(parts) == 3:
+                    duration_s = str(int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2]))
+                elif len(parts) == 2:
+                    duration_s = str(int(parts[0]) * 60 + int(parts[1]))
+                else:
+                    duration_s = parts[0]
+            except ValueError:
+                pass
+
+        episodes.append({
+            "id": entry.get("id", audio_url),
+            "title": entry.get("title", "Unknown"),
+            "date": date,
+            "duration": duration_s,
+            "audio_url": audio_url,
+        })
+
+    return episodes
+
+
+def _match_podcast_audio(yt_ep: dict, podcast_eps: list[dict]) -> str | None:
+    """Find matching podcast episode for a YouTube video by title similarity + date."""
+    yt_title = re.sub(r"[^a-z0-9 ]", "", yt_ep["title"].lower())
+    yt_words = set(yt_title.split())
+    yt_date = yt_ep.get("date")
+
+    best_match = None
+    best_score = 0
+
+    for pep in podcast_eps:
+        pod_title = re.sub(r"[^a-z0-9 ]", "", pep["title"].lower())
+        pod_words = set(pod_title.split())
+
+        # Jaccard similarity on title words
+        if yt_words and pod_words:
+            overlap = len(yt_words & pod_words)
+            union = len(yt_words | pod_words)
+            title_score = overlap / union if union else 0
+        else:
+            title_score = 0
+
+        # Date proximity bonus (within 3 days = 0.3 bonus)
+        date_score = 0
+        if yt_date and pep.get("date"):
+            day_diff = abs((yt_date - pep["date"]).days)
+            if day_diff <= 3:
+                date_score = 0.3
+
+        score = title_score + date_score
+        if score > best_score:
+            best_score = score
+            best_match = pep
+
+    # Require minimum similarity (at least some title overlap or date match)
+    if best_score >= 0.3 and best_match:
+        return best_match["audio_url"]
+    return None
+
+
+# ---------------------------------------------------------------------------
+# Audio transcription via mlx-whisper (Apple Silicon local)
+# ---------------------------------------------------------------------------
+
+def transcribe_audio(audio_url: str) -> str:
+    """Download podcast audio and transcribe with mlx-whisper."""
+    import httpx
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        audio_path = os.path.join(tmpdir, "episode.mp3")
+
+        # Download audio
+        print("  Downloading audio...", file=sys.stderr)
+        with httpx.stream("GET", audio_url, follow_redirects=True, timeout=300) as resp:
+            resp.raise_for_status()
+            total = int(resp.headers.get("content-length", 0))
+            downloaded = 0
+            with open(audio_path, "wb") as f:
+                for chunk in resp.iter_bytes(chunk_size=1024 * 1024):
+                    f.write(chunk)
+                    downloaded += len(chunk)
+                    if total:
+                        pct = downloaded * 100 // total
+                        print(f"\r  Downloaded: {downloaded // (1024*1024)}MB / {total // (1024*1024)}MB ({pct}%)", end="", file=sys.stderr)
+            print(file=sys.stderr)
+
+        # Transcribe with mlx-whisper
+        print("  Transcribing with mlx-whisper (this may take a few minutes)...", file=sys.stderr)
+        import mlx_whisper
+
+        result = mlx_whisper.transcribe(
+            audio_path,
+            path_or_hf_repo="mlx-community/whisper-large-v3-turbo",
+        )
+        text = result.get("text", "")
+        return _clean_transcript(text) if text.strip() else ""
+
+
+# ---------------------------------------------------------------------------
 # Transcript extraction (inlined — no external script dependency)
 # ---------------------------------------------------------------------------
 
-def extract_transcript(video_id: str) -> str:
-    """Extract transcript. Tries youtube-transcript-api first, yt-dlp fallback."""
+def extract_transcript(video_id: str, audio_url: str | None = None) -> str:
+    """Extract transcript. Tries youtube-transcript-api → yt-dlp → podcast audio + Whisper."""
     # Method 1: youtube-transcript-api (clean, no duplication)
     try:
         text = _transcript_via_api(video_id)
@@ -141,11 +279,22 @@ def extract_transcript(video_id: str) -> str:
 
     # Method 2: yt-dlp subtitle download (may have duplication)
     print("  Falling back to yt-dlp subtitles...", file=sys.stderr)
-    text = _transcript_via_ytdlp(video_id)
-    if text:
-        return _deduplicate_transcript(text)
+    try:
+        text = _transcript_via_ytdlp(video_id)
+        if text:
+            return _deduplicate_transcript(text)
+    except Exception as e:
+        print(f"  yt-dlp subtitles failed: {e}", file=sys.stderr)
 
-    raise RuntimeError("Both transcript methods failed")
+    # Method 3: podcast audio + local Whisper transcription
+    if audio_url:
+        print("  Falling back to podcast audio + Whisper...", file=sys.stderr)
+        text = transcribe_audio(audio_url)
+        if text:
+            return text
+        raise RuntimeError("Whisper transcription returned empty")
+
+    raise RuntimeError("All transcript methods failed (no RSS audio match found)")
 
 
 def _transcript_via_api(video_id: str) -> str | None:
@@ -299,13 +448,20 @@ def write_digest(source: dict, episodes_insights: list[dict], month_str: str) ->
 
         date_str = ep["date"].strftime("%Y-%m-%d") if ep.get("date") else "unknown"
 
+        # Link to video or podcast
+        ep_id = ep.get("id", "")
+        if ep_id.startswith("http"):
+            link_line = f"**Link:** {ep_id}"
+        else:
+            link_line = f"**Video:** https://youtube.com/watch?v={ep_id}"
+
         lines.extend([
             "---",
             "",
             f"## {ep['title']}",
             "",
             f"**Published:** {date_str}{duration_str}",
-            f"**Video:** https://youtube.com/watch?v={ep['id']}",
+            link_line,
             "",
             ep["insights"],
             "",
@@ -357,6 +513,29 @@ def main():
                 continue
 
             episodes = [v for v in videos if v.get("date") and v["date"] >= since]
+
+            # Attach podcast audio URLs for fallback if rss_url configured
+            if source.get("rss_url"):
+                try:
+                    podcast_eps = list_podcast_episodes(source["rss_url"], max_items=args.max_videos * 2)
+                    for ep in episodes:
+                        ep["audio_url"] = _match_podcast_audio(ep, podcast_eps)
+                        if ep["audio_url"]:
+                            print(f"  RSS fallback ready: {ep['title'][:50]}", file=sys.stderr)
+                except Exception as e:
+                    print(f"  RSS fallback lookup failed: {e}", file=sys.stderr)
+
+        elif source["type"] == "podcast":
+            rss_url = source.get("rss_url")
+            if not rss_url:
+                print(f"Podcast source '{source['name']}' missing rss_url", file=sys.stderr)
+                continue
+            try:
+                episodes = list_podcast_episodes(rss_url, max_items=args.max_videos)
+                episodes = [ep for ep in episodes if ep.get("date") and ep["date"] >= since]
+            except Exception as e:
+                print(f"Error listing podcast episodes: {e}", file=sys.stderr)
+                continue
         else:
             print(f"Unsupported source type: {source['type']}", file=sys.stderr)
             continue
@@ -384,7 +563,12 @@ def main():
 
             try:
                 print("  Extracting transcript...", file=sys.stderr)
-                transcript = extract_transcript(ep["id"])
+                audio_url = ep.get("audio_url")
+                if source["type"] == "podcast":
+                    # Pure podcast — go straight to audio + Whisper
+                    transcript = transcribe_audio(audio_url)
+                else:
+                    transcript = extract_transcript(ep["id"], audio_url=audio_url)
                 word_count = len(transcript.split())
                 print(f"  Transcript: {word_count:,} words", file=sys.stderr)
 

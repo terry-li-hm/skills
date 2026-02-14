@@ -1,21 +1,25 @@
 - name: Huberman Lab
   type: youtube
   handle: "@hubermanlab"
+  rss_url: https://feeds.megaphone.fm/hubermanlab
   vault_path: Health/Huberman
 
 - name: FoundMyFitness
   type: youtube
   handle: "@FoundMyFitness"
+  rss_url: https://foundmyfitness.libsyn.com/rss
   vault_path: Health/Rhonda Patrick
 
 - name: Peter Attia
   type: youtube
   handle: "@PeterAttiaMD"
+  rss_url: https://peterattiadrive.libsyn.com/rss
   vault_path: Health/Peter Attia
 
 - name: Lex Fridman
   type: youtube
   handle: "@lexfridman"
+  rss_url: https://lexfridman.com/feed/podcast/
   vault_path: AI & Tech/Lex Fridman
 
 - name: a16z
@@ -26,14 +30,17 @@
 - name: Dwarkesh Patel
   type: youtube
   handle: "@DwarkeshPatel"
+  rss_url: https://www.dwarkeshpatel.com/feed
   vault_path: AI & Tech/Dwarkesh Patel
 
 - name: All-In Podcast
   type: youtube
   handle: "@alaboratory"
+  rss_url: https://rss.libsyn.com/shows/254861/destinations/1928300.xml
   vault_path: AI & Tech/All-In
 
 - name: Latent Space
   type: youtube
   handle: "@LatentSpaceTV"
+  rss_url: https://api.substack.com/feed/podcast/1084089.rss
   vault_path: AI & Tech/Latent Space
