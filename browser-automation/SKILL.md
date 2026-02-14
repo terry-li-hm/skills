@@ -15,9 +15,14 @@ Zero token overhead. Invoked via Bash.
 Terry's daily Chrome runs with CDP enabled via a wrapper app:
 
 - **App:** `/Applications/Chrome CDP.app` — launches Chrome with `--remote-debugging-port=9222`
-- **Profile:** `~/chrome-debug-profile/` — copied from main Chrome profile (trimmed to ~700MB)
+- **Profile:** `~/chrome-debug-profile/` — copied from main Chrome profile (trimmed)
 - **Always-on CDP:** port 9222 available whenever Chrome is running
-- **Original Chrome.app** still installed but not used for daily browsing
+- **Launch script:** `/Applications/Chrome CDP.app/Contents/MacOS/launch.sh`
+- **Extensions:** Stripped to 5 (1Password, iCloud Passwords, AdGuard, Cookie Dismisser, Obsidian Clipper). Uses `--disable-extensions-except` flag. Reduced CDP targets from 16 to 2-3, eval latency from 1,220ms to 3.5ms avg.
+- **Performance flags:** `--disable-background-networking --disable-sync --disable-client-side-phishing-detection` etc.
+
+### Anti-bot pages poison CDP globally
+XHS and Zhihu anti-bot JS blocks websocket `recv()` for ALL tabs, not just their own. Always close these pages after use. Stale anti-bot tabs cause all CDP commands to hang.
 
 **Profile refresh:** If cookies/logins get stale, re-copy from main profile:
 ```bash
@@ -222,3 +227,16 @@ Use `curl localhost:9222/json/list` to identify which tab index to target. More 
 - If no tabs open: `curl -s -X PUT "http://localhost:9222/json/new?about:blank"` to create one
 - Close unused tabs to save RAM: `curl -s "http://localhost:9222/json/close/<TAB_ID>"`
 - **Keep agent-browser updated:** `pnpm update -g agent-browser` (v0.9.3 fixed EAGAIN errors on 8GB Macs)
+
+## Performance Tiers (Feb 2026)
+
+| Approach | eval latency | snapshot latency | token cost/turn | Use case |
+|---|---|---|---|---|
+| **Direct CDP websocket** | 3-8ms | 38ms | 0 | Scraping (qianli), speed-critical |
+| **Playwright Python** | 17ms | 1,174ms | 0 | Programmatic automation |
+| **agent-browser CLI** | 275ms | 1,500ms | 0 | Interactive from Claude Code |
+| **Playwright MCP** | ~17ms | ~1,174ms | ~3,700 | Not recommended always-on |
+
+Direct CDP is 349x faster than agent-browser for page eval. Use direct CDP for extraction, agent-browser for interactive actions.
+
+Full comparison: `~/docs/solutions/browser-automation-comparison.md`
