@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
 # /// script
-# dependencies = ["pyyaml", "httpx", "openai", "yt-dlp"]
+# dependencies = ["pyyaml", "httpx", "openai", "yt-dlp", "youtube-transcript-api"]
 # ///
 """
 Content Digest — Monthly insight extraction from YouTube channels.
@@ -9,29 +9,31 @@ Fetches recent episodes via yt-dlp, extracts transcripts, runs LLM insight
 extraction via OpenRouter, and writes digest notes to the Obsidian vault.
 
 Usage:
-    uv run ~/skills/digest/digest.py [source_name] [--days N] [--dry-run]
+    digest [source_name] [--days N] [--dry-run]
 
 Examples:
-    uv run ~/skills/digest/digest.py                    # All sources, last 30 days
-    uv run ~/skills/digest/digest.py huberman           # Just Huberman
-    uv run ~/skills/digest/digest.py --days 60          # Last 60 days
-    uv run ~/skills/digest/digest.py --dry-run          # List episodes only
+    digest                     # All sources, last 30 days
+    digest huberman            # Just Huberman
+    digest rhonda --days 60    # Rhonda Patrick, last 60 days
+    digest --dry-run           # List episodes only
 """
 
 import argparse
+import html
 import json
 import os
+import re
 import subprocess
 import sys
+import tempfile
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import yaml
 from openai import OpenAI
 
-SKILL_DIR = Path(__file__).parent
+SKILL_DIR = Path(__file__).resolve().parent
 SOURCES_FILE = SKILL_DIR / "sources.yaml"
-TRANSCRIPT_SCRIPT = Path.home() / "skills" / ".archive" / "youtube-transcript" / "extract_transcript.py"
 VAULT_DIR = Path.home() / "notes"
 
 INSIGHT_PROMPT = """\
@@ -73,6 +75,10 @@ Be thorough. Extract every non-trivial insight. Better to include too much than 
 """
 
 
+# ---------------------------------------------------------------------------
+# Source loading
+# ---------------------------------------------------------------------------
+
 def load_sources(filter_name: str | None = None) -> list[dict]:
     with open(SOURCES_FILE) as f:
         sources = yaml.safe_load(f)
@@ -84,6 +90,10 @@ def load_sources(filter_name: str | None = None) -> list[dict]:
         ]
     return sources
 
+
+# ---------------------------------------------------------------------------
+# YouTube video listing (yt-dlp)
+# ---------------------------------------------------------------------------
 
 def list_youtube_videos(handle: str, max_items: int = 15) -> list[dict]:
     """List recent videos from a YouTube channel using yt-dlp."""
@@ -115,29 +125,96 @@ def list_youtube_videos(handle: str, max_items: int = 15) -> list[dict]:
     return videos
 
 
+# ---------------------------------------------------------------------------
+# Transcript extraction (inlined — no external script dependency)
+# ---------------------------------------------------------------------------
+
 def extract_transcript(video_id: str) -> str:
-    """Extract transcript using youtube-transcript-api (clean) with yt-dlp fallback."""
-    # Try API method first (no duplication issues)
-    cmd = [
-        "uv", "run", str(TRANSCRIPT_SCRIPT),
-        video_id, "--clean", "--method", "api",
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-    if result.returncode == 0 and result.stdout.strip():
-        return result.stdout.strip()
+    """Extract transcript. Tries youtube-transcript-api first, yt-dlp fallback."""
+    # Method 1: youtube-transcript-api (clean, no duplication)
+    try:
+        text = _transcript_via_api(video_id)
+        if text:
+            return text
+    except Exception as e:
+        print(f"  youtube-transcript-api failed: {e}", file=sys.stderr)
 
-    # Fallback to yt-dlp
-    print("  youtube-transcript-api failed, trying yt-dlp...", file=sys.stderr)
-    cmd = [
-        "uv", "run", str(TRANSCRIPT_SCRIPT),
-        video_id, "--clean", "--method", "ytdlp",
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-    if result.returncode == 0 and result.stdout.strip():
-        # Deduplicate yt-dlp output (auto-captions repeat lines 3x)
-        return _deduplicate_transcript(result.stdout.strip())
+    # Method 2: yt-dlp subtitle download (may have duplication)
+    print("  Falling back to yt-dlp subtitles...", file=sys.stderr)
+    text = _transcript_via_ytdlp(video_id)
+    if text:
+        return _deduplicate_transcript(text)
 
-    raise RuntimeError(f"Both transcript methods failed. stderr: {result.stderr}")
+    raise RuntimeError("Both transcript methods failed")
+
+
+def _transcript_via_api(video_id: str) -> str | None:
+    """Fetch transcript using youtube-transcript-api."""
+    from youtube_transcript_api import YouTubeTranscriptApi
+
+    ytt = YouTubeTranscriptApi()
+    transcript = ytt.fetch(video_id, languages=["en"])
+    text = " ".join(snippet.text for snippet in transcript)
+    return _clean_transcript(text) if text.strip() else None
+
+
+def _transcript_via_ytdlp(video_id: str) -> str | None:
+    """Fetch transcript by downloading VTT subtitles via yt-dlp."""
+    url = f"https://www.youtube.com/watch?v={video_id}"
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        output_template = os.path.join(tmpdir, "transcript")
+        cmd = [
+            sys.executable, "-m", "yt_dlp",
+            "--skip-download",
+            "--write-subs", "--write-auto-subs",
+            "--sub-lang", "en",
+            "--sub-format", "vtt",
+            "-o", output_template,
+            "--no-warnings",
+            url,
+        ]
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+
+        # Find VTT file
+        vtt_files = list(Path(tmpdir).glob("*.vtt"))
+        if not vtt_files:
+            return None
+
+        vtt_content = vtt_files[0].read_text(encoding="utf-8")
+        return _clean_transcript(_parse_vtt(vtt_content))
+
+
+def _parse_vtt(vtt_content: str) -> str:
+    """Parse VTT subtitle file to plain text."""
+    lines = vtt_content.split("\n")
+    text_parts = []
+    for line in lines:
+        line = line.strip()
+        # Skip headers, timestamps, and cue numbers
+        if (
+            not line
+            or line.startswith("WEBVTT")
+            or line.startswith("Kind:")
+            or line.startswith("Language:")
+            or "-->" in line
+            or line.isdigit()
+        ):
+            continue
+        # Strip HTML tags
+        line = re.sub(r"<[^>]+>", "", line)
+        if line:
+            text_parts.append(line)
+    return " ".join(text_parts)
+
+
+def _clean_transcript(text: str) -> str:
+    """Remove annotations and speaker labels."""
+    text = html.unescape(text)
+    text = re.sub(r"\[[^\]]*\]", "", text)  # [Music], [Applause], etc.
+    text = re.sub(r"(?:^|\s)>>?\s*[A-Z][A-Z\s]*:", "", text)  # >> SPEAKER:
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
 
 
 def _deduplicate_transcript(text: str) -> str:
@@ -146,19 +223,15 @@ def _deduplicate_transcript(text: str) -> str:
     if len(words) < 6:
         return text
 
-    # Sliding window deduplication: if a sequence of N words repeats
-    # immediately, keep only one copy
     result = []
     i = 0
     while i < len(words):
-        # Try chunk sizes from large to small
         found_dup = False
         for chunk_size in range(min(20, (len(words) - i) // 2), 2, -1):
             chunk = words[i : i + chunk_size]
             next_chunk = words[i + chunk_size : i + 2 * chunk_size]
             if chunk == next_chunk:
                 result.extend(chunk)
-                # Skip all consecutive copies
                 j = i + chunk_size
                 while words[j : j + chunk_size] == chunk:
                     j += chunk_size
@@ -171,6 +244,10 @@ def _deduplicate_transcript(text: str) -> str:
 
     return " ".join(result)
 
+
+# ---------------------------------------------------------------------------
+# LLM insight extraction
+# ---------------------------------------------------------------------------
 
 def extract_insights(transcript: str, title: str, model: str) -> str:
     """Run LLM insight extraction on a transcript via OpenRouter."""
@@ -189,6 +266,10 @@ def extract_insights(transcript: str, title: str, model: str) -> str:
     )
     return response.choices[0].message.content
 
+
+# ---------------------------------------------------------------------------
+# Vault output
+# ---------------------------------------------------------------------------
 
 def write_digest(source: dict, episodes_insights: list[dict], month_str: str) -> Path:
     """Write digest note to vault."""
@@ -234,8 +315,16 @@ def write_digest(source: dict, episodes_insights: list[dict], month_str: str) ->
     return digest_file
 
 
+# ---------------------------------------------------------------------------
+# CLI
+# ---------------------------------------------------------------------------
+
 def main():
-    parser = argparse.ArgumentParser(description="Monthly content digest")
+    parser = argparse.ArgumentParser(
+        description="Monthly content digest — extract insights from YouTube channels",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="Sources configured in ~/skills/digest/sources.yaml",
+    )
     parser.add_argument("source", nargs="?", help="Source name filter (partial match)")
     parser.add_argument("--days", type=int, default=30, help="Look back N days (default: 30)")
     parser.add_argument("--dry-run", action="store_true", help="List episodes without processing")
@@ -267,7 +356,6 @@ def main():
                 print(f"Error listing videos: {e}", file=sys.stderr)
                 continue
 
-            # Filter to recent episodes
             episodes = [v for v in videos if v.get("date") and v["date"] >= since]
         else:
             print(f"Unsupported source type: {source['type']}", file=sys.stderr)
