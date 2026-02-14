@@ -187,10 +187,17 @@ def list_podcast_episodes(rss_url: str, max_items: int = 15) -> list[dict]:
 
 
 def _match_podcast_audio(yt_ep: dict, podcast_eps: list[dict]) -> str | None:
-    """Find matching podcast episode for a YouTube video by title similarity + date."""
+    """Find matching podcast episode for a YouTube video by title similarity + date + duration."""
     yt_title = re.sub(r"[^a-z0-9 ]", "", yt_ep["title"].lower())
     yt_words = set(yt_title.split())
     yt_date = yt_ep.get("date")
+
+    # Parse YouTube duration
+    yt_dur = 0
+    try:
+        yt_dur = int(float(yt_ep.get("duration", 0)))
+    except (ValueError, TypeError):
+        pass
 
     best_match = None
     best_score = 0
@@ -214,6 +221,18 @@ def _match_podcast_audio(yt_ep: dict, podcast_eps: list[dict]) -> str | None:
             if day_diff <= 3:
                 date_score = 0.3
 
+        # Duration penalty — reject when duration ratio > 3x
+        pod_dur = 0
+        try:
+            pod_dur = int(float(pep.get("duration", 0)))
+        except (ValueError, TypeError):
+            pass
+
+        if yt_dur > 0 and pod_dur > 0:
+            ratio = max(yt_dur, pod_dur) / min(yt_dur, pod_dur)
+            if ratio > 3:
+                continue  # Skip — clearly a clip vs full episode mismatch
+
         score = title_score + date_score
         if score > best_score:
             best_score = score
@@ -223,6 +242,46 @@ def _match_podcast_audio(yt_ep: dict, podcast_eps: list[dict]) -> str | None:
     if best_score >= 0.3 and best_match:
         return best_match["audio_url"]
     return None
+
+
+def _deduplicate_audio_matches(episodes: list[dict], podcast_eps: list[dict]) -> None:
+    """If multiple YouTube videos matched the same podcast audio URL, keep only the best."""
+    # Build lookup: audio_url → podcast duration
+    pod_dur_by_url = {}
+    for pep in podcast_eps:
+        try:
+            pod_dur_by_url[pep["audio_url"]] = int(float(pep.get("duration", 0)))
+        except (ValueError, TypeError):
+            pod_dur_by_url[pep["audio_url"]] = 0
+
+    # Group episodes by audio_url
+    by_url: dict[str, list[int]] = {}
+    for i, ep in enumerate(episodes):
+        url = ep.get("audio_url")
+        if url:
+            by_url.setdefault(url, []).append(i)
+
+    # For each duplicate group, keep only the closest duration match
+    for url, indices in by_url.items():
+        if len(indices) <= 1:
+            continue
+        pod_dur = pod_dur_by_url.get(url, 0)
+        best_idx = indices[0]
+        best_diff = float("inf")
+        for idx in indices:
+            try:
+                yt_dur = int(float(episodes[idx].get("duration", 0)))
+            except (ValueError, TypeError):
+                yt_dur = 0
+            diff = abs(yt_dur - pod_dur) if yt_dur and pod_dur else float("inf")
+            if diff < best_diff:
+                best_diff = diff
+                best_idx = idx
+        # Clear audio_url from losers
+        for idx in indices:
+            if idx != best_idx:
+                print(f"  Dedup: skipping RSS fallback for '{episodes[idx]['title'][:50]}' (duplicate audio)", file=sys.stderr)
+                episodes[idx]["audio_url"] = None
 
 
 # ---------------------------------------------------------------------------
@@ -522,6 +581,9 @@ def main():
                         ep["audio_url"] = _match_podcast_audio(ep, podcast_eps)
                         if ep["audio_url"]:
                             print(f"  RSS fallback ready: {ep['title'][:50]}", file=sys.stderr)
+                    # Deduplicate: if multiple YT videos matched the same audio URL,
+                    # keep only the one with closest duration and clear the rest
+                    _deduplicate_audio_matches(episodes, podcast_eps)
                 except Exception as e:
                     print(f"  RSS fallback lookup failed: {e}", file=sys.stderr)
 
