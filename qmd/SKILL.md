@@ -15,35 +15,29 @@ QMD indexes the vault for semantic search. Complements literal grep with "find n
 - **Fuzzy matching** — "notes about interview prep" not just `[[Interview Prep]]`
 - **Exploration** — "what do I know about HSBC?" across all notes
 
-## MCP Tools Available
-
-After `claude mcp add qmd -s user -- qmd mcp`:
-
-| Tool | Use |
-|------|-----|
-| `qmd_search` | Fast BM25 keyword search |
-| `qmd_vsearch` | Semantic vector similarity |
-| `qmd_query` | Hybrid search with reranking (best quality) |
-| `qmd_get` | Retrieve document by path or docid |
-| `qmd_multi_get` | Retrieve multiple docs by glob/list |
-
-## CLI Usage
+## Usage (CLI only — MCP disabled Feb 2026, saves ~1,300 tokens/turn)
 
 ```bash
-# Keyword search (fast, works immediately)
+# Keyword search — fast BM25 (use for exact terms)
 qmd search "HSBC interview" -n 5
 
-# Semantic search (requires embeddings)
+# Semantic search — vector similarity (use for concepts)
 qmd vsearch "preparing for banking interviews"
 
-# Hybrid with reranking (best quality)
+# Hybrid with reranking — best quality (use for important queries)
 qmd query "what's my relationship with Kelvin Chan"
 
-# Get full document
+# Get full document by path or docid
 qmd get "notes/Capco Transition.md"
+
+# Get multiple docs by glob
+qmd multi-get "notes/Capco/*.md"
 
 # Search specific collection
 qmd search "recruiter" -c notes
+
+# Output file paths only (for piping)
+qmd search "recruiter" --files
 ```
 
 ## Maintenance
@@ -62,7 +56,7 @@ bun install -g https://github.com/tobi/qmd
 qmd collection add ~/notes --name notes --exclude "Archive/**"
 qmd context add qmd://notes "Terry's Obsidian vault"
 qmd embed  # Generate vectors (one-time, slow)
-claude mcp add qmd -s user -- qmd mcp
+# MCP removed: was `claude mcp add qmd -s user -- qmd mcp`
 ```
 
 ## Gotchas
