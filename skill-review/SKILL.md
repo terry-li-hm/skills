@@ -81,7 +81,15 @@ Review recent sessions for patterns:
 
 ### 6. External Inspiration
 
-Quick skim of [obra/superpowers releases](https://github.com/obra/superpowers/releases) for new skill patterns worth cherry-picking. Don't adopt wholesale — just note anything novel.
+Quick skim of releases/READMEs for new patterns worth cherry-picking. Don't adopt wholesale — just note anything novel.
+
+| Repo | What to watch for |
+|------|-------------------|
+| [obra/superpowers](https://github.com/obra/superpowers/releases) | Skill methodology, discipline enforcement |
+| [disler/claude-code-hooks-mastery](https://github.com/disler/claude-code-hooks-mastery) | Hook patterns, observability |
+| [trailofbits/skills](https://github.com/trailofbits/skills) | Domain-specialized skill design |
+| [OthmanAdi/planning-with-files](https://github.com/OthmanAdi/planning-with-files) | Planning workflows |
+| [parcadei/Continuous-Claude-v3](https://github.com/parcadei/Continuous-Claude-v3) | Context management, state persistence |
 
 ### 7. Save to Vault
 
