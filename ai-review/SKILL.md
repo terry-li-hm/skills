@@ -42,6 +42,11 @@ Run every Friday or on demand.
 - Read `[[AI News Log]]` entries from the past 7 days
 - Check `/ai-news` state: `~/.cache/ai-news-state.json` for last scan
 - If log is stale (>3 days no entries), flag cron issue but proceed with what's there
+- **Always supplement with 2-3 WebSearches** to backfill gaps (crons break, log may be partial):
+  - "AI news banking financial services [month] [year]"
+  - "HKMA AI regulation [month] [year]"
+  - "major AI announcements [date range]"
+- Track provenance: note which items came from the log vs live search. Terry will ask.
 
 ### Step 2: Synthesize
 
@@ -63,14 +68,27 @@ Append to `[[AI Landscape]]` under `## Weekly Snapshots`:
 1. [Development] — [Banking implication]. ([Source])
 2. ...
 
+**Also notable (from [[AI News Log]]):**
+- [Items that didn't make top 5 but worth tracking — 3-5 bullet points]
+
 **Pattern watch:** [Any recurring theme across sources this week]
 
 **Worth reading in full:** [0-2 links to genuinely good articles]
+
+**Sources:** [X items from AI News Log, Y from live WebSearch]
 ```
 
 ### Step 4: Suggest
 
-If a development is particularly relevant to an upcoming meeting or client, flag it explicitly.
+Cross-reference findings with active pipeline:
+- Check `~/notes/TODO.md` for upcoming meetings/interviews
+- Check `[[Capco Transition]]` for HSBC engagement prep
+- If a development is particularly relevant to an upcoming meeting, interview, or client, flag it explicitly with the specific talking point and where to use it
+- For interview prep notes (e.g. `[[DBS Data Management Interview Prep]]`), add a "Fresh intel" section with 3-4 bullet points and a best drop point
+
+### Step 5: Update Current Landscape (first run + monthly)
+
+On **first run** (Current Landscape section is empty), populate Hot Takes, Client Questions, and Should-Be-Asking sections based on the weekly synthesis. On subsequent weekly runs, leave Current Landscape alone — it's refreshed monthly only.
 
 ## Monthly Review (deep, ~30 min)
 
