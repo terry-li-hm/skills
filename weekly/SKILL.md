@@ -139,8 +139,8 @@ Run this alongside the synthesis every Friday:
 2. **Transition status** — Update [[Capco Transition]] (PILON, onboarding, handover)
 3. **Networking status** — Who's in motion, who needs follow-up? (BOCHK bridge, Capco contacts)
 4. **Priorities for the week** — Top 2-3 actions
-7. **AI news** — Run `/ai-news` to stay current (interview talking points)
-8. **First Friday only** — Monthly maintenance:
+7. **AI landscape** — Run `/ai-review` for weekly synthesis (client talking points). `/ai-news` feeds it raw material.
+8. **First Friday only** — Monthly maintenance (add `/ai-review` deep monthly review):
    - `/skill-review` — Audit skills for staleness, drift, gaps
    - **Vault hygiene** (inline checklist):
      a. Learnings Inbox — deep consolidation pass (weekly triage keeps it manageable; monthly pass catches stragglers)
