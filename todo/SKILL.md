@@ -176,7 +176,7 @@ Use `--dry-run` to preview without changes.
 - Single source: `~/notes/TODO.md`
 - All agents (Claude Code, OpenCode) share this file
 - Tasks grouped under `## Headings` — preserve section structure
-- **Completed items are archived to `~/notes/TODO Archive.md`**, not left inline
+- **NEVER leave `- [x]` lines in TODO.md.** When marking done — whether via `/todo done` or manually — always move the completed line to `~/notes/TODO Archive.md` in the same edit. No exceptions, no "clean up later".
 - **Reflections/journaling items live in `~/notes/Reflections Queue.md`** — not TODO.md
 - **`🔋 Spare Capacity` section** = low-priority maintenance for spare token budget
 - **`Someday` subsection** at the bottom of Spare Capacity = deferred indefinitely
