@@ -78,6 +78,37 @@ Review `~/notes/Learnings Inbox.md` and for each entry:
 
 Target: inbox stays under 15 active entries. If it's growing, triage harder.
 
+## Health & Recovery
+
+Run `oura trend` for the week's scores, then correlate with daily notes:
+
+```bash
+oura trend --days 7
+```
+
+Analyse:
+- **Sleep trend** — improving, declining, or stable? Flag any score <70
+- **HRV pattern** — leading indicator of stress. Drops below 50 warrant attention
+- **Bedtime drift** — are bedtimes creeping past 22:30? (Theo school drop-off = fixed wake-up, bedtime is the only lever)
+- **Correlation with activity** — cross-reference low-score nights with that day's daily note. Look for: resignation conversations, late-night coding sessions, career rumination, insomnia entries
+- **Stress data** — note any days with elevated stress_high (>1h)
+
+Include in weekly note:
+
+```markdown
+## Health
+
+| Day | Sleep | Readiness | HRV | Bedtime | Note |
+|-----|-------|-----------|-----|---------|------|
+| Mon | 86 | 81 | 69 | 23:40 | — |
+| ... | | | | | |
+
+**Pattern:** [1-2 sentence summary of the week's health trend and any correlations found]
+**Action:** [Anything to adjust, or "Steady"]
+```
+
+Keep it brief — the value is pattern recognition over weeks, not daily obsessing.
+
 ## Energy Audit
 
 - What gave energy: [activities, wins]
