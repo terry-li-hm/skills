@@ -17,11 +17,7 @@ Use when:
 
 ## Quick Access (CLI)
 
-Token must be available as `OURA_TOKEN`. Source from the .env file:
-
-```bash
-export OURA_TOKEN=$(grep OURA_TOKEN ~/oura-data/.env | cut -d= -f2)
-```
+`OURA_TOKEN` is set in `~/.zshenv` — always available, no need to export.
 
 ### Commands
 
@@ -66,15 +62,19 @@ con.execute("""
 
 Key tables: `sleep`, `readiness`, `daily_activity`, `daily_stress`, `daily_sleep`, `workout`, `daily_spo2`. See `~/oura-data/scripts/sync.py` for full schema.
 
+## Interpretation
+
+**Readiness > Sleep.** Readiness is the headline metric — composite of sleep, HRV, temperature, activity balance, recovery. Sleep score only measures one night. When presenting data, lead with readiness. The default `oura` (no args) now shows scores + readiness contributors.
+
 ## Workflow
 
-1. For quick checks: run the CLI command, present output to user
+1. For quick checks: `oura` (shows scores + readiness contributors)
 2. For "how's my sleep trending" / analysis: sync DuckDB first if stale, then query
-3. For morning briefings: `oura scores` is the quick one-liner
+3. For morning briefings: `oura` is the one-liner (richer than `oura scores`)
 
 ## Error Handling
 
-- **If OURA_TOKEN missing**: Source from `~/oura-data/.env`
-- **If CLI not built**: `cd ~/code/oura-cli && cargo build --release`
-- **If data empty for today**: Ring may not have synced yet; try `yesterday`
+- **If OURA_TOKEN missing**: Should be in `~/.zshenv`. Fallback: `export OURA_TOKEN=$(grep OURA_TOKEN ~/oura-data/.env | cut -d= -f2)`
+- **If CLI not built**: `cd ~/code/oura-cli && cargo build --release && cargo install --path .`
+- **If detailed breakdown missing**: Normal early morning — `sleep` periods sync later than `daily_sleep` scores. CLI now shows score + contributors as fallback
 - **If DuckDB stale**: Run `cd ~/oura-data && uv run python scripts/sync.py`
