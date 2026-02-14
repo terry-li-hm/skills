@@ -1,0 +1,9 @@
+- name: Huberman Lab
+  type: youtube
+  handle: "@hubermanlab"
+  vault_path: Health/Huberman
+
+- name: FoundMyFitness
+  type: youtube
+  handle: "@FoundMyFitness"
+  vault_path: Health/Rhonda Patrick
