@@ -53,15 +53,20 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - `/hko` — focus on warnings (typhoon, rainstorm, extreme heat) and rain probability
    - Skip if already delivered by cron and no warnings active
 
-9. **Overdue + today's deadlines** (quick scan, not full TODO review):
+9. **Things inbox drain** (mobile captures → TODO.md):
+   - Run `python3 ~/scripts/things-drain.py`
+   - If items were drained, include them in the brief under "Captured:" with a note to triage
+   - If inbox empty, skip silently
+
+10. **Overdue + today's deadlines** (quick scan, not full TODO review):
    - Read `~/notes/TODO.md`
    - Surface only: items with `due:` <= today, items with `when:` <= today
    - Skip someday items, skip items due later this week
    - This is a reminder, not a restatement — daily's tomorrow preview already set expectations
 
-10. **Friday nudge** — if today is Friday, append to the brief: "It's Friday — run `/weekly` this afternoon for your weekly review."
+11. **Friday nudge** — if today is Friday, append to the brief: "It's Friday — run `/weekly` this afternoon for your weekly review."
 
-11. **Deliver the brief** — concise, no filler:
+12. **Deliver the brief** — concise, no filler:
 
 ## Output Format
 

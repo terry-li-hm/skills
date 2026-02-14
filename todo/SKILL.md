@@ -148,6 +148,19 @@ Move all checked items (`- [x]`) to `~/notes/TODO Archive.md` under a dated sect
 
 Show the `🔋 Spare Capacity` section items — low-priority maintenance for when token budget has headroom.
 
+### `/todo drain`
+
+Pull tasks captured in Things 3 inbox (mobile) into TODO.md.
+
+**Logic:**
+1. Run `python3 ~/scripts/things-drain.py`
+2. Script reads Things inbox → appends items to `## 📥 Inbox` section (created before Spare Capacity if needed)
+3. Deletes drained items from Things
+4. Report what was added
+5. After drain, offer to triage: move items from Inbox to the appropriate `## Section` in TODO.md
+
+Use `--dry-run` to preview without changes.
+
 ## File Format
 
 ```markdown

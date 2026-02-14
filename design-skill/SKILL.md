@@ -17,6 +17,19 @@ Skills are **abstractions** — just like in software development.
 | **Workflow** | Orchestrates other skills | `true` | `review-saved-jobs`, `lfg` |
 | **Standalone** | Independent operation | `true` | `hko`, `pdf-extract` |
 
+## Skill vs Other Storage
+
+Before creating a skill, check if the knowledge belongs somewhere simpler.
+
+| Signal | Where | Example |
+|--------|-------|---------|
+| "Always/never do X" (rule) | `CLAUDE.md` | "Never run tccutil reset" |
+| "X breaks when Y" (one-line fact) | `MEMORY.md` | "sqlite-vec needs enable_load_extension before load" |
+| "When X happens, do steps Y→Z" (procedure with trigger + variants) | **Skill** | `gist-run`: sandbox blocked → create gist → give one-liner |
+| "Here's how X works in detail" (deep reference) | `~/docs/solutions/` | Browser automation patterns |
+
+**The test:** If the knowledge fits in one sentence, it's a MEMORY.md bullet. If it has a trigger condition, multiple steps, or variants — it's a skill.
+
 ## Design Principles
 
 ### 1. DRY — Don't Repeat Yourself
