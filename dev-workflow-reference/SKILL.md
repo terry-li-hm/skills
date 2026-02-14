@@ -36,6 +36,14 @@ Full autonomous:
 
 **Review ordering:** Spec compliance BEFORE code quality. If the code doesn't match what was requested, reviewing its quality is wasted effort. When using multiple review agents, run `pattern-recognition-specialist` (does it match the spec?) before `kieran-*-reviewer` (is it well-built?).
 
+**Quantified thresholds** beat vague guidance. Instead of "write good tests," specify measurable criteria:
+
+| Vague | Quantified |
+|-------|-----------|
+| "Write good tests" | "Min 3 invariants per function, edge cases for each branch" |
+| "Handle errors properly" | "Every external call wrapped, user-facing errors have recovery path" |
+| "Keep it simple" | "No function > 40 lines, no nesting > 3 levels" |
+
 Invoke via Task tool when reviewing code:
 
 | Agent | Use For |
@@ -51,6 +59,21 @@ Invoke via Task tool when reviewing code:
 - After implementing new skills → `code-simplicity-reviewer`
 - After modifying Claude config → `pattern-recognition-specialist`
 - Before shipping anything external → `security-sentinel`
+
+## Error Tracking in Plans
+
+**From OthmanAdi/planning-with-files:** Track errors as structured data in plan files, not buried in prose. When implementation hits problems, append to an errors table:
+
+```markdown
+## Errors & Blockers
+
+| # | Phase | Error | Root Cause | Resolution | Status |
+|---|-------|-------|-----------|------------|--------|
+| 1 | Build | TS2307: Cannot find module | Missing type declaration | Added @types/pkg | Fixed |
+| 2 | Test | Timeout on auth flow | Mock not intercepting | Switched to msw | Open |
+```
+
+This makes blockers visible and prevents the same error from being "discovered" twice across sessions.
 
 ## Compound Engineering Mindset
 

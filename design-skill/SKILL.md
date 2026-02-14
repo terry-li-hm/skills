@@ -78,6 +78,22 @@ description: Use when executing implementation plans with independent tasks in t
 
 **Audit your skills:** Check descriptions for process summaries and strip them out.
 
+### 4c. Rationalizations to Reject
+
+**From trailofbits/skills:** For steps that Claude is tempted to skip (tests, counter-searches, second reviews), pre-list the common excuses so Claude can't rationalise its way out.
+
+```markdown
+## Rationalizations to Reject
+
+| Excuse | Why It's Wrong |
+|--------|----------------|
+| "The code is simple enough it doesn't need tests" | Simple code has simple tests — no excuse to skip |
+| "This is just a prototype" | Prototypes become production. Test now. |
+| "I already checked manually" | Manual checks don't persist. Automated checks do. |
+```
+
+Use sparingly — only on steps where you've observed Claude actually skipping. If a step has never been skipped, it doesn't need this table.
+
 ### 5. Close Feedback Loops
 Outputs from one skill should feed back into related skills.
 

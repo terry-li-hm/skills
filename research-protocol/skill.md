@@ -22,6 +22,14 @@ AI search tools (Perplexity, WebSearch) produce coherent narratives from thin so
 
 For **subjective** questions: shortlist only (3-5 candidates), then redirect to human experts (shop staff, forums, someone who owns it). Do not over-research.
 
+## Step 1b: The 2-Action Rule
+
+**From OthmanAdi/planning-with-files:** After every 2 research actions (searches, fetches, reads), pause and update findings in the working document. Don't accumulate 8 searches then try to synthesize from memory.
+
+This prevents context loss in long research sessions. The discipline is: search, search, **write**. Not: search ×8, write.
+
+For `/consilium` and multi-model research, this means updating the findings doc between model calls — not waiting until all models respond.
+
 ## Step 2: Survey (already doing this)
 
 Use `perplexity_research` for depth or `perplexity_ask` for structured overview. See `web-search` skill for tool selection.
