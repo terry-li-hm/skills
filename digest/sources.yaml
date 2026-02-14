@@ -7,3 +7,8 @@
   type: youtube
   handle: "@FoundMyFitness"
   vault_path: Health/Rhonda Patrick
+
+- name: Peter Attia
+  type: youtube
+  handle: "@PeterAttiaMD"
+  vault_path: Health/Peter Attia

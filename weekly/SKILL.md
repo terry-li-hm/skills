@@ -163,6 +163,7 @@ Run this alongside the synthesis every Friday:
 4. **Priorities for the week** — Top 2-3 actions
 7. **AI landscape** — Run `/ai-review` for weekly synthesis (client talking points). `/ai-news` feeds it raw material.
 8. **First Friday only** — Monthly maintenance (add `/ai-review` deep monthly review):
+   - `/digest` — Run content digest for all sources (`digest --dry-run` first, then `digest`)
    - `/skill-review` — Audit skills for staleness, drift, gaps
    - **Vault hygiene** (inline checklist):
      a. Solutions KB — review `~/docs/solutions/` for stale or duplicate entries
