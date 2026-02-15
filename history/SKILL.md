@@ -1,77 +1,118 @@
 ---
 name: history
-description: Scan chat history with proper HKT timezone handling. Use when reviewing what was discussed on a specific day.
+description: Scan and search chat history with proper HKT timezone handling. Use when reviewing what was discussed on a specific day or searching for past conversations.
 user_invocable: true
 ---
 
 # History
 
-Scan chat history from Claude Code sources (`~/.claude/projects/`) with proper HKT (UTC+8) day boundaries.
+Search AI coding chat history from Claude Code, Codex, and OpenCode.
+
+## Tools
+
+- **`claude-history`** (Rust CLI) — interactive TUI fuzzy search over Claude Code conversations. Best for browsing, finding a specific conversation, or resuming a session.
+- **`chat_history.py`** (Python) — programmatic date scan, keyword search, cross-tool support (Claude + Codex + OpenCode), HKT day boundaries. Best for "what did I do today" and searching across all tools.
 
 ## Trigger
 
-- `/history` — today's prompts across all tools
+- `/history` — today's prompts across all tools (chat_history.py)
 - `/history yesterday` — yesterday's prompts
 - `/history 2026-01-18` — specific date
 - `/history --tool=Codex` — filter by specific tool
+- `/history search self-intro` — search prompts for keyword (last 7 days)
+- `/history search DBS --deep` — search full transcripts (user + assistant)
+- `/history search DBS --days=30` — search last 30 days
+- `/history browse` — launch claude-history TUI (interactive fuzzy search)
+- `/history browse --global` — search all projects at once
 
-## Workflow
-
-Run the persistent script at `~/scripts/chat_history.py`:
+## claude-history (Interactive TUI)
 
 ```bash
-# Today's prompts (all tools)
-python ~/scripts/chat_history.py
+# Interactive fuzzy search (current project)
+claude-history
 
-# Filter by tool (Claude or Codex)
-python ~/scripts/chat_history.py --tool=Claude
-python ~/scripts/chat_history.py --tool=Codex
+# Search all projects globally
+claude-history --global
 
-# Yesterday's prompts
-python ~/scripts/chat_history.py yesterday
+# Resume a conversation in Claude Code
+claude-history --resume
 
-# Specific date
-python ~/scripts/chat_history.py 2026-01-23
+# View a specific JSONL file
+claude-history /path/to/conversation.jsonl
 
-# Show all prompts (not just last 50)
-python ~/scripts/chat_history.py --full
+# Show tools / thinking blocks
+claude-history --show-tools --show-thinking
 
-# Output as JSON (for programmatic use)
-python ~/scripts/chat_history.py --json
+# Plain text output (no TUI)
+claude-history --plain --no-pager
 ```
 
-## Output Format
+Key options:
+- `-g, --global` — search all conversations from all projects
+- `-c, --resume` — resume selected conversation in Claude Code
+- `-t, --show-tools` — show tool calls
+- `--show-thinking` — show thinking blocks
+- `-l, --last` — show last messages in preview (default: first)
+- `-r, --relative-time` — relative timestamps ("10 minutes ago")
+- `--plain` — plain text without ledger formatting
+- `--pager` — pipe through less
+
+## chat_history.py (Programmatic Search)
+
+```bash
+# --- Date scan mode ---
+python ~/scripts/chat_history.py                  # Today's prompts
+python ~/scripts/chat_history.py yesterday        # Yesterday's prompts
+python ~/scripts/chat_history.py 2026-01-23       # Specific date
+python ~/scripts/chat_history.py --full           # Show all prompts (not just last 50)
+python ~/scripts/chat_history.py --json           # Output as JSON
+python ~/scripts/chat_history.py --tool=Claude    # Filter by tool
+
+# --- Search mode (prompts only — fast, <1s) ---
+python ~/scripts/chat_history.py --search="self-intro"           # Last 7 days
+python ~/scripts/chat_history.py --search="DBS" --days=30        # Last 30 days
+python ~/scripts/chat_history.py --search="DBS" 2026-02-15       # Specific date
+
+# --- Search mode (full transcripts — searches both user + assistant) ---
+python ~/scripts/chat_history.py --search="self-intro" --deep           # Last 7 days
+python ~/scripts/chat_history.py --search="DBS" --deep --days=30        # Last 30 days
+```
+
+## Which Tool When
+
+| Need | Tool |
+|------|------|
+| Browse/find a conversation interactively | `claude-history` |
+| Resume a past Claude Code session | `claude-history --resume` |
+| "What did I do today/yesterday" | `chat_history.py` |
+| Search across Claude + Codex + OpenCode | `chat_history.py --search` |
+| Deep transcript search (assistant replies) | `chat_history.py --search --deep` |
+| Filter by tool (Codex only, etc.) | `chat_history.py --tool=Codex` |
+
+## Search Output Format (chat_history.py)
 
 ```
-Date: 2026-01-19 (HKT)
-Total: 142 prompts across 8 sessions
-Time range: 09:15 - 23:45
+Search: "self-intro" (last 7 days, full transcripts)
+Found 11 matches across 1 days
 
-Sessions:
-  [797013a0]  12 prompts (07:16-10:05) - Claude
-  [f4764f0c]   9 prompts (07:20-09:50) - Codex
-  ...
+  2026-02-15:
+    06:31 [d30e26ee] (claude)  ...DBS prep:** 2 short active recall reps (self-intro + Q&As)...
+    07:00 [b2b70b70] (claude)  ...your prep note. No peeking.  **Round 1: Self-intro**...
+    07:08 [b2b70b70] (you)     ...let me try the self-intro again with tweaks...
 
-Recent prompts (last 50):
-  09:15 [797013a0] (Claude) check my gmail...
-  09:22 [797013a0] (Claude) update the note...
-  ...
+(0.5s)
 ```
 
-## Options
+## Performance
 
-- `--full` — Show all prompts (not just last 50)
-- `--json` — Output as JSON for programmatic parsing
-
-## Error Handling
-
-- **If history.jsonl missing**: Returns error message
-- **If no prompts for date**: Returns empty results
-- **If invalid date format**: Returns "Invalid date. Use YYYY-MM-DD format"
+- **chat_history.py prompt search:** <0.5s (searches history.jsonl only)
+- **chat_history.py deep search:** 0.5-5s depending on `--days` range
+- **claude-history TUI:** instant (fuzzy filter in-memory)
+- 3.2 GB across 4,170 session files — mtime filtering keeps it fast
 
 ## Notes
 
-- Always uses HKT (UTC+8) for day boundaries
-- Timestamps in history.jsonl are in milliseconds
+- Always uses HKT (UTC+8) for day boundaries (chat_history.py)
 - Script location: `~/scripts/chat_history.py`
 - This skill can be called by `/daily` for chat scanning
+- Deep search includes tool names (e.g. `[tool: Read]`) for context but skips tool input/output

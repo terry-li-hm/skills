@@ -180,7 +180,7 @@ participants:
   - kimi-k2.5
 tags:
   - decision
-  - llm-council
+  - consilium
 ---
 
 **Related:** [[Capco Transition]] | [[Job Hunting]]
