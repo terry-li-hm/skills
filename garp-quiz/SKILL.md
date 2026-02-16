@@ -27,9 +27,9 @@ Session length and format shift based on exam proximity. Check the date and appl
 
 | Phase | Dates | Default count | Format | Cadence |
 |-------|-------|--------------|--------|---------|
-| **1: Working** | Now → Mar 13 | 10Q | 5Q targeted + 5Q consolidation. Every 3rd session: swap for 20Q timed mixed set. | 6 days/week, ~45 min |
-| **2: Ramp** | Mar 14 → Mar 24 | 20Q | Daily timed mixed sets. Two 80Q/4hr full sims (Day 3 and Day 9 of leave). | Daily, ~90 min |
-| **3: Kill-list** | Mar 25 → Apr 3 | 15Q | Top 20 traps drilled daily. Two more 80Q sims (Day -10 and Day -5). No new material last 72hr — only missed-rule flashcards and speed sets. | Daily, ~60 min |
+| **1: Cruise** | Now → Mar 13 | 5-10Q | Due topics from `rai due` + consolidation. Rapid-fire rounds for label-swap areas. | 3x/week, ~15-20 min |
+| **2: Ramp** | Mar 14 → Mar 28 | 15Q | Mixed MCQ sets. One 40Q practice exam mid-phase. | 5x/week, ~30 min |
+| **3: Peak** | Mar 29 → Apr 3 | 20Q | Two timed 80Q mocks. Kill-list drill on remaining weak spots. No new material last 72hr. | Daily, ~45 min |
 
 **M1/M2 minimum quota:** Regardless of phase, at least **30% of weekly questions must be M1/M2 topics.** These are 25-45% of the exam — over-drilling M3-M5 risks a silent fail on technical content.
 
