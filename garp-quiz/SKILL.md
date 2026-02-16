@@ -79,14 +79,24 @@ Generate ONE exam-style MCQ:
 - Distractor answers should be plausible (common misconceptions)
 - Match the style/difficulty of the practice exam questions
 
-### 4. Present via AskUserQuestion
+### 4. Present Question
+
+**MCQ mode (>= 70% accuracy):**
 
 Use `AskUserQuestion` with the question text as the `question` field and A-D as `options`.
 - `header`: "Q{n}" where n is the session question number
 - Each option's `description`: minimal and non-revealing — must not define the concept or give away the answer. Use generic filler like "Select if this is correct" or omit meaningful detail entirely. The label carries the answer text.
 - `multiSelect`: false
 
-**Confidence check:** After the user answers, use a second `AskUserQuestion`:
+**Scenario free-recall mode (50-69% accuracy):**
+
+Present the scenario as a chat message ending with a bolded question (e.g., **"Which fairness measure, and why?"**). The user types their answer — no AskUserQuestion, no options to select from. Evaluate their typed response for correctness.
+
+**Definition drill mode (< 50% accuracy):**
+
+Present the term/concept as a chat message (e.g., "What is Ridge Regression and what does it do to coefficients?"). User types what they recall. Compare against source and fill gaps.
+
+**Confidence check (all modes):** After evaluating, use `AskUserQuestion`:
 - `header`: "Confidence"
 - `question`: "Were you confident in that answer?"
 - Options: "Confident" / "Guessing"
@@ -199,7 +209,10 @@ The tracker file (`~/notes/GARP RAI Quiz Tracker.md`) uses this structure:
 
 ## Output
 
-- Questions presented via `AskUserQuestion` (interactive MCQ UI)
+- **MCQ mode:** Questions via `AskUserQuestion` (interactive UI)
+- **Free-recall mode:** Questions as chat messages, user types answer
+- **Definition drill:** Terms as chat messages, user types recall
+- **Mock exam:** All MCQ via `AskUserQuestion`, debrief at end
 - Results tracked in `~/notes/GARP RAI Quiz Tracker.md`
 - Session summary in chat after final question
 
@@ -208,9 +221,44 @@ The tracker file (`~/notes/GARP RAI Quiz Tracker.md`) uses this structure:
 Choose mode based on topic accuracy:
 
 - **< 50% accuracy:** Use **definition drill mode** (free recall, no MCQ). Present the term, user types what they remember, compare against source. MCQ lets users pattern-match from options — free recall forces actual retrieval and gives honest signal on knowledge gaps. Reference: `~/notes/GARP RAI Definition Drills.md`.
-- **>= 50% accuracy:** Use **MCQ quiz mode** (standard AskUserQuestion flow). Tests under exam-like conditions once definitions are solid.
+- **50-69% accuracy:** Use **scenario free-recall mode**. Present a scenario, user types the answer and reasoning — no MCQ options. This forces retrieval without the crutch of pattern-matching from options. Still use the confidence check afterward. Score as OK/MISS based on whether the user identified the correct concept and gave valid reasoning.
+- **>= 70% accuracy:** Use **MCQ quiz mode** (standard AskUserQuestion flow). Tests under exam-like conditions once retrieval is solid.
 
-Progression: drill until user can recite definitions cold → then switch to MCQ to test under pressure.
+Progression: definition drill → scenario free-recall → MCQ. Each mode builds on the previous.
+
+**Why 70% not 50%:** Session on 2026-02-16 showed that MCQ at 50-69% enables pattern-matching that masks weak retrieval. Free-recall caught the gap — user went 8/10 on free-recall scenarios after failing the MCQ version of the same topic.
+
+## Timed Mock Exam Mode
+
+Trigger: `/garp-quiz mock` or "mock exam", "timed quiz"
+
+Simulates exam conditions for readiness testing. Use when overall accuracy is >70% and exam is <3 weeks away.
+
+### Rules
+
+- **20 questions, 30 minutes.** State the clock at the start: "30 minutes starts now. I'll track time."
+- **All MCQ** — regardless of topic accuracy. The exam is MCQ, so mock must be too.
+- **Mixed topics** — random selection weighted toward M3/M4/M5 (exam weighting). No two consecutive questions from the same module.
+- **No explanations during the mock.** Just "Noted." after each answer. Explanations come in the debrief.
+- **Track time:** After every 5 questions, state elapsed time and questions remaining.
+- **At 30 minutes:** Stop wherever you are. Unanswered questions count as MISS.
+
+### Debrief
+
+After the mock (or at 30 min cutoff):
+1. Show score: "14/20 — 70%"
+2. List all misses with brief explanations
+3. Identify weakest module in this mock
+4. Compare to overall tracker rate — improving or declining?
+5. Update tracker with all results (batch update at end, not per-question)
+
+### Readiness Signal
+
+- **>= 80% on two consecutive mocks** → exam-ready, shift to maintenance mode (1 session every 3 days)
+- **60-79%** → continue daily sessions, focus on missed topics
+- **< 60%** → drop back to free-recall/drill mode, not ready for mock yet
+
+---
 
 ## Notes
 
