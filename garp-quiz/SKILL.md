@@ -35,7 +35,7 @@ Session length and format shift based on exam proximity. Check the date and appl
 
 ## Workflow
 
-### 1. Read Tracker
+### 1. Read Tracker + Prime Recent Misses
 
 **File check:** If ~/notes/GARP RAI Quiz Tracker.md does not exist, tell the user: 'No quiz tracker found. Run a first quiz session to create it — I will initialize the tracker after your first question.' Then proceed with the quiz using default equal weights for all topics (skip spaced repetition for the first session).
 
@@ -44,6 +44,17 @@ Read `~/notes/GARP RAI Quiz Tracker.md`. Parse:
 - Total stats
 - Recent misses (last 10)
 - Spaced repetition schedule (interval + next due date per topic)
+
+**Prime the brain:** Before the first question, show the user their last 3-5 misses from the Recent Misses table with the Key Concept column. Format as a quick reminder block:
+
+```
+**Recent misses to watch for:**
+- LIME = local, SHAP = marginal contribution (Feb 16)
+- Equal opportunity = TPR, not predictive rate parity (Feb 16)
+- Elastic Net = L1+L2 combined, not LASSO (Feb 16)
+```
+
+This costs 2 seconds and prevents the same label-swap errors from recurring. Skip if the user has no recent misses or says "skip priming."
 
 ### 2. Pick Topic
 
@@ -255,6 +266,25 @@ Choose mode based on topic accuracy:
 - **>= 70% accuracy:** Use **MCQ quiz mode** (standard AskUserQuestion flow). Tests under exam-like conditions once retrieval is solid.
 
 Progression: definition drill → scenario free-recall → MCQ. Each mode builds on the previous.
+
+**Rapid-fire mode (any accuracy, triggered manually or after label-swap misses):**
+
+Trigger: user says "rapid fire", or after 2+ label-swap misses in the same session on related concepts (e.g., mixing up fairness measures, regularization types, XAI techniques).
+
+Format: Present a one-line description, user names the concept. No MCQ options, no scenario — pure term recognition. 5-8 questions in rapid succession, no recording to FSRS (this is reinforcement, not assessment). Example:
+
+```
+**R1.** Equal true positive rates across groups?
+> Equal opportunity
+
+**R2.** L1 penalty, can zero out coefficients?
+> LASSO
+
+**R3.** Local, model-agnostic, fits simple model around one prediction?
+> LIME
+```
+
+After the rapid-fire round, resume normal mode. If user gets all correct, the labels are locked in. If misses persist, note in trap patterns file.
 
 **Why 70% not 50%:** Session on 2026-02-16 showed that MCQ at 50-69% enables pattern-matching that masks weak retrieval. Free-recall caught the gap — user went 8/10 on free-recall scenarios after failing the MCQ version of the same topic.
 
