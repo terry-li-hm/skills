@@ -37,7 +37,7 @@ Read `~/notes/GARP RAI Quiz Tracker.md`. Parse:
 
 **Use the `rai` CLI to check what's due:**
 ```bash
-~/scripts/garp-tracker.py due
+~/scripts/rai.py due
 ```
 This shows overdue topics sorted by priority, new/untested topics, and suggested session composition. Use its output to pick topics instead of manually parsing the tracker.
 
@@ -127,10 +127,10 @@ For correct answers, still capture the core insight — it reinforces retention 
 
 ### 6. Update Tracker
 
-Use the `rai` CLI (`~/scripts/garp-tracker.py`) to record results. This handles FSRS scheduling, markdown tracker updates, and history in one call.
+Use the `rai` CLI (`~/scripts/rai.py`) to record results. This handles FSRS scheduling, markdown tracker updates, and history in one call.
 
 ```bash
-~/scripts/garp-tracker.py record TOPIC RATING
+~/scripts/rai.py record TOPIC RATING
 ```
 
 **Rating mapping from confidence check:**
@@ -141,8 +141,8 @@ Use the `rai` CLI (`~/scripts/garp-tracker.py`) to record results. This handles 
 
 **Example Bash calls:**
 ```bash
-~/scripts/garp-tracker.py record M3-fairness-measures again
-~/scripts/garp-tracker.py record M2-semi-rl good
+~/scripts/rai.py record M3-fairness-measures again
+~/scripts/rai.py record M2-semi-rl good
 ```
 
 Run one `record` call per question. The CLI updates both the FSRS state (JSON) and the markdown tracker (summary, topic performance, history) in a single operation.
@@ -227,7 +227,7 @@ The tracker file (`~/notes/GARP RAI Quiz Tracker.md`) uses this structure:
 - **Free-recall mode:** Questions as chat messages, user types answer
 - **Definition drill:** Terms as chat messages, user types recall
 - **Mock exam:** All MCQ via `AskUserQuestion`, debrief at end
-- Results recorded via `~/scripts/garp-tracker.py record TOPIC RATING` (updates FSRS + markdown tracker)
+- Results recorded via `~/scripts/rai.py record TOPIC RATING` (updates FSRS + markdown tracker)
 - Session summary in chat after final question
 
 ## Mode Selection
