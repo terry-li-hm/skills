@@ -66,6 +66,10 @@ Key tables: `sleep`, `readiness`, `daily_activity`, `daily_stress`, `daily_sleep
 
 **Readiness > Sleep.** Readiness is the headline metric — composite of sleep, HRV, temperature, activity balance, recovery. Sleep score only measures one night. When presenting data, lead with readiness. The default `oura` (no args) now shows scores + readiness contributors.
 
+**"Previous Night" is a contributor name, not the sleep score.** It measures how restorative last night's sleep was for recovery — can be 100 even when sleep score is 89. Don't conflate with the actual sleep score when reporting.
+
+**App "major sign" = temperature deviation only.** The Oura app flags temp deviation ≥0.5°C as a "major sign." Don't bundle other red contributors (HRV, RHR, sleep balance) into the app's assessment — those are separate. Report what the app actually flags, then add CLI contributor context separately.
+
 ## Workflow
 
 1. For quick checks: `oura` (shows scores + readiness contributors)
