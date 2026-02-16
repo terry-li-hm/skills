@@ -7,7 +7,7 @@ github_url: https://github.com/steipete/summarize
 
 # Summarize
 
-Fast CLI to summarize URLs, local files, and YouTube links.
+Summarize URLs, local files, and YouTube links. Prefer direct summarization over the CLI.
 
 ## Trigger
 
@@ -16,74 +16,53 @@ Use when:
 - User asks "what's this link/video about?"
 - User says "transcribe this YouTube/video"
 - User wants to extract content from a webpage or PDF
+- User pastes a URL with no other context (implicit "what's this?")
 
-## Prerequisites
+## Approach
 
-- `summarize` CLI installed: `brew install steipete/tap/summarize`
-- API key for chosen model provider (OpenRouter, Anthropic, Google, etc.)
+**Default: Fetch content → read directly → summarize in-context.** This produces better, more contextual summaries than delegating to the `summarize` CLI (which adds a middleman LLM). Especially for content that will be saved to vault — tagging, relevance notes, and quotables are best done in-context.
 
-## Commands
+### Content Fetch Chain
 
-### Summarize URL
-
-```bash
-summarize "https://example.com/article" --model google/gemini-3-flash-preview
-```
-
-### Summarize Local File
-
-```bash
-summarize "/path/to/file.pdf" --model google/gemini-3-flash-preview
-```
-
-### YouTube Transcript
-
-```bash
-# Summary
-summarize "https://youtu.be/VIDEO_ID" --youtube auto
-
-# Extract transcript only (no summary)
-summarize "https://youtu.be/VIDEO_ID" --youtube auto --extract-only
-```
-
-### Model Selection
-
-```bash
-# Fast + cheap
-summarize "URL" --model google/gemini-3-flash-preview
-
-# Higher quality
-summarize "URL" --model anthropic/claude-sonnet-4
-```
-
-## Content Fetch Fallback Chain
-
-When fetching URL content, try in order:
+Try in order:
 
 ```
-1. WebFetch (fast, cached, 15min)
+1. Jina Reader: curl -s -H "Accept: text/markdown" "https://r.jina.ai/URL"
+   (reliable, full content, no truncation)
    ↓ fails
-2. summarize CLI (Chrome UA, handles WeChat)
+2. WebFetch (fast, cached 15min, but may truncate long content)
    ↓ fails
-3. Jina Reader: curl -s -H "Accept: text/markdown" "https://r.jina.ai/URL"
+3. summarize CLI --extract-only (Chrome UA, handles WeChat)
    ↓ fails
 4. Browser automation (for login-required pages)
    ↓ fails
 5. Ask user for copy/paste
 ```
 
-### WeChat articles
+### YouTube Transcripts
 
-`summarize` is the primary tool — bypasses WeChat CAPTCHA via Chrome UA string.
+```bash
+# Extract transcript only
+summarize "https://youtu.be/VIDEO_ID" --youtube auto --extract-only
+
+# Or use youtube-transcript-api directly (cleaner output)
+python3 -c "from youtube_transcript_api import YouTubeTranscriptApi; ..."
+```
+
+For batch YouTube channel digests, use `/digest` instead.
+
+### WeChat Articles
+
+`summarize` CLI is the primary tool here — bypasses WeChat CAPTCHA via Chrome UA string.
 
 ```bash
 summarize "https://mp.weixin.qq.com/s/ARTICLE_ID" --extract-only
 ```
 
 Short URLs (`/s/ABC123`) are more stable than long URLs (`?__biz=...`).
-If `summarize` also fails, fallback to Firecrawl (needs `FIRECRAWL_API_KEY`, 500 free/month) or search for mirror on zhihu.com/163.com/csdn.net.
+Fallback: Firecrawl or search for mirror on zhihu.com/163.com/csdn.net.
 
-### Login-required sites
+### Login-required Sites
 
 Always need browser automation: LinkedIn, X/Twitter, WhatsApp Web, banking sites.
 
@@ -91,9 +70,17 @@ Always need browser automation: LinkedIn, X/Twitter, WhatsApp Web, banking sites
 
 Images need `Referer: https://www.xiaohongshu.com/` header or you get 403.
 
-## Tips
+## CLI Fallback
+
+The `summarize` CLI (`brew install steipete/tap/summarize`, v0.10.0) is available but has known issues:
+- Google API key (`GEMINI_API_KEY`) is set but invalid for Generative AI API
+- Anthropic model can return empty summaries on long content
+- `--extract-only` truncates long transcripts (~200 lines)
+
+If the CLI is needed (e.g., WeChat), use `--model openrouter/...` to avoid the Google key issue.
+
+## Output
 
 - For huge transcripts, return a tight summary first, then ask which section to expand
-- Use `--extract-only` when user explicitly wants the raw transcript
-- Supports PDFs, articles, YouTube, and most web content
-- For batch YouTube channel digests, use `/digest` instead
+- When saving to vault, include: source URL, date, type, tags, relevance notes
+- Quotable lines are valuable — pull 2-3 standout quotes
