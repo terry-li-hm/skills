@@ -35,9 +35,13 @@ Read `~/notes/GARP RAI Quiz Tracker.md`. Parse:
 
 ### 2. Pick Topic
 
-**Spaced repetition selection** (unless topic forced):
+**Use the `rai` CLI to check what's due:**
+```bash
+~/scripts/garp-tracker.py due
+```
+This shows overdue topics sorted by priority, new/untested topics, and suggested session composition. Use its output to pick topics instead of manually parsing the tracker.
 
-Priority order:
+**If the CLI is unavailable**, fall back to manual selection:
 1. **Overdue topics** — any topic where `next_due ≤ today`, sorted by most overdue first. Among equally overdue, prefer lower success rate.
 2. **Undertested topics** — topics with 0 attempts (never scheduled). Weight toward M3/M4/M5.
 3. **Random** — if nothing is due and all topics have been tested, pick randomly from topics whose next_due is soonest.
@@ -123,20 +127,30 @@ For correct answers, still capture the core insight — it reinforces retention 
 
 ### 6. Update Tracker
 
-Update `~/notes/GARP RAI Quiz Tracker.md` **using Edit tool** (surgical edits, not full file rewrites):
-- Edit the Summary table (total, correct, rate, sessions)
-- Edit the specific Topic Performance rows that changed
-- Edit the specific Spaced Repetition Schedule rows that changed
-- Append new entries to History table
-- If incorrect, append to "Recent Misses" table (cap at 10 entries — drop oldest when exceeding)
-- **Spaced Repetition Schedule (confidence-aware):**
-  - MISS → set interval to 1, next_due to tomorrow
-  - OK + Confident → double the current interval (cap at 14), set next_due to today + new interval
-  - OK + Guessing → interval stays at 1, next_due to tomorrow (lucky guess doesn't advance mastery)
-  - New topic (no schedule row yet) → add row with interval based on result
-- **History table:** Record result as `OK`, `OK-GUESS`, or `MISS` to distinguish confident vs lucky correct answers
+Use the `rai` CLI (`~/scripts/garp-tracker.py`) to record results. This handles FSRS scheduling, markdown tracker updates, and history in one call.
 
-**Token efficiency:** Use Edit to modify specific table rows, not Write to rewrite the entire file. The tracker grows over time — full rewrites waste tokens proportional to history length.
+```bash
+~/scripts/garp-tracker.py record TOPIC RATING
+```
+
+**Rating mapping from confidence check:**
+- MISS → `again`
+- OK + Guessing → `hard`
+- OK + Confident → `good`
+- OK + Very easy / instant recall → `easy`
+
+**Example Bash calls:**
+```bash
+~/scripts/garp-tracker.py record M3-fairness-measures again
+~/scripts/garp-tracker.py record M2-semi-rl good
+```
+
+Run one `record` call per question. The CLI updates both the FSRS state (JSON) and the markdown tracker (summary, topic performance, history) in a single operation.
+
+**After the last question in a session**, also increment the Sessions count in the tracker manually (the CLI doesn't track session boundaries):
+- Edit the Summary table: `Sessions` += 1
+
+**Spaced repetition schedule rows in the markdown are now informational only** — the FSRS JSON state (`~/notes/.garp-fsrs-state.json`) is the source of truth for scheduling. The markdown Spaced Repetition Schedule table no longer needs to be maintained.
 
 ### 6b. Update Trap Patterns
 
@@ -213,7 +227,7 @@ The tracker file (`~/notes/GARP RAI Quiz Tracker.md`) uses this structure:
 - **Free-recall mode:** Questions as chat messages, user types answer
 - **Definition drill:** Terms as chat messages, user types recall
 - **Mock exam:** All MCQ via `AskUserQuestion`, debrief at end
-- Results tracked in `~/notes/GARP RAI Quiz Tracker.md`
+- Results recorded via `~/scripts/garp-tracker.py record TOPIC RATING` (updates FSRS + markdown tracker)
 - Session summary in chat after final question
 
 ## Mode Selection
