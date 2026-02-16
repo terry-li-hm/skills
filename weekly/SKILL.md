@@ -24,6 +24,7 @@ Create a weekly synthesis of work, thinking, and progress.
    - Check `~/docs/solutions/` and `MEMORY.md` for entries this week
    - Check git log for skills/vault commits: `cd ~/skills && git log --oneline --since="7 days ago"`
    - Check `~/logs/` for cron output logs
+   - Check CSB job monitor results: `tail -20 ~/logs/cron-csb-jobs.log` and `cat ~/.local/share/csb-jobs/seen.json | python3 -c "import sys,json; print(len(json.load(sys.stdin)),'jobs tracked')"`
 
 3. **Synthesize into themes** — don't just list events, find patterns:
    - What topics kept coming up?
@@ -160,7 +161,8 @@ Run this alongside the synthesis every Friday:
 1. **TODO.md prune** — Clear completed items, flag anything untouched for 2+ weeks (stale → delete or reschedule)
 2. **Transition status** — Update [[Capco Transition]] (PILON, onboarding, handover)
 3. **Networking status** — Who's in motion, who needs follow-up? (BOCHK bridge, Capco contacts)
-4. **Priorities for the week** — Top 2-3 actions
+4. **CSB job monitor** — Any new AI-related government vacancies this week? Check `~/logs/cron-csb-jobs.log` for matches
+5. **Priorities for the week** — Top 2-3 actions
 7. **AI landscape** — Run `/ai-review` for weekly synthesis (client talking points). `/ai-news` feeds it raw material.
 8. **First Friday only** — Run `/monthly` (content digests, skill review, AI deep review, vault hygiene)
 

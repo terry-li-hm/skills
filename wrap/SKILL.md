@@ -14,12 +14,6 @@ End-of-session wrap-up — TODO sweep, session log, then catch what "Compound As
 - "what did we learn"
 - End of long/meaty session
 
-## When to Skip
-
-- Session was trivial (quick questions, nothing complex)
-- Already captured learnings during the session
-- User seems done, don't force it
-
 ## What to Look For
 
 Scan for **non-obvious** stuff only:
@@ -36,9 +30,9 @@ Scan for **non-obvious** stuff only:
 ## Workflow
 
 1. **TODO sweep** — FIRST, before anything else. Check if anything done this session should be marked in `~/notes/TODO.md`. This is mechanical and must not be skipped.
-2. **Session log** — append a summary block to today's daily note (`~/notes/YYYY-MM-DD.md`)
-3. Quick scan of conversation for non-obvious learnings
-4. If nothing non-obvious → "Nothing to capture, we're good"
+2. **Session log** — ALWAYS append a summary block to today's daily note (`~/notes/Daily/YYYY-MM-DD.md`). Never skip this step, even for short sessions — a 1-line entry is fine.
+3. Quick scan of conversation for non-obvious learnings (skip if session was trivial — quick questions, nothing complex)
+4. If nothing non-obvious → done
 5. If something surfaces → **dedup**, **route**, and optionally **promote**
 6. Done. No ceremony.
 
