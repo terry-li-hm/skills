@@ -78,16 +78,20 @@ Topic categories (map to exam modules):
 
 ### 3. Generate Question
 
-Read the relevant raw content file for the chosen topic:
-- `~/notes/GARP RAI Module 1 - Raw Content.md`
-- `~/notes/GARP RAI Module 2 - Raw Content.md`
-- `~/notes/GARP RAI Module 3 - Raw Content.md`
-- `~/notes/GARP RAI Module 4 - Raw Content.md`
-- `~/notes/GARP RAI Module 5 - Raw Content.md`
+Read the relevant source material for the chosen topic. **Priority order:**
+
+1. **End-of-chapter review questions:** `~/notes/GARP RAI Review Questions.md` — official GARP questions with answers. Prefer these over generated questions. Can adapt them into MCQ format by turning the answer + plausible wrong alternatives into options.
+2. **Practice exam:** `~/notes/GARP RAI Practice Exam.md` — real exam-style questions (if unused for this topic).
+3. **Raw content files** (for generating new questions):
+   - `~/notes/GARP RAI Module 1 - Raw Content.md`
+   - `~/notes/GARP RAI Module 2 - Raw Content.md`
+   - `~/notes/GARP RAI Module 3 - Raw Content.md`
+   - `~/notes/GARP RAI Module 4 - Raw Content.md`
+   - `~/notes/GARP RAI Module 5 - Raw Content.md`
 
 **Token efficiency:** Don't read entire module files. Use Grep to find the relevant section heading, then Read with `offset`/`limit` to pull only the ~30-50 lines needed for that topic. For a 5-question session across 2-3 modules, read the TOC (first 30 lines) once per module to locate sections, then targeted reads only.
 
-Also check `~/notes/GARP RAI Practice Exam.md` — if there's an unused practice exam question on the chosen topic, prefer using it (real exam questions > generated ones).
+**M2 label-swap risk:** For M2 topics, generate MCQ distractors that test terminology confusion (e.g., Ridge vs LASSO vs Elastic Net, self-training vs co-training, normalization vs standardization). These are the highest-value questions — the user's intuitions are correct but label swaps cause errors under pressure.
 
 Generate ONE exam-style MCQ:
 - Scenario-based where possible (the real exam is "practice oriented")
