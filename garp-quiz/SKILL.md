@@ -57,8 +57,8 @@ Topic categories (map to exam modules):
 - `M1-classical-ai`, `M1-ml-types`, `M1-ai-risks`
 - `M2-intro-tools`, `M2-data-prep`, `M2-clustering`, `M2-econometric`, `M2-regression-classification`, `M2-semi-supervised`, `M2-neural-networks`, `M2-semi-rl`, `M2-model-estimation`, `M2-model-eval`, `M2-nlp-traditional`, `M2-nlp-genai`
 - `M3-bias-unfairness`, `M3-fairness-measures`, `M3-xai`, `M3-autonomy-safety`, `M3-reputational-existential`, `M3-genai-risks`
-- `M4-ethical-frameworks`, `M4-ethics-principles`, `M4-regulatory`
-- `M5-data-governance`, `M5-model-governance`, `M5-model-risk-roles`, `M5-genai-governance`
+- `M4-ethical-frameworks`, `M4-ethics-principles`, `M4-bias-discrimination`, `M4-privacy-cybersecurity`, `M4-governance-challenges`, `M4-regulatory`
+- `M5-data-governance`, `M5-model-governance`, `M5-model-risk-roles`, `M5-model-dev-testing`, `M5-model-validation`, `M5-model-changes-review`, `M5-genai-governance`
 
 ### 3. Generate Question
 
