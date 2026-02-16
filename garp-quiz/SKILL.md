@@ -309,6 +309,17 @@ After the mock (or at 30 min cutoff):
 
 ---
 
+## Key Files
+
+- **Prep plan:** `~/notes/GARP RAI Exam Prep.md` — phased schedule, exam weights, confirmed weak spots, study strategy
+- **Quiz tracker:** `~/notes/GARP RAI Quiz Tracker.md` — per-topic stats, history, recent misses
+- **FSRS state:** `~/notes/.garp-fsrs-state.json` — source of truth for spaced repetition scheduling
+- **Review questions:** `~/notes/GARP RAI Review Questions.md` — official end-of-chapter questions with answers (all 5 modules)
+- **Practice exam:** `~/notes/GARP RAI Practice Exam.md` — 40Q official practice exam
+- **Trap patterns:** `~/notes/GARP RAI Trap Patterns.md` — recurring mistake patterns
+- **Raw content:** `~/notes/GARP RAI Module {1-5} - Raw Content.md`
+- **CLI:** `~/scripts/rai.py` (run via `uv run --script`) — `due`, `record`, `stats`, `topics`
+
 ## Notes
 
 - Keep explanations concise — this is a quiz, not a lecture
