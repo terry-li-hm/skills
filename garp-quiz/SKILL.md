@@ -18,8 +18,20 @@ Daily quiz skill for GARP RAI exam prep (Apr 4, 2026). Tracks mistakes, adapts f
 
 ## Inputs
 
-- **count** (optional): Number of questions. Default 5.
+- **count** (optional): Number of questions. Default varies by phase (see below).
 - **topic** (optional): Force a specific topic (e.g., "fairness", "M3", "XAI"). Default: adaptive.
+
+## Phased Schedule
+
+Session length and format shift based on exam proximity. Check the date and apply the right phase.
+
+| Phase | Dates | Default count | Format | Cadence |
+|-------|-------|--------------|--------|---------|
+| **1: Working** | Now → Mar 13 | 10Q | 5Q targeted + 5Q consolidation. Every 3rd session: swap for 20Q timed mixed set. | 6 days/week, ~45 min |
+| **2: Ramp** | Mar 14 → Mar 24 | 20Q | Daily timed mixed sets. Two 80Q/4hr full sims (Day 3 and Day 9 of leave). | Daily, ~90 min |
+| **3: Kill-list** | Mar 25 → Apr 3 | 15Q | Top 20 traps drilled daily. Two more 80Q sims (Day -10 and Day -5). No new material last 72hr — only missed-rule flashcards and speed sets. | Daily, ~60 min |
+
+**M1/M2 minimum quota:** Regardless of phase, at least **30% of weekly questions must be M1/M2 topics.** These are 25-45% of the exam — over-drilling M3-M5 risks a silent fail on technical content.
 
 ## Workflow
 
@@ -241,6 +253,25 @@ Choose mode based on topic accuracy:
 Progression: definition drill → scenario free-recall → MCQ. Each mode builds on the previous.
 
 **Why 70% not 50%:** Session on 2026-02-16 showed that MCQ at 50-69% enables pattern-matching that masks weak retrieval. Free-recall caught the gap — user went 8/10 on free-recall scenarios after failing the MCQ version of the same topic.
+
+## Topic Graduation Criteria
+
+A topic is "graduated" (safe to deprioritise) only when BOTH conditions are met:
+1. **≥85% accuracy over the last 20 questions** on that topic
+2. **FSRS state = Review** with interval ≥ 8 days
+
+A topic is "red" (daily until fixed) when:
+- **<70% accuracy** over last 10 questions, OR
+- **Missed twice in 7 days** on the same concept
+
+Red topics get scheduled every session until they hit 5 consecutive correct answers under time.
+
+## Decision Rules
+
+After each session, apply these automatically:
+- **Timed set <75%** → next session is 100% remediation on missed topics (no new topics)
+- **Average >3 min/question** on timed set → next session is speed drill (15Q at 90 sec/question, forced answer, then review)
+- **Topic missed twice in 7 days** → becomes daily item until cleared
 
 ## Timed Mock Exam Mode
 
