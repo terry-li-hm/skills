@@ -53,6 +53,20 @@ gog gmail send \
   --body "<message_body>"
 ```
 
+### Reply with Quoted Original
+```bash
+gog gmail send \
+  --reply-to-message-id "<message_id>" \
+  --quote \
+  --to "<recipient_email>" \
+  --subject "Re: <original_subject>" \
+  --body "<reply_body>"
+```
+- `--quote` fetches the original message and includes it as a proper blockquote (HTML with blue left border + plain text with `>` prefix)
+- Preserves original formatting (links, bold, images) in the quote
+- Adds "On \<date\>, \<sender\> wrote:" attribution line
+- Requires `--reply-to-message-id` (not just `--thread-id`)
+
 Always confirm with user before executing send.
 
 ### Create Draft (with attachments / threading)
