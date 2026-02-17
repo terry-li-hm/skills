@@ -116,7 +116,7 @@ For other decisions, use simpler context or skip this step.
 - `--format json` — ensures cost/duration metadata is captured
 - `--output ~/notes/Councils/LLM Council - {Topic} - {date}.md` — vault persistence
 
-**Do NOT use `--quiet` by default** — the user may want to watch live output. If they do, they can `tail -f` the terminal or run `consilium --watch` in another tmux tab.
+**Do NOT use `--quiet` by default.** Run with `run_in_background: true` on the Bash tool so the user can watch live via `consilium --watch` in another tmux tab. Read the `--output` file when the task completes.
 
 > **Note:** Always use `uv tool run consilium` instead of bare `consilium`. The mise shim points to system Python which can't find the module.
 
