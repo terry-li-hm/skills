@@ -114,10 +114,18 @@ Generate ONE exam-style MCQ:
 
 **MCQ mode (>= 70% accuracy):**
 
-Use `AskUserQuestion` with the question text as the `question` field and A-D as `options`.
-- `header`: "Q{n}" where n is the session question number
-- Each option's `description`: minimal and non-revealing — must not define the concept or give away the answer. Use generic filler like "Select if this is correct" or omit meaningful detail entirely. The label carries the answer text.
-- `multiSelect`: false
+Present the question and options as a chat message. User types A/B/C/D. Example format:
+
+```
+**Q1** — M4-bias-discrimination (MCQ)
+
+A bank deploys a well-tested credit scoring model...
+
+A. Bias in problem specification
+B. Bias in data
+C. Bias in modeling and validation
+D. Bias in deployment
+```
 
 **Scenario free-recall mode (50-69% accuracy):**
 
