@@ -1,6 +1,6 @@
 ---
 name: consilium
-description: 4 frontier models deliberate, then Claude judges. ~$0.50/run — use for any question worth 5+ minutes of thought.
+description: Multi-model deliberation — full council (~$0.50) or quick parallel (~$0.10). Use for any question worth 5+ minutes of thought.
 github_url: https://github.com/terry-li-hm/consilium
 github_hash: e8043f3
 user_invocable: true
@@ -8,27 +8,46 @@ user_invocable: true
 
 # LLM Council
 
-4 frontier models deliberate on a question, then Claude Opus 4.5 judges and adds its own perspective. Unlike `/ask-llms` which shows parallel responses, this creates an actual debate where models see and respond to previous speakers, with a rotating challenger ensuring sustained disagreement.
+4 frontier models deliberate on a question, then Claude Opus 4.5 judges and adds its own perspective. Models see and respond to previous speakers, with a rotating challenger ensuring sustained disagreement.
+
+**Future:** `/ask-llms` will fold into consilium as `--quick` mode (parallel queries, no debate). Until then, use `/ask-llms` directly for quick parallel comparisons.
+
+## Routing: Which Mode?
+
+```
+Does the question have a single correct answer? (specs, facts, how-to)
+  YES → Web search or ask Claude directly
+  NO ↓
+Is this personal preference / physical / visual? (glasses, photos, food)
+  YES → Try it in person, or ask Claude directly
+  NO ↓
+Do you need multiple perspectives but not debate?
+  YES → /ask-llms (parallel, ~$0.10)
+  NO ↓
+Are there genuine trade-offs requiring deliberation?
+  YES → /consilium (full council, ~$0.50)
+```
 
 ## When to Use
 
 At ~$0.50/run, the cost threshold is negligible. Use whenever:
 
-- **Any question worth >5 minutes of deliberation** — the council is cheaper than your time
-- You want models to actually debate, not just answer in parallel
+- **Genuine trade-offs with competing values** — the sweet spot (CV positioning, governance frameworks, architecture decisions)
+- **Domain-specific professional decisions** — regulatory, career, strategic
 - You need a synthesized recommendation, not raw comparison
-- Exploring trade-offs where different viewpoints matter
-- **Brainstorming and exploration** — free-flow intellectual discussion, not just binary decisions
 - Questions with cognitive, social, or behavioural dimensions (council catches hidden angles Claude underestimates)
+- **Stress-testing a plan** — "what would make this fail?"
+- **Iterating on a previous council** — second passes go deeper
 
 ## When NOT to Use
 
+- **Single correct answer** — photo crop rules, product specs, naming preferences. Use web search or a single model
+- **Personal preference / physical** — glasses frames, food, clothing. Council reasons from theory; go try it in person instead
 - **Thinking out loud** — exploratory discussions where you're still forming the question
 - **Claude has good context** — if we've been discussing the topic, direct conversation is faster
-- **Personal preference** — council excels at objective trade-offs, not "what would I enjoy"
-- **Physical/visual data required** — if the answer depends on seeing something (body fit, face shape, appearance), council reasons from theory only and produces generic advice. Go try it in person instead
 - **Already converged** — if discussion reached a conclusion, council just validates
-- **Speed matters** — takes 60-90s (cost is negligible at ~$0.50)
+- **Speed matters** — takes 60-90s
+- **Naming exercises** — council debates taste in circles. Use one model to brainstorm candidates, then registry-check. Council only if evaluating a shortlist against specific criteria
 
 ## Prerequisites
 
@@ -46,6 +65,17 @@ export MOONSHOT_API_KEY=sk-...             # Optional: Kimi fallback
 ```
 
 ## Instructions
+
+### Step 0: Suitability Check
+
+Before running the council, evaluate the question against the routing table above. If the question falls into "When NOT to Use", redirect:
+
+- **Factual/single-answer** → answer directly or web search
+- **Personal preference** → "This is better answered by trying it in person"
+- **Naming** → brainstorm candidates with a single model first, then offer council to evaluate shortlist
+- **Quick parallel opinions** → suggest `/ask-llms` instead
+
+Only proceed to Step 1 if the question involves genuine trade-offs or domain-specific judgment.
 
 ### Step 1: Get the Question
 
@@ -69,38 +99,39 @@ For other decisions, use simpler context or skip this step.
 
 ### Step 3: Run the Council
 
-**Basic usage (--quiet since Claude reads the transcript, not the terminal):**
-```bash
-uv tool run consilium "Should we use microservices or a monolith?" --quiet \
-  --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
-```
-
-> **Always save transcripts to vault.** Use `--output ~/notes/Councils/LLM Council - {Topic} - {date}.md`. `/tmp/` files get wiped on reboot — you lose the raw reasoning.
+**Always use these flags:**
+- `--quiet` — Claude reads the transcript, not the terminal
+- `--format json` — ensures cost/duration metadata is captured
+- `--output ~/notes/Councils/LLM Council - {Topic} - {date}.md` — vault persistence
 
 > **Note:** Always use `uv tool run consilium` instead of bare `consilium`. The mise shim points to system Python which can't find the module.
 
-**With structured output (recommended for agent workflows):**
+**Standard invocation:**
 ```bash
-uv tool run consilium "Should I accept the Standard Chartered offer?" \
-  --quiet \
-  --format json \
-  --persona "$PERSONA" \
-  --context "job-offer"
+uv tool run consilium "Should we use microservices or a monolith?" \
+  --quiet --format json \
+  --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
 
-**Common options:**
+**With persona context (career/professional decisions):**
 ```bash
-uv tool run consilium "question" --format json           # Machine-parseable output
-uv tool run consilium "question" --format yaml           # Structured but readable
-uv tool run consilium "question" --social                # Interview/networking questions
-uv tool run consilium "question" --persona "context"     # Add personal context
-uv tool run consilium "question" --rounds 3              # More deliberation
-uv tool run consilium "question" --output file.md        # Save transcript
-uv tool run consilium "question" --share                 # Upload to secret Gist
-uv tool run consilium "question" --domain banking        # Inject regulatory context
-uv tool run consilium "question" --challenger gemini     # Assign contrarian role
-uv tool run consilium "question" --followup              # Interactive drill-down after synthesis
-uv tool run consilium "question" --practical             # Actionable rules only, no philosophy
+uv tool run consilium "Should I accept the Standard Chartered offer?" \
+  --quiet --format json \
+  --persona "$PERSONA" \
+  --context "job-offer" \
+  --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
+```
+
+**Common additional flags:**
+```bash
+--social                # Interview/networking questions
+--persona "context"     # Add personal context
+--rounds 3              # More deliberation (default: 1)
+--domain banking        # Inject regulatory context (banking|healthcare|eu|fintech|bio)
+--challenger gemini     # Assign contrarian role
+--followup              # Interactive drill-down after synthesis
+--practical             # Actionable rules only, no philosophy
+--share                 # Upload to secret Gist
 ```
 
 **Domain-specific deliberation (banking, healthcare, etc.):**
@@ -275,9 +306,14 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 - **Include real metrics** for optimization questions, not just descriptions
 - **Use `--practical`** for operational questions (models spiral into philosophy otherwise)
 - **Trust the judge's framing over its action list** — it diagnoses well but over-aggregates prescriptions
+- **Challenger round is the highest-value component** — GPT-5.2 as explicit challenger consistently produces the best single insight
+- **Iterative councils beat single deep runs** — second pass on same topic goes deeper with sharper framing
+- **Blind phase often produces agreement, not debate** — the real value comes from challenger + judge. Consider `--no-blind` for topics where you expect convergence
+- **Front-load constraints in the question** — "this must work for HKMA-regulated banks" produces tighter output than "how should banks govern AI?"
 
 ## Known Issues
 
+- **Kimi-K2.5 timeouts:** Timed out in ~20% of recent councils (3/14). Partial outputs add noise. If Kimi times out, the council still works but with 3 useful speakers instead of 4. Consider filing an issue to add timeout fallback or model substitution
 - **JSON output truncation:** Use `--output file.md` to capture full transcript
 - **Follow-up:** Use `--followup` flag for interactive drill-down after synthesis
 
@@ -289,8 +325,15 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 | `json` | Agent workflows, parsing, automation |
 | `yaml` | Human-readable structured output |
 
+## Roadmap
+
+- **`--quick` mode:** Fold `/ask-llms` into consilium as a parallel-only mode (no debate, ~$0.10). Eliminates the routing decision between two tools
+- **Kimi fallback:** Auto-substitute on timeout instead of partial output
+- **Outcome tracking:** Add `## Outcome (Post-Decision)` template to transcripts
+
 ## See Also
 
 - Repository: https://github.com/terry-li-hm/consilium
 - PyPI: https://pypi.org/project/consilium/
 - Plan: `/Users/terry/skills/plans/2026-01-31-feat-consilium-claude-code-integration-plan.md`
+- Related skill: `/ask-llms` (parallel queries, future `--quick` mode)

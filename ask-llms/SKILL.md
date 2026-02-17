@@ -91,15 +91,23 @@ The script outputs each model's response with clear separators. Highlight:
 
 ## Routing: Which LLM Tool?
 
+> **Future:** This skill will fold into `/consilium --quick` mode. Until then, use this for parallel comparisons and `/consilium` for deliberation.
+
 ```
 Is this about proprietary/work code?
   YES → /remote-llm (craft prompt for local LLM)
   NO ↓
-Is this an important decision with trade-offs?
-  YES → /consilium (5 models deliberate, ~$0.50)
+Does the question have a single correct answer?
+  YES → Web search or ask Claude directly
+  NO ↓
+Is this personal preference / physical / visual?
+  YES → Try it in person, or ask Claude directly
+  NO ↓
+Are there genuine trade-offs requiring deliberation?
+  YES → /consilium (full council, ~$0.50)
   NO ↓
 Need multiple perspectives quickly?
-  YES → /ask-llms (parallel queries)
+  YES → /ask-llms (parallel queries, ~$0.10)
   NO → Just use Claude directly
 ```
 
