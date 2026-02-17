@@ -1,16 +1,27 @@
 ---
 name: consilium
-description: Multi-model deliberation — full council (~$0.50) or quick parallel (~$0.10). Use for any question worth 5+ minutes of thought.
+description: Multi-model deliberation — auto-routes by difficulty. Full council (~$0.50), quick parallel (~$0.10), red team (~$0.20), and more.
 github_url: https://github.com/terry-li-hm/consilium
-github_hash: e8043f3
+github_hash: 78a3ee2
 user_invocable: true
 ---
 
 # LLM Council
 
-4 frontier models deliberate on a question, then Claude Opus 4.5 judges and adds its own perspective. Models see and respond to previous speakers, with a rotating challenger ensuring sustained disagreement.
+5 frontier models deliberate on a question, then Claude Opus 4.6 judges and adds its own perspective. Models see and respond to previous speakers, with a rotating challenger ensuring sustained disagreement. Auto-routes by difficulty — simple questions get quick parallel, complex ones get full council.
 
-**Future:** `/ask-llms` will fold into consilium as `--quick` mode (parallel queries, no debate). Until then, use `/ask-llms` directly for quick parallel comparisons.
+## Modes
+
+| Mode | Flag | Cost | Description |
+|------|------|------|-------------|
+| Auto (default) | *(none)* | varies | Opus classifies difficulty, picks quick or council |
+| Quick | `--quick` | ~$0.10 | Parallel queries, no debate/judge |
+| Council | `--council` | ~$0.50 | Full multi-round debate + judge |
+| Discuss | `--discuss` | ~$0.30 | Hosted roundtable exploration |
+| Socratic | `--socratic` | ~$0.30 | Probing questions to expose assumptions |
+| Oxford | `--oxford` | ~$0.40 | Binary for/against with rebuttals + verdict |
+| Red Team | `--redteam` | ~$0.20 | Adversarial stress-test of a plan |
+| Solo | `--solo` | ~$0.40 | Claude debates itself in multiple roles |
 
 ## Routing: Which Mode?
 
@@ -22,10 +33,13 @@ Is this personal preference / physical / visual? (glasses, photos, food)
   YES → Try it in person, or ask Claude directly
   NO ↓
 Do you need multiple perspectives but not debate?
-  YES → /ask-llms (parallel, ~$0.10)
+  YES → consilium --quick (or /ask-llms)
+  NO ↓
+Do you want to stress-test a specific plan?
+  YES → consilium --redteam
   NO ↓
 Are there genuine trade-offs requiring deliberation?
-  YES → /consilium (full council, ~$0.50)
+  YES → consilium (auto-routes, or --council to force full debate)
 ```
 
 ## When to Use
@@ -36,7 +50,7 @@ At ~$0.50/run, the cost threshold is negligible. Use whenever:
 - **Domain-specific professional decisions** — regulatory, career, strategic
 - You need a synthesized recommendation, not raw comparison
 - Questions with cognitive, social, or behavioural dimensions (council catches hidden angles Claude underestimates)
-- **Stress-testing a plan** — "what would make this fail?"
+- **Stress-testing a plan** — `--redteam` for adversarial, `--socratic` for assumption-probing
 - **Iterating on a previous council** — second passes go deeper
 
 ## When NOT to Use
@@ -46,7 +60,7 @@ At ~$0.50/run, the cost threshold is negligible. Use whenever:
 - **Thinking out loud** — exploratory discussions where you're still forming the question
 - **Claude has good context** — if we've been discussing the topic, direct conversation is faster
 - **Already converged** — if discussion reached a conclusion, council just validates
-- **Speed matters** — takes 60-90s
+- **Speed matters** — takes 60-90s for full council
 - **Naming exercises** — council debates taste in circles. Use one model to brainstorm candidates, then registry-check. Council only if evaluating a shortlist against specific criteria
 
 ## Prerequisites
@@ -56,12 +70,11 @@ At ~$0.50/run, the cost threshold is negligible. Use whenever:
 uv tool install consilium
 
 # Or install from local dev:
-cd ~/code/consilium && pip install -e .
+cd ~/code/consilium && uv tool install --force --reinstall .
 
 # API keys
 export OPENROUTER_API_KEY=sk-or-v1-...    # Required
 export GOOGLE_API_KEY=AIza...              # Optional: Gemini fallback
-export MOONSHOT_API_KEY=sk-...             # Optional: Kimi fallback
 ```
 
 ## Instructions
@@ -73,7 +86,7 @@ Before running the council, evaluate the question against the routing table abov
 - **Factual/single-answer** → answer directly or web search
 - **Personal preference** → "This is better answered by trying it in person"
 - **Naming** → brainstorm candidates with a single model first, then offer council to evaluate shortlist
-- **Quick parallel opinions** → suggest `/ask-llms` instead
+- **Quick parallel opinions** → `--quick`
 
 Only proceed to Step 1 if the question involves genuine trade-offs or domain-specific judgment.
 
@@ -91,8 +104,8 @@ CLAUDE_MD=$(cat /Users/terry/notes/CLAUDE.md | head -100)
 PIPELINE=$(cat "/Users/terry/notes/Capco Transition.md" | head -50)
 
 # Compose persona
-PERSONA="Background: Terry is AGM & Head of Data Science at CITIC, being counselled out.
-Current pipeline: $PIPELINE"
+PERSONA="Background: Terry is Principal Consultant / AI Solution Lead at Capco.
+Current context: $PIPELINE"
 ```
 
 For other decisions, use simpler context or skip this step.
@@ -100,38 +113,57 @@ For other decisions, use simpler context or skip this step.
 ### Step 3: Run the Council
 
 **Always use these flags:**
-- `--quiet` — Claude reads the transcript, not the terminal
 - `--format json` — ensures cost/duration metadata is captured
 - `--output ~/notes/Councils/LLM Council - {Topic} - {date}.md` — vault persistence
 
+**Do NOT use `--quiet` by default** — the user may want to watch live output. If they do, they can `tail -f` the terminal or run `consilium --watch` in another tmux tab.
+
 > **Note:** Always use `uv tool run consilium` instead of bare `consilium`. The mise shim points to system Python which can't find the module.
 
-**Standard invocation:**
+**Standard invocation (auto-routes by difficulty):**
 ```bash
 uv tool run consilium "Should we use microservices or a monolith?" \
-  --quiet --format json \
+  --format json \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
 
-**With persona context (career/professional decisions):**
+**Force full council with persona context:**
 ```bash
 uv tool run consilium "Should I accept the Standard Chartered offer?" \
-  --quiet --format json \
+  --council --format json \
   --persona "$PERSONA" \
   --context "job-offer" \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
 
+**Red team a plan:**
+```bash
+uv tool run consilium "My plan: migrate the monolith to microservices over 6 months..." \
+  --redteam --format json \
+  --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
+```
+
 **Common additional flags:**
 ```bash
---social                # Interview/networking questions
 --persona "context"     # Add personal context
 --rounds 3              # More deliberation (default: 1)
 --domain banking        # Inject regulatory context (banking|healthcare|eu|fintech|bio)
 --challenger gemini     # Assign contrarian role
 --followup              # Interactive drill-down after synthesis
---practical             # Actionable rules only, no philosophy
 --share                 # Upload to secret Gist
+--quiet                 # Suppress live output (when user doesn't need to watch)
+```
+
+**Oxford debate (binary decisions):**
+```bash
+uv tool run consilium "Should we use microservices?" --oxford
+uv tool run consilium "Hire seniors or train juniors?" --oxford --motion "This house believes..."
+```
+
+**Solo council (Claude debates itself in roles):**
+```bash
+uv tool run consilium "Pricing strategy" --solo --roles "investor,founder,customer"
+uv tool run consilium --list-roles  # See predefined roles
 ```
 
 **Domain-specific deliberation (banking, healthcare, etc.):**
@@ -163,7 +195,7 @@ When using `--format json`, the output ends with a JSON block after `---`:
   ],
   "meta": {
     "timestamp": "2026-01-31T14:30:00",
-    "models_used": ["claude-opus-4.5", "gpt-5.2", "gemini-3-pro", "grok-4", "kimi-k2.5"],
+    "models_used": ["GPT", "Gemini", "Grok", "DeepSeek", "GLM"],
     "rounds": 2,
     "duration_seconds": 67,
     "estimated_cost_usd": 0.53
@@ -205,12 +237,7 @@ question: "{question}"
 status: pending
 decision: "{decision}"
 confidence: {confidence}
-participants:
-  - claude-opus-4.5
-  - gpt-5.2
-  - gemini-3-pro
-  - grok-4
-  - kimi-k2.5
+participants: {from meta.models_used}
 tags:
   - decision
   - consilium
@@ -241,6 +268,17 @@ tags:
 
 **If "Draft messages":**
 Review action_items and offer to draft relevant messages (acceptance emails, follow-ups, etc.)
+
+## Session Management
+
+```bash
+consilium --sessions              # List recent sessions
+consilium --stats                 # Cost breakdown by mode
+consilium --watch                 # Live tail from another tmux tab
+consilium --view                  # View latest session in pager
+consilium --view "career"         # View session matching term
+consilium --search "career"       # Search all session content
+```
 
 ## Prompting Tips
 
@@ -291,12 +329,13 @@ This surfaces compliance concerns early rather than as afterthoughts.
 | **GPT-5.2** | Practical, implementation-focused | Actionable steps |
 | **Gemini 3 Pro** | Technical depth, systems thinking | Architecture |
 | **Grok 4** | Contrarian, challenges consensus | Stress-testing ideas |
-| **Kimi K2.5** | Detail-oriented, edge cases | Completeness check |
-| **Claude Opus 4.5** (Judge) | Balanced, safety-conscious | Synthesis |
+| **DeepSeek R1** | Analytical, thorough reasoning | Deep analysis |
+| **GLM-5** | Strategic, pragmatic | Business decisions |
+| **Claude Opus 4.6** (Judge) | Balanced, integrates critique | Synthesis |
 
 **Default challenger:** GPT (rotates each round). Grok is naturally contrarian regardless, so GPT as explicit challenger gives two sources of pushback.
 
-**Override:** `--challenger gemini` (architecture), `--challenger grok` (max pushback), `--challenger kimi` (edge cases).
+**Override:** `--challenger gemini` (architecture), `--challenger grok` (max pushback).
 
 ## Key Lessons
 
@@ -304,18 +343,18 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 
 - **Add constraints upfront** — models default to enterprise-grade without "this is a POC" / "single-user" / "speed > perfection"
 - **Include real metrics** for optimization questions, not just descriptions
-- **Use `--practical`** for operational questions (models spiral into philosophy otherwise)
 - **Trust the judge's framing over its action list** — it diagnoses well but over-aggregates prescriptions
 - **Challenger round is the highest-value component** — GPT-5.2 as explicit challenger consistently produces the best single insight
 - **Iterative councils beat single deep runs** — second pass on same topic goes deeper with sharper framing
-- **Blind phase often produces agreement, not debate** — the real value comes from challenger + judge. Consider `--no-blind` for topics where you expect convergence
+- **Blind phase often produces agreement, not debate** — the real value comes from challenger + judge
 - **Front-load constraints in the question** — "this must work for HKMA-regulated banks" produces tighter output than "how should banks govern AI?"
+- **Critic phase catches real gaps** — the Gemini critique of the judge's synthesis frequently identifies tactical errors (e.g., "email HR" vs "use disclosure form")
 
 ## Known Issues
 
-- **Kimi-K2.5 timeouts:** Timed out in ~20% of recent councils (3/14). Partial outputs add noise. If Kimi times out, the council still works but with 3 useful speakers instead of 4. Consider filing an issue to add timeout fallback or model substitution
+- **Model timeouts:** Some models (historically Kimi, now DeepSeek/GLM) occasionally time out. Partial outputs add noise but the council still works with remaining speakers
 - **JSON output truncation:** Use `--output file.md` to capture full transcript
-- **Follow-up:** Use `--followup` flag for interactive drill-down after synthesis
+- **JSON `decision` field can be noisy:** The structured output sometimes captures mid-synthesis text rather than a clean decision. Read the prose synthesis instead.
 
 ## Output Formats
 
@@ -325,15 +364,8 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 | `json` | Agent workflows, parsing, automation |
 | `yaml` | Human-readable structured output |
 
-## Roadmap
-
-- **`--quick` mode:** Fold `/ask-llms` into consilium as a parallel-only mode (no debate, ~$0.10). Eliminates the routing decision between two tools
-- **Kimi fallback:** Auto-substitute on timeout instead of partial output
-- **Outcome tracking:** Add `## Outcome (Post-Decision)` template to transcripts
-
 ## See Also
 
 - Repository: https://github.com/terry-li-hm/consilium
 - PyPI: https://pypi.org/project/consilium/
-- Plan: `/Users/terry/skills/plans/2026-01-31-feat-consilium-claude-code-integration-plan.md`
-- Related skill: `/ask-llms` (parallel queries, future `--quick` mode)
+- Related skill: `/ask-llms` (simpler parallel queries)
