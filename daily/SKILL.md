@@ -17,7 +17,7 @@ End-of-day log → daily note.
 
 1. **Get today's date** (YYYY-MM-DD, HKT)
 
-2. **Read today's daily note** (`~/notes/YYYY-MM-DD.md`)
+2. **Read today's daily note** (`~/notes/Daily/YYYY-MM-DD.md`)
    - `/wrap` appends session summaries throughout the day, so the note may already have session logs.
    - If the note is empty or missing, **fallback:** delegate history scan to a subagent — use Task tool (subagent_type: "general-purpose", model: "haiku") with prompt: "Run `python ~/scripts/chat_history.py --full` and synthesize a concise summary of today's activity. Group by theme. List key accomplishments, decisions, and unfinished threads. Keep output under 30 lines."
 

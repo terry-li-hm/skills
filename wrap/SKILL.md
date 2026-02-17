@@ -46,7 +46,7 @@ Scan conversation for completed actions that match open items in `~/notes/TODO.m
 
 ### Step 2: Session Log
 
-Append a session summary to today's daily note (`~/notes/YYYY-MM-DD.md` — flat, NOT `~/notes/Daily/`). Create the file if it doesn't exist. Each entry is a **concise** block — key points only, with `[[interlinks]]` to vault notes where detail lives.
+Append a session summary to today's daily note (`~/notes/Daily/YYYY-MM-DD.md`). Create the file if it doesn't exist. Each entry is a **concise** block — key points only, with `[[interlinks]]` to vault notes where detail lives.
 
 ```markdown
 ### HH:MM–HH:MM — [Brief title]

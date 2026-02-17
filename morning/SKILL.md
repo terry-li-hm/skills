@@ -25,7 +25,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - If any file's last-modified date is >48h old, flag it: "WORKING.md last updated X — may be behind reality"
 
 3. **Yesterday's daily note** — quick glance:
-   - Read `~/notes/YYYY-MM-DD.md` (yesterday)
+   - Read `~/notes/Daily/YYYY-MM-DD.md` (yesterday)
    - Pull the `## Tomorrow` section if it exists — this is the plate preview from last night
    - Pull any `## Follow-ups` items — these are carryover
 
