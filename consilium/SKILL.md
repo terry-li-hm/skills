@@ -1,6 +1,6 @@
 ---
 name: consilium
-description: 4 frontier models deliberate, then Claude judges. ~$0.50/run — use for any decision worth 5+ minutes of thought.
+description: 4 frontier models deliberate, then Claude judges. ~$0.50/run — use for any question worth 5+ minutes of thought.
 github_url: https://github.com/terry-li-hm/consilium
 github_hash: e8043f3
 user_invocable: true
@@ -14,10 +14,11 @@ user_invocable: true
 
 At ~$0.50/run, the cost threshold is negligible. Use whenever:
 
-- **Any decision worth >5 minutes of deliberation** — the council is cheaper than your time
+- **Any question worth >5 minutes of deliberation** — the council is cheaper than your time
 - You want models to actually debate, not just answer in parallel
 - You need a synthesized recommendation, not raw comparison
 - Exploring trade-offs where different viewpoints matter
+- **Brainstorming and exploration** — free-flow intellectual discussion, not just binary decisions
 - Questions with cognitive, social, or behavioural dimensions (council catches hidden angles Claude underestimates)
 
 ## When NOT to Use
@@ -71,10 +72,10 @@ For other decisions, use simpler context or skip this step.
 **Basic usage (--quiet since Claude reads the transcript, not the terminal):**
 ```bash
 uv tool run consilium "Should we use microservices or a monolith?" --quiet \
-  --output ~/notes/Decisions/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
+  --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
 
-> **Always save transcripts to vault.** Use `--output ~/notes/Decisions/LLM Council - {Topic} - {date}.md`. `/tmp/` files get wiped on reboot — you lose the raw reasoning.
+> **Always save transcripts to vault.** Use `--output ~/notes/Councils/LLM Council - {Topic} - {date}.md`. `/tmp/` files get wiped on reboot — you lose the raw reasoning.
 
 > **Note:** Always use `uv tool run consilium` instead of bare `consilium`. The mise shim points to system Python which can't find the module.
 
@@ -153,7 +154,7 @@ After presenting the council's recommendation, use AskUserQuestion:
 
 **Options:**
 1. **Create tasks** — Add action_items to task list
-2. **Save to vault** — Create decision record in `~/notes/Decisions/`
+2. **Save to vault** — Create decision record in `~/notes/Councils/`
 3. **Draft messages** — Draft follow-up messages based on action_items
 4. **Just note it** — No further action needed
 
@@ -163,7 +164,7 @@ After presenting the council's recommendation, use AskUserQuestion:
 Use TaskCreate for each action_item with appropriate priority.
 
 **If "Save to vault":**
-Create note at `~/notes/Decisions/LLM Council - {Topic} - {YYYY-MM-DD}.md`:
+Create note at `~/notes/Councils/LLM Council - {Topic} - {YYYY-MM-DD}.md`:
 
 ```markdown
 ---
