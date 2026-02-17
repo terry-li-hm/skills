@@ -20,6 +20,7 @@ One command to delegate coding tasks. Routes to the right tool, packages context
 |--------|----------|-----|
 | Routine coding, refactoring, bulk ops, tests | **OpenCode** (GLM-5) | Free, unlimited |
 | OpenCode failed 2-3x, deep bug, complex feature | **Codex** (GPT-5.2-codex) | Smarter, paid |
+| **Code review** of a package/module | **Codex** | Reads broadly, writes structured findings |
 | Needs vault, user decisions, judgment | **Stay in Claude** | Context advantage |
 
 ## Workflow
@@ -64,6 +65,17 @@ After launching, tell the user:
 - How to check progress:
   - OpenCode: `/bin/ls -lt ~/.local/share/opencode/storage/session/` then read session JSON
   - Codex: check output file or `codex resume --last`
+
+## Code Review Pattern (Codex)
+
+Codex handles full-package code reviews well. Pattern:
+1. Give file paths + line counts + module descriptions (not file contents)
+2. List specific focus areas (error handling, duplication, async, bugs, types)
+3. Ask it to write findings to a `REVIEW.md` with severity + line references
+4. Triage the output — Codex finds real bugs but also suggests over-engineering. Filter.
+5. Delete `REVIEW.md` before committing (artifact, not source)
+
+**Parallel fixes after review:** Launch one OpenCode per fix in parallel. Keep prompts to "read this range, change X to Y, run tests". OpenCode handles simple substitutions; complex structural transforms (nested try/except wrapping) silently stall — do those directly.
 
 ## Prompt Template
 
