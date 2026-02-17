@@ -45,6 +45,7 @@ Use when:
 
 - **SSH/tmux**: AppleScript may timeout without local GUI session. Falls back to URL scheme.
 - **URL scheme fallback**: Opens compose window — user must tap Send manually.
+- **Sleeping display**: AppleScript and peekaboo both fail when the Mac display is asleep. Fix: run `caffeinate -u -t 2` first to wake the display, wait 2s, then retry. This also unblocks peekaboo for visual verification (`peekaboo image --mode screen`).
 
 ## Common Patterns
 

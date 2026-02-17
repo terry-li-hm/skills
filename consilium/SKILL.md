@@ -25,6 +25,7 @@ At ~$0.50/run, the cost threshold is negligible. Use whenever:
 - **Thinking out loud** — exploratory discussions where you're still forming the question
 - **Claude has good context** — if we've been discussing the topic, direct conversation is faster
 - **Personal preference** — council excels at objective trade-offs, not "what would I enjoy"
+- **Physical/visual data required** — if the answer depends on seeing something (body fit, face shape, appearance), council reasons from theory only and produces generic advice. Go try it in person instead
 - **Already converged** — if discussion reached a conclusion, council just validates
 - **Speed matters** — takes 60-90s (cost is negligible at ~$0.50)
 
