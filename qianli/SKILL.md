@@ -1,3 +1,10 @@
+---
+name: qianli
+description: Search Chinese content platforms from the terminal
+user_invocable: true
+trigger: "/qianli"
+---
+
 # qianli
 
 Search Chinese content platforms from the terminal.
