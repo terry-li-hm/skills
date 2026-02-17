@@ -100,7 +100,7 @@ Read the relevant source material for the chosen topic. **Priority order:**
    - `~/notes/GARP RAI Module 4 - Raw Content.md`
    - `~/notes/GARP RAI Module 5 - Raw Content.md`
 
-**Token efficiency:** Don't read entire module files. Use Grep to find the relevant section heading, then Read with `offset`/`limit` to pull only the ~30-50 lines needed for that topic. For a 5-question session across 2-3 modules, read the TOC (first 30 lines) once per module to locate sections, then targeted reads only.
+**Token efficiency:** Use `~/scripts/rai.py source TOPIC` to pull relevant source material in one command. It searches the correct module file and returns the matching section(s). Supports fuzzy matching (e.g., `rai source fairness`). Only fall back to manual Grep + Read if the CLI output is insufficient.
 
 **M2 label-swap risk:** For M2 topics, generate MCQ distractors that test terminology confusion (e.g., Ridge vs LASSO vs Elastic Net, self-training vs co-training, normalization vs standardization). These are the highest-value questions — the user's intuitions are correct but label swaps cause errors under pressure.
 
@@ -127,13 +127,7 @@ Present the scenario as a chat message ending with a bolded question (e.g., **"W
 
 Present the term/concept as a chat message (e.g., "What is Ridge Regression and what does it do to coefficients?"). User types what they recall. Compare against source and fill gaps.
 
-**Confidence check (all modes):** After evaluating, use `AskUserQuestion`:
-- `header`: "Confidence"
-- `question`: "Were you confident in that answer?"
-- Options: "Confident" / "Guessing"
-- `multiSelect`: false
-
-This affects spaced repetition scoring (see Step 6).
+**No confidence menu.** Infer confidence from the answer itself — don't interrupt flow with AskUserQuestion after every question. See Step 6 for rating inference rules.
 
 ### 5. Evaluate & Explain
 
@@ -160,11 +154,11 @@ Use the `rai` CLI (`~/scripts/rai.py`) to record results. This handles FSRS sche
 ~/scripts/rai.py record TOPIC RATING
 ```
 
-**Rating mapping from confidence check:**
-- MISS → `again`
-- OK + Guessing → `hard`
-- OK + Confident → `good`
-- OK + Very easy / instant recall → `easy`
+**Rating inference (no menu — infer from answer quality):**
+- **MISS** (wrong answer) → `again`
+- **OK but brief/incomplete** (got the concept but missing key details) → `hard`
+- **OK solid** (correct with adequate detail) → `good`
+- **OK instant/detailed** (clearly knew it cold, fast + precise) → `easy`
 
 **Example Bash calls:**
 ```bash
