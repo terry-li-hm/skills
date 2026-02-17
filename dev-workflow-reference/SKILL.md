@@ -6,9 +6,21 @@ user_invocable: false
 
 # Development Workflow Reference
 
-For non-trivial coding tasks, use compound-engineering workflows.
+## Plan Mode vs CE Workflows
 
-## Workflow Selection Guide
+Not every task needs compound-engineering. Choose the right weight class:
+
+| Situation | Use | Why |
+|---|---|---|
+| Single-session, <5 files, need to understand code first | **Claude Code plan mode** (`EnterPlanMode`) | Lightweight, no artifacts, fast in/out |
+| "Show me your approach before coding" | **Plan mode** | Zero overhead, just explore + propose |
+| Multi-session feature, needs a paper trail | **CE `/workflows:plan`** | Produces a plan document that survives `/clear` |
+| Multiple agents will execute the plan | **CE** | Document-driven handoff between sessions |
+| Want parallel research via `/deepen-plan` | **CE** | Multi-agent depth that plan mode can't do |
+
+**Default to plan mode.** Reach for CE when the task is big enough to lose context across `/clear` boundaries, or when the plan itself is a deliverable.
+
+## CE Workflow Selection Guide
 
 | Workflow | When to Use | Output |
 |----------|-------------|--------|
