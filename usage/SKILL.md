@@ -8,13 +8,7 @@ user_invocable: true
 
 Check token usage and equivalent costs for Claude Code Max plan.
 
-## Quick Usage Check
-
-**For current usage percentage:** Just run `/status` in Claude Code — it shows session %, weekly %, and exact reset times. This is the authoritative source.
-
-## Detailed Breakdown (ccusage)
-
-ccusage adds equivalent API cost tracking and historical analysis that `/status` doesn't provide.
+## Quick Commands
 
 ```bash
 # Current month daily breakdown with model mix
@@ -38,7 +32,8 @@ claude-monitor --plan max20
    - Equivalent API cost (for context on value extracted)
    - Daily average
    - Model mix (Opus vs Haiku vs Sonnet)
-3. If user wants live tracking, suggest running `claude-monitor --plan max20` in a separate terminal
+3. Calculate weekly usage (see below)
+4. If user wants live tracking, suggest running `claude-monitor --plan max20` in a separate terminal
 
 ## Max Plan Context
 
@@ -47,9 +42,26 @@ claude-monitor --plan max20
 | Max5 | $100 | ~88K tokens/5min window |
 | Max20 | $200 | ~220K tokens/5min window |
 
-**Weekly reset:** Saturday ~8pm HKT (check `/status` for exact time — it shifts slightly).
+**Weekly reset:** Saturday ~8pm HKT (shifts slightly week to week).
 
 The equivalent API cost shown by ccusage helps gauge value — if you're consistently using >$200/month equivalent, Max20 is worth it.
+
+## Weekly Limit Tracking
+
+**Calibrated estimate: ~$1,050 equiv** for Max20 weekly cap. Safe daily budget: ~$150/day.
+
+Calibrated Feb 2026: $470-490 equiv spent = 44% per /status → implied cap ~$1,050-1,100.
+
+| % Used | Equiv Cost | Status |
+|--------|------------|--------|
+| 0-50% | $0-525 | Safe |
+| 50-70% | $525-735 | Caution — pace yourself |
+| 70-85% | $735-890 | Warning — switch to Sonnet for routine tasks |
+| 85%+ | $890+ | Danger — high risk of hitting limit |
+
+**To calculate:** Find last Saturday ~8pm HKT, sum equiv cost since then, show % of ~$1,050 cap.
+
+**User self-check:** `/status` in the Claude Code prompt shows exact usage % and reset times directly (Claude cannot run this — it's an interactive UI command).
 
 ## Aliases
 
