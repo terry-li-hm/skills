@@ -149,6 +149,7 @@ uv tool run consilium "My plan: migrate the monolith to microservices over 6 mon
 --rounds 3              # More deliberation (default: 1)
 --domain banking        # Inject regulatory context (banking|healthcare|eu|fintech|bio)
 --challenger gemini     # Assign contrarian role
+--decompose             # Break complex question into sub-questions before blind phase
 --followup              # Interactive drill-down after synthesis
 --share                 # Upload to secret Gist
 --quiet                 # Suppress live output (when user doesn't need to watch)
@@ -337,6 +338,22 @@ This surfaces compliance concerns early rather than as afterthoughts.
 **Default challenger:** GPT (rotates each round). Grok is naturally contrarian regardless, so GPT as explicit challenger gives two sources of pushback.
 
 **Override:** `--challenger gemini` (architecture), `--challenger grok` (max pushback).
+
+## Research Foundations
+
+Consilium's architecture is grounded in group deliberation research. See `[[Group Deliberation Research - Consilium Design]]` for full synthesis with sources.
+
+**Why the blind phase matters most** (Surowiecki, Delphi, Tetlock): Independence before exposure is the single most validated principle. The blind phase captures independent positions before herding kicks in. These outputs should weigh heavily in final synthesis.
+
+**Why the challenger works** (Nemeth 2001): Assigned devil's advocates produce bolstering, not reconsideration. Consilium mitigates this by framing the challenger with questions (not assertions) and different epistemic priors — but the limitation is real. Authentic dissent > role-played dissent.
+
+**Why convergence is a strong signal** (Tetlock/GJP): When independent agents with different models/priors agree, the evidence is multiplicative. The judge should extremize convergent conclusions — push confidence further than a simple average.
+
+**Why sycophancy is the #1 risk** (ICLR 2025, ACL 2025): Multi-agent debate produces "correct-to-incorrect" flips that exceed improvements. Position changes without new evidence are sycophancy, not reasoning. The debate and judge prompts include anti-sycophancy measures.
+
+**Why the judge uses ACH** (Heuer/CIA): Analysis of Competing Hypotheses — list competing conclusions, evaluate evidence against each, eliminate rather than confirm. This counters confirmation bias in synthesis.
+
+**What consilium can't fix** (MAD literature): Most of the apparent value of multi-agent debate comes from generating multiple independent samples, not from the debate itself. Consilium's real value is divergent thinking (strategy, framing, angles) — not convergent reasoning (math, facts).
 
 ## Key Lessons
 
