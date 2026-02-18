@@ -139,7 +139,7 @@ uv tool run consilium "Should I accept the Standard Chartered offer?" \
 **Red team a plan:**
 ```bash
 uv tool run consilium "My plan: migrate the monolith to microservices over 6 months..." \
-  --redteam --format json \
+  --redteam \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
 
@@ -373,6 +373,7 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 - **Model timeouts:** Some models (historically Kimi, now DeepSeek/GLM) occasionally time out. Partial outputs add noise but the council still works with remaining speakers
 - **JSON output truncation:** Use `--output file.md` to capture full transcript
 - **JSON `decision` field can be noisy:** The structured output sometimes captures mid-synthesis text rather than a clean decision. Read the prose synthesis instead.
+- **`--redteam` incompatible with `--format json`:** Red team mode only outputs prose. Use `--output file.md` to capture the transcript. Same applies to `--oxford`, `--socratic`, `--discuss`, `--solo`.
 
 ## Output Formats
 
