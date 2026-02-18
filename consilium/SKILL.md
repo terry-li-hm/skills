@@ -152,7 +152,6 @@ uv tool run consilium "My plan: migrate the monolith to microservices over 6 mon
 --followup              # Interactive drill-down after synthesis
 --share                 # Upload to secret Gist
 --quiet                 # Suppress live output (when user doesn't need to watch)
---no-judge              # Skip OpenRouter judge (for piping transcript to external judge)
 ```
 
 **Oxford debate (binary decisions):**
@@ -177,45 +176,6 @@ uv tool run consilium "Should we build an agent for KYC?" \
 ```
 
 Available domains: `banking`, `healthcare`, `eu`, `fintech`, `bio`
-
-### Step 3.5: Judge Memory Layer
-
-After consilium completes, extract meta-patterns from the judge's synthesis and accumulate them in `~/notes/Councils/judge-patterns.md`. This gives the judge cross-session learning via context injection.
-
-**After each council:**
-
-1. **Read `~/notes/Councils/judge-patterns.md`** (create if missing — see template below)
-2. **Extract patterns** from the judge's synthesis:
-   - Which models had the strongest/weakest contributions? (e.g., "Grok's dissent on X was the key insight")
-   - Did any model's position seem systematically wrong for this question type?
-   - What question type was this? (career, architecture, strategy, social, etc.)
-   - Any notable dissents worth tracking for outcome verification later?
-3. **Append a compact entry** to the patterns file:
-
-```markdown
-### {date} — {question type}: {short question}
-- **Strong:** {model} — {why}
-- **Weak:** {model} — {why}
-- **Pattern:** {any meta-observation}
-```
-
-4. **Before the NEXT council**, read the patterns file and pass relevant patterns as additional context in the `--persona` or `--context` flag, e.g.: "In past councils on architecture questions, Gemini's systems thinking was strongest. Grok tends to over-index on contrarianism for career decisions."
-
-**Template for `~/notes/Councils/judge-patterns.md`:**
-
-```markdown
-# Council Judge Patterns
-
-Accumulated meta-patterns from consilium deliberations. Read before councils, updated after.
-
-## Model Tendencies (confirmed across multiple councils)
-
-## Question Type Notes
-
-## User Blind Spots
-```
-
-Keep the file concise — prune entries older than 3 months or that haven't been confirmed by repeat observation.
 
 ### Step 4: Parse and Present (when using --format json)
 
@@ -248,7 +208,7 @@ Parse this and present:
 2. **Key reasoning** (summary)
 3. **Dissenting views** (if any)
 4. **Claude's critique** — did they miss anything? Does it fit Terry's context?
-5. **Memory patterns** — if judge-patterns.md had relevant entries, note whether they held up
+5. **Static note candidates** — if the judge proposed any, flag them for review
 
 ### Step 5: Offer Follow-Up Actions
 
