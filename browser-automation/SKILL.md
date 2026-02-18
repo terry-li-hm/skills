@@ -149,6 +149,50 @@ agent-browser eval "$(cat /tmp/script.js)"
 
 **Quick rule:** `eval` for navigation/clicks, `fill @ref` + `Tab` for text inputs, `upload` for files, `check "#id"` for checkboxes. Only dropdowns on heavy SPAs need manual interaction.
 
+## Backup: Rodney (simonw/rodney)
+
+Go-based browser automation CLI using Chrome CDP (rod library). Installed at `~/go/bin/rodney`. Use when agent-browser fails or Playwright binaries break.
+
+**Key differences from agent-browser:**
+- Persistent Chrome process (client-server model) — each command connects via WebSocket, Chrome keeps running
+- Profile data: `~/.rodney/chrome-data/` (cookies/logins persist)
+- Accessibility-first: `ax-tree`, `ax-find`, `ax-query` — more robust element targeting than CSS selectors
+- No Playwright dependency (pure CDP via rod)
+
+**Quick reference:**
+```bash
+rodney start [--show]        # launch Chrome (--show = headed)
+rodney open <url>            # navigate
+rodney text <selector>       # extract text
+rodney click <selector>      # click element
+rodney input <selector> <text>  # type into input
+rodney screenshot [file]     # capture
+rodney ax-tree               # accessibility tree (like agent-browser snapshot)
+rodney js <expression>       # eval JS
+rodney stop                  # shutdown
+```
+
+**When to reach for Rodney over agent-browser:**
+- Playwright binary installation errors (`launchPersistentContext` failures)
+- Element targeting issues where accessibility tree (`ax-find`) would be more robust
+- Simpler scripting needs (each command is a separate shell invocation, no session management)
+
+**Limitations (v0.4.0, Feb 2026):** Early-stage. No built-in `fill` equivalent for React state sync. Same CDP fingerprinting issues as agent-browser (Google blocks, anti-bot captchas). No `snapshot`-style ref system — uses CSS selectors or accessibility queries.
+
+## Companion: Showboat (simonw/showboat)
+
+Markdown demo generator for agent work. Not browser automation — pairs with Rodney for screenshots. Useful for creating step-by-step visual proof-of-work documents (e.g., Capco client demos).
+
+```bash
+showboat init "Demo Title"       # start doc
+showboat note "Explanation..."   # add prose
+showboat exec python3 script.py  # run + capture output
+showboat image screenshot.png    # embed screenshot
+showboat verify                  # re-run all code blocks, diff outputs
+```
+
+Not installed yet. Install when needed: `go install github.com/simonw/showboat@latest`
+
 ## Tips
 
 - `snapshot` over `screenshot` for token efficiency (text vs image tokens)
