@@ -49,10 +49,20 @@ Edit the Capco onboarding CV PowerPoint programmatically.
 - 2026-02-19: "identified 30% of alerts as low-risk for hibernation" in summary -> "safely hibernated 30% of alerts with no degradation in STR capture"
 - 2026-02-19: Row 2 detail rephrased to "30% of alerts eligible for hibernation, containing only 0.8% of STRs; informed FCC's risk-based review strategy" (distinct from summary)
 - 2026-02-19: "safely hibernated" in summary → "identified 30% of alerts for hibernation" (hibernation not yet operationalised — preparing governance for HKMA submission)
+- 2026-02-19: De-editorialised — removed "enabling peer-level engagement" from summary, "the real bottleneck" → "the primary bottleneck" in Row 1, removed "demonstrating audit-led capability transfer" from Row 4, removed "foundation for the data science career" from PwC
 
 ## CV Source Code
 
 The HTML-generated job-hunting CV lives at `~/notes/CV Source Code.md`. Keep both in sync when making content changes.
+
+## Style Principle
+
+**Facts over self-selling.** State what you did and the impact; let the reader draw conclusions. If you have to explain why something is impressive, it isn't. Remove:
+- Clauses that tell the reader what to think ("enabling peer-level engagement", "demonstrating capability transfer")
+- Editorialising adjectives ("the real bottleneck" → "the primary bottleneck")
+- Narrative framing ("foundation for the career that followed")
+
+Numbers sell themselves: "21% → 88%", "3.5×", "zero audit findings", "1 of 10 from 40+".
 
 ## Expiry
 
