@@ -14,9 +14,15 @@ Edit the Capco onboarding CV PowerPoint programmatically.
 
 ## Workflow
 
-1. Close any open instance first: `osascript -e 'tell application "Keynote" to close every document' 2>/dev/null; osascript -e 'tell application "Microsoft PowerPoint" to close every document' 2>/dev/null`
+1. **Quit the app first** (not just close document — `close every document` doesn't reliably release the file):
+   ```bash
+   osascript -e 'tell application "Keynote" to quit' 2>/dev/null
+   osascript -e 'tell application "Microsoft PowerPoint" to quit' 2>/dev/null
+   sleep 1
+   ```
 2. Edit via `uv run --with python-pptx python3` script
 3. Reopen: `open "<path>"`
+4. **Always quit before reopen** — editing a file while the app has it open can cause stale reads or overwrites
 
 ## Structure (2 slides)
 
@@ -48,6 +54,10 @@ Full reference: `~/notes/CNCBI Project Facts.md` — authoritative source for al
 - 2026-02-19: Row 2 detail rephrased to "30% of alerts eligible for hibernation, containing only 0.8% of STRs; informed FCC's risk-based review strategy" (distinct from summary)
 - 2026-02-19: "safely hibernated" in summary → "identified 30% of alerts for hibernation" (hibernation not yet operationalised — preparing governance for HKMA submission)
 - 2026-02-19: De-editorialised — removed "enabling peer-level engagement" from summary, "the real bottleneck" → "the primary bottleneck" in Row 1, removed "demonstrating audit-led capability transfer" from Row 4, removed "foundation for the data science career" from PwC
+- 2026-02-19: Summary tightened — first sentence rewritten for punch, "as project lead" removed (redundant with Role column)
+- 2026-02-19: Row 1 bullet 1 rewritten from narrative to impact format; Row 2 trimmed "on investigator-labelled holdout across an 18-month dataset"
+- 2026-02-19: Cleanup — arrows to "to", removed 0.8% STR detail from Row 2, RAG removed from Row 1, ~ to "around" in Row 3
+- 2026-02-19: "Co-designed" confirmed for Row 5 (data governance team led writing, Terry was SME)
 
 ## CV Source Code
 
