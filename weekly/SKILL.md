@@ -120,9 +120,17 @@ Keep it brief — the value is pattern recognition over weeks, not daily obsessi
 
 5. **Keep it honest** — this is for pattern recognition, not performance reporting. Short weeks with little output are fine to note as such.
 
-## AI Tooling Health (weekly)
+## System & Tooling Health (weekly)
 
-Run these checks every Friday and include results in the weekly note under `## Tooling Health`:
+Run these checks every Friday and include results in the weekly note under `## System Health`.
+
+### Infrastructure Services
+
+8. **wacli daemon** — `launchctl list com.terry.wacli-sync`. Check exit code (0 = running, 113 = dead). If dead, flag for restart.
+9. **Vault git backup** — Check recency: `cd ~/notes && git log -1 --format='%ci'`. Flag if last commit >2h old (cron runs every 30 min).
+10. **Agent-browser profile** — `ls -la ~/.agent-browser-profile/Cookies 2>/dev/null && echo "OK" || echo "MISSING"`. Flag if profile directory is missing or Cookies file absent.
+
+### AI Tooling
 
 1. **CLAUDE.md & MEMORY.md content review** — Check line counts (`wc -l`). Flag if CLAUDE.md >300 or MEMORY.md >150. Then do a staleness scan:
    - Read both files and flag sections referencing past dates, completed transitions, retired tools, or situations that no longer apply
@@ -140,10 +148,13 @@ Run these checks every Friday and include results in the weekly note under `## T
 Include a summary table in the weekly note:
 
 ```markdown
-## Tooling Health
+## System Health
 
 | Metric | Value | Status |
 |--------|-------|--------|
+| wacli daemon | running/dead | ✅/🔴 |
+| Vault backup | Xm ago | ✅/⚠️ |
+| Agent-browser profile | present/missing | ✅/⚠️ |
 | CLAUDE.md lines | X | ✅/⚠️ |
 | MEMORY.md lines | X | ✅/⚠️ |
 | Skills (total) | X | — |
