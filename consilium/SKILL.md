@@ -115,7 +115,6 @@ For other decisions, use simpler context or skip this step.
 **Always use these flags:**
 - `--format json` — ensures cost/duration metadata is captured
 - `--output ~/notes/Councils/LLM Council - {Topic} - {date}.md` — vault persistence
-- `--practical` — add when the question is about decisions, actions, or "what should I do?" Skip for theoretical, philosophical, or exploratory questions where abstract reasoning is the point
 
 **Do NOT use `--quiet` by default.** Run with `run_in_background: true` on the Bash tool so the user can watch live via `consilium --watch` in another tmux tab. Read the `--output` file when the task completes.
 
@@ -153,7 +152,6 @@ uv tool run consilium "My plan: migrate the monolith to microservices over 6 mon
 --decompose             # Break complex question into sub-questions before blind phase
 --followup              # Interactive drill-down after synthesis
 --share                 # Upload to secret Gist
---practical              # Focus on actionable triggers and concrete rules
 --quiet                 # Suppress live output (when user doesn't need to watch)
 ```
 
