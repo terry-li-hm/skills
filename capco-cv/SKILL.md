@@ -48,6 +48,7 @@ Edit the Capco onboarding CV PowerPoint programmatically.
 - 2026-02-19: "to secure second-line approval" in summary -> removed, now reads "enabling peer-level engagement" (cleaner, no overclaim)
 - 2026-02-19: "identified 30% of alerts as low-risk for hibernation" in summary -> "safely hibernated 30% of alerts with no degradation in STR capture"
 - 2026-02-19: Row 2 detail rephrased to "30% of alerts eligible for hibernation, containing only 0.8% of STRs; informed FCC's risk-based review strategy" (distinct from summary)
+- 2026-02-19: "safely hibernated" in summary → "identified 30% of alerts for hibernation" (hibernation not yet operationalised — preparing governance for HKMA submission)
 
 ## CV Source Code
 
