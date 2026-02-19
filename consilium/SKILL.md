@@ -2,7 +2,7 @@
 name: consilium
 description: Multi-model deliberation — auto-routes by difficulty. Full council (~$0.50), quick parallel (~$0.10), red team (~$0.20), and more.
 github_url: https://github.com/terry-li-hm/consilium
-github_hash: 7b804ef
+github_hash: 6a312ec
 user_invocable: true
 ---
 
