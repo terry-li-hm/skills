@@ -1,6 +1,7 @@
 # AI News Sources Configuration
-# Tier 1: Always fetch (high-signal, frequent updates)
-# Tier 2: Deep scan only (user says "deep", "full", or "all sources")
+# All sources fetched by cron (cadence-gated). Tier controls display priority:
+# Tier 1: Always surfaced in /ai-news
+# Tier 2: Surfaced only if noteworthy, or in deep mode
 #
 # cadence: daily | twice_weekly | weekly | biweekly | monthly
 #   Used by cron to skip sources unlikely to have new content since last fetch.

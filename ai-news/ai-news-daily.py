@@ -291,12 +291,11 @@ def main():
 
     print(f"Last scan: {since_date}. Filtering articles after this date.", file=sys.stderr)
 
-    # Collect Tier 1 sources
+    # Collect all sources (tier controls display priority, not fetch)
     all_sources = []
     for section in ("web_sources", "bank_tech_blogs", "chinese_sources"):
         for source in config.get(section, []):
-            if source.get("tier") == 1:
-                all_sources.append(source)
+            all_sources.append(source)
 
     results: dict[str, list[dict]] = {}
     skipped = []

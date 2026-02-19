@@ -26,7 +26,8 @@ Terry is joining Capco as Principal Consultant / AI Solution Lead, advising bank
 ## Architecture
 
 **Cron** (silent index builder, 6:30 PM HKT daily, `~/skills/ai-news/ai-news-daily.py`):
-- Fetches Tier 1 RSS + web scrapes — **zero LLM tokens**
+- Fetches **all sources** (Tier 1 + Tier 2), cadence-gated — **zero LLM tokens**
+- Tier controls **display priority**, not fetch: Tier 1 always surfaced, Tier 2 mentioned only if noteworthy or in deep mode
 - Date-based + title-prefix dedup, cadence-aware skipping
 - Appends delta to `[[AI News Log]]` (`~/notes/AI News Log.md`)
 - State in `~/.cache/ai-news-state.json`
@@ -100,10 +101,10 @@ Works because `summarize` uses a Chrome User-Agent that bypasses WeChat's CAPTCH
 
 ## Deep Mode
 
-Still available when user says "deep", "full", "all sources":
-- Fetches all Tier 1 + Tier 2 sources via WebFetch
-- X accounts via `bird` CLI
-- WeChat articles via `summarize` CLI (bypasses CAPTCHA)
+When user says "deep", "full", "all sources":
+- Surface **all** log entries (Tier 1 + Tier 2), not just Tier 1 highlights
+- X accounts via `bird` CLI (live fetch, not in cron)
+- WeChat articles via `summarize` CLI (live fetch, bypasses CAPTCHA)
 - See `sources.yaml` for full list
 
 ## Files
