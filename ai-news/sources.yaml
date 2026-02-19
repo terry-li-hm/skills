@@ -99,6 +99,16 @@ web_sources:
     tier: 1
     cadence: weekly
 
+  - name: AI Street
+    url: https://www.ai-street.co/
+    rss: https://www.ai-street.co/feed
+    focus: AI adoption in finance — hedge funds, banks, Wall Street strategy
+    tier: 2
+    cadence: weekly
+    notes: |
+      Matt Robinson (ex-Bloomberg). Practitioner-focused coverage of AI deployment
+      in financial services. Complements Evident (benchmarks) with strategy/case studies.
+
   - name: Every
     url: https://every.to
     focus: AI tools for knowledge workers, accessible commentary
