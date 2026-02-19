@@ -36,7 +36,12 @@ End-of-day log → daily note.
      - Any overdue items (`due:` < tomorrow) that weren't completed
    - Check if tomorrow's daily note already exists (carryover from today's follow-ups)
 
-6. **Finalize the daily note** — append all closing sections at once:
+6. **Fix header** — validate and update the `# YYYY-MM-DD — Day` line:
+   - Verify day-of-week matches `date` output (wrap sometimes gets this wrong). Fix if needed.
+   - Append a thematic tagline: compress the 3-5 themes to a few words each, comma-separated.
+   - Result: `# 2026-02-19 — Thursday — Doumei shipped, CV submitted, GARP grinding`
+
+7. **Finalize the daily note** — append all closing sections at once:
 
 ```markdown
 ---
