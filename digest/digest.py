@@ -27,6 +27,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -545,6 +546,7 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="List episodes without processing")
     parser.add_argument("--model", default="google/gemini-2.0-flash-001", help="OpenRouter model ID")
     parser.add_argument("--max-videos", type=int, default=15, help="Max videos to fetch per channel")
+    parser.add_argument("--delay", type=int, default=5, help="Seconds between episodes to avoid YouTube rate limits (default: 5)")
     args = parser.parse_args()
 
     if not args.dry_run and not os.environ.get("OPENROUTER_API_KEY"):
@@ -559,7 +561,13 @@ def main():
     since = datetime.now(timezone.utc) - timedelta(days=args.days)
     month_str = datetime.now().strftime("%Y-%m")
 
-    for source in sources:
+    for source_idx, source in enumerate(sources):
+        # Rate limit: pause between sources to avoid YouTube IP bans
+        if source_idx > 0 and args.delay > 0:
+            pause = args.delay * 2
+            print(f"\nWaiting {pause}s between sources (rate limit)...", file=sys.stderr)
+            time.sleep(pause)
+
         print(f"\n{'=' * 60}", file=sys.stderr)
         print(f"Source: {source['name']}", file=sys.stderr)
         print(f"{'=' * 60}", file=sys.stderr)
@@ -624,6 +632,11 @@ def main():
             print(f"\n[{i}/{len(episodes)}] Processing: {ep['title']}", file=sys.stderr)
 
             try:
+                # Rate limit: pause between episodes to avoid YouTube IP bans
+                if i > 1 and args.delay > 0:
+                    print(f"  Waiting {args.delay}s (rate limit)...", file=sys.stderr)
+                    time.sleep(args.delay)
+
                 print("  Extracting transcript...", file=sys.stderr)
                 audio_url = ep.get("audio_url")
                 if source["type"] == "podcast":
