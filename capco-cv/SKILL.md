@@ -37,39 +37,9 @@ Edit the Capco onboarding CV PowerPoint programmatically.
 - Row 1: PwC IT Audit & Risk Assurance — 4.5 years
 - Row 2: DBS Localisation of Group Data Science Tools — 12 months
 
-## Governance Facts (accuracy reference)
+## Project & Governance Facts
 
-### Call Centre Agent-Assist Chatbot
-- RCSA completed, addressing each OWASP Top 10 LLM risk
-- **IT Governance & Controls** (IT department) — reviewed and approved (first line)
-- **Retail Banking control team** — approved (first line)
-- **Tech Risk in RMG** (second line) — reviewed but did NOT formally sign off
-- No formal second-line sign-off was required given the limited scope of phase one (no customer data, no core system integration, retrieval from curated FAQs only)
-- Accurate verbs: "completed RCSA with IT controls and business approval" (NOT "secured second-line approval")
-
-### AML Alert Prioritisation Model
-- **FCC (Financial Crime Compliance)** — signed off before go-live (first line)
-- High-level conversation with **IT Risk and Controls head** regarding access controls
-- Terry designed his own production controls: restricted production project folder to admin account, automated deployment from GitLab
-- Excluded demographic features (e.g. gender) for fairness
-- Full model documentation pack with monitoring procedures
-- **Zero audit findings** after full audit cycle
-- **Hibernation**: Model identified 30% of alerts containing only 0.8% of STRs — but hibernation NOT yet operationalised. Currently preparing governance process for HKMA submission. Accurate verb: "identified for hibernation" (NOT "hibernated")
-
-### AI Governance Standards & Procedures
-- **Data governance team** led the writing of the standards and procedures document
-- **Terry** provided lead SME input — the AI-specific expertise (model lifecycle, risk classification, validation, monitoring)
-- Standards WERE signed off by **second-line risk (RMG/Tech Risk)**
-- Framework adopted as bank's standard for AI/ML deployment approvals
-- Accurate verb: "Co-designed" (NOT "authored" or "defined" — Terry was SME, not lead author)
-
-### HKMA GenAI Sandbox (SME Financing)
-- Selected as 1 of 10 banks from 40+ proposals; sole bank focusing on loan financing
-- POC with Baidu as technology partner; Cyberport provided compute resources
-- 3-week execution window; Terry navigated cybersecurity clearance for HKMA VPN
-- Compressed 10-hour credit assessment to ~15 minutes; quality matched 5-year credit veterans
-- Terry authored technical report submitted to HKMA
-- Project initially parked post-POC (no business sponsor for production); business has recently come back to explore implementation
+Full reference: `~/notes/CNCBI Project Facts.md` — authoritative source for all project details, governance approvals, accurate verbs, and impact metrics. Always read that note before making CV edits.
 
 ## Changes Log
 
