@@ -21,6 +21,8 @@
   handle: "@lexfridman"
   rss_url: https://lexfridman.com/feed/podcast/
   vault_path: AI & Tech/Lex Fridman
+  # Transcript at {episode_url}-transcript (e.g. lexfridman.com/peter-steinberger-transcript)
+  transcript_url_suffix: "-transcript"
 
 - name: a16z
   type: youtube
@@ -32,6 +34,7 @@
   handle: "@DwarkeshPatel"
   rss_url: https://www.dwarkeshpatel.com/feed
   vault_path: AI & Tech/Dwarkesh Patel
+  # Full transcript embedded in Substack episode page (no suffix needed)
 
 - name: All-In Podcast
   type: youtube
@@ -44,3 +47,4 @@
   handle: "@LatentSpaceTV"
   rss_url: https://api.substack.com/feed/podcast/1084089.rss
   vault_path: AI & Tech/Latent Space
+  # Full transcript embedded in Substack episode page (no suffix needed)

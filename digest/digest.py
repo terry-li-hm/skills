@@ -1,6 +1,6 @@
 #!/usr/bin/env -S uv run --script
 # /// script
-# dependencies = ["pyyaml", "httpx", "openai", "yt-dlp", "youtube-transcript-api", "feedparser", "mlx-whisper"]
+# dependencies = ["pyyaml", "httpx", "openai", "yt-dlp", "youtube-transcript-api", "feedparser", "mlx-whisper", "trafilatura"]
 # ///
 """
 Content Digest — Monthly insight extraction from YouTube channels and podcasts.
@@ -182,13 +182,15 @@ def list_podcast_episodes(rss_url: str, max_items: int = 15) -> list[dict]:
             "date": date,
             "duration": duration_s,
             "audio_url": audio_url,
+            "episode_url": entry.get("link"),
         })
 
     return episodes
 
 
-def _match_podcast_audio(yt_ep: dict, podcast_eps: list[dict]) -> str | None:
-    """Find matching podcast episode for a YouTube video by title similarity + date + duration."""
+def _match_podcast_episode(yt_ep: dict, podcast_eps: list[dict]) -> dict | None:
+    """Find matching podcast episode for a YouTube video by title similarity + date + duration.
+    Returns dict with audio_url and episode_url, or None."""
     yt_title = re.sub(r"[^a-z0-9 ]", "", yt_ep["title"].lower())
     yt_words = set(yt_title.split())
     yt_date = yt_ep.get("date")
@@ -241,7 +243,7 @@ def _match_podcast_audio(yt_ep: dict, podcast_eps: list[dict]) -> str | None:
 
     # Require minimum similarity (at least some title overlap or date match)
     if best_score >= 0.3 and best_match:
-        return best_match["audio_url"]
+        return {"audio_url": best_match["audio_url"], "episode_url": best_match.get("episode_url")}
     return None
 
 
@@ -324,11 +326,86 @@ def transcribe_audio(audio_url: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Web transcript extraction (scrape from episode pages)
+# ---------------------------------------------------------------------------
+
+def _transcript_from_web(episode_url: str, transcript_url_suffix: str | None = None) -> str | None:
+    """Fetch transcript from episode webpage using trafilatura for content extraction."""
+    import httpx
+    import trafilatura
+
+    url = episode_url
+    if transcript_url_suffix:
+        # e.g. Lex Fridman: episode_url + "-transcript"
+        url = episode_url.rstrip("/") + transcript_url_suffix
+
+    print(f"  Fetching web transcript from {url}...", file=sys.stderr)
+    try:
+        resp = httpx.get(url, follow_redirects=True, timeout=30,
+                         headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"})
+        resp.raise_for_status()
+        text = trafilatura.extract(resp.text, include_comments=False, include_tables=False)
+        if text and len(text) > 500:  # minimum viable transcript length
+            return _clean_transcript(text)
+        return None
+    except Exception as e:
+        print(f"  Web transcript failed: {e}", file=sys.stderr)
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Whisper API transcription (OpenAI, ~$0.006/min)
+# ---------------------------------------------------------------------------
+
+def _transcribe_whisper_api(audio_url: str) -> str:
+    """Download audio and transcribe via OpenAI Whisper API."""
+    import httpx
+
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY not set")
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        audio_path = os.path.join(tmpdir, "episode.mp3")
+
+        # Download audio
+        print("  Downloading audio for Whisper API...", file=sys.stderr)
+        with httpx.stream("GET", audio_url, follow_redirects=True, timeout=300) as resp:
+            resp.raise_for_status()
+            with open(audio_path, "wb") as f:
+                for chunk in resp.iter_bytes(chunk_size=1024 * 1024):
+                    f.write(chunk)
+
+        # Transcribe via OpenAI Whisper API
+        file_size_mb = os.path.getsize(audio_path) / (1024 * 1024)
+        print(f"  Transcribing via Whisper API ({file_size_mb:.0f}MB)...", file=sys.stderr)
+
+        # Whisper API has 25MB limit — split if larger
+        if file_size_mb > 25:
+            print("  File >25MB, falling back to local Whisper", file=sys.stderr)
+            raise RuntimeError("Audio file exceeds Whisper API 25MB limit")
+
+        client = OpenAI(api_key=api_key)
+        with open(audio_path, "rb") as f:
+            result = client.audio.transcriptions.create(model="whisper-1", file=f)
+        text = result.text
+        return _clean_transcript(text) if text.strip() else ""
+
+
+# ---------------------------------------------------------------------------
 # Transcript extraction (inlined — no external script dependency)
 # ---------------------------------------------------------------------------
 
-def extract_transcript(video_id: str, audio_url: str | None = None) -> str:
-    """Extract transcript. Tries youtube-transcript-api → yt-dlp → podcast audio + Whisper."""
+def extract_transcript(video_id: str, audio_url: str | None = None,
+                       episode_url: str | None = None,
+                       transcript_url_suffix: str | None = None) -> str:
+    """Extract transcript. Fallback chain:
+    1. youtube-transcript-api (free, instant)
+    2. yt-dlp subtitles (free, instant)
+    3. Web transcript scrape (free, fast)
+    4. Whisper API (cheap, fast, <25MB files)
+    5. Local mlx-whisper (free, slow)
+    """
     # Method 1: youtube-transcript-api (clean, no duplication)
     try:
         text = _transcript_via_api(video_id)
@@ -346,15 +423,35 @@ def extract_transcript(video_id: str, audio_url: str | None = None) -> str:
     except Exception as e:
         print(f"  yt-dlp subtitles failed: {e}", file=sys.stderr)
 
-    # Method 3: podcast audio + local Whisper transcription
+    # Method 3: web transcript scrape
+    if episode_url:
+        print("  Falling back to web transcript...", file=sys.stderr)
+        try:
+            text = _transcript_from_web(episode_url, transcript_url_suffix)
+            if text:
+                return text
+        except Exception as e:
+            print(f"  Web transcript failed: {e}", file=sys.stderr)
+
+    # Method 4: Whisper API (fast, cheap, <25MB files only)
+    if audio_url and os.environ.get("OPENAI_API_KEY"):
+        print("  Falling back to Whisper API...", file=sys.stderr)
+        try:
+            text = _transcribe_whisper_api(audio_url)
+            if text:
+                return text
+        except Exception as e:
+            print(f"  Whisper API failed: {e}", file=sys.stderr)
+
+    # Method 5: local mlx-whisper (slow but always works)
     if audio_url:
-        print("  Falling back to podcast audio + Whisper...", file=sys.stderr)
+        print("  Falling back to local Whisper...", file=sys.stderr)
         text = transcribe_audio(audio_url)
         if text:
             return text
-        raise RuntimeError("Whisper transcription returned empty")
+        raise RuntimeError("Local Whisper transcription returned empty")
 
-    raise RuntimeError("All transcript methods failed (no RSS audio match found)")
+    raise RuntimeError("All transcript methods failed")
 
 
 def _transcript_via_api(video_id: str) -> str | None:
@@ -586,8 +683,10 @@ def main():
                 try:
                     podcast_eps = list_podcast_episodes(source["rss_url"], max_items=args.max_videos * 2)
                     for ep in episodes:
-                        ep["audio_url"] = _match_podcast_audio(ep, podcast_eps)
-                        if ep["audio_url"]:
+                        match = _match_podcast_episode(ep, podcast_eps)
+                        if match:
+                            ep["audio_url"] = match["audio_url"]
+                            ep["episode_url"] = match.get("episode_url")
                             print(f"  RSS fallback ready: {ep['title'][:50]}", file=sys.stderr)
                     # Deduplicate: if multiple YT videos matched the same audio URL,
                     # keep only the one with closest duration and clear the rest
@@ -639,11 +738,21 @@ def main():
 
                 print("  Extracting transcript...", file=sys.stderr)
                 audio_url = ep.get("audio_url")
+                episode_url = ep.get("episode_url")
+                transcript_url_suffix = source.get("transcript_url_suffix")
                 if source["type"] == "podcast":
-                    # Pure podcast — go straight to audio + Whisper
-                    transcript = transcribe_audio(audio_url)
+                    # Pure podcast — try web transcript first, then audio
+                    transcript = None
+                    if episode_url:
+                        transcript = _transcript_from_web(episode_url, transcript_url_suffix)
+                    if not transcript:
+                        transcript = transcribe_audio(audio_url)
                 else:
-                    transcript = extract_transcript(ep["id"], audio_url=audio_url)
+                    transcript = extract_transcript(
+                        ep["id"], audio_url=audio_url,
+                        episode_url=episode_url,
+                        transcript_url_suffix=transcript_url_suffix,
+                    )
                 word_count = len(transcript.split())
                 print(f"  Transcript: {word_count:,} words", file=sys.stderr)
 
