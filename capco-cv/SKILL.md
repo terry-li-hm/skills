@@ -58,6 +58,10 @@ Full reference: `~/notes/CNCBI Project Facts.md` — authoritative source for al
 - 2026-02-19: Row 1 bullet 1 rewritten from narrative to impact format; Row 2 trimmed "on investigator-labelled holdout across an 18-month dataset"
 - 2026-02-19: Cleanup — arrows to "to", removed 0.8% STR detail from Row 2, RAG removed from Row 1, ~ to "around" in Row 3
 - 2026-02-19: "Co-designed" confirmed for Row 5 (data governance team led writing, Terry was SME)
+- 2026-02-19: AML sentence split — "zero audit findings" gets its own sentence in summary (council consensus)
+- 2026-02-19: Possessives fixed (bank's, HKMA's)
+- 2026-02-19: Council full review — 3 fixes applied: Sandbox role "SME and" dropped, employment date 2025→2026, Credit Risk tag → Retail Banking Operations
+- 2026-02-19: Council "Consider Later" items (4x STR metric, 0.8% materiality, audit crossover narrative) — all skipped, CV is tight enough
 
 ## CV Source Code
 
