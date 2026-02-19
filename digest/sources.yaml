@@ -35,7 +35,7 @@
 
 - name: All-In Podcast
   type: youtube
-  handle: "@alaboratory"
+  handle: "@AllInPodcast"
   rss_url: https://rss.libsyn.com/shows/254861/destinations/1928300.xml
   vault_path: AI & Tech/All-In
 
