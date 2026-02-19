@@ -90,6 +90,14 @@ Before running the council, evaluate the question against the routing table abov
 
 Only proceed to Step 1 if the question involves genuine trade-offs or domain-specific judgment.
 
+### Step 0.5: Propose Mode and Confirm
+
+Before running, tell the user which mode you recommend and why (one line), then confirm. Example:
+
+> "This is a binary decision with clear trade-offs — I'd use **--oxford**. Good?"
+
+Don't run the council until the user confirms or picks a different mode.
+
 ### Step 1: Get the Question
 
 Ask the user what question they want the council to deliberate, or use the question they provided.
