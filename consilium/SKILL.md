@@ -120,6 +120,8 @@ For other decisions, use simpler context or skip this step.
 
 ### Step 3: Run the Council
 
+**Always pass an explicit mode flag** (`--quick`, `--council`, `--discuss`, `--socratic`, `--oxford`, `--redteam`, `--solo`). Never run bare `consilium "question"` — the built-in auto-router is weaker than your mode recommendation from Step 0.5.
+
 **Always use these flags:**
 - `--format json` — ensures cost/duration metadata is captured
 - `--output ~/notes/Councils/LLM Council - {Topic} - {date}.md` — vault persistence
