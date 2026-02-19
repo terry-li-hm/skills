@@ -75,6 +75,8 @@ Codex handles full-package code reviews well. Pattern:
 4. Triage the output — Codex finds real bugs but also suggests over-engineering. Filter.
 5. Delete `REVIEW.md` before committing (artifact, not source)
 
+**Parallel review from both tools:** Launch Codex + OpenCode review simultaneously with different output files (`REVIEW-codex.md`, `REVIEW-opencode.md`). They have complementary strengths — Codex finds architectural issues and subtle races; OpenCode catches product/UX concerns and gives concrete fix snippets. Triage by consensus: findings both flag are real bugs; tool-unique findings need judgment. Tested on doumei (Feb 2026): 4 consensus bugs + 1 good unique find each.
+
 **Parallel fixes after review:** Launch one OpenCode per fix in parallel. Keep prompts to "read this range, change X to Y, run tests". OpenCode handles simple substitutions; complex structural transforms (nested try/except wrapping) silently stall — do those directly.
 
 ## Prompt Template
