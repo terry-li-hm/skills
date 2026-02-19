@@ -544,7 +544,7 @@ def main():
     parser.add_argument("source", nargs="?", help="Source name filter (partial match)")
     parser.add_argument("--days", type=int, default=30, help="Look back N days (default: 30)")
     parser.add_argument("--dry-run", action="store_true", help="List episodes without processing")
-    parser.add_argument("--model", default="google/gemini-2.5-flash", help="OpenRouter model ID")
+    parser.add_argument("--model", default="google/gemini-3-flash-preview", help="OpenRouter model ID")
     parser.add_argument("--max-videos", type=int, default=15, help="Max videos to fetch per channel")
     parser.add_argument("--delay", type=int, default=5, help="Seconds between episodes to avoid YouTube rate limits (default: 5)")
     args = parser.parse_args()
