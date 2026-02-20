@@ -102,7 +102,7 @@ WEATHER: {weather}
 HK NEWS:
 {news_text}
 
-Format: Start with a weather emoji, then 2-3 sentences that flow naturally — mention the weather facts (temp, conditions) and connect to the lightest/most relatable headline. Name the news briefly so the reader gets it without context. Skip violence or tragedy. 1-2 emojis total. No "Good morning". Plain text only — no markdown, no bold, no asterisks.""")
+Format: Start with a weather emoji, then 2-3 sentences that flow naturally. MUST include the low–high temp range (e.g. "19–25°C") and conditions. Connect to the lightest/most relatable headline — name the news briefly so the reader gets it without context. Skip violence or tragedy. 1-2 emojis total. No "Good morning". Plain text only — no markdown, no bold, no asterisks.""")
 
 
 if __name__ == "__main__":
