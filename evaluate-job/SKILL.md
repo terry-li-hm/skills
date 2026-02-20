@@ -12,16 +12,14 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 ## Workflow
 
 1. **Navigate to job posting:**
-   - **Claude Code:** Use Chrome extension (`profile="chrome"`) or `web_fetch`
+   - **Primary:** `WebFetch` — fast, works for most JD content
+   - **Fallback:** `agent-browser --profile` for logged-in view (applicant stats, seniority breakdown, salary source attribution)
    - Extract: company name, role title, requirements, responsibilities, preferred qualifications, salary if disclosed, applicant stats
 
-   **Why browser over fetch for LinkedIn:**
-   - Fetch/extract misses **applicant stats** (count, seniority breakdown) — requires being logged in
-   - Browser sees the full page as logged-in user, including competition metrics
-   - Can click "Show more" to expand full JD if needed
-   - **Salary attribution:** WebFetch cannot distinguish LinkedIn's estimated salary range from employer-disclosed salary. When using fetch, mark any salary as `(LinkedIn estimate — not employer-disclosed)` unless the JD text explicitly states the range. Browser can visually confirm the source.
-
-   **Extraction tip:** `read_page` captures the full accessibility tree including content below the viewport — no scrolling needed. Just navigate, wait 2 seconds for load, then `read_page` once to get the complete JD.
+   **WebFetch limitations on LinkedIn:**
+   - Misses **applicant stats** (count, seniority breakdown) — requires being logged in
+   - Cannot distinguish LinkedIn's estimated salary range from employer-disclosed salary. Mark any salary as `(LinkedIn estimate — not employer-disclosed)` unless the JD text explicitly states the range
+   - If applicant stats or salary attribution matter, use `agent-browser --profile` (persistent login via `AGENT_BROWSER_PROFILE` env var)
 
 2. **Check for duplicates and same-employer saturation** (before full analysis):
    - Search vault for existing note matching company + role (e.g., `[[*Role* - *Company*]]`)
@@ -73,9 +71,7 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 
 11. **If APPLY:**
     - **Easy Apply roles:** Ask whether to proceed with application now
-    - **Company website roles:** Offer to help via `agent-browser --cdp 9222` (CDP Chrome). For form filling, always check `~/notes/Personal Details for Applications.md` for correct name (李浩銘), address, and personal details. Note: Workday portals block Playwright actions on later form steps — use automation for login/upload/early steps, expect manual completion for dropdowns and submission.
-
-**Note:** No reliable way to close browser tabs via MCP — leave tab open for user to close manually.
+    - **Company website roles:** Offer to help via `agent-browser --profile` (persistent login). For form filling, always check `~/notes/Personal Details for Applications.md` for correct name (李浩銘), address, and personal details. Note: Workday portals block Playwright actions on later form steps — use automation for login/upload/early steps, expect manual completion for dropdowns and submission.
 
 ## Fit Dimensions
 
@@ -149,6 +145,5 @@ For multiple jobs, run this skill sequentially on each URL. Start with quick dup
 
 ## Related Skills
 
-- `chrome-automation` — Browser best practices (read_page, wait times, tab creation)
-- `/review-saved-jobs` — Batch processing of LinkedIn saved jobs (chains to this skill)
-- `/debrief` — Captures interview signals that feed back into this skill's red flag check
+- `browser-automation` — agent-browser best practices (persistent profile, headed mode for captchas)
+- `/analyze` — Routes LinkedIn job URLs to this skill automatically
