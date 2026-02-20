@@ -50,7 +50,7 @@ Run `/skill-review`:
 
 Run inline — no separate skill needed:
 
-a. **Solutions KB** — review `~/docs/solutions/` for stale or duplicate entries
+a. **Solutions KB** — regenerate index (`python3 ~/scripts/generate-solutions-index.py`) then review for stale or duplicate entries
 b. **Decay report** — `uv run ~/scripts/vault-decay-report.py` for orphans/cold notes
 c. **Daily note archival** — archive notes >60 days old to `~/notes/.archive/dailies/`
 d. **Broken links** — verify `[[wikilinks]]` in CLAUDE.md still resolve
