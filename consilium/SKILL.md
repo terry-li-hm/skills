@@ -18,6 +18,7 @@ user_invocable: true
 | Auto (default) | *(none)* | varies | Opus classifies difficulty, picks quick or council |
 | Quick | `--quick` | ~$0.10 | Parallel queries, no debate/judge |
 | Council | `--council` | ~$0.50 | Full multi-round debate + judge |
+| Deep | `--deep` | ~$0.80 | Council + auto-decompose + 2 debate rounds. For complex multi-part questions. |
 | Discuss | `--discuss` | ~$0.30 | Hosted roundtable exploration |
 | Socratic | `--socratic` | ~$0.30 | Probing questions to expose assumptions |
 | Oxford | `--oxford` | ~$0.40 | Binary for/against with rebuttals + verdict |

@@ -130,6 +130,26 @@ web_sources:
     tier: 1
     cadence: weekly
 
+  - name: Longview (The Last Invention)
+    url: https://longviewinvestigations.substack.com
+    rss: https://longviewinvestigations.substack.com/feed
+    focus: Investigative AI journalism — doomers vs accelerationists vs scouts
+    tier: 2
+    cadence: weekly
+    notes: |
+      General investigative outlet — filter for AI/Last Invention content.
+      Hosted by Gregory Warner (ex-NPR). High-quality long-form, not breaking news.
+
+  - name: Dwarkesh Podcast
+    url: https://www.dwarkesh.com
+    rss: https://www.dwarkesh.com/feed
+    focus: Long-form AI interviews — researchers, founders, policymakers
+    tier: 1
+    cadence: weekly
+    notes: |
+      Dwarkesh Patel. Deep interviews with Ilya Sutskever, Dario Amodei, etc.
+      Podcast-first but Substack posts include transcripts and written analysis.
+
   - name: Evident Banking Brief
     url: https://evidentinsights.com/bankingbrief/
     focus: AI in financial services, bank AI rankings and benchmarks

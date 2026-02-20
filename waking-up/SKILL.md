@@ -44,9 +44,11 @@ wu transcribe <id> "Title" --teacher "Sam Harris" --pack "Fundamentals"
 
 ### Batch transcribe
 ```bash
-wu batch batch_all_titled.json            # Batch 1: Alan Watts (115 sessions) — DONE
-wu batch batch_phase2.json               # Phase 2: Theory series (167 sessions) — READY, needs Deepgram credits
-wu batch batch_all_titled.json --force    # re-transcribe everything
+wu batch batch_all_titled.json                                     # Batch 1 done (Deepgram)
+wu batch batch_phase2.json --model gemini-2.5-flash               # Phase 2: 167 sessions (recommended)
+wu batch-async batch_phase2.json --enrich                         # Speechmatics async only (not Gemini)
+wu compare <audio_id>                                              # Compare backends on one session
+wu compare <audio_id> --models speechmatics,gemini-2.5-flash      # Custom model set
 ```
 
 ### Rename placeholders after batch
@@ -90,19 +92,30 @@ agent-browser --session wu-session open "https://app.wakingup.com/packs/<HASH>"
 
 ## Notes
 
-- Deepgram Nova-3 is the default transcription model — **$0.0056/min all-in** ($0.0043 base + $0.0013 keyterm add-on), ~5.3% WER
+- Deepgram Nova-3 is the default model — **$0.0056/min all-in**, used for Batch 1
 - Already-processed sessions are skipped automatically (check vault for existing `.md`)
 - The `--force` flag re-downloads and re-transcribes even if output exists
 - Audio is cached in `~/.cache/waking-up-audio/` — safe to clear for disk space
+- `batch-async` is **Speechmatics-specific** (async submit/poll/fetch). Use `batch` for Gemini.
 
-## STT Provider Comparison (Feb 2026)
+## STT Provider Comparison (tested Feb 2026)
 
-For future phases, **Speechmatics Pro** is the strongest alternative:
-- $0.004/min all-in (cheaper than Deepgram all-in)
-- `sounds_like` phonetic guidance for Sanskrit/Pali terms (IPA mapping)
-- 1,000 words/job limit (vs Deepgram's 100 terms)
-- 480 min/month free tier (recurring) — enough to test a full pack
+**Recommended for Phase 2: `gemini-2.5-flash`**
+- ~$0.0015/min (~$6.75 for 167 sessions vs ~$18 for Speechmatics)
+- Matches or beats Speechmatics on Buddhist vocabulary (correctly got "Vipassana" where SM failed)
+- No audio duration limit
+- Use system prompt with Buddhist glossary instead of `sounds_like`
 
-Before committing to Phase 3 on Speechmatics: run one ~30-min pack through both providers with term list and compare Sanskrit accuracy manually.
+**Speechmatics Pro** (available, tested):
+- $0.004/min, `sounds_like` phoneme hints for Sanskrit/Pali
+- `speaker_diarization_config.max_speakers` field removed (breaking change Feb 2026 — already fixed)
+- API is async batch (submit → poll → fetch) — different architecture from Gemini
 
-**Avoid:** Groq/OpenAI Whisper (no vocab injection, hallucination issues on quiet audio), Google/AWS (6× more expensive), self-hosted Whisper (infra overhead + hallucination risk).
+**Avoid:**
+- `gemini-3-flash-preview`: output token limit truncates ~38% of 27-min sessions
+- `gpt-4o-transcribe`: hard 1400s (~23 min) audio duration limit — rules out most sessions
+- Groq/Whisper: hallucination on quiet audio, no vocab injection
+- Google Cloud Speech / AWS: 6× more expensive
+
+Full gotchas: `~/docs/solutions/stt-api-gotchas.md`
+Full results: `~/notes/Waking Up/STT Comparison Results.md`
