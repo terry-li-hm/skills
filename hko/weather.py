@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""HK Observatory weather + news — templated weather, LLM news riff."""
+"""HK Observatory weather + RTHK Chinese news — one paragraph."""
 
 import json
 import sys
@@ -8,8 +8,8 @@ from urllib.request import urlopen, Request
 
 
 def fetch_news():
-    """Fetch top 5 RTHK local news headlines with links."""
-    url = "http://rthk9.rthk.hk/rthk/news/rss/e_expressnews_elocal.xml"
+    """Fetch top 5 RTHK Chinese local news headlines with links."""
+    url = "http://rthk9.rthk.hk/rthk/news/rss/c_expressnews_clocal.xml"
     try:
         req = Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urlopen(req, timeout=10) as resp:
@@ -19,10 +19,13 @@ def fetch_news():
             title = item.findtext("title", "").strip()
             desc = item.findtext("description", "").strip()
             link = item.findtext("link", "").strip()
-            sentences = desc.replace("\n", " ").split(". ")
-            short_desc = ". ".join(sentences[:2]).strip()
-            if short_desc and not short_desc.endswith("."):
-                short_desc += "."
+            # First 2 sentences for context
+            sentences = desc.replace("\n", " ")
+            # Chinese uses 。 as sentence separator
+            parts = sentences.split("。")
+            short_desc = "。".join(parts[:2]).strip()
+            if short_desc and not short_desc.endswith("。"):
+                short_desc += "。"
             if title:
                 headlines.append({"title": title, "desc": short_desc, "link": link})
         return headlines
@@ -92,7 +95,7 @@ def build_weather_line(now, fnd, warn):
     # Build line: ☀️ 19–25°C, sunny and dry
     desc = forecast_desc.rstrip(".")
     desc = desc[0].lower() + desc[1:] if desc else ""
-    line = f"{emoji} {lo}\u2013{hi}\u00b0C, {desc}"
+    line = f"{emoji} {lo}\u2013{hi}\u00b0C, {desc}."
 
     if rain_mm > 0:
         line += f", {rain_mm}mm rain"
@@ -129,24 +132,23 @@ def main():
 
         print(f"""Write ONLY the output — no preamble, no quotes, no labels.
 
-You're adding ONE sentence after this weather line:
+You're writing ONE sentence to go after this weather line (all in one paragraph, no line breaks):
 "{weather_line}"
 
-Pick the lightest, most fun headline from today's HK news and write a single sentence that connects it to the weather with warmth and light humor. The reader hasn't seen the news, so name what it's about briefly.
+Pick the lightest, most fun headline from today's HK news and write a single sentence that connects it to the weather naturally. The reader hasn't seen the news, so name what it's about briefly.
 
-NEWS:
+NEWS (Chinese):
 {news_text}
 
 Rules:
-- ONE sentence only. Warm, natural, a bit witty.
+- ONE sentence only. Write in English. Warm, natural, a bit witty.
 - SKIP anything violent, sad, or heavy — pick the most fun/relatable one.
-- Briefly explain the news so the reader gets it without context.
+- Briefly explain the news so an English reader gets it without context.
 - No emoji. No "Good morning". Plain text only.
 - If ALL headlines are heavy/sad, write a short warm weather observation instead.
 - LAST LINE: output ONLY the index number of the headline you used (e.g. "3").""")
 
     elif mode == "links":
-        # Output JSON array of headline links for the shell script
         headlines = fetch_news()
         print(json.dumps([h["link"] for h in headlines]))
 
