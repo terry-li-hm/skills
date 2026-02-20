@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-"""HK Observatory weather + morning news — warm, witty, wife-forwardable."""
+"""HK Observatory weather + morning news — one warm, witty message."""
 
 import json
-import sys
 import xml.etree.ElementTree as ET
 from urllib.request import urlopen, Request
 
@@ -30,8 +29,6 @@ def fetch_news():
 
 
 def main():
-    mode = sys.argv[1] if len(sys.argv) > 1 else "full"
-
     with open("/tmp/hko_now.json") as f:
         now = json.load(f)
     with open("/tmp/hko_fnd.json") as f:
@@ -41,13 +38,10 @@ def main():
 
     # Current conditions
     temps = {t["place"]: t["value"] for t in now["temperature"]["data"]}
-    time = now["temperature"]["recordTime"][11:16]
     temp = temps.get("Shau Kei Wan", temps.get("Hong Kong Observatory"))
-
-    # Humidity
     humidity = now.get("humidity", {}).get("data", [{}])[0].get("value", "?")
 
-    # UV index (only show if >= 6)
+    # UV index
     uv_val = 0
     uv_data = now.get("uvindex")
     if isinstance(uv_data, dict):
@@ -60,7 +54,7 @@ def main():
     lo, hi = today["forecastMintemp"]["value"], today["forecastMaxtemp"]["value"]
     forecast_desc = today.get("forecastWeather", "")
 
-    # Rainfall - Eastern District or Chai Wan
+    # Rainfall
     rain_mm = 0
     if "rainfall" in now and "data" in now["rainfall"]:
         rain_data = {r["place"]: r.get("max", 0) for r in now["rainfall"]["data"]}
@@ -83,66 +77,32 @@ def main():
                 name = val["name"].replace(" Warning Signal", "").replace(" Warning", "")
                 warnings.append(f"{icon} {name}")
 
-    # Weather icon
-    def get_icon(forecast, warns, rain):
-        if any("\U0001f300" in w for w in warns): return "\U0001f300"
-        if any("\u26c8\ufe0f" in w for w in warns) or rain > 5: return "\U0001f327\ufe0f"
-        if "thunder" in forecast.lower(): return "\u26c8\ufe0f"
-        if "rain" in forecast.lower() or "shower" in forecast.lower(): return "\U0001f326\ufe0f"
-        if "cloudy" in forecast.lower(): return "\u2601\ufe0f"
-        if "sunny" in forecast.lower() or "fine" in forecast.lower(): return "\u2600\ufe0f"
-        return "\U0001f324\ufe0f"
-
-    icon = get_icon(forecast_desc, warnings, rain_mm)
-
-    # Build weather summary string
-    weather_summary = f"{temp}°C now, {humidity}% humidity, forecast {lo}°–{hi}°C — {forecast_desc}"
+    # Weather summary for LLM
+    weather = f"{temp}°C now, {humidity}% humidity, forecast {lo}°–{hi}°C — {forecast_desc}"
     if rain_mm > 0:
-        weather_summary += f", {rain_mm}mm rain in past hour"
+        weather += f", {rain_mm}mm rain in past hour"
+    if uv_val >= 6:
+        weather += f", UV index {uv_val}"
     if warnings:
-        weather_summary += ", warnings: " + ", ".join(warnings)
+        weather += ", warnings: " + ", ".join(warnings)
 
-    if mode == "prompt":
-        # Output just the LLM prompt (for claude -p)
-        headlines = fetch_news()
-        news_text = "\n".join(
-            f"- {h['title']}: {h['desc']}" for h in headlines
-        ) or "No news available today."
+    # News headlines
+    headlines = fetch_news()
+    news_text = "\n".join(
+        f"- {h['title']}: {h['desc']}" for h in headlines
+    ) or "No news available today."
 
-        print(f"""Write ONLY the message text — no preamble, no quotes, no "Here's...".
+    # Output the prompt for claude -p
+    print(f"""Write ONLY the message — no preamble, no quotes, no "Here's...", no labels.
 
-You're writing a short morning note for someone's wife in Hong Kong. Weave today's weather together with one news headline — warm, light, a little funny.
+Short morning weather note for someone to forward to their wife. Weave today's weather with one news headline — warm, light, a bit funny. ONE short paragraph, no line breaks.
 
-WEATHER: {weather_summary}
+WEATHER: {weather}
 
-NEWS:
+HK NEWS:
 {news_text}
 
-Rules:
-- Pick the lightest/most relatable headline. SKIP violence or tragedy.
-- Briefly name what the news is about so the reader gets it without having seen the headline.
-- 2-3 short sentences. Warm, playful. 1-2 emojis max.
-- Don't start with "Good morning" (already in header).
-- English, Cantonese slang OK if natural.
-- Output ONLY the message. No labels, no preamble, no quotes.""")
-        return
-
-    # mode == "full" — output the formatted weather block
-    if warnings:
-        print("**\u26a0\ufe0f " + " \u2022 ".join(warnings) + "**")
-        print()
-
-    print(f"{icon} **Good morning!**")
-    # Lowercase first char only, preserve rest (e.g. "Sunny periods. Dry..." stays readable)
-    desc = forecast_desc[0].lower() + forecast_desc[1:] if forecast_desc else ""
-    line = f"{temp}\u00b0C now, {desc}"
-    if lo != hi:
-        line += f" ({lo}\u00b0\u2013{hi}\u00b0C)"
-    if uv_val >= 6:
-        line += f" \u2022 UV {uv_val} \U0001f506"
-    if rain_mm > 0:
-        line += f" \u2022 \U0001f327\ufe0f {rain_mm}mm rain"
-    print(line)
+Format: Start with a weather emoji, then 2-3 sentences that flow naturally — mention the weather facts (temp, conditions) and connect to the lightest/most relatable headline. Name the news briefly so the reader gets it without context. Skip violence or tragedy. 1-2 emojis total. No "Good morning". Plain text only — no markdown, no bold, no asterisks.""")
 
 
 if __name__ == "__main__":
