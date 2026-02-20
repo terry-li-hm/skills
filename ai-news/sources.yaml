@@ -208,6 +208,48 @@ bank_tech_blogs:
     focus: Quant investing, AI in finance, engineering
     tier: 2
     cadence: monthly
+    notes: |
+      Filter by AI/ML tags — careers/culture pieces are filler.
+      Tag URLs: /tag/artificial-intelligence/ and /tag/machine-learning/
+
+  - name: AQR Capital Management
+    url: https://www.aqr.com/Insights/Research
+    focus: ML in portfolio construction, factor investing, Bryan Kelly (Head of ML)
+    tier: 1
+    cadence: biweekly
+    notes: |
+      Most academically rigorous quant fund publisher. ~20% of signals now ML-driven.
+      Also check Cliff's Perspectives (aqr.com/Insights/Perspectives) for opinionated takes.
+      ML Learning Center: aqr.com/Learning-Center/Machine-Learning
+      No RSS — email subscribe only.
+
+  - name: Jane Street
+    url: https://blog.janestreet.com
+    rss: https://blog.janestreet.com/feed.xml
+    focus: Engineering, CS theory, OCaml, FPGA, systems design
+    tier: 2
+    cadence: monthly
+    notes: |
+      Not finance AI per se — world-class engineering thinking at a trading firm.
+      Regularly surfaces on Hacker News. Also: Signals and Threads podcast.
+
+  - name: Man AHL / Oxford-Man Institute
+    url: https://www.ahl.com/research
+    focus: ML in systematic trading, academic quant finance
+    tier: 2
+    cadence: monthly
+    notes: |
+      ML in trading since 2014. Oxford-Man Institute newsletter is a monthly
+      curated digest of quant finance ML papers: oxford-man.ox.ac.uk/quant-finance-research-newsletter/
+
+  - name: Bridgewater
+    url: https://www.bridgewater.com/research-and-insights/artificial-intelligence
+    focus: Macro AI commentary, AI capex cycle, AIA Labs
+    tier: 2
+    cadence: monthly
+    notes: |
+      AI-as-investment-theme angle, not AI-as-tool. Useful for macro framing
+      in client conversations. AIA Labs content is high-level, no methodology detail.
 
   - name: JPMorgan AI Research
     url: https://www.jpmorgan.com/technology/artificial-intelligence
