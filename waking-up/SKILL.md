@@ -44,7 +44,8 @@ wu transcribe <id> "Title" --teacher "Sam Harris" --pack "Fundamentals"
 
 ### Batch transcribe
 ```bash
-wu batch batch_all_titled.json            # processes all, skips existing
+wu batch batch_all_titled.json            # Batch 1: Alan Watts (115 sessions) — DONE
+wu batch batch_phase2.json               # Phase 2: Theory series (167 sessions) — READY, needs Deepgram credits
 wu batch batch_all_titled.json --force    # re-transcribe everything
 ```
 
@@ -61,13 +62,24 @@ wu rename              # apply renames
 4. Run `copyWakingUpSessions()` or `getWakingUpSessions()`
 5. Save JSON to file, then: `wu catalog <file.json>`
 
+### Get pack course listings via browser (for batch building)
+```bash
+# Auth works via stored browser-auth-state.json
+# agent-browser --session wu-session can log in with:
+TOKEN=$(python3 -c "import json; d=json.load(open('~/repos/wu/browser-auth-state.json')); print(next(c['value'] for c in d['cookies'] if c['name']=='STYXKEY-token'))")
+agent-browser --session wu-session open "https://app.wakingup.com"
+agent-browser --session wu-session eval "document.cookie='STYXKEY-token=$TOKEN; path=/; domain=.wakingup.com; secure'"
+agent-browser --session wu-session open "https://app.wakingup.com/packs/<HASH>"
+# Then snapshot → extract course titles → match against all_courses.json by title+type+duration
+```
+
 ## Key Paths
 
 - **Repo:** `~/repos/wu/`
 - **Vault transcripts:** `~/notes/Waking Up/`
 - **Audio cache:** `~/.cache/waking-up-audio/`
 - **Catalog data:** `all_courses.json`, `audio_id_mapping.json` (in repo root)
-- **Batch file:** `batch_all_titled.json` (115 sessions with pack assignments)
+- **Batch files:** `batch_all_titled.json` (Batch 1, done), `batch_phase2.json` (167 sessions, ready)
 
 ## Error Handling
 
@@ -78,7 +90,19 @@ wu rename              # apply renames
 
 ## Notes
 
-- Deepgram Nova-3 is the default transcription model (~$0.0043/min, good accuracy with meditation keyterm boosting)
+- Deepgram Nova-3 is the default transcription model — **$0.0056/min all-in** ($0.0043 base + $0.0013 keyterm add-on), ~5.3% WER
 - Already-processed sessions are skipped automatically (check vault for existing `.md`)
 - The `--force` flag re-downloads and re-transcribes even if output exists
 - Audio is cached in `~/.cache/waking-up-audio/` — safe to clear for disk space
+
+## STT Provider Comparison (Feb 2026)
+
+For future phases, **Speechmatics Pro** is the strongest alternative:
+- $0.004/min all-in (cheaper than Deepgram all-in)
+- `sounds_like` phonetic guidance for Sanskrit/Pali terms (IPA mapping)
+- 1,000 words/job limit (vs Deepgram's 100 terms)
+- 480 min/month free tier (recurring) — enough to test a full pack
+
+Before committing to Phase 3 on Speechmatics: run one ~30-min pack through both providers with term list and compare Sanskrit accuracy manually.
+
+**Avoid:** Groq/OpenAI Whisper (no vocab injection, hallucination issues on quiet audio), Google/AWS (6× more expensive), self-hosted Whisper (infra overhead + hallucination risk).
