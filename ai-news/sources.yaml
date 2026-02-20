@@ -303,6 +303,72 @@ bank_tech_blogs:
     tier: 2
     cadence: monthly
 
+  - name: Grab Tech
+    url: https://engineering.grab.com
+    rss: https://engineering.grab.com/feed.xml
+    focus: ML infra at payments scale, user foundation models, GenAI gateway
+    tier: 1
+    cadence: weekly
+    notes: |
+      Best engineering blog in APAC. Super-app (payments, insurance, lending).
+      Mix of ML and general eng — filter for ML/data posts.
+
+  - name: Adyen Tech
+    url: https://medium.com/adyen
+    rss: https://medium.com/feed/adyen
+    focus: Production RL for payment optimisation, fraud GNNs, DABstep benchmark
+    tier: 1
+    cadence: monthly
+    notes: |
+      Released DABstep benchmark with HuggingFace — genuine research contribution.
+      Filter by /tagged/machine-learning for AI content.
+
+  - name: PayPal Tech
+    url: https://medium.com/paypal-tech
+    rss: https://medium.com/feed/paypal-tech
+    focus: Cosmos.AI MLOps platform, fraud detection at scale, feature engineering
+    tier: 2
+    cadence: monthly
+
+  - name: ING Tech Blog
+    url: https://medium.com/ing-blog
+    rss: https://medium.com/feed/ing-blog
+    focus: Production ML, fraud detection, federated learning, NeurIPS collaborations
+    tier: 2
+    cadence: monthly
+    notes: |
+      Filter by /tagged/machine-learning. Volume dropped post-2022 but
+      ML posts are genuine practitioner writing, not marketing.
+
+  - name: BBVA AI Factory
+    url: https://www.bbvaaifactory.com/blog/
+    focus: Explainability (Mercury), causal inference, fairness/bias, LLM adaptation
+    tier: 2
+    cadence: monthly
+    notes: |
+      Best standalone AI blog from a big bank. Open-source tools (Mercury).
+      Cites NeurIPS/KDD. Cadence has slowed — may be quarterly now.
+
+  - name: BIS (AI/Fintech)
+    url: https://www.bis.org/topic/fintech/innovation_ai.htm
+    rss: https://www.bis.org/doclist/wpubls.rss
+    focus: AI governance, regulatory frameworks, ML for supervision, financial stability
+    tier: 2
+    cadence: monthly
+    notes: |
+      Academic/policy, not engineering. Essential for governance angle.
+      Innovation Hub has 26 active projects. Filter AI-tagged working papers.
+
+  - name: Bank of England (Fintech/AI)
+    url: https://www.bankofengland.co.uk/research/fintech
+    rss: https://www.bankofengland.co.uk/rss/publications
+    focus: AI Consortium, annual FI AI adoption survey, systemic risk, AI asset valuations
+    tier: 2
+    cadence: monthly
+    notes: |
+      Policy/economics, not engineering. Annual BoE/FCA AI survey is the most
+      rigorous public data on UK FI AI adoption. AI Consortium launched May 2025.
+
 chinese_sources:
   - name: 机器之心 (Synced)
     rss: https://wechat2rss.xlab.app/feed/51e92aad2728acdd1fda7314be32b16639353001.xml
