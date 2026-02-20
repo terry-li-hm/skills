@@ -41,7 +41,14 @@ End-of-day log → daily note.
    - Append a thematic tagline: compress the 3-5 themes to a few words each, comma-separated.
    - Result: `# 2026-02-19 — Thursday — Doumei shipped, CV submitted, GARP grinding`
 
-7. **Finalize the daily note** — append all closing sections at once:
+7. **Update WORKING.md** — reset `~/notes/WORKING.md` for tomorrow:
+   - Clear today's section (completed items don't need to persist)
+   - Set new "Today" header to tomorrow's date
+   - Populate from: follow-ups identified above, TODO items due/scheduled tomorrow, any carryover from today
+   - Keep the "Current Focus" and other persistent sections unchanged
+   - This is the file the morning skill reads — stale WORKING.md = stale morning briefing
+
+8. **Finalize the daily note** — append all closing sections at once:
 
 ```markdown
 ---
