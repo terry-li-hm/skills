@@ -130,23 +130,21 @@ def main():
             f"- [{i}] {h['title']}: {h['desc']}" for i, h in enumerate(headlines)
         ) or "No news available today."
 
-        print(f"""Write ONLY the output — no preamble, no quotes, no labels.
+        print(f"""Output ONLY your sentence + index. Nothing else. Do NOT repeat the weather line.
 
-You're writing ONE sentence to go after this weather line (all in one paragraph, no line breaks):
-"{weather_line}"
+The weather today: "{weather_line}"
 
-Pick the lightest, most fun headline from today's HK news and write a single sentence that connects it to the weather naturally. The reader hasn't seen the news, so name what it's about briefly.
+Write ONE short, funny sentence connecting the weather to the lightest headline below. Think punchline, not paragraph.
 
-NEWS (Chinese):
+NEWS:
 {news_text}
 
 Rules:
-- ONE sentence only. Write in English. Warm, natural, a bit witty.
-- SKIP anything violent, sad, or heavy — pick the most fun/relatable one.
-- Briefly explain the news so an English reader gets it without context.
-- No emoji. No "Good morning". Plain text only.
-- If ALL headlines are heavy/sad, write a short warm weather observation instead.
-- LAST LINE: output ONLY the index number of the headline you used (e.g. "3").""")
+- MAX 15 words. Punchy. Make someone smile.
+- Skip violence/tragedy. English only. No emoji.
+- Name the news topic so the reader gets it.
+- If all headlines are heavy, just a short weather quip instead.
+- LAST LINE: the index number of headline used (e.g. "3").""")
 
     elif mode == "links":
         headlines = fetch_news()
