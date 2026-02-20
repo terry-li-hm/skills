@@ -6,7 +6,7 @@ user_invocable: true
 
 # Waking Up Transcripts
 
-Manage the Waking Up meditation transcript pipeline via the `wu` CLI (`~/repos/waking-up-transcripts/`).
+Manage the Waking Up meditation transcript pipeline via the `wu` CLI (`~/repos/wu/`).
 
 ## Trigger
 
@@ -63,7 +63,7 @@ wu rename              # apply renames
 
 ## Key Paths
 
-- **Repo:** `~/repos/waking-up-transcripts/`
+- **Repo:** `~/repos/wu/`
 - **Vault transcripts:** `~/notes/Waking Up/`
 - **Audio cache:** `~/.cache/waking-up-audio/`
 - **Catalog data:** `all_courses.json`, `audio_id_mapping.json` (in repo root)
