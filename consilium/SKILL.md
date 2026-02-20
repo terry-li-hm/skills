@@ -61,7 +61,7 @@ At ~$0.50/run, the cost threshold is negligible. Use whenever:
 - **Claude has good context** — if we've been discussing the topic, direct conversation is faster
 - **Already converged** — if discussion reached a conclusion, council just validates
 - **Speed matters** — takes 60-90s for full council
-- **Naming exercises** — council debates taste in circles. Use one model to brainstorm candidates, then registry-check. Council only if evaluating a shortlist against specific criteria
+- **Naming exercises (full council)** — council debates taste in circles. But `--quick` works well: independent samples beat single-model brainstorming, and convergence (4/5 models picking the same name) is a strong signal. Use `--quick` to brainstorm candidates, then registry-check. Full council only if evaluating a shortlist against specific criteria
 
 ## Prerequisites
 
