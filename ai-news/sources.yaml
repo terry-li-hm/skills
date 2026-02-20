@@ -56,6 +56,28 @@ web_sources:
       High-quality technical content. Research posts on custom models, CUDA kernels,
       multi-agent coordination. Primary source for AI coding tool internals.
 
+  - name: Google DeepMind
+    url: https://deepmind.google/blog/
+    rss: https://deepmind.google/blog/rss.xml
+    focus: AI research, Gemini, AlphaFold, safety
+    tier: 1
+    cadence: weekly
+
+  - name: Meta AI (FAIR)
+    url: https://ai.meta.com/blog/
+    focus: Llama, open-source AI research, FAIR papers
+    tier: 1
+    cadence: weekly
+    notes: No RSS feed. Check blog directly or use RSSHub.
+
+  - name: NVIDIA Developer Blog (AI)
+    url: https://developer.nvidia.com/blog/category/artificial-intelligence/
+    rss: https://developer.nvidia.com/blog/feed
+    focus: GPU/AI infrastructure, CUDA, inference optimisation, model serving
+    tier: 2
+    cadence: weekly
+    notes: High volume — filter for AI category. General feed includes non-AI posts.
+
   - name: steipete.me
     url: https://steipete.me
     rss: https://steipete.me/rss.xml
@@ -162,6 +184,36 @@ web_sources:
     notes: |
       Primary source for "System 2" reasoning and inference-time scaling insights.
       Essential for AgentOps and safety narratives.
+
+consulting_and_regulators:
+  - name: McKinsey / QuantumBlack
+    url: https://www.mckinsey.com/capabilities/quantumblack/our-insights
+    focus: Enterprise AI strategy, state of AI surveys, AI transformation
+    tier: 1
+    cadence: biweekly
+    notes: |
+      Annual "State of AI" survey is essential reference. Also on Medium:
+      quantumblack.medium.com. No RSS — check page or Medium feed.
+      Competitive intelligence for Capco positioning.
+
+  - name: BCG AI
+    url: https://www.bcg.com/capabilities/artificial-intelligence/insights
+    focus: AI value realisation, transformation playbooks, responsible AI
+    tier: 2
+    cadence: monthly
+    notes: |
+      "Where's the Value in AI?" series is their flagship. More strategy
+      than technical. Useful for understanding how competitors frame AI advisory.
+
+  - name: MAS (Singapore)
+    url: https://www.mas.gov.sg/development/fintech/artificial-intelligence
+    focus: FEAT principles, AI model risk management, Veritas Consortium, PathFin.ai
+    tier: 2
+    cadence: monthly
+    notes: |
+      APAC regulatory leader on AI in finance. FEAT framework + Veritas
+      open-source toolkit (github.com/veritas-toolkit). Nov 2025 consultation
+      paper on AI risk management guidelines. Pairs with BIS and BoE.
 
 bank_tech_blogs:
   # Tier 1 - Reliable, frequent updates
