@@ -70,6 +70,20 @@ web_sources:
     cadence: weekly
     notes: No RSS feed. Check blog directly or use RSSHub.
 
+  - name: Hugging Face Blog
+    url: https://huggingface.co/blog
+    rss: https://huggingface.co/blog/feed.xml
+    focus: Open-source models, benchmarks, datasets, transformers ecosystem
+    tier: 1
+    cadence: weekly
+
+  - name: Mistral AI
+    url: https://mistral.ai/news
+    focus: European AI lab, BNP Paribas partnership, open-weight models
+    tier: 2
+    cadence: biweekly
+    notes: No confirmed RSS. Relevant for European banking AI conversations.
+
   - name: NVIDIA Developer Blog (AI)
     url: https://developer.nvidia.com/blog/category/artificial-intelligence/
     rss: https://developer.nvidia.com/blog/feed
@@ -214,6 +228,17 @@ consulting_and_regulators:
       APAC regulatory leader on AI in finance. FEAT framework + Veritas
       open-source toolkit (github.com/veritas-toolkit). Nov 2025 consultation
       paper on AI risk management guidelines. Pairs with BIS and BoE.
+
+  - name: HKMA (Hong Kong)
+    url: https://www.hkma.gov.hk/eng/key-functions/banking/fintech-knowledge-hub/
+    focus: GenAI Sandbox, fintech publications, AI supervisory guidance
+    tier: 1
+    cadence: monthly
+    notes: |
+      Local regulator. GenAI Sandbox (cohort 1 included CNCBI, cohort 2 Oct 2025).
+      Fintech Promotion Blueprint (Feb 2026). Nov 2024 GenAI research paper.
+      Publications: hkma.gov.hk/eng/key-functions/banking/fintech-knowledge-hub/fintech-publications/
+      No RSS — email alerts only.
 
 bank_tech_blogs:
   # Tier 1 - Reliable, frequent updates
