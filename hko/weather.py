@@ -1,31 +1,7 @@
 #!/usr/bin/env python3
-"""HK Observatory weather + morning news — one warm, witty message."""
+"""HK Observatory weather — one warm, witty morning message."""
 
 import json
-import xml.etree.ElementTree as ET
-from urllib.request import urlopen, Request
-
-
-def fetch_news():
-    """Fetch top 3 RTHK local news headlines."""
-    url = "http://rthk9.rthk.hk/rthk/news/rss/e_expressnews_elocal.xml"
-    try:
-        req = Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        with urlopen(req, timeout=10) as resp:
-            root = ET.fromstring(resp.read())
-        headlines = []
-        for item in root.findall(".//item")[:3]:
-            title = item.findtext("title", "").strip()
-            desc = item.findtext("description", "").strip()
-            sentences = desc.replace("\n", " ").split(". ")
-            short_desc = ". ".join(sentences[:2]).strip()
-            if short_desc and not short_desc.endswith("."):
-                short_desc += "."
-            if title:
-                headlines.append({"title": title, "desc": short_desc})
-        return headlines
-    except Exception:
-        return []
 
 
 def main():
@@ -78,7 +54,11 @@ def main():
                 warnings.append(f"{icon} {name}")
 
     # Weather summary for LLM
-    weather = f"{temp}°C now, {humidity}% humidity, forecast {lo}°–{hi}°C — {forecast_desc}"
+    weather = f"{temp}°C now, forecast {lo}°–{hi}°C — {forecast_desc}"
+    if humidity and int(humidity) >= 90:
+        weather += f", {humidity}% humidity (muggy)"
+    elif humidity and int(humidity) <= 40:
+        weather += f", {humidity}% humidity (dry)"
     if rain_mm > 0:
         weather += f", {rain_mm}mm rain in past hour"
     if uv_val >= 6:
@@ -86,23 +66,14 @@ def main():
     if warnings:
         weather += ", warnings: " + ", ".join(warnings)
 
-    # News headlines
-    headlines = fetch_news()
-    news_text = "\n".join(
-        f"- {h['title']}: {h['desc']}" for h in headlines
-    ) or "No news available today."
-
     # Output the prompt for claude -p
     print(f"""Write ONLY the message — no preamble, no quotes, no "Here's...", no labels.
 
-Short morning weather note for someone to forward to their wife. Weave today's weather with one news headline — warm, light, a bit funny. ONE short paragraph, no line breaks.
+Short morning weather note for someone to forward to their wife. Warm, light, a bit funny. ONE short paragraph, no line breaks.
 
 WEATHER: {weather}
 
-HK NEWS:
-{news_text}
-
-Format: Start with a weather emoji, then 2-3 sentences that flow naturally. MUST include the low–high temp range (e.g. "19–25°C") and conditions. Connect to the lightest/most relatable headline — name the news briefly so the reader gets it without context. Skip violence or tragedy. 1-2 emojis total. No "Good morning". Plain text only — no markdown, no bold, no asterisks.""")
+Format: Start with a weather emoji, then 2-3 sentences that flow naturally. MUST include the low–high temp range (e.g. "19–25°C") and conditions. Keep it practical — what to wear, umbrella needed, etc. NEVER suggest "go outside" or outdoor activities (it's a workday). 1-2 emojis total. No "Good morning". Plain text only — no markdown, no bold, no asterisks.""")
 
 
 if __name__ == "__main__":
