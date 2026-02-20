@@ -111,7 +111,7 @@ def main():
 
         print(f"""Write ONLY the message text — no preamble, no quotes, no "Here's...".
 
-You're writing a 2-sentence morning note. Connect today's HK weather to one news headline with warmth and light humor.
+You're writing a short morning note for someone's wife in Hong Kong. Weave today's weather together with one news headline — warm, light, a little funny.
 
 WEATHER: {weather_summary}
 
@@ -119,11 +119,12 @@ NEWS:
 {news_text}
 
 Rules:
-- Pick the lightest/most fun headline. SKIP anything violent, sad, or heavy.
-- 2 sentences max. Warm, playful. 1-2 emojis.
+- Pick the lightest/most relatable headline. SKIP violence or tragedy.
+- Briefly name what the news is about so the reader gets it without having seen the headline.
+- 2-3 short sentences. Warm, playful. 1-2 emojis max.
 - Don't start with "Good morning" (already in header).
-- English, Cantonese slang OK.
-- Output ONLY the message. No labels, no preamble.""")
+- English, Cantonese slang OK if natural.
+- Output ONLY the message. No labels, no preamble, no quotes.""")
         return
 
     # mode == "full" — output the formatted weather block
@@ -131,16 +132,17 @@ Rules:
         print("**\u26a0\ufe0f " + " \u2022 ".join(warnings) + "**")
         print()
 
-    print(f"**{icon} Good morning!** ({time})")
-    print(f"{temp}\u00b0C \u2022 {lo}\u00b0\u2013{hi}\u00b0C \u2022 {forecast_desc}")
-
-    extras = []
+    print(f"{icon} **Good morning!**")
+    # Lowercase first char only, preserve rest (e.g. "Sunny periods. Dry..." stays readable)
+    desc = forecast_desc[0].lower() + forecast_desc[1:] if forecast_desc else ""
+    line = f"{temp}\u00b0C now, {desc}"
+    if lo != hi:
+        line += f" ({lo}\u00b0\u2013{hi}\u00b0C)"
     if uv_val >= 6:
-        extras.append(f"UV {uv_val} \U0001f506")
+        line += f" \u2022 UV {uv_val} \U0001f506"
     if rain_mm > 0:
-        extras.append(f"\U0001f327\ufe0f {rain_mm}mm rain")
-    if extras:
-        print(" \u2022 ".join(extras))
+        line += f" \u2022 \U0001f327\ufe0f {rain_mm}mm rain"
+    print(line)
 
 
 if __name__ == "__main__":
