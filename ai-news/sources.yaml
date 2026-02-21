@@ -130,6 +130,17 @@ web_sources:
     tier: 1
     cadence: weekly
 
+  - name: Ben's Bites
+    url: https://www.bensbites.com
+    rss: https://www.bensbites.com/feed
+    focus: AI startups, tools, product building — practitioner-level
+    tier: 1
+    cadence: twice_weekly
+    notes: |
+      Ben Tossell. Terry has lifetime paid membership.
+      Tue/Thu news summaries (free) + paid community/tutorials.
+      Keep email subscription if paid content isn't in RSS/web archive.
+
   - name: Longview (The Last Invention)
     url: https://longviewinvestigations.substack.com
     rss: https://longviewinvestigations.substack.com/feed
