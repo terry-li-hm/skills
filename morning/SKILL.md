@@ -58,20 +58,25 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - `/hko` — focus on warnings (typhoon, rainstorm, extreme heat) and rain probability
    - Skip if already delivered by cron and no warnings active
 
-10. **Things inbox drain** (mobile captures → TODO.md):
+10. **Today's calendar** (what's on the schedule):
+   - Run: `gog calendar today`
+   - List events with times. Flag any that need prep (meetings, appointments)
+   - If empty, skip silently
+
+12. **Things inbox drain** (mobile captures → TODO.md):
    - Run `python3 ~/scripts/things-drain.py`
    - If items were drained, include them in the brief under "Captured:" with a note to triage
    - If inbox empty, skip silently
 
-11. **Overdue + today's deadlines** (quick scan, not full TODO review):
+13. **Overdue + today's deadlines** (quick scan, not full TODO review):
    - Read `~/notes/TODO.md`
    - Surface only: items with `due:` <= today, items with `when:` <= today
    - Skip someday items, skip items due later this week
    - This is a reminder, not a restatement — daily's tomorrow preview already set expectations
 
-12. **Friday nudge** — if today is Friday, append to the brief: "It's Friday — run `/weekly` this afternoon for your weekly review."
+14. **Friday nudge** — if today is Friday, append to the brief: "It's Friday — run `/weekly` this afternoon for your weekly review."
 
-13. **Token budget nudge** (Friday + Saturday only):
+15. **Token budget nudge** (Friday + Saturday only):
    - Skip if not Friday or Saturday
    - Run: `ccusage daily -s $(date -v-6d +%Y%m%d)` to get this week's consumption
    - Compare total against ~$1,050 weekly cap (Max20)
@@ -79,7 +84,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - If <20% remains, skip silently — already well-utilized
    - Saturday: also note approximate hours until reset (resets ~8pm HKT)
 
-13. **Deliver the brief** — concise, no filler:
+16. **Deliver the brief** — concise, no filler:
 
 ## Output Format
 
@@ -97,6 +102,9 @@ Inbox (Cora):
 
 Warnings:
 - [Weather warnings, staleness flags, or omit section]
+
+Calendar:
+- [Events with times, or omit if empty]
 
 Today:
 - [Deadlines + overdue items from TODO, or "Plate as previewed last night."]
