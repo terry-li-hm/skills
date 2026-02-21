@@ -1,26 +1,72 @@
+# Personal learning & synthesis — monthly, LLM-assisted
+# Routing rule: "Is this content I want to absorb and apply?" → here
+# For daily awareness/notification → /ai-news instead
+# A source can appear in BOTH systems (notification + deep processing)
+
+# === Health ===
+
 - name: Huberman Lab
   type: youtube
   handle: "@hubermanlab"
   rss_url: https://feeds.megaphone.fm/hubermanlab
   vault_path: Health/Huberman
+  category: health
 
 - name: FoundMyFitness
   type: youtube
   handle: "@FoundMyFitness"
   rss_url: https://foundmyfitness.libsyn.com/rss
   vault_path: Health/Rhonda Patrick
+  category: health
 
 - name: Peter Attia
   type: youtube
   handle: "@PeterAttiaMD"
   rss_url: https://peterattiadrive.libsyn.com/rss
   vault_path: Health/Peter Attia
+  category: health
+
+- name: Sam Harris
+  type: youtube
+  handle: "@samharrisorg"
+  rss_url: https://wakingup.libsyn.com/rss
+  vault_path: Health/Sam Harris
+  category: health
+  # Making Sense podcast — meditation, neuroscience, consciousness, ethics
+
+# === Thinking ===
+
+- name: Adam Grant
+  type: youtube
+  handle: "@AdamGrantOT"
+  vault_path: Thinking/Adam Grant
+  category: thinking
+  # WorkLife + ReThinking podcasts — org psych, motivation, work culture
+
+- name: Derek Sivers
+  type: blog
+  url: https://sive.rs
+  rss_url: https://sive.rs/en.atom
+  vault_path: Thinking/Derek Sivers
+  category: thinking
+  # Short essays — philosophy, entrepreneurship, minimalism
+  # Worth reading originals (200 words each, the writing IS the insight)
+
+- name: Daniel Pink
+  type: youtube
+  handle: "@DanielPink"
+  vault_path: Thinking/Daniel Pink
+  category: thinking
+  # Pinkcast + books — motivation, timing, behavioral science
+
+# === AI & Tech ===
 
 - name: Lex Fridman
   type: youtube
   handle: "@lexfridman"
   rss_url: https://lexfridman.com/feed/podcast/
   vault_path: AI & Tech/Lex Fridman
+  category: ai
   # Transcript at {episode_url}-transcript (e.g. lexfridman.com/peter-steinberger-transcript)
   transcript_url_suffix: "-transcript"
 
@@ -28,12 +74,14 @@
   type: youtube
   handle: "@a16z"
   vault_path: AI & Tech/a16z
+  category: ai
 
 - name: Dwarkesh Patel
   type: youtube
   handle: "@DwarkeshPatel"
   rss_url: https://www.dwarkeshpatel.com/feed
   vault_path: AI & Tech/Dwarkesh Patel
+  category: ai
   # Full transcript embedded in Substack episode page (no suffix needed)
 
 - name: All-In Podcast
@@ -41,10 +89,12 @@
   handle: "@AllInPodcast"
   rss_url: https://rss.libsyn.com/shows/254861/destinations/1928300.xml
   vault_path: AI & Tech/All-In
+  category: finance
 
 - name: Latent Space
   type: youtube
   handle: "@LatentSpaceTV"
   rss_url: https://api.substack.com/feed/podcast/1084089.rss
   vault_path: AI & Tech/Latent Space
+  category: ai
   # Full transcript embedded in Substack episode page (no suffix needed)
