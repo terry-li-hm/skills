@@ -1,20 +1,26 @@
 ---
 name: capco-drill
-description: Capco readiness drill — daily articulation practice for HSBC engagement. "capco drill", "drill me", "readiness drill"
+description: "Capco readiness — drill, brief, or meeting prep. 'capco drill', 'drill me', 'capco brief', 'prep for coffee with Simon'"
 user_invocable: true
-model: haiku
+model: sonnet
 ---
 
-# Capco Readiness Drill
+# Capco Readiness
 
-Daily active recall for articulating AI governance concepts, HSBC context, regulatory landscape, and consulting delivery patterns before Capco start (Mar 16 / Apr 8).
+Three modes for Capco onboarding prep before start (Mar 16 / Apr 8).
 
-**Model: Haiku.** Simple randomization + self-rating — cheapest model is fine.
+**Model: Sonnet.** Brief and prep modes need web search + synthesis. Drill mode is simple but keeping one model for the whole skill.
 
-## Trigger
+## Trigger & Modes
 
-- "capco drill", "drill me", "readiness drill"
-- `/capco-drill` or `/capco-drill 5` (number = question count, default 3)
+| Invocation | Mode | What it does |
+|---|---|---|
+| `/capco-drill` or `/capco-drill 3` | **drill** | Active recall quiz (default 3 questions) |
+| `/capco-drill brief` | **brief** | Pull-based reading recs + actionable prep item |
+| `/capco-drill prep <event>` | **prep** | Meeting-specific prep (e.g., "prep coffee with Simon") |
+| `/capco-drill status` | **status** | Progress dashboard: drill coverage, weak spots |
+
+Default (no args) = **drill** mode.
 
 ## Data
 
@@ -102,9 +108,106 @@ If all 40 questions have been drilled at least once, congratulate and suggest re
 - **If state file corrupt:** Delete and recreate empty state
 - **If user gives a rating not in (confident/shaky/blank):** Map synonyms — "good"/"solid"/"yes" → confident, "ok"/"partial"/"sort of" → shaky, "no"/"nothing"/"skip" → blank
 
-## Notes
+---
 
-- Keep it brisk. No lectures, no elaborate feedback. This is a 5-minute morning drill.
-- If the user says "rapid fire" — present all questions at once, user rates in batch
-- Self-rating is the point. Don't second-guess the user's rating.
+## Mode: brief
+
+Pull-based replacement for the daily cron. User pulls when they want it, not pushed daily.
+
+### Workflow
+
+1. **Run `date` first** — know the current date and days to Capco (Apr 8).
+
+2. **Check First 30 Days checklist** — Read `~/notes/Capco/Capco - First 30 Days.md`. Identify one unchecked item that's actionable today. Prioritise "Must do" over "Should do" over "Nice to have".
+
+3. **Search for fresh Capco content** — Web search for recent Capco publications on AI governance, financial crime, compliance technology. Filter to last 7 days. Also search HKMA + MAS + FCA for AI/fintech announcements.
+
+4. **Check drill weak spots** — Read `~/notes/Capco/.capco-drill-state.json`. If there are "blank" or "shaky" questions, suggest revisiting one.
+
+5. **Output format** — concise, no fluff:
+
+```
+23 days to Capco.
+
+📋 Action: [one specific thing from the checklist, with why it matters today]
+
+📰 New this week:
+- [article/announcement with 1-sentence summary and link, or "Nothing notable"]
+
+🔄 Weak spot: [shaky/blank drill question to revisit, or "All drilled questions confident"]
+```
+
+**No canned talking points.** If there's a relevant article, link it and let the user form their own view.
+
+---
+
+## Mode: prep <event>
+
+Meeting-specific preparation. The `<event>` is a free-text description like "coffee with Simon", "first day", "call with Tobin".
+
+### Workflow
+
+1. **Identify the person(s)** from the event description.
+
+2. **Check vault first** — Search `~/notes/Capco/` for existing prep notes (e.g., `Coffee Prep - Simon and Tobin.md`, `Bertie Haskins Profile.md`). Read any matches.
+
+3. **Web search for context** — Search LinkedIn and recent activity for each person. Search for any recent Capco publications they authored.
+
+4. **Surface relevant drill questions** — Read the question bank. Pick 3-5 questions most relevant to this meeting's likely topics. E.g., coffee with Simon → A (tiering framework) + D (consulting delivery); call with Tobin → B (regulatory landscape).
+
+5. **Check First 30 Days** — Any checklist items relevant to this meeting? (e.g., "Ask Gavin/Bertie for pre-reading" if meeting Gavin)
+
+6. **Output format:**
+
+```
+Prep: Coffee with Simon Eltringham
+
+👤 Context: [2-3 sentences on the person, role, what they care about]
+
+📋 From your checklist:
+- [relevant First 30 Days items, if any]
+
+🎯 Drill questions to warm up on:
+- A.1: 60-second pitch of the tiering framework
+- D.20: "What does done look like in 8 weeks?"
+- [etc.]
+
+💡 Recent signals: [anything from web search worth knowing, or "Nothing new"]
+```
+
+**Don't script what to say.** Surface context and let the user prep naturally.
+
+---
+
+## Mode: status
+
+Quick dashboard of drill progress.
+
+### Workflow
+
+1. Read `~/notes/Capco/.capco-drill-state.json` and `~/notes/Capco/Capco Readiness Drill.md`.
+
+2. Output:
+
+```
+Drill progress: X/40 questions attempted, Y sessions
+
+By category:
+A. Tiering Framework: 3/7 drilled (2 confident, 1 shaky)
+B. Regulatory: 1/7 drilled (1 blank)
+[etc.]
+
+⚠️ Never attempted: [list question numbers]
+🔴 Blank: [list]
+🟡 Shaky: [list]
+```
+
+---
+
+## Notes (all modes)
+
+- Keep it brisk. No lectures, no elaborate feedback.
+- **Drill mode:** If the user says "rapid fire" — present all questions at once, user rates in batch. Self-rating is the point. Don't second-guess.
+- **Brief mode:** No daily obligation. It's there when the user wants it.
+- **Prep mode:** Vault notes are authoritative. Web search supplements, doesn't replace.
 - This skill expires when Capco engagement starts (real work replaces practice). Delete after Day 1.
