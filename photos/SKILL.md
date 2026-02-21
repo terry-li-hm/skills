@@ -1,3 +1,9 @@
+---
+name: photos
+description: Access iCloud Photos from Claude Code sessions. Reference skill — not user-invocable.
+user_invocable: false
+---
+
 # Photos
 
 Access iCloud Photos from Claude Code sessions. Reference skill — not user-invocable.

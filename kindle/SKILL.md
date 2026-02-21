@@ -1,3 +1,9 @@
+---
+name: kindle
+description: Extract Kindle books to markdown via screenshots + Gemini vision. Single book or queue mode.
+user_invocable: true
+---
+
 # Kindle Extractor Skill
 
 ## Trigger
