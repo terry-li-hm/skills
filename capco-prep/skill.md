@@ -15,10 +15,10 @@ Three modes for Capco onboarding prep before start (Mar 16 / Apr 8).
 
 | Invocation | Mode | What it does |
 |---|---|---|
-| `/capco-prep` or `/capco-drill 3` | **drill** | Active recall quiz (default 3 questions) |
-| `/capco-drill brief` | **brief** | Pull-based reading recs + actionable prep item |
-| `/capco-drill prep <event>` | **prep** | Meeting-specific prep (e.g., "prep coffee with Simon") |
-| `/capco-drill status` | **status** | Progress dashboard: drill coverage, weak spots |
+| `/capco-prep` or `/capco-prep 3` | **drill** | Active recall quiz (default 3 questions) |
+| `/capco-prep brief` | **brief** | Pull-based reading recs + actionable prep item |
+| `/capco-prep prep <event>` | **prep** | Meeting-specific prep (e.g., "prep coffee with Simon") |
+| `/capco-prep status` | **status** | Progress dashboard: drill coverage, weak spots |
 
 Default (no args) = **drill** mode.
 
