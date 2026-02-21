@@ -27,11 +27,29 @@ Count skills in both locations. Flag any missing symlinks.
 
 ### 2. Usage Scan
 
-Search recent chat history for skill invocations:
+Search recent chat history for skill invocations. **Important:** Count BOTH explicit `/name` invocations AND keyword triggers — most skills are triggered by natural language, not slash commands. Counting only slash invocations drastically undercounts usage (e.g. consilium showed 0 slash but ~300 keyword triggers).
 
-```bash
-grep -h "Using \`/" ~/.claude/history.jsonl | tail -100
-grep -h "/[a-z-]*\`" ~/.claude/history.jsonl | tail -100
+```python
+# Slash invocations
+import json, re, collections
+counts = collections.Counter()
+with open('/Users/terry/.claude/history.jsonl') as f:
+    for line in f:
+        data = json.loads(line)
+        msg = data.get('display', '').lower()
+        for m in re.findall(r'(?:^|\s)/([a-z][a-z0-9-]+)', msg):
+            counts[m] += 1
+
+# Keyword triggers (add patterns for high-value skills)
+keywords = {
+    'consilium': r'ask.llms|consilium|multi.llm|council',
+    'gmail': r'check.*email|inbox|gmail',
+    'whatsapp': r'whatsapp|check.*messages',
+    'todo': r'todo|add.*todo|check.*todo',
+    'oura': r'oura|sleep.*score|how.*sleep',
+    'message': r'draft.*reply|draft.*message',
+    'music': r'play.*music|spotify|sonos',
+}
 ```
 
 Identify:
