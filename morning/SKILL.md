@@ -71,6 +71,14 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 
 12. **Friday nudge** — if today is Friday, append to the brief: "It's Friday — run `/weekly` this afternoon for your weekly review."
 
+13. **Token budget nudge** (Friday + Saturday only):
+   - Skip if not Friday or Saturday
+   - Run: `ccusage daily -s $(date -v-6d +%Y%m%d)` to get this week's consumption
+   - Compare total against ~$1,050 weekly cap (Max20)
+   - If >20% remains (~$210+), nudge: "~$X remaining before Saturday 8pm reset — burn it or lose it."
+   - If <20% remains, skip silently — already well-utilized
+   - Saturday: also note approximate hours until reset (resets ~8pm HKT)
+
 13. **Deliver the brief** — concise, no filler:
 
 ## Output Format
