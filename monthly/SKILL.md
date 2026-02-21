@@ -32,21 +32,37 @@ digest
 Output: `~/notes/Health/{source}/{YYYY-MM} Digest.md`
 Sources configured in `~/skills/digest/sources.yaml`.
 
-### 2. AI Landscape Deep Review
+### 2. AI Thematic Digest
+
+Generate evidence-grounded thematic digest from archived AI news articles.
+
+```bash
+# Preview themes (fast, no synthesis)
+uv run ~/skills/ai-news/ai-digest.py --dry-run
+
+# Full run — produces evidence briefs
+uv run ~/skills/ai-news/ai-digest.py
+```
+
+Output: `~/notes/AI & Tech/YYYY-MM AI Thematic Digest.md`
+Prerequisites: ai-news cron must have been running with article archival (default since Feb 2026).
+Cost: ~$0.05-0.15 (Gemini Flash via OpenRouter).
+
+### 3. AI Landscape Deep Review
 
 Run `/ai-review` in monthly mode (deep review, not weekly synthesis):
 - Update Current Landscape section
 - Append monthly review entry
 - Flag shifts relevant to Capco consulting conversations
 
-### 3. Skill Review
+### 4. Skill Review
 
 Run `/skill-review`:
 - Audit skills for staleness, drift, gaps
 - Check skill count and recent changes
 - Flag skills not invoked in 30+ days
 
-### 4. Vault Hygiene
+### 5. Vault Hygiene
 
 Run inline — no separate skill needed:
 
@@ -56,7 +72,7 @@ c. **Daily note archival** — archive notes >60 days old to `~/notes/.archive/d
 d. **Broken links** — verify `[[wikilinks]]` in CLAUDE.md still resolve
 e. **QMD reindex** — `qmd update && qmd status` (run `qmd embed` in background if stale)
 
-### 5. Oghma Hygiene
+### 6. Oghma Hygiene
 
 Check for noise from abandoned experiments or stale imports:
 
@@ -87,7 +103,7 @@ If flagged sources exist, archive them:
 # python3 -c "import sqlite3, os; conn = sqlite3.connect(os.path.expanduser('~/.oghma/oghma.db')); conn.execute(\"UPDATE memories SET status='archived' WHERE source_tool='SOURCE_NAME' AND status='active'\"); conn.commit(); print('Done')"
 ```
 
-### 6. Housekeeping
+### 7. Housekeeping
 
 - Purge orphaned agent files: `/usr/bin/find ~/.claude/todos -name "*.json" -mtime +7 -delete`
 - Check MEMORY.md line count (`wc -l`). Flag if >150 — trim or demote to vault.
@@ -103,6 +119,7 @@ After running all sections, present:
 | Section | Status | Notes |
 |---------|--------|-------|
 | Content Digest | X episodes across Y sources | [vault paths] |
+| AI Thematic Digest | X themes, Y articles | [vault path] |
 | AI Deep Review | Done | [key shifts] |
 | Skill Review | X active / Y archived | [changes] |
 | Vault Hygiene | X notes archived, Y orphans | [actions] |

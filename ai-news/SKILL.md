@@ -107,9 +107,39 @@ When user says "deep", "full", "all sources":
 - WeChat articles via `summarize` CLI (live fetch, bypasses CAPTCHA)
 - See `sources.yaml` for full list
 
+## Monthly Thematic Digest
+
+`ai-digest.py` — monthly evidence-grounded synthesis of AI developments. Reads archived article full text from the cron's article cache and clusters by theme.
+
+```bash
+# Current month
+uv run ~/skills/ai-news/ai-digest.py
+
+# Specific month
+uv run ~/skills/ai-news/ai-digest.py --month 2026-02
+
+# Preview themes only (no LLM synthesis pass)
+uv run ~/skills/ai-news/ai-digest.py --dry-run
+
+# Limit themes
+uv run ~/skills/ai-news/ai-digest.py --themes 5
+```
+
+**Pipeline:**
+1. Loads archived Tier 1 articles (full text) + AI News Log headlines
+2. Pass 1: Theme identification via Gemini Flash (~5-8 clusters)
+3. Pass 2: Per-theme evidence synthesis (claims, quotes, echo count, banking implications)
+4. Writes to `~/notes/AI & Tech/YYYY-MM AI Thematic Digest.md`
+
+**Prerequisites:** Cron must have run with article archival enabled (default). Check `~/.cache/ai-news-articles/` for cached articles.
+
+**Cost:** ~$0.05-0.15/month at Gemini Flash rates.
+
 ## Files
 
 - Sources config: `sources.yaml`
 - Cron script: `ai-news-daily.py`
+- Thematic digest: `ai-digest.py`
 - Log: `~/notes/AI News Log.md`
+- Article cache: `~/.cache/ai-news-articles/`
 - State: `~/.cache/ai-news-state.json`

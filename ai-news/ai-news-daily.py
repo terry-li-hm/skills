@@ -5,6 +5,9 @@ Fetches Tier 1 sources (RSS preferred, web scraping fallback),
 dedupes by date + title prefix, appends delta to AI News Log,
 sends summary to Telegram.
 
+Also archives full article text for Tier 1 sources (via trafilatura)
+to ~/.cache/ai-news-articles/ for downstream thematic digest synthesis.
+
 Dedup strategy:
   1. Date-based: Only keep articles published after the last scan date
   2. Title-prefix: For undated web scrapes, check if title prefix already in log
@@ -13,6 +16,7 @@ Dedup strategy:
 Cron: 15 7 * * * (7:15 AM HKT daily)
 """
 
+import hashlib
 import json
 import re
 import sys
@@ -21,6 +25,7 @@ from pathlib import Path
 
 import feedparser
 import requests
+import trafilatura
 import yaml
 from bs4 import BeautifulSoup
 
@@ -28,6 +33,7 @@ from bs4 import BeautifulSoup
 SOURCES_YAML = Path.home() / "skills" / "ai-news" / "sources.yaml"
 NEWS_LOG = Path.home() / "notes" / "AI News Log.md"
 STATE_FILE = Path.home() / ".cache" / "ai-news-state.json"
+ARTICLE_CACHE_DIR = Path.home() / ".cache" / "ai-news-articles"
 
 HKT = timezone(timedelta(hours=8))
 NOW = datetime.now(HKT)
@@ -226,6 +232,63 @@ def format_markdown(results: dict[str, list[dict]]) -> str:
 
 
 
+# --- Article archival ---
+
+ARCHIVE_TIMEOUT = 10
+
+
+def _slug(text: str) -> str:
+    """Normalise text to a filesystem-safe slug."""
+    return re.sub(r'[^a-z0-9]+', '-', text.lower().strip())[:60].strip('-')
+
+
+def _title_hash(title: str) -> str:
+    return hashlib.sha256(title.encode()).hexdigest()[:8]
+
+
+def archive_article(article: dict, source_name: str, tier: int) -> None:
+    """Extract and cache full article text for Tier 1 sources."""
+    if tier != 1:
+        return
+    link = article.get("link", "")
+    if not link:
+        return
+
+    date_str = article.get("date") or TODAY
+    slug = _slug(source_name)
+    h = _title_hash(article["title"])
+    filename = f"{date_str}_{slug}_{h}.json"
+    filepath = ARTICLE_CACHE_DIR / filename
+
+    if filepath.exists():
+        return  # already archived
+
+    # Extract full text via trafilatura
+    text = None
+    try:
+        downloaded = trafilatura.fetch_url(link)
+        if downloaded:
+            text = trafilatura.extract(downloaded)
+    except Exception as e:
+        print(f"  Archive error {link}: {e}", file=sys.stderr)
+
+    record = {
+        "title": article["title"],
+        "date": date_str,
+        "source": source_name,
+        "tier": tier,
+        "link": link,
+        "summary": article.get("summary", ""),
+        "text": text,
+        "fetched_at": NOW.isoformat(),
+    }
+
+    ARTICLE_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    filepath.write_text(json.dumps(record, ensure_ascii=False, indent=2))
+    status = f"{len(text)} chars" if text else "null (extraction failed)"
+    print(f"  Archived: {filename} [{status}]", file=sys.stderr)
+
+
 MAX_LOG_LINES = 500
 ARCHIVE_DIR = Path.home() / "notes"
 
@@ -280,6 +343,8 @@ def rotate_log_if_needed():
 # --- Main ---
 
 def main():
+    no_archive = "--no-archive" in sys.argv
+
     rotate_log_if_needed()
 
     with open(SOURCES_YAML) as f:
@@ -291,17 +356,19 @@ def main():
 
     print(f"Last scan: {since_date}. Filtering articles after this date.", file=sys.stderr)
 
-    # Collect all sources (tier controls display priority, not fetch)
+    # Collect all sources with tier info (tier controls display priority, not fetch)
     all_sources = []
-    for section in ("web_sources", "bank_tech_blogs", "chinese_sources"):
+    for section in ("web_sources", "consulting_and_regulators", "bank_tech_blogs", "chinese_sources"):
         for source in config.get(section, []):
             all_sources.append(source)
 
     results: dict[str, list[dict]] = {}
     skipped = []
+    archived_count = 0
 
     for source in all_sources:
         name = source["name"]
+        tier = source.get("tier", 2)
         cadence = source.get("cadence", "daily")
 
         if not should_fetch(name, cadence, state):
@@ -326,6 +393,13 @@ def main():
                 continue
             new_articles.append(a)
             title_prefixes.add(prefix)
+
+        # Archive full text for Tier 1 articles
+        if not no_archive:
+            for a in new_articles:
+                if a.get("link") and tier == 1:
+                    archive_article(a, name, tier)
+                    archived_count += 1
 
         if new_articles:
             results[name] = new_articles
@@ -354,7 +428,8 @@ def main():
             content += f"\n\n{md}"
         NEWS_LOG.write_text(content)
 
-    print(f"Logged {total} new articles.", file=sys.stderr)
+    archive_msg = f", archived {archived_count} articles" if archived_count else ""
+    print(f"Logged {total} new articles{archive_msg}.", file=sys.stderr)
 
 
 
