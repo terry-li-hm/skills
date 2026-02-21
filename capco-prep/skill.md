@@ -1,6 +1,6 @@
 ---
-name: capco-drill
-description: "Capco readiness — drill, brief, or meeting prep. 'capco drill', 'drill me', 'capco brief', 'prep for coffee with Simon'"
+name: capco-prep
+description: "Capco readiness — drill, brief, or meeting prep. 'capco prep', 'capco drill', 'capco brief', 'prep for coffee with Simon'"
 user_invocable: true
 model: sonnet
 ---
@@ -15,7 +15,7 @@ Three modes for Capco onboarding prep before start (Mar 16 / Apr 8).
 
 | Invocation | Mode | What it does |
 |---|---|---|
-| `/capco-drill` or `/capco-drill 3` | **drill** | Active recall quiz (default 3 questions) |
+| `/capco-prep` or `/capco-drill 3` | **drill** | Active recall quiz (default 3 questions) |
 | `/capco-drill brief` | **brief** | Pull-based reading recs + actionable prep item |
 | `/capco-drill prep <event>` | **prep** | Meeting-specific prep (e.g., "prep coffee with Simon") |
 | `/capco-drill status` | **status** | Progress dashboard: drill coverage, weak spots |

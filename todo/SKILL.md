@@ -25,6 +25,7 @@ Tasks can have inline date tags at the end of the line, wrapped in backticks:
 | When | `` `when:YYYY-MM-DD` `` | Don't surface until this date (Things 3's "start date") |
 | Deadline | `` `due:YYYY-MM-DD` `` | Hard due date. Overdue after this. |
 | Someday | `` `someday` `` | Deferred indefinitely. Hidden from Today/Upcoming. |
+| Agent | `` `agent:` `` | Claude executes this autonomously — not a Terry action. |
 | No tag | (nothing) | Anytime — visible in Today and All views. |
 
 Dates are always ISO-8601 (`YYYY-MM-DD`). Regex patterns for parsing:
