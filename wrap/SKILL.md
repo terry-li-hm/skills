@@ -41,6 +41,7 @@ Scan for **non-obvious** stuff only:
 Scan conversation for completed actions that match open items in `~/notes/TODO.md`:
 - Messages sent, forms submitted, tasks finished → mark `[x]` with brief note
 - New commitments or deadlines mentioned → add as new TODO items
+- **WIP that got interrupted** → add TODO for the remaining work (with `agent:` tag if Claude can do it). If state is complex, ensure WORKING.md has resume instructions and TODO points there.
 - Keep it fast — skim for verbs like "sent", "done", "submitted", "ordered", "confirmed"
 - If nothing matches, skip silently
 
