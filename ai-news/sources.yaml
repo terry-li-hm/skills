@@ -1021,78 +1021,11 @@ chinese_sources:
     cadence: daily
 
   # === Reader OPML Import (2026-02-21) ===
-
-  - name: 飞哥说AI
-    rss: https://terryli-wewe-rss.hf.space/feeds/MP_WXS_3898891122.atom
-    focus: AI tools, Chinese practitioner
-    tier: 2
-    cadence: daily
-
-  - name: 中信银行 (WeChat)
-    rss: https://terryli-wewe-rss.hf.space/feeds/MP_WXS_3012006192.atom
-    focus: CITIC Bank official account
-    tier: 2
-    cadence: weekly
-
-  - name: 数字生命卡兹克
-    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3223096120.xml
-    focus: AI tools, digital life
-    tier: 2
-    cadence: daily
-
-  - name: 李继刚
-    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3913757353.xml
-    focus: Prompt engineering, Chinese AI
-    tier: 2
-    cadence: weekly
-
-  - name: 银行科技研究社
-    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3211111715.xml
-    focus: Bank technology research (CN)
-    tier: 2
-    cadence: weekly
-
-  - name: 沙丘社区
-    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3923347106.xml
-    focus: Tech community, Chinese AI scene
-    tier: 2
-    cadence: weekly
-
-  - name: 信银国际
-    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3235677356.xml
-    focus: CNCBI official account
-    tier: 2
-    cadence: weekly
-
-  - name: CLUE中文语言理解测评基准
-    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3097015041.xml
-    focus: Chinese NLP benchmarks
-    tier: 2
-    cadence: biweekly
-
-  - name: M小姐研习录
-    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3535126748.xml
-    focus: AI/tech commentary
-    tier: 2
-    cadence: weekly
-
-  - name: 李国飞哲学与投资笔记
-    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3568144008.xml
-    focus: Philosophy, investing, tech thinking
-    tier: 2
-    cadence: weekly
-
-  - name: 歸藏的AI工具箱
-    rss: https://wechat2rss-production-3197.up.railway.app/feed/3540975510.xml
-    focus: AI tools curation
-    tier: 2
-    cadence: daily
-
-  - name: 百度智能云
-    rss: https://wechat2rss-production-3197.up.railway.app/feed/3095493199.xml
-    focus: Baidu Cloud AI, enterprise AI (CN)
-    tier: 2
-    cadence: weekly
+  # NOTE: wewe-rss HF Space and Railway wechat2rss instances are dead.
+  # These WeChat accounts need a working RSS bridge to re-enable:
+  #   飞哥说AI, 数字生命卡兹克, 李继刚, 银行科技研究社, 沙丘社区,
+  #   CLUE中文语言理解测评基准, M小姐研习录, 李国飞哲学与投资笔记,
+  #   歸藏的AI工具箱, 百度智能云
 
   - name: Pin 起來！
     rss: https://pinchlime.com/atom.xml
