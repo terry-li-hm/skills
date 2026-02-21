@@ -1020,12 +1020,28 @@ chinese_sources:
     tier: 2
     cadence: daily
 
-  # === Reader OPML Import (2026-02-21) ===
-  # NOTE: wewe-rss HF Space and Railway wechat2rss instances are dead.
-  # These WeChat accounts need a working RSS bridge to re-enable:
-  #   飞哥说AI, 数字生命卡兹克, 李继刚, 银行科技研究社, 沙丘社区,
-  #   CLUE中文语言理解测评基准, M小姐研习录, 李国飞哲学与投资笔记,
-  #   歸藏的AI工具箱, 百度智能云
+  # === WeWe RSS (local, localhost:4000) ===
+  - name: 数字生命卡兹克
+    rss: http://localhost:4000/feeds/MP_WXS_3223096120.atom
+    focus: AI tools, creativity, curiosity-driven AI content (CN)
+    tier: 1
+    cadence: daily
+
+  - name: CLUE中文语言理解测评基准
+    rss: http://localhost:4000/feeds/MP_WXS_3097015041.atom
+    focus: Chinese NLP benchmarks, AGI progress tracking (CN)
+    tier: 2
+    cadence: weekly
+
+  - name: 歸藏的AI工具箱
+    rss: http://localhost:4000/feeds/MP_WXS_3540975510.atom
+    focus: AI tools, image generation, product design workflows (CN)
+    tier: 2
+    cadence: daily
+
+  # Still need article URLs to add via wewe-rss (localhost:4000):
+  #   飞哥说AI, 李继刚, 银行科技研究社, 沙丘社区,
+  #   M小姐研习录, 李国飞哲学与投资笔记, 百度智能云
 
   - name: Pin 起來！
     rss: https://pinchlime.com/atom.xml
