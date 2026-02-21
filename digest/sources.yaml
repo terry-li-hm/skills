@@ -127,3 +127,19 @@
   vault_path: AI & Tech/Latent Space
   category: ai
   # Full transcript embedded in Substack episode page (no suffix needed)
+
+# === Reader OPML Import (2026-02-21) ===
+
+- name: Veritasium
+  type: youtube
+  handle: "@veritasium"
+  vault_path: Science/Veritasium
+  category: science
+  # Science explainers, engineering, physics — Derek Muller
+
+- name: 硅谷101 (Silicon Valley 101)
+  type: youtube
+  handle: "@TheValley101"
+  vault_path: AI & Tech/硅谷101
+  category: ai
+  # Chinese-language tech commentary, Silicon Valley perspective

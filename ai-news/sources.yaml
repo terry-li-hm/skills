@@ -230,6 +230,530 @@ web_sources:
       Primary source for "System 2" reasoning and inference-time scaling insights.
       Essential for AgentOps and safety narratives.
 
+  # === Reader OPML Import (2026-02-21) ===
+
+  - name: Karpathy (bearblog)
+    rss: https://karpathy.bearblog.dev/feed/?type=rss
+    focus: Andrej Karpathy, AI education
+    tier: 1
+    cadence: monthly
+
+  - name: Chip Huyen
+    rss: https://huyenchip.com/feed.xml
+    focus: ML systems, AI engineering
+    tier: 1
+    cadence: monthly
+
+  - name: Lil'Log
+    rss: https://lilianweng.github.io/index.xml
+    focus: AI research deep dives, OpenAI
+    tier: 1
+    cadence: monthly
+
+  - name: One Useful Thing
+    rss: https://www.oneusefulthing.org/feed
+    focus: AI + work, Ethan Mollick (Wharton)
+    tier: 1
+    cadence: monthly
+
+  - name: Francois Chollet
+    rss: https://fchollet.substack.com/feed
+    focus: Keras creator, AI philosophy
+    tier: 1
+    cadence: weekly
+
+  - name: fast.ai
+    rss: https://www.fast.ai/index.xml
+    focus: Practical deep learning, Jeremy Howard
+    tier: 1
+    cadence: monthly
+
+  - name: Sebastian Ruder
+    rss: https://ruder.io/rss/
+    focus: NLP research, Google DeepMind
+    tier: 1
+    cadence: monthly
+
+  - name: Guide to AI
+    rss: https://nathanbenaich.substack.com/feed
+    focus: State of AI report, Air Street Capital
+    tier: 1
+    cadence: weekly
+
+  - name: Paul Graham
+    rss: http://www.aaronsw.com/2002/feeds/pgessays.rss
+    focus: Startups, essays
+    tier: 1
+    cadence: monthly
+
+  - name: Cold Takes
+    rss: https://www.cold-takes.com/rss/
+    focus: AI safety, long-termism, Holden Karnofsky
+    tier: 1
+    cadence: monthly
+
+  - name: Bits about Money
+    rss: https://www.bitsaboutmoney.com/archive/rss/
+    focus: Fintech infrastructure, Patrick McKenzie
+    tier: 1
+    cadence: monthly
+
+  - name: Yoshua Bengio
+    rss: https://yoshuabengio.org/feed/
+    focus: Deep learning pioneer, AI safety
+    tier: 1
+    cadence: monthly
+
+  - name: EleutherAI Blog
+    rss: https://blog.eleuther.ai/index.xml
+    focus: Open-source AI research
+    tier: 1
+    cadence: monthly
+
+  - name: Sequoia Capital
+    rss: https://www.sequoiacap.com/feed
+    focus: VC insights, AI market
+    tier: 1
+    cadence: monthly
+
+  - name: Obsidian Blog
+    rss: https://obsidian.md/feed.xml
+    focus: Obsidian updates, PKM
+    tier: 1
+    cadence: monthly
+
+  - name: Ollama models
+    rss: https://simonw.github.io/ollama-models-atom-feed/atom.xml
+    focus: New Ollama model releases
+    tier: 1
+    cadence: daily
+
+  - name: LobeHub Blog
+    rss: https://lobehub.com/blog/feed
+    focus: Open-source AI chat framework
+    tier: 1
+    cadence: monthly
+
+  - name: Marc Andreessen Substack
+    rss: https://pmarca.substack.com/feed
+    focus: Tech/politics, a16z founder
+    tier: 2
+    cadence: weekly
+
+  - name: Eric Jang
+    rss: https://evjang.com/feed.xml
+    focus: Robotics, AI research
+    tier: 2
+    cadence: monthly
+
+  - name: Stephan Ango
+    rss: https://stephanango.com/feed.xml
+    focus: Obsidian CEO, tools for thought
+    tier: 2
+    cadence: monthly
+
+  - name: The Gradient
+    rss: https://thegradient.pub/rss/
+    focus: AI research magazine
+    tier: 2
+    cadence: monthly
+
+  - name: Hitchhiker's Guide to AI
+    rss: https://www.hitchhikersguidetoai.com/feed
+    focus: AI explainers
+    tier: 2
+    cadence: monthly
+
+  - name: Vitalik Buterin
+    rss: https://vitalik.ca/feed.xml
+    focus: Ethereum, crypto, tech philosophy
+    tier: 2
+    cadence: monthly
+
+  - name: Eugene Wei
+    rss: https://www.eugenewei.com/blog?format=rss
+    focus: Tech strategy, culture, long-form
+    tier: 2
+    cadence: monthly
+
+  - name: Daniel Doyon
+    rss: https://readwise-community.ghost.io/2defd8e965b87487102ef0c6db1880/rss/
+    focus: Readwise, reading tools
+    tier: 2
+    cadence: biweekly
+
+  - name: Morfternight
+    rss: https://good.morfternight.com/feed
+    focus: Tech newsletter
+    tier: 2
+    cadence: monthly
+
+  - name: balajis.com
+    rss: https://balajis.com/feed
+    focus: Network state, tech futures
+    tier: 2
+    cadence: monthly
+
+  - name: andrewchen
+    rss: http://andrewchen.com/feed/
+    focus: Growth, marketplaces, a16z
+    tier: 2
+    cadence: monthly
+
+  - name: Matt Turck
+    rss: https://mattturck.com/feed/
+    focus: MAD landscape, data/AI ecosystem
+    tier: 2
+    cadence: monthly
+
+  - name: Granted
+    rss: https://adamgrant.substack.com/feed
+    focus: Org psych, Adam Grant
+    tier: 2
+    cadence: weekly
+
+  - name: Spectral Newsletter
+    rss: https://spectralfinance.substack.com/feed
+    focus: DeFi, quant finance
+    tier: 2
+    cadence: weekly
+
+  - name: Max Woolf
+    rss: https://minimaxir.com/post/index.xml
+    focus: AI experiments, data viz
+    tier: 2
+    cadence: monthly
+
+  - name: Frank Zliu
+    rss: https://frankzliu.com/feed.xml
+    focus: Vector DBs, Zilliz/Milvus
+    tier: 2
+    cadence: monthly
+
+  - name: Ken Schutte
+    rss: https://kenschutte.com/rss.xml
+    focus: ML engineering
+    tier: 2
+    cadence: monthly
+
+  - name: ThatsTheNorm
+    rss: https://thatsthenorm.com/rss/
+    focus: AI/ML commentary
+    tier: 2
+    cadence: monthly
+
+  - name: Maarten Grootendorst
+    rss: https://maartengrootendorst.substack.com/feed
+    focus: BERTopic, NLP tutorials
+    tier: 2
+    cadence: weekly
+
+  - name: Planned Obsolescence
+    rss: https://www.planned-obsolescence.org/rss
+    focus: Digital humanities, open scholarship
+    tier: 2
+    cadence: monthly
+
+  - name: Samstack
+    rss: https://samstack.io/feed
+    focus: AI/ML newsletter
+    tier: 2
+    cadence: monthly
+
+  - name: Accelerated
+    rss: https://www.readaccelerated.com/feed
+    focus: AI research digest
+    tier: 2
+    cadence: monthly
+
+  - name: NeoNarrative
+    rss: https://www.neonarrative.us/feed
+    focus: AI narratives
+    tier: 2
+    cadence: monthly
+
+  - name: Carol Anderson
+    rss: https://www.carol-anderson.com/blog?format=rss
+    focus: NLP, responsible AI
+    tier: 2
+    cadence: monthly
+
+  - name: Superwise
+    rss: https://superwise.ai/feed/
+    focus: ML observability
+    tier: 2
+    cadence: monthly
+
+  - name: Lj Miranda
+    rss: https://ljvmiranda921.github.io/feed.xml
+    focus: ML engineering, open source
+    tier: 2
+    cadence: monthly
+
+  - name: Jay Alammar
+    rss: https://jayalammar.substack.com/feed
+    focus: Visual ML explainers
+    tier: 2
+    cadence: weekly
+
+  - name: Mindful Modeler
+    rss: https://mindfulmodeler.substack.com/feed
+    focus: ML modeling practice
+    tier: 2
+    cadence: weekly
+
+  - name: The Data Quarry
+    rss: https://thedataquarry.com/posts/index.xml
+    focus: Data engineering, Rust
+    tier: 2
+    cadence: monthly
+
+  - name: Dinner Table Discussions
+    rss: https://www.gofuturefunders.com/dinner-table-discussions?format=rss
+    focus: Youth finance education
+    tier: 2
+    cadence: monthly
+
+  - name: The Glimpse
+    rss: https://www.theglimpse.co/feed
+    focus: Science/tech essays
+    tier: 2
+    cadence: monthly
+
+  - name: The White Pill
+    rss: https://www.whitepill.pw/feed
+    focus: Optimistic tech takes
+    tier: 2
+    cadence: monthly
+
+  - name: Counting Stuff
+    rss: https://counting.substack.com/feed
+    focus: Statistics, data science
+    tier: 2
+    cadence: weekly
+
+  - name: Andrey Kurenkov
+    rss: http://www.andreykurenkov.com/writing/feed.xml/
+    focus: AI history, research summaries
+    tier: 2
+    cadence: monthly
+
+  - name: Andy Konwinski
+    rss: https://andykonwinski.com/feed.xml
+    focus: Databricks co-founder, ML infra
+    tier: 2
+    cadence: monthly
+
+  - name: Xavier Amatriain
+    rss: https://amatriain.net/blog/feed.xml
+    focus: RecSys, ML leadership
+    tier: 2
+    cadence: monthly
+
+  - name: Generally Intelligent
+    rss: https://generallyintelligent.substack.com/feed
+    focus: Daily AI news digest
+    tier: 2
+    cadence: weekly
+
+  - name: Data Products
+    rss: https://dataproducts.substack.com/feed
+    focus: Data product management
+    tier: 2
+    cadence: weekly
+
+  - name: Retrieve and Generate
+    rss: https://colinharman.substack.com/feed
+    focus: RAG, retrieval systems
+    tier: 2
+    cadence: weekly
+
+  - name: Building Nubank (Data)
+    rss: https://building.nubank.com.br/data/feed/
+    focus: ML ops, Brazil neobank
+    tier: 2
+    cadence: monthly
+
+  - name: Interlace
+    rss: https://felixs.substack.com/feed
+    focus: AI/ML newsletter
+    tier: 2
+    cadence: weekly
+
+  - name: AI in Production
+    rss: https://blog.doxray.com/feed
+    focus: Production ML systems
+    tier: 2
+    cadence: monthly
+
+  - name: NLP News
+    rss: https://nlpnewsletter.substack.com/feed
+    focus: NLP research newsletter
+    tier: 2
+    cadence: weekly
+
+  - name: The API Economy
+    rss: https://www.apifirst.tech/feed
+    focus: API design, platforms
+    tier: 2
+    cadence: monthly
+
+  - name: Metaverse Data & Ethics
+    rss: https://www.metaversethics.org/feed
+    focus: AI ethics, data governance
+    tier: 2
+    cadence: monthly
+
+  - name: AI Cathedral
+    rss: https://pashpashpash.substack.com/feed
+    focus: AI engineering
+    tier: 2
+    cadence: weekly
+
+  - name: Dean Marchiori
+    rss: https://www.deanmarchiori.com/posts/index.xml
+    focus: Data science, R
+    tier: 2
+    cadence: monthly
+
+  - name: The Sideways View
+    rss: https://sideways-view.com/feed/
+    focus: AI forecasting
+    tier: 2
+    cadence: monthly
+
+  - name: The Nerdy Parent
+    rss: https://www.thenerdyparent.com/rss/
+    focus: Tech parenting
+    tier: 2
+    cadence: monthly
+
+  - name: TheSkinny
+    rss: https://theskinny.com/feed/
+    focus: Culture magazine
+    tier: 2
+    cadence: monthly
+
+  - name: AI for Engineers
+    rss: https://buttondown.email/ai4eng/rss
+    focus: Practical AI for engineers
+    tier: 2
+    cadence: weekly
+
+  - name: Context by Cohere
+    rss: https://txt.cohere.com/rss/
+    focus: Cohere AI research blog
+    tier: 2
+    cadence: monthly
+
+  - name: CardsFTW
+    rss: https://cardsftw.substack.com/feed
+    focus: Fintech, credit cards
+    tier: 2
+    cadence: weekly
+
+  - name: Lyft Engineering
+    rss: https://eng.lyft.com/feed
+    focus: ML at scale, ride-sharing
+    tier: 2
+    cadence: monthly
+
+  - name: Tangent Space
+    rss: https://charlesfrye.github.io/feed.xml
+    focus: ML infra, Modal, Charles Frye
+    tier: 2
+    cadence: monthly
+
+  - name: Stripe Press
+    rss: https://stripepress.substack.com/feed
+    focus: Ideas, progress studies
+    tier: 2
+    cadence: weekly
+
+  - name: Sumanth Hegde
+    rss: https://sumanthrh.com/post/index.xml
+    focus: ML engineering
+    tier: 2
+    cadence: monthly
+
+  - name: SkyPilot Blog
+    rss: https://blog.skypilot.co/index.xml
+    focus: Multi-cloud ML infra
+    tier: 2
+    cadence: monthly
+
+  - name: GuardrailsAI Blog
+    rss: https://www.guardrailsai.com/blog/rss.xml
+    focus: LLM guardrails, validation
+    tier: 2
+    cadence: monthly
+
+  - name: Mind the Future
+    rss: https://www.mindthefuture.info/feed
+    focus: Futures thinking
+    tier: 2
+    cadence: monthly
+
+  - name: PJ Wu
+    rss: https://world.hey.com/mimir/feed.atom
+    focus: Productivity, tools for thought
+    tier: 2
+    cadence: monthly
+
+  - name: Wait But Why
+    rss: https://waitbutwhy.com/feed
+    focus: Long-form explainers, Tim Urban
+    tier: 2
+    cadence: monthly
+
+  - name: 80,000 Hours
+    rss: https://80000hours.org/feed/
+    focus: Career impact, AI safety careers
+    tier: 2
+    cadence: monthly
+
+  - name: cdixon
+    rss: https://cdixon.substack.com/feed
+    focus: Web3, a16z crypto
+    tier: 2
+    cadence: weekly
+
+  - name: AI News (buttondown)
+    rss: https://buttondown.com/ainews/rss
+    focus: AI news aggregator
+    tier: 2
+    cadence: weekly
+
+  - name: The Technium
+    rss: https://feedpress.me/thetechnium
+    focus: Kevin Kelly, tech philosophy
+    tier: 2
+    cadence: monthly
+
+  - name: Joseph Cheng
+    rss: https://josephcheng.me/feed.xml
+    focus: Personal blog
+    tier: 2
+    cadence: monthly
+
+  - name: Jina AI
+    rss: https://jina.ai/feed.rss
+    focus: Neural search, embeddings
+    tier: 2
+    cadence: monthly
+
+  - name: AI Futures Project
+    rss: https://blog.ai-futures.org/feed
+    focus: Long-term AI policy
+    tier: 2
+    cadence: monthly
+
+  - name: Catjourney Weekly
+    rss: https://quail.ink/catjourney/feed/atom
+    focus: AI tools, Chinese perspective
+    tier: 2
+    cadence: monthly
+
 consulting_and_regulators:
   - name: McKinsey / QuantumBlack
     url: https://www.mckinsey.com/capabilities/quantumblack/our-insights
@@ -495,6 +1019,86 @@ chinese_sources:
     focus: AI news, Western research translations (CN)
     tier: 2
     cadence: daily
+
+  # === Reader OPML Import (2026-02-21) ===
+
+  - name: 飞哥说AI
+    rss: https://terryli-wewe-rss.hf.space/feeds/MP_WXS_3898891122.atom
+    focus: AI tools, Chinese practitioner
+    tier: 2
+    cadence: daily
+
+  - name: 中信银行 (WeChat)
+    rss: https://terryli-wewe-rss.hf.space/feeds/MP_WXS_3012006192.atom
+    focus: CITIC Bank official account
+    tier: 2
+    cadence: weekly
+
+  - name: 数字生命卡兹克
+    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3223096120.xml
+    focus: AI tools, digital life
+    tier: 2
+    cadence: daily
+
+  - name: 李继刚
+    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3913757353.xml
+    focus: Prompt engineering, Chinese AI
+    tier: 2
+    cadence: weekly
+
+  - name: 银行科技研究社
+    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3211111715.xml
+    focus: Bank technology research (CN)
+    tier: 2
+    cadence: weekly
+
+  - name: 沙丘社区
+    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3923347106.xml
+    focus: Tech community, Chinese AI scene
+    tier: 2
+    cadence: weekly
+
+  - name: 信银国际
+    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3235677356.xml
+    focus: CNCBI official account
+    tier: 2
+    cadence: weekly
+
+  - name: CLUE中文语言理解测评基准
+    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3097015041.xml
+    focus: Chinese NLP benchmarks
+    tier: 2
+    cadence: biweekly
+
+  - name: M小姐研习录
+    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3535126748.xml
+    focus: AI/tech commentary
+    tier: 2
+    cadence: weekly
+
+  - name: 李国飞哲学与投资笔记
+    rss: https://wechat2rss-production-6e30.up.railway.app/feed/3568144008.xml
+    focus: Philosophy, investing, tech thinking
+    tier: 2
+    cadence: weekly
+
+  - name: 歸藏的AI工具箱
+    rss: https://wechat2rss-production-3197.up.railway.app/feed/3540975510.xml
+    focus: AI tools curation
+    tier: 2
+    cadence: daily
+
+  - name: 百度智能云
+    rss: https://wechat2rss-production-3197.up.railway.app/feed/3095493199.xml
+    focus: Baidu Cloud AI, enterprise AI (CN)
+    tier: 2
+    cadence: weekly
+
+  - name: Pin 起來！
+    rss: https://pinchlime.com/atom.xml
+    focus: Taiwanese tech/productivity, tools for thought
+    tier: 2
+    cadence: weekly
 
 x_accounts:
   - handle: "@karpathy"
