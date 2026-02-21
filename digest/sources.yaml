@@ -59,6 +59,35 @@
   category: thinking
   # Pinkcast + books — motivation, timing, behavioral science
 
+# === Finance & Investing ===
+
+- name: Ben Felix (Common Sense Investing)
+  type: youtube
+  handle: "@BenFelixCSI"
+  rss_url: https://rationalreminder.ca/podcast?format=rss
+  vault_path: Finance/Ben Felix
+  category: finance
+  # Rational Reminder podcast + Common Sense Investing YouTube
+  # Evidence-based investing, factor premiums, index fund advocacy
+
+- name: Morgan Housel
+  type: blog
+  url: https://collabfund.com/blog/authors/morgan/
+  vault_path: Finance/Morgan Housel
+  category: finance
+  # Psychology of Money author. Behavioral finance, long-term thinking.
+  # Short essays — worth reading originals like Sivers.
+
+- name: Farnam Street (Shane Parrish)
+  type: youtube
+  handle: "@TheFarnamStreet"
+  rss_url: https://theknowledgeproject.libsyn.com/rss
+  url: https://fs.blog
+  vault_path: Thinking/Farnam Street
+  category: thinking
+  # The Knowledge Project podcast + fs.blog essays
+  # Mental models, decision-making, multidisciplinary thinking
+
 # === AI & Tech ===
 
 - name: Lex Fridman

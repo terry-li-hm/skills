@@ -556,6 +556,22 @@ x_accounts:
     focus: AI compute, research trends, trajectory
     tier: 2
 
+  # Non-AI thought leaders (cross-domain radar)
+  - handle: "@morganhousel"
+    name: Morgan Housel
+    focus: Behavioral finance, long-term thinking, Psychology of Money
+    tier: 2
+
+  - handle: "@ShaneAParrish"
+    name: Shane Parrish
+    focus: Mental models, decision-making, Farnam Street
+    tier: 2
+
+  - handle: "@benjaminwfelix"
+    name: Ben Felix
+    focus: Evidence-based investing, factor premiums, Rational Reminder
+    tier: 2
+
 youtube_queries:
   - "AI agents 2026"
   - "LLM enterprise applications"
