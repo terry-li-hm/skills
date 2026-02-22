@@ -63,7 +63,25 @@ For steps Claude is tempted to skip, pre-list the common excuses. Use sparingly 
 | "The code is simple enough it doesn't need tests" | Simple code has simple tests |
 ```
 
-### 5. Naming
+### 5. Active Questions > Passive Tables
+
+When a skill needs the model to scan or evaluate something, use direct yes/no questions — not reference tables. Tables present correct information but the model skips over them (wrap skill: 54% boilerplate rate with a passive "What to Look For" table). Rephrasing as questions forces the model to engage with each item before concluding "nothing here."
+
+```markdown
+# BAD: Passive — model scans the table and rubber-stamps "nothing"
+| Type | Signal |
+|------|--------|
+| Patterns | Same issue came up 3 times |
+| Friction | Something took 4 attempts |
+
+# GOOD: Active — model must answer each before exiting
+1. **Did I retry anything?** Multiple attempts = friction worth documenting
+2. **Did the same issue come up more than once?** Repetition = pattern
+```
+
+Add a **fast path** for genuinely trivial cases (e.g., ≤3 turns) so the questions don't add overhead where there's clearly nothing to find.
+
+### 6. Naming
 
 - **Action skills** → verb-first: `evaluate-job`, `design-skill`
 - **Trigger/lookup skills** → short nouns: `todo`, `hko`, `morning`
