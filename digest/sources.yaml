@@ -70,6 +70,14 @@
   # Rational Reminder podcast + Common Sense Investing YouTube
   # Evidence-based investing, factor premiums, index fund advocacy
 
+- name: 小Lin说 (Lindsay)
+  type: youtube
+  handle: "@xiao_lin_shuo"
+  vault_path: Finance/小Lin说
+  category: finance
+  # PKU + Columbia, ex-JPMorgan IB. Macro economics, business case studies,
+  # financial explainers. Chinese-language. 2.3M YouTube / 5M+ Bilibili.
+
 - name: Morgan Housel
   type: blog
   url: https://collabfund.com/blog/authors/morgan/
