@@ -31,10 +31,11 @@ Scan for **non-obvious** stuff only:
 
 1. **TODO sweep** — FIRST, before anything else. Check if anything done this session should be marked in `~/notes/TODO.md`. This is mechanical and must not be skipped.
 2. **Session log** — ALWAYS append a summary block to today's daily note (`~/notes/Daily/YYYY-MM-DD.md`). Never skip this step, even for short sessions — a 1-line entry is fine.
-3. Quick scan of conversation for non-obvious learnings (skip if session was trivial — quick questions, nothing complex)
-4. If nothing non-obvious → done
-5. If something surfaces → **dedup**, **route**, and optionally **promote**
-6. Done. No ceremony.
+3. **WORKING.md cleanup** — Read `~/notes/WORKING.md`. Flush anything useful (status changes, unfinished state) to the appropriate vault file or TODO. Then clear the file to a clean slate (`# Working\n\nNo active work.`). Skip if already clean.
+4. Quick scan of conversation for non-obvious learnings (skip if session was trivial — quick questions, nothing complex)
+5. If nothing non-obvious → done
+6. If something surfaces → **dedup**, **route**, and optionally **promote**
+7. Done. No ceremony.
 
 ### Step 1: TODO Sweep
 
@@ -60,11 +61,20 @@ Append a session summary to today's daily note (`~/notes/Daily/YYYY-MM-DD.md`). 
 
 This feeds `/daily` — by EOD the note is already populated. Don't editorialize ("productive session!") — just log what happened.
 
-### Step 3a: Dedup
+### Step 3: WORKING.md Cleanup
 
-Before writing anything, `oghma_search` for the insight (keyword mode, 3 results). If already captured with same substance, skip it — just mention "already in Oghma" in output.
+Read `~/notes/WORKING.md`. Three outcomes:
+- **Status changes** (pipeline moves, completed items, decisions) → flush to the relevant vault file (TODO.md, project note, daily note)
+- **WIP context** (half-finished tasks, resume instructions) → leave in place if work continues next session; otherwise move to TODO with enough context to resume
+- **Stale/empty** → clear to `# Working\n\nNo active work.`
 
-### Step 3b: Route by Type
+This prevents the #1 source of stale morning briefings: status changes trapped in WORKING.md that never made it to vault.
+
+### Step 4a: Dedup
+
+Before writing anything, `oghma search "<insight>" --mode keyword --limit 3`. If already captured with same substance, skip it — just mention "already in Oghma" in output.
+
+### Step 4b: Route by Type
 
 Don't dump everything into MEMORY.md. Route to the store that fits:
 
@@ -80,7 +90,7 @@ For `~/docs/solutions/`, create a simple markdown file in the appropriate catego
 
 **No staging area.** Route directly to the final destination. If you genuinely don't know where something belongs, put it in today's daily note — `/daily` will catch it.
 
-### Step 3c: Pattern Promotion
+### Step 4c: Pattern Promotion
 
 If an insight matches something already in Oghma (dedup search returned a hit with similar theme), flag it:
 
