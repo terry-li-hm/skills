@@ -20,7 +20,7 @@ One command to delegate coding tasks. Routes to the right tool, packages context
 | Signal | Route to | Why |
 |--------|----------|-----|
 | Routine coding, refactoring, bulk ops, tests | **OpenCode** (GLM-5) | Free, unlimited |
-| Needs better reasoning than GLM-5, but not worth Codex credits | **Gemini CLI** (2.5 Pro) | Free, 1500 RPD (AI Pro plan), smarter than GLM-5 |
+| Needs better reasoning than GLM-5, but not worth Codex credits | **Gemini CLI** (Auto: 3 Pro / 2.5 Flash) | Free, 1500 RPD (AI Pro plan), smarter than GLM-5 |
 | OpenCode + Gemini failed, deep bug, complex feature | **Codex** (GPT-5.2-codex) | Smartest, paid |
 | **Code review** of a package/module | **Codex** or **Gemini** | Both read broadly; Codex writes more structured findings |
 | Needs vault, user decisions, judgment | **Stay in Claude** | Context advantage |
@@ -151,6 +151,6 @@ Uses Microsoft Presidio with HK-specific custom patterns.
 
 - **OpenCode model:** Always `zhipuai-coding-plan/glm-5` (NOT `opencode/glm-5` which depletes credits)
 - **Lean config:** `OPENCODE_HOME=~/.opencode-lean` skips MCPs, cuts startup from 60s to 15s
-- **Gemini CLI:** Uses Gemini 2.5 Pro via Google AI Pro plan. 120 RPM, 1500 RPD. One prompt triggers multiple API requests internally — budget ~250-500 actual prompts/day. No prompt length issue (1M context window).
+- **Gemini CLI:** Auto-routes to Gemini 3 Pro (complex) or 2.5 Flash (simple) via Google AI Pro plan. 120 RPM, 1500 RPD. One prompt triggers multiple API requests internally — budget ~250-500 actual prompts/day. No prompt length issue (1M context). Force model with `-m gemini-3-pro` if needed.
 - **Prompt budget:** ~4K chars max for OpenCode, ~8K for Codex, generous for Gemini. When in doubt, `echo -n "prompt" | wc -c`
 - **Output often empty:** OpenCode doesn't reliably capture stdout. Check session JSON instead.
