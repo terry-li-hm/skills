@@ -41,7 +41,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - If no brief found in last 24h, skip silently
 
 6. **Check cron logs** (overnight output):
-   - Check `~/logs/cron-weather.log` and `~/logs/cron-capco.log` for recent entries
+   - Check `~/logs/cron-weather.log` for recent entries
    - Note any failures or missing deliveries
 
 7. **Check overnight OpenCode results** (two sources):
