@@ -36,6 +36,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-14.
 | Deep analysis of novel questions | `pplx research` | Breadth + citations. ~$0.40/query |
 | Complex reasoning / trade-off analysis | `pplx reason` | Reasoning chain, best for hard questions |
 | Verify claims / get primary sources | `WebSearch` | Returns links, no hallucinated synthesis |
+| Find specific content URLs (YouTube, podcast episodes, etc.) | `pplx search` | WebSearch doesn't index platform-internal pages well; pplx does |
 | AI news | `WebSearch` | Free, sufficient for news |
 | Scrape a specific URL | `WebFetch` | HTML → markdown with prompt |
 | Code & documentation | Context7 plugin | Best for library docs |
