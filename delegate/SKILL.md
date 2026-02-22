@@ -1,6 +1,6 @@
 ---
 name: delegate
-description: "Delegate coding tasks to OpenCode (free) or Codex (paid). Auto-packages context and runs backgrounded."
+description: "Delegate coding tasks to OpenCode (free), Gemini CLI (free, 1500 RPD), or Codex (paid). Auto-packages context and runs backgrounded."
 user_invocable: true
 ---
 
@@ -11,6 +11,7 @@ One command to delegate coding tasks. Routes to the right tool, packages context
 ## Triggers
 
 - `/delegate <task>` — route to OpenCode (default)
+- `/delegate --gemini <task>` — route to Gemini CLI (free, daily-limited)
 - `/delegate --codex <task>` — escalate to Codex (paid)
 - Also trigger proactively when a coding task doesn't need vault context or judgment
 
@@ -19,8 +20,9 @@ One command to delegate coding tasks. Routes to the right tool, packages context
 | Signal | Route to | Why |
 |--------|----------|-----|
 | Routine coding, refactoring, bulk ops, tests | **OpenCode** (GLM-5) | Free, unlimited |
-| OpenCode failed 2-3x, deep bug, complex feature | **Codex** (GPT-5.2-codex) | Smarter, paid |
-| **Code review** of a package/module | **Codex** | Reads broadly, writes structured findings |
+| Needs better reasoning than GLM-5, but not worth Codex credits | **Gemini CLI** (2.5 Pro) | Free, 1500 RPD (AI Pro plan), smarter than GLM-5 |
+| OpenCode + Gemini failed, deep bug, complex feature | **Codex** (GPT-5.2-codex) | Smartest, paid |
+| **Code review** of a package/module | **Codex** or **Gemini** | Both read broadly; Codex writes more structured findings |
 | Needs vault, user decisions, judgment | **Stay in Claude** | Context advantage |
 
 ## Workflow
@@ -49,6 +51,11 @@ OPENCODE_HOME=~/.opencode-lean opencode run \
   -m zhipuai-coding-plan/glm-5 \
   --title "<short title>" \
   "<packaged prompt>"
+```
+
+**Gemini CLI (mid-tier):**
+```bash
+gemini -p "<packaged prompt>" --yolo
 ```
 
 **Codex (escalation):**
@@ -114,12 +121,14 @@ This saves Claude tokens for work that actually needs orchestration and judgment
 | Exits 0, no files changed | Prompt >5K chars | Shorten prompt, remove inline content |
 | Timeout after 5min | Task too small (<25 lines) or too vague | Give more specific instructions or do it directly |
 | Hangs indefinitely | GLM-5 connection stall | Kill and write directly. Set Bash timeout or use `run_in_background` with periodic checks |
+| Gemini "quota exceeded" | Hit 1500 RPD or 120 RPM limit | Wait or switch to OpenCode/Codex. Note: one prompt = many API requests |
+| Gemini no file changes | Sandbox mode blocked writes | Ensure `--yolo` flag is set (auto-approves all tool actions) |
 | Empty output with `&` | Shell backgrounds before OpenCode starts | Never use `&` — use Bash tool's `run_in_background: true` instead |
 | Wrong files modified | Ambiguous paths | Use absolute paths, specify exact method/line |
 | Codex "stdin is not a terminal" | Using bare `codex` instead of `codex exec` | Use `codex exec --skip-git-repo-check --full-auto "prompt"` for headless. Bare `codex` is interactive-only |
 | OpenCode `run` rejects file reads | Sandboxes to project root, auto-rejects `external_directory` | Bundle target files into `/tmp/` first: `cat files... > /tmp/bundle.md`, then `opencode run "read /tmp/bundle.md"` |
 
-**If OpenCode fails twice on the same task:** Escalate to Codex (`codex --model o4-mini "prompt"`, paid — uses OpenAI credits) or do it directly in Claude. Don't retry with the same prompt.
+**If OpenCode fails twice on the same task:** Escalate to Gemini CLI (`gemini -p "prompt" --yolo`, free but daily-limited) or Codex (`codex exec --full-auto "prompt"`, paid). Don't retry with the same prompt.
 
 ## PII Masking
 
@@ -142,5 +151,6 @@ Uses Microsoft Presidio with HK-specific custom patterns.
 
 - **OpenCode model:** Always `zhipuai-coding-plan/glm-5` (NOT `opencode/glm-5` which depletes credits)
 - **Lean config:** `OPENCODE_HOME=~/.opencode-lean` skips MCPs, cuts startup from 60s to 15s
-- **Prompt budget:** ~4K chars max for OpenCode, ~8K for Codex. When in doubt, `echo -n "prompt" | wc -c`
+- **Gemini CLI:** Uses Gemini 2.5 Pro via Google AI Pro plan. 120 RPM, 1500 RPD. One prompt triggers multiple API requests internally — budget ~250-500 actual prompts/day. No prompt length issue (1M context window).
+- **Prompt budget:** ~4K chars max for OpenCode, ~8K for Codex, generous for Gemini. When in doubt, `echo -n "prompt" | wc -c`
 - **Output often empty:** OpenCode doesn't reliably capture stdout. Check session JSON instead.
