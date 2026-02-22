@@ -128,6 +128,7 @@ This saves Claude tokens for work that actually needs orchestration and judgment
 | Wrong files modified | Ambiguous paths | Use absolute paths, specify exact method/line |
 | Codex "stdin is not a terminal" | Using bare `codex` instead of `codex exec` | Use `codex exec --skip-git-repo-check --full-auto "prompt"` for headless. Bare `codex` is interactive-only |
 | OpenCode `run` rejects file reads | Sandboxes to project root, auto-rejects `external_directory` | Bundle target files into `/tmp/` first: `cat files... > /tmp/bundle.md`, then `opencode run "read /tmp/bundle.md"` |
+| OpenCode doesn't overwrite output file | Writes to new session, old file persists | Delete target output files before launching review. Or use unique names (e.g. `REVIEW-opencode-$(date +%s).md`) |
 
 **If OpenCode fails twice on the same task:** Escalate to Gemini CLI (`gemini -p "prompt" --yolo`, free but daily-limited) or Codex (`codex exec --full-auto "prompt"`, paid). Don't retry with the same prompt.
 
