@@ -48,15 +48,15 @@ Before building the command, gather what the delegate needs to be self-sufficien
 OPENCODE_HOME=~/.opencode-lean opencode run \
   -m zhipuai-coding-plan/glm-5 \
   --title "<short title>" \
-  "<packaged prompt>" &
+  "<packaged prompt>"
 ```
 
 **Codex (escalation):**
 ```bash
-codex exec --skip-git-repo-check --full-auto "<packaged prompt>" &
+codex exec --skip-git-repo-check --full-auto "<packaged prompt>"
 ```
 
-Always append `&` to background the task.
+Use the Bash tool's `run_in_background: true` to background — not shell `&`.
 
 ### 3. Confirm and Monitor
 
