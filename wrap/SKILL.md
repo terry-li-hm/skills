@@ -16,26 +16,23 @@ End-of-session wrap-up — TODO sweep, session log, then catch what "Compound As
 
 ## What to Look For
 
-Scan for **non-obvious** stuff only:
+Answer these questions honestly during the scan. If any answer is yes, there's a learning to capture:
 
-| Type | Signal |
-|------|--------|
-| **Patterns** | Same issue came up 3 times — that's a pattern |
-| **Implicit preferences** | Terry kept choosing X over Y — preference? |
-| **Hidden friction** | Something took 4 attempts — why? |
-| **Surprising wins** | That worked way better than expected — why? |
-| **Mistakes I missed** | Wrong assumption I didn't notice until now |
-| **Tool gotchas** | API quirk, config trap, undocumented behaviour |
+1. **Did I retry anything?** Multiple attempts at the same thing = friction worth documenting
+2. **Did Terry correct me?** Correction = wrong assumption or missing context
+3. **Did a tool behave unexpectedly?** API quirk, config trap, undocumented behaviour
+4. **Did something work surprisingly well?** Worth noting what made it work
+5. **Did the same issue come up more than once?** Repetition = pattern
+6. **Did Terry choose X over Y without explaining?** Implicit preference worth capturing
 
 ## Workflow
 
 1. **TODO sweep** — FIRST, before anything else. Check if anything done this session should be marked in `~/notes/TODO.md`. This is mechanical and must not be skipped.
 2. **Session log** — ALWAYS append a summary block to today's daily note (`~/notes/Daily/YYYY-MM-DD.md`). Never skip this step, even for short sessions — a 1-line entry is fine.
 3. **WORKING.md cleanup** — Read `~/notes/WORKING.md`. Flush anything useful (status changes, unfinished state) to the appropriate vault file or TODO. Then clear the file to a clean slate (`# Working\n\nNo active work.`). Skip if already clean.
-4. Quick scan of conversation for non-obvious learnings (skip if session was trivial — quick questions, nothing complex)
-5. If nothing non-obvious → done
-6. If something surfaces → **dedup**, **route**, and optionally **promote**
-7. Done. No ceremony.
+4. **Learnings scan** — Run through the six questions in "What to Look For." If the session was ≤3 turns of simple Q&A with no corrections or retries, skip to done. Otherwise, you must answer the six questions before concluding there's nothing to capture.
+5. If something surfaces → **dedup**, **route**, and optionally **promote**
+6. Done. No ceremony.
 
 ### Step 1: TODO Sweep
 
@@ -109,9 +106,14 @@ If something found:
 - [Learning] → already in Oghma, skipped
 ```
 
-If nothing:
+If nothing (session ≤3 turns):
 ```
-Nothing non-obvious this session.
+Short session — nothing to capture.
+```
+
+If nothing (longer session, after running the six questions):
+```
+**Wrap:** Scanned — no retries, no corrections, no surprises. Clean session.
 ```
 
 ## Notes
