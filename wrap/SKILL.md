@@ -30,7 +30,7 @@ Answer these questions honestly during the scan. If any answer is yes, there's a
 1. **TODO sweep** — FIRST, before anything else. Check if anything done this session should be marked in `~/notes/TODO.md`. This is mechanical and must not be skipped.
 2. **Session log** — ALWAYS append a summary block to today's daily note (`~/notes/Daily/YYYY-MM-DD.md`). Never skip this step, even for short sessions — a 1-line entry is fine.
 3. **WORKING.md cleanup** — Read `~/notes/WORKING.md`. Flush anything useful (status changes, unfinished state) to the appropriate vault file or TODO. Then clear the file to a clean slate (`# Working\n\nNo active work.`). Skip if already clean.
-4. **Learnings scan** — Run through the six questions in "What to Look For." If the session was ≤3 turns of simple Q&A with no corrections or retries, skip to done. Otherwise, you must answer the six questions before concluding there's nothing to capture.
+4. **Learnings scan** — Run through the six questions in "What to Look For" **internally** (do not print them). If the session was ≤3 turns of simple Q&A with no corrections or retries, skip to done. Otherwise, you must answer the six questions before concluding there's nothing to capture.
 5. If something surfaces → **dedup**, **route**, and optionally **promote**
 6. Done. No ceremony.
 
@@ -97,23 +97,30 @@ Only suggest, never auto-promote. Terry decides.
 
 ## Output
 
-**Write first, then summarise.** Route each finding to its destination (MEMORY.md, `~/docs/solutions/`, relevant skill, daily note) — then print the summary so Terry sees what was captured and where.
+**Write first, then summarise.** Route each finding to its destination, then print one compact block. The six questions are internal reasoning — never print them.
 
-If something found:
+**Format — always this structure:**
+
 ```
 **Wrap:**
-- [Learning] → saved to [destination + path]
-- [Learning] → already in Oghma, skipped
+TODO: [no changes | N items updated] · Daily: [appended → YYYY-MM-DD.md | created] · WORKING: [clean | N items updated | cleared]
+💡 [one-line insight] → [destination path]
+💡 [one-line insight] → already in Oghma, skipped
 ```
 
-If nothing (session ≤3 turns):
+The first line (mechanical steps) is always present — confirms the steps ran. Learnings lines only appear if something was captured. If nothing:
+
 ```
-Short session — nothing to capture.
+**Wrap:**
+TODO: no changes · Daily: appended → YYYY-MM-DD.md · WORKING: clean
+No learnings — clean session.
 ```
 
-If nothing (longer session, after running the six questions):
+Short sessions (≤3 turns):
+
 ```
-**Wrap:** Scanned — no retries, no corrections, no surprises. Clean session.
+**Wrap:**
+TODO: no changes · Daily: appended → YYYY-MM-DD.md · WORKING: clean
 ```
 
 ## Notes
