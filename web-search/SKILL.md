@@ -6,7 +6,7 @@ user_invocable: false
 
 # Web Search Tool Selection Guide
 
-Reference for choosing the optimal search tool. Updated 2026-02-14.
+Reference for choosing the optimal search tool. Updated 2026-02-23.
 
 ## Available Tools (Active)
 
@@ -37,7 +37,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-14.
 | Complex reasoning / trade-off analysis | `pplx reason` | Reasoning chain, best for hard questions |
 | Verify claims / get primary sources | `WebSearch` | Returns links, no hallucinated synthesis |
 | Find specific content URLs (YouTube, podcast episodes, etc.) | `pplx search` | WebSearch doesn't index platform-internal pages well; pplx does |
-| AI news | `WebSearch` | Free, sufficient for news |
+| AI news | Grok 4.2 → `WebSearch` | Grok has real-time X/Twitter data; WebSearch as fallback. Needs xAI API setup. |
 | Scrape a specific URL | `WebFetch` | HTML → markdown with prompt |
 | Code & documentation | Context7 plugin | Best for library docs |
 | Job/company research | `WebSearch` → `pplx ask` | Free first, paid for depth |
