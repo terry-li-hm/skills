@@ -341,7 +341,7 @@ This surfaces compliance concerns early rather than as afterthoughts.
 | Model | Tendency | Useful For |
 |-------|----------|------------|
 | **GPT-5.2** | Practical, implementation-focused | Actionable steps |
-| **Gemini 3 Pro** | Technical depth, systems thinking | Architecture |
+| **Gemini 3.1 Pro** | Technical depth, systems thinking | Architecture |
 | **Grok 4** | Contrarian, challenges consensus | Stress-testing ideas |
 | **DeepSeek R1** | Analytical, thorough reasoning | Deep analysis |
 | **GLM-5** | Strategic, pragmatic | Business decisions |

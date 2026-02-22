@@ -6,7 +6,7 @@ user_invocable: true
 
 # Waking Up Transcripts
 
-Manage the Waking Up meditation transcript pipeline via the `wu` CLI (`~/repos/wu/`).
+Manage the Waking Up meditation transcript pipeline via the `wu` CLI (`~/code/wu/`).
 
 ## Trigger
 
@@ -68,7 +68,7 @@ wu rename              # apply renames
 ```bash
 # Auth works via stored browser-auth-state.json
 # agent-browser --session wu-session can log in with:
-TOKEN=$(python3 -c "import json; d=json.load(open('~/repos/wu/browser-auth-state.json')); print(next(c['value'] for c in d['cookies'] if c['name']=='STYXKEY-token'))")
+TOKEN=$(python3 -c "import json; d=json.load(open('~/code/wu/browser-auth-state.json')); print(next(c['value'] for c in d['cookies'] if c['name']=='STYXKEY-token'))")
 agent-browser --session wu-session open "https://app.wakingup.com"
 agent-browser --session wu-session eval "document.cookie='STYXKEY-token=$TOKEN; path=/; domain=.wakingup.com; secure'"
 agent-browser --session wu-session open "https://app.wakingup.com/packs/<HASH>"
@@ -77,7 +77,7 @@ agent-browser --session wu-session open "https://app.wakingup.com/packs/<HASH>"
 
 ## Key Paths
 
-- **Repo:** `~/repos/wu/`
+- **Repo:** `~/code/wu/`
 - **Vault transcripts:** `~/notes/Waking Up/`
 - **Audio cache:** `~/.cache/waking-up-audio/`
 - **Catalog data:** `all_courses.json`, `audio_id_mapping.json` (in repo root)

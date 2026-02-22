@@ -1,6 +1,6 @@
 ---
 name: skill-sync
-description: "MUST run after creating/modifying skills. Syncs to Claude Code and OpenCode."
+description: "MUST run after creating/modifying skills. Syncs to Claude Code, OpenCode, and Codex."
 user_invocable: true
 ---
 
@@ -15,6 +15,8 @@ Ensure both AI platforms have access to the same skills.
 | Source | `~/skills/` |
 | Claude Code | `~/.claude/skills/` |
 | OpenCode | `~/.opencode/skills/` |
+| Codex | `~/.codex/skills/` |
+| Codex (agents) | `~/.agents/skills/` |
 
 ## Commands
 
@@ -24,7 +26,7 @@ Sync all skills and clean up stale symlinks.
 ```bash
 # Use absolute paths to avoid symlink bugs
 SKILLS_DIR="$HOME/skills"
-TARGETS=("$HOME/.claude/skills" "$HOME/.opencode/skills")
+TARGETS=("$HOME/.claude/skills" "$HOME/.opencode/skills" "$HOME/.codex/skills" "$HOME/.agents/skills")
 
 # 1. Ensure target directories exist
 for dir in "${TARGETS[@]}"; do
