@@ -116,6 +116,8 @@ This saves Claude tokens for work that actually needs orchestration and judgment
 | Hangs indefinitely | GLM-5 connection stall | Kill and write directly. Set Bash timeout or use `run_in_background` with periodic checks |
 | Empty output with `&` | Shell backgrounds before OpenCode starts | Never use `&` — use Bash tool's `run_in_background: true` instead |
 | Wrong files modified | Ambiguous paths | Use absolute paths, specify exact method/line |
+| Codex "stdin is not a terminal" | Codex requires TTY — can't be piped or scripted | Only run Codex in interactive tmux panes. Use OpenCode `run` for headless tasks |
+| OpenCode `run` rejects file reads | Sandboxes to project root, auto-rejects `external_directory` | Bundle target files into `/tmp/` first: `cat files... > /tmp/bundle.md`, then `opencode run "read /tmp/bundle.md"` |
 
 **If OpenCode fails twice on the same task:** Escalate to Codex (`codex --model o4-mini "prompt"`, paid — uses OpenAI credits) or do it directly in Claude. Don't retry with the same prompt.
 
