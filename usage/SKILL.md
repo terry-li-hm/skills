@@ -59,7 +59,7 @@ Max20 has **four independent counters** visible via `/status`:
 - Sonnet usage counts against **both** "Sonnet only" AND "All models"
 - Opus usage counts against "All models" **only**
 - When "All models" hits 100%, everything is blocked — even if "Sonnet only" shows 2%
-- The Sonnet cap is a **ceiling** (prevents filling all-models quota with cheap Sonnet tokens), not a separate pool
+- The Sonnet cap is a **ceiling** (prevents filling all-models quota with cheaper Sonnet tokens), not a separate pool
 
 ## Weekly Limit Tracking (All Models)
 
@@ -100,7 +100,7 @@ Safe daily budget: ~$155/day (7-day week).
 
 **Heaviest days** (>$200 equiv): driven entirely by Opus-heavy sessions. The top 5 days averaged $256 equiv — all 95%+ Opus.
 
-**Cost lever:** Opus is ~5x more expensive per token than Sonnet. Each $100 of Opus work shifted to Sonnet saves ~$80 equiv. A 30% shift would save ~$235/week — roughly 21% of the weekly cap. This is the primary knob for staying under limits.
+**Cost lever:** Opus 4.6 is ~1.67x more expensive per token than Sonnet 4.6 ($5/$25 vs $3/$15). Each $100 of Opus work shifted to Sonnet saves ~$40 equiv. A 30% shift would save ~$17/day → ~$117/week (~11% of weekly cap). Meaningful but not transformative — the pricing gap closed significantly with Opus 4.5+. (The "5x" figure in press coverage refers to Opus 4.1 pricing.)
 
 ## Extra Usage
 
