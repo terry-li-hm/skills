@@ -88,13 +88,22 @@ grok --raw "query"           # raw JSON response
 
 **Japanese keeb Twitter is a goldmine.** English Reddit/YouTube may have zero coverage for niche switches — Japanese X often has real user impressions, sound tests, and rankings. Search in Japanese when English comes up empty.
 
-## HK Local Search — Use Chinese
+## Non-English Search — Match the Community's Language
 
-For Hong Kong local services (doctors, restaurants, tradespeople, government services), **always search in Chinese first**. Chinese-language results surface local review sites (Sundaykiss, OpenRice, HK01, 親子王國) that English queries miss entirely. Perplexity with Chinese queries is especially effective — it synthesises Chinese-language sources into structured answers with names, addresses, and prices.
+English search is the default, but niche topics often have zero English coverage. **When English results are thin, search in the language of the community that actually uses the product/service.**
 
-- **Pattern:** `pplx search "香港 [service] 推薦 [area] 口碑好"`
-- **Example:** `pplx search "香港脊椎側彎骨科醫生推薦 私家 2026 口碑好"` returned 3 named doctors with fees and MTR exits — English query only found institutional websites.
-- **Also applies to:** WebSearch with Chinese keywords as a free first pass.
+| Domain | Language | Why |
+|--------|----------|-----|
+| HK local services (doctors, restaurants, govt) | Chinese (中文) | Surfaces Sundaykiss, OpenRice, HK01, 親子王國 |
+| Niche mechanical keyboard switches/builds | Japanese (日本語) | JP keeb Twitter has real impressions when Reddit/YouTube have nothing |
+| Taobao/Chinese consumer products | Chinese (中文) | Reviews, comparisons, Douyin/Bilibili content |
+| K-beauty, Korean tech | Korean (한국어) | Naver blogs, Korean review sites |
+
+**Pattern:** Search English first (free). If results are retailer copy or zero community discussion → re-search in the relevant language.
+
+**HK local example:** `pplx search "香港脊椎側彎骨科醫生推薦 私家 2026 口碑好"` returned 3 named doctors with fees and MTR exits — English query only found institutional websites.
+
+**JP keeb example:** HMX K01 had zero Reddit/English reviews. `bird search "HMX K01 タクタイル" -n 10` surfaced real user rankings, sound test links, and comparisons from Japanese enthusiasts.
 
 ## Perplexity Quality Notes
 
