@@ -74,7 +74,13 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Skip someday items, skip items due later this week
    - This is a reminder, not a restatement — daily's tomorrow preview already set expectations
 
-14. **Friday nudge** — if today is Friday, append to the brief: "It's Friday — run `/weekly` this afternoon for your weekly review."
+14. **GARP quiz check** (until Apr 4):
+   - Run `~/scripts/rai.py stats 2>/dev/null | head -5` to get session count and phase
+   - Check `.garp-fsrs-state.json` for any review dated today: `python3 -c "import json; d=json.load(open('$HOME/notes/.garp-fsrs-state.json')); print(sum(1 for t in d['topics'].values() if t.get('last_review','').startswith('$(date +%Y-%m-%d)')))"` — if >0, quiz already done today, skip
+   - If no session today and schedule says one is due (cruise: 3x/week = Mon/Wed/Fri-ish), nudge: "GARP quiz due today"
+   - If already done today, do NOT mention GARP quiz at all
+
+15. **Friday nudge** — if today is Friday, append to the brief: "It's Friday — run `/weekly` this afternoon for your weekly review."
 
 15. **Token budget nudge** (Friday + Saturday only):
    - Skip if not Friday or Saturday
