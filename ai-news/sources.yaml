@@ -1050,9 +1050,47 @@ chinese_sources:
     tier: 2
     cadence: daily
 
-  # Still need article URLs to add via wewe-rss (localhost:4000):
-  #   飞哥说AI, 李继刚, 银行科技研究社, 沙丘社区,
-  #   M小姐研习录, 李国飞哲学与投资笔记, 百度智能云
+  - name: 李国飞哲学与投资笔记
+    rss: http://localhost:4000/feeds/MP_WXS_3568144008.atom
+    focus: Philosophy, investment thinking, tech strategy (CN)
+    tier: 2
+    cadence: weekly
+
+  - name: 百度智能云技术站
+    rss: http://localhost:4000/feeds/MP_WXS_3919381376.atom
+    focus: Baidu Cloud AI, enterprise AI, LLM infrastructure (CN)
+    tier: 2
+    cadence: weekly
+
+  - name: 飞哥说AI
+    rss: http://localhost:4000/feeds/MP_WXS_3898891122.atom
+    focus: AI frontier tech, commercialisation, AGI (CN). By Li Zhifei (Mobvoi founder)
+    tier: 1
+    cadence: weekly
+
+  - name: 李继刚
+    rss: http://localhost:4000/feeds/MP_WXS_3913757353.atom
+    focus: Prompt engineering, structured prompts, AI thinking (CN)
+    tier: 2
+    cadence: weekly
+
+  - name: 银行科技研究社
+    rss: http://localhost:4000/feeds/MP_WXS_3211111715.atom
+    focus: Banking technology, open banking, fintech regulation (CN)
+    tier: 1
+    cadence: weekly
+
+  - name: 沙丘社区
+    rss: http://localhost:4000/feeds/MP_WXS_3923347106.atom
+    focus: AI community, AGI path, AI education (CN)
+    tier: 2
+    cadence: weekly
+
+  - name: M小姐研习录
+    rss: http://localhost:4000/feeds/MP_WXS_3535126748.atom
+    focus: ChatGPT deep dives, AI analysis, long-form commentary (CN)
+    tier: 2
+    cadence: weekly
 
   - name: Pin 起來！
     rss: https://pinchlime.com/atom.xml
