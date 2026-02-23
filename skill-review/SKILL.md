@@ -57,7 +57,20 @@ Identify:
 - **Never used** — Consider deprecating or improving description
 - **Often corrected** — Needs refinement
 
-### 3. Drift Detection
+### 3. Memory/Config Bloat Check
+
+```bash
+wc -l ~/.claude/projects/-Users-terry/memory/MEMORY.md ~/CLAUDE.md
+```
+
+| File | Threshold | Action |
+|------|-----------|--------|
+| MEMORY.md | >150 lines | Audit for tool-specific content that belongs in skills |
+| CLAUDE.md | >160 lines | Audit for detailed content that belongs in skills or docs/solutions |
+
+If over threshold: scan each section and ask "is this a behavioral rule (stays) or tool-specific reference (move to skill)?"
+
+### 4. Drift Detection
 
 For each active skill, check:
 
@@ -67,14 +80,14 @@ For each active skill, check:
 | **Vocabulary aligned?** | Does skill terminology match current vault notes? |
 | **Workflow still accurate?** | Has the process changed since skill was written? |
 
-### 4. Gap Analysis
+### 5. Gap Analysis
 
 Review recent sessions for patterns:
 - Tasks done manually that could be skills
 - Repeated multi-step workflows
 - Questions asked that required vault deep-dives
 
-### 5. Output
+### 6. Output
 
 ```markdown
 ## Skill Review - [Date]
@@ -97,7 +110,7 @@ Review recent sessions for patterns:
 - [ ] Deprecate Z
 ```
 
-### 6. External Inspiration
+### 7. External Inspiration
 
 Quick skim of releases/READMEs for new patterns worth cherry-picking. Don't adopt wholesale — just note anything novel.
 
@@ -109,7 +122,7 @@ Quick skim of releases/READMEs for new patterns worth cherry-picking. Don't adop
 | [OthmanAdi/planning-with-files](https://github.com/OthmanAdi/planning-with-files) | Planning workflows |
 | [parcadei/Continuous-Claude-v3](https://github.com/parcadei/Continuous-Claude-v3) | Context management, state persistence |
 
-### 7. Save to Vault
+### 8. Save to Vault
 
 Save review to `/Users/terry/notes/Skill Review - YYYY-MM.md`
 
