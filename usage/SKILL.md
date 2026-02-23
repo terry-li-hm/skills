@@ -83,7 +83,7 @@ Safe daily budget: ~$155/day (7-day week).
 
 ## Model Mix & Cost (Feb 2026 baseline)
 
-**Opus dominates: 96% of equiv cost — despite Anthropic recommending Sonnet 4.6 as default.** Per the [Sonnet 4.6 announcement](https://www.anthropic.com/news/claude-sonnet-4-6) (Feb 17, 2026): Sonnet 4.6 is the recommended default for Claude Code. Opus 4.6 should be reserved for deepest reasoning only (refactoring, multi-agent, "getting it just right"). Users preferred Sonnet 4.6 over Opus 4.5 59% of the time in testing.
+**Opus dominates: 96% of equiv cost.** This matches the Max plan default — `/model` shows Opus 4.6 as "Default (recommended)" for Max users. (Sonnet 4.6 is the default for Free/Pro only.) Shifting to Sonnet is a cost lever for quota management, not a quality correction.
 
 | Model | Daily Avg | % of Total | Role |
 |-------|-----------|------------|------|
