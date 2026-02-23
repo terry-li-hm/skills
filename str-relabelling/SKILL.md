@@ -75,7 +75,7 @@ Run `pipeline_node_test.py` — expect:
 - **`spark_read_sql` needs 3 args in production:** `(query, "app_name", ConnectionMode.HWC)` — test scripts use simplified 1-arg version
 - **Status 35 doesn't exist yet** — add to YAML after O25-07 go-live (June 2026)
 - **Standalone test scripts load their own data** — they JOIN `alert_typ_id` from raw table, masking that the column doesn't exist in the model table. Test passing ≠ production code works. See `~/docs/solutions/patterns/standalone-test-data-masking.md`
-- **`save_to_hive_table` is INSIDE `preprocess_strs`** (~line 1788) — writes directly to Hive, bypasses Kedro catalog (so `/tmp/` catalog overrides don't catch it). Playground safe: writes to `imh_apm_core.TEST_STR56` (778K rows from Feb 11 run, stale). Confirmed: `TEST_STR56` not referenced anywhere in GitLab production repo. Production uses a different `str_table_name`.
+- **`save_to_hive_table` is INSIDE `preprocess_strs`** (~line 1788) — writes directly to Hive, bypasses Kedro catalog (so `/tmp/` catalog overrides don't catch it). Playground safe: writes to `imh_apm_core.TEST_STR56` (778K rows from Feb 11 run, stale). Confirmed: `TEST_STR56` not referenced anywhere in GitLab production repo. Production uses a different `str_table_name`. Second `save_to_hive_table` at ~line 2325 is in `initialize_model_performance_df` — not triggered by `--node=preprocess_strs`.
 
 ## Remaining Work
 
