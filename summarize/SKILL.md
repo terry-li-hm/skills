@@ -24,17 +24,18 @@ Use when:
 
 ### Content Fetch Chain
 
-Try in order:
+Try in order (WeChat articles skip to step 2 — Jina/WebFetch both hit CAPTCHA):
 
 ```
 1. Jina Reader: curl -s -H "Accept: text/markdown" "https://r.jina.ai/URL"
    (reliable, full content, no truncation)
    ↓ fails
-2. WebFetch (fast, cached 15min, but may truncate long content)
+2. agent-browser: open URL → eval JS to extract text
+   (handles WeChat, SPAs, CAPTCHA-protected pages)
    ↓ fails
-3. summarize CLI --extract-only (Chrome UA, handles WeChat)
+3. WebFetch (fast, cached 15min, but may truncate long content)
    ↓ fails
-4. Browser automation (for login-required pages)
+4. summarize CLI --extract-only (Chrome UA fallback)
    ↓ fails
 5. Ask user for copy/paste
 ```
@@ -53,14 +54,18 @@ For batch YouTube channel digests, use `/digest` instead.
 
 ### WeChat Articles
 
-`summarize` CLI is the primary tool here — bypasses WeChat CAPTCHA via Chrome UA string.
+Jina Reader and WebFetch both hit WeChat's CAPTCHA wall. Use `agent-browser eval` directly:
 
 ```bash
-summarize "https://mp.weixin.qq.com/s/ARTICLE_ID" --extract-only
+agent-browser open "https://mp.weixin.qq.com/s/ARTICLE_ID"
+# Wait for page load, then extract full text:
+agent-browser eval "document.getElementById('js_content').innerText"
 ```
 
+This returns the complete article text in one call — no scrolling or screenshots needed.
+
 Short URLs (`/s/ABC123`) are more stable than long URLs (`?__biz=...`).
-Fallback: Firecrawl or search for mirror on zhihu.com/163.com/csdn.net.
+Fallback: `summarize` CLI with `--extract-only`, or search for mirror on zhihu.com/163.com/csdn.net.
 
 ### Login-required Sites
 
