@@ -43,12 +43,28 @@ Try in order (WeChat articles skip to step 2 — Jina/WebFetch both hit CAPTCHA)
 ### YouTube Transcripts
 
 ```bash
-# Extract transcript only
+# Extract transcript only (truncates ~200 lines — use for short videos)
 summarize "https://youtu.be/VIDEO_ID" --youtube auto --extract-only
 
-# Or use youtube-transcript-api directly (cleaner output)
-python3 -c "from youtube_transcript_api import YouTubeTranscriptApi; ..."
+# For full transcripts, use youtube-transcript-api directly via uv:
+uv run --script --python 3.13 -q - <<'PYEOF'
+# /// script
+# dependencies = ["youtube-transcript-api"]
+# ///
+from youtube_transcript_api import YouTubeTranscriptApi
+ytt = YouTubeTranscriptApi()
+transcript = ytt.fetch('VIDEO_ID')
+entries = list(transcript)
+full_text = ' '.join(e.text for e in entries)
+last = entries[-1]
+print(f'Words: {len(full_text.split())} | Duration: {(last.start + last.duration)/60:.1f} min')
+print(full_text)
+PYEOF
 ```
+
+**API gotcha (Feb 2026):** `youtube-transcript-api` v1.x changed from class method `YouTubeTranscriptApi.get_transcript(id)` to instance method `YouTubeTranscriptApi().fetch(id)`. Entries use `.text`/`.start`/`.duration` attributes, not dict keys.
+
+**Verification:** For long transcripts fetched via `--extract-only`, cross-check word count and last timestamp against video duration. The CLI truncates silently.
 
 For batch YouTube channel digests, use `/digest` instead.
 
