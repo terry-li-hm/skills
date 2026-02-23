@@ -36,12 +36,18 @@ Answer these questions honestly during the scan. If any answer is yes, there's a
 
 ### Step 1: TODO Sweep
 
-Scan conversation for completed actions that match open items in `~/notes/TODO.md`:
+Two scans — **match** then **create**:
+
+**Match:** Scan conversation for completed actions that match open items in `~/notes/TODO.md`:
 - Messages sent, forms submitted, tasks finished → mark `[x]` with brief note
+- Keep it fast — skim for verbs like "sent", "done", "submitted", "ordered", "confirmed"
+
+**Create:** Scan for anything that should become a NEW TODO:
 - New commitments or deadlines mentioned → add as new TODO items
 - **WIP that got interrupted** → add TODO for the remaining work (with `agent:` tag if Claude can do it). If state is complex, ensure WORKING.md has resume instructions and TODO points there.
-- Keep it fast — skim for verbs like "sent", "done", "submitted", "ordered", "confirmed"
-- If nothing matches, skip silently
+- **Hard test:** Did anything start but not finish this session? If yes, it needs a TODO — even if it feels like "just exploration." If there's a concrete next action, it's a TODO.
+
+If nothing from either scan, skip silently.
 
 ### Step 2: Session Log
 
