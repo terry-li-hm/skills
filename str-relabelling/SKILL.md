@@ -54,10 +54,11 @@ print("Import OK")
 
 **DO NOT run `kedro run --node=preprocess_strs` or `--pipeline=data_preprocessing` without confirming the target schema.** `preprocess_strs` itself calls `save_to_hive_table` at line ~1788, writing `alert_filtered` to the Hive table configured in `GLOBAL_DATALAKE_APPCORE_NAMES`. If playground config points to production schema, this overwrites production data.
 
-**Before running Kedro, confirm target schema:**
+**Before running Kedro, run the pre-flight check:**
 ```bash
-grep -rn "GLOBAL_DATALAKE_APPCORE_NAMES\|str_table_name\|appcore" conf/ | head -10
+python preflight_check.py
 ```
+Checks: (1) `str_table_name` contains TEST/SANDBOX/TMP, (2) FR-MLP-002 patch is applied, (3) no `alert_typ_id` filter present. Only proceed if "ALL CLEAR".
 
 ### 4. Validate
 
