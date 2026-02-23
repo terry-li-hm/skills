@@ -97,31 +97,31 @@ Only suggest, never auto-promote. Terry decides.
 
 ## Output
 
-**Write first, then summarise.** Route each finding to its destination, then print one compact block. The six questions are internal reasoning — never print them.
+**Write first, then summarise.** Route each finding to its destination, then print a brief narrative wrap. The six questions are internal reasoning — never print them.
 
-**Format — always this structure:**
+**Format:** A short prose paragraph under `**Wrap**` that covers:
 
-```
-**Wrap:**
-TODO: [no changes | N items updated] · Daily: [appended → YYYY-MM-DD.md | created] · WORKING: [clean | N items updated | cleared]
-💡 [one-line insight] → [destination path]
-💡 [one-line insight] → already in Oghma, skipped
-```
+1. What the session accomplished (the arc, not a task list)
+2. What changed in the vault (TODO, daily, WORKING — weave in naturally, don't itemise)
+3. What's left unfinished or staged for next time
+4. Any learnings captured and where they went (only if something was captured)
 
-The first line (mechanical steps) is always present — confirms the steps ran. Learnings lines only appear if something was captured. If nothing:
+Keep it to 3-5 sentences. Write like a handoff note to tomorrow-you, not a build log. No bullet points, no status codes, no `→` arrows.
 
-```
-**Wrap:**
-TODO: no changes · Daily: appended → YYYY-MM-DD.md · WORKING: clean
-No learnings — clean session.
-```
+**Example (meaty session):**
 
-Short sessions (≤3 turns):
+> **Wrap**
+> Spent the session turning the STR relabelling project from "my work in progress" into "a package someone else can pick up cold." Drafted a full handover doc with operational context for the no-overlap successor, committed all 34 floating scripts with a README that separates signal from noise, and ran the dry run on CDSW — all checks passed. TODO and WORKING.md updated to reflect the shift from "finish the logic" to "finish the handover." Pipeline test gist is staged for the next CDSW window.
 
-```
-**Wrap:**
-TODO: no changes · Daily: appended → YYYY-MM-DD.md · WORKING: clean
-```
+**Example (light session):**
+
+> **Wrap**
+> Quick session — replied to Luna about Thursday coffee and cleaned up a couple of Gmail labels. Daily note updated, nothing else changed.
+
+**Example (learnings captured):**
+
+> **Wrap**
+> Built the stream-from-ZIP processor for photoferry and validated against both 53GB exports. Captured the Chrome 130+ cookie fix in `~/docs/solutions/photoferry-reference.md` — SHA256 prefix stripping was the gotcha. Both zips fully imported, freed 106GB. Blocked on Chrome re-auth for the remaining 97 parts.
 
 ## Notes
 
