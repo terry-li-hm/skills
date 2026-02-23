@@ -77,6 +77,27 @@ Safe daily budget: ~$155/day (7-day week).
 
 **To calculate:** Find last Saturday ~8pm HKT, sum equiv cost since then, show % of ~$1,100 cap.
 
+## Model Mix & Cost (Feb 2026 baseline)
+
+**Opus dominates: 96% of equiv cost.** Sonnet and Haiku are rounding errors in the current mix.
+
+| Model | Daily Avg | % of Total | Role |
+|-------|-----------|------------|------|
+| Opus | ~$140 | 96% | Primary — all interactive work |
+| Sonnet | ~$5 | 3.5% | Subagents, routine tasks |
+| Haiku | ~$0.77 | 0.5% | Lookups only |
+
+**Monthly run rate:** ~$146/day equiv → ~$3,350/month (16.8x the $200 plan cost).
+
+**Sonnet 4.6 trend (arrived ~Feb 18):**
+- Before: Opus $145/day, Sonnet $0.8/day
+- After: Opus $124/day, Sonnet $17.6/day
+- Sonnet share rising as more work shifts off Opus
+
+**Heaviest days** (>$200 equiv): driven entirely by Opus-heavy sessions. The top 5 days averaged $256 equiv — all 95%+ Opus.
+
+**Cost lever:** Opus is ~5x more expensive per token than Sonnet. Each $100 of Opus work shifted to Sonnet saves ~$80 equiv. A 30% shift would save ~$235/week — roughly 21% of the weekly cap. Combined with Sonnet's separate weekly quota, this is the primary knob for staying under limits.
+
 ## Extra Usage
 
 $50/month cap. Tracks actual spend (not equiv). Resets 1st of month. Once depleted, likely rate-limited until reset. Monitor via `/status`.
