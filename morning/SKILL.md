@@ -92,35 +92,22 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 
 16. **Deliver the brief** — concise, no filler:
 
-## Output Format
+## Output
 
-```
-**Tuesday, February 12, 2026**
+Write a short prose briefing under the date heading. Open with how you slept (if Oura data available), then what happened overnight — messages, cron results, Cora's inbox triage. If anything needs attention (weather warnings, staleness flags, overdue items), weave it in naturally. Close with what's on the plate today: calendar events, deadlines, and any carryover from yesterday's daily note.
 
-Health:
-- Sleep 82  Readiness 79  Activity 91 [or omit if unavailable]
+Skip anything with nothing to report — don't mention empty sections. The brief should read like a colleague telling you what matters this morning, not a dashboard.
 
-Overnight:
-- [New messages, cron results, or "Quiet night."]
+**Example:**
 
-Inbox (Cora):
-- [Stats from latest brief, or omit if no brief]
-
-Warnings:
-- [Weather warnings, staleness flags, or omit section]
-
-Calendar:
-- [Events with times, or omit if empty]
-
-Today:
-- [Deadlines + overdue items from TODO, or "Plate as previewed last night."]
-
-Carryover:
-- [From yesterday's Follow-ups/Tomorrow, or omit if none]
-```
+> **Tuesday, February 12, 2026**
+>
+> Solid night — sleep 82, readiness 79. Quiet overnight: Cora handled 91% of inbox, nothing flagged. One email from Gavin about background check docs — needs a reply this morning.
+>
+> Weather's fine, no warnings. You've got the dentist at 2:30pm and a GARP quiz due today. The STR handover doc is still waiting on Joel's signature — that's the main carry from yesterday.
 
 ## Notes
 
 - This is a delta brief, not a full situational review. Daily already closed last night's loop.
 - If yesterday had no daily note (skipped `/daily`), fall back to fuller review: include TODO scan + priority check from vault context files.
-- Keep the brief under 15 lines. The point is to start working, not to read a report.
+- Keep it to a short paragraph or two. The point is to start working, not to read a report.
