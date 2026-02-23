@@ -75,8 +75,18 @@ grok --raw "query"           # raw JSON response
 ```
 
 **Key feature:** `--x-only` restricts to `x.com` via `allowed_domains` — only way to search X/Twitter programmatically.
-**Also useful with:** `bird` CLI (`/opt/homebrew/bin/bird`) for fetching specific user tweets, threads, replies.
 **Auth:** `XAI_API_KEY` in `~/.zshenv`.
+
+### X/Twitter Search: grok vs bird
+
+| Tool | Use When | Output |
+|------|----------|--------|
+| `grok --x-only "query"` | Sentiment/opinion synthesis, "what do people think of X" | AI-summarised answer from X posts |
+| `bird search "query" -n 10 --plain` | Raw tweets, specific users, exact quotes | Raw tweet text with links |
+
+**Default to `grok --x-only` for X/Twitter research.** It synthesises across many posts and surfaces patterns. Use `bird` when you need raw tweets (exact wording, photos, specific accounts) or to fetch a known user's timeline (`bird user-tweets <handle>`).
+
+**Japanese keeb Twitter is a goldmine.** English Reddit/YouTube may have zero coverage for niche switches — Japanese X often has real user impressions, sound tests, and rankings. Search in Japanese when English comes up empty.
 
 ## HK Local Search — Use Chinese
 
