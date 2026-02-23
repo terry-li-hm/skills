@@ -52,13 +52,15 @@ from src.apm.pipelines.data_preprocessing.nodes import preprocess_strs
 print("Import OK")
 ```
 
-**DO NOT run `kedro run --node=preprocess_strs` or `--pipeline=data_preprocessing` without confirming the target schema.** `preprocess_strs` itself calls `save_to_hive_table` at line ~1788, writing `alert_filtered` to the Hive table configured in `GLOBAL_DATALAKE_APPCORE_NAMES`. If playground config points to production schema, this overwrites production data.
+**Kedro names:** pipeline = `predict_data_preprocessing_pipeline`, node = `predict_preprocess_strs_node`.
+
+**DO NOT run without confirming the target schema.** `preprocess_strs` calls `save_to_hive_table` at line ~1788, writing to the Hive table configured in `GLOBAL_DATALAKE_APPCORE_NAMES["str_table_name"]`. Bypasses Kedro catalog — `/tmp/` overrides don't catch it.
 
 **Before running Kedro, run the pre-flight check:**
 ```bash
-python preflight_check.py
+python preflight_check.py && kedro run --pipeline=predict_data_preprocessing_pipeline --to-nodes=predict_preprocess_strs_node
 ```
-Checks: (1) `str_table_name` contains TEST/SANDBOX/TMP, (2) FR-MLP-002 patch is applied, (3) no `alert_typ_id` filter present. Only proceed if "ALL CLEAR".
+Checks: (1) `str_table_name` contains TEST/SANDBOX/TMP, (2) FR-MLP-002 patch is applied, (3) no `alert_typ_id` filter in patch block. Only proceeds if "ALL CLEAR".
 
 ### 4. Validate
 
