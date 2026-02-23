@@ -183,7 +183,7 @@ Uses Microsoft Presidio with HK-specific custom patterns.
 - **Gemini 3.1 Pro:** Released Feb 19, model ID `gemini-3.1-pro-preview` — CLI v0.29.5 can't access yet (ModelNotFound). Monitor for update.
 - **Prompt budget:** ~4K chars max for OpenCode, ~8K for Codex, generous for Gemini. When in doubt, `echo -n "prompt" | wc -c`
 - **Output often empty:** OpenCode doesn't reliably capture stdout. Check session JSON instead.
-- **GLM-5 broken in OpenCode** (both interactive and headless) — malformed tool call JSON ([#13982](https://github.com/anomalyco/opencode/issues/13982), [#13900](https://github.com/anomalyco/opencode/issues/13900)). Causes silent infinite retry loops. GLM-4.7 still works. Use `glm-4.7` or GPT until fixed upstream.
+- **GLM-5 restored in OpenCode** (tested Feb 24 2026). Previous malformed tool call JSON issue ([#13982](https://github.com/anomalyco/opencode/issues/13982), [#13900](https://github.com/anomalyco/opencode/issues/13900)) appears fixed. GLM-4.7 available as fallback if it regresses.
 - **GPT-5.2 Thinking:** Available via OpenAI API ($1.75/$14/Mtok). Best-in-class for reading comprehension, long-context, vision (chart/diagram analysis). xhigh reasoning effort. Route document-heavy analysis here.
 - **GPT-4.5:** Deprecated from API Jul 2025. ChatGPT Pro "Legacy" only. Not automatable.
 - **Gemini maxOutputTokens gotcha:** Default ~8192 tokens. Set 65536 in generationConfig for long outputs. API silently caps to model's actual max — safe to pass a large value.
