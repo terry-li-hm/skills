@@ -48,11 +48,18 @@ When `/delegate` or subagent completes work:
 - Run verification yourself if the agent didn't include output
 - "Agent reports success" is not evidence
 
+## Quality Bar
+
+Before marking complete, ask: **"Would a staff engineer approve this?"** Not just "does it work" but "is this the right approach?" Check for:
+- Hacky workarounds that should be proper fixes
+- Unnecessary complexity that a simpler design would eliminate
+- Patterns that diverge from the rest of the codebase without good reason
+
 ## Integration Points
 
 - **Before `git commit`**: Have you verified the change works?
 - **Before `git push`**: Have you run the test suite?
-- **Before claiming a task complete**: Re-read requirements, check each one
+- **Before claiming a task complete**: Re-read requirements, check each one. Apply staff engineer bar.
 - **Before "deployed and working"**: Load the URL, confirm the change is visible
 
 ## Red Flags in Your Own Output
