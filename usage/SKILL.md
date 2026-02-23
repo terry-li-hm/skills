@@ -55,7 +55,11 @@ Max20 has **four independent counters** visible via `/status`:
 | Weekly (Sonnet only) | Sonnet usage only | ~Sunday 1pm HKT (different cycle) | Separate Sonnet quota |
 | Extra usage | Monthly spend cap | 1st of month | $50 hard cap, shows $/$ spent |
 
-**Key insight:** Sonnet has its own weekly counter with a different reset cycle. Likely Sonnet usage counts toward *both* all-models AND its own Sonnet cap (not a free separate pool). The Sonnet cap probably prevents Sonnet-only usage from consuming the entire quota. Still 5x cheaper per token than Opus — the primary saving is cost efficiency, not quota bypass. [Unverified — needs testing at high Sonnet usage]
+**How the counters interact** ([source](https://github.com/anthropics/claude-code/issues/12487)):
+- Sonnet usage counts against **both** "Sonnet only" AND "All models"
+- Opus usage counts against "All models" **only**
+- When "All models" hits 100%, everything is blocked — even if "Sonnet only" shows 2%
+- The Sonnet cap is a **ceiling** (prevents filling all-models quota with cheap Sonnet tokens), not a separate pool
 
 ## Weekly Limit Tracking (All Models)
 
