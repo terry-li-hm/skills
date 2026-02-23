@@ -22,7 +22,7 @@ One command to delegate coding tasks. Routes to the right tool, packages context
 | Routine coding, refactoring, bulk ops, tests | **OpenCode** (GLM-5) | Free, unlimited |
 | Needs better reasoning than GLM-5, but not worth Codex credits | **Gemini CLI** (Auto: 3 Pro / 2.5 Flash) | Free, 1500 RPD (AI Pro plan), smarter than GLM-5 |
 | OpenCode + Gemini failed, deep bug, complex feature | **Codex** (GPT-5.2-codex) | Smartest, paid |
-| **Code review** of a package/module | **Codex** or **Gemini** | Both read broadly; Codex writes more structured findings |
+| **Code audit/review** | **Codex** (GPT-5.2) first | 92% signal. GLM-4.7 needs two-phase prompt (25% signal). See audit section below |
 | Needs vault, user decisions, judgment | **Stay in Claude** | Context advantage |
 
 ## Workflow
@@ -73,18 +73,44 @@ After launching, tell the user:
   - OpenCode: `/bin/ls -lt ~/.local/share/opencode/storage/session/` then read session JSON
   - Codex: check output file or `codex resume --last`
 
-## Code Review Pattern (Codex)
+## Code Audit Pattern
 
-Codex handles full-package code reviews well. Pattern:
-1. Give file paths + line counts + module descriptions (not file contents)
-2. List specific focus areas (error handling, duplication, async, bugs, types)
-3. Ask it to write findings to a `REVIEW.md` with severity + line references
-4. Triage the output — Codex finds real bugs but also suggests over-engineering. Filter.
-5. Delete `REVIEW.md` before committing (artifact, not source)
+### Codex (GPT-5.2) — primary auditor
 
-**Parallel review from both tools:** Launch Codex + OpenCode review simultaneously with different output files (`REVIEW-codex.md`, `REVIEW-opencode.md`). They have complementary strengths — Codex finds architectural issues and subtle races; OpenCode catches product/UX concerns and gives concrete fix snippets. Triage by consensus: findings both flag are real bugs; tool-unique findings need judgment. Tested on doumei (Feb 2026): 4 consensus bugs + 1 good unique find each.
+92% signal rate (11/12 real bugs on rai.py). Use for all audits.
 
-**Parallel fixes after review:** Launch one OpenCode per fix in parallel. Keep prompts to "read this range, change X to Y, run tests". OpenCode handles simple substitutions; complex structural transforms (nested try/except wrapping) silently stall — do those directly.
+```bash
+codex exec --skip-git-repo-check --full-auto \
+  "Perform a thorough code audit of <file>. Focus on: bugs, data integrity, edge cases, error handling, security, race conditions, logic errors. For each finding: severity (HIGH/MED/LOW), line numbers, the bug, suggested fix."
+```
+
+Triage: Codex finds real bugs but also suggests over-engineering. Ask "would I notice this during actual use?" to filter.
+
+### OpenCode (GLM-4.7) — secondary, needs two-phase prompt
+
+**Naive prompt → 0% signal** (25 false positives). GLM pattern-matches vulnerability templates without verifying.
+
+**Two-phase prompt → 25% signal** (1/4 real, found a bug Codex missed):
+
+```bash
+opencode run --model opencode/glm-4.7 \
+  "Phase 1: Read <file> thoroughly. This is a <context — personal CLI / server / library>. List all potential bugs, but DO NOT report yet.
+
+Phase 2: For EACH potential finding, re-read the specific lines to verify:
+- Does the bug actually exist in the current code?
+- Is there already a guard/check that handles it?
+- Is it relevant for <context>?
+
+Only report findings that survive verification. For each: severity, exact line numbers, the actual buggy code (quote it), why it's real, suggested fix. Drop anything that doesn't survive Phase 2."
+```
+
+### Parallel audit (recommended for important code)
+
+Launch Codex + OpenCode two-phase simultaneously. Codex catches most bugs; GLM occasionally finds edge cases Codex misses. Triage by consensus: findings both flag are high confidence; tool-unique findings need judgment.
+
+### After audit: parallel fixes
+
+Launch one OpenCode per fix in parallel. Keep prompts to "read this range, change X to Y, run tests". OpenCode handles simple substitutions; complex structural transforms silently stall — do those directly.
 
 ## Prompt Template
 
