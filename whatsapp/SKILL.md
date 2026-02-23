@@ -72,11 +72,12 @@ wacli messages search "coffee" --after 2026-01-01 --limit 10
 Draft the command for the user to copy-paste:
 ```bash
 # Send to contact (user runs this themselves)
-wacli send --to "+85298765432" "Thanks for your message!"
+wacli send text --to "85298765432@s.whatsapp.net" --message "Thanks for your message!"
 
 # Send to group (use group JID from chats list)
-wacli send --to "120363123456789@g.us" "Hello group"
+wacli send text --to "120363123456789@g.us" --message "Hello group"
 ```
+**Note:** Subcommand is `send text`, and both `--to` (JID, not phone number) and `--message` are required flags.
 
 ### Contacts
 ```bash
