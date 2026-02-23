@@ -17,8 +17,9 @@ Create a weekly synthesis of work, thinking, and progress.
 
 1. **Determine the week range** (Mon-Sun, HKT)
 
-2. **Gather the week's data**:
-   - Read daily notes for the week: `~/notes/YYYY-MM-DD.md`
+2. **Gather the week's data** (recursive — read distilled layers, not raw):
+   - Read the **## Reflection**, **## Follow-ups**, and **## Mood** sections from each daily note `~/notes/YYYY-MM-DD.md` (not the full session logs — those are raw context, already distilled into the reflection)
+   - Read this week's **AI Landscape weekly snapshot** from `~/notes/AI Landscape.md` (written by `/ai-review`). Reference it in the synthesis — don't re-derive AI themes from the raw AI News Log.
    - Read `~/notes/Capco Transition.md` for transition status
    - Read `~/notes/TODO.md` for completed/outstanding items
    - Check `~/docs/solutions/` and `MEMORY.md` for entries this week
@@ -27,6 +28,7 @@ Create a weekly synthesis of work, thinking, and progress.
    - Check CSB job monitor results: `tail -20 ~/logs/cron-csb-jobs.log` and `cat ~/.local/share/csb-jobs/seen.json | python3 -c "import sys,json; print(len(json.load(sys.stdin)),'jobs tracked')"`
 
 3. **Synthesize into themes** — don't just list events, find patterns:
+   - **Maximum 3-4 themes.** If the week had 6 themes, the skill is logging, not synthesising. Pick the 3 that matter next week.
    - What topics kept coming up?
    - What moved forward vs what stalled?
    - Where did energy go?
@@ -98,6 +100,8 @@ Include in weekly note:
 **Pattern:** [1-2 sentence summary of the week's health trend and any correlations found]
 **Action:** [Anything to adjust, or "Steady"]
 ```
+
+If all 7 days are within normal range (Sleep >75, HRV >50, bedtime <23:00), collapse to: "**Health: Stable week.** Sleep avg X, HRV avg Y. No flags." Don't enumerate 7 identical rows.
 
 Keep it brief — the value is pattern recognition over weeks, not daily obsessing.
 

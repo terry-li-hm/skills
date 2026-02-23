@@ -47,7 +47,7 @@ Read `[[AI News Log]]` — look at dates of entries to determine depth.
 
 **Light mode** (last discussion <3 days ago):
 - Scan log entries since last discussion
-- Pick 2-4 most interesting items
+- Highlight the **5 most significant items**. More sources = better selection, not longer output.
 - Brief, conversational: "Simon Willison had a good post on X, and Jack Clark's take on Y is worth knowing about"
 - Offer to go deeper on anything that catches Terry's eye
 - This is relaxed evening reading, not a briefing
@@ -55,7 +55,7 @@ Read `[[AI News Log]]` — look at dates of entries to determine depth.
 **Weekly synthesis** (last discussion 5+ days ago):
 - Read all log entries from the past week
 - Identify cross-source patterns (if Import AI AND Interconnects mention X → signal)
-- Synthesize 3-5 key themes with perspective from different sources
+- Synthesize **3-5 key themes** with perspective from different sources. More items in the log means sharper curation, not more themes.
 - Flag 1-2 articles genuinely worth reading in full ("read this one yourself" + link)
 - Note what's relevant for Capco/banking context
 
