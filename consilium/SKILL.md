@@ -5,6 +5,8 @@ aliases: [ask-llms, council, ask llms]
 github_url: https://github.com/terry-li-hm/consilium
 github_hash: 6a312ec
 user_invocable: true
+cli_version: 0.15.0
+cli_verified: 2026-02-24
 ---
 
 # LLM Council
@@ -29,20 +31,28 @@ user_invocable: true
 
 ```
 Does the question have a single correct answer? (specs, facts, how-to)
-  YES → Web search or ask Claude directly
+  YES → Web search or ask Claude directly. Don't use consilium.
   NO ↓
 Is this personal preference / physical / visual? (glasses, photos, food)
-  YES → Try it in person, or ask Claude directly
+  YES → Try it in person. Don't use consilium.
   NO ↓
 Do you need multiple perspectives but not debate?
-  YES → consilium --quick (or /ask-llms)
+  YES → consilium --quick
   NO ↓
-Do you want to stress-test a specific plan?
+Binary decision with clear for/against?
+  YES → consilium --oxford
+  NO ↓
+Stress-testing a specific plan?
   YES → consilium --redteam
   NO ↓
-Are there genuine trade-offs requiring deliberation?
-  YES → consilium (auto-routes, or --council to force full debate)
+Exploratory — still forming the question?
+  YES → consilium --discuss (or --socratic to probe assumptions)
+  NO ↓
+Genuine trade-offs requiring deliberation?
+  YES → consilium (auto-route, or --council to force full debate)
 ```
+
+Auto-routing works well for most questions — Opus classifies and picks the right mode. Use explicit flags when you're confident about the format (e.g., `--oxford` for "A vs B" decisions, `--redteam` for plans).
 
 ## When to Use
 
@@ -94,9 +104,10 @@ Only proceed to Step 1 if the question involves genuine trade-offs or domain-spe
 
 ### Step 0.5: Propose Mode and Confirm
 
-Before running, tell the user which mode you recommend and why (one line), then confirm. Example:
+Before running, tell the user which mode you recommend and why (one line), then confirm. If auto-routing is appropriate, say so — don't force an explicit mode when auto would work. Example:
 
 > "This is a binary decision with clear trade-offs — I'd use **--oxford**. Good?"
+> "Exploratory question with genuine trade-offs — I'd let it auto-route (likely council). Good?"
 
 Don't run the council until the user confirms or picks a different mode.
 
@@ -122,27 +133,28 @@ For other decisions, use simpler context or skip this step.
 
 ### Step 3: Run the Council
 
-**Always pass an explicit mode flag** (`--quick`, `--council`, `--discuss`, `--socratic`, `--oxford`, `--redteam`, `--solo`). Never run bare `consilium "question"` — the built-in auto-router only picks between quick and council. Your mode recommendation from Step 0.5 covers all 7 modes.
+**Auto-routing is the default** — Opus classifies the question and picks the best mode. Pass an explicit mode flag only when you know what you want (e.g., `--oxford` for a binary decision, `--redteam` to stress-test a plan).
 
 **Always use these flags:**
-- `--format json` — ensures cost/duration metadata is captured
 - `--output ~/notes/Councils/LLM Council - {Topic} - {date}.md` — vault persistence
+- `--format json` — **only for council mode** (incompatible with discuss/redteam/solo/socratic/oxford)
+- `--named` — show real model names (default is anonymous Speaker 1, 2, etc.)
 
-**Do NOT use `--quiet` by default.** Run with `run_in_background: true` on the Bash tool so the user can watch live via `consilium --watch` in another tmux tab. Read the `--output` file when the task completes.
+**Do NOT use `--quiet` by default.** Run with `run_in_background: true` on the Bash tool so the user can watch live via `consilium --watch` or `--tui` in another tmux tab. Read the `--output` file when the task completes.
 
 > **Note:** Always use `uv tool run consilium` instead of bare `consilium`. The mise shim points to system Python which can't find the module.
 
 **Standard invocation (auto-routes by difficulty):**
 ```bash
 uv tool run consilium "Should we use microservices or a monolith?" \
-  --format json \
+  --named \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
 
 **Force full council with persona context:**
 ```bash
 uv tool run consilium "Should I accept the Standard Chartered offer?" \
-  --council --format json \
+  --council --named --format json \
   --persona "$PERSONA" \
   --context "job-offer" \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
@@ -155,16 +167,27 @@ uv tool run consilium "My plan: migrate the monolith to microservices over 6 mon
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
 
-**Common additional flags:**
+**Common flags:**
 ```bash
---persona "context"     # Add personal context
---rounds 3              # More deliberation (default: 1)
---domain banking        # Inject regulatory context (banking|healthcare|eu|fintech|bio)
---challenger gemini     # Assign contrarian role
---decompose             # Break complex question into sub-questions before blind phase
---followup              # Interactive drill-down after synthesis
+# Context & persona
+--persona "context"     # Personal context injected into prompts
+--domain banking        # Regulatory context (banking|healthcare|eu|fintech|bio)
+--context "hint"        # Context hint for the judge
+
+# Deliberation control
+--challenger gemini     # Assign contrarian role (council mode only)
+--decompose             # Break complex question into sub-questions first
+--rounds 3              # Rounds for --discuss or --socratic (0 = unlimited)
+--followup              # Interactive drill-down after judge synthesis (council only)
+--practical             # Constrain to actionable triggers, no philosophy
+
+# Output
+--named                 # Show real model names instead of Speaker 1, 2, etc.
+--format json           # Machine-parseable output (council mode only)
 --share                 # Upload to secret Gist
---quiet                 # Suppress live output (when user doesn't need to watch)
+--quiet                 # Suppress live output
+--no-save               # Don't auto-save to ~/.consilium/sessions/
+--no-judge              # Skip judge synthesis (for external judge integration)
 ```
 
 **Oxford debate (binary decisions):**
@@ -184,11 +207,25 @@ uv tool run consilium --list-roles  # See predefined roles
 uv tool run consilium "Should we build an agent for KYC?" \
   --domain banking \
   --challenger gemini \
-  --followup \
+  --followup --named \
   --output counsel.md
 ```
 
 Available domains: `banking`, `healthcare`, `eu`, `fintech`, `bio`
+
+### Flag Compatibility
+
+| Flag | council | quick | discuss | socratic | oxford | redteam | solo |
+|------|---------|-------|---------|----------|--------|---------|------|
+| `--format json` | yes | yes | **no** | **no** | **no** | **no** | **no** |
+| `--challenger` | yes | **no** | **no** | **no** | **no** | **no** | **no** |
+| `--followup` | yes | **no** | **no** | **no** | **no** | **no** | **no** |
+| `--rounds` | no | no | yes | yes | no | no | no |
+| `--motion` | no | no | no | no | yes | no | no |
+| `--roles` | no | no | no | no | no | no | yes |
+| `--practical` | yes | yes | yes | yes | yes | yes | yes |
+| `--named` | yes | yes | yes | yes | yes | yes | yes |
+| `--decompose` | yes | no | no | no | no | no | no |
 
 ### Step 4: Parse and Present (when using --format json)
 
@@ -286,12 +323,14 @@ Review action_items and offer to draft relevant messages (acceptance emails, fol
 ## Session Management
 
 ```bash
-consilium --sessions              # List recent sessions
-consilium --stats                 # Cost breakdown by mode
-consilium --watch                 # Live tail from another tmux tab
+consilium --sessions              # List recent 20 sessions
+consilium --stats                 # Cost breakdown by mode, 7-day summary
+consilium --watch                 # Live tail from another tmux tab (rich formatted)
+consilium --tui                   # TUI with phase/cost/time tracking
 consilium --view                  # View latest session in pager
-consilium --view "career"         # View session matching term
+consilium --view "career"         # View session matching term (filename or content)
 consilium --search "career"       # Search all session content
+consilium --list-roles            # Show predefined roles for --solo
 ```
 
 ## Prompting Tips
@@ -389,10 +428,12 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 
 ## Known Issues
 
-- **Model timeouts:** Some models (historically Kimi, now DeepSeek/GLM) occasionally time out. Partial outputs add noise but the council still works with remaining speakers
-- **JSON output truncation:** Use `--output file.md` to capture full transcript
+- **Installed version can go stale.** Source is at `~/code/consilium`. After edits: `cd ~/code/consilium && uv tool install --force --reinstall .` — bare `--force` doesn't rebuild from source changes.
+- **Model timeouts:** Some models (historically Kimi, now DeepSeek/GLM) occasionally time out. Partial outputs add noise but the council still works with remaining speakers.
+- **JSON output truncation:** Use `--output file.md` to capture full transcript.
 - **JSON `decision` field can be noisy:** The structured output sometimes captures mid-synthesis text rather than a clean decision. Read the prose synthesis instead.
-- **`--redteam` incompatible with `--format json`:** Red team mode only outputs prose. Use `--output file.md` to capture the transcript. Same applies to `--oxford`, `--socratic`, `--discuss`, `--solo`.
+- **`--format json` only works with council and quick modes.** All other modes (discuss, redteam, solo, socratic, oxford) output prose only. Use `--output file.md` to capture. See flag compatibility table above.
+- **`--challenger` and `--followup` are council-only.** The CLI will error if combined with other modes.
 
 ## Output Formats
 
