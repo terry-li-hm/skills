@@ -52,11 +52,12 @@ from src.apm.pipelines.data_preprocessing.nodes import preprocess_strs
 print("Import OK")
 ```
 
-**Kedro — use `--node` only, NOT `--pipeline`:**
+**DO NOT run `kedro run --node=preprocess_strs` or `--pipeline=data_preprocessing` without confirming the target schema.** `preprocess_strs` itself calls `save_to_hive_table` at line ~1788, writing `alert_filtered` to the Hive table configured in `GLOBAL_DATALAKE_APPCORE_NAMES`. If playground config points to production schema, this overwrites production data.
+
+**Before running Kedro, confirm target schema:**
 ```bash
-kedro run --node=preprocess_strs
+grep -rn "GLOBAL_DATALAKE_APPCORE_NAMES\|str_table_name\|appcore" conf/ | head -10
 ```
-**DO NOT use `--pipeline=data_preprocessing`** — other nodes in the pipeline call `save_to_hive_table` which writes to Hive. `--node=preprocess_strs` runs only the one function.
 
 ### 4. Validate
 
@@ -74,7 +75,7 @@ Run `pipeline_node_test.py` — expect:
 - **`spark_read_sql` needs 3 args in production:** `(query, "app_name", ConnectionMode.HWC)` — test scripts use simplified 1-arg version
 - **Status 35 doesn't exist yet** — add to YAML after O25-07 go-live (June 2026)
 - **Standalone test scripts load their own data** — they JOIN `alert_typ_id` from raw table, masking that the column doesn't exist in the model table. Test passing ≠ production code works. See `~/docs/solutions/patterns/standalone-test-data-masking.md`
-- **`save_to_hive_table` exists in `nodes.py` but outside `preprocess_strs`** — other pipeline nodes write to Hive. Always use `kedro run --node=preprocess_strs`, never `--pipeline=data_preprocessing`
+- **`save_to_hive_table` is INSIDE `preprocess_strs`** (~line 1788) — the function writes to Hive, not just returns a DataFrame. `kedro run --node=preprocess_strs` triggers a production write unless playground config points to a sandbox schema. Always confirm target schema before running Kedro.
 
 ## Remaining Work
 
