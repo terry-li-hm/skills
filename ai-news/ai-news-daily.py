@@ -1,4 +1,14 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "feedparser",
+#     "requests",
+#     "trafilatura",
+#     "pyyaml",
+#     "beautifulsoup4",
+# ]
+# ///
 """Daily AI news fetcher — runs via cron, zero LLM tokens.
 
 Fetches Tier 1 sources (RSS preferred, web scraping fallback),
@@ -13,7 +23,7 @@ Dedup strategy:
   2. Title-prefix: For undated web scrapes, check if title prefix already in log
   3. Junk filter: Drop short/generic titles (nav items, categories)
 
-Cron: 15 7 * * * (7:15 AM HKT daily)
+Cron: 30 18 * * * (6:30 PM HKT daily)
 """
 
 import hashlib
