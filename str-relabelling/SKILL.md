@@ -12,7 +12,7 @@ user_invocable: true
 - **Progress note:** `[[STR Relabelling Implementation Progress]]`
 - **Local repo:** `~/code/str-relabelling/`
 - **Implementation spec:** `~/code/str-relabelling/docs/implementation-spec.md`
-- **Pipeline test gist:** https://gist.github.com/terry-li-hm/66d27d3007a776723087751f0f7ea974
+- **Pipeline test gist:** https://gist.github.com/terry-li-hm/661ab15fb1d2234c20010d70054fb06d
 
 ## Deployment Checklist
 
