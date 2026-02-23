@@ -14,6 +14,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 |------|------|------|----------|
 | **WebSearch** | Built-in | Free | General purpose, quick searches |
 | **pplx** | Rust CLI | $0.006–0.40/query | Deep research, reasoning |
+| **grok** | Python CLI | ~$0.02/query | X/Twitter search, real-time web |
 | **WebFetch** | Built-in | Free | Scrape specific URLs to markdown |
 
 ## Cost Tiers — Route by Budget
@@ -22,7 +23,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 |------|------|------------|----------|
 | **Free** | `WebSearch` | $0 | Default for everything |
 | **Cheap** | `pplx search` | ~$0.006 | Need cited synthesis, WebSearch insufficient |
-| **Mid** | `pplx ask` / `pplx reason` | ~$0.01 | Structured surveys, complex reasoning |
+| **Mid** | `pplx ask` / `pplx reason` / `grok` | ~$0.01–0.02 | Structured surveys, complex reasoning, X/Twitter |
 | **Expensive** | `pplx research` | ~$0.40 | Deep novel research. Use freely when it adds value. |
 
 **Default to free tier.** Only escalate when the cheaper tool genuinely can't answer.
@@ -37,7 +38,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | Complex reasoning / trade-off analysis | `pplx reason` | Reasoning chain, best for hard questions |
 | Verify claims / get primary sources | `WebSearch` | Returns links, no hallucinated synthesis |
 | Find specific content URLs (YouTube, podcast episodes, etc.) | `pplx search` | WebSearch doesn't index platform-internal pages well; pplx does |
-| AI news | Grok 4.2 → `WebSearch` | Grok has real-time X/Twitter data; WebSearch as fallback. Needs xAI API setup. |
+| AI news / X/Twitter | `grok --x-only` → `grok` | Real-time X/Twitter data + web search via xAI API |
 | Scrape a specific URL | `WebFetch` | HTML → markdown with prompt |
 | Code & documentation | Context7 plugin | Best for library docs |
 | Job/company research | `WebSearch` → `pplx ask` | Free first, paid for depth |
@@ -60,6 +61,22 @@ pplx log --stats        # cost summary by mode
 **Fallback:** `~/scripts/perplexity.sh` (bash wrapper, same API, no logging).
 
 Reasoning responses (`pplx reason`) strip `<think>` tags by default. Use `--raw` to preserve.
+
+## grok CLI
+
+Python script (`~/bin/grok`) wrapping xAI Responses API. Uses `grok-4-1-fast-reasoning` for web search, `grok-3-mini-fast` for plain LLM.
+
+```bash
+grok "query"                  # general web search       ~$0.02
+grok --x-only "query"        # X/Twitter only            ~$0.02
+grok --domain reddit.com "query"  # restrict to domain   ~$0.02
+grok --no-search "query"     # plain LLM (no search)     ~$0.0002
+grok --raw "query"           # raw JSON response
+```
+
+**Key feature:** `--x-only` restricts to `x.com` via `allowed_domains` — only way to search X/Twitter programmatically.
+**Also useful with:** `bird` CLI (`/opt/homebrew/bin/bird`) for fetching specific user tweets, threads, replies.
+**Auth:** `XAI_API_KEY` in `~/.zshenv`.
 
 ## HK Local Search — Use Chinese
 
