@@ -108,6 +108,17 @@ web_sources:
     tier: 1
     cadence: daily
 
+  - name: Epoch AI
+    url: https://epoch.ai/blog
+    rss: https://epochai.substack.com/feed
+    focus: AI compute tracking, scaling laws, infrastructure data (GPU clusters, data centers)
+    tier: 2
+    cadence: monthly
+    notes: |
+      Monthly "Epoch Brief" is the main signal. X account (@EpochAIResearch) covers
+      headlines faster. Deep value is in databases (epoch.ai/data) for ad hoc lookup,
+      not the blog feed. Skip Gradient Updates / Data Insights — too granular.
+
   - name: Brendan Gregg
     url: https://www.brendangregg.com/blog/
     focus: Systems performance, AI infrastructure cost, eBPF, datacenter observability
