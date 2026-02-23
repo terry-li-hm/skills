@@ -148,6 +148,13 @@ sqlite3 ~/.wacli/wacli.db "SELECT chat_jid, from_me, COUNT(*) FROM messages WHER
 - **`--limit N` without `--chat` pulls from ALL chats.** Group chat noise (especially active groups like 9up) will push DM messages out of results. Always pass `--chat <JID>` when reading a specific conversation. Use `--limit 50` minimum for DM history — a `--limit 15` across all chats returned zero DMs.
 - **Before diagnosing "missing messages" as a wacli bug, verify the data isn't just outside your query window.** Re-query with higher limit + chat filter before concluding messages weren't captured.
 
+## Daemon & Lock
+
+- **Daemon running via launchd:** `com.terry.wacli-sync` — persistent `sync --follow`. No need for manual sync before reading.
+- **DB lock:** Only one wacli process at a time. Stop daemon before running backfill or other write commands: `launchctl unload ~/Library/LaunchAgents/com.terry.wacli-sync.plist`
+- **Daemon silently dies:** Check `launchctl list com.terry.wacli-sync` (exit 113 = not running). Restart: `launchctl load ~/Library/LaunchAgents/com.terry.wacli-sync.plist`.
+- **Missed messages before daemon start:** WhatsApp doesn't re-deliver to linked devices. `history backfill` is unreliable (often times out). Just ask user to paste.
+
 ## Cautions
 
 - **QR expires**: If disconnected, need to re-auth with `wacli auth`

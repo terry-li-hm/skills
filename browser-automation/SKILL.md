@@ -193,6 +193,26 @@ showboat verify                  # re-run all code blocks, diff outputs
 
 Not installed yet. Install when needed: `go install github.com/simonw/showboat@latest`
 
+## Known Login Issues
+
+- **Taobao (and likely other Chinese e-commerce):** Triggers anti-bot captcha in headless mode. Use `--headed` for first login + captcha solve, then headless works with persisted cookies.
+- **Google:** Blocks Playwright Chromium entirely. Use email/password login, not Google SSO.
+- **WeChat Web:** Killed by Tencent — returns "cannot log in to Weixin for Web". Desktop app only.
+
+## Profile Backup
+
+Profile data at `~/.agent-browser-profile/`. Backup location: `~/agent-config/browser-profile/` (Cookies, Local Storage, Sessions).
+
+Restore: `cp -r ~/agent-config/browser-profile/* ~/.agent-browser-profile/`
+
+## Playwright Binaries
+
+After agent-browser updates, Playwright browser binaries may need reinstalling:
+```bash
+npx playwright install chromium
+```
+Auto-update script handles agent-browser but not Playwright binaries — fix manually if `launchPersistentContext` errors appear.
+
 ## Tips
 
 - `snapshot` over `screenshot` for token efficiency (text vs image tokens)

@@ -134,6 +134,15 @@ Create a new skill and sync to all platforms:
 cd ~/skills && git add -A && git commit -m "Update <skill-name>" && git push
 ```
 
+## Codex CLI Gotchas
+
+- **Dir-level symlinks break skill discovery** ([#11314](https://github.com/openai/codex/issues/11314)): `~/.agents/skills → ~/skills/` doesn't work. Must be a real directory with per-skill symlinks inside.
+- **Two skill paths:** `~/.codex/skills/` and `~/.agents/skills/` — skill-sync populates both.
+- **AGENTS.md already symlinked:** `~/.codex/AGENTS.md → ~/CLAUDE.md` (set up Feb 4).
+- **Skills invocation:** `$skill-name` (not `/skill-name`).
+- **No hooks interception** in Codex — `notify` only (post-turn). Hooks PR rejected by OpenAI.
+- **Memory CLIs work unchanged** from Codex shell: `oghma`, `qmd`, `km-ask` are just bash commands.
+
 ## Notes
 
 - Source of truth is always `~/skills/` (skills), `~/agent-config/mcp-servers.json` (MCP), CE plugin (compound-engineering)

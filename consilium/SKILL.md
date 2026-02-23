@@ -367,6 +367,13 @@ Consilium's architecture is grounded in group deliberation research. See `[[Grou
 
 **What consilium can't fix** (MAD literature): Most of the apparent value of multi-agent debate comes from generating multiple independent samples, not from the debate itself. Consilium's real value is divergent thinking (strategy, framing, angles) — not convergent reasoning (math, facts).
 
+## Cost & ROI
+
+- ~$0.60 for full discuss mode. Worth it when genuinely novel insights emerge (bouncer pattern, compliance flag). Diminishing returns on second pass of same topic.
+- **2 novel insights per council = good; 0 = should have used `--quick`.**
+- **Tone/networking review = good ROI.** Substack comment review caught "unguided AI" phrasing that could read as "consultant advocates shipping AI without governance" in banking context — reputational risk invisible to the drafter. When your name is public + reader could be a future client, $0.50 is cheap insurance.
+- **Framing bias:** 6/6 unanimity in quick mode is a red flag — means the prompt is one-sided, not that the answer is obvious. Always include "Option: fix the existing thing" for deprecation/migration decisions. No council will challenge the frame you give them — the user has to. See [[Frontier Council Lessons]].
+
 ## Key Lessons
 
 See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:

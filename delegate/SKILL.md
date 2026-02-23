@@ -154,5 +154,16 @@ Uses Microsoft Presidio with HK-specific custom patterns.
 - **OpenCode model:** Always `zhipuai-coding-plan/glm-5` (NOT `opencode/glm-5` which depletes credits)
 - **Lean config:** `OPENCODE_HOME=~/.opencode-lean` skips MCPs, cuts startup from 60s to 15s
 - **Gemini CLI:** Auto-routes to Gemini 3 Pro (complex) or 2.5 Flash (simple) via Google AI Pro plan. 120 RPM, 1500 RPD. One prompt triggers multiple API requests internally — budget ~250-500 actual prompts/day. No prompt length issue (1M context). Force model with `-m gemini-3-pro` if needed.
+- **Gemini 3.1 Pro:** Released Feb 19, model ID `gemini-3.1-pro-preview` — CLI v0.29.5 can't access yet (ModelNotFound). Monitor for update.
 - **Prompt budget:** ~4K chars max for OpenCode, ~8K for Codex, generous for Gemini. When in doubt, `echo -n "prompt" | wc -c`
 - **Output often empty:** OpenCode doesn't reliably capture stdout. Check session JSON instead.
+- **GLM-5 broken in OpenCode** (both interactive and headless) — malformed tool call JSON ([#13982](https://github.com/anomalyco/opencode/issues/13982), [#13900](https://github.com/anomalyco/opencode/issues/13900)). Causes silent infinite retry loops. GLM-4.7 still works. Use `glm-4.7` or GPT until fixed upstream.
+- **GPT-5.2 Thinking:** Available via OpenAI API ($1.75/$14/Mtok). Best-in-class for reading comprehension, long-context, vision (chart/diagram analysis). xhigh reasoning effort. Route document-heavy analysis here.
+- **GPT-4.5:** Deprecated from API Jul 2025. ChatGPT Pro "Legacy" only. Not automatable.
+- **Gemini maxOutputTokens gotcha:** Default ~8192 tokens. Set 65536 in generationConfig for long outputs. API silently caps to model's actual max — safe to pass a large value.
+- **Delegated AI builds well, never consolidates:** Great for greenfield + targeted bug fixes. But each fix is locally scoped — accumulates structural debt. Plan a human/Claude Code consolidation pass after every 5-10 delegated hardening commits.
+
+## Codex-Specific
+
+- **Headless:** `codex exec --skip-git-repo-check --full-auto "prompt"` (NOT bare `codex` which needs TTY).
+- **OpenCode headless:** `opencode run "prompt"` but **sandboxes file reads to project root** — auto-rejects `external_directory`. Workaround: bundle files into `/tmp/` first.
