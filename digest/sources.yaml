@@ -105,6 +105,17 @@
   # The Knowledge Project podcast + fs.blog essays
   # Mental models, decision-making, multidisciplinary thinking
 
+# === Product & Strategy ===
+
+- name: Lenny Rachitsky
+  type: youtube
+  handle: "@LennysPodcast"
+  rss_url: https://api.substack.com/feed/podcast/10100.rss
+  vault_path: Strategy/Lenny Rachitsky
+  category: strategy
+  # Product, growth, leadership interviews. Guests often CxOs and founders.
+  # Useful client-language calibration for consulting conversations.
+
 # === AI & Tech ===
 
 - name: Naval (Navalmanack)
