@@ -345,7 +345,7 @@ def fetch_x_discovery(config: dict, discovery_config: dict) -> list[dict]:
     ):
         best = user_tweets[0]  # first match (most recent)
         display_name = best.get("author", {}).get("displayName", username)
-        text = best.get("text", "").strip()
+        text = re.sub(r'\s+', ' ', best.get("text", "")).strip()
         sample = text[:120] + ("..." if len(text) > 120 else "")
         tweet_id = best.get("id", "")
         link = f"https://x.com/{username}/status/{tweet_id}" if tweet_id else ""

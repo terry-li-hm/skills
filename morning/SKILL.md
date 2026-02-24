@@ -21,7 +21,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 1. **Get today's date and day of week**
 
 2. **Staleness check** (context gap detection):
-   - Run `stat -f '%Sm' -t '%Y-%m-%d' ~/notes/WORKING.md ~/notes/Capco\ Transition.md ~/notes/TODO.md`
+   - Run `stat -f '%Sm' -t '%Y-%m-%d' ~/notes/WORKING.md ~/notes/Capco/Capco\ Transition.md ~/notes/TODO.md`
    - If any file's last-modified date is >48h old, flag it: "WORKING.md last updated X — may be behind reality"
 
 3. **Yesterday's daily note** — quick glance:
@@ -59,7 +59,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Skip if already delivered by cron and no warnings active
 
 10. **Today's calendar** (what's on the schedule):
-   - Run: `gog calendar today`
+   - Run: `gog calendar list` (NOT `gog calendar today` — that subcommand doesn't exist)
    - List events with times. Flag any that need prep (meetings, appointments)
    - If empty, skip silently
 
