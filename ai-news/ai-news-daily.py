@@ -413,8 +413,15 @@ def main():
 
         if new_articles:
             results[name] = new_articles
-
-        state[name] = NOW.isoformat()
+            # Only advance the cadence clock when we found new content.
+            # If nothing new, leave the old timestamp so cadence gate
+            # allows a retry the next day (prevents missing articles
+            # published after cron run time, e.g. Import AI at 21:30 HKT
+            # when cron runs at 18:30 HKT).
+            state[name] = NOW.isoformat()
+        elif name not in state:
+            # First-ever scan with no results — still record it
+            state[name] = NOW.isoformat()
 
     save_state(state)
 
