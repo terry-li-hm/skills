@@ -138,7 +138,7 @@ For other decisions, use simpler context or skip this step.
 **Always use these flags:**
 - `--output ~/notes/Councils/LLM Council - {Topic} - {date}.md` — vault persistence
 - `--format json` — **only for council mode** (incompatible with discuss/redteam/solo/socratic/oxford)
-- `--named` — show real model names (default is anonymous Speaker 1, 2, etc.)
+- ~~`--named`~~ — **NOT IMPLEMENTED** (skill doc was ahead of CLI). Models show as Speaker 1, 2, etc. Real names appear in council mode output regardless.
 
 **Do NOT use `--quiet` by default.** Run with `run_in_background: true` on the Bash tool so the user can watch live via `consilium --watch` or `--tui` in another tmux tab. Read the `--output` file when the task completes.
 
@@ -147,14 +147,14 @@ For other decisions, use simpler context or skip this step.
 **Standard invocation (auto-routes by difficulty):**
 ```bash
 uv tool run consilium "Should we use microservices or a monolith?" \
-  --named \
+ \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
 
 **Force full council with persona context:**
 ```bash
 uv tool run consilium "Should I accept the Standard Chartered offer?" \
-  --council --named --format json \
+  --council --format json \
   --persona "$PERSONA" \
   --context "job-offer" \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
@@ -182,7 +182,7 @@ uv tool run consilium "My plan: migrate the monolith to microservices over 6 mon
 --practical             # Constrain to actionable triggers, no philosophy
 
 # Output
---named                 # Show real model names instead of Speaker 1, 2, etc.
+# --named              # NOT IMPLEMENTED — documented but never built
 --format json           # Machine-parseable output (council mode only)
 --share                 # Upload to secret Gist
 --quiet                 # Suppress live output
@@ -207,7 +207,7 @@ uv tool run consilium --list-roles  # See predefined roles
 uv tool run consilium "Should we build an agent for KYC?" \
   --domain banking \
   --challenger gemini \
-  --followup --named \
+  --followup \
   --output counsel.md
 ```
 
@@ -224,7 +224,7 @@ Available domains: `banking`, `healthcare`, `eu`, `fintech`, `bio`
 | `--motion` | no | no | no | no | yes | no | no |
 | `--roles` | no | no | no | no | no | no | yes |
 | `--practical` | yes | yes | yes | yes | yes | yes | yes |
-| `--named` | yes | yes | yes | yes | yes | yes | yes |
+| ~~`--named`~~ | — | — | — | — | — | — | — |
 | `--decompose` | yes | no | no | no | no | no | no |
 
 ### Step 4: Parse and Present (when using --format json)
