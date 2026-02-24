@@ -30,6 +30,7 @@ Terry is joining Capco as Principal Consultant / AI Solution Lead, advising bank
 - Tier controls **display priority**, not fetch: Tier 1 always surfaced, Tier 2 mentioned only if noteworthy or in deep mode
 - Date-based + title-prefix dedup, cadence-aware skipping
 - Appends delta to `[[AI News Log]]` (`~/notes/AI News Log.md`)
+- **Weekly X Discovery:** scans `bird home` (For You feed), filters for AI keywords, surfaces new handles not already tracked — logged as `### X Discovery (For You)` section
 - State in `~/.cache/ai-news-state.json`
 - Log auto-rotates at 500 lines → `AI News Log - Archive YYYY-MM.md`
 - Health check: `lustro check`
@@ -123,14 +124,16 @@ When user says "deep", "full", "all sources":
 bird user-tweets <handle> -n 5 --plain
 ```
 Tier 1: `@karpathy`, `@steipete`, `@emollick`, `@eugeneyan`
-Tier 2: `@brendangregg`, `@rauchg`, `@shl`, `@atroyn`, `@dotey`, `@danshipper`, `@jerryjliu0`, `@AndrewYNg`, `@ylecun`, `@EpochAIResearch`, `@morganhousel`, `@shaneparrish`, `@benjaminwfelix`
+Tier 2: `@brendangregg`, `@rauchg`, `@shl`, `@atroyn`, `@dotey`, `@danshipper`, `@jerryjliu0`, `@AndrewYNg`, `@ylecun`, `@EpochAIResearch`, `@_philschmid`, `@axtonliu`, `@svpino`, `@morganhousel`, `@shaneparrish`, `@benjaminwfelix`
 
-**3. WeChat articles:**
+**3. X Discovery review** — check `### X Discovery (For You)` section in log. Interesting new handles → add to `sources.yaml` x_accounts. Keywords configurable in `sources.yaml` `x_discovery` section.
+
+**4. WeChat articles:**
 - WeWe RSS feeds are in the cron (`localhost:4000`) — check log entries
 - Ad-hoc extraction: `summarize "https://mp.weixin.qq.com/s/ID" --model anthropic/claude-sonnet-4`
 - WeChat search: WebSearch with `site:mp.weixin.qq.com/s/` queries (see `sources.yaml` `wechat_search` section)
 
-**4. Parallelise** — use background agents for independent sweeps:
+**5. Parallelise** — use background agents for independent sweeps:
 - Missing X accounts not in cron log
 - WeChat search queries (3-5 queries from sources.yaml)
 - Any stale RSS feeds the cron might have missed
