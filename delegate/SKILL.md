@@ -189,6 +189,14 @@ Uses Microsoft Presidio with HK-specific custom patterns.
 - **Gemini maxOutputTokens gotcha:** Default ~8192 tokens. Set 65536 in generationConfig for long outputs. API silently caps to model's actual max — safe to pass a large value.
 - **Delegated AI builds well, never consolidates:** Great for greenfield + targeted bug fixes. But each fix is locally scoped — accumulates structural debt. Plan a human/Claude Code consolidation pass after every 5-10 delegated hardening commits.
 
+## Compound Engineering (CE) on Delegated Tools
+
+Both Codex and OpenCode can run CE workflows. Skills are symlinked via `agent-sync`, and the CLAUDE.md Codex Tool Mapping section translates Claude Code tools to Codex equivalents (Read→cat, Edit→apply_patch, Grep→rg, etc.).
+
+- **Codex + CE:** Works well for multi-file features. Include "Follow compound-engineering review patterns" in the prompt. Codex reads CLAUDE.md which has the tool mapping.
+- **OpenCode + CE:** Same skill access but constrained by 4K prompt limit and project-root sandbox. Best for single-file CE tasks (e.g., one review agent).
+- **Sync:** After skill changes, run `/agent-sync` to propagate to `~/.codex/skills/` and `~/.opencode-lean/skills/`.
+
 ## Codex-Specific
 
 - **Headless:** `codex exec --skip-git-repo-check --full-auto "prompt"` (NOT bare `codex` which needs TTY).
