@@ -49,12 +49,14 @@ web_sources:
 
   - name: Cursor Blog
     url: https://cursor.com/blog
+    # No RSS feed — all paths return 404. JS-rendered blog, web scrape only.
     focus: AI coding agents, MoE training, inference optimization, systems engineering
     tier: 1
     cadence: weekly
     notes: |
       High-quality technical content. Research posts on custom models, CUDA kernels,
       multi-agent coordination. Primary source for AI coding tool internals.
+      RSS confirmed dead Feb 2026 — removed rss field, falls back to web scrape.
 
   - name: Google DeepMind
     url: https://deepmind.google/blog/
@@ -246,14 +248,16 @@ web_sources:
   - name: Karpathy (bearblog)
     rss: https://karpathy.bearblog.dev/feed/?type=rss
     focus: Andrej Karpathy, AI education
-    tier: 1
+    tier: 2
     cadence: monthly
+    notes: Blog inactive since Dec 2025 — Karpathy posts on X instead. X handle (@karpathy) remains Tier 1.
 
   - name: Chip Huyen
     rss: https://huyenchip.com/feed.xml
     focus: ML systems, AI engineering
-    tier: 1
+    tier: 2
     cadence: monthly
+    notes: Inactive since Jan 2025. Demoted from Tier 1 Feb 2026. Remove if still silent by May 2026.
 
   - name: Lil'Log
     rss: https://lilianweng.github.io/index.xml
@@ -270,8 +274,9 @@ web_sources:
   - name: Francois Chollet
     rss: https://fchollet.substack.com/feed
     focus: Keras creator, AI philosophy
-    tier: 1
-    cadence: weekly
+    tier: 2
+    cadence: monthly
+    notes: Inactive since Oct 2023. Demoted from Tier 1 Feb 2026. Remove if still silent by May 2026.
 
   - name: fast.ai
     rss: https://www.fast.ai/index.xml
@@ -1175,7 +1180,7 @@ x_accounts:
     focus: Behavioral finance, long-term thinking, Psychology of Money
     tier: 2
 
-  - handle: "@ShaneAParrish"
+  - handle: "@shaneparrish"
     name: Shane Parrish
     focus: Mental models, decision-making, Farnam Street
     tier: 2
