@@ -1,36 +1,8 @@
 #!/usr/bin/env python3
-"""HK Observatory weather + RTHK Chinese news — one paragraph."""
+"""HK Observatory weather — templated, no LLM."""
 
 import json
 import sys
-import xml.etree.ElementTree as ET
-from urllib.request import urlopen, Request
-
-
-def fetch_news():
-    """Fetch top 5 RTHK Chinese local news headlines with links."""
-    url = "http://rthk9.rthk.hk/rthk/news/rss/c_expressnews_clocal.xml"
-    try:
-        req = Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        with urlopen(req, timeout=10) as resp:
-            root = ET.fromstring(resp.read())
-        headlines = []
-        for item in root.findall(".//item")[:5]:
-            title = item.findtext("title", "").strip()
-            desc = item.findtext("description", "").strip()
-            link = item.findtext("link", "").strip()
-            # First 2 sentences for context
-            sentences = desc.replace("\n", " ")
-            # Chinese uses 。 as sentence separator
-            parts = sentences.split("。")
-            short_desc = "。".join(parts[:2]).strip()
-            if short_desc and not short_desc.endswith("。"):
-                short_desc += "。"
-            if title:
-                headlines.append({"title": title, "desc": short_desc, "link": link})
-        return headlines
-    except Exception:
-        return []
 
 
 def build_weather_line(now, fnd, warn):
@@ -111,8 +83,6 @@ def build_weather_line(now, fnd, warn):
 
 
 def main():
-    mode = sys.argv[1] if len(sys.argv) > 1 else "weather"
-
     with open("/tmp/hko_now.json") as f:
         now = json.load(f)
     with open("/tmp/hko_fnd.json") as f:
@@ -120,35 +90,7 @@ def main():
     with open("/tmp/hko_warn.json") as f:
         warn = json.load(f)
 
-    if mode == "weather":
-        print(build_weather_line(now, fnd, warn))
-
-    elif mode == "prompt":
-        weather_line = build_weather_line(now, fnd, warn)
-        headlines = fetch_news()
-        news_text = "\n".join(
-            f"- [{i}] {h['title']}: {h['desc']}" for i, h in enumerate(headlines)
-        ) or "No news available today."
-
-        print(f"""Output ONLY your sentence + index. Nothing else. Do NOT repeat the weather line.
-
-The weather today: "{weather_line}"
-
-Write ONE short, funny sentence connecting the weather to the lightest headline below. Think punchline, not paragraph.
-
-NEWS:
-{news_text}
-
-Rules:
-- MAX 15 words. Punchy. Make someone smile.
-- Skip violence/tragedy. English only. No emoji.
-- Name the news topic so the reader gets it.
-- If all headlines are heavy, just a short weather quip instead.
-- LAST LINE: the index number of headline used (e.g. "3").""")
-
-    elif mode == "links":
-        headlines = fetch_news()
-        print(json.dumps([h["link"] for h in headlines]))
+    print(build_weather_line(now, fnd, warn))
 
 
 if __name__ == "__main__":
