@@ -26,12 +26,13 @@ Terry is joining Capco as Principal Consultant / AI Solution Lead, advising bank
 ## Architecture
 
 **Cron** (silent index builder, 6:30 PM HKT daily, `~/skills/ai-news/ai-news-daily.py`):
-- Fetches **all sources** (Tier 1 + Tier 2), cadence-gated — **zero LLM tokens**
+- Fetches **all sources** (Tier 1 + Tier 2) + **X accounts** via `bird --json`, cadence-gated — **zero LLM tokens**
 - Tier controls **display priority**, not fetch: Tier 1 always surfaced, Tier 2 mentioned only if noteworthy or in deep mode
 - Date-based + title-prefix dedup, cadence-aware skipping
 - Appends delta to `[[AI News Log]]` (`~/notes/AI News Log.md`)
 - State in `~/.cache/ai-news-state.json`
 - Log auto-rotates at 500 lines → `AI News Log - Archive YYYY-MM.md`
+- Health check: `uv run ~/skills/ai-news/ai-news-daily.py --check-sources`
 
 **`/ai-news`** (pull-based, conversational):
 - Terry asks whenever he feels like it
@@ -41,7 +42,7 @@ Terry is joining Capco as Principal Consultant / AI Solution Lead, advising bank
 
 ### Step 1: Check the log
 
-Read `[[AI News Log]]` — look at dates of entries to determine depth.
+Read `[[AI News Log]]` — look for `<!-- Last discussed: YYYY-MM-DD -->` marker near the top. This is the reliable way to determine light vs weekly mode. If the marker is missing, fall back to eyeballing dates of entries.
 
 ### Step 2: Adapt depth automatically
 
@@ -68,7 +69,13 @@ This is the actual value. Not a dump of headlines — a conversation:
 - Claude explains implications, connects to Terry's context
 - If Terry wants to go deep on an article, Claude WebFetches it live and discusses
 
-### Step 4: Log (optional)
+### Step 4: Update marker + log (optional)
+
+**Always** update the discussion marker at the top of the log:
+```
+<!-- Last discussed: 2026-02-24 -->
+```
+Place it on the line after `# AI News Log`. Create or replace the existing marker.
 
 Only if the discussion surfaced something worth preserving:
 - Append a brief synthesis to `[[AI News Log]]` with discussion date
@@ -103,9 +110,40 @@ Works because `summarize` uses a Chrome User-Agent that bypasses WeChat's CAPTCH
 
 When user says "deep", "full", "all sources":
 - Surface **all** log entries (Tier 1 + Tier 2), not just Tier 1 highlights
-- X accounts via `bird` CLI (live fetch, not in cron)
+- Verify X account coverage in cron log (now fetched by cron daily)
 - WeChat articles via `summarize` CLI (live fetch, bypasses CAPTCHA)
 - See `sources.yaml` for full list
+
+### Deep Mode Checklist
+
+**1. Cron log** — review ALL entries since last discussion (Tier 1 + Tier 2 + X accounts)
+
+**2. X accounts** — cron now fetches these daily via `bird --json`. Check log for `X:` prefixed entries. If any are missing (bird auth expired, rate limit), live fetch:
+```bash
+bird user-tweets <handle> -n 5 --plain
+```
+Tier 1: `@karpathy`, `@steipete`, `@emollick`, `@eugeneyan`
+Tier 2: `@brendangregg`, `@rauchg`, `@shl`, `@atroyn`, `@dotey`, `@danshipper`, `@jerryjliu0`, `@AndrewYNg`, `@ylecun`, `@EpochAIResearch`, `@morganhousel`, `@shaneparrish`, `@benjaminwfelix`
+
+**3. WeChat articles:**
+- WeWe RSS feeds are in the cron (`localhost:4000`) — check log entries
+- Ad-hoc extraction: `summarize "https://mp.weixin.qq.com/s/ID" --model anthropic/claude-sonnet-4`
+- WeChat search: WebSearch with `site:mp.weixin.qq.com/s/` queries (see `sources.yaml` `wechat_search` section)
+
+**4. Parallelise** — use background agents for independent sweeps:
+- Missing X accounts not in cron log
+- WeChat search queries (3-5 queries from sources.yaml)
+- Any stale RSS feeds the cron might have missed
+
+### Coverage Report
+
+After deep mode, briefly report what was checked:
+- How many cron log sources had entries since last discussion
+- How many X accounts had entries vs needed live fetch
+- WeChat/WeWe coverage
+- Any sources intentionally skipped and why
+
+This prevents the "did we really check all sources?" question.
 
 ## Monthly Thematic Digest
 

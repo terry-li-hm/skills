@@ -202,6 +202,43 @@ def _extract_summary(entry) -> str:
     return first[:120]
 
 
+def fetch_x_account(handle: str, since_date: str, max_items: int = 5) -> list[dict]:
+    """Fetch recent tweets from an X account via bird CLI (JSON mode)."""
+    clean = handle.lstrip("@")
+    try:
+        proc = subprocess.run(
+            [BIRD_CLI, "user-tweets", clean, "-n", str(max_items * 2), "--json"],
+            capture_output=True, text=True, timeout=30,
+        )
+        if proc.returncode != 0:
+            print(f"  bird error @{clean}: {proc.stderr.strip()[:80]}", file=sys.stderr)
+            return []
+
+        tweets = json.loads(proc.stdout)
+        articles = []
+        for tweet in tweets:
+            date_str = _parse_tweet_date(tweet.get("createdAt", ""))
+            if date_str and date_str <= since_date:
+                continue
+            text = tweet.get("text", "").strip()
+            if not text or len(text) < 20:
+                continue
+            title = text[:120] + ("..." if len(text) > 120 else "")
+            tweet_id = tweet.get("id", "")
+            username = tweet.get("author", {}).get("username", clean)
+            link = f"https://x.com/{username}/status/{tweet_id}" if tweet_id else ""
+            articles.append({"title": title, "date": date_str, "summary": "", "link": link})
+            if len(articles) >= max_items:
+                break
+        return articles
+    except subprocess.TimeoutExpired:
+        print(f"  bird timeout @{clean}", file=sys.stderr)
+        return []
+    except Exception as e:
+        print(f"  bird error @{clean}: {e}", file=sys.stderr)
+        return []
+
+
 def fetch_web(url: str, max_items: int = 5) -> list[dict]:
     """Scrape titles from a web page (no dates available)."""
     try:
@@ -360,9 +397,108 @@ def rotate_log_if_needed():
     )
 
 
+# --- Health check ---
+
+def check_sources_health(config: dict, state: dict):
+    """Report status of all configured sources."""
+    import time as _time
+
+    all_sources = []
+    for section in ("web_sources", "consulting_and_regulators", "bank_tech_blogs", "chinese_sources"):
+        for source in config.get(section, []):
+            all_sources.append(source)
+
+    print(f"\n{'Source':<36} {'T':>1} {'HTTP':>5} {'Last Scan':>12}", file=sys.stderr)
+    print("-" * 58, file=sys.stderr)
+
+    broken, stale = [], []
+    for source in all_sources:
+        name = source["name"][:35]
+        tier = source.get("tier", 2)
+        url = source.get("rss") or source.get("url", "")
+
+        # Last scan info
+        last_str = state.get(source["name"], "")
+        if last_str:
+            try:
+                days = (NOW - datetime.fromisoformat(last_str)).days
+                scan_col = f"{days}d ago"
+            except (ValueError, TypeError):
+                scan_col = "parse-err"
+        else:
+            scan_col = "never"
+
+        if not url:
+            print(f"{name:<36} {tier:>1} {'—':>5} {scan_col:>12}", file=sys.stderr)
+            continue
+
+        try:
+            resp = requests.get(url, headers=HEADERS, timeout=10, stream=True)
+            resp.close()
+            code = str(resp.status_code)
+        except requests.Timeout:
+            code = "T/O"
+        except Exception:
+            code = "ERR"
+
+        flag = ""
+        if code not in ("200", "301", "302"):
+            broken.append(source["name"])
+            flag = " ←"
+        elif scan_col not in ("never",) and "d ago" in scan_col:
+            days_num = int(scan_col.replace("d ago", ""))
+            if days_num > 60:
+                stale.append(source["name"])
+                flag = " (stale)"
+
+        print(f"{name:<36} {tier:>1} {code:>5} {scan_col:>12}{flag}", file=sys.stderr)
+
+    # X accounts
+    if Path(BIRD_CLI).exists():
+        print(f"\n{'X Account':<25} {'T':>1} {'Status':>8} {'Last Tweet':>12}", file=sys.stderr)
+        print("-" * 50, file=sys.stderr)
+        for account in config.get("x_accounts", []):
+            handle = account["handle"].lstrip("@")
+            tier = account.get("tier", 2)
+            try:
+                proc = subprocess.run(
+                    [BIRD_CLI, "user-tweets", handle, "-n", "1", "--json"],
+                    capture_output=True, text=True, timeout=15,
+                )
+                if proc.returncode == 0:
+                    tweets = json.loads(proc.stdout)
+                    if tweets:
+                        last = _parse_tweet_date(tweets[0].get("createdAt", ""))
+                        print(f"@{handle:<24} {tier:>1} {'OK':>8} {last:>12}", file=sys.stderr)
+                    else:
+                        print(f"@{handle:<24} {tier:>1} {'empty':>8} {'—':>12}", file=sys.stderr)
+                else:
+                    err = proc.stderr.strip()[:30]
+                    print(f"@{handle:<24} {tier:>1} {'FAIL':>8} {err}", file=sys.stderr)
+            except Exception as e:
+                print(f"@{handle:<24} {tier:>1} {'ERR':>8} {str(e)[:20]}", file=sys.stderr)
+            _time.sleep(1)  # rate limit courtesy
+    else:
+        print("\nbird CLI not found — skipping X account check", file=sys.stderr)
+
+    # Summary
+    print(f"\nTotal: {len(all_sources)} web/RSS + {len(config.get('x_accounts', []))} X accounts", file=sys.stderr)
+    if broken:
+        print(f"Broken ({len(broken)}): {', '.join(broken)}", file=sys.stderr)
+    if stale:
+        print(f"Stale >60d ({len(stale)}): {', '.join(stale)}", file=sys.stderr)
+
+
 # --- Main ---
 
 def main():
+    # Health check mode
+    if "--check-sources" in sys.argv:
+        with open(SOURCES_YAML) as f:
+            config = yaml.safe_load(f)
+        check_sources_health(config, load_state())
+        return
+
     no_archive = "--no-archive" in sys.argv
 
     rotate_log_if_needed()
@@ -432,6 +568,46 @@ def main():
         elif name not in state:
             # First-ever scan with no results — still record it
             state[name] = NOW.isoformat()
+
+    # --- X accounts via bird CLI ---
+    import time as _time
+
+    if Path(BIRD_CLI).exists():
+        x_accounts = config.get("x_accounts", [])
+        if x_accounts:
+            print(f"Fetching {len(x_accounts)} X accounts...", file=sys.stderr)
+        for account in x_accounts:
+            handle = account["handle"]
+            x_name = f"X: {account.get('name', handle)}"
+            tier = account.get("tier", 2)
+            cadence = account.get("cadence", "daily")
+
+            if not should_fetch(x_name, cadence, state):
+                skipped.append(x_name)
+                continue
+
+            print(f"  @{handle.lstrip('@')}...", file=sys.stderr)
+            articles = fetch_x_account(handle, since_date)
+
+            new_articles = []
+            for a in articles:
+                if is_junk(a["title"]):
+                    continue
+                prefix = _title_prefix(a["title"])
+                if prefix in title_prefixes:
+                    continue
+                new_articles.append(a)
+                title_prefixes.add(prefix)
+
+            if new_articles:
+                results[x_name] = new_articles
+                state[x_name] = NOW.isoformat()
+            elif x_name not in state:
+                state[x_name] = NOW.isoformat()
+
+            _time.sleep(2)  # rate limit courtesy
+    else:
+        print("bird CLI not found — skipping X accounts", file=sys.stderr)
 
     save_state(state)
 
