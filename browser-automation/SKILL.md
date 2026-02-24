@@ -220,3 +220,4 @@ Auto-update script handles agent-browser but not Playwright binaries — fix man
 - Use `--headed` to see the browser window (debugging or initial login)
 - Sessions persist between commands — no need to re-open
 - **Keep agent-browser updated:** `pnpm update -g agent-browser`
+- **`--profile` flag goes AFTER the command:** `agent-browser open <url> --profile`, NOT `agent-browser --profile open <url>`. The latter treats the URL as an unknown command.
