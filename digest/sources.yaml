@@ -127,15 +127,6 @@
   # Founder/investor framing on AI, leverage, entrepreneurship.
   # Useful as client-language calibration for banking CxO conversations.
 
-- name: Lex Fridman
-  type: youtube
-  handle: "@lexfridman"
-  rss_url: https://lexfridman.com/feed/podcast/
-  vault_path: AI & Tech/Lex Fridman
-  category: ai
-  # Transcript at {episode_url}-transcript (e.g. lexfridman.com/peter-steinberger-transcript)
-  transcript_url_suffix: "-transcript"
-
 - name: a16z
   type: youtube
   handle: "@a16z"
