@@ -764,6 +764,16 @@ web_sources:
     tier: 2
     cadence: monthly
 
+  - name: AIGC Weekly (歸藏)
+    rss: https://quaily.com/op7418/feed/atom
+    focus: Chinese AI weekly digest — models, tools, creative AI (CN)
+    tier: 2
+    cadence: weekly
+    notes: |
+      Same author as 歸藏的AI工具箱 WeChat (already tracked via WeWe RSS).
+      Newsletter is a curated weekly roundup; WeChat is ad-hoc posts.
+      160+ issues, consistent since 2023. Free tier sufficient.
+
   - name: Catjourney Weekly
     rss: https://quail.ink/catjourney/feed/atom
     focus: AI tools, Chinese perspective
