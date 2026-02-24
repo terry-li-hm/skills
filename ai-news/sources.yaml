@@ -1190,6 +1190,43 @@ x_accounts:
     focus: Evidence-based investing, factor premiums, Rational Reminder
     tier: 2
 
+x_discovery:
+  enabled: true
+  cadence: weekly
+  count: 50  # tweets to fetch from For You feed
+  # Tweets matching any keyword (case-insensitive) are considered AI-relevant
+  keywords:
+    - "\\bAI\\b"
+    - "\\bLLM"
+    - "\\bGPT"
+    - "\\bClaude\\b"
+    - "\\bAnthropic\\b"
+    - "\\bOpenAI\\b"
+    - "\\bDeepSeek\\b"
+    - "\\bmachine learning"
+    - "\\bdeep learning"
+    - "\\btransformer"
+    - "\\bagent"
+    - "\\bRAG\\b"
+    - "\\bembedding"
+    - "\\bfine.?tun"
+    - "\\bprompt"
+    - "\\bGemini\\b"
+    - "\\bCopilot\\b"
+    - "\\bCursor\\b"
+    - "\\bCodex\\b"
+    - "\\bMCP\\b"
+    - "\\bGenAI\\b"
+    - "\\bAGI\\b"
+    - "\\bvibe cod"
+    - "\\bneural"
+    - "\\bmodel context"
+    - "\\bfoundation model"
+    - "\\bopen.?source model"
+    - "\\breasoning model"
+    - "\\bchain.of.thought"
+    - "\\bmultimodal"
+
 youtube_queries:
   - "AI agents 2026"
   - "LLM enterprise applications"

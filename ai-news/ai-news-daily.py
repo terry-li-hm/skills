@@ -271,6 +271,98 @@ def fetch_web(url: str, max_items: int = 5) -> list[dict]:
         return []
 
 
+# --- X Discovery ---
+
+def _get_tracked_handles(config: dict) -> set[str]:
+    """Return lowercased handles already tracked in sources.yaml."""
+    handles = set()
+    for account in config.get("x_accounts", []):
+        handles.add(account["handle"].lstrip("@").lower())
+    return handles
+
+
+def _matches_ai_keywords(text: str, patterns: list[re.Pattern]) -> bool:
+    """Check if text matches any AI keyword pattern."""
+    for pat in patterns:
+        if pat.search(text):
+            return True
+    return False
+
+
+def fetch_x_discovery(config: dict, discovery_config: dict) -> list[dict]:
+    """Scan X For You feed for AI content from accounts not already tracked.
+
+    Returns articles formatted as handle-centric discovery entries:
+    each entry is a new handle with a sample tweet.
+    """
+    count = discovery_config.get("count", 50)
+    keyword_strs = discovery_config.get("keywords", [])
+    keyword_pats = [re.compile(k, re.IGNORECASE) for k in keyword_strs]
+    tracked = _get_tracked_handles(config)
+
+    print(f"X Discovery: fetching {count} For You tweets...", file=sys.stderr)
+
+    try:
+        proc = subprocess.run(
+            [BIRD_CLI, "home", "-n", str(count), "--json"],
+            capture_output=True, text=True, timeout=45,
+        )
+        if proc.returncode != 0:
+            print(f"  bird home error: {proc.stderr.strip()[:80]}", file=sys.stderr)
+            return []
+
+        tweets = json.loads(proc.stdout)
+    except subprocess.TimeoutExpired:
+        print("  bird home timeout", file=sys.stderr)
+        return []
+    except Exception as e:
+        print(f"  bird home error: {e}", file=sys.stderr)
+        return []
+
+    # Group AI-relevant tweets by handle (excluding already-tracked)
+    handle_tweets: dict[str, list[dict]] = {}
+    for tweet in tweets:
+        author = tweet.get("author", {})
+        username = author.get("username", "").lower()
+        if not username or username in tracked:
+            continue
+        text = tweet.get("text", "")
+        if not _matches_ai_keywords(text, keyword_pats):
+            continue
+
+        if username not in handle_tweets:
+            handle_tweets[username] = []
+        handle_tweets[username].append(tweet)
+
+    if not handle_tweets:
+        print("  No new AI-relevant handles found.", file=sys.stderr)
+        return []
+
+    # Format: one entry per new handle, with best sample tweet
+    articles = []
+    for username, user_tweets in sorted(
+        handle_tweets.items(), key=lambda x: -len(x[1])
+    ):
+        best = user_tweets[0]  # first match (most recent)
+        display_name = best.get("author", {}).get("displayName", username)
+        text = best.get("text", "").strip()
+        sample = text[:120] + ("..." if len(text) > 120 else "")
+        tweet_id = best.get("id", "")
+        link = f"https://x.com/{username}/status/{tweet_id}" if tweet_id else ""
+        hit_count = len(user_tweets)
+
+        title = f"@{username} ({display_name}) [{hit_count} AI hit{'s' if hit_count > 1 else ''}]: {sample}"
+        articles.append({
+            "title": title,
+            "date": _parse_tweet_date(best.get("createdAt", "")),
+            "summary": "",
+            "link": link,
+        })
+
+    print(f"  Found {len(articles)} new handles with AI content.", file=sys.stderr)
+    return articles
+
+
 # --- Formatting ---
 
 def format_markdown(results: dict[str, list[dict]]) -> str:
@@ -608,6 +700,20 @@ def main():
             _time.sleep(2)  # rate limit courtesy
     else:
         print("bird CLI not found — skipping X accounts", file=sys.stderr)
+
+    # --- X Discovery: weekly For You feed scan ---
+    discovery_config = config.get("x_discovery", {})
+    if (
+        discovery_config.get("enabled")
+        and Path(BIRD_CLI).exists()
+        and should_fetch("_x_discovery", discovery_config.get("cadence", "weekly"), state)
+    ):
+        discovery_results = fetch_x_discovery(config, discovery_config)
+        if discovery_results:
+            results["X Discovery (For You)"] = discovery_results
+        state["_x_discovery"] = NOW.isoformat()
+    elif discovery_config.get("enabled"):
+        skipped.append("X Discovery")
 
     save_state(state)
 
