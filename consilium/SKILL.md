@@ -179,10 +179,10 @@ uv tool run consilium "My plan: migrate the monolith to microservices over 6 mon
 --decompose             # Break complex question into sub-questions first
 --rounds 3              # Rounds for --discuss or --socratic (0 = unlimited)
 --followup              # Interactive drill-down after judge synthesis (council only)
---practical             # Constrain to actionable triggers, no philosophy
+# --practical           # NOT IMPLEMENTED — documented but never built
+# --named              # NOT IMPLEMENTED — documented but never built
 
 # Output
-# --named              # NOT IMPLEMENTED — documented but never built
 --format json           # Machine-parseable output (council mode only)
 --share                 # Upload to secret Gist
 --quiet                 # Suppress live output
@@ -223,7 +223,7 @@ Available domains: `banking`, `healthcare`, `eu`, `fintech`, `bio`
 | `--rounds` | no | no | yes | yes | no | no | no |
 | `--motion` | no | no | no | no | yes | no | no |
 | `--roles` | no | no | no | no | no | no | yes |
-| `--practical` | yes | yes | yes | yes | yes | yes | yes |
+| ~~`--practical`~~ | — | — | — | — | — | — | — |
 | ~~`--named`~~ | — | — | — | — | — | — | — |
 | `--decompose` | yes | no | no | no | no | no | no |
 
