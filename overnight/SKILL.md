@@ -1,12 +1,12 @@
 ---
 name: overnight
-description: "Check overnight OpenCode queue results and manage tasks. 'overnight', 'overnight results', 'queue status'"
+description: "Check overnight queue results and manage tasks. 'overnight', 'overnight results', 'queue status'"
 user_invocable: true
 ---
 
 # Overnight Queue
 
-Check results from the nightly OpenCode queue and manage tasks.
+Check results from the nightly queue and manage tasks.
 
 ## Triggers
 
@@ -17,17 +17,27 @@ Check results from the nightly OpenCode queue and manage tasks.
 ## Architecture
 
 - **Queue file:** `~/notes/opencode-queue.yaml`
-- **Runner:** `~/scripts/opencode-queue.py` (uv script, uses GLM-5)
+- **Runner:** `~/scripts/opencode-queue.py` (uv script, supports OpenCode + Gemini CLI backends)
 - **Shell wrapper:** `~/scripts/opencode-nightly.sh`
 - **LaunchAgent:** `com.terry.opencode-nightly` — runs at **10pm HKT daily**
-- **Output:** `~/notes/opencode-runs/<date>/` — one dir per run, task subdirs with stdout.txt + metadata.json
-- **Cron logs:** `~/notes/opencode-runs/cron-<date>.log`
+- **Output:** `~/.cache/opencode-runs/<date>/` — one dir per run, task subdirs with stdout.txt + metadata.json
+- **Rotation:** Runs older than 7 days auto-deleted at start of each run
+- **Cron logs:** `~/.cache/opencode-runs/cron-<date>.log`
+
+## Backends
+
+| Backend | When | Cost | Web access |
+|---------|------|------|------------|
+| `opencode` (default) | Code review, file analysis, local tasks | Free (GLM-5) | No |
+| `gemini` | Web scraping, news, anything needing URLs | Free (1500 RPD) | Yes |
+
+Set `backend: gemini` on any task in the queue YAML.
 
 ## Default: Show Last Run Summary
 
 ```bash
 # Find latest run directory
-LATEST=$(ls -dt ~/notes/opencode-runs/2026-*/ 2>/dev/null | head -1)
+LATEST=$(ls -dt ~/.cache/opencode-runs/2026-*/ 2>/dev/null | head -1)
 ```
 
 1. Read `$LATEST/summary.md` for pass/fail overview
@@ -49,8 +59,8 @@ Read stdout.txt from each task subdirectory in the latest run. Present findings 
 
 Walk the user through adding a task to `~/notes/opencode-queue.yaml`:
 
-1. Ask for: name, title, working_dir, timeout, prompt
-2. Remind: prompts must be <4K chars, use file paths not inline content
+1. Ask for: name, title, backend (opencode/gemini), working_dir, timeout, prompt
+2. Remind: OpenCode prompts must be <4K chars, use file paths not inline content
 3. Append to the YAML under the appropriate section
 4. Verify with: `uv run ~/scripts/opencode-queue.py --list`
 
@@ -65,26 +75,30 @@ uv run ~/scripts/opencode-queue.py --task garp-drill
 
 # Dry run
 uv run ~/scripts/opencode-queue.py --dry-run
+
+# List tasks
+uv run ~/scripts/opencode-queue.py --list
 ```
 
 ## Current Enabled Tasks
 
-| Task | What it does | LLM value-add |
-|------|-------------|---------------|
-| nightly-git-review | Review commits across 7 repos | Judges code quality |
-| claude-md-freshness | Spot-check CLAUDE.md paths | Semantic accuracy check |
-| weekly-security-scan | CVE + secrets scan | Triages findings |
-| skill-health-check | Verify SKILL.md exists | Minimal — could be a script |
-| hkma-sfc-sweep | Regulatory developments | Relevance filtering |
-| ai-news-digest | AI news summary | Signal vs noise |
-| vault-health-check | Broken links, overdue TODOs | Judges staleness |
-| garp-drill | Generate 5 practice questions | Core LLM task |
-| solutions-dedup | Find duplicate/stale docs | Semantic similarity |
-| morning-dashboard | Synthesize all outputs | Prioritization |
+| Task | Backend | What it does |
+|------|---------|-------------|
+| nightly-git-review | opencode | Review commits across 7 repos |
+| claude-md-freshness | opencode | Spot-check CLAUDE.md paths |
+| weekly-security-scan | opencode | CVE + secrets scan |
+| skill-health-check | opencode | Verify SKILL.md exists |
+| hkma-sfc-sweep | **gemini** | Regulatory developments (needs web) |
+| ai-news-digest | **gemini** | AI news summary (needs web) |
+| vault-health-check | opencode | Broken links, overdue TODOs |
+| garp-drill | opencode | Generate 5 practice questions |
+| solutions-dedup | opencode | Find duplicate/stale docs |
+| morning-dashboard | opencode | Synthesize all outputs |
 
 ## Notes
 
-- GLM-5 is free and unlimited — no cost concern for overnight runs
-- OpenCode output capture is unreliable — check session JSON if stdout.txt is empty
-- Queue runs sequentially (not parallel) — total runtime ~25-40 min for 10 tasks
-- LaunchAgent runs even if Mac is asleep (wakes for scheduled tasks)
+- GLM-5 is free and unlimited — no cost concern
+- Gemini CLI: ~4-8 requests/night, well within 1500 RPD limit
+- OpenCode uses lean config (`OPENCODE_HOME=~/.opencode-lean`) — no MCPs, faster startup
+- Queue runs sequentially — total runtime ~25-40 min for 10 tasks
+- `uv run --python 3.13` in LaunchAgent to avoid system Python fallback
