@@ -32,7 +32,7 @@ Terry is joining Capco as Principal Consultant / AI Solution Lead, advising bank
 - Appends delta to `[[AI News Log]]` (`~/notes/AI News Log.md`)
 - State in `~/.cache/ai-news-state.json`
 - Log auto-rotates at 500 lines → `AI News Log - Archive YYYY-MM.md`
-- Health check: `uv run ~/skills/ai-news/ai-news-daily.py --check-sources`
+- Health check: `ai-news check`
 
 **`/ai-news`** (pull-based, conversational):
 - Terry asks whenever he feels like it
@@ -150,17 +150,10 @@ This prevents the "did we really check all sources?" question.
 `ai-digest.py` — monthly evidence-grounded synthesis of AI developments. Reads archived article full text from the cron's article cache and clusters by theme.
 
 ```bash
-# Current month
-uv run ~/skills/ai-news/ai-digest.py
-
-# Specific month
-uv run ~/skills/ai-news/ai-digest.py --month 2026-02
-
-# Preview themes only (no LLM synthesis pass)
-uv run ~/skills/ai-news/ai-digest.py --dry-run
-
-# Limit themes
-uv run ~/skills/ai-news/ai-digest.py --themes 5
+ai-news digest                    # Current month
+ai-news digest --month 2026-02    # Specific month
+ai-news digest --dry-run           # Preview themes only
+ai-news digest --themes 5          # Limit to 5 themes
 ```
 
 **Pipeline:**
