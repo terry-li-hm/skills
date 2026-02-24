@@ -98,6 +98,15 @@
 
 # === AI & Tech ===
 
+- name: Naval (Navalmanack)
+  type: youtube
+  handle: "@NavalR"
+  vault_path: AI & Tech/Naval
+  category: ai
+  # Naval Ravikant + Nivi. Infrequent (~few/year) but high-signal.
+  # Founder/investor framing on AI, leverage, entrepreneurship.
+  # Useful as client-language calibration for banking CxO conversations.
+
 - name: Lex Fridman
   type: youtube
   handle: "@lexfridman"
