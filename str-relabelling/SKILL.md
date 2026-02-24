@@ -10,8 +10,10 @@ user_invocable: true
 
 - **Handover doc:** `[[STR Relabelling Handover]]`
 - **Progress note:** `[[STR Relabelling Implementation Progress]]`
-- **Local repo:** `~/code/str-relabelling/`
-- **Implementation spec:** `~/code/str-relabelling/docs/implementation-spec.md`
+- **Local repo:** `~/code/aml-triage-model/` (renamed from str-relabelling)
+- **STR relabelling scripts:** `~/code/aml-triage-model/str-relabelling/`
+- **Hibernation analysis SQL:** `~/code/aml-triage-model/hibernation-analysis/`
+- **Implementation spec:** `~/code/aml-triage-model/str-relabelling/docs/implementation-spec.md`
 - **Pipeline test gist:** https://gist.github.com/terry-li-hm/159ea906597fd4c2a7aaaf2166c8ed08
 
 ## Deployment Checklist
