@@ -1174,6 +1174,21 @@ x_accounts:
     focus: AI compute, research trends, trajectory
     tier: 2
 
+  - handle: "@_philschmid"
+    name: Phil Schmid
+    focus: Hugging Face, applied ML engineering, agent patterns
+    tier: 2
+
+  - handle: "@axtonliu"
+    name: Axton Liu
+    focus: Claude Code power user, context engineering, Chinese AI practitioner
+    tier: 2
+
+  - handle: "@svpino"
+    name: Santiago Valdarrama
+    focus: ML education, Claude Code skills, practical AI
+    tier: 2
+
   # Non-AI thought leaders (cross-domain radar)
   - handle: "@morganhousel"
     name: Morgan Housel
