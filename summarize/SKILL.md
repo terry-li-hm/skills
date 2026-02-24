@@ -68,6 +68,10 @@ PYEOF
 
 For batch YouTube channel digests, use `/digest` instead.
 
+### Non-YouTube Video / Podcasts (Bilibili, Xiaoyuzhou, Apple Podcasts, X videos)
+
+See `video-digest` skill for the full Whisper transcription pipeline. Covers subtitle extraction, Groq Whisper API, audio segmentation for files over 25MB, and platform-specific workarounds (Bilibili API for 412s, Xiaoyuzhou `__NEXT_DATA__` extraction).
+
 ### WeChat Articles
 
 Jina Reader and WebFetch both hit WeChat's CAPTCHA wall. Use `agent-browser eval` directly:

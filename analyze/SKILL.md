@@ -34,7 +34,11 @@ Universal entry point for anything user shares — URL or pasted content. Detect
 | `linkedin.com/in/*` | profile | Lightweight |
 | `*.substack.com`, `medium.com/*`, `*blog*` | article | Specialized |
 | `arxiv.org/*`, `papers.*`, `*.pdf` | paper | Specialized |
-| `youtube.com/*`, `youtu.be/*` | video | Lightweight |
+| `youtube.com/*`, `youtu.be/*` | video | → `video-digest` skill |
+| `bilibili.com/*`, `b23.tv/*` | video | → `video-digest` skill |
+| `xiaoyuzhoufm.com/*` | podcast | → `video-digest` skill |
+| `podcasts.apple.com/*` | podcast | → `video-digest` skill |
+| `.mp3`, `.mp4`, `.m4a` direct links | media | → `video-digest` skill |
 | Company career/about pages | company | Lightweight |
 | Everything else | unknown | Check content, then fallback |
 
@@ -58,7 +62,9 @@ Worth Noting check first:
 | Contrarian or well-argued | Beginner explainers |
 | Actionable insights | News without insight |
 
-If NOTE, create:
+If NOTE, choose depth based on content substance:
+
+**Standard** (most articles) — quick vault note:
 ```yaml
 ---
 source: [URL or "pasted content"]
@@ -73,6 +79,58 @@ tags: []
 
 ## My Take
 [2-4 sentences: why this matters, connections, critique]
+```
+
+**Deep** (use when: content is long-form, technical, or user says "analyze deeply" / "deep analysis") — multi-dimensional breakdown. Scan all dimensions but only output those with actual content:
+
+```yaml
+---
+source: [URL or "pasted content"]
+type: article
+author: [if known]
+date_read: [today]
+tags: []
+analysis_depth: deep
+---
+
+## Summary
+[1-3 sentence core thesis]
+
+## Core Arguments
+- **Thesis**: [Main argument or finding]
+- **Evidence**: [Supporting data or reasoning]
+- **Strength**: [How convincing? What's missing?]
+
+## Tools & Methods
+- [Tools, frameworks, or techniques mentioned — what they are, how applied]
+- [Relevance to current work/projects]
+
+## Workflow Ideas
+- [Process improvements or automation opportunities from the content]
+
+## Data & Numbers
+- [Key metrics, trends, gaps in data]
+
+## Risks & Warnings
+- [Author's stated risks + blind spots + counter-arguments]
+
+## Resources
+- [Tools/APIs, people worth following, further reading mentioned]
+
+## Mental Model Shifts
+- **Before**: [Common assumption]
+- **After**: [New understanding from this content]
+
+## Action Items
+
+### Quick wins (under 30 min)
+- [ ] [Action] — Impact: high/med/low | Effort: easy
+
+### Deeper work (1-3 hours)
+- [ ] [Action] — Impact: high/med/low | Effort: medium
+
+### Exploration (needs validation)
+- [ ] [Action] — Impact: uncertain | Effort: hard
 ```
 
 If SKIP:
@@ -148,24 +206,8 @@ tags: []
 [Why saving this profile - interview prep, networking, etc.]
 ```
 
-**Videos:**
-```yaml
----
-source: [URL]
-type: video
-fetched_at: [timestamp]
-title: [video title]
-channel: [creator]
-duration: [length]
-tags: []
----
-
-## Summary
-[Key points from transcript if available, otherwise from title/description]
-
-## Timestamps
-[Notable sections if identifiable]
-```
+**Videos / Podcasts:**
+Route to `video-digest` skill for full transcription + structured digest. That skill handles YouTube, Bilibili, Xiaoyuzhou, Apple Podcasts, X video tweets, and direct audio files. After transcript is produced, apply deep analysis framework above if user requests analysis (not just transcription).
 
 ### Tier 3: Generic Fallback
 
