@@ -25,14 +25,14 @@ Terry is joining Capco as Principal Consultant / AI Solution Lead, advising bank
 
 ## Architecture
 
-**Cron** (silent index builder, 6:30 PM HKT daily, `~/skills/ai-news/ai-news-daily.py`):
+**Cron** (silent index builder, 6:30 PM HKT daily, `lustro fetch`):
 - Fetches **all sources** (Tier 1 + Tier 2) + **X accounts** via `bird --json`, cadence-gated — **zero LLM tokens**
 - Tier controls **display priority**, not fetch: Tier 1 always surfaced, Tier 2 mentioned only if noteworthy or in deep mode
 - Date-based + title-prefix dedup, cadence-aware skipping
 - Appends delta to `[[AI News Log]]` (`~/notes/AI News Log.md`)
-- **Weekly X Discovery:** scans `bird home` (For You feed), filters for AI keywords, surfaces new handles not already tracked — logged as `### X Discovery (For You)` section
-- State in `~/.cache/ai-news-state.json`
+- State in `~/.cache/lustro/state.json`
 - Log auto-rotates at 500 lines → `AI News Log - Archive YYYY-MM.md`
+- Config: `~/.config/lustro/sources.yaml` + `~/.config/lustro/config.yaml`
 - Health check: `lustro check`
 
 **`/ai-news`** (pull-based, conversational):
@@ -84,14 +84,14 @@ Only if the discussion surfaced something worth preserving:
 
 ## Sources
 
-Defined in `sources.yaml` in this skill directory. Key high-signal sources for perspective:
+Defined in `~/.config/lustro/sources.yaml`. Key high-signal sources for perspective:
 - **Import AI** (Jack Clark) — policy + research framing, weekly
 - **Interconnects** (Nathan Lambert) — scaling, alignment, "what's next", 2x/week
 - **Simon Willison** — hands-on LLM practitioner, daily
 - **机器之心 / 量子位** — Chinese AI ecosystem, daily
 - **Bank tech blogs** (Layer 6, Sardine, Plaid) — peer patterns, biweekly/weekly
 
-Full source list with cadence and RSS URLs in `sources.yaml`.
+Full source list with cadence and RSS URLs in `~/.config/lustro/sources.yaml`.
 
 ## WeChat Articles
 
@@ -113,7 +113,7 @@ When user says "deep", "full", "all sources":
 - Surface **all** log entries (Tier 1 + Tier 2), not just Tier 1 highlights
 - Verify X account coverage in cron log (now fetched by cron daily)
 - WeChat articles via `summarize` CLI (live fetch, bypasses CAPTCHA)
-- See `sources.yaml` for full list
+- See `~/.config/lustro/sources.yaml` for full list
 
 ### Deep Mode Checklist
 
@@ -126,7 +126,7 @@ bird user-tweets <handle> -n 5 --plain
 Tier 1: `@karpathy`, `@steipete`, `@emollick`, `@eugeneyan`
 Tier 2: `@brendangregg`, `@rauchg`, `@shl`, `@atroyn`, `@dotey`, `@danshipper`, `@jerryjliu0`, `@AndrewYNg`, `@ylecun`, `@EpochAIResearch`, `@_philschmid`, `@axtonliu`, `@svpino`, `@morganhousel`, `@shaneparrish`, `@benjaminwfelix`
 
-**3. X Discovery review** — check `### X Discovery (For You)` section in log. Interesting new handles → add to `sources.yaml` x_accounts. Keywords configurable in `sources.yaml` `x_discovery` section.
+**3. X Discovery review** — check `### X Discovery (For You)` section in log. Interesting new handles → add to `~/.config/lustro/sources.yaml` x_accounts. Keywords configurable in `sources.yaml` `x_discovery` section.
 
 **4. WeChat articles:**
 - WeWe RSS feeds are in the cron (`localhost:4000`) — check log entries
@@ -150,7 +150,7 @@ This prevents the "did we really check all sources?" question.
 
 ## Monthly Thematic Digest
 
-`ai-digest.py` — monthly evidence-grounded synthesis of AI developments. Reads archived article full text from the cron's article cache and clusters by theme.
+Monthly evidence-grounded synthesis of AI developments. Reads archived article full text from the cron's article cache and clusters by theme.
 
 ```bash
 lustro digest                    # Current month
@@ -165,15 +165,16 @@ lustro digest --themes 5          # Limit to 5 themes
 3. Pass 2: Per-theme evidence synthesis (claims, quotes, echo count, banking implications)
 4. Writes to `~/notes/AI & Tech/YYYY-MM AI Thematic Digest.md`
 
-**Prerequisites:** Cron must have run with article archival enabled (default). Check `~/.cache/ai-news-articles/` for cached articles.
+**Prerequisites:** Cron must have run with article archival enabled (default). Check `~/.cache/lustro/articles/` for cached articles.
 
 **Cost:** ~$0.05-0.15/month at Gemini Flash rates.
 
 ## Files
 
-- Sources config: `sources.yaml`
-- Cron script: `ai-news-daily.py`
-- Thematic digest: `ai-digest.py`
+- Package source: `~/code/lustro` ([GitHub](https://github.com/terry-li-hm/lustro))
+- Sources config: `~/.config/lustro/sources.yaml`
+- App config: `~/.config/lustro/config.yaml`
 - Log: `~/notes/AI News Log.md`
-- Article cache: `~/.cache/ai-news-articles/`
-- State: `~/.cache/ai-news-state.json`
+- Article cache: `~/.cache/lustro/articles/`
+- State: `~/.cache/lustro/state.json`
+- LaunchAgent: `~/agent-config/launchd/com.terry.ai-news-daily.plist`
