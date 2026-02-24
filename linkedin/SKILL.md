@@ -81,7 +81,9 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 - Specific > generic (name the committee, the system, the failure mode)
 - Build on their framework, don't compete with it
 - No hashtags, no "great post!", no engagement bait
-- British spelling (HK standard)
+- Spelling: match the poster's audience (US spelling for US-based authors, British for UK/HK/APAC)
+- Plain text only — LinkedIn comments don't support markdown bold/italic
+- Aim for ~50-70 words. Mobile truncation is real; short + substantive beats long + thorough
 - 4-8 sentences max — a comment, not a post
 
 **Structure:**
@@ -94,7 +96,9 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 ### 6. Review
 
 **For high-value targets** (senior FS/AI practitioners, potential Capco clients, 1K+ followers):
-- Offer consilium `--quick` review (~$0.10)
+- Offer consilium `--quick` review (~$0.10) with full post context (verbatim text, all comments, author background)
+- The first quick council should always have the actual post — don't summarise. Fetch via agent-browser first.
+- For comments worth extra polish: `--deep` (~$0.90) catches logical gaps quick misses (causal direction, platform formatting, over-polishing)
 - Key criteria: tone calibration, overstepping risk, engagement likelihood
 
 **For routine engagement:**
