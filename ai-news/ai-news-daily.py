@@ -12,8 +12,7 @@
 """Daily AI news fetcher — runs via cron, zero LLM tokens.
 
 Fetches Tier 1 sources (RSS preferred, web scraping fallback),
-dedupes by date + title prefix, appends delta to AI News Log,
-sends summary to Telegram.
+dedupes by date + title prefix, appends delta to AI News Log.
 
 Also archives full article text for Tier 1 sources (via trafilatura)
 to ~/.cache/ai-news-articles/ for downstream thematic digest synthesis.
@@ -29,6 +28,7 @@ Cron: 30 18 * * * (6:30 PM HKT daily)
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -61,6 +61,7 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AI-News-Bot/1.0"
 }
 TIMEOUT = 15
+BIRD_CLI = "/opt/homebrew/bin/bird"
 
 
 # --- State management ---
@@ -181,6 +182,15 @@ def _parse_feed_date(entry) -> str:
         if parsed:
             return f"{parsed.tm_year}-{parsed.tm_mon:02d}-{parsed.tm_mday:02d}"
     return ""
+
+
+def _parse_tweet_date(date_str: str) -> str:
+    """Parse bird's date format: 'Fri Feb 20 23:18:59 +0000 2026'."""
+    try:
+        dt = datetime.strptime(date_str, "%a %b %d %H:%M:%S %z %Y")
+        return dt.strftime("%Y-%m-%d")
+    except (ValueError, TypeError):
+        return ""
 
 
 def _extract_summary(entry) -> str:

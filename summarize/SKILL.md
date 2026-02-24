@@ -83,9 +83,23 @@ This returns the complete article text in one call — no scrolling or screensho
 Short URLs (`/s/ABC123`) are more stable than long URLs (`?__biz=...`).
 Fallback: `summarize` CLI with `--extract-only`, or search for mirror on zhihu.com/163.com/csdn.net.
 
+### Taobao / Tmall
+
+Jina Reader and WebFetch both get blocked (login wall). Use `agent-browser --profile` with JS login:
+
+```bash
+agent-browser --profile -- open "https://e.tb.cn/SHORT_CODE"
+# click command hangs on Taobao — use JS eval:
+agent-browser eval "document.querySelector('button.fm-submit').click(); 'clicked'"
+sleep 3
+agent-browser eval "document.body.innerText.substring(0, 3000)"
+```
+
+Session persists for subsequent product pages. Full product analysis framework: see `taobao` reference skill.
+
 ### Login-required Sites
 
-Always need browser automation: LinkedIn, X/Twitter, WhatsApp Web, banking sites.
+Always need browser automation: LinkedIn, X/Twitter, WhatsApp Web, Taobao/Tmall, banking sites.
 
 ### Xiaohongshu (XHS)
 
