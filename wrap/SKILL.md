@@ -24,6 +24,7 @@ Answer these questions honestly during the scan. If any answer is yes, there's a
 4. **Did something work surprisingly well?** Worth noting what made it work
 5. **Did the same issue come up more than once?** Repetition = pattern
 6. **Did Terry choose X over Y without explaining?** Implicit preference worth capturing
+7. **Did we use a skill and learn something about the workflow?** Skill-specific learnings should go back into the skill, not MEMORY.md
 
 ## Workflow
 
@@ -87,6 +88,7 @@ Don't dump everything into MEMORY.md. Route to the store that fits:
 | Workflow preference | Relevant vault note, or today's daily note if no note exists |
 | Cross-session agent context | MEMORY.md (`~/.claude/projects/-Users-terry/memory/MEMORY.md`) |
 | General insight | Relevant vault note, or `~/docs/solutions/` |
+| Skill workflow improvement | The skill's `SKILL.md` directly (e.g. linkedin, message, consilium) |
 | Activity-specific | Today's daily note |
 
 For `~/docs/solutions/`, create a simple markdown file in the appropriate category subdirectory. No YAML schema required — keep it lightweight. Just the gotcha, why it happens, and the fix.
