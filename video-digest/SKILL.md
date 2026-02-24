@@ -2,69 +2,66 @@
 name: video-digest
 description: Video/podcast URL to full transcript + structured digest. Bilibili, YouTube, Xiaoyuzhou, Apple Podcasts, X, direct audio.
 user_invocable: false
-source: Adapted from github.com/runesleo/x-reader (Feb 2026)
+source: Adapted from github.com/runesleo/x-reader (Feb 2026), rewritten for Gemini 3 Flash
 ---
 
 # Video & Podcast Digest
 
 Full transcription pipeline for video and podcast URLs. Called by `summarize` and `analyze` skills when media URLs are detected — not invoked directly.
 
+Uses **Gemini 3 Flash** for transcription + digest in a single API call. No Whisper, no segmentation, no second API key.
+
 ## When to Use
 
-Route here when the URL matches a media platform and the user wants content extraction (not just metadata). For YouTube transcripts with available subtitles, `summarize` can handle directly via `youtube-transcript-api`. This skill is for the full pipeline: no subtitles, non-YouTube platforms, or audio-only content.
+Route here when the URL matches a media platform and the user wants content extraction (not just metadata). For YouTube transcripts with available subtitles, `summarize` can handle directly via `youtube-transcript-api`. This skill is for: no subtitles, non-YouTube platforms, or audio-only content.
 
 ## Supported Platforms
 
-| Platform | Subtitles | Whisper | Notes |
-|----------|-----------|---------|-------|
-| YouTube | Yes (yt-dlp) | Yes | Prefer `youtube-transcript-api` in `summarize` first |
-| Bilibili | Yes (yt-dlp) | Yes | yt-dlp gets 412 — use Bilibili API for audio (Step 1d) |
-| X/Twitter | No | Yes | Video tweets only |
-| Xiaoyuzhou | No | Yes | `__NEXT_DATA__` extraction |
-| Apple Podcasts | No | Yes | Via yt-dlp |
-| Direct links (.mp3/.mp4/.m4a/.webm/.m3u8) | No | Yes | |
+| Platform | Subtitle path | Gemini path | Notes |
+|----------|---------------|-------------|-------|
+| YouTube | yt-dlp subtitles | Audio download → Gemini | Prefer `youtube-transcript-api` in `summarize` first |
+| Bilibili | yt-dlp subtitles | Bilibili API audio → Gemini | yt-dlp gets 412 — use Bilibili API (Step 1d) |
+| X/Twitter | N/A | Audio download → Gemini | Video tweets only |
+| Xiaoyuzhou | N/A | `__NEXT_DATA__` audio → Gemini | |
+| Apple Podcasts | N/A | yt-dlp audio → Gemini | |
+| Direct (.mp3/.mp4/.m4a/.webm) | N/A | File → Gemini | |
 
 ## Prerequisites
 
 ```bash
-brew install yt-dlp    # video download + subtitle extraction
-# ffmpeg already installed — audio conversion + segmentation
+brew install yt-dlp jq   # yt-dlp for download, jq for JSON parsing
+# ffmpeg already installed — audio conversion
 ```
 
-**Groq API key** (free at https://console.groq.com/keys):
+Gemini API key already in keychain (`gemini-api-key-secrets`). Retrieve:
 ```bash
-security add-generic-password -s "groq-api" -a "$(whoami)" -w "YOUR_KEY"
-```
-
-Retrieve in scripts:
-```bash
-GROQ_API_KEY=$(security find-generic-password -s "groq-api" -w 2>/dev/null)
+GEMINI_API_KEY=$(security find-generic-password -s "gemini-api-key-secrets" -w 2>/dev/null)
 ```
 
 ## Pipeline
 
 ### Step 0: Detect Media Type
 
-| URL Pattern | Type | Route |
-|-------------|------|-------|
-| `xiaoyuzhoufm.com/episode/` | Podcast | Step 1b |
-| `podcasts.apple.com` | Podcast | Step 1c |
-| `bilibili.com`, `b23.tv` | Video | Step 1d (Bilibili API) |
-| `.mp3`, `.m4a` direct link | Audio | Step 2b |
-| Other video URL | Video | Step 1a (subtitle extraction) |
+| URL Pattern | Route |
+|-------------|-------|
+| `xiaoyuzhoufm.com/episode/` | Step 1b (Xiaoyuzhou) |
+| `podcasts.apple.com` | Step 1c (Apple Podcasts) |
+| `bilibili.com`, `b23.tv` | Step 1d (Bilibili API) |
+| `.mp3`, `.m4a` direct link | Skip to Step 2 |
+| Other video URL | Step 1a (try subtitles, fallback audio) |
 
 ### Step 1a: Extract Subtitles (YouTube, generic)
 
 ```bash
-rm -f /tmp/media_sub*.vtt /tmp/media_audio.mp3 /tmp/media_transcript*.json /tmp/media_segment_*.mp3 2>/dev/null || true
+rm -f /tmp/media_sub*.vtt /tmp/media_audio.* /tmp/media_upload.* 2>/dev/null || true
 
 # YouTube (prefer English, fallback Chinese)
 yt-dlp --skip-download --write-auto-sub --sub-lang "en,zh-Hans" -o "/tmp/media_sub" "VIDEO_URL"
 ```
 
 Check: `ls /tmp/media_sub*.vtt 2>/dev/null`
-- Has subtitles: read VTT, skip to Step 3
-- No subtitles: Step 2a
+- Has subtitles: read VTT content, use directly for digest (Step 3) — no Gemini upload needed
+- No subtitles: download audio (Step 1e) then Step 2
 
 ### Step 1b: Xiaoyuzhou — Extract Audio URL
 
@@ -78,7 +75,7 @@ curl -L -o /tmp/media_audio.mp3 "$AUDIO_URL"
 ```
 
 If curl extraction empty: use `agent-browser` to render and extract.
-Then: Step 2b.
+Then: Step 2.
 
 ### Step 1c: Apple Podcasts — via yt-dlp
 
@@ -87,7 +84,7 @@ yt-dlp -f "ba[ext=m4a]/ba/b" --extract-audio --audio-format mp3 --audio-quality 
   -o "/tmp/media_audio.%(ext)s" "APPLE_PODCAST_URL"
 ```
 
-Then: Step 2b.
+Then: Step 2.
 
 ### Step 1d: Bilibili — API Direct Audio
 
@@ -113,9 +110,9 @@ curl -L -o /tmp/media_audio.m4s \
 ffmpeg -y -i /tmp/media_audio.m4s -acodec libmp3lame -q:a 5 /tmp/media_audio.mp3
 ```
 
-Then: Step 2b.
+Then: Step 2.
 
-### Step 2a: Download Audio (no subtitles)
+### Step 1e: Download Audio (no subtitles fallback)
 
 ```bash
 # --cookies-from-browser chrome helps bypass YouTube bot detection
@@ -123,88 +120,104 @@ yt-dlp --cookies-from-browser chrome -f "ba[ext=m4a]/ba/b" --extract-audio --aud
   -o "/tmp/media_audio.%(ext)s" "VIDEO_URL"
 ```
 
-### Step 2b: Check Size & Segment
+Then: Step 2.
+
+### Step 2: Upload to Gemini File API + Transcribe/Digest
+
+Single step — upload audio, then call generateContent with both the file and the digest prompt.
 
 ```bash
-FILE_SIZE=$(stat -f%z /tmp/media_audio.* 2>/dev/null)
-echo "File size: $FILE_SIZE bytes"
+GEMINI_API_KEY=$(security find-generic-password -s "gemini-api-key-secrets" -w 2>/dev/null)
+AUDIO_PATH="/tmp/media_audio.mp3"  # or whatever was downloaded
+MIME_TYPE=$(file -b --mime-type "${AUDIO_PATH}")
+NUM_BYTES=$(wc -c < "${AUDIO_PATH}" | tr -d ' ')
+
+# 1. Resumable upload — get upload URL
+curl "https://generativelanguage.googleapis.com/upload/v1beta/files" \
+  -H "x-goog-api-key: $GEMINI_API_KEY" \
+  -D /tmp/media_upload_headers.tmp \
+  -H "X-Goog-Upload-Protocol: resumable" \
+  -H "X-Goog-Upload-Command: start" \
+  -H "X-Goog-Upload-Header-Content-Length: ${NUM_BYTES}" \
+  -H "X-Goog-Upload-Header-Content-Type: ${MIME_TYPE}" \
+  -H "Content-Type: application/json" \
+  -d '{"file": {"display_name": "media_audio"}}' 2>/dev/null
+
+UPLOAD_URL=$(grep -i "x-goog-upload-url: " /tmp/media_upload_headers.tmp | cut -d" " -f2 | tr -d "\r")
+
+# 2. Upload the file
+curl "${UPLOAD_URL}" \
+  -H "Content-Length: ${NUM_BYTES}" \
+  -H "X-Goog-Upload-Offset: 0" \
+  -H "X-Goog-Upload-Command: upload, finalize" \
+  --data-binary "@${AUDIO_PATH}" 2>/dev/null > /tmp/media_file_info.json
+
+FILE_URI=$(jq -r ".file.uri" /tmp/media_file_info.json)
+
+# 3. Generate transcript + digest in one call
+curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent" \
+  -H "x-goog-api-key: $GEMINI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d '{
+    "contents": [{
+      "parts": [
+        {"text": "PROMPT_HERE"},
+        {"file_data": {"mime_type": "'"${MIME_TYPE}"'", "file_uri": "'"${FILE_URI}"'"}}
+      ]
+    }]
+  }' 2>/dev/null > /tmp/media_response.json
+
+jq -r ".candidates[0].content.parts[0].text" /tmp/media_response.json
 ```
 
-- 25MB or under: Step 2c directly
-- Over 25MB: segment first
+#### Prompts
 
-```bash
-DURATION=$(ffprobe -v error -show_entries format=duration -of csv=p=0 /tmp/media_audio.* | head -1)
-SEGMENT_SEC=600
-SEGMENTS=$(python3 -c "import math; print(math.ceil(float('$DURATION')/$SEGMENT_SEC))")
-
-for i in $(seq 0 $((SEGMENTS-1))); do
-  START=$((i * SEGMENT_SEC))
-  ffmpeg -y -i /tmp/media_audio.* -ss $START -t $SEGMENT_SEC -acodec libmp3lame -q:a 5 \
-    "/tmp/media_segment_${i}.mp3" 2>/dev/null
-done
+**For pure transcript:**
+```
+Generate a verbatim transcript of this audio. Output the full text only, no timestamps, no commentary.
+If the audio is in Chinese, transcribe in Chinese. If English, transcribe in English.
 ```
 
-Transcribe each segment **sequentially** (parallel triggers Groq 524 timeout). Concatenate results.
-
-### Step 2c: Whisper Transcription
-
-```bash
-GROQ_API_KEY=$(security find-generic-password -s "groq-api" -w 2>/dev/null)
-if [ -z "$GROQ_API_KEY" ]; then
-  echo "No Groq API key in keychain. Add: security add-generic-password -s groq-api -a \$(whoami) -w YOUR_KEY"
-  exit 1
-fi
-
-curl -s -X POST "https://api.groq.com/openai/v1/audio/transcriptions" \
-  -H "Authorization: Bearer $GROQ_API_KEY" \
-  -H "Content-Type: multipart/form-data" \
-  -F "file=@AUDIO_FILE" \
-  -F "model=whisper-large-v3-turbo" \
-  -F "response_format=verbose_json" \
-  -F "language=zh" \
-  > /tmp/media_transcript.json
-
-python3 -c "import json; print(json.load(open('/tmp/media_transcript.json'))['text'])"
+**For transcript + digest (default):**
 ```
+Listen to this audio and produce:
 
-| Model | Speed | Use |
-|-------|-------|-----|
-| `whisper-large-v3-turbo` | 10x realtime | Default |
-| `whisper-large-v3` | 5x realtime | Noisy/professional content |
+1. TRANSCRIPT: Full verbatim transcript in the original language.
 
-Language: `zh` (Chinese), `en` (English), or omit for auto-detect.
-
-### Step 3: Structured Digest
-
-**Short content (under 20 min):**
-- Overview (1-2 sentences)
-- Key Points (3-5 bullets)
-- Notable Quotes (if any)
+2. DIGEST:
+- Title and duration
+- Overview (2-3 sentences)
+- Key Points (bullet points, dense)
+- Notable Quotes (with approximate timestamps if possible)
 - Action Items (if applicable)
 
-**Long content (20+ min):**
-- Overview (2-3 sentences: who discussed what)
-- Chapter Summary (segmented by topic shift, 2-3 sentences each)
-- Key Points (5-8 bullets)
-- Notable Quotes
-- Action Items (if applicable)
+For content over 20 minutes, add a Chapter Summary section segmented by topic shift.
+Output the transcript first, then the digest.
+```
+
+### Step 3: Format Output
+
+If subtitles were found in Step 1a, summarize them directly in-context (no API call needed). Otherwise, use the Gemini response from Step 2.
 
 ## Error Handling
 
 | Problem | Fix |
 |---------|-----|
-| No subtitles + no Groq key | Prompt user to add key to keychain |
-| Audio over 25MB | ffmpeg segment at 10min intervals, transcribe sequentially |
-| Podcast over 2 hours | Warn + confirm before proceeding |
-| Groq 524 timeout | Never parallelize — sequential only, 5-8s sleep between segments |
-| Groq 429 rate limit | 7200s/hour rolling window. Wait for `retry-after` header |
+| No Gemini key in keychain | `security find-generic-password -s "gemini-api-key-secrets" -w` — check credential-isolation docs |
+| Upload fails (413) | Shouldn't happen — Gemini File API handles large files. If it does, compress audio: `ffmpeg -i input -acodec libmp3lame -q:a 7 output.mp3` |
+| Gemini rate limit (429) | Free tier: 1500 req/day. Wait and retry |
 | yt-dlp Bilibili 412 | Use Bilibili API (Step 1d) |
 | yt-dlp YouTube bot detection | Add `--cookies-from-browser chrome` |
+| Xiaoyuzhou curl extraction empty | Use `agent-browser` to render page |
 | Spotify | Not supported (DRM). Tell user |
+| Podcast over 2 hours | Warn + confirm before proceeding (cost: ~$0.05-0.10 for long audio) |
 
-## Groq Whisper Limits
+## Gemini 3 Flash Limits
 
-- Max 25MB per request
-- Free tier: 7200 seconds of audio/hour (~2 hours), ~20 hours/day
-- Formats: mp3, mp4, mpeg, mpga, m4a, wav, webm
+- Model: `gemini-3-flash-preview`
+- Pricing: $0.50/$3 per Mtok (input/output)
+- Context: 1M tokens input, 64K output
+- Audio: native multimodal input, no separate transcription step
+- File API: files persist 48 hours, resumable upload protocol
+- Free tier: 1500 requests/day
