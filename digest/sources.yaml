@@ -78,6 +78,15 @@
   # PKU + Columbia, ex-JPMorgan IB. Macro economics, business case studies,
   # financial explainers. Chinese-language. 2.3M YouTube / 5M+ Bilibili.
 
+- name: Ray Dalio
+  type: blog
+  url: https://raydalio.substack.com
+  rss_url: https://raydalio.substack.com/feed
+  vault_path: Finance/Ray Dalio
+  category: finance
+  # Principled Perspectives. Macro cycles, geopolitics, world order.
+  # New Substack (Feb 2025). Free tier only.
+
 - name: Morgan Housel
   type: blog
   url: https://collabfund.com/blog/authors/morgan/
