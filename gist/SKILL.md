@@ -16,7 +16,7 @@ All gists MUST be secret (`--public=false`). Never create public gists.
 gh gist create --public=false -f <filename> <filepath> -d "<description>"
 ```
 
-If content is generated (not from a file), write to `/tmp/<filename>` first, then create from that path.
+**Always write content to `/tmp/<filename>` first, then create from that path.** Never pipe content via `<<<`, `printf`, or `echo` — zsh escapes `!` and other metacharacters even in single quotes, resulting in `boss\!` instead of `boss!` in the gist.
 
 ### Update
 
@@ -29,10 +29,10 @@ gh gist delete <id> --yes
 gh gist create --public=false -f <filename> <filepath> -d "<description>"
 ```
 
-Always verify after update:
+Always verify after update via API (not `gh gist view`, which can also escape characters):
 
 ```bash
-gh gist view <new-id> -f <filename> | head -10
+gh api gists/<new-id> --jq '.files["<filename>"].content'
 ```
 
 ### List active gists
