@@ -71,17 +71,14 @@ This feeds `/daily` — by EOD the note is already populated. Don't editorialize
 
 ```markdown
 # NOW
-<!-- Max 15 lines. Overwritten entirely at each /wrap. -->
-<!-- If this file is >24h old, treat as stale. -->
+<!-- Max 15 lines. Full overwrite at each /wrap. Stale after 24h. -->
+<!-- Blockers live in TODO.md — don't duplicate here. -->
 
-## Active (last session)
-- [What you were literally working on — 1-3 pointers with links to canonical notes]
+## Resume point
+- [What you were doing + exact next step to pick up — with links to canonical notes]
 
 ## Running (if any)
 - [PIDs, log paths, resume commands for active background processes]
-
-## Blocked/Waiting (if any)
-- [External dependencies — deliveries, approvals, DNS propagation]
 ```
 
 **Project tracker update:** If the session advanced a project that has a canonical tracker note (e.g. `[[Waking Up Transcription Progress]]`, `[[Capco Transition]]`), update that note with current status. Tracker notes are what `/morning` and fresh sessions reference for real context — NOW.md just points to them.
