@@ -20,8 +20,8 @@ A checkpoint that looks at the **whole work day** as a unit. `/wrap` handles ind
 ## What This Is NOT
 
 - Not a session wrap (that's `/wrap`)
-- Not the daily close (that's `/daily` — handles tomorrow preview, WORKING.md reset, bedtime mood)
-- Does not reset WORKING.md or write the Tomorrow section
+- Not the daily close (that's `/daily` — handles tomorrow preview, bedtime mood)
+- Does not write the Tomorrow section
 
 ## Workflow
 
@@ -58,7 +58,7 @@ A checkpoint that looks at the **whole work day** as a unit. `/wrap` handles ind
 
 6. **TODO sweep** — quick scan: anything completed today that should be marked in `~/notes/TODO.md`? Any new commitments? Same as wrap's TODO sweep but day-scoped.
 
-7. Done. No WORKING.md reset, no tomorrow preview — `/daily` handles those before bed.
+7. Done. No tomorrow preview — `/daily` handles that before bed.
 
 ## Output
 

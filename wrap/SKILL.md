@@ -30,7 +30,7 @@ Answer these questions honestly during the scan. If any answer is yes, there's a
 
 1. **TODO sweep** — FIRST, before anything else. Check if anything done this session should be marked in `~/notes/TODO.md`. This is mechanical and must not be skipped.
 2. **Session log** — ALWAYS append a summary block to today's daily note (`~/notes/Daily/YYYY-MM-DD.md`). Never skip this step, even for short sessions — a 1-line entry is fine.
-3. **WORKING.md cleanup** — Read `~/notes/WORKING.md`. Flush anything useful (status changes, unfinished state) to the appropriate vault file or TODO. Then clear the file to a clean slate (`# Working\n\nNo active work.`). Skip if already clean.
+3. **NOW.md overwrite** — Write `~/notes/NOW.md` from scratch (full overwrite, never append). Max 15 lines. See Step 3 for format.
 4. **Learnings scan** — Run through the six questions in "What to Look For" **internally** (do not print them). If the session was ≤3 turns of simple Q&A with no corrections or retries, skip to done. Otherwise, you must answer the six questions before concluding there's nothing to capture.
 5. If something surfaces → **dedup**, **route**, and optionally **promote**
 6. Done. No ceremony.
@@ -45,7 +45,7 @@ Two scans — **match** then **create**:
 
 **Create:** Scan for anything that should become a NEW TODO:
 - New commitments or deadlines mentioned → add as new TODO items
-- **WIP that got interrupted** → add TODO for the remaining work (with `agent:` tag if Claude can do it). If state is complex, ensure WORKING.md has resume instructions and TODO points there.
+- **WIP that got interrupted** → add TODO for the remaining work (with `agent:` tag if Claude can do it). If state is complex, add enough context to resume in the TODO item or the project's canonical tracker note.
 - **Hard test:** Did anything start but not finish this session? If yes, it needs a TODO — even if it feels like "just exploration." If there's a concrete next action, it's a TODO.
 
 If nothing from either scan, skip silently.
@@ -65,16 +65,26 @@ Append a session summary to today's daily note (`~/notes/Daily/YYYY-MM-DD.md`). 
 
 This feeds `/daily` — by EOD the note is already populated. Don't editorialize ("productive session!") — just log what happened.
 
-### Step 3: WORKING.md Cleanup
+### Step 3: NOW.md Overwrite + Project Tracker Update
 
-Read `~/notes/WORKING.md`. Three outcomes:
-- **Status changes** (pipeline moves, completed items, decisions) → flush to the relevant vault file (TODO.md, project note, daily note)
-- **WIP context** (half-finished tasks, resume instructions) → leave in place if work continues next session; otherwise move to TODO with enough context to resume
-- **Stale/empty** → clear to `# Working\n\nNo active work.`
+**NOW.md** (`~/notes/NOW.md`) — overwrite entirely from scratch. Never append. This is a "what's hot right now" pointer for cold-start sessions, not a project tracker. Max 15 lines.
 
-**Project tracker update:** If the session advanced a project that has a canonical tracker note (e.g. `[[Waking Up Transcription Progress]]`, `[[Capco Transition]]`), update that note with current status too. WORKING.md is ephemeral — tracker notes are what `/morning` and fresh sessions reference. Don't skip this just because WORKING.md is current.
+```markdown
+# NOW
+<!-- Max 15 lines. Overwritten entirely at each /wrap. -->
+<!-- If this file is >24h old, treat as stale. -->
 
-This prevents the #1 source of stale morning briefings: status changes trapped in WORKING.md that never made it to vault.
+## Active (last session)
+- [What you were literally working on — 1-3 pointers with links to canonical notes]
+
+## Running (if any)
+- [PIDs, log paths, resume commands for active background processes]
+
+## Blocked/Waiting (if any)
+- [External dependencies — deliveries, approvals, DNS propagation]
+```
+
+**Project tracker update:** If the session advanced a project that has a canonical tracker note (e.g. `[[Waking Up Transcription Progress]]`, `[[Capco Transition]]`), update that note with current status. Tracker notes are what `/morning` and fresh sessions reference for real context — NOW.md just points to them.
 
 ### Step 4a: Dedup
 
@@ -112,7 +122,7 @@ Only suggest, never auto-promote. Terry decides.
 **Format:** A short prose paragraph under `**Wrap**` that covers:
 
 1. What the session accomplished (the arc, not a task list)
-2. What changed in the vault (TODO, daily, WORKING — weave in naturally, don't itemise)
+2. What changed in the vault (TODO, daily, NOW, project trackers — weave in naturally, don't itemise)
 3. What's left unfinished or staged for next time
 4. Any learnings captured and where they went (only if something was captured)
 
@@ -121,7 +131,7 @@ Keep it to 3-5 sentences. Write like a handoff note to tomorrow-you, not a build
 **Example (meaty session):**
 
 > **Wrap**
-> Spent the session turning the STR relabelling project from "my work in progress" into "a package someone else can pick up cold." Drafted a full handover doc with operational context for the no-overlap successor, committed all 34 floating scripts with a README that separates signal from noise, and ran the dry run on CDSW — all checks passed. TODO and WORKING.md updated to reflect the shift from "finish the logic" to "finish the handover." Pipeline test gist is staged for the next CDSW window.
+> Spent the session turning the STR relabelling project from "my work in progress" into "a package someone else can pick up cold." Drafted a full handover doc with operational context for the no-overlap successor, committed all 34 floating scripts with a README that separates signal from noise, and ran the dry run on CDSW — all checks passed. TODO updated to reflect the shift from "finish the logic" to "finish the handover." Pipeline test gist is staged for the next CDSW window.
 
 **Example (light session):**
 

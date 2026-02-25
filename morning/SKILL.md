@@ -21,8 +21,8 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 1. **Get today's date and day of week**
 
 2. **Staleness check** (context gap detection):
-   - Run `stat -f '%Sm' -t '%Y-%m-%d' ~/notes/WORKING.md ~/notes/Capco/Capco\ Transition.md ~/notes/TODO.md`
-   - If any file's last-modified date is >48h old, flag it: "WORKING.md last updated X — may be behind reality"
+   - Run `stat -f '%Sm' -t '%Y-%m-%d' ~/notes/NOW.md ~/notes/Capco/Capco\ Transition.md ~/notes/TODO.md`
+   - If any file's last-modified date is >24h old, flag it: "NOW.md last updated X — treat as stale"
 
 3. **Yesterday's daily note** — quick glance:
    - Read `~/notes/Daily/YYYY-MM-DD.md` (yesterday)
@@ -44,10 +44,14 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Check `~/logs/cron-weather.log` for recent entries
    - Note any failures or missing deliveries
 
-7. **Check overnight OpenCode results** (two sources):
-   - **Recurring queue:** Check `~/notes/opencode-runs/` for last night's run — read the most recent `summary.md` (by date folder). Report task count, pass/fail, and flag anything NEEDS_ATTENTION or CRITICAL.
-   - **Ad-hoc queue:** Read `~/notes/WORKING.md` — look for `## Overnight Queue` section. If present, check each listed output file exists and isn't empty (`wc -l`). Report which arrived, which failed silently.
-   - If neither has results, skip silently.
+7. **Check overnight OpenCode results:**
+   - Check `~/notes/opencode-runs/` for last night's run — read the most recent `summary.md` (by date folder). Report task count, pass/fail, and flag anything NEEDS_ATTENTION or CRITICAL.
+   - If no results, skip silently.
+
+7b. **Read NOW.md** (`~/notes/NOW.md`):
+   - Scan for running processes — check if PIDs are still alive (`ps -p <PID>`)
+   - Note what was active last session — follow links to canonical project tracker notes for real context
+   - If stale (>24h), mention it but don't rely on it
 
 8. **Health scores** (from Oura Ring):
    - Run: `oura scores` (requires `OURA_TOKEN` in env — set in `~/.zshenv`)
