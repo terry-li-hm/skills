@@ -120,6 +120,19 @@ English search is the default, but niche topics often have zero English coverage
 
 **Pattern:** Simple query wins. `"WD Elements Desktop 12TB 香港"` finds Yoho instantly. Don't stuff queries with `site:` operators, multiple brands, price terms, and year — that dilutes results. Search **one product + one retailer** (or just + 香港) per query. Run parallel searches across 2-3 retailers instead of one mega-query.
 
+## LinkedIn People Search — Privacy-Gated Profiles
+
+LinkedIn profiles with abbreviated display names ("Simon E." instead of "Simon Eltringham") are invisible to name-based web searches. Search engines index the display name, not the vanity URL slug.
+
+**When a name search fails, pivot to role-based search:**
+```
+HSBC "Director" "Responsible AI" "Risk Solutions" site:linkedin.com
+```
+
+This surfaces the profile via headline text, which LinkedIn rarely abbreviates. Combine employer + exact title + `site:linkedin.com`. Don't keep hammering name variations — that's the wrong axis.
+
+**If you have the URL but can't fetch content:** Use `agent-browser` with persistent profile (`AGENT_BROWSER_PROFILE=1`) → `open` → `snapshot` to extract the accessibility tree. LinkedIn blocks unauthenticated `WebFetch` (HTTP 999).
+
 ## Perplexity Quality Notes
 
 - **All Perplexity tools inherit search index bias.** If a vendor publishes 4+ SEO comparison articles, they'll dominate results. Cross-check with WebSearch.
