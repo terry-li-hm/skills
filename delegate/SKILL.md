@@ -104,9 +104,24 @@ Phase 2: For EACH potential finding, re-read the specific lines to verify:
 Only report findings that survive verification. For each: severity, exact line numbers, the actual buggy code (quote it), why it's real, suggested fix. Drop anything that doesn't survive Phase 2."
 ```
 
+### Consilium red team — multi-model adversarial review
+
+Best for **security audits and compound vulnerability discovery**. 5 frontier models attack the code simultaneously, then a judge triages. Catches attack chains that single-model review misses (e.g., SSRF → log injection → prompt injection → LLM exfiltration). ~$1.50/run.
+
+```bash
+# Bundle source files with headers
+for f in src/**/*.py; do echo "## $f"; echo '```python'; cat "$f"; echo '```'; echo; done > /tmp/review.md
+
+# Run red team with actual code
+PROMPT=$(cat /tmp/review.md)
+uv tool run consilium "$PROMPT" --redteam --output ~/notes/Councils/review.md
+```
+
+**Key:** Models can't read files — paste actual code into the prompt. ~55K chars (8 modules) works fine. Use for whole-codebase security review, not single-file bugs.
+
 ### Parallel audit (recommended for important code)
 
-Launch Codex + OpenCode two-phase simultaneously. Codex catches most bugs; GLM occasionally finds edge cases Codex misses. Triage by consensus: findings both flag are high confidence; tool-unique findings need judgment.
+Launch Codex + OpenCode + consilium simultaneously. Codex catches most bugs (92% signal); GLM finds edge cases; consilium discovers compound attack chains. Triage by consensus.
 
 ### After audit: parallel fixes
 

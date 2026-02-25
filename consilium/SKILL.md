@@ -63,6 +63,7 @@ At ~$0.50/run, the cost threshold is negligible. Use whenever:
 - You need a synthesized recommendation, not raw comparison
 - Questions with cognitive, social, or behavioural dimensions (council catches hidden angles Claude underestimates)
 - **Stress-testing a plan** — `--redteam` for adversarial, `--socratic` for assumption-probing
+- **Code review / security audit** — `--redteam` with actual code pasted into the prompt. Models can't read files, so concatenate source files into the prompt text. ~55K chars (8 modules) works fine. Produces compound attack chains that single-model review misses (SSRF→prompt injection→LLM exfil). ~$1.50 for full codebase review.
 - **Iterating on a previous council** — second passes go deeper
 
 ## When NOT to Use

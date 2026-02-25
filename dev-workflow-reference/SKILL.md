@@ -66,11 +66,13 @@ Invoke via Task tool when reviewing code:
 | `performance-oracle` | Bottlenecks, scalability concerns |
 | `kieran-typescript-reviewer` | High-bar TS review |
 | `kieran-python-reviewer` | High-bar Python review |
+| `consilium --redteam` | Multi-model security audit, compound attack chains (~$1.50). Paste code into prompt. See delegate skill for pattern. |
 
 **When to invoke:**
 - After implementing new skills → `code-simplicity-reviewer`
 - After modifying Claude config → `pattern-recognition-specialist`
 - Before shipping anything external → `security-sentinel`
+- After completing a package/library → `consilium --redteam` with full source bundled
 
 ## Error Tracking in Plans
 
