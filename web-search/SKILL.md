@@ -90,48 +90,20 @@ grok --raw "query"           # raw JSON response
 
 ## Non-English Search — Match the Community's Language
 
-English search is the default, but niche topics often have zero English coverage. **When English results are thin, search in the language of the community that actually uses the product/service.**
+**When English results are thin, search in the language of the community that actually uses the product/service.**
 
-| Domain | Language | Why |
-|--------|----------|-----|
-| HK local services (doctors, restaurants, govt) | Chinese (中文) | Surfaces Sundaykiss, OpenRice, HK01, 親子王國 |
-| Niche mechanical keyboard switches/builds | Japanese (日本語) | JP keeb Twitter has real impressions when Reddit/YouTube have nothing |
-| Taobao/Chinese consumer products | Chinese (中文) | Reviews, comparisons, Douyin/Bilibili content |
+| Domain | Language | Example |
+|--------|----------|---------|
+| HK local (doctors, govt, restaurants) | Chinese (中文) | `pplx search "香港脊椎側彎骨科醫生推薦 私家 2026"` |
+| Niche keeb switches/builds | Japanese (日本語) | `bird search "HMX K01 タクタイル" -n 10` |
+| Taobao/Chinese products | Chinese (中文) | Reviews, Douyin/Bilibili content |
 | K-beauty, Korean tech | Korean (한국어) | Naver blogs, Korean review sites |
 
-**Pattern:** Search English first (free). If results are retailer copy or zero community discussion → re-search in the relevant language.
+**Pattern:** English first (free). If results are retailer copy or zero community discussion → re-search in the relevant language.
 
-**HK local example:** `pplx search "香港脊椎側彎骨科醫生推薦 私家 2026 口碑好"` returned 3 named doctors with fees and MTR exits — English query only found institutional websites.
+**HK product price search:** See `~/docs/solutions/hk-product-price-search.md`.
 
-**JP keeb example:** HMX K01 had zero Reddit/English reviews. `bird search "HMX K01 タクタイル" -n 10` surfaced real user rankings, sound test links, and comparisons from Japanese enthusiasts.
-
-## HK Product Price Search — Search Retailers Directly
-
-**Don't rely on aggregators alone.** price.com.hk has coverage gaps and stale prices. Search individual HK retailers by name for accurate stock + pricing:
-
-| Retailer | Strength | URL |
-|----------|----------|-----|
-| **Yoho (友和)** | Electronics, competitive pricing, FPS discount | yohohongkong.com |
-| **HKTVmall** | Broad catalog, fast delivery | hktvmall.com |
-| **2000Fun** | PC hardware | openshop.com.hk |
-| **豐澤 Fortress** | Official retail, reliable stock | fortress.com.hk |
-| **百老匯 Broadway** | Electronics, appliances | broadway.com.hk |
-| **price.com.hk** | Aggregator — check but don't stop here | price.com.hk |
-
-**Pattern:** Simple query wins. `"WD Elements Desktop 12TB 香港"` finds Yoho instantly. Don't stuff queries with `site:` operators, multiple brands, price terms, and year — that dilutes results. Search **one product + one retailer** (or just + 香港) per query. Run parallel searches across 2-3 retailers instead of one mega-query.
-
-## LinkedIn People Search — Privacy-Gated Profiles
-
-LinkedIn profiles with abbreviated display names ("Simon E." instead of "Simon Eltringham") are invisible to name-based web searches. Search engines index the display name, not the vanity URL slug.
-
-**When a name search fails, pivot to role-based search:**
-```
-HSBC "Director" "Responsible AI" "Risk Solutions" site:linkedin.com
-```
-
-This surfaces the profile via headline text, which LinkedIn rarely abbreviates. Combine employer + exact title + `site:linkedin.com`. Don't keep hammering name variations — that's the wrong axis.
-
-**If you have the URL but can't fetch content:** Use `agent-browser` with persistent profile (`AGENT_BROWSER_PROFILE=1`) → `open` → `snapshot` to extract the accessibility tree. LinkedIn blocks unauthenticated `WebFetch` (HTTP 999).
+**LinkedIn people research:** See `linkedin-research` skill.
 
 ## Perplexity Quality Notes
 
@@ -139,28 +111,6 @@ This surfaces the profile via headline text, which LinkedIn rarely abbreviates. 
 - **Route by question type.** `ask` for "what exists?" questions. `research` for "what does this mean?" or anything requiring depth. Cost is acceptable — use `research` freely when it adds value.
 - **Never cite Perplexity metrics without checking the underlying source.** Fabricated case studies with round numbers (75% decrease, 40% increase) are common.
 
-## WebSearch (Built-in)
-
-- Default for quick answers — fast, good summaries
-- No cost, always available
-- Returns links for verification
-
-## WebFetch (Built-in)
-
-- Fetches URL, converts HTML to markdown, processes with prompt
-- 15-minute cache, handles redirects
-- Falls back to Jina Reader or browser automation for complex pages
-
 ## WeChat Articles (mp.weixin.qq.com)
 
 See the dedicated `wechat-article` skill.
-
-## Removed Tools
-
-- **Tavily** — Removed 2026-02-07. Replaced by WebFetch + Perplexity.
-- **Serper** — Removed 2026-02-07. Redundant with WebSearch + Perplexity.
-- **Exa** — Replaced by Context7 plugin + Perplexity.
-- **Brave** — Rarely used unique features.
-- **Perplexity MCP** — Removed Feb 2026. Replaced by `pplx` CLI.
-
-API keys preserved in `~/.secrets`. Re-enable if needed.
