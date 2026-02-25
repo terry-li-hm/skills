@@ -20,10 +20,12 @@ One command to delegate coding tasks. Routes to the right tool, packages context
 | Signal | Route to | Why |
 |--------|----------|-----|
 | Routine coding, refactoring, bulk ops, tests | **OpenCode** (GLM-5) | Free, unlimited |
-| Needs better reasoning than GLM-5, but not worth Codex credits | **Gemini CLI** (Auto: 3.1 Pro / 3 Flash) | Free, 1500 RPD (AI Pro plan), frontier-tier |
-| OpenCode + Gemini failed, deep bug, complex feature | **Codex** (GPT-5.2-codex) | Smartest, paid |
+| Algorithmic work, "write a function that does X", design/logic | **Gemini CLI** (Auto: 3.1 Pro / 3 Flash) | Free, frontier-tier *programmer* (LiveCodeBench #1) |
+| Agentic: navigate repo, find bug, fix, run tests, iterate | **Codex** (GPT-5.2-codex) | Best *developer* (Terminal-Bench #1), paid |
 | **Code audit/review** | **Codex** (GPT-5.2) first | 92% signal. GLM-4.7 needs two-phase prompt (25% signal). See audit section below |
 | Needs vault, user decisions, judgment | **Stay in Claude** | Context advantage |
+
+**Gemini vs Codex on coding:** Gemini is a better *programmer* (algorithmic, isolated logic). Codex is a better *developer* (codebase navigation, test loops, multi-file fixes). When in doubt: is the task self-contained? → Gemini. Does it need repo context? → Codex.
 
 ## Workflow
 
