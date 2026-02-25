@@ -56,6 +56,8 @@ Apply Terry's messaging preferences:
 - **No redundant context** - don't repeat what they already know
 - **Trim filler** - keep it tight and direct
 - **Match tone** - professional but warm for recruiters
+- **When someone is already acting on your behalf** (checking with boss, making an intro, forwarding your profile) — close short. Acknowledge, thank, stop. Don't re-sell, don't add CTAs, don't drill into details they mentioned in passing. The process is running; more words = noise.
+- **Don't say what they already know** - "didn't know X" when there's no reason you would know is filler. "Hope for good news" puts outcome pressure on the helper.
 
 For scheduling:
 - Check `[[Schedule]]` for availability
