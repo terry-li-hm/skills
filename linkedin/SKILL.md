@@ -10,10 +10,8 @@ Draft comments on others' posts and original posts for Terry's LinkedIn.
 
 ## Triggers
 
-- User shares a LinkedIn post URL
-- "linkedin", "comment on this", "should we comment"
-- "draft a post", "linkedin post"
-- "post about X"
+URL-based triggers are handled by the `url-skill-router` hook (auto-injects reminder on LinkedIn URLs).
+Keyword triggers: "linkedin", "comment on this", "should we comment", "draft a post", "post about X".
 
 ## Mode Detection
 
