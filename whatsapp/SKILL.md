@@ -145,6 +145,7 @@ sqlite3 ~/.wacli/wacli.db "SELECT chat_jid, from_me, COUNT(*) FROM messages WHER
 
 ## Query Gotchas
 
+- **JID must use `--chat` flag, not positional arg.** `wacli messages list 123@lid` silently ignores the JID and returns all chats. Always: `wacli messages list --chat 123@lid`.
 - **`--limit N` without `--chat` pulls from ALL chats.** Group chat noise (especially active groups like 9up) will push DM messages out of results. Always pass `--chat <JID>` when reading a specific conversation. Use `--limit 50` minimum for DM history — a `--limit 15` across all chats returned zero DMs.
 - **Before diagnosing "missing messages" as a wacli bug, verify the data isn't just outside your query window.** Re-query with higher limit + chat filter before concluding messages weren't captured.
 
