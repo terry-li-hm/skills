@@ -81,7 +81,13 @@ When a skill needs the model to scan or evaluate something, use direct yes/no qu
 
 Add a **fast path** for genuinely trivial cases (e.g., ≤3 turns) so the questions don't add overhead where there's clearly nothing to find.
 
-### 6. Naming
+### 6. Seed Skills Early
+
+When a novel pattern emerges (a useful visualization technique, a new workflow, a research method), **propose creating a stub skill immediately** — don't wait for three occurrences. The skill acts as a collector: one pattern today, more added organically as they come up. A stub that grows is better than reconstructing three patterns from memory after the fact. If it's still a single pattern after a month, demote to `~/docs/solutions/`.
+
+**Actively propose:** When you spot Terry doing something for the first time that looks like it'll recur (a type of analysis, a content format, a deployment pattern), suggest seeding a skill for it.
+
+### 7. Naming
 
 - **Action skills** → verb-first: `evaluate-job`, `design-skill`
 - **Trigger/lookup skills** → short nouns: `todo`, `hko`, `morning`
