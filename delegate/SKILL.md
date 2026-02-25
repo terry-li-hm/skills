@@ -35,6 +35,7 @@ Before building the command, gather what the delegate needs to be self-sufficien
 - **Include error output** if debugging (trimmed to relevant lines)
 - **Include constraints** ("don't modify X", "keep existing patterns")
 - **Include verification** ("run `pytest tests/` to verify")
+- **Anti-placeholder rule** — always include: "Implement fully. No stubs, no placeholder comments, no TODO markers, no simplified versions. If you can't implement something fully, skip it and note what was skipped."
 
 **CRITICAL — Prompt Length Limits:**
 - **OpenCode: hard limit ~4K chars.** Prompts >5K chars silently fail (exits 0, writes nothing).
