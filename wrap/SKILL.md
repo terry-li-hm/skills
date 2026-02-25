@@ -72,6 +72,8 @@ Read `~/notes/WORKING.md`. Three outcomes:
 - **WIP context** (half-finished tasks, resume instructions) → leave in place if work continues next session; otherwise move to TODO with enough context to resume
 - **Stale/empty** → clear to `# Working\n\nNo active work.`
 
+**Project tracker update:** If the session advanced a project that has a canonical tracker note (e.g. `[[Waking Up Transcription Progress]]`, `[[Capco Transition]]`), update that note with current status too. WORKING.md is ephemeral — tracker notes are what `/morning` and fresh sessions reference. Don't skip this just because WORKING.md is current.
+
 This prevents the #1 source of stale morning briefings: status changes trapped in WORKING.md that never made it to vault.
 
 ### Step 4a: Dedup
