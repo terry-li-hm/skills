@@ -20,7 +20,7 @@ One command to delegate coding tasks. Routes to the right tool, packages context
 | Signal | Route to | Why |
 |--------|----------|-----|
 | Routine coding, refactoring, bulk ops, tests | **OpenCode** (GLM-5) | Free, unlimited |
-| Needs better reasoning than GLM-5, but not worth Codex credits | **Gemini CLI** (Auto: 3 Pro / 2.5 Flash) | Free, 1500 RPD (AI Pro plan), smarter than GLM-5 |
+| Needs better reasoning than GLM-5, but not worth Codex credits | **Gemini CLI** (Auto: 3.1 Pro / 3 Flash) | Free, 1500 RPD (AI Pro plan), frontier-tier |
 | OpenCode + Gemini failed, deep bug, complex feature | **Codex** (GPT-5.2-codex) | Smartest, paid |
 | **Code audit/review** | **Codex** (GPT-5.2) first | 92% signal. GLM-4.7 needs two-phase prompt (25% signal). See audit section below |
 | Needs vault, user decisions, judgment | **Stay in Claude** | Context advantage |
@@ -195,8 +195,9 @@ Uses Microsoft Presidio with HK-specific custom patterns.
 
 - **OpenCode model:** Always `zhipuai-coding-plan/glm-5` (NOT `opencode/glm-5` which depletes credits)
 - **Lean config:** `OPENCODE_HOME=~/.opencode-lean` skips MCPs, cuts startup from 60s to 15s
-- **Gemini CLI:** Auto-routes to Gemini 3 Pro (complex) or 2.5 Flash (simple) via Google AI Pro plan. 120 RPM, 1500 RPD. One prompt triggers multiple API requests internally — budget ~250-500 actual prompts/day. No prompt length issue (1M context). Force model with `-m gemini-3-pro` if needed.
-- **Gemini 3.1 Pro:** Released Feb 19, model ID `gemini-3.1-pro-preview` — CLI v0.29.5 can't access yet (ModelNotFound). Monitor for update.
+- **Gemini CLI:** Auto-routes to Gemini 3.1 Pro (complex) or 3 Flash (simple) via Google AI Pro plan. 120 RPM, 1500 RPD. One prompt triggers multiple API requests internally — budget ~250-500 actual prompts/day. No prompt length issue (1M context). Force model with `-m gemini-3.1-pro-preview` if needed.
+- **Gemini 3.1 Pro strengths** (verified Feb 25 vs Google model card + Artificial Analysis): AA Intelligence Index #1 (57/114). Leads on competitive coding (LiveCodeBench Elo 2887), scientific reasoning (GPQA Diamond 94.3%, ARC-AGI-2 77.1%), MCP/tool coordination (MCP Atlas 69.2%), SWE-Bench Verified 80.6%. Best free option for algorithmic/reasoning-heavy delegation.
+- **Gemini 3.1 Pro weaknesses:** Trails Claude on real-world agentic tasks (GDPval-AA: Gemini 1317 vs Opus 1606 Elo). High TTFT latency (~31s). Very verbose — 57M tokens during AA eval vs 12M median. Terminal execution (68.5%) trails Codex (77.3%). Cost $2/$12 per Mtok if using API key (free on AI Pro plan).
 - **Prompt budget:** ~4K chars max for OpenCode, ~8K for Codex, generous for Gemini. When in doubt, `echo -n "prompt" | wc -c`
 - **Output often empty:** OpenCode doesn't reliably capture stdout. Check session JSON instead.
 - **GLM-5 restored in OpenCode** (tested Feb 24 2026). Previous malformed tool call JSON issue ([#13982](https://github.com/anomalyco/opencode/issues/13982), [#13900](https://github.com/anomalyco/opencode/issues/13900)) appears fixed. GLM-4.7 available as fallback if it regresses.
