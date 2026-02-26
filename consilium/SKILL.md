@@ -360,6 +360,15 @@ Council optimizes for architecture but often misses input edge cases. Add:
 
 This stress-tests the input surface, not just the processing logic.
 
+**For philosophical/contemplative questions:**
+
+Council excels at finding structural cracks in propositional claims — but blind to teachings that are *instructions* rather than *arguments*. "Look for the self" is a direction to look, not a truth claim. When evaluating non-propositional frameworks (meditation, therapy, coaching), add:
+- "Distinguish claims (testable assertions) from pointers (instructions for seeing)"
+- "Rate practical utility separately from philosophical coherence"
+- `--decompose` works well here — breaks apart the sub-questions that a philosophical system bundles together
+
+Without this framing, council will evaluate a ladder as a floor.
+
 **For domain-specific questions (banking, healthcare, etc.):**
 
 Use `--domain` flag to auto-inject regulatory context:
