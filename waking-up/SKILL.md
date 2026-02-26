@@ -43,6 +43,11 @@ wu transcribe <id> "Title" --teacher "Name"       # explicit metadata
 wu transcribe <id> --enrich                       # transcribe + add LLM metadata
 wu batch <file.json> --model gemini-3-flash -c 3  # batch run
 wu enrich                     # add tradition/summary/key_concepts via Gemini
+wu digest                     # generate per-transcript digests (core argument, quotes, takeaway)
+wu digest --dry-run           # preview without modifying files
+wu digest --concurrency 5     # parallel processing
+wu digest --force             # regenerate existing digests
+wu digest --limit 10          # process only N files
 
 # Maintenance
 wu status <file.json>         # show batch progress
