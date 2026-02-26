@@ -49,6 +49,15 @@ wu digest --concurrency 5     # parallel processing
 wu digest --force             # regenerate existing digests
 wu digest --limit 10          # process only N files
 
+# Guides & synthesis
+wu guide --teacher "Alan Watts"    # single teacher guide
+wu guide --teachers                # all teachers with ≥5 transcripts
+wu guide --tradition "Zen"         # single tradition guide
+wu guide --traditions              # all canonical tradition groups
+wu themes                          # discover cross-cutting themes
+wu themes --dry-run                # preview themes without generating notes
+wu practice                        # generate organized practice guide
+
 # Maintenance
 wu status <file.json>         # show batch progress
 wu rename --dry-run           # preview placeholder renames
