@@ -93,6 +93,22 @@ Defined in `~/.config/lustro/sources.yaml`. Key high-signal sources for perspect
 
 Full source list with cadence and RSS URLs in `~/.config/lustro/sources.yaml`.
 
+## Paywalled Sources (Latent Space / Substack)
+
+Terry has a paid Latent Space subscription. Browser profile is authenticated.
+
+**Latent Space AINews** is the same digest as `news.smol.ai` but with editorial framing (cross-source narrative, key voices like Karpathy/Brockman, "why this matters" context). Prefer it over smol.ai when fetching live.
+
+To fetch full paywalled articles:
+```bash
+# Open with authenticated profile
+agent-browser --profile open "https://www.latent.space/p/<slug>"
+# Extract full text
+agent-browser eval "document.querySelector('article').innerText"
+```
+
+WebFetch will only get the free portion (~25% of content). Always use `agent-browser --profile` for Latent Space.
+
 ## WeChat Articles
 
 WeChat 公众号 (e.g. 机器之心, 量子位, 歸藏的AI工具箱) are major Chinese AI commentary sources. To extract:
