@@ -75,19 +75,28 @@ agent-browser press Enter        # keyboard
 agent-browser screenshot         # screenshot to stdout
 ```
 
+## Command Sequencing
+
+**Strictly sequential.** Never fire a second command before the first returns — concurrent calls jam the daemon with "Resource temporarily unavailable (os error 35)". If one command hangs, wait or `agent-browser close` before retrying.
+
 ## Form Filling: fill vs type vs eval
 
-**Use `fill`, not `type`** for React/Angular inputs. `type` simulates keystrokes but doesn't trigger React's `onChange` — text appears but submit buttons stay disabled. `fill` fires proper synthetic events.
+**Use `fill` for SPA form inputs** (Vue, React, Angular). Both `fill` and `type` use Playwright's native methods that fire proper events, but:
+
+- **`fill <selector> <text>`** — clears field, then sets value. Triggers framework reactivity. Use for most form inputs.
+- **`type <selector> <text>`** — appends text character-by-character. Use for autocomplete or when you need keystroke simulation.
+- **`eval "input.value = 'x'"`** — **NEVER use for SPA forms.** Bypasses Vue/React reactivity entirely — framework state stays empty even though DOM shows the value.
 
 ```bash
-# BAD — React won't detect this
-agent-browser type --text "my message" --ref "input[0]"
+# GOOD — Playwright native, triggers Vue/React state updates
+agent-browser fill "input" "search term"
+agent-browser type "input" "search term"
 
-# GOOD — triggers proper React events
-agent-browser fill --text "my message" --ref "input[0]"
+# BAD — DOM-only, framework state stays empty
+agent-browser eval "document.querySelector('input').value = 'x'"
 ```
 
-Only use `type` when you need character-by-character simulation (autocomplete testing). Note: `type` APPENDS, `fill` REPLACES.
+Both `fill` and `type` take two positional args: `<selector> <text>`. One arg treats the text as a selector.
 
 **Workday career portals** block Playwright actions entirely (anti-automation) — see `~/docs/solutions/browser-automation/workday-anti-automation.md`. Use automation for login + CV upload + simple fields, manual for dropdowns.
 
@@ -96,13 +105,17 @@ Only use `type` when you need character-by-character simulation (autocomplete te
 After any action (click, fill, scroll), element refs become stale — DOM mutations invalidate the index. **Always re-snapshot before each action:**
 
 ```bash
-agent-browser snapshot          # get refs
-agent-browser click --ref "button[2]"
+agent-browser snapshot          # get refs (e.g. @e3, @e7)
+agent-browser click "@e3"
 agent-browser snapshot          # MUST re-snapshot — refs shifted
-agent-browser fill --ref "input[0]" --text "hello"  # now safe
+agent-browser fill "@e7" "hello"  # now safe with new refs
 ```
 
 Anti-pattern: chaining multiple actions using refs from a single snapshot.
+
+## eval: Avoid Broad Selectors for Targeted Clicks
+
+When using `eval` to click a button in a specific row, **don't use `querySelectorAll('tr, div')`** — parent containers match too, and `button:last-child` on the parent hits the wrong row's button. Use `snapshot` + `@ref` instead for precise element targeting. If you must use `eval`, scope tightly (e.g. target `tr` only, or match on a unique attribute).
 
 ## SPA Page Load (Workday, etc.)
 
@@ -129,7 +142,7 @@ agent-browser eval "$(cat /tmp/script.js)"
 - `get url`, `get title`, `eval "JS"`, `snapshot`, `upload`
 
 ### Usually works
-- `fill @ref "text"`, `check "#id"`, `select @ref "value"` (simple dropdowns), `press "Enter"/"Tab"`
+- `fill "selector" "text"`, `fill @ref "text"`, `check "#id"`, `select @ref "value"` (simple dropdowns), `press "Enter"/"Tab"`
 
 ### Unreliable on heavy SPAs
 - `click @ref`, `fill @ref` on complex widgets, `scrollintoview @ref`, `open "url"`
@@ -143,11 +156,11 @@ agent-browser eval "$(cat /tmp/script.js)"
 |-------|-----------|
 | `open "url"` timeout | `eval "window.location.href = 'url'"` + `sleep 5` |
 | `click @ref` timeout | `eval "document.querySelector('selector').click()"` |
-| `fill` doesn't sync React | `fill @ref "text"` + `press "Tab"` (blur triggers state) |
+| `eval` value set doesn't sync React | `fill "selector" "text"` (Playwright native) |
 | `snapshot` timeout | `eval` to extract form fields directly |
 | All Playwright actions timeout | Form is automation-proof — manual for submission |
 
-**Quick rule:** `eval` for navigation/clicks, `fill @ref` + `Tab` for text inputs, `upload` for files, `check "#id"` for checkboxes. Only dropdowns on heavy SPAs need manual interaction.
+**Quick rule:** `eval` for navigation/reading state, `fill` for text inputs, `click @ref` or `click "selector"` for buttons, `upload` for files, `check "#id"` for checkboxes. Only dropdowns on heavy SPAs need manual interaction.
 
 ## Backup: Rodney (simonw/rodney)
 
@@ -240,4 +253,4 @@ This is more reliable than `get text` for SPAs where content loads dynamically i
 - Use `--headed` to see the browser window (debugging or initial login)
 - Sessions persist between commands — no need to re-open
 - **Keep agent-browser updated:** `pnpm update -g agent-browser`
-- **`--profile` flag goes AFTER the command:** `agent-browser open <url> --profile`, NOT `agent-browser --profile open <url>`. The latter treats the URL as an unknown command.
+- **`--profile` flag position:** Either `agent-browser --profile -- open <url>` (with separator) or after the command. Without `--`, `--profile open` treats the URL as an unknown command. If the daemon is already running, `--profile` is ignored with a warning — use `agent-browser close` first to restart with new options.
