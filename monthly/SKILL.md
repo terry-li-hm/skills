@@ -62,7 +62,22 @@ Run `/skill-review`:
 - Check skill count and recent changes
 - Flag skills not invoked in 30+ days
 
-### 5. Vault Hygiene
+### 5. Source Health Check
+
+Run `lustro check` and review broken sources:
+
+```bash
+lustro check 2>&1 | grep "<-\|(stale)\|x0)"
+```
+
+- Fix URL-rotted sources (update URLs in `~/.config/lustro/sources.yaml`)
+- Remove dead sources (domain expired, blog shut down)
+- Flag sources with consecutive zeros (`Nx0`) for investigation
+- Reference: `~/docs/solutions/lustro-reference.md`
+
+~12% source rot rate per quarter. Takes 2-3 min.
+
+### 6. Vault Hygiene
 
 Run inline — no separate skill needed:
 
@@ -72,7 +87,7 @@ c. **Daily note archival** — archive notes >60 days old to `~/notes/.archive/d
 d. **Broken links** — verify `[[wikilinks]]` in CLAUDE.md still resolve
 e. **QMD reindex** — `qmd update && qmd status` (run `qmd embed` in background if stale)
 
-### 6. Oghma Hygiene
+### 7. Oghma Hygiene
 
 Check for noise from abandoned experiments or stale imports:
 
@@ -103,7 +118,7 @@ If flagged sources exist, archive them:
 # python3 -c "import sqlite3, os; conn = sqlite3.connect(os.path.expanduser('~/.oghma/oghma.db')); conn.execute(\"UPDATE memories SET status='archived' WHERE source_tool='SOURCE_NAME' AND status='active'\"); conn.commit(); print('Done')"
 ```
 
-### 7. Housekeeping
+### 8. Housekeeping
 
 - Purge orphaned agent files: `/usr/bin/find ~/.claude/todos -name "*.json" -mtime +7 -delete`
 - Check MEMORY.md line count (`wc -l`). Flag if >150 — trim or demote to vault.
@@ -122,6 +137,7 @@ After running all sections, present:
 | AI Thematic Digest | X themes, Y articles | [vault path] |
 | AI Deep Review | Done | [key shifts] |
 | Skill Review | X active / Y archived | [changes] |
+| Source Health | X broken, Y stale, Z consecutive-zero | [fixes applied] |
 | Vault Hygiene | X notes archived, Y orphans | [actions] |
 | Housekeeping | MEMORY.md: X lines, agents purged | [flags] |
 ```
