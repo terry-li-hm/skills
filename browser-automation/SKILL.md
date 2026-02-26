@@ -213,6 +213,26 @@ npx playwright install chromium
 ```
 Auto-update script handles agent-browser but not Playwright binaries — fix manually if `launchPersistentContext` errors appear.
 
+## Mobile-Only Sites (Portrait-Only SPAs)
+
+Some ordering/booking platforms (Eats365, etc.) check viewport orientation and refuse to render in landscape. `--viewport 390x844` alone doesn't work — the site checks `isMobile` and touch capability, not just dimensions.
+
+**Fix:** Use `set device` before opening the URL:
+```bash
+agent-browser close                    # must close first — device applies to new context
+agent-browser set device "iPhone 13"   # sets viewport + user agent + isMobile + touch
+agent-browser open "https://example.com/menu" --wait 8000
+```
+
+**Text extraction from mobile SPAs:** These sites often use inner scroll containers that `scroll down` can't reach. Use JS extraction instead:
+```bash
+agent-browser eval "document.body.innerText"   # gets ALL rendered text regardless of scroll position
+```
+
+This is more reliable than `get text` for SPAs where content loads dynamically into nested scrollable divs.
+
+**Tested working:** Eats365 (restaurant ordering platform used across HK).
+
 ## Tips
 
 - `snapshot` over `screenshot` for token efficiency (text vs image tokens)
