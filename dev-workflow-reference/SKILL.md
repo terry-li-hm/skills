@@ -1,6 +1,6 @@
 ---
 name: dev-workflow-reference
-description: Reference for compound-engineering workflows, review agents, solutions KB, and git worktrees. Consult when starting development work.
+description: Reference for compound-engineering workflows and review agents. Consult when starting development work.
 user_invocable: false
 ---
 
@@ -46,101 +46,23 @@ Full autonomous:
 
 ## Review Agents
 
-**Review ordering:** Spec compliance BEFORE code quality. If the code doesn't match what was requested, reviewing its quality is wasted effort. When using multiple review agents, run `pattern-recognition-specialist` (does it match the spec?) before `kieran-*-reviewer` (is it well-built?).
-
-**Quantified thresholds** beat vague guidance. Instead of "write good tests," specify measurable criteria:
-
-| Vague | Quantified |
-|-------|-----------|
-| "Write good tests" | "Min 3 invariants per function, edge cases for each branch" |
-| "Handle errors properly" | "Every external call wrapped, user-facing errors have recovery path" |
-| "Keep it simple" | "No function > 40 lines, no nesting > 3 levels" |
-
-Invoke via Task tool when reviewing code:
+**Review ordering:** Spec compliance BEFORE code quality. Run `pattern-recognition-specialist` (does it match the spec?) before `kieran-*-reviewer` (is it well-built?).
 
 | Agent | Use For |
 |-------|---------|
 | `code-simplicity-reviewer` | YAGNI check, remove unnecessary complexity |
-| `pattern-recognition-specialist` | Detect anti-patterns, ensure consistency |
+| `pattern-recognition-specialist` | Spec compliance, anti-patterns, consistency |
 | `security-sentinel` | OWASP, secrets, input validation |
 | `performance-oracle` | Bottlenecks, scalability concerns |
 | `kieran-typescript-reviewer` | High-bar TS review |
 | `kieran-python-reviewer` | High-bar Python review |
-| `consilium --redteam` | Multi-model security audit, compound attack chains (~$1.50). Paste code into prompt. See delegate skill for pattern. |
-
-**When to invoke:**
-- After implementing new skills → `code-simplicity-reviewer`
-- After modifying Claude config → `pattern-recognition-specialist`
-- Before shipping anything external → `security-sentinel`
-- After completing a package/library → `consilium --redteam` with full source bundled
-
-## Error Tracking in Plans
-
-**From OthmanAdi/planning-with-files:** Track errors as structured data in plan files, not buried in prose. When implementation hits problems, append to an errors table:
-
-```markdown
-## Errors & Blockers
-
-| # | Phase | Error | Root Cause | Resolution | Status |
-|---|-------|-------|-----------|------------|--------|
-| 1 | Build | TS2307: Cannot find module | Missing type declaration | Added @types/pkg | Fixed |
-| 2 | Test | Timeout on auth flow | Mock not intercepting | Switched to msw | Open |
-```
-
-This makes blockers visible and prevents the same error from being "discovered" twice across sessions.
-
-## Compound Engineering Mindset
-
-- 80% planning + review, 20% execution
-- Plans are prompts — good plans enable one-shot implementation
-- After tricky fixes, always `/workflows:compound` to capture learnings
-- After significant experiences, prompt for compound extraction — what's reusable?
-
-## Solutions Knowledge Base
-
-`~/docs/solutions/` contains structured learnings with YAML frontmatter. The `learnings-researcher` agent queries this before work starts.
-
-**Structure:**
-```
-~/docs/solutions/
-├── ai-tooling/           # Tool crashes, API quirks
-├── browser-automation/   # Playwright, agent-browser, Chrome
-├── claude-config/        # Settings, hooks, MCP
-├── skills/               # Skill design patterns
-├── workflow-issues/      # Process problems
-├── best-practices/       # Patterns worth documenting
-└── patterns/
-    └── critical-patterns.md  # ALWAYS check before work
-```
-
-**Adding learnings:**
-1. After solving a tricky problem, run `/workflows:compound`
-2. Or manually create a file with frontmatter (see `~/docs/solutions/schema.md`)
-
-**How it compounds:**
-- `/workflows:plan` auto-invokes `learnings-researcher` to check for relevant past solutions
-- `/deepen-plan` pulls in applicable patterns
-- Critical patterns are always checked regardless of task type
-
-**When to add:** Problem required non-obvious debugging, same issue could recur, solution isn't obvious from docs, pattern applies beyond this specific case.
+| `consilium --redteam` | Multi-model security audit (~$1.50). Paste full source into prompt. |
 
 ## Git Workflow
 
-**Use git worktrees** for non-trivial work. Terry runs multiple Claude Code sessions simultaneously — worktrees prevent file conflicts.
+Use git worktrees for non-trivial work (see `compound-engineering:git-worktree` skill). Worktree convention: `~/project-worktrees/<branch>/`. Trivial changes (typos, one-line fixes) go directly to main.
 
-**Setup:**
-```
-~/project/                    ← main checkout
-~/project-worktrees/
-  ├── feat-topic-a/          ← session 1
-  └── fix-bug-b/             ← session 2
-```
+## Cross-references
 
-**Commands:**
-- Create: `git worktree add ../project-worktrees/feat-topic ~/project && cd ../project-worktrees/feat-topic && git checkout -b feat/topic`
-- List: `git worktree list`
-- Remove: `git worktree remove ../project-worktrees/feat-topic`
-
-**Fallback:** If worktree not set up, create a feature branch (`feat/<topic>` or `fix/<topic>`).
-
-Trivial changes (typos, one-line fixes) can go directly to main.
+- **Solutions KB:** See `solutions` skill for directory structure and routing rules.
+- **Learnings integration:** `/workflows:plan` auto-invokes `learnings-researcher` to check `~/docs/solutions/` for relevant past solutions.
