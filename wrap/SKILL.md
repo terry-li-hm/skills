@@ -42,7 +42,7 @@ Append to `~/notes/Daily/YYYY-MM-DD.md` (create if needed):
 
 ### Step 3: NOW.md + Project Trackers
 
-**NOW.md** (`~/notes/NOW.md`) — full overwrite, max 15 lines:
+**NOW.md** (`~/notes/NOW.md`) — check `stat -f %m` first. If written <1h ago by another session, verify accuracy and update only what changed. Otherwise, full overwrite. Max 15 lines:
 
 ```markdown
 # NOW
