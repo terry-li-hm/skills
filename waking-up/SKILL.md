@@ -23,14 +23,28 @@ Use when:
 ## Quick Commands
 
 ```bash
+# Catalog management
+wu refresh                    # fetch latest catalog via GraphQL API (needs JWT)
+wu refresh --token <jwt>      # one-off with explicit token
 wu catalog                    # show catalog stats (1,831 courses, types)
-wu catalog <file.json>        # import new courses dump
+wu catalog <file.json>        # import new courses dump (legacy browser extraction)
+
+# Discovery
+wu new                        # show untranscribed content grouped by type
+wu new --type talk            # filter to specific type
+wu new --json-out             # output as batch-ready JSON
 wu search "Alan Watts"        # search by title/slug
 wu search "zen" --type talk   # filter by content type
 wu info <audio_id>            # show metadata + vault status for a UUID
-wu transcribe <id> "Title" --teacher "Name" --pack "Pack"   # single session
-wu batch <file.json> --model gemini-3-flash -c 3            # batch run
+
+# Transcription
+wu transcribe <audio_id>                          # auto-resolve title/teacher/pack
+wu transcribe <id> "Title" --teacher "Name"       # explicit metadata
+wu transcribe <id> --enrich                       # transcribe + add LLM metadata
+wu batch <file.json> --model gemini-3-flash -c 3  # batch run
 wu enrich                     # add tradition/summary/key_concepts via Gemini
+
+# Maintenance
 wu status <file.json>         # show batch progress
 wu rename --dry-run           # preview placeholder renames
 wu rename                     # apply renames
@@ -82,10 +96,11 @@ The CLI tries direct URL first (from `audio.url` in catalog), falls back to HLS 
 
 ## Technical Notes
 
-- **GraphQL endpoint:** `https://api.wakingup.com/api/graphql`
-- **Auth header:** `authorization: <JWT>` (no Bearer prefix)
+- **GraphQL endpoint:** `https://api.wakingup.com/api/graphql` — used by `wu refresh`
+- **Auth:** JWT stored in Keychain (`waking-up-jwt`), env var (`WAKING_UP_JWT`), or `--token` flag. No Bearer prefix.
+- **Store JWT:** `security add-generic-password -s waking-up-jwt -a terry -w '<jwt>'`
 - **Required headers:** `app-client: web`, `app-build: 951`, `app-version: 3.19.1`, `timezone: 28800`
-- **Content query returns ALL 1,831 courses** — no pagination needed
+- **Content query returns ALL courses** — no pagination needed
 - **Introspection disabled** — field discovery by trial/error
 - **Valid Course fields:** `title`, `hash`, `slug`, `type`, `description`, `subtitle`, `id`, `audio { id url length }`, `image { ... }`
 - **Pack→course relationships not in GraphQL** — must scrape from web app via `scrape_packs.py`
