@@ -79,6 +79,7 @@ For each active skill, check:
 | **Vault references valid?** | Do paths in skill still exist? |
 | **Vocabulary aligned?** | Does skill terminology match current vault notes? |
 | **Workflow still accurate?** | Has the process changed since skill was written? |
+| **Context shifted?** | Has a hook, tool, or other skill made parts of this skill redundant? A component can be correct but no longer worth its weight. See `~/docs/solutions/patterns/tightening-pass.md`. |
 
 ### 5. Gap Analysis
 
