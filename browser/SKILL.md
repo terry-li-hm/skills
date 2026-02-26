@@ -8,6 +8,8 @@ platform_note: Primary browser automation tool. Zero token overhead when idle.
 
 # agent-browser CLI Reference
 
+> **Why reference, not invocable (Feb 2026):** Browsing isn't a workflow — it's a toolbox. A `/browse <url>` command would be too narrow (just open + screenshot) or too vague (what to do with the page). `/summarize` and `/analyze` already cover URL extraction. This skill loads patterns into context; agent-browser commands handle the rest.
+
 Zero token overhead. Invoked via Bash.
 
 ## Setup
