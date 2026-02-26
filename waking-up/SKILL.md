@@ -46,6 +46,7 @@ wu transcribe <id> "Title" --teacher "Sam Harris" --pack "Fundamentals"
 ```bash
 wu batch batch_all_titled.json                                     # Batch 1 done (Deepgram)
 wu batch batch_phase2.json --model gemini-2.5-flash               # Phase 2: 167 sessions (recommended)
+wu batch batch_retry_large.json --model or:gemini-3-flash -c 1   # Large files auto-split into 15-min chunks
 wu batch-async batch_phase2.json --enrich                         # Speechmatics async only (not Gemini)
 wu compare <audio_id>                                              # Compare backends on one session
 wu compare <audio_id> --models speechmatics,gemini-2.5-flash      # Custom model set
@@ -97,6 +98,7 @@ agent-browser --session wu-session open "https://app.wakingup.com/packs/<HASH>"
 - The `--force` flag re-downloads and re-transcribes even if output exists
 - Audio is cached in `~/.cache/waking-up-audio/` — safe to clear for disk space
 - `batch-async` is **Speechmatics-specific** (async submit/poll/fetch). Use `batch` for Gemini.
+- **Auto split-and-concatenate:** `or:*` models auto-split files >20MB into 15-min ffmpeg chunks, transcribe each, concatenate. No manual splitting needed.
 
 ## STT Provider Comparison (tested Feb 2026)
 
