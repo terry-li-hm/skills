@@ -81,6 +81,16 @@ If something surfaces, route directly:
 
 No dedup search, no staging area. If you missed it all session, just write it now.
 
+### Step 5: System Evolution (quick scan)
+
+Separate from learnings — this asks "should the machine improve?" not "what did we learn?"
+
+- [ ] **Should a skill be created or tightened?** Repeated multi-step workflow → new skill. Skill felt bloated or partially redundant → tighten. Context shifted since skill was written → update.
+- [ ] **Should a hook be added or modified?** Same mistake twice despite MEMORY.md rule → escalate to hook. See `~/docs/solutions/enforcement-ladder.md`.
+- [ ] **Should something port to Hexis?** Generic fix (not personal tooling) → update `~/code/hexis/`. Port-back rule: bug fixes in shipped hooks, architecture insights, generic patterns. Don't port: personal integrations, personal paths, workflow skills tied to our setup.
+
+If nothing, skip silently. If something, propose it — don't auto-implement.
+
 ## Output
 
 **Write first, then summarise.** A short prose paragraph under `**Wrap**`:
