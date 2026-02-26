@@ -1,6 +1,6 @@
 ---
 name: waking-up
-description: Waking Up meditation transcripts — catalog, transcribe, search, rename. "waking up", "wu", "transcribe meditation"
+description: Waking Up meditation transcripts — catalog, transcribe, search, enrich. "waking up", "wu", "transcribe meditation"
 user_invocable: true
 ---
 
@@ -14,110 +14,83 @@ Use when:
 - User says "waking up", "wu", "transcribe", "meditation transcripts"
 - Any question about the Waking Up catalog, audio IDs, or transcript status
 
+## Project Status
+
+**Complete.** 1,314 transcripts across 54 teachers, 107 packs, 67 traditions. All enriched with metadata (tradition, summary, key_concepts). Organized into pack folders with MOC.
+
+93 transcripts still have `teacher: "Unknown"` — these are multi-teacher Conversations where teacher can't be determined from pack data alone.
+
 ## Quick Commands
 
 ```bash
-wu catalog                    # show catalog stats (courses, types)
-wu catalog <file.json>        # import new courses dump from browser extraction
+wu catalog                    # show catalog stats (1,831 courses, types)
+wu catalog <file.json>        # import new courses dump
 wu search "Alan Watts"        # search by title/slug
 wu search "zen" --type talk   # filter by content type
 wu info <audio_id>            # show metadata + vault status for a UUID
 wu transcribe <id> "Title" --teacher "Name" --pack "Pack"   # single session
-wu batch batch_all_titled.json                                # batch run
+wu batch <file.json> --model gemini-3-flash -c 3            # batch run
+wu enrich                     # add tradition/summary/key_concepts via Gemini
+wu status <file.json>         # show batch progress
 wu rename --dry-run           # preview placeholder renames
 wu rename                     # apply renames
-```
-
-## Common Workflows
-
-### Check what's in the catalog
-```bash
-wu catalog          # 1831 courses, breakdown by type
-wu search "Tao"     # find specific content
-```
-
-### Transcribe a single session
-```bash
-wu info <audio_id>                        # check if already transcribed
-wu transcribe <id> "Title" --teacher "Sam Harris" --pack "Fundamentals"
-```
-
-### Batch transcribe
-```bash
-wu batch batch_all_titled.json                                     # Batch 1 done (Deepgram)
-wu batch batch_phase2.json --model gemini-2.5-flash               # Phase 2: 167 sessions (recommended)
-wu batch batch_retry_large.json --model or:gemini-3-flash -c 1   # Large files auto-split into 15-min chunks
-wu batch-async batch_phase2.json --enrich                         # Speechmatics async only (not Gemini)
-wu compare <audio_id>                                              # Compare backends on one session
-wu compare <audio_id> --models speechmatics,gemini-2.5-flash      # Custom model set
-```
-
-### Rename placeholders after batch
-```bash
-wu rename --dry-run    # see what would change
-wu rename              # apply renames
-```
-
-### Refresh catalog (browser extraction required)
-1. Go to https://app.wakingup.com, open DevTools Console
-2. Paste `extract_audio_ids.js` from the repo
-3. Navigate packs to capture GraphQL responses
-4. Run `copyWakingUpSessions()` or `getWakingUpSessions()`
-5. Save JSON to file, then: `wu catalog <file.json>`
-
-### Get pack course listings via browser (for batch building)
-```bash
-# Auth works via stored browser-auth-state.json
-# agent-browser --session wu-session can log in with:
-TOKEN=$(python3 -c "import json; d=json.load(open('~/code/wu/browser-auth-state.json')); print(next(c['value'] for c in d['cookies'] if c['name']=='STYXKEY-token'))")
-agent-browser --session wu-session open "https://app.wakingup.com"
-agent-browser --session wu-session eval "document.cookie='STYXKEY-token=$TOKEN; path=/; domain=.wakingup.com; secure'"
-agent-browser --session wu-session open "https://app.wakingup.com/packs/<HASH>"
-# Then snapshot → extract course titles → match against all_courses.json by title+type+duration
+wu review                     # list transcripts most likely to contain errors
+wu estimate <file.json>       # estimate transcription cost
 ```
 
 ## Key Paths
 
 - **Repo:** `~/code/wu/`
-- **Vault transcripts:** `~/notes/Waking Up/`
+- **Vault transcripts:** `~/notes/Waking Up/` (107 pack folders + Uncategorized)
+- **MOC:** `~/notes/Waking Up/Waking Up MOC.md`
 - **Audio cache:** `~/.cache/waking-up-audio/`
-- **Catalog data:** `all_courses.json`, `audio_id_mapping.json` (in repo root)
-- **Batch files:** `batch_all_titled.json` (Batch 1, done), `batch_phase2.json` (167 sessions, ready)
+- **Catalog data:** `data/all_courses.json`, `data/audio_id_mapping.json`
+- **Pack data:** `data/packs.json` (129 packs), `data/pack_courses.json` (scraped pack→course mapping)
+- **Progress note:** `~/notes/Waking Up Transcription Progress.md`
+
+## Transcription Backends
+
+| Model | CLI flag | Notes |
+|-------|----------|-------|
+| Gemini 3 Flash (direct API) | `gemini-3-flash` (default) | Best quality, GOOGLE_API_KEY, File API upload |
+| Gemini 2.5 Flash | `gemini-2.5-flash` | Fallback when 3 Flash returns empty `parts` |
+| OpenRouter | `or:gemini-3-flash` | Bypasses RECITATION filter. Auto-splits >20MB into 15-min chunks |
+| Deepgram Nova-3 | `nova-3` | Original backend, DEEPGRAM_API_KEY |
+
+**Model selection:** Use `gemini-3-flash` for most content. Use `or:gemini-3-flash` for copyright-adjacent content (meditation scripts, poetry, sacred texts) that triggers Gemini's RECITATION filter.
+
+## Audio Download
+
+Two CDN paths:
+- **HLS segments:** `d3amht9bmq5z6a.cloudfront.net/courses/audios/{UUID}/hls/` — most content
+- **Direct M4A:** `d2uk1wgjryl0y1.cloudfront.net/show_episodes/` — Episode content (Work in Progress Show)
+
+The CLI tries direct URL first (from `audio.url` in catalog), falls back to HLS segment discovery.
+
+## Metadata Tools (one-off scripts in repo root)
+
+- `scrape_packs.py` — Scrapes pack→course mapping from WU web app via agent-browser. Requires active browser session with auth cookie.
+- `update_metadata.py` — Updates teacher/pack frontmatter in vault transcripts and moves files into pack folders. Supports `--dry-run`.
 
 ## Error Handling
 
-- **DEEPGRAM_API_KEY not set**: Should be in `~/.zshenv`. Required for transcription.
-- **No segments found**: Audio ID may be invalid or content removed from CDN.
-- **ffmpeg failed**: Ensure ffmpeg is installed (`brew install ffmpeg`).
-- **No cached catalog**: Run `wu catalog` with a JSON file first, or use existing repo data.
+- **RECITATION block:** Switch to `or:gemini-3-flash` (OpenRouter bypasses Google's copyright filter)
+- **No segments found:** Try direct URL download — Episode content uses different CDN
+- **502/524 on OpenRouter:** File too large for base64 — auto split-and-concatenate handles this for >20MB
+- **Empty `parts` from Gemini:** Model-level issue, not quota. Fallback to `gemini-2.5-flash`
+- **ffmpeg not found:** `brew install ffmpeg`
 
-## Notes
+## Technical Notes
 
-- Deepgram Nova-3 is the default model — **$0.0056/min all-in**, used for Batch 1
-- Already-processed sessions are skipped automatically (check vault for existing `.md`)
-- The `--force` flag re-downloads and re-transcribes even if output exists
-- Audio is cached in `~/.cache/waking-up-audio/` — safe to clear for disk space
-- `batch-async` is **Speechmatics-specific** (async submit/poll/fetch). Use `batch` for Gemini.
-- **Auto split-and-concatenate:** `or:*` models auto-split files >20MB into 15-min ffmpeg chunks, transcribe each, concatenate. No manual splitting needed.
-
-## STT Provider Comparison (tested Feb 2026)
-
-**Recommended for Phase 2: `gemini-2.5-flash`**
-- ~$0.0015/min (~$6.75 for 167 sessions vs ~$18 for Speechmatics)
-- Matches or beats Speechmatics on Buddhist vocabulary (correctly got "Vipassana" where SM failed)
-- No audio duration limit
-- Use system prompt with Buddhist glossary instead of `sounds_like`
-
-**Speechmatics Pro** (available, tested):
-- $0.004/min, `sounds_like` phoneme hints for Sanskrit/Pali
-- `speaker_diarization_config.max_speakers` field removed (breaking change Feb 2026 — already fixed)
-- API is async batch (submit → poll → fetch) — different architecture from Gemini
-
-**Avoid:**
-- `gemini-3-flash-preview`: output token limit truncates ~38% of 27-min sessions
-- `gpt-4o-transcribe`: hard 1400s (~23 min) audio duration limit — rules out most sessions
-- Groq/Whisper: hallucination on quiet audio, no vocab injection
-- Google Cloud Speech / AWS: 6× more expensive
+- **GraphQL endpoint:** `https://api.wakingup.com/api/graphql`
+- **Auth header:** `authorization: <JWT>` (no Bearer prefix)
+- **Required headers:** `app-client: web`, `app-build: 951`, `app-version: 3.19.1`, `timezone: 28800`
+- **Content query returns ALL 1,831 courses** — no pagination needed
+- **Introspection disabled** — field discovery by trial/error
+- **Valid Course fields:** `title`, `hash`, `slug`, `type`, `description`, `subtitle`, `id`, `audio { id url length }`, `image { ... }`
+- **Pack→course relationships not in GraphQL** — must scrape from web app via `scrape_packs.py`
+- **Auto split-and-concatenate:** Built into CLI. `or:*` models auto-split >20MB files into 15-min ffmpeg chunks. No re-encoding.
+- `maxOutputTokens: 65536` required — Gemini defaults to ~8192 without it
 
 Full gotchas: `~/docs/solutions/stt-api-gotchas.md`
-Full results: `~/notes/Waking Up/STT Comparison Results.md`
+Full progress: `~/notes/Waking Up Transcription Progress.md`
