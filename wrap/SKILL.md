@@ -25,6 +25,7 @@ Answer these questions honestly during the scan. If any answer is yes, there's a
 5. **Did the same issue come up more than once?** Repetition = pattern
 6. **Did Terry choose X over Y without explaining?** Implicit preference worth capturing
 7. **Did we use a skill and learn something about the workflow?** Skill-specific learnings should go back into the skill, not MEMORY.md
+8. **Did a rule exist but get bypassed?** A MEMORY.md or CLAUDE.md rule that wasn't followed → log to `~/docs/solutions/rule-violation-log.md`. 2 entries for the same rule = escalate to hook.
 
 ## Workflow
 
