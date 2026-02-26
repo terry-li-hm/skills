@@ -1,5 +1,5 @@
 ---
-name: browser-automation
+name: browser
 description: Reference skill for agent-browser CLI automation. Not user-invocable — use as internal guidance.
 user_invocable: false
 platform: claude-code
@@ -26,6 +26,8 @@ Cookies, logins, and local storage persist across sessions automatically.
 | **Headed** | `agent-browser --headed open <url>` | Debugging, initial login to sites |
 
 For first-time login to a site, use `--headed` so you can see and interact with the login flow. After that, cookies persist in the profile.
+
+**Profile gotcha:** The persistent profile may redirect to previously-open pages (e.g. localhost:8001). For external forms or one-off pages, use a clean browser: `agent-browser close` first, then `AGENT_BROWSER_PROFILE="" agent-browser open <url>` to skip the profile.
 
 ## Core Workflow
 
@@ -142,9 +144,13 @@ agent-browser eval "$(cat /tmp/script.js)"
 - `get url`, `get title`, `eval "JS"`, `snapshot`, `upload`
 
 ### Usually works
-- `fill "selector" "text"`, `fill @ref "text"`, `check "#id"`, `select @ref "value"` (simple dropdowns), `press "Enter"/"Tab"`
+- `fill "selector" "text"`, `fill @ref "text"`, `check "#id"`, `check @ref`, `press "Enter"/"Tab"`
 
-### Unreliable on heavy SPAs
+### Unreliable
+- `select @ref "value"` — hangs on some dropdown implementations (e.g. Cliniko). Use JS eval fallback instead:
+  ```bash
+  agent-browser eval 'const s = document.querySelectorAll("select")[N]; s.value = "val"; s.dispatchEvent(new Event("change", {bubbles:true}))'
+  ```
 - `click @ref`, `fill @ref` on complex widgets, `scrollintoview @ref`, `open "url"`
 
 ### Never works
@@ -158,9 +164,31 @@ agent-browser eval "$(cat /tmp/script.js)"
 | `click @ref` timeout | `eval "document.querySelector('selector').click()"` |
 | `eval` value set doesn't sync React | `fill "selector" "text"` (Playwright native) |
 | `snapshot` timeout | `eval` to extract form fields directly |
+| `select @ref` hangs | `eval` with JS: set `.value` + `dispatchEvent(new Event("change", {bubbles:true}))` |
+| `fill @ref` sets wrong field | Native setter: `Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set.call(el, text)` + dispatch `input`+`change` events |
 | All Playwright actions timeout | Form is automation-proof — manual for submission |
 
 **Quick rule:** `eval` for navigation/reading state, `fill` for text inputs, `click @ref` or `click "selector"` for buttons, `upload` for files, `check "#id"` for checkboxes. Only dropdowns on heavy SPAs need manual interaction.
+
+## Multi-Field Form Filling
+
+Filling long registration forms (e.g. Cliniko, medical intake). Learned patterns:
+
+1. **Use clean browser** for external forms — `AGENT_BROWSER_PROFILE="" agent-browser open <url>`
+2. **Fill text fields one at a time** with `fill @ref "value"` — sequential, not chained with `&&`
+3. **Dropdowns via JS eval** — `select @ref` hangs on many implementations:
+   ```bash
+   agent-browser eval 'const s = document.querySelectorAll("select")[INDEX]; s.value = "VALUE"; s.dispatchEvent(new Event("change", {bubbles:true}))'
+   ```
+4. **Checkboxes** — `check @ref` works reliably
+5. **Radio buttons** — `click @ref` works
+6. **Screenshot-verify before submit** — scroll top-to-bottom and screenshot each section
+7. **If `fill @ref` hits wrong field** — use native setter via eval:
+   ```bash
+   agent-browser eval 'const el = document.querySelectorAll("input")[0]; Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set.call(el, "text"); el.dispatchEvent(new Event("input", {bubbles:true})); el.dispatchEvent(new Event("change", {bubbles:true}))'
+   ```
+
+**Command chaining:** Never chain agent-browser commands with `&&` — the daemon can't handle concurrent requests and throws "Resource temporarily unavailable (os error 35)". Run each command as a separate Bash call.
 
 ## Backup: Rodney (simonw/rodney)
 
