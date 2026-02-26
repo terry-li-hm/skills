@@ -145,7 +145,7 @@ Tier 2: `@brendangregg`, `@rauchg`, `@shl`, `@atroyn`, `@dotey`, `@danshipper`, 
 **3. X Discovery review** — check `### X Discovery (For You)` section in log. Interesting new handles → add to `~/.config/lustro/sources.yaml` x_accounts. Keywords configurable in `sources.yaml` `x_discovery` section.
 
 **4. WeChat articles:**
-- WeWe RSS feeds are in the cron (`localhost:4000`) — check log entries
+- Wechat2RSS feeds are in the cron (`localhost:8001`) — check log entries
 - Ad-hoc extraction: `summarize "https://mp.weixin.qq.com/s/ID" --model anthropic/claude-sonnet-4`
 - WeChat search: WebSearch with `site:mp.weixin.qq.com/s/` queries (see `sources.yaml` `wechat_search` section)
 
@@ -159,7 +159,7 @@ Tier 2: `@brendangregg`, `@rauchg`, `@shl`, `@atroyn`, `@dotey`, `@danshipper`, 
 After deep mode, briefly report what was checked:
 - How many cron log sources had entries since last discussion
 - How many X accounts had entries vs needed live fetch
-- WeChat/WeWe coverage
+- WeChat/Wechat2RSS coverage
 - Any sources intentionally skipped and why
 
 This prevents the "did we really check all sources?" question.
