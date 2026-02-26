@@ -91,6 +91,18 @@ Separate from learnings — this asks "should the machine improve?" not "what di
 
 If nothing, skip silently. If something, propose it — don't auto-implement.
 
+### Step 6: Generalization Cascade
+
+For each learning captured this session (during the session or in Steps 4-5), ask: **"Does this apply more broadly than where it was routed?"**
+
+- A tool gotcha in one skill → does it affect other skills?
+- A MEMORY.md rule → is it a generic pattern worth adding to a skill design guide or Hexis?
+- A skill tightening → does the *reason* it was tightened reveal a broader maintenance principle?
+
+This is the compounding mechanism. Most learnings stay where they're routed. But ~1 in 5 generalizes upward — from instance to pattern, from pattern to principle. That's where the real value compounds.
+
+One pass only. If nothing generalizes, move on.
+
 ## Output
 
 **Write first, then summarise.** A short prose paragraph under `**Wrap**`:
