@@ -123,3 +123,20 @@ The CLI tries direct URL first (from `audio.url` in catalog), falls back to HLS 
 
 Full gotchas: `~/docs/solutions/stt-api-gotchas.md`
 Full progress: `~/notes/Waking Up Transcription Progress.md`
+
+## Distillation System
+
+**Complete (Feb 2026).** Four layers, all idempotent with `--force` to regenerate:
+
+| Layer | Command | Output | Count |
+|-------|---------|--------|-------|
+| Digests | `wu digest` | `## Digest` sections in vault files | 1,314 |
+| Guides | `wu guide --teachers/--traditions` | `Guides/` folder | 60 (47 teacher + 13 tradition) |
+| Themes | `wu themes` | `Themes/` folder | 15 emergent themes |
+| Practice | `wu practice` | `Practice Guide.md` | 1 (from 637 sources) |
+
+- Layers 2-4 read digests (Layer 1 output), not raw transcripts
+- LLM JSON parsing: always strip trailing commas before `json.loads()` — `re.sub(r",\s*([}\]])", r"\1", text)`
+- Large teachers (>50 digests): two-pass chunking (summarize chunks, then synthesize)
+- Tradition dedup: 67 raw labels → 12 canonical groups via hardcoded `TRADITION_GROUPS` dict
+- Full pattern: `~/docs/solutions/cascading-llm-summarization.md`
