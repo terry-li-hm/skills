@@ -60,5 +60,6 @@ This data is free — it's already in the snapshot. Don't discard it.
 ## Gotchas
 
 - LinkedIn abbreviates surnames for non-connections ("Simon E.")
+- **Initials-only display names:** Some users set their name to initials (e.g., "H Y LI" instead of "Ho Yin Li"). Google and WebSearch won't match full-name queries to these profiles. If external search draws a blank for someone you know exists, try searching initials on LinkedIn directly via agent-browser before concluding the account is deactivated.
 - The existing `linkedin-engage` skill is for **content** (posts/comments) — this skill is for **research**
 - Profile data from snapshots may be incomplete — check "Show all X experiences" expand links

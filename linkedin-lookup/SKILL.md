@@ -107,5 +107,5 @@ Provide a concise confirmation of the action:
 
 - **`--wait` flag creates a directory in CWD.** Never use `--wait` with `agent-browser open`. It creates a browser profile directory named `--wait/` in the current working directory. Use `sleep` between commands instead.
 - **LinkedIn sessions expire.** If snapshot returns a sign-in wall ("Sign in to message..."), re-login: `agent-browser --headed open "https://linkedin.com" --profile`, then close and retry headless.
-- **Name variations break external search.** Chinese/Indian names on LinkedIn often use full legal names (e.g., "Marco King Tao CHIU" not "Marco Chiu"). If WebSearch fails, escalate to pplx (which often finds full names) or use LinkedIn's own search via agent-browser.
+- **Name variations break external search.** Chinese/Indian names on LinkedIn often use full legal names (e.g., "Marco King Tao CHIU" not "Marco Chiu"). Some users display initials only (e.g., "H Y LI" not "Ho Yin Li"). If WebSearch fails, escalate to pplx (which often finds full names) or use LinkedIn's own search via agent-browser — LinkedIn matches initials to full names better than Google does.
 - **Vault context enriches profiles.** After saving, check `~/notes/` for existing context on the person (e.g., interview notes, meeting prep) and add a "Context" section to the profile note.
