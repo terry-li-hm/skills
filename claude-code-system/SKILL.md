@@ -64,7 +64,7 @@ Escalate to hook after 2 entries in `~/docs/solutions/rule-violation-log.md`.
 
 ## Hook Inventory
 
-All hooks live in `~/.claude/hooks/`, configured in `~/.claude/settings.json`. **19 hook files, 25 PreToolUse deny rules + 7 PostToolUse watchers, covering all 6 event types.**
+All hooks live in `~/.claude/hooks/`, configured in `~/.claude/settings.json`. **19 hook files, 27 PreToolUse deny rules + 7 PostToolUse watchers, covering all 6 event types.**
 
 ### PreToolUse — Block before execution (4 hooks)
 
