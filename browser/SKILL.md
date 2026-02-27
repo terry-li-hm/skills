@@ -20,11 +20,7 @@ export AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile"
 ```
 Cookies, logins, and local storage persist across sessions automatically.
 
-**Claude Code Bash tool doesn't load `.zshenv`** — the env var is empty. Always set it explicitly:
-```bash
-AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser open <url>
-```
-Never use `AGENT_BROWSER_PROFILE=1` — that creates a profile at literal path "1" and cookies go to the wrong place.
+**Fixed (Feb 2026):** `AGENT_BROWSER_PROFILE` is set in `~/.claude/settings.json` `env` field, so it's available in all Bash calls automatically. No manual prefix needed. If it ever breaks: never use `AGENT_BROWSER_PROFILE=1` — that creates a profile at literal path "1".
 
 ## Two Modes
 
