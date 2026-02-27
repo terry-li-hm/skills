@@ -33,12 +33,20 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Scan Gmail for Capco/HR emails (past 24h): `gog gmail search "capco OR first advantage OR background check OR PILON OR alison" | head -10`
    - Flag anything requiring action
 
-5. **Cora email brief** (AI-triaged inbox summary):
-   - Fetch the latest Cora brief: `gog gmail search "from:briefs@cora.computer" --max 1 | head -5`
-   - Read the brief: `gog gmail read <ID>`
-   - Cora sends briefs at ~8am and ~3pm (configurable). Surface the key stats: emails handled %, emails needing attention, emails archived
+5. **Cora brief** (AI-triaged inbox summary — fetch from website for full content):
+   - Get today's date: `date +%Y-%m-%d`
+   - Fetch via headless browser (has persistent login):
+     ```bash
+     agent-browser open "https://cora.computer/14910/briefs?date=$(date +%Y-%m-%d)&time=morning"
+     sleep 3
+     agent-browser get url  # verify not redirected to /users/sign_in
+     agent-browser eval "document.body.innerText"
+     ```
+   - If redirected to login: fall back to email — `gog gmail search "from:briefs@cora.computer" --max 1 --plain`
+   - Surface the key stats: emails handled %, emails needing attention, emails archived
+   - Include expanded newsletter summaries (banking/AI briefs) — this is the advantage over the email version
    - If Cora flagged emails needing attention > 0, list them
-   - If no brief found in last 24h, skip silently
+   - If no brief available, skip silently
 
 6. **Check cron logs** (overnight output):
    - Check `~/logs/cron-weather.log` for recent entries
