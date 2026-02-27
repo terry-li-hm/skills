@@ -33,20 +33,13 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Scan Gmail for Capco/HR emails (past 24h): `gog gmail search "capco OR first advantage OR background check OR PILON OR alison" | head -10`
    - Flag anything requiring action
 
-5. **Cora brief** (AI-triaged inbox summary — fetch from website for full content):
-   - Get today's date: `date +%Y-%m-%d`
-   - Fetch via headless browser (has persistent login):
-     ```bash
-     agent-browser open "https://cora.computer/14910/briefs?date=$(date +%Y-%m-%d)&time=morning"
-     sleep 3
-     agent-browser get url  # verify not redirected to /users/sign_in
-     agent-browser eval "document.body.innerText"
-     ```
-   - If redirected to login: fall back to email — `gog gmail search "from:briefs@cora.computer" --max 1 --plain`
-   - Surface the key stats: emails handled %, emails needing attention, emails archived
-   - If Cora flagged emails needing attention > 0, list them
-   - Note: banking/AI newsletters (Evident, AI Street, AINews) unsubscribed from email Feb 2026 — Lustro handles those. Cora briefs will be lighter on newsletter content.
-   - If no brief available, skip silently
+5. **Cora inbox triage** (read Cora's labels via Gmail — no website scraping):
+   - Latest brief email: `gog gmail search "from:briefs@cora.computer newer_than:12h" --max 1 --plain`
+     - If found, read it with `gog gmail get <id> --plain` — has headline stats (handled %, needs attention, archived)
+   - Action items: `gog gmail search "label:Cora/Action newer_than:12h" --max 5 --plain`
+   - Needs response: `gog gmail search "(label:✒️-Needs-Response OR label:✅-Todo OR label:⏰-Timely) newer_than:12h" --max 5 --plain`
+   - If any action/response items found, list them
+   - If no brief and no flagged items, skip silently
 
 6. **Check cron logs** (overnight output):
    - Check `~/logs/cron-weather.log` for recent entries
@@ -101,7 +94,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 
 ## Output
 
-Write a short prose briefing under the date heading. Open with how you slept (if Oura data available), then what happened overnight — messages, cron results, Cora's inbox triage. If anything needs attention (weather warnings, staleness flags, overdue items), weave it in naturally. Close with what's on the plate today: calendar events, deadlines, and any carryover from yesterday's daily note.
+Write a short prose briefing under the date heading. Open with how you slept (if Oura data available), then what happened overnight — messages, cron results, Cora's inbox triage (from labels/brief email). If anything needs attention (weather warnings, staleness flags, overdue items), weave it in naturally. Close with what's on the plate today: calendar events, deadlines, and any carryover from yesterday's daily note.
 
 Skip anything with nothing to report — don't mention empty sections. The brief should read like a colleague telling you what matters this morning, not a dashboard.
 

@@ -57,7 +57,6 @@ After successful login, update the authenticated sites table in `~/docs/solution
 | LinkedIn | linkedin.com/login | Feb 2026 |
 | Substack (Latent Space) | substack.com/sign-in | Feb 2026 |
 | Taobao/Tmall | login.taobao.com | Feb 2026 |
-| Cora | cora.computer/users/sign_in | Feb 2026 |
 
 ## Notes
 
