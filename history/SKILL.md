@@ -44,7 +44,21 @@ resurface search "DBS" --tool Claude           # Filter by tool
 # --- Search mode (full transcripts — user + assistant, parallel with rayon) ---
 resurface search "self-intro" --deep           # Last 7 days
 resurface search "DBS" --deep --days=30        # Last 30 days
+
+# --- Filtering (deep mode) ---
+resurface search "weekly" --deep --role claude     # Only AI responses
+resurface search "weekly" --deep --role you         # Only user messages
+resurface search "W09" --deep --session b1b94317   # Specific session (prefix match)
+resurface search "weekly" --deep --role claude --session b1b94317  # Combined
 ```
+
+### Role aliases
+
+| Filter value | Matches |
+|---|---|
+| `you` / `user` / `me` | User messages |
+| `claude` / `assistant` / `ai` | AI responses (Claude + OpenCode) |
+| `opencode` | OpenCode responses only |
 
 ## claude-history (Interactive TUI — use from terminal)
 
@@ -62,8 +76,11 @@ claude-history --plain --no-pager  # Plain text (still needs terminal)
 |------|------|
 | From Claude Code (any search) | `resurface` |
 | "What did I do today/yesterday" | `resurface` or `resurface --full` |
+| "Did X happen today?" | **Check daily note first** (`~/notes/Daily/$(date +%Y-%m-%d).md`), then `resurface search --deep --role claude` |
 | Search prompts (fast) | `resurface search "pattern"` |
 | Deep transcript search | `resurface search "pattern" --deep` |
+| Filter out noise (intent vs execution) | `--role claude` (AI confirmations only) |
+| Drill into specific session | `--session <8-char-prefix>` |
 | Browse/find a conversation interactively | `claude-history` (terminal only) |
 | Resume a past Claude Code session | `claude-history --resume` (terminal only) |
 
@@ -80,3 +97,5 @@ claude-history --plain --no-pager  # Plain text (still needs terminal)
 - `chat_history.py` (`~/scripts/chat_history.py`) still works as fallback
 - This skill can be called by `/daily` for chat scanning
 - Deep search includes tool names (e.g. `[tool: Read]`) for context but skips tool input/output
+- **Session storage gotcha:** Claude Code stores entries from session A inside session B's JSONL file (via context compaction/continuity). The `--session` filter checks the entry-level `sessionId`, not the filename — this is correct.
+- **"Did X happen?" strategy:** Search for execution markers (e.g. "synthesis complete", "note written", week number) not trigger words (e.g. "weekly"). Use `--role claude` to filter out intent mentions.
