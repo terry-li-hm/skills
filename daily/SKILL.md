@@ -46,6 +46,7 @@ Bedtime close → daily note. The final checkpoint of the day.
      - Items with `when:` = tomorrow (scheduled starts)
      - Any overdue items (`due:` < tomorrow) that weren't completed
    - Check if tomorrow's daily note already exists (carryover from today's follow-ups)
+   - **Thursday only (token budget check):** Weekly Claude Max reset is Friday ~11am HKT. Run `/status` or `cu` and if weekly usage is low (significant headroom remaining), surface it: "Weekly reset tomorrow 11am — X% unused. Spare Capacity tasks in TODO.md if you want to burn tokens tonight or early tomorrow."
 
 6. **Fix header** — validate and update the `# YYYY-MM-DD — Day` line:
    - Verify day-of-week matches `date` output (wrap sometimes gets this wrong). Fix if needed.
