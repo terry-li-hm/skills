@@ -53,7 +53,14 @@ Escalate to hook after 2 entries in `~/docs/solutions/rule-violation-log.md`.
 
 **The one-sentence test:** If it fits in one sentence → MEMORY.md. If it has a trigger + multiple steps → skill. If it's deep reference → solutions. See `design-skill` for full placement heuristics.
 
-**MEMORY.md budget:** 200-line truncation. Currently 218 lines — over budget. Move detailed content to topic files and keep MEMORY.md as a concise index. Every new entry should justify displacing an existing one.
+**MEMORY.md budget:** 200-line hard truncation, **150-line target**. Currently ~120 lines with 30-line buffer. Overflow doc: `~/docs/solutions/memory-overflow.md`.
+
+**Three tiers of permanence:**
+- **Permanent** — errors I'd repeat weekly without the reminder (date/time, specs, grep scoping). Never demote.
+- **Active** — gotchas tied to current projects or tools. Demote when project ends or tool changes.
+- **Provisional** — single-incident lessons. If not cited in 2 weeks → demote to overflow doc.
+
+**Weekly review (in `/weekly`):** Scan MEMORY.md entries. Any provisional entry not cited this week gets flagged. Two consecutive weeks uncited → demote to `~/docs/solutions/memory-overflow.md`. Overflow entries cited 2+ weeks running → promote back.
 
 ## Hook Design Patterns
 
@@ -116,7 +123,7 @@ Weekly /skill-review checks for staleness
 
 - **Instance → Pattern → Principle:** Most learnings stop at instance. Explicitly ask "is this a pattern?" after the third occurrence.
 - **Promote Oghma hits to MEMORY.md:** If km-ask surfaces the same Oghma memory 3+ times, it's stable enough for MEMORY.md.
-- **Demote stale MEMORY.md entries:** If a rule hasn't been relevant in a month, move to vault or delete.
+- **Demote stale MEMORY.md entries:** Weekly review in `/weekly`. Two weeks uncited → demote to overflow. Overflow cited 2+ weeks → promote back.
 - **Hook as MEMORY.md pressure relief:** Every rule that graduates to a hook is one fewer line competing for attention in MEMORY.md.
 
 ## See Also

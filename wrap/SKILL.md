@@ -65,7 +65,7 @@ Resume points must pass the cold-start test: could another session resume from t
 
 **If the session had substance,** one pass through three lenses:
 
-1. **Safety net:** Uncaptured friction, corrections, or gotchas? Route to the most specific file: tool gotcha → `~/docs/solutions/`, cross-session context → MEMORY.md, skill workflow → the skill's SKILL.md.
+1. **Safety net:** Uncaptured friction, corrections, or gotchas? Route to the most specific file: tool gotcha → `~/docs/solutions/`, cross-session context → MEMORY.md, skill workflow → the skill's SKILL.md. **Budget check:** If MEMORY.md > 150 lines, flag for trimming before next `/weekly`.
 2. **System evolution:** Should a skill be created or tightened? Hook added? Same mistake twice despite a rule → escalate per `~/docs/solutions/enforcement-ladder.md`. Hexis port? (Generic only.) Propose, don't auto-implement.
 3. **Generalization:** Does any learning apply beyond where it was routed? Instance → pattern → principle. Most don't. If nothing generalizes, move on.
 

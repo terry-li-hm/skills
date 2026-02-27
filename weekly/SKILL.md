@@ -136,11 +136,10 @@ Run these checks every Friday and include results in the weekly note under `## S
 
 ### AI Tooling
 
-1. **CLAUDE.md & MEMORY.md content review** — Check line counts (`wc -l`). Flag if CLAUDE.md >300 or MEMORY.md >150. Then do a staleness scan:
-   - Read both files and flag sections referencing past dates, completed transitions, retired tools, or situations that no longer apply
-   - Check "Current Situation", "Current Projects", and any date-anchored content in CLAUDE.md
-   - Check MEMORY.md for entries about tools/projects no longer in use
-   - Present a concrete list: "Remove X", "Update Y", "Keep Z" — don't just flag, recommend actions
+1. **CLAUDE.md & MEMORY.md content review** — Check line counts (`wc -l`). Flag if CLAUDE.md >300 or MEMORY.md >150. Then:
+   - **Staleness scan:** Flag sections referencing past dates, completed transitions, retired tools, or situations that no longer apply. Check "Current Situation", "Current Projects", date-anchored content in CLAUDE.md. Check MEMORY.md for entries about tools/projects no longer in use.
+   - **MEMORY.md frequency review:** Scan entries and ask: "Which of these fired this week?" Entries have three tiers — permanent (weekly use, never demote), active (current project, demote when project ends), provisional (single-incident). Any provisional entry not cited 2 consecutive weeks → demote to `~/docs/solutions/memory-overflow.md`. Any overflow entry cited 2+ weeks → promote back. Budget: ~150 lines (200 is hard truncation).
+   - Present a concrete list: "Remove X", "Demote Y to overflow", "Promote Z from overflow", "Keep W" — don't just flag, recommend actions.
    - During transition periods (job changes, major project shifts), this is the most valuable check
 2. **Skills inventory** — `ls ~/skills/*/SKILL.md | wc -l` for total count. `cd ~/skills && git log --oneline --since="7 days ago"` for changes. Flag skills not invoked in 30+ days (check `~/.claude/history.jsonl` for recent `/skill` usage).
 3. **MCP servers** — `claude mcp list` to verify health. Flag any disconnected, orphaned from experiments, or version-drifted servers.
