@@ -60,7 +60,7 @@ Escalate to hook after 2 entries in `~/docs/solutions/rule-violation-log.md`.
 - **Active** — gotchas tied to current projects or tools. Demote when project ends or tool changes.
 - **Provisional** — single-incident lessons. If not cited in 2 weeks → demote to overflow doc.
 
-**Weekly review (in `/weekly`):** Scan MEMORY.md entries. Any provisional entry not cited this week gets flagged. Two consecutive weeks uncited → demote to `~/docs/solutions/memory-overflow.md`. Overflow entries cited 2+ weeks running → promote back.
+**Weekly review (in `/weekly`):** Scan MEMORY.md entries against the week's sessions. Any provisional entry not cited this week gets flagged. Two consecutive weeks uncited → demote to `~/docs/solutions/memory-overflow.md`. Overflow entries cited 2+ weeks running → promote back. At ~120 lines, review takes ~2 minutes — if it feels slow, the file is too long.
 
 ## Hook Design Patterns
 
