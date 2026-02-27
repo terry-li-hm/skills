@@ -97,7 +97,7 @@ Run formatters after edits: prettier (JS/TS), tsc (TS), ruff (Python). Keep fast
 - **Rule without enforcement path:** "Be concise" in MEMORY.md with no way to detect violations. Either accept it's advisory or find a hookable proxy.
 - **Hook without deny message:** Silent blocks confuse the agent. Always explain what to do instead.
 - **Duplicated rules:** Same rule in MEMORY.md AND a skill AND solutions. Pick one canonical location, reference from others.
-- **MEMORY.md bloat:** 218 lines and growing. Rules compete for attention. Aggressive hooks *reduce* MEMORY.md pressure by moving enforcement to a hard gate.
+- **MEMORY.md bloat:** Budget is ~150 lines (120 current). Aggressive hooks *reduce* MEMORY.md pressure by moving enforcement to a hard gate. Overflow → `~/docs/solutions/memory-overflow.md`.
 - **Soft rule for a hard problem:** If the same MEMORY.md rule gets violated twice, it's proven that soft guidance isn't enough. Don't add a third line to MEMORY.md — build a hook.
 - **Over-engineering hooks for one-time mistakes:** Not every error is a pattern. If it won't recur, don't hook it.
 
