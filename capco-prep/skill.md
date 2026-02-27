@@ -1,6 +1,6 @@
 ---
 name: capco-prep
-description: "Capco readiness — drill, brief, or meeting prep. 'capco prep', 'capco drill', 'capco brief', 'prep for coffee with Simon'"
+description: "Capco onboarding readiness — drill, brief, or event-specific prep. 'capco prep', 'capco drill', 'capco brief'"
 user_invocable: true
 model: sonnet
 ---
