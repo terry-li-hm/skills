@@ -1,3 +1,7 @@
 .cache/
 config.json
 --wait
+
+# agent-browser profile artifacts
+1/
+*/1/
