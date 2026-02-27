@@ -331,6 +331,16 @@ consilium --list-roles            # Show predefined roles for --solo
 
 ## Prompting Tips
 
+**For draft reviews** (LinkedIn comments, emails, messages, posts):
+
+Always include the source material in the prompt — models can't judge tone, positioning, or reception risk without seeing what the draft responds to. Structure the prompt as:
+1. The original post/email/thread being responded to (full text or key excerpts)
+2. The drafted response
+3. Context about the author's relationship to the recipient and goals
+4. Specific review criteria (tone, positioning risk, information leaks, reception)
+
+Use `--quick` for tone/reception checks (~$0.10), `--redteam` for high-stakes public comments where reputational risk matters (~$0.20).
+
 **For social/conversational contexts** (interview questions, networking, outreach):
 
 LLMs over-optimize for thoroughness. Add constraints like:

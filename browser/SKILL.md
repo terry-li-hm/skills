@@ -276,6 +276,10 @@ This is more reliable than `get text` for SPAs where content loads dynamically i
 
 **Tested working:** Eats365 (restaurant ordering platform used across HK).
 
+## Known Footguns
+
+- **`--wait` flag creates a directory in CWD.** `agent-browser open "url" --profile --wait 8000` creates a browser profile directory named `--wait/` in the current working directory. Use `sleep` between commands instead of `--wait`.
+
 ## Tips
 
 - `snapshot` over `screenshot` for token efficiency (text vs image tokens)
