@@ -51,7 +51,7 @@ Answer these before drafting:
 1. **Is the topic in Terry's lane?** (AI, financial services, governance, enterprise tech, consulting)
 2. **Can Terry add a distinct angle?** (Not just agreement — a practitioner insight, extension, or counterpoint)
 3. **Is the author worth engaging?** (Senior practitioner, potential client/referral, thought leader in FS/AI)
-4. **Is the timing right?** (Post <48h old? Fresh comments get more visibility)
+4. **Is the timing right?** (Post <48h old? Fresh comments get more visibility. Also check `resurface search "<author/company>" --deep` — if Terry already commented on this person/company today, skip. Double-engaging same day looks over-eager.)
 5. **Is the post worth Terry's comment?** If Terry's comment would be smarter than the post itself, react and move on. Comment when the post pulls the conversation *up* — original frameworks, genuine depth, substantive takes. Skip well-packaged platitudes, repackaged concepts, and content-mill series. Terry's practitioner insights should add to something strong, not carry something thin.
 
 If any answer is no, say so and suggest skipping or just reacting.
