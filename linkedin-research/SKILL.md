@@ -44,6 +44,19 @@ HSBC "Director" "Responsible AI" "Risk Solutions" site:linkedin.com
 - Mark unverified reporting lines with `[?]`
 - Save to vault with ASCII chart format (established pattern in Capco notes)
 
+### Network Graph Traversal
+
+Keyword search misses people whose titles don't reflect their work (common in consulting — "Principal Consultant" managing an AI engagement). Mine the sidebar from known profiles instead:
+
+1. Open a known profile via `agent-browser` (already doing this for extraction)
+2. The snapshot includes **"People also viewed"** and **"People you may know from [Company]"** sections — extract names and URLs
+3. Follow those links to discover colleagues keyword search would miss
+4. Repeat from the most relevant new profiles for 1-2 hops
+
+This data is free — it's already in the snapshot. Don't discard it.
+
+**Limitation:** Sidebar results are LinkedIn's algorithm, not a complete org chart. One message to an insider ("who else should I know?") is still faster for a complete team list.
+
 ## Gotchas
 
 - LinkedIn abbreviates surnames for non-connections ("Simon E.")
