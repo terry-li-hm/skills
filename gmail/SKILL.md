@@ -34,16 +34,8 @@ gog gmail get <message_id> --plain | grep "label_ids"
 gog gmail drafts list --plain
 ```
 
-### Reply to Thread (Safe)
-```bash
-gog gmail send \
-  --thread-id "<thread_id>" \
-  --to "<recipient_email>" \
-  --subject "Re: <original_subject>" \
-  --body "<message_body>"
-```
-
-### Reply with Quoted Original
+### Reply to Thread (DEFAULT: always quote)
+**Always use `--reply-to-message-id` + `--quote` when replying.** This is the default — never omit `--quote` unless explicitly asked.
 ```bash
 gog gmail send \
   --reply-to-message-id "<message_id>" \
