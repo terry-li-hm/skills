@@ -34,16 +34,6 @@ gog gmail get <message_id> --plain | grep "label_ids"
 gog gmail drafts list --plain
 ```
 
-### Detect Cora Multi-Option Drafts
-Cora creates drafts with multiple response options separated by `###`. These need human review to pick one option before sending.
-
-```bash
-# View a draft
-gog gmail get <message_id>
-```
-
-If you see `###` in the body, it's a Cora multi-option draft. Do NOT auto-send.
-
 ### Reply to Thread (Safe)
 ```bash
 gog gmail send \
@@ -94,7 +84,6 @@ gog gmail drafts delete <draft_id> --force
 When reporting email status to user, always be explicit:
 - ✉️ SENT — confirmed sent (has SENT label)
 - 📝 DRAFT — not sent yet (has DRAFT label)
-- ⚠️ CORA DRAFT — Cora multi-option draft (has ### separators)
 
 ## Common Patterns
 
@@ -109,8 +98,3 @@ Check for SENT vs DRAFT label.
 gog gmail search "newer_than:1d is:unread" --plain
 ```
 
-### "What did Cora draft?"
-```bash
-gog gmail drafts list --plain
-# Then check each for ### pattern
-```
