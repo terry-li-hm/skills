@@ -14,7 +14,7 @@ Five layers, three hard gates, two soft gates:
 | Layer | Mechanism | Strength | Adds friction? |
 |-------|-----------|----------|----------------|
 | OS Sandbox | Kernel filesystem/network restrictions | Hard gate | Silent |
-| Hooks (bash-guard.js) | PreToolUse code, exit 2 = block | Hard gate | Deny message |
+| Hooks (19 files, 6 event types) | PreToolUse deny / PostToolUse warn / context inject | Hard gate | Deny or warn |
 | Permission rules | settings.json deny/ask/allow | Hard gate | Prompt |
 | CLAUDE.md + MEMORY.md | Always in context, every turn | Soft gate | None |
 | Skills + Vault | Loaded on demand | Soft gate | None |
@@ -62,35 +62,77 @@ Escalate to hook after 2 entries in `~/docs/solutions/rule-violation-log.md`.
 
 **Weekly review (in `/weekly`):** Scan MEMORY.md entries against the week's sessions. Any provisional entry not cited this week gets flagged. Two consecutive weeks uncited → demote to `~/docs/solutions/memory-overflow.md`. Overflow entries cited 2+ weeks running → promote back. At ~120 lines, review takes ~2 minutes — if it feels slow, the file is too long.
 
-## Hook Design Patterns
+## Hook Inventory
 
-All hooks live in `~/.claude/hooks/`, configured in `~/.claude/settings.json`.
+All hooks live in `~/.claude/hooks/`, configured in `~/.claude/settings.json`. **19 hook files, ~22 distinct rules, covering all 6 event types.**
 
-### bash-guard.js (PreToolUse, Bash only)
+### PreToolUse — Block before execution (4 hooks)
 
-Pattern: regex match on `data.tool_input.command`, call `deny(reason)` to block.
+| Hook | Tool | Rules | What it guards |
+|------|------|-------|----------------|
+| `bash-guard.js` | Bash | 12 | rm without safe_rm, tccutil reset, grep/find on ~, credential exfil (.secrets, keychain, env vars), wacli without --chat, session JSONL parsing, npm→pnpm, uv --force→--reinstall, pip→uv, public gists, wacli send, force-push main/master |
+| `glob-guard.js` | Glob | 1 | `**` recursive patterns on `/Users/terry` (times out) |
+| `write-guard.js` | Write/Edit | 1 | Writes to sensitive files (.secrets, .env, .pypirc, credentials.json, keychain) |
+| `read-guard.js` | Read | 1 | Reads of sensitive files (mirrors write-guard, minus keychain) |
+
+**Pattern:** Parse `data.tool_input`, regex match, call `deny(reason)` to block.
 
 ```javascript
-// Good: high-precision, unambiguous signal, teaches the alternative
+// Good: high-precision, teaches the alternative
 if (/\.claude\/projects\//.test(cmd) && /\.jsonl/.test(cmd)) {
   deny('Use `resurface search "query" --deep` instead of hand-parsing session JSONL files.');
-}
-
-// Bad: too broad, would block legitimate uses
-if (/python3/.test(cmd)) {
-  deny('Don\'t use Python.');  // False positive nightmare
 }
 ```
 
 **Design rules:**
 - Deny message MUST include the correct alternative (not just "don't do this")
-- Test with `echo '{"tool_input":{"command":"..."}}' | node ~/.claude/hooks/bash-guard.js`
+- Test: `echo '{"tool_input":{"command":"..."}}' | node ~/.claude/hooks/bash-guard.js`
 - Hooks are cached at session start — edits take effect next session
 - Never use `npx` fallbacks in hooks — latency fires on every edit
 
-### PostToolUse hooks
+### PostToolUse — Check/act after execution (7 hooks)
 
-Run formatters after edits: prettier (JS/TS), tsc (TS), ruff (Python). Keep fast — they fire on every tool call.
+| Hook | Matcher | Purpose |
+|------|---------|---------|
+| `post-edit-format.js` | Edit/Write on `.js/.jsx/.ts/.tsx` | Runs local prettier |
+| `post-edit-typecheck.js` | Edit/Write on `.ts/.tsx` | Runs tsc --noEmit (filtered to edited file) |
+| `post-edit-python-format.js` | Edit/Write on `.py` | Runs ruff format |
+| `post-edit-rust-format.js` | Edit/Write on `.rs` | Runs rustfmt (requires Cargo.toml) |
+| `stuck-detector.js` | Edit/Write/Bash/NotebookEdit | Detects loops: same call 3x, same error 2x, A-B alternation 6 steps. Warns via stderr. |
+| `memory-budget.js` | Edit/Write on `MEMORY.md` | Counts lines, warns via stderr if >150 |
+| `push-reminder.js` | Bash | After `git commit`, warns if ≥3 unpushed commits |
+
+**Pattern:** Read-only (can't deny). Use `console.error()` for warnings, `execSync()` for formatters.
+
+### UserPromptSubmit — Context injection on every prompt (4 hooks)
+
+| Hook | Purpose |
+|------|---------|
+| `auto-learning.sh` | Reminds to capture non-obvious learnings |
+| `oghma-session-inject.py` | Injects top Oghma memories for cwd (debounced 30min) |
+| `url-skill-router.py` | Detects URLs, routes to domain-specific skills (LinkedIn, X, Taobao) |
+| `time-gate.js` | After 9pm HKT, suggests /daily via stderr |
+
+**Pattern:** `stdout` = injected into conversation. `stderr` = informational only.
+
+### Stop — Session end (2 hooks)
+
+| Hook | Purpose |
+|------|---------|
+| `session-end-reminder.js` | Suggests /daily (after 9pm) or /retro (daytime) |
+| `dirty-repos.js` | Warns about uncommitted changes in agent-config, skills, notes |
+
+### PreCompact — Before context compaction (1 hook)
+
+| Hook | Purpose |
+|------|---------|
+| `pre-compact.js` | Warns about dirty repos + stale NOW.md (>24h) before context is lost |
+
+### Notification — Background task events (1 hook)
+
+| Hook | Purpose |
+|------|---------|
+| `notification-logger.js` | Logs background task notifications to `~/logs/notification-log.jsonl` |
 
 ## Enforcement Anti-Patterns
 
