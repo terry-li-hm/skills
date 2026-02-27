@@ -3,7 +3,7 @@
 Opinionated AI model benchmark aggregator. Rust CLI, open-source.
 
 - **Repo:** `~/code/pondus` | [GitHub](https://github.com/terry-li-hm/pondus) | [crates.io](https://crates.io/crates/pondus)
-- **Version:** 0.4.1 (Feb 2026)
+- **Version:** 0.5.0 (Feb 2026)
 - **Install:** `cargo install pondus`
 
 ## Architecture
@@ -18,7 +18,7 @@ src/
 ├── output.rs        # Table/JSON/YAML output formatting
 └── sources/
     ├── mod.rs       # Source trait + registry
-    ├── aa.rs        # Artificial Analysis (agent-browser scrape)
+    ├── aa.rs        # Artificial Analysis (REST API primary, scrape fallback)
     ├── arena.rs     # LMSYS Arena (agent-browser scrape, JSON fallback)
     ├── seal.rs      # Scale SEAL (agent-browser scrape)
     ├── swebench.rs  # SWE-bench (GitHub JSON API)
@@ -47,11 +47,19 @@ pub trait Source {
 
 ## Key Patterns
 
+### AA uses REST API (v0.5.0+)
+Primary: `GET https://artificialanalysis.ai/api/v2/data/llms/models` with `x-api-key` header.
+Returns 394 models (vs 76 from scrape) including older/superseded models.
+API key: `[artificial-analysis] api_key` in config.toml, or `AA_API_KEY` env var.
+Falls back to agent-browser scrape if no key configured.
+Response parsed via typed structs (`AaApiResponse` → `AaApiModel` → `AaApiEvaluations`).
+Free tier: 1000 req/day.
+
 ### Scrape sources use agent-browser accessibility snapshots
-Five sources scrape via `agent-browser snapshot` which returns an accessibility tree, not HTML.
+Four sources scrape via `agent-browser snapshot` which returns an accessibility tree, not HTML.
 Parse structured elements (`- row "..."`, `- cell "..."`, `- link "..."`) not flat text.
 
-**Cell parser pattern** (used in AA, Arena, SWE-rebench):
+**Cell parser pattern** (used in Arena, SWE-rebench):
 ```rust
 // Collect cells from row, extract values by position
 if trimmed.starts_with("- cell \"") {
@@ -67,7 +75,7 @@ Finds ±score anchors first, then walks backwards to find rank + model name.
 ### Alias resolution
 `alias.rs` maps source model names → canonical names in two phases:
 1. **Exact match** from `aliases.toml` lookup table
-2. **Prefix match** fallback: `source_name.starts_with(alias)` with longest-match-wins, only matching at `-` or `(` boundaries (not `.` to avoid gpt-5 matching gpt-5.2)
+2. **Prefix match** fallback: `source_name.starts_with(alias)` with longest-match-wins, matching at `-`, `(`, or space boundaries (not `.` to avoid gpt-5 matching gpt-5.2). Space added in v0.5.0 for AA API names like `"Claude Opus 4.5 (Reasoning)"`.
 
 ### Cache
 JSON files in `~/Library/Caches/pondus/` (macOS). TTL-based. Each source caches its parsed data.
@@ -77,7 +85,7 @@ JSON files in `~/Library/Caches/pondus/` (macOS). TTL-based. Each source caches 
 
 | Source | Gotcha |
 |---|---|
-| **AA** | Intelligence index is cell[3] (0=Model, 1=Provider, 2=Quality, 3=Intelligence). Provider names are Title Case without hyphens/dots — used to skip them. |
+| **AA** | API primary (394 models), scrape fallback (76 models). API key in config or `AA_API_KEY` env. API model names have parenthesized suffixes like `"(Reasoning)"` — prefix match resolves them. Scrape: intelligence index is cell[3]. |
 | **Arena** | Multiple leaderboard tables (Text, Vision, Image Gen, Video Gen). Image/video models filtered by keyword. First table detected by `- row "1 "`. Claude Sonnet 4.6 outranks Opus on Arena (creative writing bias). |
 | **SEAL** | Benchmark cards use `±` in score values. Model names may have trailing `*` (footnotes) — stripped. Scores averaged across benchmarks per model. |
 | **SWE-bench** | Tests agent+model scaffolds, not raw models. Deduplicates by keeping highest `resolved_rate` per `source_model_name`. 367→301 after dedup. |
@@ -111,6 +119,12 @@ Audit script at `/tmp/pondus_audit.py` (not committed). Checks:
 5. LiveBench value assessment
 
 Analysis note: `~/notes/Pondus - Benchmark Analysis Feb 2026.md`
+
+## Delegation Pattern
+
+AA API integration was delegated to Codex (GPT-5.3-codex) — good fit for agentic repo-navigation tasks.
+Codex wrote the typed structs, config wiring, and fetch logic. Claude fixed the prefix match boundary char (space) that Codex couldn't test without the live API.
+Lesson: delegate the implementation, review the integration points.
 
 ## Future Work (low priority)
 
