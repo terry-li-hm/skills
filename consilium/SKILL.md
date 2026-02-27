@@ -339,7 +339,10 @@ Always include the source material in the prompt — models can't judge tone, po
 3. Context about the author's relationship to the recipient and goals
 4. Specific review criteria (tone, positioning risk, information leaks, reception)
 
-Use `--quick` for tone/reception checks (~$0.10), `--redteam` for high-stakes public comments where reputational risk matters (~$0.20).
+Mode selection by stakes:
+- `--quick` (~$0.10): Internal messages, Slack replies, low-visibility comments
+- `--redteam` (~$0.20): Plans or proposals being stress-tested
+- `--council --domain <X>` (~$0.50): **Public comments, LinkedIn posts, anything that builds or risks reputation.** Reputation-building content is not a tone check — it needs full deliberation on positioning, strategic value, and network effects. Include `--persona` with career context and goals.
 
 **For social/conversational contexts** (interview questions, networking, outreach):
 
