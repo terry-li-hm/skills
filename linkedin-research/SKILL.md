@@ -47,5 +47,5 @@ HSBC "Director" "Responsible AI" "Risk Solutions" site:linkedin.com
 ## Gotchas
 
 - LinkedIn abbreviates surnames for non-connections ("Simon E.")
-- The existing `linkedin` skill is for **content** (posts/comments) — this skill is for **research**
+- The existing `linkedin-engage` skill is for **content** (posts/comments) — this skill is for **research**
 - Profile data from snapshots may be incomplete — check "Show all X experiences" expand links

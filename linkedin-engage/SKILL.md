@@ -1,6 +1,6 @@
 ---
-name: linkedin
-description: Draft LinkedIn comments and posts. Use when user shares a LinkedIn URL to comment on, says "linkedin", or wants to draft/post content.
+name: linkedin-engage
+description: Draft LinkedIn comments and posts. Use when user shares a LinkedIn URL to comment on, says "linkedin comment", "linkedin post", or wants to draft/post content.
 user_invocable: true
 ---
 
