@@ -40,6 +40,7 @@ Bedtime close → daily note. The final checkpoint of the day.
 
 5. **Tomorrow preview** — scan for what's queued tomorrow:
    - Get tomorrow's date (`date -v+1d +%Y-%m-%d`)
+   - Read `~/notes/Schedule.md` — check for recurring commitments on that day of the week
    - Read `~/notes/TODO.md` and surface:
      - Items with `due:` = tomorrow (deadlines)
      - Items with `when:` = tomorrow (scheduled starts)
