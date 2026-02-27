@@ -30,7 +30,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Pull any `## Follow-ups` items — these are carryover
 
 4. **Overnight messages** (the core value of this skill):
-   - Scan Gmail for Capco/HR emails (past 24h): `gog gmail search "capco OR first advantage OR background check OR PILON OR alison" | head -10`
+   - Scan Gmail for Capco/HR emails (past 24h): `gog gmail search "capco OR PILON OR alison" | head -10`
    - Flag anything requiring action
 
 5. **Cora inbox triage** (read Cora's labels via Gmail — no website scraping):
