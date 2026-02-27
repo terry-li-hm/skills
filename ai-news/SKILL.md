@@ -26,7 +26,7 @@ Terry is joining Capco as Principal Consultant / AI Solution Lead, advising bank
 ## Architecture
 
 **Cron** (silent index builder, 6:30 PM HKT daily, `lustro fetch`):
-- Fetches **all sources** (Tier 1 + Tier 2) + **X accounts** via `bird --json`, cadence-gated — **zero LLM tokens**
+- Fetches **all sources** (Tier 1 + Tier 2) + **X accounts** + **X bookmarks** via `bird --json`, cadence-gated — **zero LLM tokens**
 - Tier controls **display priority**, not fetch: Tier 1 always surfaced, Tier 2 mentioned only if noteworthy or in deep mode
 - Date-based + title-prefix dedup, cadence-aware skipping
 - Appends delta to `[[AI News Log]]` (`~/notes/AI News Log.md`)
