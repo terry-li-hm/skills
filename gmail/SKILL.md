@@ -77,6 +77,9 @@ When reporting email status to user, always be explicit:
 - ✉️ SENT — confirmed sent (has SENT label)
 - 📝 DRAFT — not sent yet (has DRAFT label)
 
+## Known Gaps
+- **No trash/delete command in gog.** User must delete messages manually in Gmail.
+
 ## Common Patterns
 
 ### "Did this email go out?"
