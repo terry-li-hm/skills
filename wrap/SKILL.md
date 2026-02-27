@@ -87,16 +87,12 @@ Handoff note to tomorrow-you, not a build log.
 ```
 ─── Wrap ───────────────────────────────────────
 
-Spent the session turning the STR relabelling
-project from "my work in progress" into "a
-package someone else can pick up cold." Drafted
-a full handover doc, committed all 34 floating
-scripts with a README, ran the dry run on CDSW —
-all checks passed. TODO updated. Pipeline test
-gist staged for the next CDSW window.
+Spent the session turning the STR relabelling project from "my work in progress" into "a package someone else can pick up cold." Drafted a full handover doc, committed all 34 floating scripts with a README, ran the dry run on CDSW — all checks passed. TODO updated. Pipeline test gist staged for the next CDSW window.
 
 ─────────────────────────────────────────────────
 ```
+
+**Do NOT hard-wrap the prose.** Let the terminal handle line wrapping naturally — same as all other output.
 
 ## Notes
 
