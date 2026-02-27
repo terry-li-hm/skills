@@ -21,6 +21,11 @@ cli_verified: 2026-02-24
 | Quick | `--quick` | ~$0.10 | Parallel queries, no debate/judge |
 | Council | `--council` | ~$0.50 | Full multi-round debate + judge |
 | Deep | `--deep` | ~$0.90 | Council + auto-decompose + 2 debate rounds. For complex multi-part questions. |
+
+**Modifiers** (combine with council/deep):
+| Flag | Cost Delta | Description |
+|------|-----------|-------------|
+| `--xpol` | ~+$0.15 | Cross-pollination: second parallel pass where each model reads all blind claims and investigates gaps. Extends, not argues. |
 | Discuss | `--discuss` | ~$0.30 | Hosted roundtable exploration |
 | Socratic | `--socratic` | ~$0.30 | Probing questions to expose assumptions |
 | Oxford | `--oxford` | ~$0.40 | Binary for/against with rebuttals + verdict |
@@ -222,6 +227,7 @@ Available domains: `banking`, `healthcare`, `eu`, `fintech`, `bio`
 | `--motion` | no | no | no | no | yes | no | no |
 | `--roles` | no | no | no | no | no | no | yes |
 | `--decompose` | yes | no | no | no | no | no | no |
+| `--xpol` | yes | no | no | no | no | no | no |
 
 ### Step 4: Parse and Present (when using --format json)
 
