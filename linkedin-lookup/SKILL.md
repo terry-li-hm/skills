@@ -19,9 +19,15 @@ Extract structured profile data from LinkedIn and save it as a person note in th
 Follow the search pattern from `linkedin-research` to find the most accurate profile URL:
 1. **WebSearch:** `"<name>" site:linkedin.com` (+ company/role hint if provided).
 2. **Privacy Pivot:** If results show privacy-gated names (e.g., "Simon E."), search for `"<role/title>" "<company>" site:linkedin.com` to find the matching profile.
-3. **PPLX Fallback:** Use `pplx search "<name> linkedin <company>"` for better indexing of LinkedIn profiles.
-4. **Disambiguation:** If multiple potential matches appear, present the options to the user with brief context (headline/location) and ask them to select the correct one.
-5. **Exit:** If no match is found, report this to the user and stop.
+3. **PPLX Fallback:** `pplx search "<name> linkedin <company>"` — better LinkedIn indexing, often finds full legal names that WebSearch misses (e.g., "Marco King Tao Chiu" when searching "Marco Chiu").
+4. **LinkedIn Search (agent-browser):** If external search fails, search directly on LinkedIn — it handles name variations and company filtering better than Google:
+   ```bash
+   agent-browser open "https://www.linkedin.com/search/results/people/?keywords=<name>%20<company>" --profile
+   agent-browser snapshot --profile
+   ```
+   Pick the correct result from the snapshot.
+5. **Disambiguation:** If multiple potential matches appear, present the options to the user with brief context (headline/location) and ask them to select the correct one.
+6. **Exit:** If no match is found, report this to the user and stop.
 
 ### 3. Extract Profile via agent-browser
 LinkedIn is login-gated; always use the persistent profile. Commands must be executed **sequentially** (never chain with `&&`).
