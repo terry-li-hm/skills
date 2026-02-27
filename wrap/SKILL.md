@@ -71,19 +71,32 @@ One pass, all three lenses. If nothing surfaces, skip silently.
 
 ## Output
 
-**Write first, then summarise.** A short prose paragraph under `**Wrap**`:
+**Write first, then summarise.** Use the bordered format below — prose inside, 3-5 sentences. The border makes the wrap visually distinct from tool output so it's easy to spot. Prose (not structured labels) forces linear reading.
+
+Content to cover:
 
 1. What the session accomplished (the arc)
 2. What changed in the vault (weave in naturally)
 3. What's unfinished or staged for next time
 4. Learnings captured and where (only if something was captured)
 
-3-5 sentences. Handoff note to tomorrow-you, not a build log.
+Handoff note to tomorrow-you, not a build log.
 
-**Example:**
+**Format:**
 
-> **Wrap**
-> Spent the session turning the STR relabelling project from "my work in progress" into "a package someone else can pick up cold." Drafted a full handover doc, committed all 34 floating scripts with a README, ran the dry run on CDSW — all checks passed. TODO updated. Pipeline test gist staged for the next CDSW window.
+```
+─── Wrap ───────────────────────────────────────
+
+Spent the session turning the STR relabelling
+project from "my work in progress" into "a
+package someone else can pick up cold." Drafted
+a full handover doc, committed all 34 floating
+scripts with a README, ran the dry run on CDSW —
+all checks passed. TODO updated. Pipeline test
+gist staged for the next CDSW window.
+
+─────────────────────────────────────────────────
+```
 
 ## Notes
 
