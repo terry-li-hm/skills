@@ -62,6 +62,22 @@ Full autonomous:
 
 Use git worktrees for non-trivial work (see `compound-engineering:git-worktree` skill). Worktree convention: `~/project-worktrees/<branch>/`. Trivial changes (typos, one-line fixes) go directly to main.
 
+## New Project Kickoff
+
+When creating a new CLI tool or library:
+
+1. **Name brainstorm** — use `/consilium` for non-obvious names, or just pick one (Latin/Greek fits our naming convention: quies, hexis, lustro, legati)
+2. **Check registry availability** — all three in parallel:
+   ```bash
+   curl -s "https://crates.io/api/v1/crates/NAME" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('errors', [{}])[0].get('detail', 'TAKEN'))"
+   curl -s "https://pypi.org/pypi/NAME/json" -o /dev/null -w "%{http_code}"   # 404 = free
+   curl -s "https://registry.npmjs.org/NAME" -o /dev/null -w "%{http_code}"   # 404 = free
+   ```
+3. **Reserve on all three** with placeholder 0.0.1 packages (see legati/quies for template)
+4. **Check GitHub** — `gh repo create terry-li-hm/NAME --public` or just verify availability
+
+Only reserve registries you'll plausibly publish to. Rust CLI → crates.io mandatory, PyPI/npm optional but cheap insurance.
+
 ## Cross-references
 
 - **Solutions KB:** See `solutions` skill for directory structure and routing rules.
