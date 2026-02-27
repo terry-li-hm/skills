@@ -64,16 +64,16 @@ Escalate to hook after 2 entries in `~/docs/solutions/rule-violation-log.md`.
 
 ## Hook Inventory
 
-All hooks live in `~/.claude/hooks/`, configured in `~/.claude/settings.json`. **19 hook files, ~22 distinct rules, covering all 6 event types.**
+All hooks live in `~/.claude/hooks/`, configured in `~/.claude/settings.json`. **19 hook files, ~29 distinct rules, covering all 6 event types.**
 
 ### PreToolUse — Block before execution (4 hooks)
 
 | Hook | Tool | Rules | What it guards |
 |------|------|-------|----------------|
-| `bash-guard.js` | Bash | 12 | rm without safe_rm, tccutil reset, grep/find on ~, credential exfil (.secrets, keychain, env vars), wacli without --chat, session JSONL parsing, npm→pnpm, uv --force→--reinstall, pip→uv, public gists, wacli send, force-push main/master |
+| `bash-guard.js` | Bash | 19 | rm without safe_rm, tccutil reset, grep/find on ~, credential exfil, wacli --chat, session JSONL, npm→pnpm, uv --force→--reinstall, pip→uv, public gists, wacli send, force-push main, **gog send/reply/forward**, **bird tweet/post/reply/dm**, **network exfil (curl POST, scp, nc)**, **secrets in args (API keys, tokens, private keys)**, **agent-browser (localhost, financial, creds in URL)**, **rm vault notes**, **curl\|bash** |
 | `glob-guard.js` | Glob | 1 | `**` recursive patterns on `/Users/terry` (times out) |
-| `write-guard.js` | Write/Edit | 1 | Writes to sensitive files (.secrets, .env, .pypirc, credentials.json, keychain) |
-| `read-guard.js` | Read | 1 | Reads of sensitive files (mirrors write-guard, minus keychain) |
+| `write-guard.js` | Write/Edit | 2 | Writes to sensitive files (.secrets, .env, .pypirc, credentials.json, keychain), **past daily notes (immutable records)** |
+| `read-guard.js` | Read | 3 | Reads of sensitive files, **lockfiles (pnpm-lock, package-lock, Cargo.lock, etc.)**, **binary/minified files (.sqlite, .min.js, .zip, etc.)** |
 
 **Pattern:** Parse `data.tool_input`, regex match, call `deny(reason)` to block.
 
