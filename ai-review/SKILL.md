@@ -99,7 +99,7 @@ Run on first Friday of each month.
 - Read all weekly snapshots from the past month
 - Read `[[AI News Log]]` for the full month
 - WebSearch for: "AI in banking [month] 2026", "HKMA AI [month]", "AI regulation Asia 2026"
-- Check Evident Banking Brief for bank AI rankings/news
+- Check Evident Banking Brief for bank AI rankings/news (scrape `evidentinsights.com/bankingbrief/` — no RSS, email unsubscribed)
 
 ### Step 2: Thematic synthesis
 

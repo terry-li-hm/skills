@@ -44,8 +44,8 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
      ```
    - If redirected to login: fall back to email — `gog gmail search "from:briefs@cora.computer" --max 1 --plain`
    - Surface the key stats: emails handled %, emails needing attention, emails archived
-   - Include expanded newsletter summaries (banking/AI briefs) — this is the advantage over the email version
    - If Cora flagged emails needing attention > 0, list them
+   - Note: banking/AI newsletters (Evident, AI Street, AINews) unsubscribed from email Feb 2026 — Lustro handles those. Cora briefs will be lighter on newsletter content.
    - If no brief available, skip silently
 
 6. **Check cron logs** (overnight output):

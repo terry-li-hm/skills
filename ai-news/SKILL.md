@@ -102,12 +102,20 @@ Terry has a paid Latent Space subscription. Browser profile is authenticated.
 To fetch full paywalled articles:
 ```bash
 # Open with authenticated profile
-agent-browser --profile open "https://www.latent.space/p/<slug>"
+agent-browser open "https://www.latent.space/p/<slug>"
 # Extract full text
 agent-browser eval "document.querySelector('article').innerText"
 ```
 
-WebFetch will only get the free portion (~25% of content). Always use `agent-browser --profile` for Latent Space.
+WebFetch will only get the free portion (~25% of content). Always use agent-browser with profile for Latent Space.
+
+**Email unsubscribed Feb 2026** — AINews email was duplicating Lustro RSS. Full content via browser profile or RSS.
+
+## Evident Banking Brief
+
+No RSS feed. Full briefs publicly archived at `evidentinsights.com/bankingbrief/` — scrape archive page for latest edition links (pattern: `/bankingbrief/<slug>/`). Also posts on LinkedIn: `/company/evidentinsights/`.
+
+**Email unsubscribed Feb 2026.** AI Street email also unsubscribed — both covered by Lustro.
 
 ## WeChat Articles
 
