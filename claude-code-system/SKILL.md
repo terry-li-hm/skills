@@ -66,11 +66,25 @@ Escalate to hook after 2 entries in `~/docs/solutions/rule-violation-log.md`.
 
 All hooks live in `~/.claude/hooks/`, configured in `~/.claude/settings.json`. **19 hook files, 27 PreToolUse deny rules + 7 PostToolUse watchers, covering all 6 event types.**
 
-### PreToolUse — Block before execution (4 hooks)
+### Hook Taxonomy
+
+Five kinds of hook, matched to purpose:
+
+| Kind | Mechanism | Output | When to use |
+|------|-----------|--------|-------------|
+| **Guard** (`-guard.js`) | PreToolUse deny | JSON → block | Mechanically detectable rule with near-zero FP |
+| **Watcher** | PostToolUse stderr | Warning | Pattern detection after the fact (loops, budget) |
+| **Formatter** (`post-edit-*`) | PostToolUse execSync | Autofix | Language-specific formatting on save |
+| **Injector** | UserPromptSubmit stdout | Context | Add info to every prompt (memories, reminders, routing) |
+| **Sentinel** | Stop/PreCompact/Notification | Warning/log | Boundary checks (session end, before compaction) |
+
+When adding a new hook, pick the kind first — it determines the event type, output mechanism, and whether it blocks or warns.
+
+### PreToolUse — Guards (4 hooks)
 
 | Hook | Tool | Rules | What it guards |
 |------|------|-------|----------------|
-| `bash-guard.js` | Bash | 19 | rm without safe_rm, tccutil reset, grep/find on ~, credential exfil, wacli --chat, session JSONL, npm→pnpm, uv --force→--reinstall, pip→uv, public gists, wacli send, force-push main, **gog send/reply/forward**, **bird tweet/post/reply/dm**, **network exfil (curl POST, scp, nc)**, **secrets in args (API keys, tokens, private keys)**, **agent-browser (localhost, financial, creds in URL)**, **rm vault notes**, **curl\|bash** |
+| `bash-guard.js` | Bash | 21 | rm without safe_rm, tccutil reset, grep/find on ~, credential exfil, wacli --chat, session JSONL, npm→pnpm, uv --force→--reinstall, pip→uv, public gists, wacli send, force-push main, gog send/reply/forward, bird tweet/post/reply/dm, network exfil (curl POST, scp, nc), secrets in args (API keys, tokens, private keys), agent-browser (localhost, financial, creds in URL), rm vault notes, curl\|bash, **git footguns (reset --hard, clean -f, checkout --, restore .)**, **lazy commit messages** |
 | `glob-guard.js` | Glob | 1 | `**` recursive patterns on `/Users/terry` (times out) |
 | `write-guard.js` | Write/Edit | 2 | Writes to sensitive files (.secrets, .env, .pypirc, credentials.json, keychain), **past daily notes (immutable records)** |
 | `read-guard.js` | Read | 3 | Reads of sensitive files, **lockfiles (pnpm-lock, package-lock, Cargo.lock, etc.)**, **binary/minified files (.sqlite, .min.js, .zip, etc.)** |
@@ -90,7 +104,7 @@ if (/\.claude\/projects\//.test(cmd) && /\.jsonl/.test(cmd)) {
 - Hooks are cached at session start — edits take effect next session
 - Never use `npx` fallbacks in hooks — latency fires on every edit
 
-### PostToolUse — Check/act after execution (7 hooks)
+### PostToolUse — Watchers + Formatters (7 hooks)
 
 | Hook | Matcher | Purpose |
 |------|---------|---------|
@@ -104,7 +118,7 @@ if (/\.claude\/projects\//.test(cmd) && /\.jsonl/.test(cmd)) {
 
 **Pattern:** Read-only (can't deny). Use `console.error()` for warnings, `execSync()` for formatters.
 
-### UserPromptSubmit — Context injection on every prompt (4 hooks)
+### UserPromptSubmit — Injectors (4 hooks)
 
 | Hook | Purpose |
 |------|---------|
@@ -115,20 +129,20 @@ if (/\.claude\/projects\//.test(cmd) && /\.jsonl/.test(cmd)) {
 
 **Pattern:** `stdout` = injected into conversation. `stderr` = informational only.
 
-### Stop — Session end (2 hooks)
+### Stop — Sentinels (2 hooks)
 
 | Hook | Purpose |
 |------|---------|
 | `session-end-reminder.js` | Suggests /daily (after 9pm) or /retro (daytime) |
 | `dirty-repos.js` | Warns about uncommitted changes in agent-config, skills, notes |
 
-### PreCompact — Before context compaction (1 hook)
+### PreCompact — Sentinel (1 hook)
 
 | Hook | Purpose |
 |------|---------|
 | `pre-compact.js` | Warns about dirty repos + stale NOW.md (>24h) before context is lost |
 
-### Notification — Background task events (1 hook)
+### Notification — Sentinel (1 hook)
 
 | Hook | Purpose |
 |------|---------|
