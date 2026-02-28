@@ -3,15 +3,17 @@ name: consilium
 description: Multi-model deliberation — auto-routes by difficulty. Full council (~$0.50), quick parallel (~$0.10), red team (~$0.20), and more.
 aliases: [ask-llms, council, ask llms]
 github_url: https://github.com/terry-li-hm/consilium
-github_hash: 6a312ec
 user_invocable: true
-cli_version: 0.15.0
-cli_verified: 2026-02-24
+cli_version: 0.1.0
+cli_verified: 2026-02-28
+runtime: rust
 ---
 
 # LLM Council
 
 5 frontier models deliberate on a question, then Claude Opus 4.6 judges and adds its own perspective. Models see and respond to previous speakers, with a rotating challenger ensuring sustained disagreement. Auto-routes by difficulty — simple questions get quick parallel, complex ones get full council.
+
+> **Rust rewrite (2026-02-28).** consilium is now a Rust binary (4.7MB, ~50ms cold start). Same CLI interface, same modes, same output format. Python version preserved as `consilium-py` fallback. Source: `~/code/consilium-rs/`. GitHub: `terry-li-hm/consilium` (Rust), `terry-li-hm/consilium-py` (Python legacy).
 
 ## Modes
 
@@ -84,11 +86,10 @@ At ~$0.50/run, the cost threshold is negligible. Use whenever:
 ## Prerequisites
 
 ```bash
-# Install (one-time)
-uv tool install consilium
+# Binary is symlinked: ~/.local/bin/consilium → ~/code/consilium-rs/target/release/consilium
+# After code changes: cd ~/code/consilium-rs && cargo build --release
 
-# Or install from local dev:
-cd ~/code/consilium && uv tool install --force --reinstall .
+# Python fallback still available as consilium-py
 
 # API keys
 export OPENROUTER_API_KEY=sk-or-v1-...    # Required
@@ -148,18 +149,17 @@ For other decisions, use simpler context or skip this step.
 
 **Do NOT use `--quiet` by default.** Run with `run_in_background: true` on the Bash tool so the user can watch live via `consilium --watch` or `--tui` in another tmux tab. Read the `--output` file when the task completes.
 
-> **Note:** Always use `uv tool run consilium` instead of bare `consilium`. The mise shim points to system Python which can't find the module.
 
 **Standard invocation (auto-routes by difficulty):**
 ```bash
-uv tool run consilium "Should we use microservices or a monolith?" \
+consilium "Should we use microservices or a monolith?" \
  \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
 
 **Force full council with persona context:**
 ```bash
-uv tool run consilium "Should I accept the Standard Chartered offer?" \
+consilium "Should I accept the Standard Chartered offer?" \
   --council --format json \
   --persona "$PERSONA" \
   --context "job-offer" \
@@ -168,7 +168,7 @@ uv tool run consilium "Should I accept the Standard Chartered offer?" \
 
 **Red team a plan:**
 ```bash
-uv tool run consilium "My plan: migrate the monolith to microservices over 6 months..." \
+consilium "My plan: migrate the monolith to microservices over 6 months..." \
   --redteam \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
@@ -195,19 +195,19 @@ uv tool run consilium "My plan: migrate the monolith to microservices over 6 mon
 
 **Oxford debate (binary decisions):**
 ```bash
-uv tool run consilium "Should we use microservices?" --oxford
-uv tool run consilium "Hire seniors or train juniors?" --oxford --motion "This house believes..."
+consilium "Should we use microservices?" --oxford
+consilium "Hire seniors or train juniors?" --oxford --motion "This house believes..."
 ```
 
 **Solo council (Claude debates itself in roles):**
 ```bash
-uv tool run consilium "Pricing strategy" --solo --roles "investor,founder,customer"
-uv tool run consilium --list-roles  # See predefined roles
+consilium "Pricing strategy" --solo --roles "investor,founder,customer"
+consilium --list-roles  # See predefined roles
 ```
 
 **Domain-specific deliberation (banking, healthcare, etc.):**
 ```bash
-uv tool run consilium "Should we build an agent for KYC?" \
+consilium "Should we build an agent for KYC?" \
   --domain banking \
   --challenger gemini \
   --followup \
@@ -392,9 +392,9 @@ Without this framing, council will evaluate a ladder as a floor.
 
 Use `--domain` flag to auto-inject regulatory context:
 ```bash
-uv tool run consilium "question" --domain banking   # HKMA/MAS/FCA, MRM requirements
-uv tool run consilium "question" --domain healthcare # HIPAA constraints
-uv tool run consilium "question" --domain eu        # GDPR/AI Act considerations
+consilium "question" --domain banking   # HKMA/MAS/FCA, MRM requirements
+consilium "question" --domain healthcare # HIPAA constraints
+consilium "question" --domain eu        # GDPR/AI Act considerations
 ```
 
 This surfaces compliance concerns early rather than as afterthoughts.
@@ -452,7 +452,7 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 
 ## Known Issues
 
-- **Installed version can go stale.** Source is at `~/code/consilium`. After edits: `cd ~/code/consilium && uv tool install --force --reinstall .` — bare `--force` doesn't rebuild from source changes.
+- **Binary can go stale after code changes.** Source at `~/code/consilium-rs`. After edits: `cd ~/code/consilium-rs && cargo build --release`. Binary is symlinked from `~/.local/bin/consilium`.
 - **Model timeouts:** Some models (historically Kimi, now DeepSeek/GLM) occasionally time out. Partial outputs add noise but the council still works with remaining speakers.
 - **JSON output truncation:** Use `--output file.md` to capture full transcript.
 - **JSON `decision` field can be noisy:** The structured output sometimes captures mid-synthesis text rather than a clean decision. Read the prose synthesis instead.
@@ -469,6 +469,7 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 
 ## See Also
 
-- Repository: https://github.com/terry-li-hm/consilium
-- PyPI: https://pypi.org/project/consilium/
+- Repository (Rust): https://github.com/terry-li-hm/consilium
+- Repository (Python legacy): https://github.com/terry-li-hm/consilium-py
+- PyPI (Python): https://pypi.org/project/consilium/
 - Related skill: `/ask-llms` (simpler parallel queries)
