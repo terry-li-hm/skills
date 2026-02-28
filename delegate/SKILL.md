@@ -165,6 +165,7 @@ This saves Claude tokens for work that actually needs orchestration and judgment
 | Exits 0, no files changed | Prompt >5K chars | Shorten prompt, remove inline content |
 | Timeout after 5min | Task too small (<25 lines) or too vague | Give more specific instructions or do it directly |
 | Hangs indefinitely | GLM-5 connection stall | Kill and write directly. Set Bash timeout or use `run_in_background` with periodic checks |
+| Codex hangs >5min, no output | Sandbox can't read reference files outside workdir | Codex sandbox is `workspace-write` — reads outside `workdir` may silently stall. Bundle reference files into the project or `/tmp/` first |
 | Gemini "quota exceeded" | Hit 1500 RPD or 120 RPM limit | Wait or switch to OpenCode/Codex. Note: one prompt = many API requests |
 | Gemini 429 `MODEL_CAPACITY_EXHAUSTED` | Flash preview has limited server capacity | Auto-retries with backoff. If persistent, force Pro: `gemini -p "prompt" --yolo -m gemini-3-pro` |
 | Gemini no file changes | Sandbox mode blocked writes | Ensure `--yolo` flag is set (auto-approves all tool actions) |

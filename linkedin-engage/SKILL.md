@@ -148,7 +148,7 @@ Read the playbook: `~/notes/LinkedIn Posting Playbook.md`
 
 ### 3. Review
 
-All posts get consilium `--quick` minimum. High-stakes posts (first Capco-era, controversial angle) get full `--council`.
+All posts get consilium `--council` (~$0.50) — posts are public and reputation-building, `--quick` doesn't catch tone/positioning risks. High-stakes posts (first Capco-era, controversial angle) get `--deep` (~$0.90) or `--redteam` (~$0.20) to stress-test the angle.
 
 ### 4. Deliver
 
