@@ -13,7 +13,7 @@ runtime: rust
 
 5 frontier models deliberate on a question, then Claude Opus 4.6 judges and adds its own perspective. Models see and respond to previous speakers, with a rotating challenger ensuring sustained disagreement. Auto-routes by difficulty — simple questions get quick parallel, complex ones get full council.
 
-> **Rust rewrite (2026-02-28).** consilium is now a Rust binary (4.7MB, ~50ms cold start). Same CLI interface, same modes, same output format. Python version preserved as `consilium-py` fallback. Source: `~/code/consilium-rs/`. GitHub: `terry-li-hm/consilium` (Rust), `terry-li-hm/consilium-py` (Python legacy).
+> **Rust rewrite (2026-02-28).** consilium is now a Rust binary (4.7MB, ~50ms cold start). Same CLI interface, same modes, same output format. Python version preserved as `consilium-py` fallback. Source: `~/code/consilium/`. GitHub: `terry-li-hm/consilium` (Rust), `terry-li-hm/consilium-py` (Python legacy).
 
 ## Modes
 
@@ -86,8 +86,8 @@ At ~$0.50/run, the cost threshold is negligible. Use whenever:
 ## Prerequisites
 
 ```bash
-# Binary is symlinked: ~/.local/bin/consilium → ~/code/consilium-rs/target/release/consilium
-# After code changes: cd ~/code/consilium-rs && cargo build --release
+# Binary is symlinked: ~/.local/bin/consilium → ~/code/consilium/target/release/consilium
+# After code changes: cd ~/code/consilium && cargo build --release
 
 # Python fallback still available as consilium-py
 
@@ -452,7 +452,7 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 
 ## Known Issues
 
-- **Binary can go stale after code changes.** Source at `~/code/consilium-rs`. After edits: `cd ~/code/consilium-rs && cargo build --release`. Binary is symlinked from `~/.local/bin/consilium`.
+- **Binary can go stale after code changes.** Source at `~/code/consilium`. After edits: `cd ~/code/consilium && cargo build --release`. Binary is symlinked from `~/.local/bin/consilium`.
 - **Model timeouts:** Some models (historically Kimi, now DeepSeek/GLM) occasionally time out. Partial outputs add noise but the council still works with remaining speakers.
 - **JSON output truncation:** Use `--output file.md` to capture full transcript.
 - **JSON `decision` field can be noisy:** The structured output sometimes captures mid-synthesis text rather than a clean decision. Read the prose synthesis instead.
