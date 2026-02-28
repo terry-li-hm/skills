@@ -21,7 +21,7 @@ Route here when the URL matches a media platform and the user wants content extr
 |----------|---------------|-------------|-------|
 | YouTube | yt-dlp subtitles | Audio download → Gemini | Prefer `youtube-transcript-api` in `summarize` first |
 | Bilibili | yt-dlp subtitles | Bilibili API audio → Gemini | yt-dlp gets 412 — use Bilibili API (Step 1d) |
-| X/Twitter | N/A | Audio download → Gemini | Video tweets only |
+| X/Twitter | N/A | Audio download → Gemini | Broadcasts: use video format, not audio-only (see gotcha) |
 | Xiaoyuzhou | N/A | `__NEXT_DATA__` audio → Gemini | |
 | Apple Podcasts | N/A | yt-dlp audio → Gemini | |
 | Direct (.mp3/.mp4/.m4a/.webm) | N/A | File → Gemini | |
@@ -33,10 +33,11 @@ brew install yt-dlp jq   # yt-dlp for download, jq for JSON parsing
 # ffmpeg already installed — audio conversion
 ```
 
-Gemini API key already in keychain (`gemini-api-key-secrets`). Retrieve:
+Gemini API key in keychain. Retrieve:
 ```bash
-GEMINI_API_KEY=$(security find-generic-password -s "gemini-api-key-secrets" -w 2>/dev/null)
+GEMINI_API_KEY=$(security find-generic-password -s "gemini-api-key" -w 2>/dev/null)
 ```
+Note: keychain service is `gemini-api-key`, NOT `gemini-api-key-secrets`.
 
 ## Pipeline
 
@@ -48,6 +49,7 @@ GEMINI_API_KEY=$(security find-generic-password -s "gemini-api-key-secrets" -w 2
 | `podcasts.apple.com` | Step 1c (Apple Podcasts) |
 | `bilibili.com`, `b23.tv` | Step 1d (Bilibili API) |
 | `.mp3`, `.m4a` direct link | Skip to Step 2 |
+| `x.com/i/broadcasts/` | Step 1f (X Broadcast) |
 | Other video URL | Step 1a (try subtitles, fallback audio) |
 
 ### Step 1a: Extract Subtitles (YouTube, generic)
@@ -122,6 +124,20 @@ yt-dlp --cookies-from-browser chrome -f "ba[ext=m4a]/ba/b" --extract-audio --aud
 
 Then: Step 2.
 
+### Step 1f: X Broadcasts — Video Format Required
+
+**GOTCHA:** `yt-dlp -f "ba"` on X broadcasts extracts a padded audio track that is often just music/silence — NOT the actual speech. Gemini will hallucinate fake dialogue from music-only audio. Always download a video format and extract audio from it.
+
+```bash
+# Download video (speech is in the video's audio track)
+yt-dlp --cookies-from-browser chrome -f "replay-600" -o "/tmp/media_broadcast.mp4" "BROADCAST_URL"
+
+# Extract audio from video
+ffmpeg -y -i /tmp/media_broadcast.mp4 -vn -acodec libmp3lame -q:a 3 /tmp/media_audio.mp3
+```
+
+Then: Step 2.
+
 ### Step 2: Upload to Gemini File API + Transcribe/Digest
 
 Single step — upload audio, then call generateContent with both the file and the digest prompt.
@@ -155,7 +171,7 @@ curl "${UPLOAD_URL}" \
 FILE_URI=$(jq -r ".file.uri" /tmp/media_file_info.json)
 
 # 3. Generate transcript + digest in one call
-curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent" \
+curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent" \
   -H "x-goog-api-key: $GEMINI_API_KEY" \
   -H "Content-Type: application/json" \
   -X POST \
@@ -207,6 +223,8 @@ If subtitles were found in Step 1a, summarize them directly in-context (no API c
 | No Gemini key in keychain | `security find-generic-password -s "gemini-api-key-secrets" -w` — check credential-isolation docs |
 | Upload fails (413) | Shouldn't happen — Gemini File API handles large files. If it does, compress audio: `ffmpeg -i input -acodec libmp3lame -q:a 7 output.mp3` |
 | Gemini rate limit (429) | Free tier: 1500 req/day. Wait and retry |
+| X broadcast audio-only = music | **Never use `-f "ba"` for broadcasts.** Download video format (`replay-*`), then ffmpeg extract audio. Gemini hallucinates fake speech from music. |
+| Gemini returns `[No speakers identified]` or very short output | Audio may be music-only. Verify with `ffmpeg -af volumedetect`. If volume OK but no speech, wrong audio track — try video download. |
 | yt-dlp Bilibili 412 | Use Bilibili API (Step 1d) |
 | yt-dlp YouTube bot detection | Add `--cookies-from-browser chrome` |
 | Xiaoyuzhou curl extraction empty | Use `agent-browser` to render page |
@@ -215,7 +233,7 @@ If subtitles were found in Step 1a, summarize them directly in-context (no API c
 
 ## Gemini 3 Flash Limits
 
-- Model: `gemini-3-flash-preview`
+- Model: `gemini-2.5-flash`
 - Pricing: $0.50/$3 per Mtok (input/output)
 - Context: 1M tokens input, 64K output
 - Audio: native multimodal input, no separate transcription step
