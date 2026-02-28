@@ -38,6 +38,7 @@ Universal entry point for anything user shares — URL or pasted content. Detect
 | `bilibili.com/*`, `b23.tv/*` | video | → `video-digest` skill |
 | `xiaoyuzhoufm.com/*` | podcast | → `video-digest` skill |
 | `podcasts.apple.com/*` | podcast | → `video-digest` skill |
+| `x.com/i/broadcasts/*` | broadcast | → `video-digest` skill (Step 1f) |
 | `.mp3`, `.mp4`, `.m4a` direct links | media | → `video-digest` skill |
 | Company career/about pages | company | Lightweight |
 | Everything else | unknown | Check content, then fallback |

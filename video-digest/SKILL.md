@@ -124,16 +124,49 @@ yt-dlp --cookies-from-browser chrome -f "ba[ext=m4a]/ba/b" --extract-audio --aud
 
 Then: Step 2.
 
-### Step 1f: X Broadcasts — Video Format Required
+### Step 1f: X/Twitter — Broadcasts and Video Tweets
 
-**GOTCHA:** `yt-dlp -f "ba"` on X broadcasts extracts a padded audio track that is often just music/silence — NOT the actual speech. Gemini will hallucinate fake dialogue from music-only audio. Always download a video format and extract audio from it.
+**Pre-check:** Run `bird read <URL>` first to determine content type. If tweet links to `x.com/i/broadcasts/`, use broadcast path. If embedded video, use video tweet path.
+
+#### Broadcasts (Live Streams / Spaces Replays)
+
+**CRITICAL GOTCHA:** `yt-dlp -f "ba"` on X broadcasts extracts a padded music/silence track — NOT the actual speech. Gemini will confidently hallucinate entire fake conversations from music-only audio. **Always download a video format and extract audio from it.**
 
 ```bash
-# Download video (speech is in the video's audio track)
-yt-dlp --cookies-from-browser chrome -f "replay-600" -o "/tmp/media_broadcast.mp4" "BROADCAST_URL"
+# List formats to confirm broadcast
+yt-dlp --cookies-from-browser chrome -F "BROADCAST_URL"
+
+# Download VIDEO format (speech is in the video's audio track)
+# replay-600 (528x336): good balance of speed vs quality — default
+# replay-300 (368x232): faster download, adequate audio
+# replay-2750 (1184x768): only if audio quality is poor at lower formats
+yt-dlp --cookies-from-browser chrome -f "replay-600" \
+  -o "/tmp/media_broadcast.mp4" "BROADCAST_URL"
 
 # Extract audio from video
 ffmpeg -y -i /tmp/media_broadcast.mp4 -vn -acodec libmp3lame -q:a 3 /tmp/media_audio.mp3
+```
+
+**Verify audio has speech before uploading to Gemini:**
+```bash
+# Check duration (broadcast video is often shorter than audio-only download)
+ffprobe /tmp/media_audio.mp3 2>&1 | grep Duration
+
+# Quick volume check — run from /tmp to avoid hook issues
+cd /tmp && ffmpeg -i media_audio.mp3 -af "volumedetect" -f null /dev/null 2>&1 | grep mean_volume
+# mean_volume > -30 dB = has content. ~-60 dB = silence.
+```
+
+For broadcasts >45 min, warn user before proceeding (large upload).
+
+#### Video Tweets
+
+Standard audio extraction works for regular video tweets:
+
+```bash
+yt-dlp --cookies-from-browser chrome -f "ba[ext=m4a]/ba/b" \
+  --extract-audio --audio-format mp3 --audio-quality 5 \
+  -o "/tmp/media_audio.%(ext)s" "TWEET_URL"
 ```
 
 Then: Step 2.
@@ -143,7 +176,7 @@ Then: Step 2.
 Single step — upload audio, then call generateContent with both the file and the digest prompt.
 
 ```bash
-GEMINI_API_KEY=$(security find-generic-password -s "gemini-api-key-secrets" -w 2>/dev/null)
+GEMINI_API_KEY=$(security find-generic-password -s "gemini-api-key" -w 2>/dev/null)
 AUDIO_PATH="/tmp/media_audio.mp3"  # or whatever was downloaded
 MIME_TYPE=$(file -b --mime-type "${AUDIO_PATH}")
 NUM_BYTES=$(wc -c < "${AUDIO_PATH}" | tr -d ' ')
@@ -212,7 +245,12 @@ For content over 20 minutes, add a Chapter Summary section segmented by topic sh
 Output the transcript first, then the digest.
 ```
 
-### Step 3: Format Output
+### Step 3: Validate + Format Output
+
+**Sanity-check before presenting** (especially X broadcasts):
+- Does the content match the source topic?
+- Are there real speaker names or topic references?
+- If output is `[Music]`, `[No speakers identified]`, or <50 chars — wrong audio track. Re-download with video format (Step 1f).
 
 If subtitles were found in Step 1a, summarize them directly in-context (no API call needed). Otherwise, use the Gemini response from Step 2.
 
@@ -220,7 +258,7 @@ If subtitles were found in Step 1a, summarize them directly in-context (no API c
 
 | Problem | Fix |
 |---------|-----|
-| No Gemini key in keychain | `security find-generic-password -s "gemini-api-key-secrets" -w` — check credential-isolation docs |
+| No Gemini key in keychain | `security find-generic-password -s "gemini-api-key" -w` — check credential-isolation docs |
 | Upload fails (413) | Shouldn't happen — Gemini File API handles large files. If it does, compress audio: `ffmpeg -i input -acodec libmp3lame -q:a 7 output.mp3` |
 | Gemini rate limit (429) | Free tier: 1500 req/day. Wait and retry |
 | X broadcast audio-only = music | **Never use `-f "ba"` for broadcasts.** Download video format (`replay-*`), then ffmpeg extract audio. Gemini hallucinates fake speech from music. |
