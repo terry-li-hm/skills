@@ -117,15 +117,15 @@ Present: the draft, the gist URL, and a one-line rationale for the angle chosen.
 
 ## Post Mode
 
-### 1. Check Content Ideas
+### 1. Check Content Ideas (MANDATORY — do not skip)
 
-Always start from the pipeline:
+**Every LinkedIn post draft MUST have an entry in `[[LinkedIn Content Ideas]]` BEFORE any draft file or gist is created.** This is the single source of truth for the content pipeline.
 
 ```bash
 cat ~/notes/LinkedIn\ Content\ Ideas.md
 ```
 
-If the topic exists, use the captured angle/details. If new, capture it first.
+If the topic exists, use the captured angle/details. If new, add the entry first (hook, angle, status, timing gate), then create the draft file linked from it.
 
 ### 2. Draft Against Playbook Rules
 
