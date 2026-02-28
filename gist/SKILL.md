@@ -49,13 +49,28 @@ Delete gists after use. Don't leave drafts, internal notes, or sensitive content
 gh gist delete <id> --yes
 ```
 
-## When to use gists
+## Routing: tg-clip vs gist
 
-- Sharing code/text for Terry to copy from mobile (Blink SSH can't select long inline text)
-- Anything longer than 2-3 lines that Terry needs to copy-paste
-- Draft messages, step-by-step instructions for CDSW, etc.
+**Default to `tg-clip`** — sends text to Telegram as a code block with one-tap copy button.
 
-## When NOT to use gists
+```bash
+# Simple (content only)
+tg-clip "text to copy"
+
+# With label
+tg-clip "Option 1" "the actual prompt or text to copy"
+
+# From stdin
+echo "text" | tg-clip
+echo "text" | tg-clip "label"
+```
+
+**Use gists only when:**
+- Text exceeds 4096 chars (Telegram limit)
+- Need a permalink to share with others
+- Need to preserve formatting (markdown rendering)
+
+## When NOT to use either
 
 - Short inline answers (just type them)
 - Permanent documentation (use vault notes)
