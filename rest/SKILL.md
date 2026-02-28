@@ -19,7 +19,7 @@ Pull-based skill for low-energy windows. Surfaces quick wins that don't need dee
 
 Run in parallel:
 
-- **Gmail:** `gog mail list --max 5` — show unread count + sender/subject for top 5. Don't triage — just surface.
+- **Gmail:** `gog gmail search "is:unread" --max 5 --plain` — show unread count + sender/subject for top 5. Don't triage — just surface.
 - **WhatsApp:** `wacli chat list 2>/dev/null | head -20` — show chats with unread messages.
 
 Present as a quick dashboard: "3 unread emails, 1 WhatsApp message" style. If nothing unread, say so and move on.
