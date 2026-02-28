@@ -4,7 +4,7 @@ description: Multi-model deliberation — auto-routes by difficulty. Full counci
 aliases: [ask-llms, council, ask llms]
 github_url: https://github.com/terry-li-hm/consilium
 user_invocable: true
-cli_version: 0.1.0
+cli_version: 0.1.5
 cli_verified: 2026-02-28
 runtime: rust
 ---
@@ -13,7 +13,7 @@ runtime: rust
 
 5 frontier models deliberate on a question, then Claude Opus 4.6 judges and adds its own perspective. Models see and respond to previous speakers, with a rotating challenger ensuring sustained disagreement. Auto-routes by difficulty — simple questions get quick parallel, complex ones get full council.
 
-> **Rust rewrite (2026-02-28).** consilium is now a Rust binary (4.7MB, ~50ms cold start). Same CLI interface, same modes, same output format. Python version preserved as `consilium-py` fallback. Source: `~/code/consilium/`. GitHub: `terry-li-hm/consilium` (Rust), `terry-li-hm/consilium-py` (Python legacy).
+> **Rust rewrite (2026-02-28).** consilium is now a Rust binary (4.7MB, ~50ms cold start). Same CLI interface, same modes, same output format. Python version preserved as `consilium-py` fallback. Source: `~/code/consilium/`. GitHub: `terry-li-hm/consilium` (Rust), `terry-li-hm/consilium-py` (Python legacy). Site: [consilium.sh](https://consilium.sh). crates.io: [consilium](https://crates.io/crates/consilium).
 
 ## Modes
 
@@ -191,6 +191,9 @@ consilium "My plan: migrate the monolith to microservices over 6 months..." \
 --quiet                 # Suppress live output
 --no-save               # Don't auto-save to ~/.consilium/sessions/
 --no-judge              # Skip judge synthesis (for external judge integration)
+--no-color              # Disable colored output (auto-disabled in pipes)
+--feedback              # Prompt for 1-5 rating after session
+--thorough              # Skip consensus early exit + context compression (full deliberation)
 ```
 
 **Oxford debate (binary decisions):**
@@ -333,6 +336,7 @@ consilium --view                  # View latest session in pager
 consilium --view "career"         # View session matching term (filename or content)
 consilium --search "career"       # Search all session content
 consilium --list-roles            # Show predefined roles for --solo
+consilium --doctor               # Check API keys and connectivity
 ```
 
 ## Prompting Tips
@@ -452,6 +456,9 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 
 ## Known Issues
 
+- **Colored output** (v0.1.3+): Semantic colors for phase banners, model headers, notices, stats. Auto-disabled in pipes (`IsTerminal`). Use `--no-color` to force plain. Colors match `--watch` styling.
+- **Context compression** (v0.1.4+): Multi-round debates compress prior rounds via Llama 3.3 70B. Judge always gets full transcripts. Use `--thorough` to disable compression + consensus early exit for maximum deliberation depth.
+- **Challenger dissent protection** (v0.1.5+): If the challenger is actively dissenting, consensus early exit is blocked — prevents suppressing the most important minority view.
 - **Binary can go stale after code changes.** Source at `~/code/consilium`. After edits: `cd ~/code/consilium && cargo build --release`. Binary is symlinked from `~/.local/bin/consilium`.
 - **Model timeouts:** Some models (historically Kimi, now DeepSeek/GLM) occasionally time out. Partial outputs add noise but the council still works with remaining speakers.
 - **JSON output truncation:** Use `--output file.md` to capture full transcript.
