@@ -454,11 +454,15 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 - **Front-load constraints in the question** — "this must work for HKMA-regulated banks" produces tighter output than "how should banks govern AI?"
 - **Critic phase catches real gaps** — the Gemini critique of the judge's synthesis frequently identifies tactical errors (e.g., "email HR" vs "use disclosure form")
 
+## Recent Features
+
+- **Colored output** (v0.1.3+): Semantic colors for phase banners, model headers, notices, stats. Auto-disabled in pipes (`IsTerminal`). Use `--no-color` to force plain.
+- **Context compression** (v0.1.4+): Multi-round debates compress prior rounds via Llama 3.3 70B. Judge always gets full transcripts. Use `--thorough` to disable.
+- **Challenger dissent protection** (v0.1.5+): If the challenger is actively dissenting, consensus early exit is blocked.
+- **`--doctor`** (v0.1.5+): First-run diagnostics — checks API keys, connectivity, session directory.
+
 ## Known Issues
 
-- **Colored output** (v0.1.3+): Semantic colors for phase banners, model headers, notices, stats. Auto-disabled in pipes (`IsTerminal`). Use `--no-color` to force plain. Colors match `--watch` styling.
-- **Context compression** (v0.1.4+): Multi-round debates compress prior rounds via Llama 3.3 70B. Judge always gets full transcripts. Use `--thorough` to disable compression + consensus early exit for maximum deliberation depth.
-- **Challenger dissent protection** (v0.1.5+): If the challenger is actively dissenting, consensus early exit is blocked — prevents suppressing the most important minority view.
 - **Binary can go stale after code changes.** Source at `~/code/consilium`. After edits: `cd ~/code/consilium && cargo build --release`. Binary is symlinked from `~/.local/bin/consilium`.
 - **Model timeouts:** Some models (historically Kimi, now DeepSeek/GLM) occasionally time out. Partial outputs add noise but the council still works with remaining speakers.
 - **JSON output truncation:** Use `--output file.md` to capture full transcript.

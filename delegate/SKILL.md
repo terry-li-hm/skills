@@ -23,9 +23,13 @@ One command to delegate coding tasks. Routes to the right tool, packages context
 | Algorithmic work, "write a function that does X", design/logic | **Gemini CLI** (Auto: 3.1 Pro / 3 Flash) | Free, frontier-tier *programmer* (LiveCodeBench #1) |
 | Agentic: navigate repo, find bug, fix, run tests, iterate | **Codex** (GPT-5.2-codex) | Best *developer* (Terminal-Bench #1), paid |
 | **Code audit/review** | **Codex** (GPT-5.2) first | 92% signal. GLM-4.7 needs two-phase prompt (25% signal). See audit section below |
-| Needs vault, user decisions, judgment | **Stay in Claude** | Context advantage |
+| Hard coding that failed 3+ times on Sonnet | **→ Opus** (`/model opus`) | In-session escalation. "Less likely to give up." Switch back after. |
+| Agent Teams (parallel sub-agents at scale) | **→ Opus** (`/model opus`) | Opus-exclusive feature. Switch back after. |
+| Needs vault, user decisions, judgment | **Stay in Sonnet** | Context advantage, default model |
 
 **Gemini vs Codex on coding:** Gemini is a better *programmer* (algorithmic, isolated logic). Codex is a better *developer* (codebase navigation, test loops, multi-file fixes). When in doubt: is the task self-contained? → Gemini. Does it need repo context? → Codex.
+
+**Opus as escalation, not delegation:** Opus runs in the same Claude Code session via `/model opus`. It's not backgrounded — you switch, do the hard task, switch back to Sonnet. Use for: novel reasoning, hard multi-file refactors, Agent Teams. Don't leave on Opus — it burns the shared weekly pool faster for routine work.
 
 ## Workflow
 
