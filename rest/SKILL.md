@@ -1,15 +1,15 @@
 ---
-name: leisure
+name: rest
 description: Surface productive low-energy tasks when you have downtime. Use when energy is low, between meetings, or during idle moments.
 user_invocable: true
 triggers:
+  - rest
   - leisure
   - downtime
   - low energy
-  - what to do
 ---
 
-# Leisure — Productive Downtime
+# Rest — Productive Downtime
 
 Pull-based skill for low-energy windows. Surfaces quick wins that don't need deep focus.
 
