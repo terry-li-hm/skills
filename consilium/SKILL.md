@@ -4,7 +4,7 @@ description: Multi-model deliberation — auto-routes by difficulty. Full counci
 aliases: [ask-llms, council, ask llms]
 github_url: https://github.com/terry-li-hm/consilium
 user_invocable: true
-cli_version: 0.1.5
+cli_version: 0.1.6
 cli_verified: 2026-02-28
 runtime: rust
 ---
@@ -460,13 +460,14 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 - **Context compression** (v0.1.4+): Multi-round debates compress prior rounds via Llama 3.3 70B. Judge always gets full transcripts. Use `--thorough` to disable.
 - **Challenger dissent protection** (v0.1.5+): If the challenger is actively dissenting, consensus early exit is blocked.
 - **`--doctor`** (v0.1.5+): First-run diagnostics — checks API keys, connectivity, session directory.
+- **JSON fixes** (v0.1.6+): JSON/YAML block now appears on stdout (was file-only). Decision field extraction is cleaner — actionable prose, not section headers.
 
 ## Known Issues
 
 - **Binary can go stale after code changes.** Source at `~/code/consilium`. After edits: `cd ~/code/consilium && cargo build --release`. Binary is symlinked from `~/.local/bin/consilium`.
 - **Model timeouts:** Some models (historically Kimi, now DeepSeek/GLM) occasionally time out. Partial outputs add noise but the council still works with remaining speakers.
-- **JSON output truncation:** Use `--output file.md` to capture full transcript.
-- **JSON `decision` field can be noisy:** The structured output sometimes captures mid-synthesis text rather than a clean decision. Read the prose synthesis instead.
+- **JSON output truncation:** ~~Fixed in v0.1.6~~ — JSON block now written to stdout. Use `--output file.md` as belt-and-suspenders.
+- **JSON `decision` field can be noisy:** ~~Improved in v0.1.6~~ — extraction prompt tightened, fallback skips section headers.
 - **`--format json` only works with council and quick modes.** All other modes (discuss, redteam, solo, socratic, oxford) output prose only. Use `--output file.md` to capture. See flag compatibility table above.
 - **`--challenger` and `--followup` are council-only.** The CLI will error if combined with other modes.
 
