@@ -41,12 +41,16 @@ Read the result. If prior art exists, use it. Don't duplicate captured learnings
 
 ### 2. Choose weight class
 
+Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
+
 | Task size | Use |
 |-----------|-----|
-| Single-file, single-command, trivial logic | Plan mode (`EnterPlanMode`) → delegate |
-| Multi-command CLI, multi-file, or any real feature | `/workflows:plan` → delegate |
+| Single-file, ≤3 commands, no architecture decisions, requires live user decisions mid-plan | `EnterPlanMode` → delegate |
+| Multi-command CLI, file parsing, new architecture, or any real feature | `/workflows:plan` → delegate |
 | Unclear requirements | `/workflows:brainstorm` first |
-| Formal CE plan file exists in `docs/plans/` | Skip to delegation |
+| Approved plan already exists (any source) | Skip to delegation |
+
+**Rule of thumb:** If you'd build more than one file, touch existing architecture, or need research agents to surface best practices → `/workflows:plan`. `EnterPlanMode` is for trivial tasks where the user needs to make live decisions as the plan unfolds.
 
 ### 3. Delegate execution
 
@@ -85,7 +89,9 @@ Use Bash tool's `run_in_background: true` — not shell `&`.
 
 ### 4. Review (for significant changes)
 
-Run review agents in order:
+**New feature / significant PR → `/workflows:review`** (runs all agents with worktrees, most thorough)
+
+For targeted/quick review, run agents directly in order:
 1. `pattern-recognition-specialist` — spec compliance first
 2. `kieran-rust-reviewer` / `kieran-python-reviewer` / `kieran-typescript-reviewer`
 3. `security-sentinel` — if handles input, auth, or secrets
