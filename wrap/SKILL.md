@@ -116,6 +116,8 @@ Resume points must pass the cold-start test: could another session resume from t
 
 **Vault flush:** If the session advanced a project with a canonical tracker note (e.g. `[[Capco Transition]]`), update that note now. Context doesn't survive — if it's not in a file, it's lost.
 
+For live notes with a `## Current Status` block, update that block first — it's the cold-start snapshot for the next session. Keep it ≤10 lines: active gates, waiting-on items, next actions, start/end dates.
+
 ### Step 4: Meta-Close (conditional)
 
 **Run if:** a new skill was created, 2+ friction points encountered, or 2+ related decisions made. Otherwise skip.
