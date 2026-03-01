@@ -5,3 +5,6 @@ config.json
 # agent-browser profile artifacts
 1/
 */1/
+# Codex mirror/work directories
+consilium-*/
+*-work-*/
