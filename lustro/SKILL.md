@@ -1,6 +1,6 @@
 ---
-name: ai-news
-description: Check AI news sources for recent developments. Use when user says "ai news", "check ai news", "what's new in AI", "lustro", or wants to catch up on AI developments. Lustro is the underlying tool (~/code/lustro) that fetches and aggregates AI news.
+name: lustro
+description: Check AI news sources for recent developments using Lustro (~/code/lustro). Use when user says "lustro", "ai news", "check ai news", "what's new in AI", or wants to catch up on AI developments.
 user_invocable: true
 ---
 

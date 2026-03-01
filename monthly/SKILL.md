@@ -38,14 +38,14 @@ Generate evidence-grounded thematic digest from archived AI news articles.
 
 ```bash
 # Preview themes (fast, no synthesis)
-uv run ~/skills/ai-news/ai-digest.py --dry-run
+uv run ~/skills/lustro/ai-digest.py --dry-run
 
 # Full run — produces evidence briefs
-uv run ~/skills/ai-news/ai-digest.py
+uv run ~/skills/lustro/ai-digest.py
 ```
 
 Output: `~/notes/AI & Tech/YYYY-MM AI Thematic Digest.md`
-Prerequisites: ai-news cron must have been running with article archival (default since Feb 2026).
+Prerequisites: lustro cron must have been running with article archival (default since Feb 2026).
 Cost: ~$0.05-0.15 (Gemini Flash via OpenRouter).
 
 ### 3. AI Landscape Deep Review

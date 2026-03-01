@@ -178,7 +178,7 @@ Run this alongside the synthesis every Friday:
 4. **CSB job monitor** — Any new AI-related government vacancies this week? Check `~/logs/cron-csb-jobs.log` for matches
 5. **Conversation Cards refresh** — Scan `~/notes/Capco/Conversation Cards/*.md` (governance, agentic, cost, responsible AI/MRM). Check: any data points outdated? Any new vault material that should feed in? Update `Last updated` date on any card you touch. 60-second scan per card — if nothing changed, move on.
 6. **Priorities for the week** — Top 2-3 actions
-7. **AI landscape** — Run `/ai-review` for weekly synthesis (client talking points). `/ai-news` feeds it raw material.
+7. **AI landscape** — Run `/ai-review` for weekly synthesis (client talking points). `/lustro` feeds it raw material.
 8. **First Friday only** — Run `/monthly` (content digests, skill review, AI deep review, vault hygiene)
 
 [[Capco Transition]] is source of truth for exit/onboarding; [[Job Hunting]] is the archive.
