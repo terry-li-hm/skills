@@ -1,5 +1,5 @@
 ---
-name: necto
+name: synaxis
 description: "Sync AI tool config across Claude Code, OpenCode, Codex, and Gemini CLI — skills, MCP, CE, from ~/agent-config/ as source of truth. Run after any config change."
 user_invocable: true
 ---
@@ -21,18 +21,18 @@ Gemini CLI has no skills directory — CE only.
 ## Usage
 
 ```bash
-necto              # Skills only (fast, ~50ms — runs on every git commit to ~/skills/)
-necto --full       # Skills + MCP + CE across all platforms
-necto --check      # Dry run — list skills, no changes
-necto --help
+synaxis              # Skills only (fast, ~50ms — runs on every git commit to ~/skills/)
+synaxis --full       # Skills + MCP + CE across all platforms
+synaxis --check      # Dry run — list skills, no changes
+synaxis --help
 ```
 
 ## When to run
 
 - **After any skill change:** automatic via `~/skills/.git/hooks/post-commit`
-- **After MCP config change:** `necto --full`
-- **After CE/compound-engineering update:** `necto --full`
-- **New machine setup:** `necto --full`
+- **After MCP config change:** `synaxis --full`
+- **After CE/compound-engineering update:** `synaxis --full`
+- **New machine setup:** `synaxis --full`
 
 ## Source of truth
 
@@ -54,13 +54,13 @@ necto --help
 ```
 
 - `mcpServers` → OpenCode (`~/.opencode/mcp.json`)
-- `_codexExtras` → Codex TOML (`~/.codex/config.toml`, managed between `# necto-mcp-begin` / `# necto-mcp-end`)
+- `_codexExtras` → Codex TOML (`~/.codex/config.toml`, managed between `# synaxis-mcp-begin` / `# synaxis-mcp-end`)
 
 ## Binary
 
-- Source: `~/code/necto/` (github.com/terry-li-hm/necto)
-- Symlink: `~/bin/necto` → `~/code/necto/target/release/necto`
-- Rebuild: `cd ~/code/necto && cargo build --release`
+- Source: `~/code/synaxis/` (github.com/terry-li-hm/synaxis)
+- Symlink: `~/bin/synaxis` → `~/code/synaxis/target/release/synaxis`
+- Rebuild: `cd ~/code/synaxis && cargo build --release`
 
 ## Locations
 
