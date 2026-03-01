@@ -177,6 +177,16 @@ cargo publish
 
 `cargo-release` handles: version bump in Cargo.toml + Cargo.lock, git commit, git tag, `cargo publish`. One command.
 
+### Before publish — smoke test as real CLI
+
+```bash
+cargo install --path .  # install from local source
+<name> --version        # verify binary is in PATH and works
+<name> <args>           # run actual use case — not ./target/release/<name>
+```
+
+Never test a CLI tool via `./target/release/<name>` only — that skips the install path. Always verify the installed binary behaves correctly before publishing.
+
 ### After publish
 
 ```bash
