@@ -38,11 +38,13 @@ Extract: author name/title, verbatim post text, all comments (author + text), en
 
 ### 2. Research the Author
 
-Quick web search for the author's role, company, and relevance to Terry's network. Check vault too:
+Web search for the author's **full background** — current role AND prior career. Current title undersells domain overlap (e.g. a healthcare AI founder may have previously built FS AI). Check vault too:
 
 ```bash
 cerno "<author name>"
 ```
+
+Key things to surface: prior companies, domain expertise accumulated before current role, any FS/banking background. This prevents explaining someone's own domain back to them.
 
 ### 3. Assess: Should Terry Comment?
 
