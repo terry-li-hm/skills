@@ -3,7 +3,7 @@ name: nexis
 description: "Obsidian vault link health — scan, triage broken links, surface orphans. Use when running nexis CLI or triaging vault link issues."
 user_invocable: true
 cli: nexis
-cli_version: 0.2.1
+cli_version: 0.2.2
 ---
 
 # /nexis — Vault Link Health
@@ -111,12 +111,21 @@ Verify with a follow-up nexis run on the same scope.
 
 Surface non-noise orphans that might need attention.
 
+**Default (summary only):** The total orphan count includes 8K+ Daily/Archive/Books noise. Use `--orphan-days` to get actionable signal immediately.
+
 ```bash
+# Recency filter — the right default (v0.2.2+)
+nexis ~/notes --orphan-days 30 2>/dev/null
+
+# Full orphan list (noisy — use grep to filter)
 nexis ~/notes --orphans 2>/dev/null \
   | grep -v "^  Archive/\|^  Daily/\|^  Waking Up/\|^Vault\|^  Orphans\|^  Broken\|^  Embeds\|^===" \
   | grep -v "^$" \
   | head -30
 ```
+
+`--orphan-days 7` → orphans modified in the last 7 days (recently active, not yet connected)
+`--orphan-days 30` → broader recent window — catches notes that drifted disconnected over the past month
 
 **What's worth acting on:**
 - Active project notes with no links (disconnected knowledge)
@@ -125,6 +134,7 @@ nexis ~/notes --orphans 2>/dev/null \
 
 **What to ignore:**
 - Template files, scratch notes, one-off exports
+- Books/, Daily/, Archive/ — expected orphans even with `--orphan-days`
 
 ---
 
