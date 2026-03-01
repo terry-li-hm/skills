@@ -48,8 +48,8 @@ Escalate to hook after 2 entries in `~/docs/solutions/rule-violation-log.md`.
 | Procedure (trigger + steps) | Skill | On invocation | `/wrap`, `/morning` |
 | Deep reference | `~/docs/solutions/` | On lookup | Browser automation patterns |
 | Project context | Vault notes | On lookup | `[[Capco Transition]]` |
-| Conversation memory | Oghma | Via `km-ask` | "What did we discuss about X" |
-| Vault semantic search | QMD | Via `km-ask` | Note discovery |
+| Conversation memory | Oghma | Via `cerno` | "What did we discuss about X" |
+| Vault semantic search | QMD | Via `cerno` | Note discovery |
 
 **The one-sentence test:** If it fits in one sentence → MEMORY.md. If it has a trigger + multiple steps → skill. If it's deep reference → solutions. See `design-skill` for full placement heuristics.
 
@@ -178,7 +178,7 @@ Weekly /skill-review checks for staleness
 ## Compounding Patterns
 
 - **Instance → Pattern → Principle:** Most learnings stop at instance. Explicitly ask "is this a pattern?" after the third occurrence.
-- **Promote Oghma hits to MEMORY.md:** If km-ask surfaces the same Oghma memory 3+ times, it's stable enough for MEMORY.md.
+- **Promote Oghma hits to MEMORY.md:** If cerno surfaces the same Oghma memory 3+ times, it's stable enough for MEMORY.md.
 - **Demote stale MEMORY.md entries:** Weekly review in `/weekly`. Two weeks uncited → demote to overflow. Overflow cited 2+ weeks → promote back.
 - **Hook as MEMORY.md pressure relief:** Every rule that graduates to a hook is one fewer line competing for attention in MEMORY.md.
 

@@ -17,7 +17,7 @@ Structured on-ramp for any coding task. Enforces: orchestrate here, execute else
 
 ### 1. Solutions KB check
 ```bash
-km-ask "<topic or tool name>"
+cerno "<topic or tool name>"
 ```
 Read the result. If prior art exists, use it. Don't duplicate captured learnings.
 

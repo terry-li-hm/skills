@@ -60,7 +60,7 @@ rg -il "<keyword>" ~/docs/solutions/ --max-depth 2
 
 ## Integration with Other Tools
 
-- **km-ask** searches QMD (vault) → Oghma (conversations) but does NOT cover docs/solutions/
+- **cerno** searches QMD (vault) → Oghma (conversations) but does NOT cover docs/solutions/
 - **learnings-researcher** (compound-engineering) does search here but is heavy
 - **This skill** = lightweight first-pass before either of those
 

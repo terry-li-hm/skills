@@ -41,7 +41,7 @@ Extract: author name/title, verbatim post text, all comments (author + text), en
 Quick web search for the author's role, company, and relevance to Terry's network. Check vault too:
 
 ```bash
-km-ask "<author name>"
+cerno "<author name>"
 ```
 
 ### 3. Assess: Should Terry Comment?
@@ -68,7 +68,7 @@ Scan existing comments for gaps. Terry's strongest angles (in order of preferenc
 Check vault for supporting material:
 
 ```bash
-km-ask "<topic>"
+cerno "<topic>"
 ```
 
 Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent architecture) — never fabricate.
