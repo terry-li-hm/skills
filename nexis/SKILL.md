@@ -3,18 +3,19 @@ name: nexis
 description: "Obsidian vault link health — scan, triage broken links, surface orphans. Use when running nexis CLI or triaging vault link issues."
 user_invocable: true
 cli: nexis
-cli_version: 0.2.3
+cli_version: 0.2.4
 ---
 
 # /nexis — Vault Link Health
 
-Two modes: **scan** (quick health check) and **triage** (fix broken links interactively).
+Three modes: **scan** (quick health check), **triage** (fix broken links interactively), and **unlink** (bulk-convert stale links to plain text).
 
 ## Triggers
 
 - `/nexis` — scan vault, summary view
-- `/nexis triage [--folder <subfolder>]` — interactive broken link triage
+- `/nexis triage [--folder <subfolder>]` — interactive broken link triage (redirects, placeholders)
 - `/nexis orphans` — surface non-noise orphans worth reviewing
+- `/nexis unlink` — bulk-convert all stale broken links to plain text (use when triage is overkill)
 
 ---
 
@@ -104,6 +105,32 @@ sed -i '' 's/ | \[\[Dead Link\]\]//g; s/\[\[Dead Link\]\] | //g' file.md
 ```
 
 Verify with a follow-up nexis run on the same scope.
+
+---
+
+## Mode: Unlink (v0.2.4+)
+
+Bulk-convert all broken wikilinks to plain text in place. Use when triage is overkill — e.g. stale job hunting archives, literature notes, or after a bulk note rename.
+
+`[[Dead Note]]` → `Dead Note` · `[[Dead Note|Alias]]` → `Alias`
+
+```bash
+# Dry-run first — see count without touching files
+nexis ~/notes --exclude Archive --exclude "Waking Up" --unlink --dry-run 2>&1 | grep "Dry run"
+
+# Apply (excludes Archive + Waking Up noise)
+nexis ~/notes --exclude Archive --exclude "Waking Up" --unlink 2>/dev/null
+
+# Verify: should show 0 signal broken links
+nexis ~/notes --exclude Archive --exclude "Waking Up" 2>/dev/null
+```
+
+**What it does:**
+- Only unlinks links that nexis already flagged as broken (code blocks and HTML comments are safe)
+- Redirects (renamed notes) need triage — `--unlink` won't redirect, just de-brackets
+- Preserves aliases: `[[Dead|Alias]]` → `Alias` (alias survives, dead bracket gone)
+
+**When to use triage instead:** When broken links might be redirects (renamed notes) that should be re-pointed. `--unlink` is irreversible for redirects — use it on archives and stale references where plain text is fine.
 
 ---
 
