@@ -112,6 +112,8 @@ Only create a gist once Terry confirms the draft is ready to post. Include **bot
 gh gist create --public=false -f "linkedin-review.md" - << EOF
 ## Original Post — <Author Name>
 
+<post URL>
+
 <verbatim post text>
 
 ---
