@@ -32,6 +32,7 @@ runtime: rust
 | Socratic | `--socratic` | ~$0.30 | Probing questions to expose assumptions |
 | Oxford | `--oxford` | ~$0.40 | Binary for/against with rebuttals + verdict |
 | Red Team | `--redteam` | ~$0.20 | Adversarial stress-test of a plan |
+| Pre-mortem | `--premortem` | ~$0.20 | Assume failure, work backward from it |
 | Solo | `--solo` | ~$0.40 | Claude debates itself in multiple roles |
 
 ## Routing: Which Mode?
@@ -52,6 +53,9 @@ Binary decision with clear for/against?
 Stress-testing a specific plan?
   YES → consilium --redteam
   NO ↓
+Already committed but want to pressure-test it?
+  YES → consilium --premortem
+  NO ↓
 Exploratory — still forming the question?
   YES → consilium --discuss (or --socratic to probe assumptions)
   NO ↓
@@ -69,7 +73,7 @@ At ~$0.50/run, the cost threshold is negligible. Use whenever:
 - **Domain-specific professional decisions** — regulatory, career, strategic
 - You need a synthesized recommendation, not raw comparison
 - Questions with cognitive, social, or behavioural dimensions (council catches hidden angles Claude underestimates)
-- **Stress-testing a plan** — `--redteam` for adversarial, `--socratic` for assumption-probing
+- **Stress-testing a plan** — `--redteam` for adversarial, `--socratic` for assumption-probing, `--premortem` for backward induction from failure
 - **Code review / security audit** — `--redteam` with actual code pasted into the prompt. Models can't read files, so concatenate source files into the prompt text. ~55K chars (8 modules) works fine. Produces compound attack chains that single-model review misses (SSRF→prompt injection→LLM exfil). ~$1.50 for full codebase review.
 - **Iterating on a previous council** — second passes go deeper
 
