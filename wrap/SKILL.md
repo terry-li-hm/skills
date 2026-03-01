@@ -40,6 +40,8 @@ git -C ~/skills status --short && git -C ~/agent-config status --short
 ```
 If dirty: show which files, offer to commit. Don't auto-commit.
 
+**CLAUDE.md modified?** If CLAUDE.md was changed this session, do a one-line tightening check on each addition: does this need to be in CLAUDE.md, or does it belong in a skill / MEMORY.md / `~/docs/solutions/`? Flag candidates — don't move them automatically.
+
 **MEMORY.md budget:** Budget is 150 lines.
 ```bash
 wc -l ~/.claude/projects/-Users-terry/memory/MEMORY.md
