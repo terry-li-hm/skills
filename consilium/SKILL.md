@@ -142,19 +142,25 @@ For other decisions, use simpler context or skip this step.
 
 **Auto-routing is the default** — Opus classifies the question and picks the best mode. Pass an explicit mode flag only when you know what you want (e.g., `--oxford` for a binary decision, `--redteam` to stress-test a plan).
 
-**Always use these flags:**
-- `--output ~/notes/Councils/LLM Council - {Topic} - {date}.md` — vault persistence
-- `--format json` — for **council and quick modes** (incompatible with discuss/redteam/solo/socratic/oxford)
-- ~~`--named`~~ — **NOT IMPLEMENTED** (skill doc was ahead of CLI). Models show as Speaker 1, 2, etc. Real names appear in council mode output regardless.
+**Always run in background:** Use `run_in_background: true` on the Bash tool. The user can watch live via `consilium --watch` or `--tui` in another tmux tab.
 
-**Always run in background:** Use `run_in_background: true` on the Bash tool. The user can watch live via `consilium --watch` or `--tui` in another tmux tab. Read the `--output` file when the task completes — do NOT try to parse stdout from a background task.
+**After completion, read the latest session file — no flags needed:**
+```bash
+cat ~/.consilium/sessions/$(/bin/ls -t ~/.consilium/sessions/ | head -1)
+```
 
-**Standard invocation (auto-routes by difficulty):**
+**Standard invocation — zero flags:**
+```bash
+consilium "Should we use microservices or a monolith?"
+```
+
+**Only use `--output` when you want vault persistence:**
 ```bash
 consilium "Should we use microservices or a monolith?" \
-  --format json \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
+
+- ~~`--named`~~ — **NOT IMPLEMENTED**. Models show as Speaker 1, 2, etc.
 
 **Force full council with persona context:**
 ```bash
