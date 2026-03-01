@@ -53,6 +53,7 @@ Scan for signals of unfinished business:
 - Conversation mentions of "later", "next", "should", "TODO", "follow up"
 - Git diff — uncommitted changes that need context preserved
 - Decisions made but not written anywhere
+- **LinkedIn angle?** Did anything this session surface a non-obvious insight, architecture decision, or inversion worth sharing? If yes → add entry to `[[LinkedIn Content Ideas]]` before wrapping. Don't draft — just capture the hook and angle.
 
 Present as brief suggestions. User decides what to act on now vs. defer.
 
