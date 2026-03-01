@@ -28,7 +28,7 @@ total = data['total_credits']
 used = data['total_usage']
 remaining = total - used
 print(f'Credits: \${remaining:.2f} remaining of \${total:.2f} total (\${used:.2f} used)')
-if remaining < 20:
+if remaining < 5:
     print('⚠️  Low — top up at https://openrouter.ai/credits')
 "
 ```
