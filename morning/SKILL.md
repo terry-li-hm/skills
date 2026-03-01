@@ -64,7 +64,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 9. **Weather**:
    - Fetch and build the weather line: run the three HKO curls, then `python3 ~/skills/hko/weather.py weather`
    - Always include in the brief
-   - **Send to Tara**: compose a friendly prose weather note (2–3 sentences max). One lead emoji, inline emojis only where they add meaning (not on temperature, not doubled up). Include temp range, key conditions, and anything actionable (umbrella, heat, etc.). Then send: `~/scripts/imessage.sh "<composed message>"`. Log "Weather sent to Tara ✓" in the brief.
+   - **Send to Tara**: compose a friendly prose weather note (2–3 sentences max). One lead weather emoji only + umbrella ☂️ if rain likely — no other inline emojis. Include temp range, key conditions, and anything actionable. Then send: `~/scripts/imessage.sh "<composed message>"`. Log "Weather sent to Tara ✓" in the brief.
    - If imessage.sh fails (non-zero exit), note "Weather send to Tara failed" — don't retry.
 
 10. **Today's calendar** (what's on the schedule):
