@@ -20,8 +20,8 @@ Plists tracked in `~/agent-config/launchd/`, symlinked to `~/Library/LaunchAgent
 
 | Agent | Schedule | Purpose |
 |-------|----------|---------|
-| `ai-news-daily` | 6:30 PM daily | AI news RSS scan → AI News Log |
-| `ai-news-breaking` | Every 2h, 8am-10pm | Breaking AI news → Telegram |
+| `lustro-daily` | 6:30 PM daily | AI news RSS scan → AI News Log |
+| `lustro-breaking` | Every 2h, 8am-10pm | Breaking AI news → Telegram |
 | `morning-weather` | 6:45 AM daily | HKO weather → Telegram |
 | `oura-sync` | 9:00 AM daily | Oura Ring data sync |
 | `vault-git-backup` | Every 30 min | Obsidian vault git backup |
@@ -45,7 +45,7 @@ Logs: `~/logs/`
 launchctl list | grep com.terry
 
 # Check specific agent
-launchctl list com.terry.ai-news-daily
+launchctl list com.terry.lustro-daily
 
 # Reload after plist change
 launchctl unload ~/Library/LaunchAgents/com.terry.AGENT.plist

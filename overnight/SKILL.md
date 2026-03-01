@@ -89,7 +89,7 @@ uv run ~/scripts/opencode-queue.py --list
 | weekly-security-scan | opencode | CVE + secrets scan |
 | skill-health-check | opencode | Verify SKILL.md exists |
 | hkma-sfc-sweep | **gemini** | Regulatory developments (needs web) |
-| ai-news-digest | **gemini** | AI news summary (needs web) |
+| lustro-digest | **gemini** | AI news summary (needs web) |
 | vault-health-check | opencode | Broken links, overdue TODOs |
 | garp-drill | opencode | Generate 5 practice questions |
 | solutions-dedup | opencode | Find duplicate/stale docs |
