@@ -99,7 +99,23 @@ For targeted/quick review, run agents directly in order:
 3. `security-sentinel` — if handles input, auth, or secrets
 4. `code-simplicity-reviewer` — YAGNI check last
 
-### 5. Compound (if non-obvious solve)
+### 5. Companion skill (for any installed CLI or published tool)
+
+Create `~/skills/<name>/SKILL.md` in the same session — gotchas are freshest now.
+
+Minimum content:
+- Commands with real examples
+- File paths / config locations
+- When to use it
+- Gotchas discovered during build and testing (the stuff `--help` never covers)
+
+```bash
+mkdir -p ~/skills/<name>
+# write SKILL.md, then:
+cd ~/skills && git add <name>/SKILL.md && git commit -m "feat: add <name> skill" && git push
+```
+
+### 6. Compound (if non-obvious solve)
 ```
 /workflows:compound
 ```
