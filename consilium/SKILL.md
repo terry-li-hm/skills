@@ -163,7 +163,15 @@ cat ~/.consilium/sessions/$(/bin/ls -t ~/.consilium/sessions/ | head -1)
 consilium "Should we use microservices or a monolith?"
 ```
 
-**Only use `--output` when you want vault persistence:**
+**Transcript persistence rule — always use `--output` for:**
+- Any `--deep` or `--council` run
+- Any design/architecture/review question (topic contains "design", "architecture", "review", "v0.x", "refactor", "redesign")
+- Any run where the output will inform a multi-session build (tool design, system changes)
+
+**Skip `--output` only for:** `--quick` naming/decision runs where the session log summary is enough.
+
+**Why:** Task output files are ephemeral — gone after session ends. `--output` is the only durable record.
+
 ```bash
 consilium "Should we use microservices or a monolith?" \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
