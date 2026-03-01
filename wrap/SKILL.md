@@ -124,9 +124,9 @@ One pass, all three lenses. If nothing surfaces, skip silently.
 
 ### Step 5: Improvement Prompt
 
-Ask once, directly: **"Anything we should improve based on this session?"**
+Scan the session for 1-3 specific improvement candidates — things that felt clunky, a tool that behaved unexpectedly, a skill that needed patching mid-session, a repeated manual step that could be automated. Present each as a concrete proposal with a suggested action.
 
-This catches workflow/tool improvements that don't naturally surface in the learnings sweep — design decisions that felt clunky, delegation failures, friction in the skill itself. One question, user answers or says no, done.
+If nothing surfaced, say: "Nothing to propose." Do NOT ask the user an open-ended question — the burden is on Claude to identify candidates, not on the user to think of them.
 
 ## Output
 

@@ -45,7 +45,7 @@ Before building the command, gather what the delegate needs to be self-sufficien
 
 **CRITICAL — Prompt Length Limits:**
 - **OpenCode: hard limit ~4K chars.** Prompts >5K chars silently fail (exits 0, writes nothing).
-- **Codex: ~8K chars safe**, can handle more context.
+- **Codex: no practical prompt limit** — wraps GPT-5.2 with 128K+ context. Give it full specs, large diffs, whatever it needs.
 - **Never inline full file contents** in the prompt. Instead, give paths and tell the delegate to read them.
 - **One focused task per prompt.** If you have 3 independent tasks, launch 3 separate delegations.
 - Count your prompt length before sending. If it exceeds the limit, split or trim.
@@ -136,7 +136,7 @@ Launch one OpenCode per fix in parallel. Keep prompts to "read this range, chang
 
 ## Prompt Template
 
-Keep under **4K chars for OpenCode**, **8K for Codex**. Never inline file contents — give paths.
+Keep under **4K chars for OpenCode**. Codex has no practical limit — give it full specs. Never inline full file contents unnecessarily; give paths and let the delegate read them.
 
 ```
 In <file path>, <what to change>.
@@ -205,7 +205,7 @@ Uses Microsoft Presidio with HK-specific custom patterns.
 - **Gemini CLI:** Auto-routes to Gemini 3.1 Pro (complex) or 3 Flash (simple) via Google AI Pro plan. 120 RPM, 1500 RPD. One prompt triggers multiple API requests internally — budget ~250-500 actual prompts/day. No prompt length issue (1M context). Force model with `-m gemini-3.1-pro-preview` if needed.
 - **Gemini 3.1 Pro strengths** (verified Feb 25 vs Google model card + Artificial Analysis): AA Intelligence Index #1 (57/114). Leads on competitive coding (LiveCodeBench Elo 2887), scientific reasoning (GPQA Diamond 94.3%, ARC-AGI-2 77.1%), MCP/tool coordination (MCP Atlas 69.2%), SWE-Bench Verified 80.6%. Best free option for algorithmic/reasoning-heavy delegation.
 - **Gemini 3.1 Pro weaknesses:** Trails Claude on real-world agentic tasks (GDPval-AA: Gemini 1317 vs Opus 1606 Elo). High TTFT latency (~31s). Very verbose — 57M tokens during AA eval vs 12M median. Terminal execution (68.5%) trails Codex (77.3%). Cost $2/$12 per Mtok if using API key (free on AI Pro plan).
-- **Prompt budget:** ~4K chars max for OpenCode, ~8K for Codex, generous for Gemini. When in doubt, `echo -n "prompt" | wc -c`
+- **Prompt budget:** ~4K chars max for OpenCode, no practical limit for Codex (128K+ context), generous for Gemini. When in doubt, `echo -n "prompt" | wc -c`
 - **Output often empty:** OpenCode doesn't reliably capture stdout. Check session JSON instead.
 - **GLM-5 restored in OpenCode** (tested Feb 24 2026). Previous malformed tool call JSON issue ([#13982](https://github.com/anomalyco/opencode/issues/13982), [#13900](https://github.com/anomalyco/opencode/issues/13900)) appears fixed. GLM-4.7 available as fallback if it regresses.
 - **GPT-5.2 Thinking:** Available via OpenAI API ($1.75/$14/Mtok). Best-in-class for reading comprehension, long-context, vision (chart/diagram analysis). xhigh reasoning effort. Route document-heavy analysis here.
