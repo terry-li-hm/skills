@@ -81,6 +81,22 @@ Import: `use std::io::IsTerminal;`
 
 TTY = human signal. Non-TTY = agent consumer. Design for both from day one.
 
+**Finer distinction — pipe vs file redirect:** `is_terminal()` conflates pipe (`| grep`) and file redirect (`> out.txt`). If you need to distinguish them (e.g. background capture wants full output, piped scripting wants compact), use fstat:
+
+```rust
+use std::os::unix::io::AsRawFd;
+
+fn stdout_is_file_redirect() -> bool {
+    let fd = std::io::stdout().as_raw_fd();
+    unsafe {
+        let mut stat: libc::stat = std::mem::zeroed();
+        libc::fstat(fd, &mut stat) == 0 && (stat.st_mode & libc::S_IFMT) == libc::S_IFREG
+    }
+}
+```
+
+Then: TTY → human UX, pipe (`S_IFIFO`) → compact/scriptable, file (`S_IFREG`) → full output for capture.
+
 ### 5. Common deps
 
 ```bash
