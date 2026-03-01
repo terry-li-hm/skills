@@ -106,10 +106,20 @@ Do not run consilium without explicit confirmation. If Terry says go ahead, run 
 
 ### 7. Finalise and Deliver
 
-Only create a gist once Terry confirms the draft is ready to post:
+Only create a gist once Terry confirms the draft is ready to post. Include **both the original post and the draft comment** so Terry can review them side by side on mobile:
 
 ```bash
-gh gist create --public=false -f "linkedin-comment.md" - <<< "<comment text>"
+gh gist create --public=false -f "linkedin-review.md" - << EOF
+## Original Post — <Author Name>
+
+<verbatim post text>
+
+---
+
+## Draft Comment — Terry Li
+
+<draft comment text>
+EOF
 ```
 
 Delete gist after Terry confirms it's copied.
