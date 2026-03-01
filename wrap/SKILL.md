@@ -18,36 +18,54 @@ End-of-session wrap-up. Three mechanical steps + a conditional meta-sweep.
 
 Execute in order. Don't skip earlier steps if a later one seems more interesting.
 
-### Step 0: Pre-Wrap Check (non-blocking)
+### Step 0: Pre-Wrap Check (soft gate)
 
-Run all checks in parallel before anything else. Surface issues, pause for the user to act if needed, then proceed. This is a soft gate — don't block wrap indefinitely, but don't rush past real issues either.
+Run before anything else. Catch what the session left behind — mechanical and cognitive. Present all findings in one block, pause for the user to act or dismiss, then proceed.
 
-**1. Skill gap:** Compare dirs in `~/skills/` against symlinks in `~/.claude/skills/`. Unlinked skills are invisible to Claude Code.
+#### A. Mechanical checks (run in parallel)
 
+**Skill gap:** Unlinked skills are invisible to Claude Code.
 ```bash
-comm -23 <(ls /Users/terry/skills/ | sort) <(ls /Users/terry/.claude/skills/ | sort)
+comm -23 <(/bin/ls /Users/terry/skills/ | sort) <(/bin/ls /Users/terry/.claude/skills/ | sort)
 ```
+If gaps: list them, suggest `/agent-sync` or `ln -s`.
 
-If gaps found: list them and suggest `/agent-sync` or manual `ln -s`.
-
-**2. Dirty key repos:** Check for uncommitted changes in `~/skills/` and `~/agent-config/`. These are shared config — lost changes hurt future sessions.
-
+**Dirty key repos:** Lost changes to `~/skills/` and `~/agent-config/` hurt future sessions.
 ```bash
-git -C ~/skills status --short
-git -C ~/agent-config status --short
+git -C ~/skills status --short && git -C ~/agent-config status --short
 ```
+If dirty: show which files, offer to commit. Don't auto-commit.
 
-If dirty: show which files and offer to commit. Don't auto-commit — let the user decide.
-
-**3. MEMORY.md budget:** Count lines. Budget is 150.
-
+**MEMORY.md budget:** Budget is 150 lines.
 ```bash
 wc -l ~/.claude/projects/-Users-terry/memory/MEMORY.md
 ```
+If >150: flag it, suggest demoting to `~/docs/solutions/memory-overflow.md`.
 
-If >150: flag it. Suggest demoting provisionals to `~/docs/solutions/memory-overflow.md`.
+#### B. Session loose ends (cognitive scan)
 
-**Output format:** Group all findings into a single brief block before proceeding — don't interleave with the wrap steps. If everything is clean, say so in one line and move on.
+Briefly review what happened this session. Surface anything that was:
+
+- **Started but not finished** — changes made but not tested, commands run but not verified
+- **Deferred** — decisions kicked to "later", open questions that never got answered
+- **Verbally implied but not written** — "I should also…" or "next time…" moments that never made it to TODO.md
+- **Natural follow-ons** — obvious next steps from what was completed (e.g. modified a skill → test it; fixed a bug → check related code; created a tool → docs or hook needed?)
+
+Present as brief suggestions. User decides what to act on now vs. defer.
+
+#### Output format
+
+One block, before any wrap steps:
+
+```
+─── Pre-Wrap ────────────────────────────────────
+⚠  [anything needing action]
+→  [loose ends / suggested next steps]
+✓  [clean checks, or "all clear" if nothing found]
+─────────────────────────────────────────────────
+```
+
+If everything is clean and no loose ends, one line: "All clear — proceeding."
 
 ### Step 1: TODO Sweep
 
