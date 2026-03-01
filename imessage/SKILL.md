@@ -43,9 +43,9 @@ Use when:
 
 ## Known Limitations
 
-- **SSH/tmux**: AppleScript may timeout without local GUI session. Falls back to URL scheme.
+- **SSH/tmux**: AppleScript works fine over SSH (Blink) as long as the Mac is running and user is logged in — confirmed Mar 2026. Display sleep is not a blocker for Messages sends.
 - **URL scheme fallback**: Opens compose window — user must tap Send manually.
-- **Sleeping display**: AppleScript and peekaboo both fail when the Mac display is asleep. Fix: run `caffeinate -u -t 2` first to wake the display, wait 2s, then retry. This also unblocks peekaboo for visual verification (`peekaboo image --mode screen`).
+- **Sleeping display caveat**: Only blocks peekaboo (screen capture). For Messages sends via AppleScript, display state doesn't matter. `caffeinate -u -t 2` only needed before peekaboo calls.
 
 ## Common Patterns
 
