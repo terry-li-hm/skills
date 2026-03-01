@@ -62,8 +62,10 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - If it fails or returns all `--`, skip silently (ring may not have synced)
 
 9. **Weather**:
-   - Use the `/hko` skill — one-line summary with temp range, conditions, any warnings
-   - Always include in the brief (no more cron push — weather is morning-only now)
+   - Fetch and build the weather line: run the three HKO curls, then `python3 ~/skills/hko/weather.py weather`
+   - Always include in the brief
+   - **Auto-send to Tara**: `~/scripts/imessage.sh "$(python3 ~/skills/hko/weather.py weather)"` — send immediately, no confirmation needed. Log "Weather sent to Tara ✓" in the brief.
+   - If imessage.sh fails (non-zero exit), note "Weather send to Tara failed" — don't retry.
 
 10. **Today's calendar** (what's on the schedule):
    - Run: `gog calendar list` (NOT `gog calendar today` — that subcommand doesn't exist)
