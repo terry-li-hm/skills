@@ -112,7 +112,7 @@ Examples:
 
 ### `/todo done <partial match>`
 
-Mark a task as done by partial text match. Find the line, replace `- [ ]` with `- [x]`, then move the completed line to `~/notes/TODO Archive.md` (append under a dated section header like `## Archived YYYY-MM-DD`, creating one if today's doesn't exist).
+Mark a task as done by partial text match. Find the line, replace `- [ ]` with `- [x]`, then move the completed line to `~/notes/TODO Archive.md` (append under the current month's section like `## March 2026`, creating it if it doesn't exist).
 
 ### `/todo schedule <match> <date>`
 
@@ -144,7 +144,7 @@ Remove `someday` tag from a task. Task becomes Anytime (visible in Today view).
 
 ### `/todo clean`
 
-Move all checked items (`- [x]`) to `~/notes/TODO Archive.md` under a dated section header, then remove them from TODO.md.
+Move all checked items (`- [x]`) to `~/notes/TODO Archive.md` under the current month's section (e.g. `## March 2026`), appending to an existing section if present or creating a new one. Then remove all `[x]` lines from TODO.md and collapse any resulting double blank lines.
 
 ### `/todo spare`
 

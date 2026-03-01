@@ -79,6 +79,8 @@ Read `~/notes/TODO.md`. Three scans:
 
 Skip silently if nothing matches.
 
+After the sweep, run `/todo clean` to move any newly-checked `[x]` items to `~/notes/TODO Archive.md`. This keeps TODO.md free of completed items at the end of every session.
+
 ### Step 2: Session Log
 
 Append to `~/notes/Daily/YYYY-MM-DD.md` (create if needed):
