@@ -84,60 +84,6 @@ def build_weather_line(now, fnd, warn):
     return line
 
 
-def build_short_line(now, fnd, warn):
-    """One-line summary for iMessage — emoji, temp, key hazards only."""
-    temps = {t["place"]: t["value"] for t in now["temperature"]["data"]}
-    humidity = now.get("humidity", {}).get("data", [{}])[0].get("value", "?")
-
-    today = fnd["weatherForecast"][0]
-    lo, hi = today["forecastMintemp"]["value"], today["forecastMaxtemp"]["value"]
-    forecast_desc = today.get("forecastWeather", "")
-    fc = forecast_desc.lower()
-
-    # Warnings
-    warn_names = []
-    for key, val in warn.items():
-        if isinstance(val, dict) and "name" in val:
-            code = val.get("code", "")
-            name = f"T{code}" if key == "WTCSGNL" else val["name"].replace(" Warning Signal", "").replace(" Warning", "")
-            warn_names.append(name)
-
-    # Pick emoji (same logic)
-    if any(k == "WTCSGNL" for k in warn if isinstance(warn[k], dict) and "name" in warn[k]):
-        emoji = "\U0001f300"
-    elif "thunder" in fc:
-        emoji = "\u26c8\ufe0f"
-    elif "rain" in fc or "shower" in fc:
-        emoji = "\U0001f326\ufe0f"
-    elif "cloudy" in fc:
-        emoji = "\u2601\ufe0f"
-    elif "sunny" in fc or "fine" in fc:
-        emoji = "\u2600\ufe0f"
-    else:
-        emoji = "\U0001f324\ufe0f"
-
-    # Key hazards: extract notable conditions (rain, thunder, fog, hot, cold)
-    hazards = []
-    if "fog" in fc:
-        hazards.append("foggy morning")
-    if "thunder" in fc and "shower" in fc:
-        hazards.append("showers + thunder")
-    elif "shower" in fc or "rain" in fc:
-        hazards.append("showers later")
-    elif "thunder" in fc:
-        hazards.append("thunder")
-
-    parts = [f"{emoji} {lo}\u2013{hi}\u00b0C"]
-    if hazards:
-        parts.append(", ".join(hazards))
-    if humidity != "?" and int(humidity) >= 90:
-        parts.append("muggy")
-    if warn_names:
-        parts.append("\u26a0\ufe0f " + ", ".join(warn_names))
-
-    return " \u2014 ".join(parts) if len(parts) > 1 else parts[0]
-
-
 def main():
     with open("/tmp/hko_now.json") as f:
         now = json.load(f)
@@ -146,11 +92,7 @@ def main():
     with open("/tmp/hko_warn.json") as f:
         warn = json.load(f)
 
-    mode = sys.argv[1] if len(sys.argv) > 1 else "weather"
-    if mode == "short":
-        print(build_short_line(now, fnd, warn))
-    else:
-        print(build_weather_line(now, fnd, warn))
+    print(build_weather_line(now, fnd, warn))
 
 
 if __name__ == "__main__":
