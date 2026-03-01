@@ -6,7 +6,7 @@ user_invocable: true
 
 # Wrap
 
-End-of-session wrap-up. Three mechanical steps + a conditional meta-sweep.
+End-of-session wrap-up. Pre-wrap gate + three mechanical steps + conditional meta-close. Steps 0–3 are fast; Steps 4–5 merged into one conditional scan. Skip gracefully when sessions are light.
 
 ## Triggers
 
@@ -110,23 +110,19 @@ Resume points must pass the cold-start test: could another session resume from t
 
 **Vault flush:** If the session advanced a project with a canonical tracker note (e.g. `[[Capco Transition]]`), update that note now. Context doesn't survive — if it's not in a file, it's lost.
 
-### Step 4: Meta-Sweep (conditional)
+### Step 4: Meta-Close (conditional)
 
 **Skip entirely if** the session was routine. Do NOT invent learnings. A routine session producing nothing here is correct.
 
 **If the session had substance,** one pass through three lenses:
 
-1. **Safety net:** Uncaptured friction, corrections, or gotchas? Route to the most specific file: tool gotcha → `~/docs/solutions/`, cross-session context → MEMORY.md, skill workflow → the skill's SKILL.md. **Budget check:** If MEMORY.md > 150 lines, flag for trimming — demote provisionals to `~/docs/solutions/memory-overflow.md`.
-2. **System evolution:** Should a skill be created or tightened? Hook added? Same mistake twice despite a rule → escalate per `~/docs/solutions/enforcement-ladder.md`. Hexis port? (Generic only.) Propose, don't auto-implement.
-3. **Generalization:** Does any learning apply beyond where it was routed? Instance → pattern → principle. Most don't. If nothing generalizes, move on.
+One pass, two outputs:
 
-One pass, all three lenses. If nothing surfaces, skip silently.
+**A. File learnings** — Uncaptured friction, corrections, gotchas, or system evolution? Route to the most specific file: tool gotcha → `~/docs/solutions/`, cross-session context → MEMORY.md, skill workflow → the skill's SKILL.md. Should a skill be created or tightened? Hook added? Same mistake twice → escalate per `~/docs/solutions/enforcement-ladder.md`. Propose, don't auto-implement.
 
-### Step 5: Improvement Prompt
+**B. Propose improvements** — 1-3 specific improvement candidates: things that felt clunky, a tool that behaved unexpectedly, a repeated manual step that could be automated. Present each as a concrete proposal with a suggested action. If nothing surfaced, say "Nothing to propose." Do NOT ask open-ended questions — the burden is on Claude to identify candidates.
 
-Scan the session for 1-3 specific improvement candidates — things that felt clunky, a tool that behaved unexpectedly, a skill that needed patching mid-session, a repeated manual step that could be automated. Present each as a concrete proposal with a suggested action.
-
-If nothing surfaced, say: "Nothing to propose." Do NOT ask the user an open-ended question — the burden is on Claude to identify candidates, not on the user to think of them.
+If neither A nor B surfaces anything, skip silently.
 
 ## Output
 
@@ -134,18 +130,7 @@ If nothing surfaced, say: "Nothing to propose." Do NOT ask the user an open-ende
 
 Use the bordered format below. Prose (not bullets or labels) forces linear reading. The border makes wrap visually distinct from tool output.
 
-**Length scales with session complexity:**
-- Light session (Q&A, one task): 2-3 sentences
-- Normal session: 3-4 sentences
-- Heavy session (multi-project, decisions, friction): 4-6 sentences
-
-Cover only what applies — don't pad:
-1. The arc (what happened)
-2. What's unfinished or staged
-3. Vault changes (weave in, don't list)
-4. Learnings captured (only if something was)
-
-Handoff note to tomorrow-you, not a build log. Implementation details belong in vault notes, not here.
+Handoff note to tomorrow-you, not a build log. 2-3 sentences for light sessions, up to 6 for heavy ones. Cover: arc, what's staged/unfinished, learnings captured. Weave vault changes in — don't list them. Implementation details belong in vault notes, not here.
 
 **Format:**
 
@@ -161,5 +146,5 @@ STR relabelling: from WIP to cold-start handover package. Handover doc drafted, 
 
 ## Notes
 
-- Sweep, not ritual — 30 seconds, not 3 minutes
+- Steps 0–3 are mechanical and fast. Step 4 is the only place judgment is needed — and only when the session had substance.
 - One insight well-routed beats five dumped in the same file
