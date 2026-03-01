@@ -135,6 +135,8 @@ nexis ~/notes --orphans 2>/dev/null \
 | Note renamed "X - Interview Prep" → "X - Profile" | Rename during transition | Redirect |
 | `[[skill-name]]` in vault Related fields | Points to Claude skill, not vault | Remove |
 | `[[Note#Section]]` resolves fine (v0.2.1+) | Anchor stripped, stem matched | No action |
+| Stray `-->` in note without `<!--` opener | Garbled/corrupted content — NOT a comment block | Links below it are real broken links |
+| HTML comment `<!-- [[link]] -->` (v0.2.2+) | Stripped before parsing — never false-positive | No action |
 | Running `nexis` on subfolder | Cross-folder links appear broken | Always run on vault root, filter by path |
 | Archive/Waking Up dominate broken count | Expected noise | Use `--exclude` to see signal |
 
