@@ -132,7 +132,8 @@ Run these checks every Friday and include results in the weekly note under `## S
 
 8. **wacli daemon** — `launchctl list com.terry.wacli-sync`. Check exit code (0 = running, 113 = dead). If dead, flag for restart.
 9. **Vault git backup** — Check recency: `cd ~/notes && git log -1 --format='%ci'`. Flag if last commit >2h old (cron runs every 30 min).
-10. **Agent-browser profile** — `ls -la ~/.agent-browser-profile/Default/Cookies 2>/dev/null && echo "OK" || echo "MISSING"`. Flag if profile directory is missing or Cookies file absent.
+10. **Vault link health** — `nexis ~/notes --exclude Archive --exclude "Waking Up" 2>/dev/null`. Note broken link count. Flag if count increased from last week or signal broken links >30. Full triage is a separate `/nexis` session — don't do it inline here.
+11. **Agent-browser profile** — `ls -la ~/.agent-browser-profile/Default/Cookies 2>/dev/null && echo "OK" || echo "MISSING"`. Flag if profile directory is missing or Cookies file absent.
 
 ### AI Tooling
 
@@ -157,6 +158,7 @@ Include a summary table in the weekly note:
 |--------|-------|--------|
 | wacli daemon | running/dead | ✅/🔴 |
 | Vault backup | Xm ago | ✅/⚠️ |
+| Vault broken links (signal) | X | ✅/⚠️ |
 | Agent-browser profile | present/missing | ✅/⚠️ |
 | CLAUDE.md lines | X | ✅/⚠️ |
 | MEMORY.md lines | X | ✅/⚠️ |
