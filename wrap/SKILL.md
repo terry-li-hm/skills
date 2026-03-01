@@ -26,7 +26,7 @@ Run before anything else. Catch what the session left behind — mechanical and 
 
 **Skill gap:** Unlinked skills are invisible to Claude Code.
 ```bash
-comm -23 <(/bin/ls /Users/terry/skills/ | sort) <(/bin/ls /Users/terry/.claude/skills/ | sort)
+comm -23 <(/bin/ls /Users/terry/skills/ | sort) <(/bin/ls ~/.claude/skills/ | sort)
 ```
 If gaps: list them, suggest `/agent-sync` or `ln -s`.
 
@@ -119,6 +119,12 @@ Resume points must pass the cold-start test: could another session resume from t
 3. **Generalization:** Does any learning apply beyond where it was routed? Instance → pattern → principle. Most don't. If nothing generalizes, move on.
 
 One pass, all three lenses. If nothing surfaces, skip silently.
+
+### Step 5: Improvement Prompt
+
+Ask once, directly: **"Anything we should improve based on this session?"**
+
+This catches workflow/tool improvements that don't naturally surface in the learnings sweep — design decisions that felt clunky, delegation failures, friction in the skill itself. One question, user answers or says no, done.
 
 ## Output
 
