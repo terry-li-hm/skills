@@ -35,7 +35,7 @@ Terry is joining Capco as Principal Consultant / AI Solution Lead, advising bank
 - Config: `~/.config/lustro/sources.yaml` + `~/.config/lustro/config.yaml`
 - Health check: `lustro check`
 
-**`/ai-news`** (pull-based, conversational):
+**`/lustro`** (pull-based, conversational):
 - Terry asks whenever he feels like it
 - Claude reads the log, adapts depth, discusses
 
@@ -201,4 +201,4 @@ lustro digest --themes 5          # Limit to 5 themes
 - Log: `~/notes/AI News Log.md`
 - Article cache: `~/.cache/lustro/articles/`
 - State: `~/.cache/lustro/state.json`
-- LaunchAgent: `~/agent-config/launchd/com.terry.ai-news-daily.plist`
+- LaunchAgent: `~/agent-config/launchd/com.terry.lustro-daily.plist`
