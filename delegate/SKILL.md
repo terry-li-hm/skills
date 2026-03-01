@@ -72,7 +72,14 @@ codex exec --skip-git-repo-check --full-auto "<packaged prompt>"
 
 Use the Bash tool's `run_in_background: true` to background — not shell `&`.
 
-### 3. Confirm and Monitor
+### 3. Verify After Completion
+
+**Exit code 0 ≠ working.** Always run the verification criteria from the plan after the delegate finishes:
+- Run the smoke test / test command specified in the prompt
+- Check that files were actually modified (`git diff --stat`)
+- If output looks wrong or empty, check the session file / output path before assuming success
+
+### 4. Confirm and Monitor
 
 After launching, tell the user:
 - What was delegated and to which tool
