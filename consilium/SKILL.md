@@ -4,7 +4,7 @@ description: Multi-model deliberation — auto-routes by difficulty. Full counci
 aliases: [ask-llms, council, ask llms]
 github_url: https://github.com/terry-li-hm/consilium
 user_invocable: true
-cli_version: 0.2.0
+cli_version: 0.3.0
 cli_verified: 2026-03-01
 runtime: rust
 ---
@@ -152,7 +152,7 @@ For other decisions, use simpler context or skip this step.
 **Standard invocation (auto-routes by difficulty):**
 ```bash
 consilium "Should we use microservices or a monolith?" \
-  --quiet --format json \
+  --format json \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
 
@@ -187,7 +187,7 @@ consilium "My plan: migrate the monolith to microservices over 6 months..." \
 # Output
 --format json           # Machine-parseable output (council + quick modes)
 --share                 # Upload to secret Gist
---quiet                 # Suppress live output
+--quiet                 # Suppress live output (auto-enabled when stdout is not a TTY)
 --no-save               # Don't auto-save to ~/.consilium/sessions/
 --no-judge              # Skip judge synthesis (for external judge integration)
 --no-color              # Disable colored output (auto-disabled in pipes)
