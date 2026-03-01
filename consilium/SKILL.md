@@ -149,12 +149,10 @@ For other decisions, use simpler context or skip this step.
 
 **Always run in background:** Use `run_in_background: true` on the Bash tool. The user can watch live via `consilium --watch` or `--tui` in another tmux tab. Read the `--output` file when the task completes — do NOT try to parse stdout from a background task.
 
-**When `--cc` is available (v0.2.0+):** Use `--cc` instead of manually composing flags — it auto-enables quiet + json + compact summary line. Prefer this for all CC-initiated invocations.
-
 **Standard invocation (auto-routes by difficulty):**
 ```bash
 consilium "Should we use microservices or a monolith?" \
-  --format json \
+  --quiet --format json \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
 
@@ -188,7 +186,6 @@ consilium "My plan: migrate the monolith to microservices over 6 months..." \
 --followup              # Interactive drill-down after judge synthesis (council only)
 # Output
 --format json           # Machine-parseable output (council + quick modes)
---cc                    # CC-friendly: quiet + auto-json + compact summary line (v0.2.0+)
 --share                 # Upload to secret Gist
 --quiet                 # Suppress live output
 --no-save               # Don't auto-save to ~/.consilium/sessions/
@@ -245,12 +242,6 @@ Available domains: `banking`, `healthcare`, `eu`, `fintech`, `bio`
 4. For quick mode (parallel responses, no judge): CC extracts the consensus from the prose itself
 
 **Always present a digest** — never dump the raw transcript into the CC context.
-
-**`--cc` summary line (v0.2.0+):**
-```
-[DECISION] Accept the offer with negotiation on start date (confidence: high, cost: $0.53)
-[DONE] Session saved to ~/notes/Councils/... ($0.08)   # prose-only / quick mode
-```
 
 **JSON block (council mode with `--format json`):**
 
@@ -476,7 +467,6 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 
 ## Recent Features
 
-- **`--cc` flag** (v0.2.0+): Claude Code-friendly mode. Auto-enables quiet + `--format json` (for council/quick). Prints compact summary to stdout: `[DECISION] ... (confidence: X, cost: $Y)` for JSON modes, `[DONE] Session saved to ... ($Y)` for prose modes. Defaults output to `~/.consilium/cc-latest.md` if `--output` not specified.
 - **Colored output** (v0.1.3+): Semantic colors for phase banners, model headers, notices, stats. Auto-disabled in pipes (`IsTerminal`). Use `--no-color` to force plain.
 - **Context compression** (v0.1.4+): Multi-round debates compress prior rounds via Llama 3.3 70B. Judge always gets full transcripts. Use `--thorough` to disable.
 - **Challenger dissent protection** (v0.1.5+): If the challenger is actively dissenting, consensus early exit is blocked.
