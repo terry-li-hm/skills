@@ -105,6 +105,19 @@ grok --raw "query"           # raw JSON response
 
 **LinkedIn people research:** See `linkedin-research` skill.
 
+## Researcher Agent Delegation
+
+When constructing prompts for researcher subagents, **explicitly specify the search tool** for the topic:
+
+| Topic type | Specify in agent prompt |
+|---|---|
+| Academic / scientific / neuroscience | Use `pplx research` for primary sources |
+| Market / product research | `pplx ask` or `pplx search` |
+| Quick factual lookup | `WebSearch` (default) |
+| AI news / real-time | `grok` |
+
+Default: agents fall back to WebSearch. For academic research this misses cited primary sources — always specify `pplx research` explicitly in the agent prompt.
+
 ## Perplexity Quality Notes
 
 - **All Perplexity tools inherit search index bias.** If a vendor publishes 4+ SEO comparison articles, they'll dominate results. Cross-check with WebSearch.
