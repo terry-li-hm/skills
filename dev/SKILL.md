@@ -16,6 +16,23 @@ Structured on-ramp for any coding task. Enforces: orchestrate here, execute else
 
 ## Steps
 
+### 0. Pre-flight (before anything else)
+
+**Building a new named tool/CLI?** → Run `consilium` for naming first. Don't plan an unnamed thing.
+```bash
+consilium "Name a CLI that does X. Style: Latin/Greek, short. Existing tools: cerno, oghma, qmd, memoria..." --quick
+```
+Then check availability and **reserve immediately** — don't plan an unreserved name:
+```bash
+# Check crates.io
+curl -s https://crates.io/api/v1/crates/<name> | python3 -c "import sys,json; d=json.load(sys.stdin); print('TAKEN' if 'crate' in d else 'AVAILABLE')"
+# Reserve: scaffold + publish placeholder before planning
+cd ~/code && cargo new <name> --bin
+# add metadata to Cargo.toml, then:
+cargo publish --dry-run && cargo publish
+```
+Reserve before planning — a name collision mid-build forces a full rename (see: necto → synaxis).
+
 ### 1. Solutions KB check
 ```bash
 cerno "<topic or tool name>"
@@ -26,8 +43,8 @@ Read the result. If prior art exists, use it. Don't duplicate captured learnings
 
 | Task size | Use |
 |-----------|-----|
-| < 3 files, self-contained fix | Plan mode (`EnterPlanMode`) → delegate |
-| Multi-file feature, needs paper trail | `/workflows:plan` → delegate |
+| Single-file, single-command, trivial logic | Plan mode (`EnterPlanMode`) → delegate |
+| Multi-command CLI, multi-file, or any real feature | `/workflows:plan` → delegate |
 | Unclear requirements | `/workflows:brainstorm` first |
 | Formal CE plan file exists in `docs/plans/` | Skip to delegation |
 
