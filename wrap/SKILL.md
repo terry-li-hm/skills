@@ -6,7 +6,13 @@ user_invocable: true
 
 # Wrap
 
-End-of-session wrap-up. Pre-wrap gate + three mechanical steps + conditional meta-close. Steps 0–3 are fast; Steps 4–5 merged into one conditional scan. Skip gracefully when sessions are light.
+End-of-session wrap-up. Pre-wrap check + three mechanical steps + conditional meta-close.
+
+## Execution Notes
+
+- Execute in order. Don't skip earlier steps because a later one seems more interesting.
+- Skip any step silently if nothing applies. No ceremony.
+- Session scope = files modified + tool calls + conversation turns since this session began.
 
 ## Triggers
 
@@ -16,17 +22,15 @@ End-of-session wrap-up. Pre-wrap gate + three mechanical steps + conditional met
 
 ## Workflow
 
-Execute in order. Don't skip earlier steps if a later one seems more interesting.
-
 ### Step 0: Pre-Wrap Check (soft gate)
 
-Run before anything else. Catch what the session left behind — mechanical and cognitive. Present all findings in one block, pause for the user to act or dismiss, then proceed.
+Run before anything else. Present all findings in one block, then proceed — don't block waiting for user action.
 
 #### A. Mechanical checks (run in parallel)
 
-**Skill gap:** Unlinked skills are invisible to Claude Code.
+**Skill gap:** Only check if `~/skills/` was modified this session. Unlinked skills are invisible to Claude Code.
 ```bash
-comm -23 <(/bin/ls /Users/terry/skills/ | sort) <(/bin/ls ~/.claude/skills/ | sort)
+comm -23 <(/bin/ls $HOME/skills/ | sort) <(/bin/ls ~/.claude/skills/ | sort)
 ```
 If gaps: list them, suggest `/agent-sync` or `ln -s`.
 
@@ -44,12 +48,11 @@ If >150: flag it, suggest demoting to `~/docs/solutions/memory-overflow.md`.
 
 #### B. Session loose ends (cognitive scan)
 
-Briefly review what happened this session. Surface anything that was:
-
-- **Started but not finished** — changes made but not tested, commands run but not verified
-- **Deferred** — decisions kicked to "later", open questions that never got answered
-- **Verbally implied but not written** — "I should also…" or "next time…" moments that never made it to TODO.md
-- **Natural follow-ons** — obvious next steps from what was completed (e.g. modified a skill → test it; fixed a bug → check related code; created a tool → docs or hook needed?)
+Scan for signals of unfinished business:
+- Recent tool calls and file writes — anything not verified or tested?
+- Conversation mentions of "later", "next", "should", "TODO", "follow up"
+- Git diff — uncommitted changes that need context preserved
+- Decisions made but not written anywhere
 
 Present as brief suggestions. User decides what to act on now vs. defer.
 
@@ -69,17 +72,11 @@ If everything is clean and no loose ends, one line: "All clear — proceeding."
 
 ### Step 1: TODO Sweep
 
-Read `~/notes/TODO.md`. Three scans:
+Read `~/notes/TODO.md`. Two scans:
 
-**Complete:** Done actions → mark `[x]` with brief note and `done:YYYY-MM-DD`. Hard test: truly done, or just "dev done"? If it needs testing, pushing, or confirmation — stays open with updated status.
+**Complete:** Done actions → mark `[x]` with brief note and `done:YYYY-MM-DD`. Hard test: truly done, or just "dev done"? If it needs testing, pushing, or confirmation — stays open with updated status. Move newly-checked `[x]` items to `~/notes/TODO Archive.md`.
 
 **Create:** New commitments, deadlines, or interrupted WIP → add as items. Must have a verb and a concrete next action — "look into X" is not a TODO. Tag with `agent:` if Claude can resume it.
-
-**Abandoned:** Did we go down a path, abandon it, and never record why? Add a one-liner to the session log: `- Abandoned X because Y`. Prevents the next session from rediscovering the same dead end.
-
-Skip silently if nothing matches.
-
-After the sweep, run `/todo clean` to move any newly-checked `[x]` items to `~/notes/TODO Archive.md`. This keeps TODO.md free of completed items at the end of every session.
 
 ### Step 2: Session Log
 
@@ -89,13 +86,22 @@ Append to `~/notes/Daily/YYYY-MM-DD.md` (create if needed):
 ### HH:MM–HH:MM — [Brief title]
 - Key outcome or decision (1-3 bullets max)
 - Link to vault note if detail exists: see [[Note Name]]
+- Abandoned: X because Y  ← include if a path was explored and dropped
 ```
 
-2-3 bullets. No implementation details — those belong in vault notes or `~/docs/solutions/`.
+2-3 bullets. No implementation details — those belong in vault notes or `~/docs/solutions/`. If a path was abandoned mid-session, record why here — prevents next session from rediscovering the same dead end.
 
 ### Step 3: NOW.md + Project Trackers
 
-**NOW.md** (`~/notes/NOW.md`) — check `stat -f %m` first. If written <1h ago by another session, update only what changed. Otherwise, full overwrite. If session was light and NOW.md is still accurate, skip. Max 15 lines:
+**NOW.md** (`~/notes/NOW.md`) — check age first:
+```bash
+/usr/bin/find $HOME/notes/NOW.md -mmin -60 2>/dev/null | grep -q . && echo "recent" || echo "stale"
+```
+If recent (<1h, likely another session), update only what changed. Otherwise, full overwrite.
+
+A session is **light** if: <3 files were modified and no decisions were made. If light and NOW.md is still accurate, skip.
+
+Max 15 lines:
 
 ```markdown
 # NOW
@@ -112,9 +118,9 @@ Resume points must pass the cold-start test: could another session resume from t
 
 ### Step 4: Meta-Close (conditional)
 
-**Skip entirely if** the session was routine. Do NOT invent learnings. A routine session producing nothing here is correct.
+**Run if:** a new skill was created, 2+ friction points encountered, or 2+ related decisions made. Otherwise skip.
 
-**If the session had substance,** one pass through three lenses:
+Do NOT invent learnings. A routine session producing nothing here is correct.
 
 One pass, two outputs:
 
