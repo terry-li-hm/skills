@@ -1,84 +1,81 @@
 ---
-name: agent-sync
-description: "Sync skills, MCP servers, and compound-engineering across Claude Code, OpenCode, and Codex. Run after any config change."
+name: necto
+description: "Sync AI tool config across Claude Code, OpenCode, Codex, and Gemini CLI — skills, MCP, CE, from ~/agent-config/ as source of truth. Run after any config change."
 user_invocable: true
 ---
 
-# Agent Sync
+# Necto
 
-Single command to keep all AI coding tools in sync. Replaces `/skill-sync` and `/mcp-sync`.
+Single Rust binary that keeps all AI coding tools in sync from `~/agent-config/` as the source of truth.
 
 ## What it syncs
 
-| Step | What | How |
-|------|------|-----|
-| 1. Skills | Symlink `~/skills/` → CC, OpenCode, Codex | `~/bin/agent-sync` (Rust binary, `~/code/agent-sync/`) |
-| 2. MCP servers | `~/agent-config/mcp-servers.json` → Codex, OpenCode | `mcp-sync --apply` |
-| 3. Compound-engineering | Plugin → Codex format | `bunx @every-env/compound-plugin install compound-engineering --to codex` |
+| Step | What | Source | Targets |
+|------|------|--------|---------|
+| Skills | Symlinks | `~/skills/` | `~/.claude/skills/`, `~/.opencode/skills/`, `~/.codex/skills/`, `~/.agents/skills/` |
+| MCP | Config files | `~/agent-config/mcp-servers.json` | `~/.opencode/mcp.json`, `~/.codex/config.toml` (managed block) |
+| CE | Plugin install | every-marketplace | codex, opencode, gemini |
+
+Gemini CLI has no skills directory — CE only.
 
 ## Usage
 
-### `/agent-sync`
-
-Run all three steps:
-
 ```bash
-~/bin/agent-sync --full
+necto              # Skills only (fast, ~50ms — runs on every git commit to ~/skills/)
+necto --full       # Skills + MCP + CE across all platforms
+necto --check      # Dry run — list skills, no changes
+necto --help
 ```
 
-Skills only (fast, what the git hook runs):
+## When to run
 
-```bash
-~/bin/agent-sync
+- **After any skill change:** automatic via `~/skills/.git/hooks/post-commit`
+- **After MCP config change:** `necto --full`
+- **After CE/compound-engineering update:** `necto --full`
+- **New machine setup:** `necto --full`
+
+## Source of truth
+
+| Config | File |
+|--------|------|
+| Skills | `~/skills/` (git repo) |
+| MCP servers | `~/agent-config/mcp-servers.json` |
+| CE plugin | `~/.claude/plugins/marketplaces/every-marketplace/` |
+
+### mcp-servers.json format
+
+```json
+{
+  "mcpServers": {},
+  "_codexExtras": {
+    "context7": { "url": "https://mcp.context7.com/mcp" }
+  }
+}
 ```
 
-Dry run:
+- `mcpServers` → OpenCode (`~/.opencode/mcp.json`)
+- `_codexExtras` → Codex TOML (`~/.codex/config.toml`, managed between `# necto-mcp-begin` / `# necto-mcp-end`)
 
-```bash
-~/bin/agent-sync --check
-```
+## Binary
 
-Binary source: `~/code/agent-sync/` (Rust). Rebuild after changes: `cargo build --release` in that dir.
-
-### `/agent-sync check`
-Show current state without changing anything. Check each target for stale or missing symlinks.
-
-### `/agent-sync new <name>`
-Create a new skill and sync to all platforms:
-
-1. Create `~/skills/<name>/SKILL.md` from `~/skills/TEMPLATE.md`
-2. Symlink to all targets
-3. Open for editing
+- Source: `~/code/necto/` (github.com/terry-li-hm/necto)
+- Symlink: `~/bin/necto` → `~/code/necto/target/release/necto`
+- Rebuild: `cd ~/code/necto && cargo build --release`
 
 ## Locations
 
 | Platform | Skills | MCP | Instructions |
 |----------|--------|-----|-------------|
 | Source | `~/skills/` | `~/agent-config/mcp-servers.json` | `~/CLAUDE.md` |
-| Claude Code | `~/.claude/skills/` | `claude mcp add` (manual) | `~/.claude/CLAUDE.md` (auto) |
+| Claude Code | `~/.claude/skills/` | (manual via `claude mcp add`) | auto-loaded |
 | OpenCode | `~/.opencode/skills/` | `~/.opencode/mcp.json` | — |
-| Codex | `~/.codex/skills/` | `~/.codex/config.toml` | `~/.codex/AGENTS.md → ~/CLAUDE.md` |
-| Codex (agents) | `~/.agents/skills/` | — | — |
+| Codex | `~/.codex/skills/`, `~/.agents/skills/` | `~/.codex/config.toml` | `~/.codex/AGENTS.md → ~/CLAUDE.md` |
+| Gemini CLI | — | — | `~/.gemini/GEMINI.md` |
 
-## After creating/modifying skills
+## Gotchas
 
-```bash
-cd ~/skills && git add -A && git commit -m "Update <skill-name>" && git push
-```
-
-## Codex CLI Gotchas
-
-- **Dir-level symlinks break skill discovery** ([#11314](https://github.com/openai/codex/issues/11314)): `~/.agents/skills → ~/skills/` doesn't work. Must be a real directory with per-skill symlinks inside.
-- **Two skill paths:** `~/.codex/skills/` and `~/.agents/skills/` — skill-sync populates both.
-- **AGENTS.md already symlinked:** `~/.codex/AGENTS.md → ~/CLAUDE.md` (set up Feb 4).
-- **Skills invocation:** `$skill-name` (not `/skill-name`).
-- **No hooks interception** in Codex — `notify` only (post-turn). Hooks PR rejected by OpenAI.
-- **Memory CLIs work unchanged** from Codex shell: `oghma`, `qmd`, `km-ask` are just bash commands.
-
-## Notes
-
-- Source of truth is always `~/skills/` (skills), `~/agent-config/mcp-servers.json` (MCP), CE plugin (compound-engineering)
-- Symlinks point TO source, not copies
-- `~/.agents/skills/` must be a real directory (not a dir-level symlink) — Codex bug [#11314](https://github.com/openai/codex/issues/11314)
-- CE install appends a tool mapping block to CLAUDE.md — idempotent, overwrites previous block
-- Claude Code MCP commands are printed but not auto-executed (requires manual run)
+- **Dir-level symlinks break Codex skill discovery** — must be real dir with per-skill symlinks inside (bug [#11314](https://github.com/openai/codex/issues/11314))
+- **Skills and hooks load at session startup only** — new/changed skills need a new session
+- **CE install modifies CLAUDE.md** — idempotent, overwrites tool mapping block
+- **Codex hooks** — `notify` only (post-turn). No pre/post-tool hooks. PR rejected by OpenAI.
+- **OpenCode hooks** — TypeScript plugin system (`tool.execute.before/after`), not shell
