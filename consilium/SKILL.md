@@ -4,7 +4,7 @@ description: Multi-model deliberation — auto-routes by difficulty. Full counci
 aliases: [ask-llms, council, ask llms]
 github_url: https://github.com/terry-li-hm/consilium
 user_invocable: true
-cli_version: 0.4.1
+cli_version: 0.5.0
 cli_verified: 2026-03-01
 runtime: rust
 ---
