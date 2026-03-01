@@ -1,6 +1,6 @@
 ---
 name: daily
-description: Bedtime daily close. Full-day reflection, mood, tomorrow preview. Use when user says "daily", "end of day", "eod", or before bed.
+description: Bedtime daily close. Full-day reflection and tomorrow preview. Use when user says "daily", "end of day", "eod", or before bed.
 user_invocable: true
 ---
 
@@ -17,7 +17,7 @@ Bedtime close → daily note. The final checkpoint of the day.
 
 `/eow` (end of work) is the optional mid-day checkpoint — work themes, work mood, unfinished threads. If it was run, the daily note already has an "End of Work" section. This skill builds on top of it:
 
-- **eow was run:** Skip re-summarising work. Focus on evening activity, full-day reflection, and overall mood.
+- **eow was run:** Skip re-summarising work. Focus on evening activity and full-day reflection.
 - **eow was NOT run:** Cover the full day (work + personal) in one pass, same as before.
 
 ## Workflow
@@ -36,7 +36,6 @@ Bedtime close → daily note. The final checkpoint of the day.
 4. **Review with Terry:**
    - Show the summary — "Here's how today groups..."
    - Ask: anything missing? Any sessions without a wrap?
-   - Ask for **overall mood** (1-5 or a word) — this is the day mood, distinct from work mood if eow captured one
 
 5. **Tomorrow preview** — scan for what's queued tomorrow:
    - Get tomorrow's date (`date -v+1d +%Y-%m-%d`)
@@ -70,10 +69,6 @@ Bedtime close → daily note. The final checkpoint of the day.
 
 - [ ] [Things to do tomorrow]
 
-## Mood
-
-[1-5 or word, with brief colour if Terry offers it. If eow captured a work mood, note the contrast if interesting — e.g. "Work: 3 (scattered) → Evening: 4 (recharged)"]
-
 ## Tomorrow
 
 - [Deadlines, scheduled items, overdue carryover — or "Clear plate."]
@@ -88,4 +83,3 @@ Bedtime close → daily note. The final checkpoint of the day.
 - The value is in the reflection, not the logging — wrap handles the session logging
 - This is lightweight by design: wrap does the heavy lifting throughout the day
 - Tomorrow preview is a closing thought — keep it to what's *known*, don't speculate
-- The work mood vs day mood split is optional — if Terry only gives one mood, use it as the day mood

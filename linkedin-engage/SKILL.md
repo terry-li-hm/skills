@@ -149,6 +149,8 @@ cat ~/notes/LinkedIn\ Content\ Ideas.md
 
 If the topic exists, use the captured angle/details. If new, add the entry first (hook, angle, status, timing gate), then create the draft file linked from it.
 
+**Bidirectional linking is mandatory:** hub entry → `[[Draft Note]]` AND draft note's Related field → `[[LinkedIn Content Ideas]]`. Both directions, always.
+
 ### 2. Draft Against Playbook Rules
 
 Read the playbook: `~/notes/LinkedIn Posting Playbook.md`
