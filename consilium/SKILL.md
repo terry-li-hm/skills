@@ -236,19 +236,25 @@ Available domains: `banking`, `healthcare`, `eu`, `fintech`, `bio`
 
 ### Step 4: Parse and Present
 
-**After background task completes**, read the `--output` file. For JSON modes (council/quick with `--format json`), the file ends with a JSON block after `---`. For `--cc` mode, also check the compact summary line that was printed to stdout before reading the file.
+**After background task completes**, always read the `--output` file and synthesize the digest yourself — don't rely solely on the `[DECISION]` summary line. The summary line is a convenience signal; CC is the agent and can reason about the full output regardless of format.
 
-**Always present a digest** — never dump the raw transcript into the CC context:
+**Workflow:**
+1. Read the `[DECISION]` or `[DONE]` line from stdout as a quick signal
+2. Read the `--output` file (markdown with full transcript)
+3. Synthesize: decision/recommendation + key reasoning + dissents + cost
+4. For quick mode (parallel responses, no judge): CC extracts the consensus from the prose itself
 
-**CC-friendly `--cc` summary line format (v0.2.0+):**
+**Always present a digest** — never dump the raw transcript into the CC context.
+
+**`--cc` summary line (v0.2.0+):**
 ```
 [DECISION] Accept the offer with negotiation on start date (confidence: high, cost: $0.53)
-[DONE] Session saved to ~/notes/Councils/... ($0.08)   # prose-only modes
+[DONE] Session saved to ~/notes/Councils/... ($0.08)   # prose-only / quick mode
 ```
 
-**JSON block format (council/quick with `--format json`):**
+**JSON block (council mode with `--format json`):**
 
-When using `--format json`, the output ends with a JSON block after `---`:
+When present, the output ends with a JSON block after `---`:
 
 ```json
 {
