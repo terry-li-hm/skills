@@ -44,8 +44,8 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - If no brief and no flagged items, skip silently
 
 6. **Check cron logs** (overnight output):
-   - Check `~/logs/cron-weather.log` for recent entries
-   - Note any failures or missing deliveries
+   - Check `~/logs/` for any cron job failures (oghma, opencode-nightly, vault-backup, etc.)
+   - Note any failures or missing deliveries; skip if all clean
 
 7. **Check overnight OpenCode results:**
    - Check `~/notes/opencode-runs/` for last night's run — read the most recent `summary.md` (by date folder). Report task count, pass/fail, and flag anything NEEDS_ATTENTION or CRITICAL.
@@ -61,9 +61,9 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Include the one-line output in the brief under "Health:"
    - If it fails or returns all `--`, skip silently (ring may not have synced)
 
-9. **Weather** (action-oriented only):
-   - `/hko` — focus on warnings (typhoon, rainstorm, extreme heat) and rain probability
-   - Skip if already delivered by cron and no warnings active
+9. **Weather**:
+   - Use the `/hko` skill — one-line summary with temp range, conditions, any warnings
+   - Always include in the brief (no more cron push — weather is morning-only now)
 
 10. **Today's calendar** (what's on the schedule):
    - Run: `gog calendar list` (NOT `gog calendar today` — that subcommand doesn't exist)

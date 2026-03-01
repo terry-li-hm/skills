@@ -64,17 +64,19 @@ def build_weather_line(now, fnd, warn):
     else:
         emoji = "\U0001f324\ufe0f"
 
-    # Build line: ☀️ 19–25°C, sunny and dry
+    # Build line: ☀️ 19–25°C, sunny and dry, muggy
     desc = forecast_desc.rstrip(".")
     desc = desc[0].lower() + desc[1:] if desc else ""
-    line = f"{emoji} {lo}\u2013{hi}\u00b0C, {desc}."
 
+    parts = [f"{emoji} {lo}\u2013{hi}\u00b0C, {desc}"]
     if rain_mm > 0:
-        line += f", {rain_mm}mm rain"
+        parts.append(f"{rain_mm}mm rain")
     if uv_val >= 6:
-        line += f", UV {uv_val}"
+        parts.append(f"UV {uv_val}")
     if humidity != "?" and int(humidity) >= 90:
-        line += ", muggy"
+        parts.append("muggy")
+
+    line = ", ".join(parts)
 
     if warnings:
         line = "\u26a0\ufe0f " + " \u2022 ".join(warnings) + "\n" + line
