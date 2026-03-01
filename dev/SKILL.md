@@ -12,6 +12,7 @@ Structured on-ramp for any coding task. Enforces: orchestrate here, execute else
 
 - `/dev <task description>` — start a coding task the right way
 - Proactively when user asks to build, port, fix, refactor, or add a feature
+- **After consilium/brainstorm/design discussion when user says "implement", "build", "do it", "go ahead"** — prior discussion is NOT a plan, always start here
 
 ## Steps
 
@@ -28,7 +29,7 @@ Read the result. If prior art exists, use it. Don't duplicate captured learnings
 | < 3 files, self-contained fix | Plan mode (`EnterPlanMode`) → delegate |
 | Multi-file feature, needs paper trail | `/workflows:plan` → delegate |
 | Unclear requirements | `/workflows:brainstorm` first |
-| Plan exists, ready to execute | Skip to delegation |
+| Formal CE plan file exists in `docs/plans/` | Skip to delegation |
 
 ### 3. Delegate execution
 
@@ -90,6 +91,7 @@ Captures the learnings in `~/docs/solutions/`.
 
 ## Hard Rules
 
+- **Prior discussion ≠ plan.** Consilium output, brainstorm notes, and design reviews are inputs to planning — not a substitute for it. Always run cerno + CE plan first.
 - **Never write non-trivial code in-session** without proposing delegation first.
 - **One task per delegation.** If there are 3 independent tasks, launch 3 separate delegates.
 - **Don't inline full files.** Give paths, let delegates read.
