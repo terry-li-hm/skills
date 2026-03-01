@@ -118,7 +118,17 @@ If flagged sources exist, archive them:
 # python3 -c "import sqlite3, os; conn = sqlite3.connect(os.path.expanduser('~/.oghma/oghma.db')); conn.execute(\"UPDATE memories SET status='archived' WHERE source_tool='SOURCE_NAME' AND status='active'\"); conn.commit(); print('Done')"
 ```
 
-### 8. Housekeeping
+### 8. Finance Check
+
+Quick scan of key financial positions — takes 2 min:
+
+a. **Mortgage rate** — check if any bank is offering ≤2.5% cap (P-2.75% at current SCB prime). Current deal: SCB H+1.3%, cap P-2.75%. Only worth switching if new cap ≤ current cap AND cashback clears the rate difference over the lock-in. Ask Emily (星之谷, WhatsApp) or search current HK mortgage rates. See [[Personal Finance Reference]].
+
+b. **SCB Prime rate** — verify still 5.25% (affects your cap). Check SCB website or `pplx search "Standard Chartered HK prime rate"`.
+
+c. **Credit card balances** — any unpaid statement balances? (CCBA, SCB, BOC)
+
+### 9. Housekeeping
 
 - Purge orphaned agent files: `/usr/bin/find ~/.claude/todos -name "*.json" -mtime +7 -delete`
 - Check MEMORY.md line count (`wc -l`). Flag if >150 — trim or demote to vault.
@@ -139,6 +149,7 @@ After running all sections, present:
 | Skill Review | X active / Y archived | [changes] |
 | Source Health | X broken, Y stale, Z consecutive-zero | [fixes applied] |
 | Vault Hygiene | X notes archived, Y orphans | [actions] |
+| Finance Check | SCB prime X%, best market cap Y% | [action/no action] |
 | Housekeeping | MEMORY.md: X lines, agents purged | [flags] |
 ```
 

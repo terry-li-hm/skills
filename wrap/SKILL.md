@@ -18,6 +18,37 @@ End-of-session wrap-up. Three mechanical steps + a conditional meta-sweep.
 
 Execute in order. Don't skip earlier steps if a later one seems more interesting.
 
+### Step 0: Pre-Wrap Check (non-blocking)
+
+Run all checks in parallel before anything else. Surface issues, pause for the user to act if needed, then proceed. This is a soft gate — don't block wrap indefinitely, but don't rush past real issues either.
+
+**1. Skill gap:** Compare dirs in `~/skills/` against symlinks in `~/.claude/skills/`. Unlinked skills are invisible to Claude Code.
+
+```bash
+comm -23 <(ls /Users/terry/skills/ | sort) <(ls /Users/terry/.claude/skills/ | sort)
+```
+
+If gaps found: list them and suggest `/agent-sync` or manual `ln -s`.
+
+**2. Dirty key repos:** Check for uncommitted changes in `~/skills/` and `~/agent-config/`. These are shared config — lost changes hurt future sessions.
+
+```bash
+git -C ~/skills status --short
+git -C ~/agent-config status --short
+```
+
+If dirty: show which files and offer to commit. Don't auto-commit — let the user decide.
+
+**3. MEMORY.md budget:** Count lines. Budget is 150.
+
+```bash
+wc -l ~/.claude/projects/-Users-terry/memory/MEMORY.md
+```
+
+If >150: flag it. Suggest demoting provisionals to `~/docs/solutions/memory-overflow.md`.
+
+**Output format:** Group all findings into a single brief block before proceeding — don't interleave with the wrap steps. If everything is clean, say so in one line and move on.
+
 ### Step 1: TODO Sweep
 
 Read `~/notes/TODO.md`. Three scans:
