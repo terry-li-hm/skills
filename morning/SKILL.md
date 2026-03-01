@@ -28,6 +28,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Read `~/notes/Daily/YYYY-MM-DD.md` (yesterday)
    - Pull the `## Tomorrow` section if it exists — this is the plate preview from last night
    - Pull any `## Follow-ups` items — these are carryover
+   - **Cross-reference against NOW.md `[decided]` entries before surfacing carryover items.** If a Tomorrow item is already resolved in NOW.md (as `[decided]` or `[done]`), skip it — don't re-surface as open. Also check today's daily note (if it exists — same-day earlier sessions may have resolved items before this session started).
 
 4. **Overnight messages** (the core value of this skill):
    - Scan Gmail for Capco/HR emails (past 24h): `gog gmail search "capco OR PILON OR alison" | head -10`
