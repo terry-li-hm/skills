@@ -4,8 +4,8 @@ description: Multi-model deliberation — auto-routes by difficulty. Full counci
 aliases: [ask-llms, council, ask llms]
 github_url: https://github.com/terry-li-hm/consilium
 user_invocable: true
-cli_version: 0.1.6
-cli_verified: 2026-02-28
+cli_version: 0.2.0
+cli_verified: 2026-03-01
 runtime: rust
 ---
 
@@ -144,16 +144,17 @@ For other decisions, use simpler context or skip this step.
 
 **Always use these flags:**
 - `--output ~/notes/Councils/LLM Council - {Topic} - {date}.md` — vault persistence
-- `--format json` — **only for council mode** (incompatible with discuss/redteam/solo/socratic/oxford)
+- `--format json` — for **council and quick modes** (incompatible with discuss/redteam/solo/socratic/oxford)
 - ~~`--named`~~ — **NOT IMPLEMENTED** (skill doc was ahead of CLI). Models show as Speaker 1, 2, etc. Real names appear in council mode output regardless.
 
-**Do NOT use `--quiet` by default.** Run with `run_in_background: true` on the Bash tool so the user can watch live via `consilium --watch` or `--tui` in another tmux tab. Read the `--output` file when the task completes.
+**Always run in background:** Use `run_in_background: true` on the Bash tool. The user can watch live via `consilium --watch` or `--tui` in another tmux tab. Read the `--output` file when the task completes — do NOT try to parse stdout from a background task.
 
+**When `--cc` is available (v0.2.0+):** Use `--cc` instead of manually composing flags — it auto-enables quiet + json + compact summary line. Prefer this for all CC-initiated invocations.
 
 **Standard invocation (auto-routes by difficulty):**
 ```bash
 consilium "Should we use microservices or a monolith?" \
- \
+  --format json \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
 
@@ -186,7 +187,8 @@ consilium "My plan: migrate the monolith to microservices over 6 months..." \
 --rounds 3              # Rounds for --discuss or --socratic (0 = unlimited)
 --followup              # Interactive drill-down after judge synthesis (council only)
 # Output
---format json           # Machine-parseable output (council mode only)
+--format json           # Machine-parseable output (council + quick modes)
+--cc                    # CC-friendly: quiet + auto-json + compact summary line (v0.2.0+)
 --share                 # Upload to secret Gist
 --quiet                 # Suppress live output
 --no-save               # Don't auto-save to ~/.consilium/sessions/
@@ -232,7 +234,19 @@ Available domains: `banking`, `healthcare`, `eu`, `fintech`, `bio`
 | `--decompose` | yes | no | no | no | no | no | no |
 | `--xpol` | yes | no | no | no | no | no | no |
 
-### Step 4: Parse and Present (when using --format json)
+### Step 4: Parse and Present
+
+**After background task completes**, read the `--output` file. For JSON modes (council/quick with `--format json`), the file ends with a JSON block after `---`. For `--cc` mode, also check the compact summary line that was printed to stdout before reading the file.
+
+**Always present a digest** — never dump the raw transcript into the CC context:
+
+**CC-friendly `--cc` summary line format (v0.2.0+):**
+```
+[DECISION] Accept the offer with negotiation on start date (confidence: high, cost: $0.53)
+[DONE] Session saved to ~/notes/Councils/... ($0.08)   # prose-only modes
+```
+
+**JSON block format (council/quick with `--format json`):**
 
 When using `--format json`, the output ends with a JSON block after `---`:
 
@@ -456,6 +470,7 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 
 ## Recent Features
 
+- **`--cc` flag** (v0.2.0+): Claude Code-friendly mode. Auto-enables quiet + `--format json` (for council/quick). Prints compact summary to stdout: `[DECISION] ... (confidence: X, cost: $Y)` for JSON modes, `[DONE] Session saved to ... ($Y)` for prose modes. Defaults output to `~/.consilium/cc-latest.md` if `--output` not specified.
 - **Colored output** (v0.1.3+): Semantic colors for phase banners, model headers, notices, stats. Auto-disabled in pipes (`IsTerminal`). Use `--no-color` to force plain.
 - **Context compression** (v0.1.4+): Multi-round debates compress prior rounds via Llama 3.3 70B. Judge always gets full transcripts. Use `--thorough` to disable.
 - **Challenger dissent protection** (v0.1.5+): If the challenger is actively dissenting, consensus early exit is blocked.

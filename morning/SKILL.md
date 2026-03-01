@@ -31,6 +31,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 
 4. **Overnight messages** (the core value of this skill):
    - Scan Gmail for Capco/HR emails (past 24h): `gog gmail search "capco OR PILON OR alison" | head -10`
+   - If gog fails with "no TTY" / keyring error: keychain is locked. Note "Gmail unavailable — unlock keychain" and skip steps 4–5. Don't retry.
    - Flag anything requiring action
 
 5. **Cora inbox triage** (read Cora's labels via Gmail — no website scraping):
@@ -82,7 +83,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 
 13. **GARP quiz check** (until Apr 4):
    - Run `~/scripts/rai.py stats 2>/dev/null | head -5` to get session count and phase
-   - Check `.garp-fsrs-state.json` for any review dated today: `python3 -c "import json; d=json.load(open('$HOME/notes/.garp-fsrs-state.json')); print(sum(1 for t in d['topics'].values() if t.get('last_review','').startswith('$(date +%Y-%m-%d)')))"` — if >0, quiz already done today, skip
+   - Check `.garp-fsrs-state.json` for any review dated today: `python3 -c "import json; d=json.load(open('$HOME/notes/.garp-fsrs-state.json')); today='$(date +%Y-%m-%d)'; print(sum(1 for e in d.get('review_log',[]) if e.get('date','').startswith(today)))"` — if >0, quiz already done today, skip
    - If no session today and schedule says one is due (cruise: 3x/week = Mon/Wed/Fri-ish), nudge: "GARP quiz due today"
    - If already done today, do NOT mention GARP quiz at all
 
