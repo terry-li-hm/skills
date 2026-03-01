@@ -126,7 +126,14 @@ gh gist create --public=false -f "linkedin-review.md" - << EOF
 EOF
 ```
 
-Delete gist after Terry confirms it's copied.
+When posting the comment via agent-browser, also like the post — it's basic engagement hygiene:
+
+```bash
+# After filling and submitting the comment box:
+agent-browser click <like-button-ref> --profile
+```
+
+The Like button ref is typically labelled "React Like" in the snapshot. Click it before closing the browser. Delete gist after Terry confirms it's copied.
 
 ---
 
