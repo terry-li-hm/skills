@@ -92,26 +92,27 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 4. Implication (why this matters — the "so what")
 5. Optional: closing question to invite engagement (only if natural)
 
-### 6. Review
+Present the draft in chat with a one-line rationale for the angle chosen. **Stop here and wait for input.**
 
-**For high-value targets** (senior FS/AI practitioners, potential Capco clients, 1K+ followers):
-- Offer consilium `--quick` review (~$0.10) with full post context (verbatim text, all comments, author background)
-- The first quick council should always have the actual post — don't summarise. Fetch via agent-browser first.
-- For comments worth extra polish: `--deep` (~$0.90) catches logical gaps quick misses (causal direction, platform formatting, over-polishing)
-- Key criteria: tone calibration, overstepping risk, engagement likelihood
+### 6. Checkpoint: Consilium Review?
 
-**For routine engagement:**
-- Self-review against voice rules above. Skip consilium.
+Ask Terry whether to run a consilium review before finalising. Suggest the appropriate tier based on the target:
 
-### 7. Deliver
+- **High-value target** (senior FS/AI practitioner, potential Capco client, 1K+ followers): recommend `--quick` (~$0.10)
+- **Worth extra polish** (controversial angle, sensitive topic): offer `--deep` (~$0.90)
+- **Routine engagement**: self-review against voice rules is sufficient — say so and let Terry decide
 
-Create a secret gist for mobile copy:
+Do not run consilium without explicit confirmation. If Terry says go ahead, run with full post context (verbatim text, all comments, author background) — never summarise the post for the council.
+
+### 7. Finalise and Deliver
+
+Only create a gist once Terry confirms the draft is ready to post:
 
 ```bash
 gh gist create --public=false -f "linkedin-comment.md" - <<< "<comment text>"
 ```
 
-Present: the draft, the gist URL, and a one-line rationale for the angle chosen. Delete gist after Terry confirms it's copied.
+Delete gist after Terry confirms it's copied.
 
 ---
 
