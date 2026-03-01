@@ -107,6 +107,44 @@ ruff format .                 # format
 uv run pytest                 # run tests
 uv run pytest -x              # stop on first failure
 uv run pytest --tb=short      # concise tracebacks (prefer over default)
+uv run pytest -n auto         # parallel (requires pytest-xdist)
+```
+
+**Recommended pytest plugins:**
+
+```bash
+uv add --dev pytest-cov pytest-xdist pytest-asyncio pytest-mock
+```
+
+- `pytest-cov` — coverage reports (`--cov=src --cov-report=term-missing`)
+- `pytest-xdist` — parallel test runs (`-n auto`)
+- `pytest-asyncio` — async test support; add `asyncio_mode = "auto"` to `pyproject.toml`
+- `pytest-mock` — mocker fixture (cleaner than `unittest.mock`)
+
+**`asyncio_mode` config (if using pytest-asyncio):**
+```toml
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+```
+
+**Don't mix pytest-asyncio and pytest-anyio** — they conflict.
+
+### Type checking
+
+```bash
+uv add --dev pyright          # recommended for new projects
+uv run pyright                # run type check
+```
+
+- **pyright** — recommended over mypy for new projects (faster, stricter, better LSP)
+- **mypy** — still valid for existing codebases with mypy config
+- **ty** (Astral, Dec 2025) and **pyrefly** (Meta) — emerging Rust-based alternatives; not production-ready yet, watch them
+
+### Dependency health
+
+```bash
+uv add --dev deptry
+uv run deptry .               # find unused/missing deps
 ```
 
 ### Tool install
@@ -144,17 +182,34 @@ TTY = human signal. Non-TTY = agent consumer. Design for both.
 ```bash
 ruff check .                  # zero lint errors
 ruff format --check .         # formatting clean
+uv run pyright                # type check (if pyright configured)
+uv run deptry .               # unused/missing deps
 uv run pytest                 # tests pass
 uv build                      # builds dist/ — check for errors
 ```
 
-### Publish
+### Publish (manual)
 
 ```bash
 uvx twine upload dist/*       # NOT uv publish — it doesn't read ~/.pypirc
 ```
 
-**`uv publish` doesn't read `~/.pypirc`** — always use `uvx twine upload dist/*`.
+**`uv publish` doesn't read `~/.pypirc`** — always use `uvx twine upload dist/*` for manual publish.
+
+### Publish (CI — Trusted Publishing)
+
+For GitHub Actions, skip `.pypirc` entirely. Use [Trusted Publishing (OIDC)](https://docs.pypi.org/trusted-publishers/) — no API token needed:
+
+```yaml
+- uses: astral-sh/setup-uv@v5
+- run: uv sync --locked
+- run: uv build
+- uses: pypa/gh-action-pypi-publish@release/v1
+  with:
+    repository-url: https://upload.pypi.org/legacy/
+```
+
+Configure once on PyPI: project → Publishing → Add publisher (GitHub repo + workflow name).
 
 ### After publish
 
@@ -169,8 +224,20 @@ Bump version in `pyproject.toml` before publishing. `uv` doesn't have a `cargo-r
 
 ## Gotchas
 
-- **`uv publish` ignores `~/.pypirc`** — use `uvx twine upload dist/*`
+### uv
+- **`uv publish` ignores `~/.pypirc`** — use `uvx twine upload dist/*` (manual) or Trusted Publishing (CI)
 - **`uv tool install --force` hook-blocked** — use `--reinstall`
+- **`--extra-index-url` semantics differ from pip** — uv prefers the primary index; private packages need to be on the primary or use `[[tool.uv.sources]]` in `pyproject.toml`
+- **`UV_COMPILE_BYTECODE=1`** — set this in production/serverless deploys (Docker, Lambda); uv skips bytecode compilation by default for speed, but cold starts suffer without it
+- **Strict `.whl` validation** — uv rejects wheels that pip accepts. If a dep fails: `uv add --no-binary <pkg>` to force source build, or pin an older version
+- **`uv sync --locked`** — use in CI (fails if lockfile is out of sync); plain `uv sync` will update
+
+### ruff
+- **Not a full pylint replacement** — ruff lacks cross-file semantic analysis. Catches most issues; deep logic errors need manual review
+- **Trailing comma edge case** — ruff's formatter differs from Black on trailing commas in some multi-line expressions; don't blindly adopt both formatters in the same project
+- **`preview = true` in CI** — don't. Preview rules are unstable and will break CI on ruff upgrades. Keep `preview` off in `pyproject.toml`
+
+### General
 - **LaunchAgent + uv** — use `uv run --script` with `--python 3.13`; never `.venv/bin/python`
 - **`.zshenv` not `.zshrc`** — env vars for non-interactive shells (cron, LaunchAgent, agent shells)
 - **`PYTHONUNBUFFERED=1`** — required for `nohup` log visibility
