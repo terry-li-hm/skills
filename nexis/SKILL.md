@@ -3,7 +3,7 @@ name: nexis
 description: "Obsidian vault link health — scan, triage broken links, surface orphans. Use when running nexis CLI or triaging vault link issues."
 user_invocable: true
 cli: nexis
-cli_version: 0.2.2
+cli_version: 0.2.3
 ---
 
 # /nexis — Vault Link Health
@@ -145,6 +145,7 @@ nexis ~/notes --orphans 2>/dev/null \
 | Note renamed "X - Interview Prep" → "X - Profile" | Rename during transition | Redirect |
 | `[[skill-name]]` in vault Related fields | Points to Claude skill, not vault | Remove |
 | `[[Note#Section]]` resolves fine (v0.2.1+) | Anchor stripped, stem matched | No action |
+| `warning: duplicate stem "X"` (v0.2.3+) | Two notes share same filename in different folders | One wins; the other is unlinkable by `[[X]]` — rename or use path-qualified links |
 | Stray `-->` in note without `<!--` opener | Garbled/corrupted content — NOT a comment block | Links below it are real broken links |
 | HTML comment `<!-- [[link]] -->` (v0.2.2+) | Stripped before parsing — never false-positive | No action |
 | Running `nexis` on subfolder | Cross-folder links appear broken | Always run on vault root, filter by path |
