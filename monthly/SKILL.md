@@ -132,7 +132,7 @@ c. **Credit card balances** — any unpaid statement balances? (CCBA, SCB, BOC)
 
 - Purge orphaned agent files: `/usr/bin/find ~/.claude/todos -name "*.json" -mtime +7 -delete`
 - Check MEMORY.md line count (`wc -l`). Flag if >150 — trim or demote to vault.
-- Check CLAUDE.md for stale references (completed transitions, retired projects)
+- **CLAUDE.md tightening pass:** Read every rule and ask two questions: (1) Is this still true? Remove stale references (completed transitions, retired projects, outdated tool names). (2) Does this *need* to be in CLAUDE.md, or does it belong in a skill/solution? Mechanical rules stay. Workflow conventions → relevant skill. Operational gotchas → MEMORY.md. Reusable how-tos → `~/docs/solutions/`. Goal: CLAUDE.md stays thin — rules and pointers only.
 
 ## Summary Template
 
