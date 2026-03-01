@@ -17,7 +17,7 @@ Use when:
 
 ## Default Recipient
 
-- **Wife**: `taracny@gmail.com` (default, no `-t` flag needed)
+- **Wife**: `+85261145524` (default, no `-t` flag needed)
 
 ## Commands
 
