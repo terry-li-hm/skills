@@ -79,6 +79,15 @@ Use the Bash tool's `run_in_background: true` to background — not shell `&`.
 - Check that files were actually modified (`git diff --stat`)
 - If output looks wrong or empty, check the session file / output path before assuming success
 
+**After Codex specifically — quick review pass before smoke test:**
+Codex writes structurally correct code but misses cross-cutting concerns. Before testing, scan for:
+- Shared state ownership (e.g. a flag set by one method but reset by another)
+- Missing timing/instrumentation on parallel result loops (hardcoded `0` elapsed)
+- `.unwrap()` on non-static results (LazyLock statics are fine)
+- `begin_phase` / `begin_participant` ordering if both are used
+
+One `git diff` read, 2 minutes. Catches logic bugs before they reach testing.
+
 ### 4. Confirm and Monitor
 
 After launching, tell the user:
