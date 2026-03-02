@@ -12,7 +12,8 @@ Thin wrapper around `wacli` that fixes its three friction points: manual JID loo
 ```bash
 keryx read "Herman"            # merged conversation (phone + LID JIDs)
 keryx read "Herman" --limit 5  # last 5 messages
-keryx send "Herman" "Hi"       # prints daemon-safe 3-command block
+keryx send "Herman" "Hi"           # prints daemon-safe 3-command block
+keryx send "Herman" "Hi" --copy   # same + copies to clipboard
 keryx chats                    # recent chats (passthrough)
 keryx chats --limit 10
 ```
