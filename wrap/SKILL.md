@@ -117,6 +117,8 @@ Max 15 lines:
 
 Resume points must pass the cold-start test: could another session resume from this alone, without reading any conversation history? Use `[decided]` vs `[open]` to signal how settled each item is.
 
+**Prune `[decided]` items aggressively.** Keep only if they still gate a future action (a date not yet passed, a follow-up not yet sent). If the decision is done-and-absorbed into a skill/vault with no pending follow-up → delete it. "Morning cron killed" is history, not a resume point.
+
 **Vault flush:** If the session advanced a project with a canonical tracker note (e.g. `[[Capco Transition]]`), update that note now. Context doesn't survive — if it's not in a file, it's lost.
 
 ### Step 4: Meta-Close (conditional)
