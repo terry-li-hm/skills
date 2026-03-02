@@ -204,7 +204,7 @@ Never test a CLI tool via `./target/release/<name>` only — that skips the inst
 cargo install <name>    # verify it installs cleanly from crates.io
 ```
 
-Update `~/skills/<name>/SKILL.md` with new version if there's a skill for it.
+**Create a skill** — every personal CLI gets `~/skills/<name>/SKILL.md`. Covers: commands, keychain/config location, gotchas, repo link. This is how the tool stays usable across sessions.
 
 ---
 
