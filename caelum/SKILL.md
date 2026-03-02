@@ -1,30 +1,29 @@
 ---
 name: caelum
-description: HK Observatory one-line weather summary CLI. Fetches live HKO data, formats as emoji + temp range + conditions.
-user_invocable: false
+description: HK Observatory one-line weather summary. "weather", "hko", "天氣"
+user_invocable: true
 ---
 
 # caelum
 
-Rust CLI that fetches HK Observatory weather and prints a single formatted line.
+HK Observatory weather — fetches live data and prints a one-line summary.
 
-## Usage
+## Trigger
+
+Use when:
+- User says "weather", "hko", "temperature", "typhoon", "天氣", "颱風"
+- Morning check-ins
+
+## Workflow
 
 ```bash
 caelum
 # ⛈️ 16–23°C, cloudy with occasional showers. A few thunderstorms later, muggy
 ```
 
-No arguments, no subcommands. Output goes to stdout; errors to stderr (exit 1).
+Present the output to the user.
 
-## What it fetches
-
-Three HKO opendata endpoints (always fresh — no /tmp caching):
-- `rhrread` — current temperature, humidity, rainfall, UV
-- `fnd` — 9-day forecast (temperature range + description)
-- `warnsum` — active warning signals
-
-## Output format
+## Output Format
 
 ```
 [⚠️ Warning1 • Warning2]
@@ -33,23 +32,30 @@ Three HKO opendata endpoints (always fresh — no /tmp caching):
 
 Emoji priority: 🌀 typhoon → 🌧️ rain warning/heavy rain → ⛈️ thunder → 🌦️ shower → ☁️ cloudy → ☀️ sunny/fine → 🌤️ default
 
-- Temperature station: Shau Kei Wan (fallback: Hong Kong Observatory)
-- Forecast: matches today by `forecastDate` (YYYYMMDD), falls back to [0]
-- Rainfall: Eastern District (fallback: Chai Wan), `max` field
-- Muggy: humidity ≥ 90%
-- UV suffix: only if UV index ≥ 6
+## Warning Types
 
-## Where it's used
+🌀 Typhoon (T1-T10) · ⛈️ Rainstorm (Amber/Red/Black) · 🥵 Very Hot · 🥶 Cold · ❄️ Frost · 💨 Strong Monsoon · ⚡ Thunderstorm · 🔥 Fire Danger · ⛰️ Landslip · 🌊 Tsunami
 
-- `/auspex` morning brief — replaces the old `curl × 3 + python3 weather.py` chain
-- `/hko` skill — single command now
+## Error Handling
+
+- **If API unreachable**: Report error, suggest checking HKO website directly
+- **If Shau Kei Wan not available**: Falls back to "Hong Kong Observatory" reading
+
+## Internals
+
+Fetches three HKO opendata endpoints fresh every run (no `/tmp` caching):
+- `rhrread` — current temperature, humidity, rainfall, UV
+- `fnd` — 9-day forecast (matched to today by `forecastDate`, not blindly `[0]`)
+- `warnsum` — active warning signals
+
+Temperature station: Shau Kei Wan → Hong Kong Observatory fallback.
+Muggy: humidity ≥ 90%. UV suffix: only if index ≥ 6.
 
 ## Gotchas
 
-- The old `weather.py` read from `/tmp/hko_*.json` pre-cached files — stale data caused wrong temps. `caelum` always fetches fresh.
-- `forecastDate` is an integer in the JSON (e.g., `20260303`) — matched as string after `.to_string()`.
-- Unused variable `_temp` in source: current station temp is fetched but not shown in output (only forecast lo/hi are shown). This matches the Python original.
+- Old `weather.py` used `/tmp/hko_*.json` pre-cached files — stale data caused wrong temps. `caelum` always fetches fresh.
+- `forecastDate` is an integer in the JSON (e.g., `20260303`) — matched as string.
 
 ## Repo
 
-`~/code/caelum/` · crates.io: `caelum`
+`~/code/caelum/` · crates.io: `caelum` · legacy Python: `~/code/caelum/weather.py`
