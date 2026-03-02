@@ -31,6 +31,8 @@ Cookies, logins, and local storage persist across sessions automatically.
 
 For first-time login to a site, use `--headed` so you can see and interact with the login flow. After that, cookies persist in the profile.
 
+**macOS gotcha:** On this machine, `--headed` still spawns `chrome-headless` processes — no visible window appears even via Jump Desktop screen share. For an actual visible browser, use `rodney start --show` instead. For credential injection on login-gated sites, use `op item get "<item>" --fields password --reveal` piped to `agent-browser fill`.
+
 **Profile gotcha:** The persistent profile may redirect to previously-open pages (e.g. localhost:8001). For external forms or one-off pages, use a clean browser: `agent-browser close` first, then `AGENT_BROWSER_PROFILE="" agent-browser open <url>` to skip the profile.
 
 ## Core Workflow

@@ -81,7 +81,9 @@ Finds ±score anchors first, then walks backwards to find rank + model name.
 ### Alias resolution
 `alias.rs` maps source model names → canonical names in two phases:
 1. **Exact match** from `aliases.toml` lookup table
-2. **Prefix match** fallback: `source_name.starts_with(alias)` with longest-match-wins, matching at `-`, `(`, or space boundaries (not `.` to avoid gpt-5 matching gpt-5.2). Space added in v0.5.0 for AA API names like `"Claude Opus 4.5 (Reasoning)"`.
+2. **Prefix match** fallback (v0.6.1 rule): `source_name.starts_with(alias)` with longest-match-wins. Allowed suffixes after alias: `(` or space (parenthetical qualifier), or `-digit` (date/version). **`-letter` suffix is blocked** — prevents `o3` from swallowing `o3-pro`, `o3-mini`. Add explicit aliases in models.toml for deployment-name patterns like `gpt-5.2-chat-latest`.
+
+**Aggregate vs check:** `rank --aggregate` uses raw normalized model names (no alias resolution) — sources group by their own `model` field. `check` and `compare` use alias resolution. Fix alias bugs in models.toml; they only affect `check`/`compare`, not aggregate ranks.
 
 ### Cache
 JSON files in `~/Library/Caches/pondus/` (macOS). TTL-based. Each source caches its parsed data.
@@ -96,7 +98,8 @@ JSON files in `~/Library/Caches/pondus/` (macOS). TTL-based. Each source caches 
 | **SEAL** | Benchmark cards use `±` in score values. Model names may have trailing `*` (footnotes) — stripped. Scores averaged across benchmarks per model. |
 | **SWE-bench** | Tests agent+model scaffolds, not raw models. Deduplicates by keeping highest `resolved_rate` per `source_model_name`. 367→301 after dedup. |
 | **SWE-rebench** | Tests raw model performance. Same model scores 20-30pts lower than SWE-bench (no agent scaffold). |
-| **LiveBench** | HuggingFace datasets-server API, batch limit 100 (not 1000). Dataset frozen since April 2025 — effectively dead. |
+| **LiveBench** | HuggingFace datasets-server API, batch limit 100 (not 1000). Dataset frozen since April 2025 — effectively dead. Warns automatically when in scope. |
+| **Terminal-Bench** | `AGENT__Model` format: canonical uses model part only (agent prefix stripped in v0.6.0). |
 | **Aider** | Raw YAML from GitHub. Cost metric has legitimate zeros (free models) and extreme max (o1 at $186). |
 | **Terminal-Bench** | `AGENT / Model` format breaks alias matching. Only 8 entries. |
 
