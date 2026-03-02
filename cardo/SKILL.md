@@ -26,7 +26,7 @@ Lighter than `/morning` (no weather, health, inbox). Heavier than a `/wrap` (syn
 1. **Get current time** — run `date`. If it's before 11am or after 3pm, note this is a midday reflection run at an unusual hour but proceed anyway.
 
 2. **Scan morning sessions** (the core value):
-   - Run: `resurface search "" --days 1 2>/dev/null | head -100`
+   - Run: `anam search "" --days 1 2>/dev/null | head -100`
    - Filter mentally for today's morning (roughly 6am–12pm HKT)
    - Group prompts by session ID to understand what each session covered
    - Extract for each session: topic, key outputs/decisions, anything left open
