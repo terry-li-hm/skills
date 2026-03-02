@@ -136,12 +136,56 @@ agent-browser get url  # Verify
 
 ## Shell Quoting for eval
 
-Smart quotes cause SyntaxError. For complex JS, use heredoc:
-```bash
-cat > /tmp/script.js << 'EOF'
-// your JS here
-EOF
-agent-browser eval "$(cat /tmp/script.js)"
+Smart quotes cause SyntaxError. **Heredoc does NOT reliably fix this** — `agent-browser eval "$(cat /tmp/script.js)"` still fails with exit code 1 when the JS contains quotes or special chars. Use Python subprocess instead — bypasses shell interpretation entirely:
+
+```python
+import subprocess, json
+
+def ab_eval(js):
+    r = subprocess.run(['agent-browser', 'eval', js], capture_output=True, text=True)
+    return r.stdout.strip()
+
+# Safe string interpolation into JS:
+value = "text with 'quotes' and \"doubles\""
+js = f'document.querySelector("input[name=\\"epName\\"]").value = {json.dumps(value)};'
+ab_eval(js)
+```
+
+## Date Picker Fields — `fill` Doesn't Stick
+
+Some date inputs have calendar pickers that override typed values on blur/change.
+`agent-browser fill @ref "21/12/2023"` appears to work but resets to today's date.
+
+**Fix:** Use native value setter via JS + dispatch both events:
+```python
+js = """
+var el = document.querySelector('input[name="dateField"]');
+el.value = '21-12-2023';
+el.dispatchEvent(new Event('input', {bubbles:true}));
+el.dispatchEvent(new Event('change', {bubbles:true}));
+"""
+subprocess.run(['agent-browser', 'eval', js], capture_output=True, text=True)
+```
+
+**Always inspect the date format first** (screenshot + read) — sites vary between DD/MM/YYYY, DD-MM-YYYY, YYYY-MM-DD.
+
+## Select Option Values — Inspect Before Setting
+
+`select.value = 'Verifiable'` silently fails if the actual option value is `'3'`.
+Always inspect first:
+
+```python
+js = """
+const selects = document.querySelectorAll('select');
+const result = [];
+selects.forEach((s, i) => {
+  const opts = [...s.options].map(o => o.value + ':' + o.text);
+  result.push(i + ': ' + opts.join(', '));
+});
+result.join(' | ');
+"""
+# Then set using the actual numeric/string value:
+# document.querySelectorAll('select')[2].value = '3'
 ```
 
 ## Reliability Tier List
