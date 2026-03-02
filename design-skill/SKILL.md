@@ -115,3 +115,16 @@ When a novel pattern emerges (a useful visualization technique, a new workflow, 
 
 - **Action skills** → verb-first: `evaluate-job`, `design-skill`
 - **Trigger/lookup skills** → short nouns: `todo`, `hko`, `morning`
+- **Style:** Latin or Greek preferred. Run `consilium "Name a CLI/skill that does X. Style: Latin/Greek, short. Existing tools: cerno, oghma, qmd, synaxis..." --quick` first — don't propose names yourself.
+
+**For anything that may become a CLI — reserve the crates.io name before planning:**
+```bash
+# Check every candidate (not just the winner)
+curl -s https://crates.io/api/v1/crates/<name> | python3 -c "import sys,json; d=json.load(sys.stdin); print('TAKEN' if 'crate' in d else 'AVAILABLE')"
+
+# Reserve immediately once confirmed available
+cd ~/code && cargo new <name> --bin
+# add metadata to Cargo.toml, then:
+cargo publish --dry-run && cargo publish
+```
+A name collision mid-build forces a full rename (see: necto → synaxis). Reserve before planning, not after.
