@@ -141,6 +141,18 @@ For targeted/quick review, run agents directly in order:
 3. `security-sentinel` — if handles input, auth, or secrets
 4. `code-simplicity-reviewer` — YAGNI check last
 
+**Before marking any task done — System-Wide Test Check** (stolen from CE `/ce:work`):
+
+| Question | What to check |
+|----------|---------------|
+| What fires when this runs? | Callbacks, middleware, hooks — trace two levels out. Read actual code, not docs. |
+| Do my tests exercise the real chain? | If every dep is mocked, the test proves isolation only. Write ≥1 integration test through the real chain. |
+| Can failure leave orphaned state? | If state is persisted before a risky call — does retry create duplicates? Test the failure path. |
+| What other interfaces expose this? | Grep for the method in related classes. If parity needed, add it now. |
+| Do error strategies align across layers? | Retry middleware + app fallback + framework handler — do they conflict or double-execute? |
+
+Skip when: leaf-node change, purely additive, no callbacks or state persistence.
+
 ### 5. Companion skill (for any installed CLI or published tool)
 
 Create `~/skills/<name>/SKILL.md` in the same session — gotchas are freshest now.
