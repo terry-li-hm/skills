@@ -1,16 +1,16 @@
 ---
-name: archon
+name: strategos
 description: Structured on-ramp for delegate-first dev work. Use at the start of any coding task. Runs solutions KB check → CE plan → delegate → review.
 user_invocable: true
 ---
 
-# /archon — Delegate-First Dev Workflow
+# /strategos — Delegate-First Dev Workflow
 
 Structured on-ramp for any coding task. Enforces: orchestrate here, execute elsewhere.
 
 ## Triggers
 
-- `/archon <task description>` — start a coding task the right way
+- `/strategos <task description>` — start a coding task the right way
 - Proactively when user asks to build, port, fix, refactor, or add a feature
 - **After consilium/brainstorm/design discussion when user says "implement", "build", "do it", "go ahead"** — prior discussion is NOT a plan, always start here
 
@@ -36,7 +36,7 @@ cd ~/code && cargo new <name> --bin
 # add metadata to Cargo.toml, then:
 cargo publish --dry-run && cargo publish
 ```
-Reserve before planning — a name collision mid-build forces a full rename (see: necto → synaxis). `archon` was chosen as a skill name without checking — it was taken. Don't repeat.
+Reserve before planning — a name collision mid-build forces a full rename (see: necto → synaxis). `strategos` was chosen as a skill name without checking — it was taken. Don't repeat.
 
 ### 1. Solutions KB check
 ```bash

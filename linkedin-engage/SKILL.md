@@ -53,7 +53,7 @@ Answer these before drafting:
 1. **Is the topic in Terry's lane?** (AI, financial services, governance, enterprise tech, consulting)
 2. **Can Terry add a distinct angle?** (Not just agreement — a practitioner insight, extension, or counterpoint)
 3. **Is the author worth engaging?** (Senior practitioner, potential client/referral, thought leader in FS/AI)
-4. **Is the timing right?** LinkedIn's algorithm weights first-hour engagement most heavily — a post >24h old has already peaked in distribution. >48h is a hard skip unless the author is a high-value target worth the cold engagement. Also check `resurface search "<author/company>" --deep` — if Terry already commented on this person/company today, skip.
+4. **Is the timing right?** LinkedIn's algorithm weights first-hour engagement most heavily — a post >24h old has already peaked in distribution. But timing affects *reach*, not whether the poster sees it — LinkedIn notifies authors of every comment regardless of age. So: >48h is fine if the author is a high-value target (senior FS exec, potential Capco client) and the post has low engagement (<50 reactions) — they'll notice and appreciate it. Skip only if the post is >1 week old or already has 100+ comments. Also check `resurface search "<author/company>" --deep` — if Terry already commented on this person/company today, skip.
 5. **Is the post worth Terry's comment?** If Terry's comment would be smarter than the post itself, react and move on. Comment when the post pulls the conversation *up* — original frameworks, genuine depth, substantive takes. Skip well-packaged platitudes, repackaged concepts, and content-mill series. Terry's practitioner insights should add to something strong, not carry something thin.
 6. **Will the poster be happy to see this comment?** Read the emotional register of the post. If they wrote an enthusiasm/vision post, a purely risk-focused or corrective comment lands as a buzzkill — even if factually additive. The comment should match or gently extend the poster's tone, not deflate it. A cold commenter who makes a CIO look behind on risk management in front of their peers is not welcome. If the honest angle is negative, consider liking and moving on instead.
 
@@ -79,6 +79,7 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 ### 5. Draft the Comment
 
 **Voice rules:**
+- **Mind seniority gap.** If the poster is more senior (CIO, MD, Partner): (1) avoid openers that sound like you're grading them ("Great call", "Spot on", "You're right to") — use peer-acknowledgment instead ("The X angle is the right one to flag"); (2) add, don't instruct — offer an observation from your own lane, never tell them what to do; (3) end with a collaborative observation rather than a question that puts them on the spot.
 - "I've seen" not "I'd add" (observational, not prescriptive)
 - Specific > generic (name the committee, the system, the failure mode)
 - **"Yes-and", never "yes-but"** — extend their thesis, don't redirect it. Contrast moves activate psychological reactance even when the concern is valid (Fitzsimons & Lehmann 2004)
