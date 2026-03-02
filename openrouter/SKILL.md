@@ -18,7 +18,10 @@ Check remaining OpenRouter credit balance.
 ## Command
 
 ```bash
-or-credits
+stips          # credits (default)
+stips usage    # daily/weekly/monthly spend
+stips key open # open openrouter.ai/keys in browser
+stips key save <key>  # save new key to keychain
 ```
 
 ## Top-up
