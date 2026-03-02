@@ -81,11 +81,12 @@ When reporting email status to user, always be explicit:
 
 Standard flow for clearing the inbox:
 
-### 1. Get all unread + inbox
+### 1. Get inbox threads
 ```bash
-gog gmail search "is:unread" --max 50 --plain
-gog gmail search "in:inbox" --max 20 --plain
+gog gmail search "in:inbox" --max 50 --plain
 ```
+
+**Do NOT use `is:unread` alone** — it searches all mail including archived, and will return thousands of old emails. Always scope to `in:inbox` first.
 
 ### 2. Triage — categorise each as: action / informational / archive
 
@@ -94,7 +95,7 @@ gog gmail search "in:inbox" --max 20 --plain
 gog gmail batch modify <id1> <id2> ... --remove UNREAD --remove INBOX -y
 ```
 
-**Thread gotcha:** Search results show one ID per thread. If a thread has `[2 msgs]` or more, the batch modify only marks the shown message — newer messages in the thread remain unread. Fix: after the batch, re-run `gog gmail search "is:unread"` and clean up any stragglers.
+**Thread gotcha:** Search results show one ID per thread. If a thread has `[2 msgs]` or more, the batch modify only marks the shown message — newer messages in the thread remain unread. Fix: after the batch, re-run `gog gmail search "in:inbox is:unread"` and clean up any stragglers.
 
 ### 4. Cora brief — read from website (more complete than email)
 ```bash
