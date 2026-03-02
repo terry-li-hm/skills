@@ -39,7 +39,7 @@ Raw UUIDs also accepted anywhere an alias is used.
 
 **Night before:**
 1. `lacuna preflight` — full health check (API + all 12 docs + cache warmup in one command)
-2. Expected: `PASS — demo ready.` with Full:1 Partial:5 Gap:2 (hkma-cp vs Codex Argentum v1.0)
+2. Expected: `PASS — demo ready.` with Full:0 Partial:3 Gap:4 (hkma-cp vs Codex Argentum v1.0)
 3. Start a QuickTime screen recording as backup before the meeting
 
 **Day of (before Tobin arrives):**
