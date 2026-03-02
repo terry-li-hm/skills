@@ -9,7 +9,7 @@ user_invocable: false
 Opinionated AI model benchmark aggregator. Rust CLI, open-source.
 
 - **Repo:** `~/code/pondus` | [GitHub](https://github.com/terry-li-hm/pondus) | [crates.io](https://crates.io/crates/pondus)
-- **Version:** 0.6.0 (Mar 2026)
+- **Version:** 0.6.1 (Mar 2026)
 - **Install:** `cargo install pondus`
 
 ## Architecture
