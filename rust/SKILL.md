@@ -164,7 +164,7 @@ The `regex` crate supports lookahead/lookbehind. The `fancy-regex` crate does to
 Run in order. All must pass before bumping version.
 
 ```bash
-# README exists and is accurate?
+# README exists? (one-time check — skip on subsequent releases)
 ls README.md
 
 cargo fmt --check                   # formatting clean?
