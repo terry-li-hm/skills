@@ -20,20 +20,23 @@ Structured on-ramp for any coding task. Enforces: orchestrate here, execute else
 
 **Parallel agent sessions on the same repo?** → `lucus new <branch>` first. One worktree per session prevents `git add -A` conflicts between delegates. See `~/skills/lucus/SKILL.md`.
 
-**Building a new named tool/CLI?** → Run `consilium` for naming first. Don't plan an unnamed thing.
+**Naming anything (CLI, skill, or tool)?** → Run `consilium` first, then **check crates.io for every candidate** — skills become CLIs.
 ```bash
-consilium "Name a CLI that does X. Style: Latin/Greek, short. Existing tools: cerno, oghma, qmd, memoria..." --quick
+consilium "Name a CLI/skill that does X. Style: Latin/Greek, short. Existing tools: cerno, oghma, qmd, memoria..." --quick
 ```
-Then check availability and **reserve immediately** — don't plan an unreserved name:
+Check crates.io availability for **every name considered**, not just the winner:
 ```bash
-# Check crates.io
 curl -s https://crates.io/api/v1/crates/<name> | python3 -c "import sys,json; d=json.load(sys.stdin); print('TAKEN' if 'crate' in d else 'AVAILABLE')"
-# Reserve: scaffold + publish placeholder before planning
+```
+If taken → discard that name, try next candidate. Only commit to a name that's available.
+
+**For CLIs: reserve immediately** — don't plan an unreserved name:
+```bash
 cd ~/code && cargo new <name> --bin
 # add metadata to Cargo.toml, then:
 cargo publish --dry-run && cargo publish
 ```
-Reserve before planning — a name collision mid-build forces a full rename (see: necto → synaxis).
+Reserve before planning — a name collision mid-build forces a full rename (see: necto → synaxis). `archon` was chosen as a skill name without checking — it was taken. Don't repeat.
 
 ### 1. Solutions KB check
 ```bash
