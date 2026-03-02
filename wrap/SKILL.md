@@ -133,6 +133,12 @@ One pass, three outputs:
 
 **B. File learnings** — Uncaptured friction, corrections, gotchas, or system evolution? Route to the most specific file: tool gotcha → `~/docs/solutions/`, cross-session context → MEMORY.md, skill workflow → the skill's SKILL.md. Should a skill be created or tightened? Hook added? Same mistake twice → escalate per `~/docs/solutions/enforcement-ladder.md`. Propose, don't auto-implement.
 
+For any MEMORY.md entry that fired this session (prevented a mistake or was actively consulted), record it:
+```bash
+grapho hit "<distinctive substring of entry>"
+```
+This feeds the hit counter — the empirical basis for `grapho demote` decisions.
+
 **C. Propose improvements** — 1-3 specific improvement candidates: things that felt clunky, a tool that behaved unexpectedly, a repeated manual step that could be automated. Present each as a concrete proposal with a suggested action. If nothing surfaced, say "Nothing to propose." Do NOT ask open-ended questions — the burden is on Claude to identify candidates.
 
 If neither A nor B surfaces anything, skip silently.
