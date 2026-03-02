@@ -5,7 +5,23 @@ description: Guide for designing skills. Use when creating new skills, refactori
 
 # Skills Design Guide
 
-Skills are directories with a `SKILL.md` file. Two types:
+Skills are directories with a `SKILL.md` file. **Frontmatter is required** — missing it causes Codex to log errors and skip the skill on startup.
+
+```yaml
+---
+name: skill-name            # must match directory name
+description: "One sentence: what it does. Use when: trigger condition."
+user_invocable: true|false
+---
+```
+
+Quick compliance check before shipping a skill:
+- [ ] Frontmatter present with `---` delimiters
+- [ ] `name` matches directory name (lowercase-with-hyphens)
+- [ ] `description` has both *what* and *when*
+- [ ] `user_invocable` set explicitly
+
+Two types:
 
 | Type | `user_invocable` | Trigger | Example |
 |------|---|---|---|
