@@ -13,7 +13,7 @@ Thin wrapper around `wacli` that fixes its three friction points: manual JID loo
 keryx read "Herman"            # merged conversation (phone + LID JIDs)
 keryx read "Herman" --limit 5  # last 5 messages
 keryx send "Herman" "Hi"           # prints daemon-safe 3-command block
-keryx send "Herman" "Hi" --copy   # same + copies to clipboard
+keryx send "Herman" "Hi" --copy   # same + copies (tmux: set-buffer, paste with prefix+]; outside tmux: clipboard)
 keryx chats                    # recent chats (passthrough)
 keryx chats --limit 10
 keryx add-contact "Dorothy" "+85252660778"  # add to Contacts.app + local alias
@@ -59,6 +59,7 @@ The alias makes `keryx send` work **immediately** without waiting for WhatsApp t
 - **Cache** at `~/Library/Application Support/keryx/contacts.json` — delete to force refresh if a new contact isn't found.
 - **`dirs::config_dir()` on macOS** = `~/Library/Application Support/`, not `~/.config`. All keryx data lives there.
 - **`add-contact` opens Contacts.app** — requires the Mac's GUI to be accessible. Works from Ghostty/local terminal; may fail silently from pure SSH.
+- **`--copy` in tmux** uses `tmux set-buffer` — paste with `prefix + ]` (not Cmd+V). Outside tmux, uses osascript → system clipboard.
 
 ## When to Use keryx vs wacli Directly
 
