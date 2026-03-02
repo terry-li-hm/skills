@@ -1,5 +1,5 @@
 ---
-name: design-skill
+name: artifex
 description: Guide for designing skills. Use when creating new skills, refactoring existing ones, or reviewing skill architecture.
 ---
 

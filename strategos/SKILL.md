@@ -20,7 +20,7 @@ Structured on-ramp for any coding task. Enforces: orchestrate here, execute else
 
 **Parallel agent sessions on the same repo?** → `lucus new <branch>` first. One worktree per session prevents `git add -A` conflicts between delegates. See `~/skills/lucus/SKILL.md`.
 
-**Naming anything (CLI, skill, or tool)?** → Follow `design-skill` naming convention: consilium first, crates.io check for every candidate, reserve before planning.
+**Naming anything (CLI, skill, or tool)?** → Follow `artifex` naming convention: consilium first, crates.io check for every candidate, reserve before planning.
 
 ### 1. Solutions KB check
 ```bash
@@ -183,4 +183,4 @@ Captures the learnings in `~/docs/solutions/`.
 - `delegate` — for tool routing and prompt packaging
 - `lucus` — for parallel worktree isolation
 - `scrutor` — for post-implementation review
-- `design-skill` — for naming conventions
+- `artifex` — for naming conventions

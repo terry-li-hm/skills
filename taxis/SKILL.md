@@ -51,7 +51,7 @@ Escalate to hook after 2 entries in `~/docs/solutions/rule-violation-log.md`.
 | Conversation memory | Oghma | Via `cerno` | "What did we discuss about X" |
 | Vault semantic search | QMD | Via `cerno` | Note discovery |
 
-**The one-sentence test:** If it fits in one sentence → MEMORY.md. If it has a trigger + multiple steps → skill. If it's deep reference → solutions. See `design-skill` for full placement heuristics.
+**The one-sentence test:** If it fits in one sentence → MEMORY.md. If it has a trigger + multiple steps → skill. If it's deep reference → solutions. See `artifex` for full placement heuristics.
 
 **MEMORY.md budget:** 200-line hard truncation, **150-line target**. Currently ~120 lines with 30-line buffer. Overflow doc: `~/docs/solutions/memory-overflow.md`.
 
@@ -186,5 +186,5 @@ Weekly /skill-review checks for staleness
 
 - `~/docs/solutions/enforcement-ladder.md` — full ladder with examples
 - `~/docs/solutions/rule-violation-log.md` — violation tracking
-- `~/skills/design-skill/SKILL.md` — how to design skills
+- `~/skills/artifex/SKILL.md` — how to design skills
 - `~/notes/Councils/LLM Council - Hook-First Enforcement - 2026-02-27.md` — Oxford debate on hook aggressiveness

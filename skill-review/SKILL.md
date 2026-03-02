@@ -137,5 +137,5 @@ Lighter version for weekly reset:
 
 ## Related Skills
 
-- `design-skill` — How skills should be structured
+- `artifex` — How skills should be structured
 - `vault-search` — Finding content skills reference
