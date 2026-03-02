@@ -82,7 +82,7 @@ lucus switch @   # current worktree
 
 ## Gotchas
 
-- `lucus remove` fails with uncommitted/untracked files — use `--force` to override
+- `lucus remove` fails with uncommitted/untracked files — `--force` flag is **not yet implemented**. Use `git worktree remove --force <path>` directly as workaround.
 - `lucus switch` requires the shell wrapper (`lucus init zsh`) to actually `cd`
 - Worktrees land at `../{repo}.{branch}` by default — sibling directories of the source repo
 - `.gitignore` management only triggers for in-repo path templates — default template is outside the repo, no changes made
@@ -92,5 +92,5 @@ lucus switch @   # current worktree
 
 ## Roadmap
 
-- **Phase 2 (v0.3.0):** `lucus new "natural language prompt"` → Haiku generates branch name, persists task to `.lucus/tasks/`. Progressive list rendering (rayon + indicatif). Per-project `.lucus.toml`.
+- **Phase 2 (v0.3.0):** `lucus new "natural language prompt"` → Haiku generates branch name, persists task to `.lucus/tasks/`. Progressive list rendering (rayon + indicatif). Per-project `.lucus.toml`. `lucus remove --force` flag.
 - **Phase 3 (v0.4.0):** `lucus merge`, `lucus status`, `lucus clean`, tmux integration, shell completions.
