@@ -34,6 +34,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 |------|------|-----|
 | Quick answer / general search | `WebSearch` | Free, fast, no overhead |
 | Structured survey ("list the platforms for X") | `pplx ask` | Concise, tabular, low fabrication |
+| **Algorithm/framework comparison ("which is better?")** | **`pplx search` or `pplx reason`** | **Needs synthesis + citations — WebSearch returns raw URLs, not answers** |
 | Deep analysis of novel questions | `pplx research` | Breadth + citations. ~$0.40/query |
 | Complex reasoning / trade-off analysis | `pplx reason` | Reasoning chain, best for hard questions |
 | Verify claims / get primary sources | `WebSearch` | Returns links, no hallucinated synthesis |
