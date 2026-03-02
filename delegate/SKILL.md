@@ -22,7 +22,7 @@ One command to delegate coding tasks. Routes to the right tool, packages context
 | Routine coding, refactoring, bulk ops, tests | **OpenCode** (GLM-5) | Free, unlimited |
 | Algorithmic work, "write a function that does X", design/logic | **Gemini CLI** (Auto: 3.1 Pro / 3 Flash) | Free, frontier-tier *programmer* (LiveCodeBench #1) |
 | Agentic: navigate repo, find bug, fix, run tests, iterate | **Codex** (GPT-5.2-codex) | Best *developer* (Terminal-Bench #1), paid |
-| **Code audit/review** | **Codex** (GPT-5.2) first | 92% signal. GLM-4.7 needs two-phase prompt (25% signal). See audit section below |
+| **Code audit/review** | **Codex** (GPT-5.2) first | 92% signal. GLM-4.7 needs two-phase prompt (25% signal). See `audit` skill |
 | Hard coding that failed 3+ times on Sonnet | **→ Opus** (`/model opus`) | In-session escalation. "Less likely to give up." Switch back after. |
 | Agent Teams (parallel sub-agents at scale) | **→ Opus** (`/model opus`) | Opus-exclusive feature. Switch back after. |
 | Needs vault, user decisions, judgment | **Stay in Sonnet** | Context advantage, default model |
@@ -96,60 +96,6 @@ After launching, tell the user:
   - OpenCode: `/bin/ls -lt ~/.local/share/opencode/storage/session/` then read session JSON
   - Codex: check output file or `codex resume --last`
 
-## Code Audit Pattern
-
-### Codex (GPT-5.2) — primary auditor
-
-92% signal rate (11/12 real bugs on rai.py). Use for all audits.
-
-```bash
-codex exec --skip-git-repo-check --full-auto \
-  "Perform a thorough code audit of <file>. Focus on: bugs, data integrity, edge cases, error handling, security, race conditions, logic errors. For each finding: severity (HIGH/MED/LOW), line numbers, the bug, suggested fix."
-```
-
-Triage: Codex finds real bugs but also suggests over-engineering. Ask "would I notice this during actual use?" to filter.
-
-### OpenCode (GLM-4.7) — secondary, needs two-phase prompt
-
-**Naive prompt → 0% signal** (25 false positives). GLM pattern-matches vulnerability templates without verifying.
-
-**Two-phase prompt → 25% signal** (1/4 real, found a bug Codex missed):
-
-```bash
-opencode run --model opencode/glm-4.7 \
-  "Phase 1: Read <file> thoroughly. This is a <context — personal CLI / server / library>. List all potential bugs, but DO NOT report yet.
-
-Phase 2: For EACH potential finding, re-read the specific lines to verify:
-- Does the bug actually exist in the current code?
-- Is there already a guard/check that handles it?
-- Is it relevant for <context>?
-
-Only report findings that survive verification. For each: severity, exact line numbers, the actual buggy code (quote it), why it's real, suggested fix. Drop anything that doesn't survive Phase 2."
-```
-
-### Consilium red team — multi-model adversarial review
-
-Best for **security audits and compound vulnerability discovery**. 5 frontier models attack the code simultaneously, then a judge triages. Catches attack chains that single-model review misses (e.g., SSRF → log injection → prompt injection → LLM exfiltration). ~$1.50/run.
-
-```bash
-# Bundle source files with headers
-for f in src/**/*.py; do echo "## $f"; echo '```python'; cat "$f"; echo '```'; echo; done > /tmp/review.md
-
-# Run red team with actual code
-PROMPT=$(cat /tmp/review.md)
-uv tool run consilium "$PROMPT" --redteam --output ~/notes/Councils/review.md
-```
-
-**Key:** Models can't read files — paste actual code into the prompt. ~55K chars (8 modules) works fine. Use for whole-codebase security review, not single-file bugs.
-
-### Parallel audit (recommended for important code)
-
-Launch Codex + OpenCode + consilium simultaneously. Codex catches most bugs (92% signal); GLM finds edge cases; consilium discovers compound attack chains. Triage by consensus.
-
-### After audit: parallel fixes
-
-Launch one OpenCode per fix in parallel. Keep prompts to "read this range, change X to Y, run tests". OpenCode handles simple substitutions; complex structural transforms silently stall — do those directly.
-
 ## Prompt Template
 
 Keep under **4K chars for OpenCode**. Codex has no practical limit — give it full specs. Never inline full file contents unnecessarily; give paths and let the delegate read them.
@@ -199,20 +145,7 @@ This saves Claude tokens for work that actually needs orchestration and judgment
 
 ## PII Masking
 
-When prompts contain personal info (salary, phone, names), mask before sending to external LLMs:
-
-```bash
-cd /Users/terry/skills/pii-mask
-masked=$(uv run mask.py "Question with personal details...")
-```
-
-Preview what gets masked: `uv run mask.py --dry-run "your text"`
-Custom entities only: `uv run mask.py --entities "PHONE_NUMBER,EMAIL_ADDRESS" "text"`
-
-**Detected entities:** Email, phone (+852 format), names, credit cards, IPs, locations, HK IDs, dates, URLs.
-Uses Microsoft Presidio with HK-specific custom patterns.
-
-**When NOT to mask:** Prompts to Claude Code directly (same trust boundary), code-only prompts, when PII is essential to the task.
+Prompts with personal info → mask via `~/skills/pii-mask/mask.py` before sending. `uv run mask.py --dry-run "text"` to preview. Skip for: Claude Code prompts (same trust boundary), code-only prompts, PII essential to the task.
 
 ## Notes
 
@@ -241,3 +174,7 @@ Both Codex and OpenCode can run CE workflows. Skills are symlinked via `agent-sy
 
 - **Headless:** `codex exec --skip-git-repo-check --full-auto "prompt"` (NOT bare `codex` which needs TTY).
 - **OpenCode headless:** `opencode run "prompt"` but **sandboxes file reads to project root** — auto-rejects `external_directory`. Workaround: bundle files into `/tmp/` first.
+
+## Calls
+- `audit` — for code audit/review tasks
+- `lucus` — for creating isolated worktrees before delegation
