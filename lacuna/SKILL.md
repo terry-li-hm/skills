@@ -28,7 +28,7 @@ lacuna warmup                                        # pre-warm Railway cache be
 | `fca` | FCA AI Update 2024 |
 | `mas-consult` | MAS AI Risk Management Consultation 2025 |
 | `mas-mrmf` | MAS AI Model Risk Management 2024 |
-| `demo-baseline` | Lacuna Demo Baseline (Capco-authored) |
+| `demo-baseline` | Codex Argentum v1.0 (Capco-authored illustrative baseline) |
 | `nist-rmf` | NIST AI Risk Management Framework 1.0 |
 | `nist-iso42001` | NIST AI RMF → ISO 42001 Crosswalk |
 | `sg-genai` | Singapore GenAI Governance Framework 2024 |
@@ -39,7 +39,7 @@ Raw UUIDs also accepted anywhere an alias is used.
 
 **Night before:**
 1. `lacuna preflight` — full health check (API + all 12 docs + cache warmup in one command)
-2. Expected: `PASS — demo ready.` with Full:1 Partial:5 Gap:2 on the warmup
+2. Expected: `PASS — demo ready.` with Full:1 Partial:5 Gap:2 (hkma-cp vs Codex Argentum v1.0)
 3. Start a QuickTime screen recording as backup before the meeting
 
 **Day of (before Tobin arrives):**
