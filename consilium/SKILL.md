@@ -72,7 +72,7 @@ Auto-routing works well for most questions — Opus classifies and picks the rig
 
 **Cost is not the filter for mode selection.** All modes are affordable ($0.10–$0.90). Route by question structure — what kind of thinking does the question need? Don't reach for `--quick` to save $0.40 on a career or strategic decision. The right mode is the one that matches the question's shape.
 
-**Default bias: council over quick.** If the question touches career, negotiation, strategy, or real-world consequences — start at `--council`. Use `--deep` when the question is multi-part or the stakes are high. Reserve `--quick` for naming exercises and pure brainstorming where debate adds no value.
+**Default bias: deep over council over quick.** If the question touches career, negotiation, strategy, or real-world consequences — default to `--deep`. Dial back to `--council` only if the question is narrow and single-part. Reserve `--quick` for naming exercises and pure brainstorming where debate adds no value.
 
 ## When to Use
 
@@ -127,7 +127,7 @@ Only proceed to Step 1 if the question involves genuine trade-offs or domain-spe
 
 Before running, tell the user which mode you recommend and why (one line), then confirm. If auto-routing is appropriate, say so — don't force an explicit mode when auto would work.
 
-**Bias toward depth.** For anything touching career, negotiation, strategy, or real consequences — propose `--council` or `--deep` by default. Only propose `--quick` for naming exercises or pure brainstorming. When uncertain between quick and council, choose council.
+**Bias toward depth.** For anything touching career, negotiation, strategy, or real consequences — propose `--deep` by default. Dial back to `--council` only if the question is narrow and single-part. Only propose `--quick` for naming exercises or pure brainstorming. When uncertain between modes, go deeper.
 
 Example proposals:
 > "Strategic question with real consequences — I'd use **--deep**. Good?"
