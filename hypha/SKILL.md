@@ -3,7 +3,7 @@ name: hypha
 description: "Obsidian vault link graph traversal — navigate outgoing/incoming links from a note, explore to depth N, find shortest path between notes."
 user_invocable: false
 cli: hypha
-cli_version: 0.1.0
+cli_version: 0.1.1
 ---
 
 # hypha — Vault Link Graph Traverser
@@ -53,6 +53,34 @@ Incoming (10):
 ```
 
 **Output (depth 2+):** adds `── Depth N ──` sections with deduplicated new nodes at each level.
+
+## Mode: Suggest (`--suggest`)
+
+Surface notes that probably should connect to a note but don't yet. Ranked by co-citation: notes sharing the most common neighbors with the seed, filtered to overlap ≥ 2.
+
+```bash
+hypha ~/notes --suggest "Capco AI Landscape Intelligence"
+
+# Limit results (default 15)
+hypha ~/notes --suggest "Capco AI Landscape Intelligence" --top 5
+
+# JSON
+hypha ~/notes --suggest "Capco AI Landscape Intelligence" --format json | jq .
+```
+
+**Output:**
+```
+=== Suggested links for: Capco AI Landscape Intelligence ===
+
+Common neighbors: 5
+  HSBC AI Risk Tiering Framework - Strawman
+
+Common neighbors: 3
+  Capco Transition
+  ...
+```
+
+High overlap (5+) = strong signal. Low overlap (2) = weak — review before linking. Pure graph topology, no NLP.
 
 ## Mode: Path (`--path`)
 
