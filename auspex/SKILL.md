@@ -1,5 +1,5 @@
 ---
-name: morning
+name: auspex
 description: Daily briefing to start the day with focus. Use when user says morning, good morning, or gm.
 user_invocable: true
 ---
