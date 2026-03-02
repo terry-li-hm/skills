@@ -147,7 +147,7 @@ Run these checks every Friday and include results in the weekly note under `## S
 4. **Token consumption** — Run `cu` alias for Max20 usage stats. Note weekly trend and any spikes.
 5. **Oghma health** — `oghma_stats` for DB size, memory count, extraction backlog.
 6. **Cron scripts** — Check `~/scripts/crons/` and `~/logs/cron-*.log` for failures or stale output.
-7. **QMD index** — `qmd status` for collection health and staleness.
+7. **QMD index** — `qmd cleanup && qmd update` to prune stale entries and re-index. Then `qmd status` for collection health.
 
 Include a summary table in the weekly note:
 
