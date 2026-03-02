@@ -4,6 +4,7 @@ description: "Obsidian vault link graph traversal — navigate outgoing/incoming
 user_invocable: false
 cli: hypha
 cli_version: 0.1.1
+crates_io: https://crates.io/crates/hypha
 ---
 
 # hypha — Vault Link Graph Traverser
