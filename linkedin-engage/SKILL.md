@@ -63,15 +63,21 @@ If any answer is no, say so and suggest skipping or just reacting.
 
 **The frame: Echo + Extend.** The best comment echoes what the poster said (makes them feel heard) then extends it with one specific insight they didn't name. Not a new topic — an extension of their exact point.
 
-Brainstorm by mapping the poster's actual claims, then ask: what did they almost say but didn't? What's the next logical step they left implicit?
+**Brainstorm method:** Map the poster's actual claims (list them), then ask:
+- What did they almost say but didn't?
+- What's the next logical step they left implicit?
+- What does *Terry's specific lane* (AI/data science) see that they didn't name?
+- What external signal (regulatory, industry) confirms their thesis?
+
+When stuck on angle, run `consilium` with the post + Terry's constraints explicitly — ask for 3-4 distinct angles with one-line drafts. Don't iterate on a bad angle; find the right angle first.
 
 Terry's strongest angles (in order of preference):
 
 1. **Make their urgency more concrete** — they said "now matters"; add *why* now, with a specific mechanism or example
 2. **Validate their call-to-action with a specific constraint** — "you're right to say prepare today; here's the bottleneck most miss"
-3. **Echo their opening with an irony or tension they didn't name** — extends their frame without leaving it
+3. **Bridge from Terry's lane to their thesis** — what does the AI/data layer see that the poster's framing didn't cover? (e.g. if post is about security: "the data our models train on is protected by the same encryption quantum threatens")
 4. **The regulatory/institutional signal** — "the regulators are also moving on this" — echoes their thesis with external confirmation
-5. **Practitioner extension** — "I've seen this in banking, and here's what happens next..."
+5. **Echo their opening with an irony or tension they didn't name** — extends their frame without leaving it
 
 Check vault for supporting material:
 
