@@ -31,12 +31,20 @@ consilium "Name a new Rust CLI tool that does X. Latin or Greek preferred. Check
 
 Never propose names without running this first. necto → synaxis was a crates.io collision that cost a full rename.
 
-### 2. Scaffold
+### 2. Reserve the name on crates.io immediately
+
+Before writing any code — publish a stub to lock the name:
 
 ```bash
 cargo new <name> --bin
 cd <name>
+# Add minimal Cargo.toml metadata (name, version, description, license, repository)
+cargo publish
 ```
+
+`fn main() {}` is enough. A name collision mid-build costs a full rename. Grab it first.
+
+### 3. Scaffold
 
 ### 3. Cargo.toml — release profile + metadata
 
