@@ -99,6 +99,10 @@ open "due:///search?section=Reminders&query=dentist"
 - **Time in the past**: Due will still accept it — warn the user.
 - **Recurrence without `recurfromdate`**: Due defaults to today; usually fine.
 
+## Limitations
+
+- **URL scheme pre-fills but does not auto-submit.** Due always opens the add form for user confirmation — the user must click/tap **Create** to save the reminder. There is no way to bypass this.
+
 ## Notes
 
 - On macOS, `open` fires the URL scheme immediately and Due opens.
