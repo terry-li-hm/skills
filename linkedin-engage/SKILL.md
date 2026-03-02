@@ -122,7 +122,24 @@ Run automatically (no need to ask): provide full post context (verbatim text, al
 
 ### 7. Finalise and Deliver
 
-If Terry approves the draft in chat, **post directly via agent-browser** — no gist needed. Only create a gist if Terry explicitly wants to review on mobile before posting.
+Once Terry approves the draft, **gist it for mobile copy-paste** and **like the post automatically**. Terry posts the comment manually — comments are public and permanent, final eyes-on before submitting is worth the extra step.
+
+```bash
+# Gist the draft
+gh gist create --public=false -f "linkedin-comment.md" - << EOF
+## Post — <Author Name>
+<post URL>
+
+## Draft Comment
+<comment text>
+EOF
+
+# Like the post
+agent-browser click <react-like-ref> --profile
+agent-browser close --profile
+```
+
+Delete gist after Terry confirms posted.
 
 ```bash
 gh gist create --public=false -f "linkedin-review.md" - << EOF
