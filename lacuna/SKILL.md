@@ -76,6 +76,7 @@ NIST AI RMF was uploaded `no_llm=true` so findings will differ from the primary 
 
 - Script: `~/bin/lacuna`
 - Plan: `~/code/lacuna/docs/plans/2026-03-02-feat-lacuna-demo-cli-plan.md`
-- Lacuna project: `~/code/reg-atlas/`
-- Lacuna CLAUDE.md (doc IDs, deploy): `~/code/reg-atlas/CLAUDE.md`
-- Demo script: `~/code/reg-atlas/DEMO_SCRIPT.md`
+- Lacuna project: `~/code/lacuna/`
+- Lacuna CLAUDE.md (doc IDs, deploy): `~/code/lacuna/CLAUDE.md`
+- Demo script: `~/code/lacuna/DEMO_SCRIPT.md`
+- Vault: `~/notes/Capco/Lacuna/` (symlinks to CLAUDE.md, DEMO_SCRIPT.md, Codex Argentum)
