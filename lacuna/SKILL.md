@@ -10,6 +10,8 @@ Demo CLI for Lacuna regulatory gap analysis. Wraps the Railway API with Rich out
 ```bash
 lacuna docs                                          # list all documents (12 docs)
 lacuna preflight                                     # health check: API + docs + cache (use before demo)
+lacuna chat                                          # interactive chat with full corpus
+lacuna chat --jurisdiction hk                        # chat filtered to HK docs
 lacuna gap --circular hkma-cp --baseline demo-baseline           # run gap analysis
 lacuna gap --circular hkma-cp --baseline demo-baseline --verbose # with reasoning + citations
 lacuna query "What are HKMA's GenAI consumer protection requirements?" --jurisdiction hk
