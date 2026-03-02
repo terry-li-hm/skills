@@ -1,3 +1,9 @@
+---
+name: pondus
+description: "AI model benchmark aggregator CLI. Use when comparing models, checking benchmark scores, or looking up leaderboard rankings."
+user_invocable: false
+---
+
 # Pondus
 
 Opinionated AI model benchmark aggregator. Rust CLI, open-source.
