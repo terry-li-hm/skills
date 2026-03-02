@@ -14,7 +14,8 @@ Write-side of the memory system. Pairs with `cerno` (read) — grapho writes, ce
 grapho status                    # line count, budget, section list (exit 1 if over budget)
 grapho status --format json      # machine-readable
 grapho add                       # interactive: pick section, enter entry (TTY only)
-grapho demote "<search>"         # move entry MEMORY.md → overflow
+grapho hit "<search>"            # record a hit for a matching MEMORY.md entry (non-interactive)
+grapho demote "<search>"         # move entry MEMORY.md → overflow (shows hit count in selection)
 grapho promote "<search>"        # move entry overflow → MEMORY.md
 grapho review                    # list overflow entries by age, prompt p/k/d per entry
 grapho solution <name>           # scaffold ~/docs/solutions/<name>.md (dedup check)
@@ -31,16 +32,32 @@ budget        150 lines
 
 ## When to Use
 
-- **Over budget** (`grapho status` exits 1) → `grapho demote` infrequent entries
+- **Over budget** (`grapho status` exits 1) → `grapho demote` infrequent entries (hit count shown in selection)
+- **Entry just prevented a mistake** → `grapho hit "<search>"` to record it
 - **New gotcha to capture** → `grapho add` (TTY) or edit MEMORY.md directly
-- **Weekly review** → `grapho review` to triage overflow (promote 2+ repeat hits)
+- **Weekly review** → `grapho review` to triage overflow (promote 2+ repeat hits); `grapho status` shows top hits
 - **New solutions doc** → `grapho solution <name>` (checks dedup before creating)
+
+## Hit Counter
+
+`grapho hit` records when an entry actually fires — the empirical answer to "what to demote."
+
+```bash
+# After a correction or close call:
+grapho hit "anam default"        # found match, incremented to 2
+grapho status                    # Top hits section shows frequency ranking
+grapho demote "..."              # selection shows [0 hits] / [3 hits] per entry
+```
+
+Hit data: `~/.grapho/hits.json`. Key = first 60 chars of entry text (bullet/markdown stripped, lowercased). Resets naturally if entry text is substantially reworded — acceptable, a reworded rule is effectively a new rule.
+
+**Workflow integration:** After any correction noted in daily log, run `grapho hit "<distinctive substring>"`. Low-hit entries are demotion candidates; high-hit entries should stay regardless of age.
 
 ## Gotchas
 
 - **Search terms must match entry text exactly (substring).** Use short, unique substrings — `"@import"` not `"@import syntax"`. If too specific, no match.
 - **Disambiguation requires TTY.** If >1 match, grapho prompts interactively. Run from a real terminal, not via Bash tool.
-- **`add`, `promote`, `review` require TTY.** `status`, `demote`, `solution` work piped.
+- **`add`, `promote`, `review` require TTY.** `status`, `demote`, `solution`, `hit` work piped.
 - **Demoting duplicates:** if an entry already exists in overflow, demote adds it again. Check overflow first with `grep` if unsure.
 - **Empty sections stay.** Demoting all entries from a section leaves the `## Header` in MEMORY.md. Not a bug — add new entries to it later or ignore.
 
