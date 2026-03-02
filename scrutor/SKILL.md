@@ -1,10 +1,10 @@
 ---
-name: audit
+name: scrutor
 description: Code audit using Codex, OpenCode, or consilium. Use when reviewing code for bugs, security issues, or logic errors.
 user_invocable: true
 ---
 
-# Audit
+# Scrutor
 
 Code review via delegated LLMs. Routes by scope and severity.
 

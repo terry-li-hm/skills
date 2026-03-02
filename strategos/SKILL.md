@@ -182,5 +182,5 @@ Captures the learnings in `~/docs/solutions/`.
 - `cerno` — solutions KB check (step 1)
 - `delegate` — for tool routing and prompt packaging
 - `lucus` — for parallel worktree isolation
-- `audit` — for post-implementation review
+- `scrutor` — for post-implementation review
 - `design-skill` — for naming conventions

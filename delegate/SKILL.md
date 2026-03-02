@@ -22,7 +22,7 @@ One command to delegate coding tasks. Routes to the right tool, packages context
 | Routine coding, refactoring, bulk ops, tests | **OpenCode** (GLM-5) | Free, unlimited |
 | Algorithmic work, "write a function that does X", design/logic | **Gemini CLI** (Auto: 3.1 Pro / 3 Flash) | Free, frontier-tier *programmer* (LiveCodeBench #1) |
 | Agentic: navigate repo, find bug, fix, run tests, iterate | **Codex** (GPT-5.2-codex) | Best *developer* (Terminal-Bench #1), paid |
-| **Code audit/review** | **Codex** (GPT-5.2) first | 92% signal. GLM-4.7 needs two-phase prompt (25% signal). See `audit` skill |
+| **Code audit/review** | **Codex** (GPT-5.2) first | 92% signal. GLM-4.7 needs two-phase prompt (25% signal). See `scrutor` skill |
 | Hard coding that failed 3+ times on Sonnet | **→ Opus** (`/model opus`) | In-session escalation. "Less likely to give up." Switch back after. |
 | Agent Teams (parallel sub-agents at scale) | **→ Opus** (`/model opus`) | Opus-exclusive feature. Switch back after. |
 | Needs vault, user decisions, judgment | **Stay in Sonnet** | Context advantage, default model |
@@ -176,5 +176,5 @@ Both Codex and OpenCode can run CE workflows. Skills are symlinked via `agent-sy
 - **OpenCode headless:** `opencode run "prompt"` but **sandboxes file reads to project root** — auto-rejects `external_directory`. Workaround: bundle files into `/tmp/` first.
 
 ## Calls
-- `audit` — for code audit/review tasks
+- `scrutor` — for code audit/review tasks
 - `lucus` — for creating isolated worktrees before delegation
