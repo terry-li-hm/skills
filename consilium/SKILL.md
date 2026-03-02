@@ -45,8 +45,9 @@ Does the question have a single correct answer? (specs, facts, how-to)
 Is this personal preference / physical / visual? (glasses, photos, food)
   YES → Try it in person. Don't use consilium.
   NO ↓
-Do you need multiple perspectives but not debate?
+Do you need multiple perspectives but not debate? (naming only, pure brainstorm)
   YES → consilium --quick
+  NO → default to --council or --deep. When in doubt, go deeper.
   NO ↓
 Binary decision with clear for/against?
   YES → consilium --oxford
@@ -70,6 +71,8 @@ Genuine trade-offs requiring deliberation?
 Auto-routing works well for most questions — Opus classifies and picks the right mode. Use explicit flags when you're confident about the format (e.g., `--oxford` for "A vs B" decisions, `--redteam` for plans).
 
 **Cost is not the filter for mode selection.** All modes are affordable ($0.10–$0.90). Route by question structure — what kind of thinking does the question need? Don't reach for `--quick` to save $0.40 on a career or strategic decision. The right mode is the one that matches the question's shape.
+
+**Default bias: council over quick.** If the question touches career, negotiation, strategy, or real-world consequences — start at `--council`. Use `--deep` when the question is multi-part or the stakes are high. Reserve `--quick` for naming exercises and pure brainstorming where debate adds no value.
 
 ## When to Use
 
@@ -116,16 +119,21 @@ Before running the council, evaluate the question against the routing table abov
 - **Factual/single-answer** → answer directly or web search
 - **Personal preference** → "This is better answered by trying it in person"
 - **Naming** → brainstorm candidates with a single model first, then offer council to evaluate shortlist
-- **Quick parallel opinions** → `--quick`
+- **Quick parallel opinions** → `--quick` (naming/brainstorm only — not for decisions)
 
 Only proceed to Step 1 if the question involves genuine trade-offs or domain-specific judgment.
 
 ### Step 0.5: Propose Mode and Confirm
 
-Before running, tell the user which mode you recommend and why (one line), then confirm. If auto-routing is appropriate, say so — don't force an explicit mode when auto would work. Example:
+Before running, tell the user which mode you recommend and why (one line), then confirm. If auto-routing is appropriate, say so — don't force an explicit mode when auto would work.
 
-> "This is a binary decision with clear trade-offs — I'd use **--oxford**. Good?"
-> "Exploratory question with genuine trade-offs — I'd let it auto-route (likely council). Good?"
+**Bias toward depth.** For anything touching career, negotiation, strategy, or real consequences — propose `--council` or `--deep` by default. Only propose `--quick` for naming exercises or pure brainstorming. When uncertain between quick and council, choose council.
+
+Example proposals:
+> "Strategic question with real consequences — I'd use **--deep**. Good?"
+> "Binary decision with clear trade-offs — I'd use **--oxford**. Good?"
+> "Exploratory with genuine trade-offs — I'd let it auto-route (likely council). Good?"
+> "Naming exercise — **--quick** gives independent samples without debate overhead. Good?"
 
 Don't run the council until the user confirms or picks a different mode.
 
