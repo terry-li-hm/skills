@@ -96,15 +96,11 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 
 Present the draft in chat with a one-line rationale for the angle chosen. **Stop here and wait for input.**
 
-### 6. Checkpoint: Consilium Review?
+### 6. Consilium Review (mandatory for all comments)
 
-Ask Terry whether to run a consilium review before finalising. Suggest the appropriate tier based on the target:
+All comments get `--deep` consilium before finalising — comments are public and reputation-building.
 
-- **High-value target** (senior FS/AI practitioner, potential Capco client, 1K+ followers): recommend `--quick` (~$0.10)
-- **Worth extra polish** (controversial angle, sensitive topic): offer `--deep` (~$0.90)
-- **Routine engagement**: self-review against voice rules is sufficient — say so and let Terry decide
-
-Do not run consilium without explicit confirmation. If Terry says go ahead, run with full post context (verbatim text, all comments, author background) — never summarise the post for the council.
+Run automatically (no need to ask): provide full post context (verbatim text, all comments, author background) — never summarise the post for the council.
 
 ### 7. Finalise and Deliver
 

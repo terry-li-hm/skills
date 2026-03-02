@@ -118,6 +118,14 @@ wacli contacts search "Gavin"
 wacli messages list --chat "<JID>" --limit 30
 ```
 
+### Contact has both phone JID and LID — query both
+When `chats list` shows a contact with two entries (one `@s.whatsapp.net`, one `@lid`), **always query both** and merge mentally. Outgoing messages are typically on the phone JID; incoming on the LID.
+```bash
+wacli messages list --chat "85297096240@s.whatsapp.net" --limit 20
+wacli messages list --chat "243649350766774@lid" --limit 20
+```
+Don't stop at the phone JID — you'll miss their replies.
+
 ## Message Direction
 
 In `wacli messages` output:
@@ -163,6 +171,22 @@ sqlite3 ~/.wacli/wacli.db "SELECT chat_jid, from_me, COUNT(*) FROM messages WHER
 - **Groups**: Use group JID (ends with `@g.us`) not phone number
 - **Send safety**: `wacli send` is blocked from non-interactive terminals — always draft command for user
 - **Automated contexts**: For cron scripts or non-interactive agents, use read-only commands only (`chats list`, `messages list`, `messages search`). Never attempt `wacli send` from automated pipelines.
+
+## Sending — Daemon Lock
+
+`wacli send` will fail with "store is locked" if the daemon is running. Stop daemon first, send, restart:
+
+```bash
+launchctl unload ~/Library/LaunchAgents/com.terry.wacli-sync.plist
+wacli send text --to "<JID>" --message "<text>"
+launchctl load ~/Library/LaunchAgents/com.terry.wacli-sync.plist
+```
+
+**Always draft the full 3-command block for Terry to run.** Don't just give the `wacli send` line.
+
+## Drafting Messages
+
+**Always read recent exchange before drafting.** Match the tone, language (Cantonese/English mix), and formality of Terry's previous messages to that contact. Don't draft in isolation — pull the last 5–10 messages first and mirror the register.
 
 ## Integration with Message Skill
 
