@@ -1,29 +1,32 @@
 ---
-name: noon
-description: Midday reflection — scan morning sessions for shipped work and loose ends, then set afternoon priorities. Use when user says "noon", "midday", "lunch check", or "afternoon".
+name: cardo
+description: Midday reflection — scan morning sessions for shipped work and loose ends, then set afternoon priorities. Use when user says "cardo", "noon", "midday", "lunch check", or "afternoon".
 user_invocable: true
 ---
 
-# Noon Reflection
+# Cardo — Midday Reflection
 
 Midday checkpoint — what shipped this morning, what's still open, and what matters this afternoon.
+
+*Cardo* (Latin: hinge, pivot) — the structural turning point of the day.
 
 Lighter than `/morning` (no weather, health, inbox). Heavier than a `/wrap` (synthesises across sessions, not just the current one). The goal: arrive in the afternoon with intent, not momentum.
 
 ## Triggers
 
+- "cardo"
 - "noon"
 - "midday"
 - "lunch check"
 - "afternoon"
-- "/noon"
+- "/cardo"
 
 ## Steps
 
 1. **Get current time** — run `date`. If it's before 11am or after 3pm, note this is a midday reflection run at an unusual hour but proceed anyway.
 
 2. **Scan morning sessions** (the core value):
-   - Run: `anam search "" --days 1 2>/dev/null | head -100`
+   - Run: `resurface search "" --days 1 2>/dev/null | head -100`
    - Filter mentally for today's morning (roughly 6am–12pm HKT)
    - Group prompts by session ID to understand what each session covered
    - Extract for each session: topic, key outputs/decisions, anything left open
