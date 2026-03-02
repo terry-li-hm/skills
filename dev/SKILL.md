@@ -18,6 +18,8 @@ Structured on-ramp for any coding task. Enforces: orchestrate here, execute else
 
 ### 0. Pre-flight (before anything else)
 
+**Parallel agent sessions on the same repo?** → `lucus new <branch>` first. One worktree per session prevents `git add -A` conflicts between delegates. See `~/skills/lucus/SKILL.md`.
+
 **Building a new named tool/CLI?** → Run `consilium` for naming first. Don't plan an unnamed thing.
 ```bash
 consilium "Name a CLI that does X. Style: Latin/Greek, short. Existing tools: cerno, oghma, qmd, memoria..." --quick
