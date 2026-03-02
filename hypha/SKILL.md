@@ -3,7 +3,7 @@ name: hypha
 description: "Obsidian vault link graph traversal — navigate outgoing/incoming links from a note, explore to depth N, find shortest path between notes."
 user_invocable: false
 cli: hypha
-cli_version: 0.1.2
+cli_version: 0.1.3
 crates_io: https://crates.io/crates/hypha
 ---
 
@@ -57,13 +57,16 @@ Incoming (10):
 
 ## Mode: Suggest (`--suggest`)
 
-Surface notes that probably should connect to a note but don't yet. Ranked by co-citation: notes sharing the most common neighbors with the seed, filtered to overlap ≥ 2.
+Surface notes that probably should connect to a note but don't yet. Scoring: **Resource Allocation** — each shared neighbor k contributes `1/degree(k)`. Penalises hub notes harder than Adamic-Adar; empirically outperforms it on sparse graphs. Calendrical notes (YYYY-MM-DD, YYYY-WXX) excluded — temporal hubs, not semantic signal.
 
 ```bash
 hypha ~/notes --suggest "Capco AI Landscape Intelligence"
 
 # Limit results (default 15)
 hypha ~/notes --suggest "Capco AI Landscape Intelligence" --top 5
+
+# Exclude noisy dirs
+hypha ~/notes --suggest "Capco AI Landscape Intelligence" --exclude Archive --exclude "Waking Up"
 
 # JSON
 hypha ~/notes --suggest "Capco AI Landscape Intelligence" --format json | jq .
@@ -73,15 +76,14 @@ hypha ~/notes --suggest "Capco AI Landscape Intelligence" --format json | jq .
 ```
 === Suggested links for: Capco AI Landscape Intelligence ===
 
-Common neighbors: 5
   HSBC AI Risk Tiering Framework - Strawman
+    → Capco Prep - AI Governance Research, Responsible AI and MRM, ...
 
-Common neighbors: 3
   Capco Transition
-  ...
+    → Capco - First 30 Days, Capco Day 1 Strategy, ...
 ```
 
-High overlap (5+) = strong signal. Low overlap (2) = weak — review before linking. Pure graph topology, no NLP.
+Shared neighbors shown under each suggestion — makes signal vs noise judgment instant. Pure graph topology, no NLP.
 
 ## Mode: Path (`--path`)
 
