@@ -3,6 +3,7 @@
 Rust CLI for AI image generation and editing via Google Gemini / Nano Banana.
 
 Crate: https://crates.io/crates/fingo
+Repo: https://github.com/terry-li-hm/fingo
 Source: ~/code/fingo
 
 ## Install
