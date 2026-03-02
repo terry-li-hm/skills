@@ -45,7 +45,26 @@ post_create = []       # blocking hooks run after worktree creation
 post_create_bg = []    # background hooks (fire and forget)
 pre_remove = []
 post_remove = []
+
+[files]
+# Glob patterns relative to repo root to copy into each new worktree.
+# Default (empty): auto-discovers and copies all .env* files in repo root.
+copy = [".env", ".env.local", ".env.test"]
 ```
+
+### .env file copying
+
+`lucus new` automatically copies all `.env*` files from the repo root into the new worktree. Delegates (Codex, Gemini, OpenCode) running in the worktree get the right secrets without manual setup.
+
+- Missing `.env*` files are silently skipped — not an error
+- Override which files are copied via `[files] copy` in config
+- Non-recursive: only repo root, not subdirectories
+
+### .gitignore management
+
+If the worktree path template places worktrees **inside** the repo (e.g. `.worktrees/{branch}`), `lucus new` automatically adds the parent dir to the repo's `.gitignore` — preventing worktree contents from appearing as untracked files. Write is idempotent (only adds if not already present).
+
+Default template (`../repo.branch`) puts worktrees **outside** the repo — no `.gitignore` changes are made in that case.
 
 ## Output
 
@@ -64,8 +83,10 @@ lucus switch @   # current worktree
 
 - `lucus switch` requires the shell wrapper (`lucus init zsh`) to actually `cd`
 - Worktrees land at `../{repo}.{branch}` by default — sibling directories of the source repo
+- `.gitignore` management only triggers for in-repo path templates — default template is outside the repo, no changes made
 - `git2::Worktree` has no `.open()` — use `Repository::open(wt.path())` (fixed in Phase 1)
 - Codex sandbox blocks crates.io DNS — always `cargo build` outside the sandbox
+- OpenCode sandbox blocks writes outside its worktree — can't update `~/skills/` from an OpenCode delegate
 
 ## Roadmap
 
