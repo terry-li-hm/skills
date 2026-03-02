@@ -51,11 +51,15 @@ Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 | Task size | Use |
 |-----------|-----|
 | Single-file, ≤3 commands, no architecture decisions, requires live user decisions mid-plan | `EnterPlanMode` → delegate |
-| Multi-command CLI, file parsing, new architecture, or any real feature | `/slfg <description>` (plan → deepen → swarm work → review, fully autonomous) |
+| Multi-command CLI, new architecture, Max20 pool healthy | `/slfg <description>` — fully autonomous (plan → deepen → CE swarm → review) |
+| Same as above but Max20 is low, or tasks map cleanly to independent files | `/ce:plan` → `/deepen-plan` → **external swarm** (lucus + parallel delegates) → `/ce:review` |
 | Unclear requirements | `/workflows:brainstorm` first |
-| Approved plan already exists (any source) | Skip to `/ce:work` |
+| Approved plan already exists (any source) | Skip to `/ce:work` or external swarm |
 
-**Prefer `/slfg` over manual plan → delegate.** CE ships `/slfg` (full pipeline: plan → deepen-plan → swarm work → parallel review) and `/lfg` (same but single-threaded). Use `/slfg` for greenfield tasks where requirements are clear. Use `/ce:work` alone when a plan already exists. `/workflows:plan` alone only when the user wants to review the plan before execution.
+**`/slfg` vs external swarm:**
+- `/slfg` = Claude Task agents, burns Max20, fully automated, no manual decomposition
+- External swarm = Codex/Gemini/OpenCode in parallel worktrees, free, requires manual decomposition + merge
+- Default to `/slfg` unless Max20 is constrained or task decomposition is obvious from the plan
 
 **Rule of thumb:** If you'd build more than one file, touch existing architecture, or need research agents to surface best practices → `/workflows:plan`. `EnterPlanMode` is for trivial tasks where the user needs to make live decisions as the plan unfolds.
 
@@ -80,7 +84,7 @@ Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 - [ ] Anti-placeholder: "Implement fully. No stubs, no TODOs, no simplified versions."
 - [ ] Prompt length: OpenCode hard limit ~4K chars, Codex ~8K chars safe
 
-**Launch backgrounded:**
+**Launch backgrounded (single delegate):**
 ```bash
 # Codex
 codex exec --skip-git-repo-check --full-auto "<prompt>"
@@ -95,6 +99,37 @@ OPENCODE_HOME=~/.opencode-lean opencode run \
   "<prompt>"
 ```
 Use Bash tool's `run_in_background: true` — not shell `&`.
+
+**Swarm mode (parallel external delegates):**
+
+When the plan decomposes into N independent tasks, launch all at once — free, async, no Max20 cost.
+
+```
+# 1. One worktree per task (prevents git add -A conflicts)
+lucus new <task-a-branch>
+lucus new <task-b-branch>
+lucus new <task-c-branch>
+
+# 2. Launch all in parallel (Bash tool run_in_background: true for each)
+cd <worktree-a> && codex exec --full-auto "<task A prompt>"
+cd <worktree-b> && gemini -p "<task B prompt>" --yolo
+cd <worktree-c> && opencode run --title "task-c" "<task C prompt>"
+
+# 3. Wait for all to complete, then merge
+lucus merge <task-a-branch>
+lucus merge <task-b-branch>
+lucus merge <task-c-branch>
+
+# 4. Review merged result
+/ce:review
+```
+
+**Rules for external swarm:**
+- Decompose the plan first — tasks must be truly independent (different files)
+- One `lucus` worktree per delegate — never share a worktree
+- Mix tools by task type: Codex for multi-file/repo nav, Gemini for algorithmic, OpenCode for boilerplate
+- Review `git diff --stat` per branch before merging — Gemini touches extra files
+- Merge conflicts = tasks weren't independent enough; phase them next time
 
 ### 4. Review (for significant changes)
 
