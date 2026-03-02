@@ -19,6 +19,7 @@ lucus new feat/auth          # create worktree + branch at ../{repo}.{branch}
 lucus list                   # all worktrees: branch, path, ahead/behind, uncommitted
 lucus switch feat/auth       # cd into worktree (requires shell wrapper — see Setup)
 lucus remove feat/auth       # tear down worktree + delete branch
+lucus remove feat/auth --force  # force-remove even with uncommitted/untracked files
 lucus query feat/auth        # print path only (used internally by shell wrapper)
 ```
 
@@ -81,6 +82,7 @@ lucus switch @   # current worktree
 
 ## Gotchas
 
+- `lucus remove` fails with uncommitted/untracked files — use `--force` to override
 - `lucus switch` requires the shell wrapper (`lucus init zsh`) to actually `cd`
 - Worktrees land at `../{repo}.{branch}` by default — sibling directories of the source repo
 - `.gitignore` management only triggers for in-repo path templates — default template is outside the repo, no changes made
