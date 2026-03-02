@@ -25,14 +25,14 @@ Quick health check. Always exclude noise dirs by default.
 
 ```bash
 # Summary (default — counts only)
-nexis ~/notes --exclude Archive --exclude "Waking Up"
+nexis ~/notes --exclude Archive --exclude "Waking Up" --exclude memory
 
 # Full vault (with noise context)
 nexis ~/notes
 ```
 
 **Interpreting results:**
-- Broken links: Archive + Waking Up = noise. Signal = everything else.
+- Broken links: Archive + Waking Up + memory = noise. Signal = everything else.
 - Orphans: Daily notes + Archive = expected. Flag active notes with no connections.
 - Embeds: Informational — embeds count toward connectivity.
 
