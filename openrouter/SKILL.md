@@ -27,3 +27,7 @@ stips key save <key>  # save new key to keychain
 ## Top-up
 
 https://openrouter.ai/credits
+
+## See also
+
+`/stips` — dedicated skill with full command reference.
