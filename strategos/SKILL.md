@@ -125,6 +125,7 @@ lucus merge <task-c-branch>
 ```
 
 **Rules for external swarm:**
+- **Commit the plan before `lucus new`** — worktrees only see committed history. Uncommitted plan files are invisible to delegates.
 - Decompose the plan first — tasks must be truly independent (different files)
 - One `lucus` worktree per delegate — never share a worktree
 - Mix tools by task type: Codex for multi-file/repo nav, Gemini for algorithmic, OpenCode for boilerplate
