@@ -99,3 +99,4 @@ claude-history --plain --no-pager  # Plain text (still needs terminal)
 - Deep search includes tool names (e.g. `[tool: Read]`) for context but skips tool input/output
 - **Session storage gotcha:** Claude Code stores entries from session A inside session B's JSONL file (via context compaction/continuity). The `--session` filter checks the entry-level `sessionId`, not the filename — this is correct.
 - **"Did X happen?" strategy:** Search for execution markers (e.g. "synthesis complete", "note written", week number) not trigger words (e.g. "weekly"). Use `--role claude` to filter out intent mentions.
+- **Use single keywords, not phrases.** `resurface search` matches the full query as a literal substring in each prompt. Multi-word queries like `"winnie joel lunch"` miss cases where terms appeared separately. Always start with the most distinctive single word (e.g. `"winnie"`), then narrow with `--session` if needed.

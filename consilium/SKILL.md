@@ -69,6 +69,8 @@ Genuine trade-offs requiring deliberation?
 
 Auto-routing works well for most questions — Opus classifies and picks the right mode. Use explicit flags when you're confident about the format (e.g., `--oxford` for "A vs B" decisions, `--redteam` for plans).
 
+**Cost is not the filter for mode selection.** All modes are affordable ($0.10–$0.90). Route by question structure — what kind of thinking does the question need? Don't reach for `--quick` to save $0.40 on a career or strategic decision. The right mode is the one that matches the question's shape.
+
 ## When to Use
 
 At ~$0.50/run, the cost threshold is negligible. Use whenever:
