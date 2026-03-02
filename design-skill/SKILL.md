@@ -67,7 +67,15 @@ Keep scripts/code inside the skill directory, not scattered elsewhere.
 
 ### 3. Chain, Don't Duplicate
 
-Skills should call other skills, not copy their logic.
+Skills should call other skills, not copy their logic. When a skill delegates to or depends on another skill, document it with a `## Calls` footer:
+
+```markdown
+## Calls
+- `delegate` — for task dispatch
+- `cerno` — for prior art lookup
+```
+
+This is a flat list, not a graph — just enough to know which skills break if a dependency changes. No `called-by` tracking; that's too much overhead for marginal benefit. Update it when the skill's steps change.
 
 ### 4. Rationalizations to Reject
 
