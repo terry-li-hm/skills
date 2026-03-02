@@ -164,6 +164,9 @@ The `regex` crate supports lookahead/lookbehind. The `fancy-regex` crate does to
 Run in order. All must pass before bumping version.
 
 ```bash
+# README exists and is accurate?
+ls README.md
+
 cargo fmt --check                   # formatting clean?
 cargo clippy -- -D warnings         # zero warnings
 cargo machete                       # unused deps
