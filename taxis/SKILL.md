@@ -28,7 +28,7 @@ Full details: `~/docs/solutions/enforcement-ladder.md`
 - Near-zero false positives (unambiguous signal)
 - The deny message can teach the correct alternative
 
-Examples: tool selection (resurface not python), command flags (--chat with wacli), dangerous ops (safe_rm before rm -rf).
+Examples: tool selection (anam not python), command flags (--chat with wacli), dangerous ops (safe_rm before rm -rf).
 
 **MEMORY.md rule first** if ANY of these are true:
 - Detection is fuzzy or context-dependent
@@ -94,7 +94,7 @@ When adding a new hook, pick the kind first — it determines the event type, ou
 ```javascript
 // Good: high-precision, teaches the alternative
 if (/\.claude\/projects\//.test(cmd) && /\.jsonl/.test(cmd)) {
-  deny('Use `resurface search "query" --deep` instead of hand-parsing session JSONL files.');
+  deny('Use `anam search "query" --deep` instead of hand-parsing session JSONL files.');
 }
 ```
 

@@ -142,7 +142,7 @@ Run these checks every Friday and include results in the weekly note under `## S
    - **MEMORY.md frequency review:** Scan entries and ask: "Which of these fired this week?" Entries have three tiers — permanent (weekly use, never demote), active (current project, demote when project ends), provisional (single-incident). Any provisional entry not cited 2 consecutive weeks → demote to `~/docs/solutions/memory-overflow.md`. Any overflow entry cited 2+ weeks → promote back. Budget: ~150 lines (200 is hard truncation).
    - Present a concrete list: "Remove X", "Demote Y to overflow", "Promote Z from overflow", "Keep W" — don't just flag, recommend actions.
    - During transition periods (job changes, major project shifts), this is the most valuable check
-2. **Skills inventory** — `ls ~/skills/*/SKILL.md | wc -l` for total count. `cd ~/skills && git log --oneline --since="7 days ago"` for changes. Flag skills not invoked in 30+ days (check `~/.claude/history.jsonl` for recent `/skill` usage).
+2. **Skills inventory** — `ls ~/skills/*/SKILL.md | wc -l` for total count. `cd ~/skills && git log --oneline --since="7 days ago"` for changes. Flag skills not invoked in 30+ days (check `~/.claude/anam.jsonl` for recent `/skill` usage).
 3. **MCP servers** — `claude mcp list` to verify health. Flag any disconnected, orphaned from experiments, or version-drifted servers.
 4. **Token consumption** — Run `cu` alias for Max20 usage stats. Note weekly trend and any spikes.
 5. **Oghma health** — `oghma_stats` for DB size, memory count, extraction backlog.

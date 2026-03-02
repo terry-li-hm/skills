@@ -33,7 +33,7 @@ Search recent chat history for skill invocations. **Important:** Count BOTH expl
 # Slash invocations
 import json, re, collections
 counts = collections.Counter()
-with open('/Users/terry/.claude/history.jsonl') as f:
+with open('/Users/terry/.claude/anam.jsonl') as f:
     for line in f:
         data = json.loads(line)
         msg = data.get('display', '').lower()
