@@ -1,110 +1,99 @@
 ---
 name: due
-description: Add reminders and timers to the Due app via URL scheme. "due remind me", "add to Due", "due in X minutes".
+description: Manage Due app reminders via moneo CLI. "due remind me", "add to Due", "remind me in X", "delete due reminder", "edit due reminder".
 user_invocable: true
 ---
 
 # Due App
 
-Create reminders in the Due iOS/macOS app via its `due://` URL scheme using `open` from the terminal.
+Manage Due app reminders from the terminal using **moneo** (`~/bin/moneo`) — a CLI that edits the `.duedb` file directly, giving full read/add/edit/delete capability. Falls back to URL scheme for recurring reminders (not yet supported in moneo).
 
 ## Trigger
 
 Use when:
 - User says "due remind me", "add to Due", "remind me in X"
-- User wants to set a one-off or recurring reminder in Due
+- User wants to list, edit, or delete Due reminders
 - User says "due search"
 
-## URL Scheme
+## Primary: moneo CLI
 
-Base: `due://x-callback-url/add` or `due:///search`
+### Commands
 
-### Timing parameters (pick one)
+```bash
+moneo ls                                    # list all reminders with index
+moneo add "Call dentist" --in 30m           # relative time
+moneo add "Standup" --at 09:30              # today at HH:MM
+moneo add "Pay rent" --date 2026-04-01 --at 10:00  # specific date + time
+moneo edit <index> --title "New title"      # rename
+moneo edit <index> --at 16:00              # change time
+moneo edit <index> --in 1h                 # push forward by 1h from now
+moneo rm <index>                            # delete by index
+```
 
-| Param | Type | Meaning |
+### Time flags (mutually exclusive)
+
+| Flag | Example | Meaning |
 |---|---|---|
-| `duedate` | Unix timestamp | Absolute time |
-| `secslater` | double | Seconds from now |
-| `minslater` | double | Minutes from now |
-| `hourslater` | double | Hours from now |
+| `--in` | `--in 30m` | Relative: `s`, `m`, or `h` |
+| `--at` | `--at 14:35` | Today at HH:MM (HKT) |
+| `--date` + `--at` | `--date 2026-04-01 --at 09:00` | Specific date + time |
+| `--date` only | `--date 2026-04-01` | That date at 09:00 |
 
-### Other add parameters
+### How it works
 
-| Param | Type | Notes |
-|---|---|---|
-| `title` | string (URL-encoded) | Reminder text |
-| `timezone` | string | e.g. `Asia/Hong_Kong` |
-| `autosnooze` | int | 1, 5, 10, 15, 30, or 60 (minutes) |
+moneo reads `~/Library/Containers/com.phocusllp.duemac/Data/Library/Application Support/Due App/Due.duedb` (gzipped JSON), edits it, and writes back. If Due is running, it quits Due first via AppleScript, writes, then reopens. iCloud syncs changes to iPhone automatically.
+
+### .duedb schema (reminders array `re`)
+
+| Key | Meaning |
+|---|---|
+| `n` | title |
+| `d` | due date (Unix timestamp, HKT) |
+| `b` | created timestamp |
+| `m` | modified timestamp |
+| `si` | snooze interval (seconds; 300 = 5 min) |
+| `u` | UUID (base64) |
+| `rf` | recurrence unit (`w` = weekly, etc.) |
+| `rd` | next recurrence timestamp |
+
+Deleted items go into `dl` dict (UUID → deletion timestamp). Timers live in `tr` array with `c` = countdown seconds.
+
+## Fallback: URL scheme (recurring reminders)
+
+moneo doesn't yet support recurrence. Use URL scheme for those:
+
+```bash
+# Monthly recurring
+open "due://x-callback-url/add?title=Pay%20rent&recurunit=8&recurfreq=1&recurfromdate=1740787200"
+# Weekly
+open "due://x-callback-url/add?title=Recycle&recurunit=256&recurbyday=3,6"
+```
+
+**Note:** URL scheme pre-fills but requires manual **Save** tap. Use AppleScript to auto-click:
+```bash
+sleep 1 && osascript -e 'tell application "System Events" to tell process "Due" to click button "Save" of window "Reminder Editor"'
+```
 
 ### Recurrence parameters
 
-| Param | Value | Meaning |
-|---|---|---|
-| `recurunit` | 16 | Daily |
-| `recurunit` | 256 | Weekly |
-| `recurunit` | 8 | Monthly |
-| `recurunit` | 4 | Yearly |
-| `recurfreq` | 1–30 | Multiplier (every N units) |
-| `recurfromdate` | Unix timestamp | Start date |
-| `recurbyday` | comma-separated int | Days of week (1–7) or month positions |
-
-### Search parameters
-
-| Param | Value |
+| `recurunit` | Meaning |
 |---|---|
-| `query` | URL-encoded search string |
-| `section` | `Reminders`, `Timers`, or `Logbook` |
+| 16 | Daily |
+| 256 | Weekly |
+| 8 | Monthly |
+| 4 | Yearly |
 
-## Workflow
-
-1. **Parse the request** — extract title, timing (relative or absolute), recurrence if any.
-2. **Compute Unix timestamp** if absolute time needed:
-   ```bash
-   python3 -c "from datetime import datetime, timezone; import calendar; dt = datetime(2026,3,5,9,0, tzinfo=timezone.utc); print(int(dt.timestamp()))"
-   ```
-   For HKT (UTC+8), subtract 8 hours from local time to get UTC, or use `Asia/Hong_Kong` timezone and set `timezone=Asia%2FHong_Kong`.
-3. **URL-encode the title**: spaces → `%20`, `#` → `%23`, `&` → `%26`.
-4. **Construct and open the URL**:
-   ```bash
-   open "due://x-callback-url/add?title=Call%20dentist&minslater=30&autosnooze=5"
-   ```
-5. **Confirm** to user: "Added to Due: [title] in [time]."
-
-## Examples
-
-**Relative — 30 minutes from now:**
-```bash
-open "due://x-callback-url/add?title=Call%20dentist&minslater=30"
-```
-
-**Absolute — tomorrow 9am HKT:**
-```bash
-# Compute: 2026-03-03 09:00 HKT = 2026-03-03 01:00 UTC = 1740963600
-open "due://x-callback-url/add?title=Morning%20standup&duedate=1740963600&timezone=Asia%2FHong_Kong"
-```
-
-**Monthly recurring — pay rent, starting March 1:**
-```bash
-open "due://x-callback-url/add?title=Pay%20rent&recurunit=8&recurfreq=1&recurfromdate=1740787200"
-```
-
-**Search:**
-```bash
-open "due:///search?section=Reminders&query=dentist"
-```
+`recurfreq` = multiplier (1–30). `recurbyday` = comma-separated days (1–7 for weekly; 1–42 for monthly positions).
 
 ## Error Handling
 
-- **Due not installed / URL doesn't open**: Inform user Due must be installed on macOS or the device must be reachable.
-- **Time in the past**: Due will still accept it — warn the user.
-- **Recurrence without `recurfromdate`**: Due defaults to today; usually fine.
-
-## Limitations
-
-- **URL scheme pre-fills but does not auto-submit.** Due always opens the add form for user confirmation — the user must click/tap **Create** to save the reminder. There is no way to bypass this.
+- **Due not installed**: Install from Mac App Store, sign into iCloud in Due first.
+- **moneo edits not appearing**: Due may have overwritten the file — try `moneo ls` to confirm, re-apply if needed.
+- **AppleScript quit fails**: Use `pgrep -x Due` to check; fall back to `pkill Due`.
+- **Reminder in the past**: moneo will add it — warn user it'll show as overdue immediately.
 
 ## Notes
 
-- On macOS, `open` fires the URL scheme immediately and Due opens.
-- On iOS, there's no direct `open` from terminal — use Shortcuts automation or share the URL.
-- HKT = UTC+8. Always set `timezone=Asia%2FHong_Kong` for absolute reminders to avoid DST-style shifts.
+- Always use HKT for times. moneo handles timezone internally.
+- iCloud sync to iPhone usually takes a few seconds after Due reopens.
+- `moneo ls` shows ⚠ for overdue reminders.
