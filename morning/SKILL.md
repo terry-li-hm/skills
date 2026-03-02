@@ -35,11 +35,17 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - If gog fails with "no TTY" / keyring error: keychain is locked. Note "Gmail unavailable — unlock keychain" and skip steps 4–5. Don't retry.
    - Flag anything requiring action
 
-5. **Cora inbox triage** (read Cora's labels via Gmail — no website scraping):
-   - Latest brief email: `gog gmail search "from:briefs@cora.computer newer_than:12h" --max 1 --plain`
-     - If found, read it with `gog gmail get <id> --plain` — has headline stats (handled %, needs attention, archived)
+5. **Cora inbox triage** (read full brief from website + Gmail labels):
+   - Get today's brief ID: `gog gmail search "from:briefs@cora.computer newer_than:12h" --max 1 --plain`
+   - Read headline stats: `gog gmail get <id> --plain` (handled %, needs attention count)
+   - **Read full brief content from Cora website** (more complete than email):
+     ```
+     AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser open "https://cora.computer/<account_id>/briefs?date=<YYYY-MM-DD>&time=morning" \
+       && agent-browser wait --load networkidle \
+       && AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser eval "document.querySelector('main')?.innerText"
+     ```
+     Account ID is `14910`. Extracts full brief text including payments, newsletters, promotions, and action items.
    - Action items: `gog gmail search "label:Cora/Action newer_than:12h" --max 5 --plain`
-   - Needs response: `gog gmail search "(label:✒️-Needs-Response OR label:✅-Todo OR label:⏰-Timely) newer_than:12h" --max 5 --plain`
    - If any action/response items found, list them
    - If no brief and no flagged items, skip silently
 

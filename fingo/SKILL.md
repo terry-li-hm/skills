@@ -46,7 +46,7 @@ Override with `-m <model>`.
 
 ## Default output
 
-`./fingo-out.jpg` in the current directory. Extension auto-corrects to match response MIME type (png/webp/jpg).
+`./fingo-out.jpg` in the current directory. Extension auto-corrects to match the response MIME type (e.g. `-o out.jpg` saves as `out.png` if the API returns PNG). The printed path is always the actual saved path — check that, not the flag you passed.
 
 ## API details
 
