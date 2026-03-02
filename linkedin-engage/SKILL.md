@@ -96,6 +96,7 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 - **"Yes-and", never "yes-but"** — extend their thesis, don't redirect it. Contrast moves activate psychological reactance even when the concern is valid (Fitzsimons & Lehmann 2004)
 - **Match the poster's emotional register first** — enthusiasm met with flatness reads as dismissal before the content even lands (Niederhoffer & Pennebaker 2002)
 - **Never raise corrections or risks unless explicitly invited** — unsolicited corrective advice threatens the poster's "positive face" and is experienced as implying incompetence, not helpfulness (Rook; Frontiers in Psychology 2023)
+- **Stress-test any technical claim before including it** — "sounds plausible" is not enough. Ask: would a domain expert push back on this? If yes, drop it. Forcing a weak angle damages credibility more than omitting it entirely.
 - **One specific acknowledgment > three generic ones** — perceived sincerity is the moderating variable; "great post!" is inert or negative
 - No hashtags, no "great post!", no engagement bait
 - Spelling: match the poster's audience (US spelling for US-based authors, British for UK/HK/APAC)
