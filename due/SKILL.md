@@ -41,7 +41,10 @@ moneo rm <index>                            # delete by index
 
 ### How it works
 
-moneo reads `~/Library/Containers/com.phocusllp.duemac/Data/Library/Application Support/Due App/Due.duedb` (gzipped JSON), edits it, and writes back. If Due is running, it quits Due first via AppleScript, writes, then reopens. iCloud syncs changes to iPhone automatically.
+- **`add`** — uses the URL scheme + AppleScript auto-click so Due saves via its normal path, triggering **CloudKit sync to iPhone**.
+- **`edit` / `rm`** — edits `.duedb` directly (gzipped JSON). Due is killed with SIGTERM, file is written, Due is reopened. These changes are **iMac-only** — CloudKit is bypassed, so iPhone won't reflect edits/deletes.
+
+Due uses CloudKit (not iCloud Drive) for sync. Direct file edits bypass CloudKit entirely — only operations that go through Due's own save path sync to other devices.
 
 ### .duedb schema (reminders array `re`)
 
