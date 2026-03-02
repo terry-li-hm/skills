@@ -132,8 +132,25 @@ AA API integration was delegated to Codex (GPT-5.3-codex) — good fit for agent
 Codex wrote the typed structs, config wiring, and fetch logic. Claude fixed the prefix match boundary char (space) that Codex couldn't test without the live API.
 Lesson: delegate the implementation, review the integration points.
 
+## Aggregate Reliability Notes (Mar 2026)
+
+Audited via `pondus check <model> --show-matches`. Findings:
+- **TOML keys with dots** (`[kimi-k2.5]`) are parsed as nested keys by TOML. Must quote: `["kimi-k2.5"]`.
+- **`cargo build --release` ≠ `cargo install --path .`** — build updates `target/release/` but not the installed binary in `~/.cargo/bin/`. Always install after build to avoid stale binary confusion.
+- **Kimi K2.5** only has 1 reasoning source (AA). Mainly a coding model (swebench, swe-rebench). Using it in a reasoning-focused council (consilium) is thinly validated — preference over DeepSeek R1 is on lab diversity grounds, not reasoning benchmark depth.
+- **GLM-5** has 2 reasoning sources (AA + Arena) and 4 total — best-validated Chinese model in the aggregate as of Mar 2026.
+- **`--tag reasoning` sources**: AA, Arena, LiveBench, Seal. LiveBench frozen since Apr 2025 — effectively stale.
+
+## Council Composition Rationale (consilium, Mar 2026)
+
+Swapped DeepSeek R1 → Kimi K2.5 based on:
+- R1 (Jan 2025) unranked on AA, weakest on Aider vs Kimi
+- `pondus rank --aggregate --tag reasoning` confirms: GLM-5 rank 3 (0.818, 2 sources), Kimi K2.5 rank 1 on AA (0.972) but only 1 reasoning source
+- Lab diversity: Moonshot (Kimi) + Zhipu (GLM) + xAI (Grok) + Anthropic (judge) = 4 distinct orgs
+- Current council: GPT-5.2-pro, Gemini-3.1-pro-preview, Grok-4, Kimi-K2.5, GLM-5
+
 ## Future Work (low priority)
 
 - Terminal-Bench: strip `AGENT /` prefix for alias matching
 - LiveBench: deprecate or flag as stale
-- Tests: no test suite yet
+- `--time-decay` weighting for older benchmark results
