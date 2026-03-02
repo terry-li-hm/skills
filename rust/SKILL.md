@@ -176,8 +176,10 @@ cargo deny check                    # CVEs + license policy
 cargo semver-checks                 # breaking changes
 cargo hack --feature-powerset clippy -- -D warnings  # all feature combos
 # Ship:
-cargo release version patch --execute   # or minor/major
-cargo publish
+# Personal CLI (no downstream users) — one command does everything:
+cargo release patch --no-confirm --execute
+# Library / shared tool — keep publish as a separate manual gate:
+# cargo release version patch --execute && cargo publish
 ```
 
 ### Version bump strategy
@@ -186,7 +188,7 @@ cargo publish
 - `minor` — new features, backwards-compatible
 - `major` — breaking changes (rare for personal CLIs)
 
-`cargo-release` handles: version bump in Cargo.toml + Cargo.lock, git commit, git tag, `cargo publish`. One command.
+`cargo release patch --no-confirm --execute` bumps version, commits, tags, and publishes in one shot. Fine for personal CLIs. Use the two-step for anything with real downstream users.
 
 ### Before publish — smoke test as real CLI
 
