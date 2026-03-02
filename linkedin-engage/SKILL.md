@@ -44,6 +44,13 @@ Web search for the author's **full background** — current role AND prior caree
 cerno "<author name>"
 ```
 
+**Always open the full experience page** — the main profile truncates roles. Navigate to `/details/experience`, not just `/in/<username>`:
+
+```bash
+agent-browser open "https://www.linkedin.com/in/<username>/details/experience" --profile
+agent-browser snapshot --profile
+```
+
 Key things to surface: prior companies, domain expertise accumulated before current role, any FS/banking background. This prevents explaining someone's own domain back to them.
 
 ### 3. Assess: Should Terry Comment?
