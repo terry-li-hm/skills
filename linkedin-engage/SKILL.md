@@ -122,7 +122,7 @@ Run automatically (no need to ask): provide full post context (verbatim text, al
 
 ### 7. Finalise and Deliver
 
-Only create a gist once Terry confirms the draft is ready to post. Include **both the original post and the draft comment** so Terry can review them side by side on mobile:
+If Terry approves the draft in chat, **post directly via agent-browser** — no gist needed. Only create a gist if Terry explicitly wants to review on mobile before posting.
 
 ```bash
 gh gist create --public=false -f "linkedin-review.md" - << EOF
