@@ -27,17 +27,23 @@ Use when:
 Try in order (WeChat articles skip to step 2 — Jina/WebFetch both hit CAPTCHA):
 
 ```
-1. Jina Reader: curl -s -H "Accept: text/markdown" "https://r.jina.ai/URL"
+1. defuddle parse <url> --md
+   (clean markdown, removes nav/ads, low token cost)
+   ↓ fails or blank
+2. Jina Reader: curl -s -H "Accept: text/markdown" "https://r.jina.ai/URL"
    (reliable, full content, no truncation)
    ↓ fails
-2. agent-browser: open URL → eval JS to extract text
+3. peruro <url>
+   (Firecrawl: JS rendering + bot/Cloudflare bypass, costs 1 credit)
+   ↓ fails
+4. agent-browser: open URL → eval JS to extract text
    (handles WeChat, SPAs, CAPTCHA-protected pages)
    ↓ fails
-3. WebFetch (fast, cached 15min, but may truncate long content)
+5. WebFetch (fast, cached 15min, but may truncate long content)
    ↓ fails
-4. summarize CLI --extract-only (Chrome UA fallback)
+6. summarize CLI --extract-only (Chrome UA fallback)
    ↓ fails
-5. Ask user for copy/paste
+7. Ask user for copy/paste
 ```
 
 ### YouTube Transcripts

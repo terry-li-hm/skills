@@ -40,7 +40,9 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | Verify claims / get primary sources | `WebSearch` | Returns links, no hallucinated synthesis |
 | Find specific content URLs (YouTube, podcast episodes, etc.) | `pplx search` | WebSearch doesn't index platform-internal pages well; pplx does |
 | AI news / X/Twitter | `grok --x-only` → `grok` | Real-time X/Twitter data + web search via xAI API |
-| Scrape a specific URL | `WebFetch` | HTML → markdown with prompt |
+| Scrape a specific URL (static) | `defuddle` → `WebFetch` | defuddle first — cleaner output, fewer tokens |
+| Scrape JS-heavy / bot-protected URL | `peruro <url>` | Firecrawl backend bypasses JS rendering and Cloudflare |
+| Web search + scrape results | `peruro search <query>` | Returns scraped markdown per result, not just links |
 | Code & documentation | Context7 plugin | Best for library docs |
 | Job/company research | `WebSearch` → `pplx ask` | Free first, paid for depth |
 
