@@ -77,6 +77,39 @@ When reporting email status to user, always be explicit:
 - ✉️ SENT — confirmed sent (has SENT label)
 - 📝 DRAFT — not sent yet (has DRAFT label)
 
+## Inbox Triage (Morning Email Processing)
+
+Standard flow for clearing the inbox:
+
+### 1. Get all unread + inbox
+```bash
+gog gmail search "is:unread" --max 50 --plain
+gog gmail search "in:inbox" --max 20 --plain
+```
+
+### 2. Triage — categorise each as: action / informational / archive
+
+### 3. Batch mark read + archive
+```bash
+gog gmail batch modify <id1> <id2> ... --remove UNREAD --remove INBOX -y
+```
+
+**Thread gotcha:** Search results show one ID per thread. If a thread has `[2 msgs]` or more, the batch modify only marks the shown message — newer messages in the thread remain unread. Fix: after the batch, re-run `gog gmail search "is:unread"` and clean up any stragglers.
+
+### 4. Cora brief — read from website (more complete than email)
+```bash
+AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser open "https://cora.computer/14910/briefs?date=<YYYY-MM-DD>&time=morning" \
+  && AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser wait --load networkidle \
+  && AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser eval "document.querySelector('main')?.innerText"
+```
+The website brief includes payments, newsletters, and promotions that the summary email omits.
+
+### 5. SmarTone bill — extract QR payment link
+```bash
+gog gmail get <smartone_id> --plain | grep -o 'href="https://myaccount.smartone.com/QRBill[^"]*"'
+```
+Surface as clickable link with amount and due date.
+
 ## Known Gaps
 - **No trash/delete command in gog.** User must delete messages manually in Gmail.
 

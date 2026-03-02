@@ -61,12 +61,17 @@ If any answer is no, say so and suggest skipping or just reacting.
 
 ### 4. Find Terry's Angle
 
-Scan existing comments for gaps. Terry's strongest angles (in order of preference):
+**The frame: Echo + Extend.** The best comment echoes what the poster said (makes them feel heard) then extends it with one specific insight they didn't name. Not a new topic — an extension of their exact point.
 
-1. **Practitioner extension** — "I've seen this in banking, and here's what happens next..."
-2. **Concrete example** — Specific contrast or data point that proves the abstract claim
-3. **The missing failure mode** — What breaks even when you follow the advice
-4. **Respectful counterpoint** — "This works for X, but in regulated FS..."
+Brainstorm by mapping the poster's actual claims, then ask: what did they almost say but didn't? What's the next logical step they left implicit?
+
+Terry's strongest angles (in order of preference):
+
+1. **Make their urgency more concrete** — they said "now matters"; add *why* now, with a specific mechanism or example
+2. **Validate their call-to-action with a specific constraint** — "you're right to say prepare today; here's the bottleneck most miss"
+3. **Echo their opening with an irony or tension they didn't name** — extends their frame without leaving it
+4. **The regulatory/institutional signal** — "the regulators are also moving on this" — echoes their thesis with external confirmation
+5. **Practitioner extension** — "I've seen this in banking, and here's what happens next..."
 
 Check vault for supporting material:
 
@@ -97,7 +102,9 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 2. The insight (1-2 sentences — the practitioner pattern)
 3. Concrete illustration (the vivid contrast or example)
 4. Implication (why this matters — the "so what")
-5. Optional: closing question to invite engagement (only if natural)
+5. Optional: closing observation (not a question demanding disclosure)
+
+**Stay in the poster's thesis.** The comment should extend *their* point, not introduce a third topic they didn't raise. If the post is about encryption risk, respond to encryption risk — don't pivot to ML infrastructure overhead just because it's related to quantum. Adjacent ≠ responsive. Check: does the comment answer the question the poster was implicitly asking?
 
 Present the draft in chat with a one-line rationale for the angle chosen. **Stop here and wait for input.**
 

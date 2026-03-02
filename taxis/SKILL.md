@@ -1,5 +1,5 @@
 ---
-name: system-design
+name: taxis
 description: Architecture of the Claude Code enforcement and knowledge system. Consult when adding hooks, rules, or deciding where knowledge lives.
 ---
 

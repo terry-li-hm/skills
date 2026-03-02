@@ -34,6 +34,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Scan Gmail for Capco/HR emails (past 24h): `gog gmail search "capco OR PILON OR alison" | head -10`
    - If gog fails with "no TTY" / keyring error: keychain is locked. Note "Gmail unavailable — unlock keychain" and skip steps 4–5. Don't retry.
    - Flag anything requiring action
+   - **SmarTone bill:** If a SmarTone statement appears, extract the QR code payment link from the raw email HTML (`gog gmail get <id> --plain`) — look for `QRCodeGenServlet` href and surface as a clickable link with amount and due date.
 
 5. **Cora inbox triage** (read full brief from website + Gmail labels):
    - Get today's brief ID: `gog gmail search "from:briefs@cora.computer newer_than:12h" --max 1 --plain`
