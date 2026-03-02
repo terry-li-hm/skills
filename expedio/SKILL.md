@@ -1,12 +1,12 @@
 ---
-name: gmail
-description: Gmail operations with status-aware checking. Use when checking inbox, viewing threads, or replying to emails. Avoids draft vs sent confusion.
+name: expedio
+description: Gmail inbox processing — read Cora brief, scan unread, surface actionable items, mark read, archive. Use when processing the inbox or checking/replying to emails.
 user_invocable: true
 ---
 
-# Gmail Skill
+# Expedio
 
-Status-aware Gmail operations using the `gog` CLI. Prevents confusing drafts with sent messages.
+Gmail inbox processing — read, surface, clear. Status-aware operations using the `gog` CLI.
 
 ## Commands
 
