@@ -53,8 +53,9 @@ Answer these before drafting:
 1. **Is the topic in Terry's lane?** (AI, financial services, governance, enterprise tech, consulting)
 2. **Can Terry add a distinct angle?** (Not just agreement — a practitioner insight, extension, or counterpoint)
 3. **Is the author worth engaging?** (Senior practitioner, potential client/referral, thought leader in FS/AI)
-4. **Is the timing right?** (Post <48h old? Fresh comments get more visibility. Also check `resurface search "<author/company>" --deep` — if Terry already commented on this person/company today, skip. Double-engaging same day looks over-eager.)
+4. **Is the timing right?** LinkedIn's algorithm weights first-hour engagement most heavily — a post >24h old has already peaked in distribution. >48h is a hard skip unless the author is a high-value target worth the cold engagement. Also check `resurface search "<author/company>" --deep` — if Terry already commented on this person/company today, skip.
 5. **Is the post worth Terry's comment?** If Terry's comment would be smarter than the post itself, react and move on. Comment when the post pulls the conversation *up* — original frameworks, genuine depth, substantive takes. Skip well-packaged platitudes, repackaged concepts, and content-mill series. Terry's practitioner insights should add to something strong, not carry something thin.
+6. **Will the poster be happy to see this comment?** Read the emotional register of the post. If they wrote an enthusiasm/vision post, a purely risk-focused or corrective comment lands as a buzzkill — even if factually additive. The comment should match or gently extend the poster's tone, not deflate it. A cold commenter who makes a CIO look behind on risk management in front of their peers is not welcome. If the honest angle is negative, consider liking and moving on instead.
 
 If any answer is no, say so and suggest skipping or just reacting.
 
@@ -80,11 +81,14 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 **Voice rules:**
 - "I've seen" not "I'd add" (observational, not prescriptive)
 - Specific > generic (name the committee, the system, the failure mode)
-- Build on their framework, don't compete with it
+- **"Yes-and", never "yes-but"** — extend their thesis, don't redirect it. Contrast moves activate psychological reactance even when the concern is valid (Fitzsimons & Lehmann 2004)
+- **Match the poster's emotional register first** — enthusiasm met with flatness reads as dismissal before the content even lands (Niederhoffer & Pennebaker 2002)
+- **Never raise corrections or risks unless explicitly invited** — unsolicited corrective advice threatens the poster's "positive face" and is experienced as implying incompetence, not helpfulness (Rook; Frontiers in Psychology 2023)
+- **One specific acknowledgment > three generic ones** — perceived sincerity is the moderating variable; "great post!" is inert or negative
 - No hashtags, no "great post!", no engagement bait
 - Spelling: match the poster's audience (US spelling for US-based authors, British for UK/HK/APAC)
 - Plain text only — LinkedIn comments don't support markdown bold/italic
-- Aim for ~50-70 words. Mobile truncation is real; short + substantive beats long + thorough
+- Aim for ~50-70 words, minimum 15 words — LinkedIn's algorithm gives ~2x engagement weight to comments over 15 words
 - 4-8 sentences max — a comment, not a post
 
 **Structure:**

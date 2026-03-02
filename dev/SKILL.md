@@ -46,9 +46,11 @@ Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 | Task size | Use |
 |-----------|-----|
 | Single-file, ≤3 commands, no architecture decisions, requires live user decisions mid-plan | `EnterPlanMode` → delegate |
-| Multi-command CLI, file parsing, new architecture, or any real feature | `/workflows:plan` → delegate |
+| Multi-command CLI, file parsing, new architecture, or any real feature | `/slfg <description>` (plan → deepen → swarm work → review, fully autonomous) |
 | Unclear requirements | `/workflows:brainstorm` first |
-| Approved plan already exists (any source) | Skip to delegation |
+| Approved plan already exists (any source) | Skip to `/ce:work` |
+
+**Prefer `/slfg` over manual plan → delegate.** CE ships `/slfg` (full pipeline: plan → deepen-plan → swarm work → parallel review) and `/lfg` (same but single-threaded). Use `/slfg` for greenfield tasks where requirements are clear. Use `/ce:work` alone when a plan already exists. `/workflows:plan` alone only when the user wants to review the plan before execution.
 
 **Rule of thumb:** If you'd build more than one file, touch existing architecture, or need research agents to surface best practices → `/workflows:plan`. `EnterPlanMode` is for trivial tasks where the user needs to make live decisions as the plan unfolds.
 

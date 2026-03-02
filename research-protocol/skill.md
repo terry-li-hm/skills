@@ -32,7 +32,7 @@ For `/consilium` and multi-model research, this means updating the findings doc 
 
 ## Step 2: Survey (already doing this)
 
-Use `pplx research` for depth or `pplx ask` for structured overview. See `web-search` skill for tool selection.
+Use `pplx research` for depth or `pplx ask` for structured overview. See `indago` skill for tool selection.
 
 ## Step 3: Counter-Search (the step we skip)
 

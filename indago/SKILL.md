@@ -1,6 +1,6 @@
 ---
-name: web-search
-description: Reference for choosing the right web search tool. Not user-invocable — use as internal guidance when performing searches.
+name: indago
+description: Reference for searching information online — tool selection, search strategies, when to go deep vs quick, non-English search. Not user-invocable — use as internal guidance when performing searches.
 user_invocable: false
 ---
 
@@ -117,6 +117,17 @@ When constructing prompts for researcher subagents, **explicitly specify the sea
 | AI news / real-time | `grok` |
 
 Default: agents fall back to WebSearch. For academic research this misses cited primary sources — always specify `pplx research` explicitly in the agent prompt.
+
+## pplx research vs Researcher Agent
+
+These are complementary, not interchangeable:
+
+| Tool | Best for |
+|------|----------|
+| `pplx research` | Recent platform-specific facts: algorithm rules, word count thresholds, timing windows, product specs. Fast, cheap-ish ($0.40), current. |
+| Researcher agent | Foundational academic synthesis: established theory, citable papers, cross-study analysis. Slower, more thorough. |
+
+**Pattern:** use researcher agent for the "why" (mechanism, theory), `pplx research` for the "what now" (current platform behaviour, recent data). Both on the same topic often yields more than either alone — agent surfaces the theory, pplx surfaces what's changed since.
 
 ## Perplexity Quality Notes
 

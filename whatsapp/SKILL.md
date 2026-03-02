@@ -9,6 +9,16 @@ github_url: https://github.com/steipete/wacli
 
 Read and send WhatsApp messages using the `wacli` CLI.
 
+## Prefer keryx for name-based lookups
+
+**Use `keryx` instead of raw `wacli` when working by contact name:**
+```bash
+keryx read "Herman"          # merges dual-JID automatically
+keryx send "Herman" "..."    # resolves JID + prints daemon-safe block
+keryx chats                  # recent chats
+```
+Fall back to `wacli` directly for JID-based queries, search, auth, and admin.
+
 ## Trigger
 
 Use when:

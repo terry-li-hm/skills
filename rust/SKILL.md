@@ -200,11 +200,14 @@ cargo install --path .  # install from local source
 
 Never test a CLI tool via `./target/release/<name>` only — that skips the install path. Always verify the installed binary behaves correctly before publishing.
 
-### After publish
+### After publish (REQUIRED — don't skip)
 
 ```bash
 cargo install <name>    # verify it installs cleanly from crates.io
+<name> <args>           # run an actual use case with the installed binary
 ```
+
+This is a hard gate — not optional. `./target/release/<name>` and `cargo install --path .` don't test the published artifact. Only `cargo install <name>` does.
 
 **Create a skill** — every personal CLI gets `~/skills/<name>/SKILL.md`. Covers: commands, keychain/config location, gotchas, repo link. This is how the tool stays usable across sessions.
 
