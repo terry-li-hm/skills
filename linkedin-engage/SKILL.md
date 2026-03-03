@@ -131,20 +131,19 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 
 ### 5. Draft the Comment
 
-**Voice rules:**
-- **Mind seniority gap.** If the poster is more senior (CIO, MD, Partner): (1) avoid openers that put Terry in the judge seat — banned: "Great call", "Spot on", "You're right to", "Exactly right", "This is exactly the point", "Well said" — all of these evaluate whether the poster got it correct, which is a grading move regardless of how complimentary. Use peer-level observation instead ("The X angle is the right one to flag", "The distinction between X and Y is where this gets interesting") — or skip the validation entirely and lead directly from Terry's lane ("From the data science side..."); (2) add, don't instruct — offer an observation from your own lane, never tell them what to do; (3) end with a collaborative observation rather than a question that puts them on the spot.
+**Voice rules** (rationale: `[[LinkedIn Commenting Principles]]`)**:**
+- **No grading openers** — banned: "Great call", "Spot on", "Exactly right", "Well said", "You're right to" — all put Terry in the judge seat. Use peer-level observation or lead directly from Terry's lane instead.
+- **"Yes-and", never "yes-but"** — extend their thesis, don't redirect it
+- **Match the poster's emotional register** — measured post → measured comment, no injected optimism
+- **Never raise corrections or risks unless explicitly invited**
+- **For senior practitioners:** "I learned X from you" pattern — name + thanks → specific learning (named, not vague) → add from Terry's lane
 - "I've seen" not "I'd add" (observational, not prescriptive)
 - Specific > generic (name the committee, the system, the failure mode)
-- **"Yes-and", never "yes-but"** — extend their thesis, don't redirect it. Contrast moves activate psychological reactance even when the concern is valid (Fitzsimons & Lehmann 2004)
-- **Match the poster's emotional register first** — enthusiasm met with flatness reads as dismissal before the content even lands (Niederhoffer & Pennebaker 2002)
-- **Never raise corrections or risks unless explicitly invited** — unsolicited corrective advice threatens the poster's "positive face" and is experienced as implying incompetence, not helpfulness (Rook; Frontiers in Psychology 2023)
-- **Stress-test any technical claim before including it** — "sounds plausible" is not enough. Ask: would a domain expert push back on this? If yes, drop it. Forcing a weak angle damages credibility more than omitting it entirely.
-- **One specific acknowledgment > three generic ones** — perceived sincerity is the moderating variable; "great post!" is inert or negative
+- Stress-test any technical claim — if a domain expert would push back, drop it
 - No hashtags, no "great post!", no engagement bait
-- Spelling: match the poster's audience (US spelling for US-based authors, British for UK/HK/APAC)
-- Plain text only — LinkedIn comments don't support markdown bold/italic
-- Aim for ~50-70 words, minimum 15 words — LinkedIn's algorithm gives ~2x engagement weight to comments over 15 words
-- 4-8 sentences max — a comment, not a post
+- Spelling: British for UK/HK/APAC authors, US for US-based
+- Plain text only — LinkedIn comments don't support markdown
+- ~50-70 words, minimum 15 words, 4-8 sentences max
 
 **Structure:**
 1. Brief validation (one phrase, specific — not "great post")
@@ -305,17 +304,11 @@ Update `[[LinkedIn Content Ideas]]` status to "Draft ready" with date.
 | **Now (pre-Mar 16)** | Builder proof, personal stories, practitioner comments | "As an AI Solution Lead at Capco..." |
 | **Post-Mar 16** | Enterprise diagnostics, consulting frameworks, client-ready insights | Mentioning specific client names |
 
-## Positioning Reminders
-
-- Terry = practitioner-builder who ships, not consultant who theorises
-- Credit sources (Simon Willison, original poster, etc.)
-- Specific numbers beat vague claims (198 tests, $0.23 vs $6.62, 1,125 frames)
-- Honest about limitations (AI got lens thickness wrong, Speechmatics failed)
-- Never "thought leader" language — let the work speak
-
 ## Vault References
 
 - `~/notes/LinkedIn Content Ideas.md` — content pipeline
-- `~/notes/LinkedIn Posting Playbook.md` — metrics, learnings, cadence
+- `~/notes/LinkedIn Posting Playbook.md` — positioning, metrics, cadence
+- `~/notes/LinkedIn Commenting Principles.md` — rationale behind the voice rules
 - `~/notes/LinkedIn Profile Updates - Feb 2026.md` — headline/about copy
+- `~/notes/LinkedIn Profiles/` — cached author profiles
 - `~/notes/Councils/LLM Council - LinkedIn*` — past comment/post reviews

@@ -111,7 +111,18 @@ When a novel pattern emerges (a useful visualization technique, a new workflow, 
 
 **Actively propose:** When you spot Terry doing something for the first time that looks like it'll recur (a type of analysis, a content format, a deployment pattern), suggest seeding a skill for it.
 
-### 7. Naming
+### 7. Length — Skill vs Vault Note
+
+Skills should be action-oriented: what to do, in what order, with what commands. When a skill grows long, split it:
+
+- **Keep in skill:** steps, commands, decision rules, checklists
+- **Move to vault note:** rationale, research citations, extended examples, background context
+
+Link from the skill with a one-liner: `(rationale: [[Note Name]])`. The skill stays lean and executable; the vault note holds the *why* for when it's needed.
+
+Signal that a skill needs splitting: you find yourself reading the rationale section to remember the rule, rather than reading it to understand why the rule exists.
+
+### 8. Naming
 
 - **Action skills** → verb-first: `evaluate-job`, `design-skill`
 - **Trigger/lookup skills** → short nouns: `todo`, `hko`, `morning`
