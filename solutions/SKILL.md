@@ -1,5 +1,5 @@
 ---
-name: solutions
+name: respice
 description: Search docs/solutions/ for past learnings before starting work. Use proactively before implementing fixes, filling forms, or handling admin tasks — not just coding.
 user_invocable: false
 ---
@@ -57,6 +57,12 @@ rg -il "<keyword>" ~/docs/solutions/ --max-depth 2
 | Coding tool gotcha | Root (`~/docs/solutions/`) |
 | Reusable workflow pattern | `patterns/` |
 | Browser automation | `browser-automation/` |
+
+## File Naming Convention
+
+All files must use **kebab-case**: `word-word-word.md`. No spaces, no camelCase, no underscores.
+
+Examples: `claude-code-kimi-k2-setup.md`, `office-noise-focus-music.md`
 
 ## Integration with Other Tools
 
