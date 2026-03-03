@@ -181,7 +181,13 @@ Run this alongside the synthesis every Friday:
 5. **Conversation Cards refresh** — Scan `~/notes/Capco/Conversation Cards/*.md` (governance, agentic, cost, responsible AI/MRM). Check: any data points outdated? Any new vault material that should feed in? Update `Last updated` date on any card you touch. 60-second scan per card — if nothing changed, move on.
 6. **Priorities for the week** — Top 2-3 actions
 7. **AI landscape** — Run `/lustro --deep` first to pull full source sweep, then `/ai-review` for weekly synthesis (client talking points).
-8. **First Friday only** — Run `/monthly` (content digests, skill review, AI deep review, vault hygiene)
+8. **Capco intel sweep** (until start date only — remove after onboarding):
+   - Search: "Capco HK" or "Capco Asia" news this week
+   - Search: HKMA AI/fintech guidance, GenAI deployments at HK banks
+   - Search: competitor moves in HK FSI (Accenture, EY, KPMG, Deloitte)
+   - Synthesize into 3 bullets: Capco firm news | AI x banking | Competitor signal
+   - Feed anything useful into `~/notes/Capco/Conversation Cards/` if it's a durable talking point
+9. **First Friday only** — Run `/monthly` (content digests, skill review, AI deep review, vault hygiene)
 
 [[Capco Transition]] is source of truth for exit/onboarding; [[Job Hunting]] is the archive.
 
