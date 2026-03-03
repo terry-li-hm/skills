@@ -12,24 +12,13 @@ Ensures research goes beyond confident-sounding synthesis to actually-verified c
 
 AI search tools (Perplexity, WebSearch) produce coherent narratives from thin sources. More tools won't fix this — the gap is process, not coverage.
 
-## Step 0: Check the Canonical Source First
+## Step 0: Follow eruo Lookup Order
 
-Before any search tool — internal or external — ask: **does a canonical note already have the answer?**
-
-For active projects, the tracker note is always faster and more reliable than cerno, QMD, or search:
-
-| Topic | Check first |
-|-------|------------|
-| Capco / PILON / Gavin / Bertie | `Capco/Capco Transition.md` |
-| Active project status, drafts, decisions | The project's canonical tracker note (linked from NOW.md) |
-| Insurance / medical / HR processes | `~/docs/solutions/operational/` |
-
-Grep the canonical note before anything else:
-```bash
-grep -n "draft\|message\|status\|next" "/Users/terry/notes/Capco/Capco Transition.md"
-```
-
-Only reach for `cerno`, QMD, or web search if the canonical note doesn't have it.
+Before any search tool, follow the `eruo` decision tree:
+1. Canonical project tracker note (NOW.md → linked project note)
+2. `cerno` for vault/memory knowledge
+3. `anam search` for specific past conversations
+4. External search (`indago`) only if internal sources don't have it
 
 ## Step 1: Classify the Question
 

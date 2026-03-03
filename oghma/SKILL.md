@@ -44,4 +44,4 @@ oghma status
 - Before starting work on a topic, check for relevant memories
 - Prefer `--mode hybrid` for best results
 
-**Check the canonical project note first.** For active projects, the tracker note (e.g. [[Capco Transition]], [[STR Relabelling Handover]]) is faster and more reliable than oghma. Use oghma when the vault doesn't have the answer — it's for conversation recall, not project context.
+**Follow `eruo` lookup order before reaching for oghma.** oghma is step 3 — only after checking the canonical project note (step 1) and `cerno` (step 2).

@@ -36,13 +36,13 @@ Search the vault for background on this person:
 grep -ri "[name]" /Users/terry/notes/*.md
 ```
 
+Follow `eruo` step 1 first — grep the canonical project note before drafting. Council-reviewed drafts often already exist.
+
 Key files to check:
 - `Job Hunting.md` - recruiter interactions, role discussions
 - `Draft Outreach Messages*.md` - previous message drafts
-- `Capco/Capco Transition.md` - **for any Gavin/Bertie/PILON/onboarding message**: drafts, strategy, and timeline all live here. Grep this first before drafting anything Capco-related.
+- `Capco/Capco Transition.md` - Gavin/Bertie/PILON/onboarding drafts live here
 - Daily notes - recent interactions
-
-**Check for an existing draft before writing one.** Grep the canonical note for "draft" or "message" — council-reviewed drafts often already exist and shouldn't be recreated from scratch.
 
 ### 3. Understand the Conversation
 

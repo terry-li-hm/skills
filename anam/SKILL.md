@@ -15,7 +15,7 @@ Search AI coding chat history from Claude Code, Codex, and OpenCode.
 
 ## Before Searching
 
-Check the canonical project note first — tracker notes (e.g. [[Capco Transition]]) are faster and more reliable than transcript search for project context, drafts, and decisions. Use anam when the vault doesn't have the answer.
+Follow `eruo` lookup order — anam is step 3 (specific past conversation), only after the canonical project note (step 1) and `cerno` (step 2).
 
 ## Trigger
 
