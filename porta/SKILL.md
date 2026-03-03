@@ -76,8 +76,20 @@ cd ~/code/porta && cargo install --path .
 - Session cookies (`expires=None`) aren't persisted across browser restarts by Playwright
   by default — test access immediately after injecting
 
+## When porta FAILS — use `browser-login` instead
+
+| Site | Why porta fails | Fix |
+|------|----------------|-----|
+| **linkedin.com** | `li_at` session is IP + device-fingerprint bound. Injected cookie is silently rejected. | `browser-login` for linkedin.com |
+| **cora.computer** | Uses Devise auth (own login form, not Google SSO). No real session cookie in Chrome unless you've logged in there. | `browser-login` for cora.computer |
+| Any Google SSO third-party | Google cookies ≠ third-party site session. Injecting .google.com cookies doesn't grant access to the downstream site. | Log in via Google SSO in Chrome first, *then* `porta inject --domain site.com` for that site's cookies |
+
+**Decision rule:** If `agent-browser` redirects to a login page after `porta inject`, the site uses fingerprint-binding or own auth. Switch to `browser-login`.
+
 ## Authenticated Sites (via porta)
 
-| Site | Last injected | Notes |
-|------|--------------|-------|
-| vercel.com | Mar 2026 | Google OAuth, ~20 cookies |
+| Site | Last injected | Status | Notes |
+|------|--------------|--------|-------|
+| vercel.com | Mar 2026 | ✅ works | Google OAuth, ~20 cookies |
+| linkedin.com | Mar 2026 | ❌ fails | IP-bound session |
+| cora.computer | Mar 2026 | ❌ fails | Devise auth, no Chrome session |
