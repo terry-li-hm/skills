@@ -111,6 +111,43 @@ cd ~/code/porta && cargo install --path .
 - Session cookies (`expires=None`) aren't persisted across browser restarts by Playwright — test access immediately after injecting
 - Arc: only useful if Arc is installed and has a Default profile
 
+## Cloudflare-Protected Sites — Direct Playwright Pattern
+
+`porta inject → agent-browser` fails on Cloudflare-protected sites — headless Chromium fingerprint gets detected even with valid cookies. Workaround: skip agent-browser entirely and use a direct Playwright + browser_cookie3 script. Injecting `cf_clearance` + session cookies together bypasses Cloudflare.
+
+```python
+# /// script
+# dependencies = ["playwright", "browser-cookie3"]
+# ///
+import asyncio, browser_cookie3
+from playwright.async_api import async_playwright
+
+async def main():
+    # Extract from both subdomain AND parent domain to capture all CF + session cookies
+    cookies = list(browser_cookie3.chrome(domain_name='community.linkingyourthinking.com'))
+    cf = list(browser_cookie3.chrome(domain_name='.community.linkingyourthinking.com'))
+    cookie_list = [{"name": c.name, "value": c.value, "domain": c.domain, "path": c.path or "/"} for c in cookies + cf]
+
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        ctx = await browser.new_context()
+        await ctx.add_cookies(cookie_list)
+        page = await ctx.new_page()
+        await page.goto("https://community.linkingyourthinking.com/courses", timeout=30000)
+        await page.wait_for_load_state("domcontentloaded", timeout=20000)  # NOT networkidle — SPAs hang
+        content = await page.evaluate("document.body.innerText")
+        print(content)
+        await browser.close()
+
+asyncio.run(main())
+```
+
+Run with: `uv run --script --python 3.13 script.py`
+
+**Gotchas:**
+- Use `wait_for_load_state("domcontentloaded")` not `"networkidle"` — Circle.so and React SPAs hang on networkidle
+- Extract cookies from both `.domain.com` AND `subdomain.domain.com` — CF stores `cf_clearance` on the parent, session cookies on the subdomain
+
 ## When porta FAILS — use `browser-login` instead
 
 | Site | Why porta fails | Fix |
@@ -128,3 +165,4 @@ cd ~/code/porta && cargo install --path .
 | vercel.com | Mar 2026 | ✅ works | Google OAuth, ~20 cookies |
 | linkedin.com | Mar 2026 | ❌ fails | IP-bound session |
 | cora.computer | Mar 2026 | ⚠️ partial | Cookies inject OK in-context but don't survive profile restart. Fix: `~/scripts/cora_brief.py` |
+| community.linkingyourthinking.com | Mar 2026 | ✅ works (direct Playwright only) | Cloudflare-protected — porta inject → agent-browser blocked. Use direct Playwright pattern above instead. |
