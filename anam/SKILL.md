@@ -13,6 +13,10 @@ Search AI coding chat history from Claude Code, Codex, and OpenCode.
 - **`anam`** (Rust CLI, `~/.cargo/bin/anam`) — programmatic date scan, keyword search, deep transcript search, cross-tool support (Claude + Codex + OpenCode), HKT day boundaries. Works from Claude Code (non-interactive). Source: `~/code/anam/`.
 - **`claude-history`** (Rust CLI) — interactive TUI fuzzy search over Claude Code conversations. Best for browsing or resuming a session. **Requires interactive terminal** — won't work from Claude Code's Bash tool.
 
+## Before Searching
+
+Check the canonical project note first — tracker notes (e.g. [[Capco Transition]]) are faster and more reliable than transcript search for project context, drafts, and decisions. Use anam when the vault doesn't have the answer.
+
 ## Trigger
 
 - `/anam` — today's prompts across all tools

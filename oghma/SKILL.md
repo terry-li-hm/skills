@@ -43,3 +43,5 @@ oghma status
 - User wants to recall past insights or decisions
 - Before starting work on a topic, check for relevant memories
 - Prefer `--mode hybrid` for best results
+
+**Check the canonical project note first.** For active projects, the tracker note (e.g. [[Capco Transition]], [[STR Relabelling Handover]]) is faster and more reliable than oghma. Use oghma when the vault doesn't have the answer — it's for conversation recall, not project context.
