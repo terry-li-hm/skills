@@ -1,82 +1,93 @@
 ---
 name: judex
-description: Empirical tool validation by running two AI coding tools in parallel on the same task. Use when benchmark-based routing is uncertain or contradicted by experience. Updates routing heuristics with real evidence.
+description: Empirical validation over theoretical debate. When you'd reach for consilium or AskUserQuestion to decide between two approaches, check first — can the outcome be measured? If yes, run the experiment instead of deliberating.
 user_invocable: false
 ---
 
-# judex — Empirical Tool Validation
+# judex — Empirical Validation
 
-Not user-invocable. Internal guidance consulted when routing uncertainty can't be resolved from benchmarks.
+Not user-invocable. Internal guidance consulted when facing a choice between two approaches.
 
-**When to invoke:** You would have reached for `AskUserQuestion` to clarify which tool to use, OR the benchmark recommendation feels wrong given the specific task/language/constraints.
+## The Core Rule
+
+> **consilium** = outcome is uncertain, needs perspectives.
+> **judex** = outcome is measurable, needs evidence.
+
+Before spinning up a deliberation or asking the user to decide: can you just run both and compare?
+
+**Trigger conditions:**
+- You'd reach for `AskUserQuestion` to choose between two tools/approaches
+- Benchmark says X but experience feels like Y
+- Two implementations are plausible and neither is obviously better
+- You've been burned by the routing before on a similar task
+
+**When judex doesn't apply:**
+- The outcome isn't measurable (strategic choices, value trade-offs, personal preferences) → consilium
+- One option is clearly dominant → just pick it
+- The experiment would take longer than the task itself → just pick, note the uncertainty
 
 ## The Pattern
 
-Instead of arguing from benchmarks, run both and compare.
-
 ```
 1. Create two lucus worktrees (prevents git add -A conflicts)
-2. Write an identical prompt to /tmp/<task>-<tool-a>-prompt.txt and /tmp/<task>-<tool-b>-prompt.txt
+2. Write identical prompts to /tmp/<task>-<tool-a>-prompt.txt and /tmp/<task>-<tool-b>-prompt.txt
 3. Launch both in parallel (Bash run_in_background: true)
 4. Wait for completion
-5. Check: build + test + clippy (or equivalent verification)
-6. Diff scope: git diff --stat per branch
-7. Pick the winner. Document why. Update routing notes below.
+5. Apply your verification criteria (build + test, or benchmark, or output quality check)
+6. Diff scope: git diff --stat per branch (watch for out-of-scope changes)
+7. Pick the winner. Document why. Update routing notes.
 ```
 
-## Case 1 — Codex vs Gemini: consilium Feature A (2026-03-04)
+The experiment must have **a measurable pass/fail criterion set before launch** — not a subjective judgment after the fact.
 
-**Task:** Rust feature across 4 files — JUDGE_MODEL swap, new anthropic branch in query_model_with_fallback(), model-aware query_judge(), main.rs key threading.
+## Case 1 — AI Tool Routing: Codex vs Gemini on Rust Feature (2026-03-04)
 
-**Prompt:** identical spec, same verification requirement (`cargo build && cargo test && cargo clippy`).
+**Decision:** Which tool for consilium Feature A (Rust, 4 files, model swap + new API branch)?
 
-**Codex result:** ❌ Build failed. `~/code/Cargo.toml` workspace picked up the `consilium.*` lucus worktree name. Codex cannot run `cargo build` in its sandbox (DNS blocked) so it never discovered the conflict. Also missed threading `anthropic_api_key` from `main.rs` (prompt said "src/modes/*.rs" only). Error detection used `!response.starts_with('[')` instead of spec'd `is_error_response()`.
+**Hypothesis to test:** Gemini (LiveCodeBench #1) vs Codex (Terminal-Bench #1) on a task requiring `cargo build` validation.
 
-**Gemini result:** ✅ Build passed (1m08s), 3/3 tests, clippy clean. Fixed workspace conflict itself by adding `[workspace]` to Cargo.toml. Threaded `anthropic_api_key` through `main.rs → all modes`. Used `is_error_response()`. Touched 13 files (Codex: 11) — the 2 extras were `Cargo.toml` + `main.rs`, both required.
+**Criterion:** `cargo build --release && cargo test && cargo clippy` all pass, 0 errors.
+
+| | Codex | Gemini |
+|---|---|---|
+| Build | ❌ Failed (workspace conflict) | ✅ Passed (1m08s) |
+| Tests | — | ✅ 3/3 |
+| Clippy | — | ✅ Clean |
+| Files changed | 11 | 13 |
+| Out-of-scope? | No | No (extras were required) |
 
 **Root causes of Codex failure:**
+
 | Gap | Cause | Fixable with better prompt? |
 |-----|-------|-----------------------------|
-| Workspace conflict | Codex sandbox blocks `cargo build` (DNS) — can't discover compile errors | ❌ No — structural limitation |
-| Missing main.rs threading | Prompt said "src/modes/*.rs" only, didn't mention `src/main.rs` | ✅ Yes |
-| Error pattern | Ignored explicit `is_error_response()` instruction | Maybe |
+| Workspace conflict | Codex sandbox blocks `cargo build` (DNS) — can't discover compile errors | ❌ No — structural |
+| Missing `main.rs` threading | Prompt scoped to `src/modes/*.rs`, missed entry point | ✅ Yes |
+| Error pattern ignored | Explicit `is_error_response()` instruction not followed | Maybe |
 
-**Winner: Gemini.** Structural advantage: runs on your machine, discovers compile errors, can self-correct.
+**Routing update:** For Rust tasks where `cargo build` validation is required → prefer Gemini. It runs on your machine and discovers compile errors. Codex sandbox blocks DNS/cargo.
 
-**Routing update from this case:**
-- For Rust tasks where `cargo build` validation is required: prefer Gemini (runs natively, discovers compile errors)
-- If using Codex for Rust: explicitly include `src/main.rs` in the caller list, and add `[workspace]` to the package Cargo.toml before launching
-- Keep the `is_error_response()` instruction bolded or in a MUST-use section
+**Prompt fix discovered:** "search all call sites in `src/modes/*.rs`" misses the entry point. Template: "search ALL callers including `src/main.rs` and `src/modes/*.rs`."
 
-## Permanent Fixes Discovered
+**Permanent fix shipped:** Added `[workspace]` to consilium `Cargo.toml` — prevents all future lucus worktree build conflicts.
 
-- **`[workspace]` in consilium `Cargo.toml`**: Prevents all future lucus worktree build conflicts. Now merged to main.
-- **Prompt gap**: "search all call sites in src/modes/*.rs" misses main.rs. Template fix: "search ALL callers including src/main.rs and src/modes/*.rs"
+## Routing Heuristics (from real cases)
 
-## Routing Heuristics (Updated)
-
-| Signal | Prefer | Avoid | Reason |
+| Signal | Prefer | Avoid | Source |
 |--------|--------|-------|--------|
-| Rust feature requiring `cargo build` | **Gemini** | Codex | Gemini runs on machine, catches compile errors. Codex sandbox blocks cargo. |
-| Multi-file repo nav + test loops | **Codex** | Gemini | Codex is Terminal-Bench #1. Gemini touches extra files. |
-| Isolated algorithmic logic | **Gemini** | — | LiveCodeBench #1. No compile-time validation needed. |
-| Bulk boilerplate, routine edits | **OpenCode** | — | Free, unlimited. |
-| Anything that's failed 3+ times | **Opus in-session** | — | Escalation only. |
+| Rust feature requiring `cargo build` | **Gemini** | Codex | Case 1 |
+| Multi-file repo nav + complex test loops | **Codex** | — | Benchmark (unvalidated) |
+| Isolated algorithmic logic | **Gemini** | — | Benchmark (unvalidated) |
+| Bulk boilerplate, routine edits | **OpenCode** | — | Benchmark (unvalidated) |
 
-## When to Run a judex Experiment
+Mark heuristics as `(unvalidated)` until a judex case confirms them.
 
-- Benchmark says X but recent experience contradicts it
-- Task type falls in the gap between tools (e.g., "Rust feature" = Codex benchmark signal vs Gemini build validation signal)
-- You've been burned by the routing before on a similar task
-
-## Experiment Template
+## Experiment Template (Rust / Codex+Gemini)
 
 ```bash
-# 1. Write prompt to files (avoid shell quoting issues with special chars)
+# 1. Write prompts to files (avoid shell quoting issues)
 cat > /tmp/<task>-codex-prompt.txt << 'EOF'
 <prompt>
 EOF
-
 cat > /tmp/<task>-gemini-prompt.txt << 'EOF'
 <prompt>
 EOF
@@ -85,11 +96,11 @@ EOF
 lucus new <task>-codex
 lucus new <task>-gemini
 
-# 3. Launch in parallel (run_in_background: true)
+# 3. Launch in parallel (run_in_background: true on each Bash call)
 cd ~/code/<repo>.<task>-codex && codex exec --skip-git-repo-check --full-auto "$(cat /tmp/<task>-codex-prompt.txt)"
 cd ~/code/<repo>.<task>-gemini && gemini -p "$(cat /tmp/<task>-gemini-prompt.txt)" --yolo
 
-# 4. Verify each
+# 4. Verify
 cd ~/code/<repo>.<task>-codex && cargo build --release && cargo test && cargo clippy
 cd ~/code/<repo>.<task>-gemini && cargo build --release && cargo test && cargo clippy
 
@@ -97,11 +108,15 @@ cd ~/code/<repo>.<task>-gemini && cargo build --release && cargo test && cargo c
 cd ~/code/<repo>.<task>-codex && git diff --stat
 cd ~/code/<repo>.<task>-gemini && git diff --stat
 
-# 6. Pick winner, commit, merge to main
+# 6. Commit winner and merge
 cd ~/code/<repo>.<task>-gemini && git add -A && git commit -m "feat: ..."
-cd ~/code/<repo> && git merge <task>-gemini
+cd ~/code/<repo> && git merge <task>-gemini --no-edit
+
+# 7. Cleanup
+lucus remove <task>-codex
+lucus remove <task>-gemini
 ```
 
 ## Naming
 
-*Judex* — Latin, "judge/arbiter" (from *jus*, law/right + *dicare*, to declare/proclaim). The arbiter between two tool choices based on real evidence, not speculation. Named by consilium quick mode (2026-03-04). Free on crates.io. Crux (Claude's pick) was taken; Judex was the clean alternative.
+*Judex* — Latin, "judge/arbiter" (*jus* + *dicare*). Named by consilium quick (2026-03-04). Crux (Claude's pick) was taken on crates.io; Judex was free and semantically equivalent.
