@@ -92,4 +92,4 @@ cd ~/code/porta && cargo install --path .
 |------|--------------|--------|-------|
 | vercel.com | Mar 2026 | ✅ works | Google OAuth, ~20 cookies |
 | linkedin.com | Mar 2026 | ❌ fails | IP-bound session |
-| cora.computer | Mar 2026 | ❌ fails | Devise auth, no Chrome session |
+| cora.computer | Mar 2026 | ⚠️ partial | Cookies inject OK in-context but don't survive profile restart. Fix: `~/scripts/cora_brief.py` |
