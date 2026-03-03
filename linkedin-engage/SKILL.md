@@ -155,6 +155,10 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 
 **Stay in the poster's thesis.** The comment should extend *their* point, not introduce a third topic they didn't raise. If the post is about encryption risk, respond to encryption risk — don't pivot to ML infrastructure overhead just because it's related to quantum. Adjacent ≠ responsive. Check: does the comment answer the question the poster was implicitly asking?
 
+**Complement check.** Before presenting the draft, ask: would a reader skimming both the post and this comment see the thread clearly? The comment should visibly connect — echo a specific word, phrase, or idea from the post before adding from Terry's lane. If the comment could have been written without reading the post, it's not complementing — it's broadcasting.
+
+**Iteration note.** Consilium is better at catching what's wrong than finding the right voice. After the council review, expect to iterate on tone, structure, and connection to the post through back-and-forth — that loop does more work than the upfront council. Don't treat the council draft as final.
+
 Present the draft in chat with a one-line rationale for the angle chosen. **Stop here and wait for input.**
 
 ### 6. Consilium Review (mandatory for all comments)
