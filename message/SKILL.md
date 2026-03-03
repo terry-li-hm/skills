@@ -116,6 +116,11 @@ See `[[Networking Outreach Templates]]` in vault for message templates and princ
 
 ## Platform Notes
 
-- **LinkedIn:** Browser automation (requires login)
+- **LinkedIn:** Browser automation (requires login). To connect with someone:
+  1. Open their profile with `agent-browser open <url>`
+  2. If "Connect" button is visible directly → click it
+  3. If only "Follow" / "Message" visible → click "More actions" → "Invite [Name] to connect" is in that dropdown (LinkedIn hides Connect for some profiles but it's always in More)
+  4. On the "Add a note?" dialog → "Send without a note" for clean connects; add note only if cold outreach needs context
+  5. To send a LinkedIn DM: click "Message [Name]" on their profile
 - **Gmail:** `gog gmail search/get/send` — see `gmail` skill
 - **WhatsApp:** `keryx read "Name"` — see `keryx` skill. Use keryx, not wacli directly, for name-based lookups.
