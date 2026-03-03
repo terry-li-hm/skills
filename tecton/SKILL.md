@@ -1,5 +1,5 @@
 ---
-name: vault-notes
+name: tecton
 description: Reference for vault note structure — atomicity, interlinking, hub vs. detail, when to split, where notes live. Not user-invocable — consult when creating or refactoring vault notes.
 ---
 
