@@ -58,9 +58,27 @@ After successful login, update the authenticated sites table in `~/docs/solution
 | Substack (Latent Space) | substack.com/sign-in | Feb 2026 |
 | Taobao/Tmall | login.taobao.com | Feb 2026 |
 
+## Google OAuth Sites — Use `porta` Instead
+
+If a site only supports Google SSO (e.g. Vercel, Google-gated dashboards), the headed Playwright flow will be blocked by Google's bot detection. Use `porta` instead:
+
+```bash
+# 1. Open site in regular Chrome and log in via Google
+open -a "Google Chrome" "https://site.com/login"
+
+# 2. Bridge Chrome cookies into agent-browser profile
+porta inject --domain site.com
+
+# 3. Verify
+agent-browser open "https://site.com/dashboard"
+agent-browser get url  # should NOT redirect to login
+```
+
+`porta list --domain site.com` to preview what cookies would be injected.
+Cookies expire — re-run `porta inject` if access stops working.
+
 ## Notes
 
 - User must have visual access to the Mac (Jump Desktop, VNC, or physical screen)
 - `AGENT_BROWSER_PROFILE` env var points to `~/.agent-browser-profile/` — set in `~/.zshenv`
-- Google OAuth blocks Playwright Chromium — if a site only offers Google SSO, the headed flow may still fail. Fallback: log in via regular Chrome, then manually copy cookies
 - Profile backup: `~/agent-config/browser-profile/`
