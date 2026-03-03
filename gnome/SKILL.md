@@ -1,23 +1,25 @@
 ---
-name: decide
-description: Capture structured decisions with past-decision surfacing (bouncer pattern). Use when user says "decide", "/decide", "I need to decide", or is weighing options with trade-offs.
+name: gnome
+description: Capture structured decisions with past-decision surfacing (bouncer pattern). Use when user says "gnome", "/gnome", "I need to decide", or is weighing options with trade-offs.
 user_invocable: true
 ---
 
-# Decide
+# Gnome
 
 Capture decisions to `~/notes/decisions/` with the **bouncer pattern**: before logging anything new, search past decisions and surface similar ones. Recurrence = implicit outcome tracking — if you're back on a topic you already decided, that IS the signal.
 
+*Gnōmē (γνώμη): in Aristotle, the crystallised residue of having judged — recalled to govern new situations. Sits upstream of both epistēmē (measurable → judex) and boulē (uncertain → consilium).*
+
 ## Commands
 
-### `/decide <topic and rationale>` (default — bouncer + capture)
+### `/gnome <topic and rationale>` (default — bouncer + capture)
 
 Free-text capture. User provides topic and reasoning in natural language; Claude structures it into a decision note.
 
 **Examples:**
-- `/decide Accept Capco offer — better comp, AI-focused role, consulting career path`
-- `/decide Use QMD over Oghma for decision search — static docs, auto-indexed, no extra infra`
-- `/decide` (bare — Claude asks "What are you deciding?")
+- `/gnome Accept Capco offer — better comp, AI-focused role, consulting career path`
+- `/gnome Use QMD over Oghma for decision search — static docs, auto-indexed, no extra infra`
+- `/gnome` (bare — Claude asks "What are you deciding?")
 
 **Logic:**
 
@@ -28,7 +30,7 @@ Free-text capture. User provides topic and reasoning in natural language; Claude
    - Is it a committed choice that just needs capturing? → proceed below
 
 1. Run `date +%Y-%m-%d` to get today in HKT
-2. If bare `/decide` with no arguments, ask: "What are you deciding?"
+2. If bare `/gnome` with no arguments, ask: "What are you deciding?"
 3. Extract the core topic from user's input (first clause before em-dash or period)
 
 4. **BOUNCER CHECK:**
@@ -95,7 +97,7 @@ tags:
 **Related:** [[relevant note]] | [[other note]]
 ```
 
-### `/decide search <query>`
+### `/gnome search <query>`
 
 Search past decisions semantically.
 
@@ -106,7 +108,7 @@ Search past decisions semantically.
 4. Present results with: date, decision summary (from frontmatter `decision:` field), confidence, domain
 5. Offer to read any full decision note
 
-### `/decide review`
+### `/gnome review`
 
 Surface decisions with a review date that has passed.
 
@@ -121,12 +123,17 @@ Surface decisions with a review date that has passed.
    - Present: original decision, confidence, date decided, context summary
    - Ask: "Looking back — confirmed, revised, or regretted?"
    - Update the note's `status:` field accordingly
-   - If revised or regretted, offer to create a new `/decide` entry
+   - If revised or regretted, offer to create a new `/gnome` entry
 
 ## Notes
 
 - **Storage:** `~/notes/decisions/YYYY-MM-DD-<slug>.md` — Obsidian vault, QMD auto-indexes every 2h
 - **Indexing lag:** New decisions won't appear in bouncer searches for up to 2h. This is fine — the bouncer matters for decisions spaced days/weeks apart, not minutes.
 - **No manual outcome tracking.** The bouncer IS the outcome tracker: if you come back to the same topic, the previous decision either held (you never return) or failed (you're back). Recurrence = implicit failure signal.
-- **Consilium integration:** For complex decisions, use `/consilium` first to deliberate, then `/decide` to log the outcome. Council outputs in `~/notes/Councils/` complement but don't replace decision notes.
+- **Consilium integration:** For complex decisions, use `/consilium` first to deliberate, then `/gnome` to log the outcome. Council outputs in `~/notes/Councils/` complement but don't replace decision notes.
 - **Keep it fast.** Capture should take <30 seconds. If you're spending 2 minutes filling in fields, the skill is failing. Free-text in, structured note out.
+
+## Calls
+- `qmd` — bouncer search and decision lookup
+- `judex` — when outcome is measurable
+- `consilium` — when trade-offs need deliberation
