@@ -133,3 +133,4 @@ Skip anything with nothing to report — don't mention empty sections. The brief
 - This is a delta brief, not a full situational review. Daily already closed last night's loop.
 - If yesterday had no daily note (skipped `/daily`), fall back to fuller review: include TODO scan + priority check from vault context files.
 - Keep it to a short paragraph or two. The point is to start working, not to read a report.
+- For ad-hoc mid-session priority checks later in the day, `/kairos`.

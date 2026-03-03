@@ -77,3 +77,4 @@ Short prose. Two sections max:
 - Don't re-surface items already resolved in NOW.md or clearly completed this morning.
 - If morning was light (few sessions, few prompts), the output should be proportionally short.
 - This is a transition ritual, not an audit. Keep it under 2 minutes to run.
+- For ad-hoc priority checks outside the midday window, `/kairos`.
