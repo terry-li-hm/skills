@@ -21,6 +21,12 @@ Free-text capture. User provides topic and reasoning in natural language; Claude
 
 **Logic:**
 
+0. **ROUTE FIRST:**
+   > consilium = outcome is uncertain, needs perspectives. judex = outcome is measurable, needs evidence.
+   - Can you run both options and compare with a measurable criterion? → `judex` (see `~/skills/judex/SKILL.md`)
+   - Does it involve genuine trade-offs, values, or domain judgment? → `consilium`
+   - Is it a committed choice that just needs capturing? → proceed below
+
 1. Run `date +%Y-%m-%d` to get today in HKT
 2. If bare `/decide` with no arguments, ask: "What are you deciding?"
 3. Extract the core topic from user's input (first clause before em-dash or period)

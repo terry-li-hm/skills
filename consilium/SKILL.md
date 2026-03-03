@@ -116,12 +116,18 @@ export GOOGLE_API_KEY=AIza...              # Optional: Gemini fallback
 
 ### Step 0: Suitability Check
 
+**First: consilium or judex?**
+> consilium = outcome is uncertain, needs perspectives. judex = outcome is measurable, needs evidence.
+
+Before deliberating — can you just run both options and compare? If the question has a measurable pass/fail criterion (build succeeds, benchmark faster, output quality checkable), run a `judex` experiment instead. Deliberation is for decisions you can't measure.
+
 Before running the council, evaluate the question against the routing table above. If the question falls into "When NOT to Use", redirect:
 
 - **Factual/single-answer** → answer directly or web search
 - **Personal preference** → "This is better answered by trying it in person"
 - **Naming** → brainstorm candidates with a single model first, then offer council to evaluate shortlist
 - **Quick parallel opinions** → `--quick` (naming/brainstorm only — not for decisions)
+- **Measurable outcome** → `judex` (run the experiment, consult `~/skills/judex/SKILL.md`)
 
 Only proceed to Step 1 if the question involves genuine trade-offs or domain-specific judgment.
 
