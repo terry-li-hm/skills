@@ -67,30 +67,47 @@ date: YYYY-MM-DD
 
 # <Name> — Profile
 
-**Role:** <current title at company>
+**Role:** <current title>
+**Company:** <company>
 **Location:** <city>
-**LinkedIn:** <url>
+**LinkedIn:** <url> — <connection degree, e.g. 1st degree>, <N mutual connections>
 
 ---
 
-## Experience
+## Background
 
 | Period | Role | Company |
 |--------|------|---------|
 | <period> | <role> | <company> |
 
-## Education
+**Education:** <degree, institution>
 
-- <degree>, <institution>
-
-## About
-
-<about section text, if available>
+**About:** <about section text, if available — 2-3 sentences max>
 
 ---
 
-_Quick profile extracted from LinkedIn. Deepen with further research for: thought leadership, conversation hooks, mutual connections._
+## Connection History
+
+| Date | Type | Summary |
+|------|------|---------|
+| YYYY-MM-DD | <Met / LinkedIn DM / Email / Call / etc.> | <1-line summary — what was discussed or sent> |
+
+---
+
+## Notes
+
+- **Why they matter:** <networking angle, potential client, colleague, referral, etc.>
+- <Key facts to remember — shared interests, context, anything relevant for next interaction>
+
+---
+
+**Related:** <[[vault links]]>
 ```
+
+**What to fill in for each section:**
+- **Connection History:** Log every meaningful touchpoint — first meeting, messages sent/received, follow-ups. Be specific enough to resume context after months of silence.
+- **Notes:** Why does this person matter? What would you want to remember before your next interaction? Shared experiences, their priorities, anything that would make the next conversation warmer.
+- **Tags:** Add context tags beyond `people, linkedin` — e.g. `cncbi`, `capco`, `networking`, `hsbc`.
 
 ### 5. Confirm
 Provide a concise confirmation of the action:
