@@ -6,6 +6,11 @@ user_invocable: true
 
 # Gist Management
 
+> **STOP — before running any `gh gist create` command:**
+> 1. Write content to `/tmp/<filename>` first — never pipe via `echo`/`printf`/`<<<`
+> 2. All gists MUST be `--public=false`
+> 3. Verify content after creation via `gh api gists/<id>`
+
 All gists MUST be secret (`--public=false`). Never create public gists.
 
 ## Operations
