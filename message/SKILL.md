@@ -39,7 +39,10 @@ grep -ri "[name]" /Users/terry/notes/*.md
 Key files to check:
 - `Job Hunting.md` - recruiter interactions, role discussions
 - `Draft Outreach Messages*.md` - previous message drafts
+- `Capco/Capco Transition.md` - **for any Gavin/Bertie/PILON/onboarding message**: drafts, strategy, and timeline all live here. Grep this first before drafting anything Capco-related.
 - Daily notes - recent interactions
+
+**Check for an existing draft before writing one.** Grep the canonical note for "draft" or "message" — council-reviewed drafts often already exist and shouldn't be recreated from scratch.
 
 ### 3. Understand the Conversation
 
