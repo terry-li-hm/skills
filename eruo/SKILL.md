@@ -40,6 +40,8 @@ See `indago` skill for tool selection (WebSearch → pplx → grok).
 - **Using oghma directly.** Use `cerno` instead — it wraps oghma with the vault as a higher-quality first pass.
 - **Concluding "not found" after 7 days on anam.** Default window is 7 days. Always escalate: `--days 30` → `--days 90`.
 - **Searching externally for something that's in the vault.** Internal sources first, always.
+- **Searching by use-case name when vault files are named by document type.** If cerno/grep misses, the file probably exists under a different name (e.g. "AML monthly meeting slides" → `AML AI Roadmap.md`). Fallback: read the hub note for the topic area and `Glob` the directory — don't conclude "not in vault" after a keyword miss alone.
+- **Treating stakeholder context as co-located with content.** Who Benjamin is lives in `CNCBI Exit.md`; what he's working on lives in `Work/CITIC_AML/`. Cross-folder joins are normal — check both.
 
 ## When to Use
 
