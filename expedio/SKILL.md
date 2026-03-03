@@ -114,8 +114,17 @@ AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser open "https:/
   && AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser eval "document.querySelector('main')?.innerText"
 ```
 The website brief includes payments, newsletters, and promotions that the summary email omits.
-If `agent-browser` fails, fall back to Cora brief email via `gog gmail search "from:briefs@cora.computer newer_than:1d" --max 1 --plain`.
+**Login gotcha:** If agent-browser redirects to `https://cora.computer/users/sign_in`, the profile is not logged into Cora. Run `browser-login` skill to log in and save the session. Until then, fall back to the email brief.
+If agent-browser fails or redirects to sign-in, fall back to Cora brief email via `gog gmail search "from:briefs@cora.computer newer_than:1d" --max 1 --plain`.
 If both fail, note "Cora brief unavailable" and continue.
+
+### 5a. LinkedIn job alerts — surface if Cora brief mentions them
+If Cora brief mentions "job alerts", fetch directly from email (not in inbox — search all mail):
+```bash
+gog gmail search "in:all newer_than:2d from:jobalerts-noreply@linkedin.com" --max 3 --plain
+gog gmail get <alert_id> --plain | grep -E "^(VP|Director|Manager|Lead|Senior|Principal|AI|Data)" | head -20
+```
+Surface role titles, companies, and LinkedIn URLs. Do not surface roles below Manager level unless directly relevant.
 
 ### 5. SmarTone bill — extract QR payment link
 ```bash
