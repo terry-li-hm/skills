@@ -24,7 +24,7 @@ Check these sources:
 
 - **Gmail**: `gog gmail search "from:[name]"` or `mcporter call gmail.search_emails query="from:[name]"`
 - **LinkedIn**: Browser automation to check messaging
-- **WhatsApp**: `wacli messages --contact "[name or number]"` or `wacli chats` to list recent
+- **WhatsApp**: `keryx read "Name" --limit 30` (handles dual-JID merging automatically). If multiple matches, try full name. Fall back to `wacli messages search "name"` to find the JID, then `wacli messages list --chat "<jid>"` directly.
 
 If user says "[name] replied" without specifying platform, check Gmail and LinkedIn first before asking.
 
@@ -51,6 +51,7 @@ Review:
 - What is the person asking/proposing?
 - What's the relationship (recruiter, hiring manager, networking contact)?
 - Any pending action items or decisions?
+- **Tone calibration:** Note opener format (e.g. `"Hey Name,"` vs `"Hi Name,"` vs no opener), punctuation style, and message length from the actual thread — don't infer from vault notes alone. Match exactly.
 
 ### 4. Draft Reply
 
@@ -110,4 +111,4 @@ See `[[Networking Outreach Templates]]` in vault for message templates and princ
 
 - **LinkedIn:** Browser automation (requires login)
 - **Gmail:** `gog gmail search/get/send` — see `gmail` skill
-- **WhatsApp:** `wacli` CLI — see `whatsapp` skill
+- **WhatsApp:** `keryx read "Name"` — see `keryx` skill. Use keryx, not wacli directly, for name-based lookups.

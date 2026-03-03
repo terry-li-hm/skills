@@ -1,6 +1,6 @@
 ---
-name: browser
-description: Reference skill for agent-browser CLI automation. Not user-invocable — use as internal guidance.
+name: nauta
+description: Reference skill for web browser automation via agent-browser/Playwright/CDP. Not user-invocable — use as internal guidance.
 user_invocable: false
 platform: claude-code
 platform_note: Primary browser automation tool. Zero token overhead when idle.
