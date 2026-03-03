@@ -39,12 +39,15 @@ Dates are always ISO-8601 (`YYYY-MM-DD`). Regex patterns for parsing:
 
 ## Commands
 
+If `~/notes/TODO.md` is missing, create it with a minimal heading before running any command. If creation fails, report "TODO store unavailable" and stop.
+
 ### `/todo` (Today view — default)
 
 Show today's actionable tasks. This is the **default** when no subcommand is given.
 
 **Logic:**
 1. Run `date +%Y-%m-%d` to get today in HKT
+   - If date command fails, use system-provided current date.
 2. Read `~/notes/TODO.md`
 3. For each unchecked line (`- [ ]`):
    - SKIP if line contains `` `someday` ``
@@ -65,6 +68,7 @@ Show tasks scheduled for the next 14 days.
 
 **Logic:**
 1. Get today's date
+   - If date command fails, skip with "Upcoming unavailable (date error)".
 2. For each unchecked line:
    - INCLUDE if `when:` date is between today and today+14
    - INCLUDE if `due:` date is between today and today+14
@@ -79,6 +83,7 @@ Show tasks past their deadline.
 
 **Logic:**
 1. Get today's date
+   - If date command fails, skip with "Overdue unavailable (date error)".
 2. For each unchecked line:
    - INCLUDE if `due:` date < today
 3. Sort by how overdue (most overdue first)
@@ -96,6 +101,7 @@ Show all unchecked items regardless of date tags. This is the old default behavi
 ```bash
 grep -n "^\- \[ \]" ~/notes/TODO.md
 ```
+If no lines are returned, report "No open tasks."
 
 ### `/todo add <task>`
 
@@ -104,6 +110,7 @@ Add a new task. Append to end of file. User can include inline tags.
 ```bash
 echo "- [ ] <task>" >> ~/notes/TODO.md
 ```
+If append fails, report "Failed to add task" and do not claim success.
 
 Examples:
 - `/todo add Review PR #123`
@@ -113,6 +120,7 @@ Examples:
 ### `/todo done <partial match>`
 
 Mark a task as done by partial text match. Find the line, replace `- [ ]` with `- [x]`, then move the completed line to `~/notes/TODO Archive.md` (append under the current month's section like `## March 2026`, creating it if it doesn't exist).
+If no unique match is found, ask for a narrower match and do not modify files.
 
 ### `/todo schedule <match> <date>`
 
@@ -123,6 +131,7 @@ Add or update a `when:` date on a matching task.
 2. If line already has `` `when:...` ``, replace the date
 3. If not, append `` `when:YYYY-MM-DD` `` before any existing `` `due:...` `` or at end of line
 4. Use the Edit tool to modify the line
+If `<date>` is not valid `YYYY-MM-DD`, reject and ask for a valid date.
 
 ### `/todo due <match> <date>`
 
@@ -133,18 +142,22 @@ Add or update a `due:` date on a matching task.
 2. If line already has `` `due:...` ``, replace the date
 3. If not, append `` `due:YYYY-MM-DD` `` at end of line
 4. Use the Edit tool to modify the line
+If `<date>` is not valid `YYYY-MM-DD`, reject and ask for a valid date.
 
 ### `/todo defer <match>`
 
 Add `someday` tag to a task. Removes any `when:` or `due:` tags (deferred = no dates).
+If no unique match is found, ask for a narrower match and do not modify files.
 
 ### `/todo undefer <match>`
 
 Remove `someday` tag from a task. Task becomes Anytime (visible in Today view).
+If no unique match is found, ask for a narrower match and do not modify files.
 
 ### `/todo clean`
 
 Move all checked items (`- [x]`) to `~/notes/TODO Archive.md` under the current month's section (e.g. `## March 2026`), appending to an existing section if present or creating a new one. Then remove all `[x]` lines from TODO.md and collapse any resulting double blank lines.
+If archive write fails, do not remove checked items from TODO.md.
 
 ### `/todo spare`
 
@@ -173,3 +186,14 @@ Show the `🔋 Spare Capacity` section items — low-priority maintenance for wh
 - Tasks with no date tags are "Anytime" — shown in Today and All views
 - When comparing dates, use `date +%Y-%m-%d` (system is HKT)
 - Related files: `[[TODO Archive]]` · `[[Reflections Queue]]`
+
+## Boundaries
+
+- Do NOT reinterpret task intent; only perform requested task list operations.
+- Do NOT create project plans or prioritization frameworks here; this skill manages TODO state only.
+
+## Example
+
+> `/todo` → 6 tasks today, 2 overdue.
+> Overdue: "Submit CPD record" (`due:2026-03-01`), "SmarTone bill" (`due:2026-03-02`).
+> Added: "Review Capco deck `due:2026-03-05`".

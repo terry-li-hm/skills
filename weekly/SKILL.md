@@ -16,6 +16,7 @@ Create a weekly synthesis of work, thinking, and progress.
 ## Workflow
 
 1. **Determine the week range** (Mon-Sun, HKT)
+   - If date computation fails, default to "last 7 days" and note the fallback.
 
 2. **Gather the week's data** (recursive — read distilled layers, not raw):
    - Read the **## Reflection**, **## Follow-ups**, and **## Mood** sections from each daily note `~/notes/YYYY-MM-DD.md` (not the full session logs — those are raw context, already distilled into the reflection)
@@ -26,6 +27,8 @@ Create a weekly synthesis of work, thinking, and progress.
    - Check git log for skills/vault commits: `cd ~/skills && git log --oneline --since="7 days ago"`
    - Check `~/logs/` for cron output logs
    - Check CSB job monitor results: `tail -20 ~/logs/cron-csb-jobs.log` and `cat ~/.local/share/csb-jobs/seen.json | python3 -c "import sys,json; print(len(json.load(sys.stdin)),'jobs tracked')"`
+   - If any source file is missing/unreadable, note it as unavailable and continue with remaining sources.
+   - If a command fails, do not retry repeatedly; record one-line failure and continue.
 
 3. **Synthesize into themes** — don't just list events, find patterns:
    - **Maximum 3-4 themes.** If the week had 6 themes, the skill is logging, not synthesising. Pick the 3 that matter next week.
@@ -127,6 +130,7 @@ Keep it brief — the value is pattern recognition over weeks, not daily obsessi
 ## System & Tooling Health (weekly)
 
 Run these checks every Friday and include results in the weekly note under `## System Health`.
+If a check command fails, mark that metric as `Unavailable` in the table and continue.
 
 ### Infrastructure Services
 
@@ -188,6 +192,7 @@ Run this alongside the synthesis every Friday:
    - Synthesize into 3 bullets: Capco firm news | AI x banking | Competitor signal
    - Feed anything useful into `~/notes/Capco/Conversation Cards/` if it's a durable talking point
 9. **First Friday only** — Run `/monthly` (content digests, skill review, AI deep review, vault hygiene)
+   - If a checklist command fails, keep the item open and note the failure reason in the weekly note.
 
 [[Capco Transition]] is source of truth for exit/onboarding; [[Job Hunting]] is the archive.
 
@@ -197,3 +202,13 @@ Run this alongside the synthesis every Friday:
 - Link back to daily notes and relevant vault notes
 - The synthesis captures the broader picture; the reset checklist is action-oriented
 - The energy audit is the most valuable section long-term — it reveals what work is sustainable
+
+## Boundaries
+
+- Do NOT run full remediation workflows inline (e.g., full nexis triage or large refactors); only surface and flag.
+- Do NOT expand beyond the current week scope.
+- Stop after weekly note + reset checklist outputs; do not start execution tasks unless explicitly asked.
+
+## Example
+
+> Week of 2026-03-02: 5/7 active days. Themes were Capco transition prep, skill-system hardening, and inbox/process hygiene. Main carry-over is one unresolved architecture decision and two overdue admin items. System health is mostly green with one unavailable check (MCP list failed).

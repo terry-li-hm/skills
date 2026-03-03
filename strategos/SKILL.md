@@ -19,6 +19,7 @@ Structured on-ramp for any coding task. Enforces: orchestrate here, execute else
 ### 0. Pre-flight (before anything else)
 
 **Parallel agent sessions on the same repo?** → `lucus new <branch>` first. One worktree per session prevents `git add -A` conflicts between delegates. See `~/skills/lucus/SKILL.md`.
+- If `lucus` is unavailable, continue in current worktree and explicitly warn about merge/conflict risk.
 
 **Naming anything (CLI, skill, or tool)?** → Follow `artifex` naming convention: consilium first, crates.io check for every candidate, reserve before planning.
 
@@ -27,6 +28,7 @@ Structured on-ramp for any coding task. Enforces: orchestrate here, execute else
 cerno "<topic or tool name>"
 ```
 Read the result. If prior art exists, use it. Don't duplicate captured learnings.
+If `cerno` fails or returns no results, continue and note "No KB prior art found".
 
 ### 2. Choose weight class
 
@@ -83,6 +85,7 @@ OPENCODE_HOME=~/.opencode-lean opencode run \
   "<prompt>"
 ```
 Use Bash tool's `run_in_background: true` — not shell `&`.
+If chosen delegate command fails immediately, switch once to a backup tool based on task type; if backup fails, stop and report delegation blocked.
 
 **Swarm mode (parallel external delegates):**
 
@@ -115,6 +118,7 @@ lucus merge <task-c-branch>
 - Mix tools by task type: Codex for multi-file/repo nav, Gemini for algorithmic, OpenCode for boilerplate
 - Review `git diff --stat` per branch before merging — Gemini touches extra files
 - Merge conflicts = tasks weren't independent enough; phase them next time
+- If any delegate branch fails, do not merge partial branches blindly; finish successful branches first, then re-scope failed task as a new single delegation.
 
 ### 4. Review (for significant changes)
 
@@ -137,6 +141,7 @@ For targeted/quick review, run agents directly in order:
 | Do error strategies align across layers? | Retry middleware + app fallback + framework handler — do they conflict or double-execute? |
 
 Skip when: leaf-node change, purely additive, no callbacks or state persistence.
+If review agents are unavailable, run a manual `git diff` + smoke test and mark review as "manual fallback".
 
 ### 5. Companion skill (for any installed CLI or published tool)
 
@@ -153,12 +158,14 @@ mkdir -p ~/skills/<name>
 # write SKILL.md, then:
 cd ~/skills && git add <name>/SKILL.md && git commit -m "feat: add <name> skill" && git push
 ```
+If commit/push fails, keep the skill file and report "Companion skill not committed" with the failing command.
 
 ### 6. Compound (if non-obvious solve)
 ```
 /workflows:compound
 ```
 Captures the learnings in `~/docs/solutions/`.
+If compound workflow is unavailable, add a short manual note in `~/docs/solutions/` instead.
 
 ## Defaults by Language
 
@@ -177,6 +184,18 @@ Captures the learnings in `~/docs/solutions/`.
 - **Don't inline full files.** Give paths, let delegates read.
 - **Delegates don't write tests by default.** Add a separate test task if needed.
 - **Review `git diff --stat` scope** after Gemini delegates — it touches extra files.
+
+## Example
+
+> `cerno "rust mcp auth"` returned 2 prior solutions, so plan reused existing auth pattern.
+> Delegated implementation to Codex in a `lucus` worktree, then ran `/ce:review`.
+> Smoke tests passed; companion skill file added and committed in `~/skills`.
+
+## Boundaries
+
+- Do NOT execute substantial implementation directly in-session except when delegation is blocked.
+- Do NOT skip planning because prior discussion exists; this skill always enforces planning gate.
+- Stop after orchestration, delegation, review routing, and companion-skill capture.
 
 ## Calls
 - `cerno` — solutions KB check (step 1)

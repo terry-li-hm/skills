@@ -26,10 +26,12 @@ A checkpoint that looks at the **whole work day** as a unit. `/wrap` handles ind
 ## Workflow
 
 1. **Get today's date** — run `date` (HKT)
+   - If `date` fails, use system-provided current date and continue.
 
 2. **Read today's daily note** (`~/notes/Daily/YYYY-MM-DD.md`)
    - Session logs from `/wrap` should already be there
    - If empty/missing, delegate history scan to a subagent (same as daily skill fallback)
+   - If both note read and fallback scan fail, continue with a short summary from current session context and mark it partial.
 
 3. **Synthesise work themes** — cluster work sessions into 3-5 themes. For each: one line with key actions and outcomes. Present to Terry.
 
@@ -39,6 +41,7 @@ A checkpoint that looks at the **whole work day** as a unit. `/wrap` handles ind
    - Ask: **work mood** (1-5 or a word) — energy, focus, satisfaction with what got done
    - Ask: anything weighing on you going into the evening? (free-text, not a picker)
    - **Unfinished items: scan TODO.md yourself** — list items with today's date or imminent due dates. Don't make Terry pick from a checkbox list (implies unchecked = dropped).
+   - If TODO.md is missing/unreadable, note "TODO scan unavailable" and continue.
 
 5. **Append to daily note:**
 
@@ -58,6 +61,7 @@ A checkpoint that looks at the **whole work day** as a unit. `/wrap` handles ind
 ```
 
 6. **TODO sweep** — quick scan: anything completed today that should be marked in `~/notes/TODO.md`? Any new commitments? Same as wrap's TODO sweep but day-scoped.
+   - If TODO write fails, report "TODO sweep skipped (write failed)" in output.
 
 7. Done. No tomorrow preview — `/daily` handles that before bed.
 
@@ -71,3 +75,7 @@ Short prose summary of the work day themes and mood. Mention what was written to
 - If Terry runs `/daily` without running `/eow` first, daily should still work fine — eow is additive, not required
 - The work mood is separate from the daily mood — work might be frustrating but the evening great, or vice versa
 - Keep it fast — this is a 1-minute checkpoint, not a retrospective
+
+## Example
+
+> End-of-work close done. Today clustered around three themes: Capco onboarding prep, skill maintenance, and inbox/process cleanup. Work mood was steady but slightly fatigued. I added two unfinished threads to the daily note and left tomorrow planning for `/daily`.

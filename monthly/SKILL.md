@@ -16,6 +16,7 @@ Everything that runs once a month. Can trigger on first Friday (via `/weekly`) o
 ## Checklist
 
 Run each section in order. Report results as a summary table at the end.
+If any command in this checklist fails, mark that section as "partial" with the failure reason and continue.
 
 ### 1. Content Digest
 
@@ -28,6 +29,7 @@ digest --dry-run
 # Run full digest (transcripts + insight extraction)
 digest
 ```
+If either command fails, note "Digest unavailable" for this month and continue to section 2.
 
 Output: `~/notes/Health/{source}/{YYYY-MM} Digest.md`
 Sources configured in `~/skills/digest/sources.yaml`.
@@ -43,6 +45,7 @@ uv run ~/skills/lustro/ai-digest.py --dry-run
 # Full run — produces evidence briefs
 uv run ~/skills/lustro/ai-digest.py
 ```
+If `uv` or script execution fails, mark AI thematic digest as skipped and continue.
 
 Output: `~/notes/AI & Tech/YYYY-MM AI Thematic Digest.md`
 Prerequisites: lustro cron must have been running with article archival (default since Feb 2026).
@@ -54,6 +57,7 @@ Run `/ai-review` in monthly mode (deep review, not weekly synthesis):
 - Update Current Landscape section
 - Append monthly review entry
 - Flag shifts relevant to Capco consulting conversations
+- If `/ai-review` is unavailable, add a one-line manual summary from latest weekly snapshot and mark as partial.
 
 ### 4. Skill Review
 
@@ -61,6 +65,7 @@ Run `/skill-review`:
 - Audit skills for staleness, drift, gaps
 - Check skill count and recent changes
 - Flag skills not invoked in 30+ days
+- If `/skill-review` is unavailable, run a minimal fallback: `ls ~/skills/*/SKILL.md | wc -l` and `git -C ~/skills log --oneline --since="30 days ago"`.
 
 ### 5. Source Health Check
 
@@ -69,6 +74,7 @@ Run `lustro check` and review broken sources:
 ```bash
 lustro check 2>&1 | grep "<-\|(stale)\|x0)"
 ```
+If `lustro check` fails, mark source health as unavailable and continue.
 
 - Fix URL-rotted sources (update URLs in `~/.config/lustro/sources.yaml`)
 - Remove dead sources (domain expired, blog shut down)
@@ -86,6 +92,7 @@ b. **Decay report** — `uv run ~/scripts/vault-decay-report.py` for orphans/col
 c. **Daily note archival** — archive notes >60 days old to `~/notes/.archive/dailies/`
 d. **Broken links** — verify `[[wikilinks]]` in CLAUDE.md still resolve
 e. **QMD reindex** — `qmd update && qmd status` (run `qmd embed` in background if stale)
+If any sub-step fails, record which sub-step failed and continue with the rest.
 
 ### 7. Oghma Hygiene
 
@@ -94,6 +101,7 @@ Check for noise from abandoned experiments or stale imports:
 ```bash
 oghma stats
 ```
+If `oghma` or DB access fails, mark Oghma hygiene as unavailable and skip archival actions.
 
 Flag any source with >100 entries that isn't `claude_code`, `opencode`, or `codex` — these are likely stale imports (e.g., MemU, openclaw) that should be archived:
 
@@ -117,6 +125,7 @@ If flagged sources exist, archive them:
 ```python
 # python3 -c "import sqlite3, os; conn = sqlite3.connect(os.path.expanduser('~/.oghma/oghma.db')); conn.execute(\"UPDATE memories SET status='archived' WHERE source_tool='SOURCE_NAME' AND status='active'\"); conn.commit(); print('Done')"
 ```
+If `oghma`/SQLite commands fail, skip archival and report "Oghma hygiene unavailable".
 
 ### 8. Finance Check
 
@@ -127,12 +136,14 @@ a. **Mortgage rate** — check if any bank is offering ≤2.5% cap (P-2.75% at c
 b. **SCB Prime rate** — verify still 5.25% (affects your cap). Check SCB website or `pplx search "Standard Chartered HK prime rate"`.
 
 c. **Credit card balances** — any unpaid statement balances? (CCBA, SCB, BOC)
+If rate/search sources are unavailable, note "Finance check partial" and avoid firm recommendations.
 
 ### 9. Housekeeping
 
 - Purge orphaned agent files: `/usr/bin/find ~/.claude/todos -name "*.json" -mtime +7 -delete`
 - Check MEMORY.md line count (`wc -l`). Flag if >150 — trim or demote to vault.
 - **CLAUDE.md tightening pass:** Read every rule and ask two questions: (1) Is this still true? Remove stale references (completed transitions, retired projects, outdated tool names). (2) Does this *need* to be in CLAUDE.md, or does it belong in a skill/solution? Mechanical rules stay. Workflow conventions → relevant skill. Operational gotchas → MEMORY.md. Reusable how-tos → `~/docs/solutions/`. Goal: CLAUDE.md stays thin — rules and pointers only.
+- If purge/index commands fail, report "Housekeeping partial" with failed command names.
 
 ## Summary Template
 
@@ -158,3 +169,13 @@ After running all sections, present:
 - Total time: ~15-20 min (mostly waiting on digest API calls)
 - Digest is the heaviest step — can run backgrounded while doing the rest
 - If short on time, at minimum run `/digest` and `/skill-review`
+
+## Boundaries
+
+- Do NOT perform full rewrites of CLAUDE.md/MEMORY.md in this run; flag and queue large restructures.
+- Do NOT execute irreversible cleanup beyond the listed housekeeping commands.
+- Stop after monthly summary table is produced.
+
+## Example
+
+> Monthly Maintenance — 2026-03 complete. Content and thematic digests generated, AI deep review done, skill review flagged 3 stale skills, and source health found 2 broken feeds. Vault hygiene archived 14 notes; finance check was partial because one rate lookup failed.

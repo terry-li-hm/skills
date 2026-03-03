@@ -14,6 +14,7 @@ Gmail inbox processing — read, surface, clear. Status-aware operations using t
 ```bash
 gog gmail search "newer_than:1d" --plain | head -20
 ```
+If `gog` fails (keychain locked, auth, no TTY), note "Gmail unavailable" and stop inbox processing for this run.
 
 ### View Thread (with status check)
 When viewing a thread, ALWAYS check each message's labels:
@@ -24,6 +25,7 @@ gog gmail thread get <thread_id>
 # For any message you need to verify was actually sent:
 gog gmail get <message_id> --plain | grep "label_ids"
 ```
+If thread/message lookup fails, note "Thread/message unavailable" and skip status claim for that message.
 
 **Critical:** A message in a thread view might be a DRAFT, not sent. Always verify:
 - `label_ids` contains `SENT` → actually sent
@@ -33,6 +35,7 @@ gog gmail get <message_id> --plain | grep "label_ids"
 ```bash
 gog gmail drafts list --plain
 ```
+If this fails, note "Drafts unavailable" and continue with other checks.
 
 ### Reply to Thread (DEFAULT: always quote)
 **Always use `--reply-to-message-id` + `--quote` when replying.** This is the default — never omit `--quote` unless explicitly asked.
@@ -50,6 +53,7 @@ gog gmail send \
 - Requires `--reply-to-message-id` (not just `--thread-id`)
 
 Always confirm with user before executing send.
+If send fails, report "Send failed" and keep the reply body for retry; do not silently retry.
 
 ### Create Draft (with attachments / threading)
 ```bash
@@ -65,11 +69,14 @@ gog gmail drafts create \
 - `--reply-to-message-id` threads the draft correctly (sets In-Reply-To/References headers)
 - `--attach` is repeatable for multiple files
 - The `send` command does NOT have a `--draft` flag — use `drafts create` instead
+- If attachment path is missing, stop draft creation and report the missing path.
+- If draft creation fails, report failure and do not attempt send.
 
 ### Delete Draft
 ```bash
 gog gmail drafts delete <draft_id> --force
 ```
+If delete fails, report "Draft delete failed" and keep the draft ID in output.
 
 ## Status Indicators
 
@@ -85,6 +92,8 @@ Standard flow for clearing the inbox:
 ```bash
 gog gmail search "in:inbox" --max 50 --plain
 ```
+If this returns empty, treat inbox as clear and stop triage.
+If this fails, stop triage and report "Inbox fetch unavailable."
 
 **Do NOT use `is:unread` alone** — it searches all mail including archived, and will return thousands of old emails. Always scope to `in:inbox` first.
 
@@ -94,6 +103,7 @@ gog gmail search "in:inbox" --max 50 --plain
 ```bash
 gog gmail batch modify <id1> <id2> ... --remove UNREAD --remove INBOX -y
 ```
+If batch modify fails, do not continue cleanup; report IDs not processed.
 
 **Thread gotcha:** Search results show one ID per thread. If a thread has `[2 msgs]` or more, the batch modify only marks the shown message — newer messages in the thread remain unread. Fix: after the batch, re-run `gog gmail search "in:inbox is:unread"` and clean up any stragglers.
 
@@ -104,12 +114,15 @@ AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser open "https:/
   && AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser eval "document.querySelector('main')?.innerText"
 ```
 The website brief includes payments, newsletters, and promotions that the summary email omits.
+If `agent-browser` fails, fall back to Cora brief email via `gog gmail search "from:briefs@cora.computer newer_than:1d" --max 1 --plain`.
+If both fail, note "Cora brief unavailable" and continue.
 
 ### 5. SmarTone bill — extract QR payment link
 ```bash
 gog gmail get <smartone_id> --plain | grep -o 'href="https://myaccount.smartone.com/QRBill[^"]*"'
 ```
 Surface as clickable link with amount and due date.
+If grep finds no QR link, note "QR link not found" and continue without payment link.
 
 ## Known Gaps
 - **No trash/delete command in gog.** User must delete messages manually in Gmail.
@@ -127,3 +140,14 @@ Check for SENT vs DRAFT label.
 gog gmail search "newer_than:1d is:unread" --plain
 ```
 
+## Example
+
+> Inbox scan complete: 12 inbox threads, 3 actionable, 7 archived, 2 left for reply.
+> Cora brief fetched from website; one payment reminder surfaced.
+> One draft found (not sent): `DRAFT` label confirmed.
+
+## Boundaries
+
+- Do NOT send emails without explicit user confirmation.
+- Do NOT perform deep content summarization; surface actionable status only.
+- Do NOT manage non-Gmail channels (WhatsApp/iMessage) in this skill.

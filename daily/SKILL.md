@@ -23,10 +23,12 @@ Bedtime close → daily note. The final checkpoint of the day.
 ## Workflow
 
 1. **Get today's date** (YYYY-MM-DD, HKT)
+   - If `date` fails, use system-provided current date and continue.
 
 2. **Read today's daily note** (`~/notes/Daily/YYYY-MM-DD.md`)
    - Check for existing session logs from `/wrap` and an "End of Work" section from `/eow`.
    - If the note is empty or missing, **fallback:** delegate history scan to a subagent — use Task tool (subagent_type: "general-purpose", model: "haiku") with prompt: "Run `python ~/scripts/chat_history.py --full` and synthesize a concise summary of today's activity. Group by theme. List key accomplishments, decisions, and unfinished threads. Keep output under 30 lines."
+   - If both note read and fallback scan fail, continue with a minimal close based on current session context and label it "partial".
 
 3. **Thematic summary:**
    - **If eow exists:** Acknowledge work themes already captured. Add any evening/personal sessions. Synthesise the full day arc (work + personal).
@@ -39,13 +41,17 @@ Bedtime close → daily note. The final checkpoint of the day.
 
 5. **Tomorrow preview** — scan for what's queued tomorrow:
    - Get tomorrow's date (`date -v+1d +%Y-%m-%d`)
+   - If date command fails, skip tomorrow preview and note "Tomorrow preview unavailable".
    - Read `~/notes/Schedule.md` — check for recurring commitments on that day of the week
+   - If Schedule.md is missing, continue without recurring commitments.
    - Read `~/notes/TODO.md` and surface:
      - Items with `due:` = tomorrow (deadlines)
      - Items with `when:` = tomorrow (scheduled starts)
      - Any overdue items (`due:` < tomorrow) that weren't completed
    - Check if tomorrow's daily note already exists (carryover from today's follow-ups)
+   - If TODO or tomorrow's note cannot be read, continue with whatever preview data is available.
    - **Thursday only (token budget check):** Weekly Claude Max reset is Friday ~11am HKT. Run `/status` or `cu` and if weekly usage is low (significant headroom remaining), surface it: "Weekly reset tomorrow 11am — X% unused. Spare Capacity tasks in TODO.md if you want to burn tokens tonight or early tomorrow."
+   - If `/status`/`cu` unavailable, skip token budget line silently.
 
 6. **Fix header** — validate and update the `# YYYY-MM-DD — Day` line:
    - Verify day-of-week matches `date` output (wrap sometimes gets this wrong). Fix if needed.
@@ -83,3 +89,8 @@ Bedtime close → daily note. The final checkpoint of the day.
 - The value is in the reflection, not the logging — wrap handles the session logging
 - This is lightweight by design: wrap does the heavy lifting throughout the day
 - Tomorrow preview is a closing thought — keep it to what's *known*, don't speculate
+
+## Boundaries
+
+- Do NOT run morning/inbox/weather routines; `/auspex` owns those.
+- Do NOT start new execution work; this skill closes the day and writes reflection only.

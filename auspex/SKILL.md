@@ -19,13 +19,17 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 ## Steps
 
 1. **Get today's date and day of week**
+   - If `date` fails, use the system-provided current date and continue.
 
 2. **Staleness check** (context gap detection):
    - Run `stat -f '%Sm' -t '%Y-%m-%d' ~/notes/NOW.md ~/notes/Capco/Capco\ Transition.md ~/notes/TODO.md`
+   - If `stat` fails for a missing file, note which file is unavailable and skip staleness for that file.
+   - If `stat` command fails entirely, note "Staleness check unavailable" and continue.
    - If any file's last-modified date is >24h old, flag it: "NOW.md last updated X — treat as stale"
 
 3. **Yesterday's daily note** — quick glance:
    - Read `~/notes/Daily/YYYY-MM-DD.md` (yesterday)
+   - If yesterday's note is missing, skip this step silently.
    - Pull the `## Tomorrow` section if it exists — this is the plate preview from last night
    - Pull any `## Follow-ups` items — these are carryover
    - **Cross-reference against NOW.md `[decided]` entries before surfacing carryover items.** If a Tomorrow item is already resolved in NOW.md (as `[decided]` or `[done]`), skip it — don't re-surface as open. Also check today's daily note (if it exists — same-day earlier sessions may have resolved items before this session started).
@@ -51,10 +55,12 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 
 6. **Check cron logs** (overnight output):
    - Check `~/logs/` for any cron job failures (oghma, opencode-nightly, vault-backup, etc.)
+   - If `~/logs/` is missing or unreadable, note "Cron logs unavailable" and continue.
    - Note any failures or missing deliveries; skip if all clean
 
 7. **Check overnight OpenCode results:**
    - Check `~/notes/opencode-runs/` for last night's run — read the most recent `summary.md` (by date folder). Report task count, pass/fail, and flag anything NEEDS_ATTENTION or CRITICAL.
+   - If folder or summary file is missing, skip silently.
    - If no results, skip silently.
 
 8. **Health scores** (from Oura Ring):
@@ -64,17 +70,20 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 
 9. **Weather**:
    - Fetch and build the weather line: `caelum` (Rust CLI — fetches fresh from HKO, no pre-caching needed)
+   - If `caelum` fails, note "Weather unavailable" and continue without weather details.
    - Always include in the brief
    - **Send to Tara**: compose a friendly prose weather note (2–3 sentences max). One lead weather emoji only + umbrella ☂️ if rain likely — no other inline emojis. Include temp range, key conditions, and anything actionable. Then send: `~/scripts/imessage.sh "<composed message>"`. Log "Weather sent to Tara ✓" in the brief.
    - If imessage.sh fails (non-zero exit), note "Weather send to Tara failed" — don't retry.
 
 10. **Today's plate** — delegate to kairos:
    - Run kairos's steps (date, calendar, NOW.md, TODO scan) to gather the situational context.
+   - If kairos call fails, note "Kairos snapshot unavailable" and continue with other available sections.
    - Use those findings — calendar events, open gates, overdue items — to close the brief in auspex's morning voice. Don't paste kairos's output; reframe the facts for the morning narrative.
    - Don't re-run calendar or NOW.md independently — kairos owns that logic.
 
 11. **Capco countdown + daily intel** (until start date):
    - Run `date` to calculate days remaining until Capco start (Apr 8, 2026 — or Mar 16 if buyout confirmed; check `~/notes/Capco/Capco Transition.md` for current date)
+   - If transition note is missing, default to Apr 8, 2026 and note "Capco Transition note unavailable".
    - **Pick today's prep item** — rotate through topics by day-of-week (Mon: Capco methodology, Tue: client knowledge, Wed: AI governance frameworks, Thu: HK regulatory landscape, Fri: personal brand/intro pitch). One specific, 15-minute-doable item.
    - **Quick intel sweep** — 2–3 targeted searches:
      - "Capco HK news" or "Capco Asia fintech" (past week)
@@ -86,7 +95,9 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 
 13. **GARP quiz check** (until Apr 4):
    - Run `~/scripts/rai.py stats 2>/dev/null | head -5` to get session count and phase
+   - If `rai.py` fails or script is missing, skip GARP check silently.
    - Check `.garp-fsrs-state.json` for any review dated today: `python3 -c "import json; d=json.load(open('$HOME/notes/.garp-fsrs-state.json')); today='$(date +%Y-%m-%d)'; print(sum(1 for e in d.get('review_log',[]) if e.get('date','').startswith(today)))"` — if >0, quiz already done today, skip
+   - If state file is missing/corrupt, skip GARP check silently.
    - If no session today and schedule says one is due (cruise: 3x/week = Mon/Wed/Fri-ish), nudge: "GARP quiz due today"
    - If already done today, do NOT mention GARP quiz at all
 
@@ -95,6 +106,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 15. **Token budget nudge** (Friday + Saturday only):
    - Skip if not Friday or Saturday
    - Run: `ccusage daily -s $(date -v-6d +%Y%m%d)` to get this week's consumption
+   - If `ccusage` fails, skip token budget nudge silently.
    - Compare total against ~$1,050 weekly cap (Max20)
    - If >20% remains (~$210+), nudge: "~$X remaining before Saturday 8pm reset — burn it or lose it."
    - If <20% remains, skip silently — already well-utilized
@@ -122,6 +134,12 @@ Skip anything with nothing to report — don't mention empty sections. The brief
 - If yesterday had no daily note (skipped `/daily`), fall back to fuller review: include TODO scan + priority check from vault context files.
 - Keep it to a short paragraph or two. The point is to start working, not to read a report.
 - For ad-hoc mid-session priority checks later in the day, `/kairos`.
+
+## Boundaries
+
+- Do NOT send emails, WhatsApp messages, or other outbound comms except the explicit Tara weather iMessage step.
+- Do NOT triage full inboxes beyond the scoped overnight checks.
+- Do NOT create or edit vault notes in this skill; report findings only.
 
 ## Calls
 - `kairos` — today's plate (calendar, NOW.md, overdue TODOs)

@@ -71,6 +71,8 @@ codex exec --skip-git-repo-check --full-auto "<packaged prompt>"
 ```
 
 Use the Bash tool's `run_in_background: true` to background — not shell `&`.
+- If selected tool command fails immediately (binary missing/auth/quota), switch once to the next route (`OpenCode` → `Gemini` → `Codex`) and note the fallback used.
+- If all three routes fail, stop and report "Delegation unavailable" with the first failing error line.
 
 ### 3. Verify After Completion
 
@@ -78,6 +80,7 @@ Use the Bash tool's `run_in_background: true` to background — not shell `&`.
 - Run the smoke test / test command specified in the prompt
 - Check that files were actually modified (`git diff --stat`)
 - If output looks wrong or empty, check the session file / output path before assuming success
+- If tests cannot run (missing deps/env), state "Verification blocked" and include the blocking command/error.
 
 **After Codex specifically — quick review pass before smoke test:**
 Codex writes structurally correct code but misses cross-cutting concerns. Before testing, scan for:
@@ -95,6 +98,7 @@ After launching, tell the user:
 - How to check progress:
   - OpenCode: `/bin/ls -lt ~/.local/share/opencode/storage/session/` then read session JSON
   - Codex: check output file or `codex resume --last`
+  - If session storage path is missing, report "Session log unavailable" and rely on `git diff --stat`.
 
 ## Prompt Template
 
@@ -123,6 +127,12 @@ When a coding task arrives that's clearly routine (refactoring, file moves, test
 > "This looks like a good candidate for OpenCode — want me to delegate it?"
 
 This saves Claude tokens for work that actually needs orchestration and judgment.
+
+## Example
+
+> Delegated to Codex (`codex exec --full-auto`) for multi-file bugfix in `/Users/terry/skills`.
+> Fallback not needed; session completed.
+> Verification: `pytest tests/test_delegate.py` passed, `git diff --stat` shows 3 files changed.
 
 ## Failure Modes
 
@@ -174,6 +184,12 @@ Both Codex and OpenCode can run CE workflows. Skills are symlinked via `agent-sy
 
 - **Headless:** `codex exec --skip-git-repo-check --full-auto "prompt"` (NOT bare `codex` which needs TTY).
 - **OpenCode headless:** `opencode run "prompt"` but **sandboxes file reads to project root** — auto-rejects `external_directory`. Workaround: bundle files into `/tmp/` first.
+
+## Boundaries
+
+- Do NOT implement code directly unless delegation fails twice or task is explicitly non-delegable.
+- Do NOT run deep reviews here; this skill ends at delegation + smoke verification.
+- Do NOT bundle multiple unrelated tasks into one delegation prompt.
 
 ## Calls
 - `scrutor` — for code audit/review tasks

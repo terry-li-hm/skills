@@ -33,12 +33,14 @@ Run before anything else. Present all findings in one block, then proceed — do
 comm -23 <(/bin/ls $HOME/skills/ | sort) <(/bin/ls ~/.claude/skills/ | sort)
 ```
 If gaps: list them, suggest `/agent-sync` or `ln -s`.
+If command fails (missing dir/symlink issue), note "Skill link check unavailable" and continue.
 
 **Dirty key repos:** Lost changes to `~/skills/` and `~/agent-config/` hurt future sessions.
 ```bash
 git -C ~/skills status --short && git -C ~/agent-config status --short
 ```
 If dirty: show which files, offer to commit. Don't auto-commit.
+If either repo is missing or command fails, note which status check is unavailable and continue.
 
 **CLAUDE.md modified?** If CLAUDE.md was changed this session, do a one-line tightening check on each addition: does this need to be in CLAUDE.md, or does it belong in a skill / MEMORY.md / `~/docs/solutions/`? Flag candidates — don't move them automatically.
 
@@ -47,6 +49,7 @@ If dirty: show which files, offer to commit. Don't auto-commit.
 wc -l ~/.claude/projects/-Users-terry/memory/MEMORY.md
 ```
 If >150: flag it, suggest demoting to `~/docs/solutions/memory-overflow.md`.
+If file missing/unreadable, note "MEMORY.md budget check unavailable" and continue.
 
 #### B. Session loose ends (cognitive scan)
 
@@ -77,6 +80,7 @@ If everything is clean and no loose ends, one line: "All clear — proceeding."
 ### Step 1: TODO Sweep
 
 Read `~/notes/TODO.md`. Two scans:
+If TODO.md is missing, note "TODO sweep skipped (TODO.md unavailable)" and continue to Step 2.
 
 **Complete:** Done actions → mark `[x]` with brief note and `done:YYYY-MM-DD`. Hard test: truly done, or just "dev done"? If it needs testing, pushing, or confirmation — stays open with updated status. Move newly-checked `[x]` items to `~/notes/TODO Archive.md`.
 
@@ -94,6 +98,7 @@ Append to `~/notes/Daily/YYYY-MM-DD.md` (create if needed):
 ```
 
 2-3 bullets. No implementation details — those belong in vault notes or `~/docs/solutions/`. If a path was abandoned mid-session, record why here — prevents next session from rediscovering the same dead end.
+If write fails, note "Daily log update failed" in final wrap output and continue.
 
 ### Step 3: NOW.md + Project Trackers
 
@@ -102,6 +107,7 @@ Append to `~/notes/Daily/YYYY-MM-DD.md` (create if needed):
 /usr/bin/find $HOME/notes/NOW.md -mmin -60 2>/dev/null | grep -q . && echo "recent" || echo "stale"
 ```
 If recent (<1h, likely another session), update only what changed. Otherwise, full overwrite.
+If age check command fails, treat as stale and proceed with full overwrite.
 
 A session is **light** if: <3 files were modified and no decisions were made. If light and NOW.md is still accurate, skip.
 
@@ -121,6 +127,7 @@ Resume points must pass the cold-start test: could another session resume from t
 **Prune `[decided]` items aggressively.** Keep only if they still gate a future action (a date not yet passed, a follow-up not yet sent). If done-and-absorbed → drop from NOW.md. The daily note (step 2) is the permanent record — once it's logged there, NOW.md doesn't need to hold it.
 
 **Vault flush:** If the session advanced a project with a canonical tracker note (e.g. `[[Capco Transition]]`), update that note now. Context doesn't survive — if it's not in a file, it's lost.
+If tracker note is missing, note "Tracker unavailable" and keep summary in daily note.
 
 ### Step 4: Meta-Close (conditional)
 
@@ -139,6 +146,7 @@ For any MEMORY.md entry that fired this session (prevented a mistake or was acti
 grapho hit "<distinctive substring of entry>"
 ```
 This feeds the hit counter — the empirical basis for `grapho demote` decisions.
+If `grapho` fails, note "MEMORY hit counter update skipped" and continue.
 
 **C. Implement improvements** — 1-3 specific improvement candidates: things that felt clunky, a tool that behaved unexpectedly, a repeated manual step that could be automated. For each: **implement if it's a small, safe, local change** (skill edit, MEMORY.md addition, solutions file). Propose (don't implement) only if the change is large, risky, or requires user decision. If nothing surfaced, say "Nothing to implement." Do NOT ask open-ended questions — the burden is on Claude to identify and act on candidates.
 
@@ -168,3 +176,9 @@ STR relabelling: from WIP to cold-start handover package. Handover doc drafted, 
 
 - Steps 0–3 are mechanical and fast. Step 4 is the only place judgment is needed — and only when the session had substance.
 - One insight well-routed beats five dumped in the same file
+
+## Boundaries
+
+- Do NOT perform external sends (messages, emails, posts) during wrap.
+- Do NOT run deep audits or long research; wrap is a close-out ritual, not a new workstream.
+- Stop after writes + wrap summary. Do not continue with implementation unless explicitly requested.

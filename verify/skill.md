@@ -14,6 +14,7 @@ Before ANY completion claim, positive status, or satisfaction expression:
 
 1. **Identify** — what command proves this claim?
 2. **Run** — execute it fresh (not from memory, not from a prior turn)
+   - If the command cannot run (missing tool/dependency/env), mark verification as blocked and do not claim success.
 3. **Read** — full output, exit code, failure count
 4. **Confirm** — does the output actually support the claim?
 5. **Only then** — state the claim with evidence
@@ -47,6 +48,7 @@ When `/delegate` or subagent completes work:
 - Read the diff or changed files — don't trust the agent's summary
 - Run verification yourself if the agent didn't include output
 - "Agent reports success" is not evidence
+- If delegated output is missing/empty, treat as unverified and rerun checks locally.
 
 ## Quality Bar
 
@@ -61,6 +63,7 @@ Before marking complete, ask: **"Would a staff engineer approve this?"** Not jus
 - **Before `git push`**: Have you run the test suite?
 - **Before claiming a task complete**: Re-read requirements, check each one. Apply staff engineer bar.
 - **Before "deployed and working"**: Load the URL, confirm the change is visible
+- If deployment URL check fails, report "deploy status unverified" instead of "working."
 
 ## Red Flags in Your Own Output
 
@@ -68,3 +71,9 @@ Stop if you catch yourself writing:
 - "Great!", "Perfect!", "Done!" before running verification
 - "should", "probably", "seems to" about test/build status
 - Any positive claim in the same message where you wrote code but didn't run tests
+
+## Example
+
+> Claim to verify: "Auth fix works."  
+> Ran: `pytest tests/test_auth.py` (pass), then `pnpm build` (pass).  
+> Evidence supports claim; safe to mark complete.

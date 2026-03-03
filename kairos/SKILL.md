@@ -36,12 +36,15 @@ date
 ```
 
 Note: day of week, time of day (HKT), proximity to end of day.
+If `date` fails, use system-provided current time and continue.
 
 ### 2. Today's calendar — what's coming
 
 ```bash
 gog calendar list
 ```
+
+- If `gog` fails (keychain locked, no TTY, auth), note "Calendar unavailable" and continue without calendar-derived priorities.
 
 - Extract remaining events for today
 - Flag: anything within the next 60 minutes (needs prep or wrap-up now)
@@ -52,6 +55,8 @@ gog calendar list
 
 Read `~/notes/NOW.md`.
 
+- If file is missing/unreadable, note "NOW.md unavailable" and continue.
+
 - Pull any open decisions (not yet `[decided]` or `[done]`)
 - Pull any active processes or waiting-on states
 - If a PID is mentioned, skip process check — too slow for a quick snapshot
@@ -59,6 +64,8 @@ Read `~/notes/NOW.md`.
 ### 4. Overdue and today's TODO items
 
 Read `~/notes/TODO.md`.
+
+- If file is missing/unreadable, note "TODO.md unavailable" and continue.
 
 - Surface only: items with `due:` <= today, items with `when:` <= today that are not completed
 - Skip `someday` items, skip items due later in the week
@@ -102,6 +109,12 @@ One short paragraph. No headers, no bullets unless there are 3+ overdue items. L
 - If keychain is locked and gog fails, note it and skip calendar gracefully.
 - Keep it under 5 sentences. The point is to decide and move, not to read a report.
 - If the user just ran `auspex` or `cardo` recently (same session), skip NOW.md/TODO repeat and just surface what's changed: new calendar events or new open gates since then.
+
+## Boundaries
+
+- Do NOT scan anam/session history; `/cardo` owns reflection.
+- Do NOT mutate files (TODO/NOW/daily); this skill is read-only situational routing.
+- Do NOT run deep research or inbox triage; only time/calendar/NOW/TODO snapshot.
 
 ## Called by
 - `auspex` — today's plate section

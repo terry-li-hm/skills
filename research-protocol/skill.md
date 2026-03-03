@@ -19,6 +19,7 @@ Before any search tool, follow the `eruo` decision tree:
 2. `cerno` for vault/memory knowledge
 3. `anam search` for specific past conversations
 4. External search (`indago`) only if internal sources don't have it
+If any internal lookup tool fails, note that source as unavailable and continue down the order.
 
 ## Step 1: Classify the Question
 
@@ -41,6 +42,7 @@ For `/consilium` and multi-model research, this means updating the findings doc 
 ## Step 2: Survey (already doing this)
 
 Use `pplx research` for depth or `pplx ask` for structured overview. See `indago` skill for tool selection.
+If external search is unavailable, proceed with internal sources only and explicitly mark confidence as limited.
 
 ## Step 3: Counter-Search (the step we skip)
 
@@ -51,6 +53,7 @@ pplx ask "criticism of [claim/framework/product]"
 pplx ask "[specific finding] replication failure OR debunked OR limitations"
 WebSearch: "[product] problems OR returns OR disappointed"
 ```
+If counter-search tools fail, record "counter-evidence not retrieved" rather than assuming none exists.
 
 If you can't find counter-arguments, flag that too — absence of criticism for popular things is suspicious.
 
@@ -61,6 +64,7 @@ Pick the 2-3 boldest statistical claims from Step 2. Verify against primary sour
 - Use `WebFetch` on the cited paper/study URL
 - Check: Is the stat from a peer-reviewed study or a blog post? Sample size? Replication?
 - Round numbers ("40% improvement", "75% reduction") are red flags — real research produces messy numbers
+If primary source fetch fails, downgrade that claim to unverified and avoid citing it as evidence.
 
 ## Step 5: Synthesize with Source Quality
 
@@ -78,6 +82,18 @@ Before presenting research conclusions, verify:
 - [ ] Boldest claim verified against primary source?
 - [ ] Source tier visible in presentation?
 - [ ] Subjective questions redirected to human experts rather than over-researched?
+
+## Boundaries
+
+- Do NOT present unverified claims as settled conclusions.
+- Do NOT expand into implementation/advice execution; this skill governs research quality only.
+- Stop after findings + confidence framing; decision execution is a separate step.
+
+## Example
+
+> Topic classified as comparative.  
+> Initial synthesis found 3 pro claims; counter-search found 1 major limitation.  
+> One bold metric could not be verified at primary source, so conclusion downgraded to provisional.
 
 ## Anti-Patterns
 

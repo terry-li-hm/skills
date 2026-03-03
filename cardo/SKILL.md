@@ -24,19 +24,23 @@ Lighter than `/morning` (no weather, health, inbox). Heavier than a `/wrap` (syn
 ## Steps
 
 1. **Get current time** — run `date`. If it's before 11am or after 3pm, note this is a midday reflection run at an unusual hour but proceed anyway.
+   - If `date` fails, use the system-provided current time and continue.
 
 2. **Scan morning sessions** (the core value):
    - Run: `anam search "" --days 1 2>/dev/null | head -100`
+   - If `anam` fails or returns nothing, note "Session history unavailable" and continue with NOW.md/TODO-based reflection.
    - Filter mentally for today's morning (roughly 6am–12pm HKT)
    - Group prompts by session ID to understand what each session covered
    - Extract for each session: topic, key outputs/decisions, anything left open
 
 3. **Read NOW.md** — `~/notes/NOW.md`
+   - If NOW.md is missing, note "NOW.md unavailable" and continue.
    - Note anything that was flagged as active this morning
    - Cross-reference against what sessions actually shipped
 
 4. **Token budget** (brief):
    - Run: `ccusage daily 2>/dev/null | tail -5` or check `/status` if concerned
+   - If both commands fail, skip budget commentary.
    - If budget is tight (<20% remaining), flag it — affects afternoon delegation strategy
    - If healthy, skip silently
 
@@ -47,12 +51,14 @@ Lighter than `/morning` (no weather, health, inbox). Heavier than a `/wrap` (syn
 
 6. **Afternoon priorities** — delegate to kairos:
    - Run `/kairos` for the live situational snapshot: calendar, open NOW.md gates, overdue TODOs.
+   - If kairos fails, generate priorities from Cardo's own session synthesis only.
    - Use its output alongside the session scan to propose 2–3 concrete afternoon options.
    - Kairos owns the "what's live right now" read; cardo contributes the "what shipped / what's still open" from this morning's sessions.
 
 7. **File loose ends** — for each open item identified:
    - If it's a quick fix: add to TODO.md `someday` or `low-energy`
    - If it's a decision: add to TODO.md with "Revisit:" framing
+   - If TODO.md is missing or write fails, list loose ends in output as "Not filed".
    - Don't over-file — only items with real risk of being lost
 
 ## Output
@@ -79,6 +85,12 @@ Short prose. Two sections max:
 - If morning was light (few sessions, few prompts), the output should be proportionally short.
 - This is a transition ritual, not an audit. Keep it under 2 minutes to run.
 - For ad-hoc priority checks outside the midday window, `/kairos`.
+
+## Boundaries
+
+- Do NOT run full inbox, weather, or health checks; those belong to `/auspex`.
+- Do NOT produce a full-day close; `/daily` owns that.
+- Stop after midday synthesis + afternoon options; do not initiate new execution tasks unless explicitly asked.
 
 ## Calls
 - `kairos` — afternoon situational snapshot (calendar, NOW.md, overdue TODOs)
