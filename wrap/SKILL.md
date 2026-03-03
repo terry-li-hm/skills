@@ -130,9 +130,9 @@ Do NOT invent learnings. A routine session producing nothing here is correct.
 
 One pass, three outputs:
 
-**A. What generalises?** — The strongest consolidation signal is top-down intent. Explicitly ask: what from this session applies beyond today? Patterns, corrections, architectural insights, reusable approaches. If something generalises → route to MEMORY.md or vault now, before context is lost. If nothing generalises, say so and skip.
+**A. What generalises?** — The strongest consolidation signal is top-down intent. Explicitly ask: what from this session applies beyond today? Patterns, corrections, architectural insights, reusable approaches. If something generalises → **write it now**: route to MEMORY.md or vault before context is lost. If nothing generalises, say so and skip.
 
-**B. File learnings** — Uncaptured friction, corrections, gotchas, or system evolution? Route to the most specific file: tool gotcha → `~/docs/solutions/`, cross-session context → MEMORY.md, skill workflow → the skill's SKILL.md. Should a skill be created or tightened? Hook added? Same mistake twice → escalate per `~/docs/solutions/enforcement-ladder.md`. Propose, don't auto-implement.
+**B. File learnings** — Uncaptured friction, corrections, gotchas, or system evolution? Route to the most specific file: tool gotcha → `~/docs/solutions/`, cross-session context → MEMORY.md, skill workflow → the skill's SKILL.md. **Implement directly** — edit the target file now. Should a skill be tightened? Edit it. Hook needed? Write it. Same mistake twice → escalate per `~/docs/solutions/enforcement-ladder.md`. Only defer if the change requires user input or is genuinely out of scope for a wrap.
 
 For any MEMORY.md entry that fired this session (prevented a mistake or was actively consulted), record it:
 ```bash
@@ -140,7 +140,7 @@ grapho hit "<distinctive substring of entry>"
 ```
 This feeds the hit counter — the empirical basis for `grapho demote` decisions.
 
-**C. Propose improvements** — 1-3 specific improvement candidates: things that felt clunky, a tool that behaved unexpectedly, a repeated manual step that could be automated. Present each as a concrete proposal with a suggested action. If nothing surfaced, say "Nothing to propose." Do NOT ask open-ended questions — the burden is on Claude to identify candidates.
+**C. Implement improvements** — 1-3 specific improvement candidates: things that felt clunky, a tool that behaved unexpectedly, a repeated manual step that could be automated. For each: **implement if it's a small, safe, local change** (skill edit, MEMORY.md addition, solutions file). Propose (don't implement) only if the change is large, risky, or requires user decision. If nothing surfaced, say "Nothing to implement." Do NOT ask open-ended questions — the burden is on Claude to identify and act on candidates.
 
 If neither A nor B surfaces anything, skip silently.
 
