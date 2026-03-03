@@ -154,6 +154,7 @@ PIPELINE=$(cat "/Users/terry/notes/Capco Transition.md" | head -50)
 PERSONA="Background: Terry is Principal Consultant / AI Solution Lead at Capco.
 Current context: $PIPELINE"
 ```
+If either file read fails, run without persona context and note "Context files unavailable."
 
 For other decisions, use simpler context or skip this step.
 
@@ -167,6 +168,7 @@ For other decisions, use simpler context or skip this step.
 ```bash
 cat ~/.consilium/sessions/$(/bin/ls -t ~/.consilium/sessions/ | head -1)
 ```
+If session file read fails, use stdout summary only and state "Transcript unavailable."
 
 **Standard invocation — zero flags:**
 ```bash
@@ -273,6 +275,7 @@ Available domains: `banking`, `healthcare`, `eu`, `fintech`, `bio`
 2. Read the `--output` file (markdown with full transcript)
 3. Synthesize: decision/recommendation + key reasoning + dissents + cost
 4. For quick mode (parallel responses, no judge): CC extracts the consensus from the prose itself
+If `--output` was requested but file is missing, treat run as partial and do not claim full synthesis coverage.
 
 **Always present a digest** — never dump the raw transcript into the CC context.
 
@@ -382,6 +385,7 @@ consilium --search "career"       # Search all session content
 consilium --list-roles            # Show predefined roles for --solo
 consilium --doctor               # Check API keys and connectivity
 ```
+If `consilium --doctor` reports missing keys or connectivity failure, stop and report setup issue before running councils.
 
 ## Prompting Tips
 
@@ -526,6 +530,19 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 | `prose` (default) | Human reading, exploratory |
 | `json` | Agent workflows, parsing, automation |
 | `yaml` | Human-readable structured output |
+
+## Boundaries
+
+- Do NOT run councils for single-fact lookups or purely personal taste questions.
+- Do NOT auto-execute downstream actions; always confirm before creating tasks, notes, or drafts.
+- Stop at recommendation + offered follow-up unless user explicitly selects an action.
+
+## Example
+
+> Recommended mode: `--deep` (strategic, high-consequence question).  
+> Decision: Negotiate start-date flexibility before acceptance.  
+> Confidence: high; dissent: one model warned about delay risk.  
+> Next options: create tasks, save council note, draft reply, or just record.
 
 ## See Also
 

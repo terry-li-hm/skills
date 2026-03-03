@@ -41,6 +41,7 @@ Read `~/notes/Capco/.capco-drill-state.json`. If it doesn't exist, create it:
   "last_session": null
 }
 ```
+If read fails due corruption, back up the bad file and recreate from default state.
 
 Where `drills` maps question numbers (strings) to:
 ```json
@@ -121,8 +122,10 @@ Pull-based replacement for the daily cron. User pulls when they want it, not pus
 2. **Check First 30 Days checklist** — Read `~/notes/Capco/Capco - First 30 Days.md`. Identify one unchecked item that's actionable today. Prioritise "Must do" over "Should do" over "Nice to have".
 
 3. **Search for fresh Capco content** — Web search for recent Capco publications on AI governance, financial crime, compliance technology. Filter to last 7 days. Also search HKMA + MAS + FCA for AI/fintech announcements.
+   - If web search fails, output "No fresh signals retrieved" and continue with checklist + drill state only.
 
 4. **Check drill weak spots** — Read `~/notes/Capco/.capco-drill-state.json`. If there are "blank" or "shaky" questions, suggest revisiting one.
+   - If state file read fails, skip weak-spot suggestion.
 
 5. **Output format** — concise, no fluff:
 
@@ -145,13 +148,18 @@ Pull-based replacement for the daily cron. User pulls when they want it, not pus
 
 Meeting-specific preparation. The `<event>` is a free-text description like "coffee with Simon", "first day", "call with Tobin".
 
+> **Consult `cursus` skill** — pre-engagement prep, no blank asks, first impression window principles apply to all Capco/HSBC meetings.
+
 ### Workflow
 
 1. **Identify the person(s)** from the event description.
+   - If no person can be identified, ask one clarification question before proceeding.
 
 2. **Check vault first** — Search `~/notes/Capco/` for existing prep notes (e.g., `Coffee Prep - Simon and Tobin.md`, `Bertie Haskins Profile.md`). Read any matches.
+   - If no matches, continue with web search only.
 
 3. **Web search for context** — Search LinkedIn and recent activity for each person. Search for any recent Capco publications they authored.
+   - If web search fails, note "External context unavailable" and proceed with vault-only prep.
 
 4. **Surface relevant drill questions** — Read the question bank. Pick 3-5 questions most relevant to this meeting's likely topics. E.g., coffee with Simon → A (tiering framework) + D (consulting delivery); call with Tobin → B (regulatory landscape).
 
@@ -211,3 +219,17 @@ B. Regulatory: 1/7 drilled (1 blank)
 - **Brief mode:** No daily obligation. It's there when the user wants it.
 - **Prep mode:** Vault notes are authoritative. Web search supplements, doesn't replace.
 - This skill expires when Capco engagement starts (real work replaces practice). Delete after Day 1.
+
+## Boundaries
+
+- Do NOT draft outbound messages automatically; provide prep material only.
+- Do NOT invent facts when vault/web context is missing; mark unavailable explicitly.
+- Keep outputs concise and prep-oriented; no long-form essays.
+
+## Example
+
+> Prep: Coffee with Simon  
+> Context from vault: AI governance, delivery shape, stakeholder mapping.  
+> Checklist carry-in: confirm pre-reading and first-30-day priorities.  
+> Warm-up drill: A.1, D.20, B.8.  
+> Recent signals: none notable this week.

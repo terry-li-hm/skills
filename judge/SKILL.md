@@ -26,6 +26,8 @@ Execute main task → Call /judge → Iterate if needed → Output
 ## Workflow
 
 1. **Load criteria** from `criteria/{domain}.yaml` (or auto-detect domain from goal)
+   - If domain file is missing, fall back to `criteria/default.yaml`.
+   - If default is also missing, return `needs_work` with issue `criteria_unavailable` and stop.
 
 2. **Evaluate output** against each check:
    - For each criterion, assess pass/fail
@@ -106,6 +108,19 @@ Return structured YAML for programmatic handling
 
 **For user review (if called directly):**
 Return readable summary with specific feedback
+
+## Example
+
+```yaml
+verdict: needs_work
+score: 72
+issues:
+  - check: specificity
+    severity: high
+    problem: "Claims are generic."
+    suggestion: "Add one concrete example tied to the goal."
+summary: "Direction is solid, but one high-weight gap blocks pass."
+```
 
 ## Notes
 

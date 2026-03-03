@@ -15,6 +15,7 @@ Universal entry point for anything user shares — URL or pasted content. Detect
    - Otherwise → pasted content, treat as article (step 3)
 
 2. **Fetch & Classify URL** — Get content, detect type from URL pattern + page structure
+   - If fetch fails (auth wall/network/tool error), ask user to paste content. If user cannot, output a skip with reason.
 
 3. **Route** — Send to appropriate handler (specialized, lightweight, or fallback)
 
@@ -235,11 +236,13 @@ Before generating any note, run:
 ```bash
 grep -r "^tags:" ~/notes/*.md | cut -d: -f2 | tr ',' '\n' | sort -u | head -50
 ```
+If grep returns nothing or fails, use empty tags and continue.
 
 Also check for relevant MOCs:
 ```bash
 ls ~/notes/*MOC*.md ~/notes/Maps/*.md 2>/dev/null
 ```
+If this lookup fails, skip MOC linking.
 
 **Rule:** Only use tags that already exist in vault. Never invent new tags. If no existing tag fits, leave tags empty — better than fragmenting the graph.
 
@@ -270,9 +273,23 @@ For skips, output:
 **Paywalled:** Report clearly, offer to wait for user to paste content.
 
 **Failed fetch:** Try WebFetch first, fall back to asking user to paste.
+If both fail, output `Skip — content unavailable`.
 
 ## Integration
 
 This skill replaces `/evaluate-article`. Use `/analyze` for all content — URLs or pasted text.
 
 `/evaluate-job` remains separate for LinkedIn job URLs — this skill dispatches to it for job posts.
+
+## Boundaries
+
+- Do NOT execute actions implied by content (for example apply jobs or send messages); analysis only.
+- Do NOT invent tags or taxonomy terms when vault ontology lookup fails.
+- Stop after note creation/logging; recommendations are optional and should stay brief.
+
+## Example
+
+> Type detected: `repo` (high confidence).  
+> Saved to `~/notes/...` with existing tags only.  
+> Key signal: active commits in last 30 days, docs + tests present.  
+> Skip reason (if any): none.
