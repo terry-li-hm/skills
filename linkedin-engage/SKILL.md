@@ -161,6 +161,18 @@ All comments get `--deep` consilium before finalising — comments are public an
 
 Run automatically (no need to ask): provide full post context (verbatim text, all comments, author background) — never summarise the post for the council.
 
+Always include these explicit review criteria in the prompt:
+
+```
+REVIEW CRITERIA:
+1. Does the comment extend the poster's thesis without redirecting it?
+2. SENIORITY CHECK: Does the opener put Terry in the judge seat? Banned openers: "Exactly right", "Great call", "Spot on", "You're right to", "Well said", "This is exactly the point" — anything that evaluates whether the poster got it correct is a grading move, regardless of how complimentary. Flag and rewrite if present.
+3. Does it avoid repeating points the poster already made?
+4. Does it avoid yes-but / correction patterns?
+5. Does it match the poster's emotional register (measured post → measured comment, no injected optimism)?
+6. Is the angle from Terry's lane (AI/data science), not the poster's domain?
+```
+
 ### 7. Finalise and Deliver
 
 Once Terry approves the draft, **gist it for mobile copy-paste** and **like the post automatically**. Terry posts the comment manually — comments are public and permanent, final eyes-on before submitting is worth the extra step.
