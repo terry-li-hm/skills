@@ -178,12 +178,16 @@ REVIEW CRITERIA:
 Once Terry approves the draft, **gist it for mobile copy-paste** and **like the post automatically**. Terry posts the comment manually — comments are public and permanent, final eyes-on before submitting is worth the extra step.
 
 ```bash
-# Gist the draft
+# Gist the draft — include verbatim post for mobile context check before pasting
 gh gist create --public=false -f "linkedin-comment.md" - << EOF
 ## Post — <Author Name>
 <post URL>
 
-## Draft Comment
+<verbatim post text>
+
+---
+
+## Draft Comment — Terry Li
 <comment text>
 EOF
 
