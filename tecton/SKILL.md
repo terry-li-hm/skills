@@ -11,13 +11,21 @@ Reference skill for how to structure notes in `~/notes/`. Covers atomicity, inte
 
 1. **One concern per note.** A note that covers two distinct topics should be two notes with a wikilink between them. Signal: if the title needs "and" or "/", it's probably two notes.
 
-2. **Hub notes are thin pointers.** Tracker notes (NOW.md, TODO.md, Capco Transition) hold status and links — not detail. Detail lives in child notes. Hub grows? Split it.
+2. **Hub notes are workbenches, not just pointers.** Tracker notes (NOW.md, Capco Transition) hold live status. MOC-style hubs (e.g. an index of related notes) are *where connections get made*, not just listed — a place to challenge, reposition, and surface new relationships between notes. Hub grows? Split it.
 
 3. **Link generously.** Dense `[[wikilinks]]` let Claude walk the graph for context. Sparse links = dead ends. Every note should have a **Related:** line.
 
 4. **Facts age, rules don't.** Time-sensitive facts (dates, amounts, status) belong in vault notes, not CLAUDE.md. CLAUDE.md = rules. Vault = reference.
 
 5. **Dated updates over status blocks.** Use `**Update (Feb X):**` headers in note bodies as the natural changelog — grep-surfaceable, no separate status section needed.
+
+6. **Balance structure and chaos.** Too much structure = friction, ideas suffocate. Too much chaos = anxiety, thoughts are lost. The Goldilocks Zone: enough structure to navigate, enough openness to connect unexpectedly.
+
+7. **Notes are living entities.** Not static files. They can change, split, merge, or resolve. A note written today may need splitting in three months — that's healthy, not failure.
+
+8. **Atomicity is contextual, not dogma.** Don't force a note to be atomic — let it emerge. Two large notes in tension often *collide* into something more atomic. The signal to split is friction, not a rule.
+
+9. **Wait for the squeeze to create hub notes.** Don't build MOC/hub notes prematurely. When a topic accumulates enough related notes that navigation feels hard, *that's* the moment to gather them. Early hub notes are empty shells.
 
 ## Note Types
 
@@ -53,6 +61,18 @@ Split when:
 Don't split when:
 - Note is actively being iterated (wait until stable)
 - The two concerns are always read together (keep, add clear sections)
+
+## Relationship Builders (strongest to weakest)
+
+| Tool | Strength | Use for |
+|------|----------|---------|
+| **Direct links** `[[note]]` | Strongest | Explicit connections between specific notes |
+| **MOC / hub note** | High | Curating a topic area — non-exclusive, fluid |
+| **Proximity within MOC** | Medium | Deliberate positioning of related notes together |
+| **Tags** | Weak | Quick filtering; don't scale past ~50 notes per tag |
+| **Folders** | Last resort | Private data, project staging, clearly-bounded collections |
+
+**Don't fall for dogma.** "Links only" is as rigid as "folders only." Use the right tool. Folders aren't bad — they're just overused. Use them for: private notes (health, finances), temporary project staging (extract good ideas back to the main vault after), clearly-bounded note types (images, people, quotes).
 
 ## Interlinking Patterns
 
