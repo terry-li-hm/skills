@@ -41,6 +41,7 @@ See `indago` skill for tool selection (WebSearch → pplx → grok).
 - **Concluding "not found" after 7 days on anam.** Default window is 7 days. Always escalate: `--days 30` → `--days 90`.
 - **Searching externally for something that's in the vault.** Internal sources first, always.
 - **Searching by use-case name when vault files are named by document type.** If cerno/grep misses, the file probably exists under a different name (e.g. "AML monthly meeting slides" → `AML AI Roadmap.md`). Fallback: read the hub note for the topic area and `Glob` the directory — don't conclude "not in vault" after a keyword miss alone.
+- **Concept search misses → try a known data point.** If searching by topic fails, search for a specific figure or number the user mentioned (e.g. `142,270`, `48,845`). Numbers are unique and grep reliably to the right note.
 - **Treating stakeholder context as co-located with content.** Who Benjamin is lives in `CNCBI Exit.md`; what he's working on lives in `Work/CITIC_AML/`. Cross-folder joins are normal — check both.
 
 ## When to Use
