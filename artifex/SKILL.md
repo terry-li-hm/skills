@@ -145,3 +145,56 @@ cd ~/code && cargo new <name> --bin
 cargo publish --dry-run && cargo publish
 ```
 A name collision mid-build forces a full rename (see: necto → synaxis). Reserve before planning, not after.
+
+### 9. Single Responsibility
+
+A skill should have one reason to change. **Test:** can you state its job in one sentence without "and"? If not, split it.
+
+This matters more than in code because LLM attention is the scarce resource — competing objectives in a single instruction block cause the model to trade off between them silently. Two focused skills outperform one overloaded skill.
+
+**Smell:** top-level branching like "if the user wants X do A, if they want Y do B" — that's a router skill calling two worker skills, not one skill.
+
+### 10. Fail-State Specification
+
+Every step that gathers, checks, or calls something external must define what happens when it fails or returns nothing. Without an explicit failure clause, the LLM will hallucinate a plausible continuation.
+
+```markdown
+# BAD — silent failure path
+- Identify the primary framework from the codebase.
+
+# GOOD — explicit fail clause
+- Identify the primary framework from the codebase.
+  - If multiple frameworks or none detected → ask the user before continuing. Do not guess.
+```
+
+Valid fail actions: ask the user, abort with a stated reason, fall back to a named default. Pick one per step — don't leave it open.
+
+### 11. Scope Clamping
+
+LLMs are eager generalizers. A skill must state what it deliberately **does not** do, or it will helpfully extend into adjacent work you didn't ask for.
+
+Add a brief `## Boundaries` or `## Not this skill` section for any skill prone to scope creep:
+
+```markdown
+## Boundaries
+- Do NOT refactor code; only identify issues.
+- Do NOT suggest alternatives unless a step explicitly asks.
+- Stop after producing the list. Do not summarise the list.
+```
+
+Every skill you debug for scope creep should get a boundary clause added retroactively.
+
+### 12. Example as Specification
+
+Include at least one realistic input → expected output example in non-trivial skills. This is the single most effective way to reduce misinterpretation — examples are more precise than paragraphs of prose.
+
+**Critical:** when prose description and example conflict, the LLM follows the example. Keep them aligned. When they conflict, fix the prose, not the example — the example is usually right.
+
+```markdown
+## Example
+Input: PR diff touching 3 files, no tests added
+Expected output:
+> Missing tests for `auth.ts` and `api.ts`. `utils.ts` change is trivial — no test needed.
+```
+
+The example also acts as a regression anchor: if a skill starts behaving oddly after an edit, check whether the example still holds.
