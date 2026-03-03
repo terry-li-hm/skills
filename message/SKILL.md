@@ -24,7 +24,7 @@ Check these sources:
 
 - **Gmail**: `gog gmail search "from:[name]"` or `mcporter call gmail.search_emails query="from:[name]"`
 - **LinkedIn**: Browser automation to check messaging
-- **WhatsApp**: `keryx read "Name" --limit 30` (handles dual-JID merging automatically). If multiple matches, try full name. Fall back to `wacli messages search "name"` to find the JID, then `wacli messages list --chat "<jid>"` directly.
+- **WhatsApp**: `keryx read "Name" --limit 30` (handles dual-JID merging automatically). If multiple matches, try full name. For full message text (keryx truncates), load the `whatsapp` skill and use `wacli messages list --chat "<jid>" --after <date> --json` — parse `Text` field from JSON output.
 
 If user says "[name] replied" without specifying platform, check Gmail and LinkedIn first before asking.
 
