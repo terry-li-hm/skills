@@ -1,6 +1,6 @@
 ---
 name: artifex
-description: Guide for designing skills. Use when creating new skills, refactoring existing ones, or reviewing skill architecture.
+description: Guide for designing skills. Use when creating new skills, refactoring existing ones, reviewing skill architecture, or during any skill review (monthly or ad-hoc).
 ---
 
 # Skills Design Guide
