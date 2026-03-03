@@ -88,24 +88,9 @@ Confirmed working: **quaily.com** (Mar 2026). Full reference: `browser-automatio
 2. No cookies + Google OAuth blocked → headed Playwright + Google sign-in not viable → try nodriver
 3. No cookies + Cloudflare → nodriver headed login above
 
-## Google OAuth Sites — Use `porta` Instead
+## Google OAuth Sites — Use `porta` Skill
 
-If a site only supports Google SSO (e.g. Vercel, Google-gated dashboards), the headed Playwright flow will be blocked by Google's bot detection. Use `porta` instead:
-
-```bash
-# 1. Open site in regular Chrome and log in via Google
-open -a "Google Chrome" "https://site.com/login"
-
-# 2. Bridge Chrome cookies into agent-browser profile
-porta inject --domain site.com
-
-# 3. Verify
-agent-browser open "https://site.com/dashboard"
-agent-browser get url  # should NOT redirect to login
-```
-
-`porta list --domain site.com` to preview what cookies would be injected.
-Cookies expire — re-run `porta inject` if access stops working.
+If a site only supports Google SSO (e.g. Vercel, Google-gated dashboards), the headed Playwright flow will be blocked by Google's bot detection. Use the `porta` skill — it handles the full cookie-bridge workflow.
 
 ## Notes
 
