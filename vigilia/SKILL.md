@@ -1,6 +1,6 @@
 ---
-name: str-relabelling
-description: STR relabelling project (FR-MLP-002) — deployment checklist, safety checks, gotchas. Use when working on STR relabelling handover or CDSW deployment.
+name: vigilia
+description: AML triage model work — STR relabelling (FR-MLP-002) deployment + hibernation analysis. Use when working on CDSW, hibernation customer counts, Marco/Benjamin/Daffy requests, or STR handover.
 user_invocable: true
 ---
 
@@ -81,6 +81,39 @@ Run `pipeline_node_test.py` — expect:
 - **Status 35 doesn't exist yet** — add to YAML after O25-07 go-live (June 2026)
 - **Standalone test scripts load their own data** — they JOIN `alert_typ_id` from raw table, masking that the column doesn't exist in the model table. Test passing ≠ production code works. See `~/docs/solutions/patterns/standalone-test-data-masking.md`
 - **`save_to_hive_table` is INSIDE `preprocess_strs`** (~line 1788) — writes directly to Hive, bypasses Kedro catalog (so `/tmp/` catalog overrides don't catch it). Playground safe: writes to `imh_apm_core.TEST_STR56` (778K rows from Feb 11 run, stale). Confirmed: `TEST_STR56` not referenced anywhere in GitLab production repo. Production uses a different `str_table_name`. Second `save_to_hive_table` at ~line 2325 is in `initialize_model_performance_df` — not triggered by `--node=preprocess_strs`.
+
+## Hibernation Analysis
+
+### Scripts (`~/code/aml-triage-model/hibernation-analysis/`)
+
+| Script | Purpose |
+|--------|---------|
+| `hibernation_breakdown.py` | Alert-level comparison of two strategies — matches Feb 24 email table |
+| `low_risk_str_alert_list.py` | CSV of low-risk STR alerts + context rows for Marco |
+| `customer_count.py` | **Customer-level equivalents** of the 142,270 / 48,845 / 221 / 71 figures |
+| `monitoring_framework.py` | Ongoing monitoring framework |
+| `monthly_cohort_breakdown.py` | Monthly cohort view |
+
+### Key figures (confirmed Feb 24 with Marco/Daffy/Benjamin)
+
+| Metric | Alerts |
+|--------|--------|
+| Total in scope (Feb 2025 – Feb 2026) | 142,270 |
+| Hibernated (low-risk bucket) | 48,845 (34.33%) |
+| STRs missed in hibernation | 221 (0.76%) |
+| Pure low-risk STRs (no prior signals) | 71 (32% of 221) |
+
+Customer-level equivalents: run `customer_count.py` on CDSW.
+
+### Schema / operational
+
+- **Tables:** `imh_apm_core.monitored_alerts`, `imh_apm_core.str`
+- **Customer key:** `entity_nbr` (from `str` table, joined on `alert_id`)
+- **Low-risk threshold:** `0.005` raw = `0.5` on 0–100 display scale
+- **Date filter:** `by_dt = 'batch'`, `inference_dt >= '2025-02-23'`
+- **Always `DISTINCT alert_id`** — known duplicate row (SAM1-334852) in `monitored_alerts`
+- **`purely_low_risk_at_filing`** = no alert with score ≥ threshold BEFORE STR filing date (not just across full period)
+- **`spark_read_sql` needs 3 args in production** — scripts use 1-arg fallback, works in Jupyter
 
 ## Remaining Work
 
