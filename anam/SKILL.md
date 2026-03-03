@@ -84,6 +84,7 @@ claude-history --plain --no-pager  # Plain text (still needs terminal)
 | Search prompts (fast) | `anam search "pattern"` |
 | Deep transcript search | `anam search "pattern" --deep` |
 | Filter out noise (intent vs execution) | `--role claude` (AI confirmations only) |
+| Retrieve a draft/email I wrote in a past session | `anam search "keyword" --deep --role claude` — never write custom Python to parse JSONL |
 | Drill into specific session | `--session <8-char-prefix>` |
 | Browse/find a conversation interactively | `claude-history` (terminal only) |
 | Resume a past Claude Code session | `claude-history --resume` (terminal only) |
