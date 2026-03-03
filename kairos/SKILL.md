@@ -102,3 +102,7 @@ One short paragraph. No headers, no bullets unless there are 3+ overdue items. L
 - If keychain is locked and gog fails, note it and skip calendar gracefully.
 - Keep it under 5 sentences. The point is to decide and move, not to read a report.
 - If the user just ran `auspex` or `cardo` recently (same session), skip NOW.md/TODO repeat and just surface what's changed: new calendar events or new open gates since then.
+
+## Called by
+- `auspex` — today's plate section
+- `cardo` — afternoon priorities section

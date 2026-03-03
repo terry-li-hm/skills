@@ -69,9 +69,9 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - If imessage.sh fails (non-zero exit), note "Weather send to Tara failed" — don't retry.
 
 10. **Today's plate** — delegate to kairos:
-   - Run `/kairos` to get the situational snapshot: calendar, open NOW.md gates, overdue TODOs.
-   - Incorporate its output verbatim into the closing section of the brief ("Today's plate:").
-   - Don't re-run calendar or NOW.md independently — kairos owns that.
+   - Run kairos's steps (date, calendar, NOW.md, TODO scan) to gather the situational context.
+   - Use those findings — calendar events, open gates, overdue items — to close the brief in auspex's morning voice. Don't paste kairos's output; reframe the facts for the morning narrative.
+   - Don't re-run calendar or NOW.md independently — kairos owns that logic.
 
 11. **Capco countdown + daily intel** (until start date):
    - Run `date` to calculate days remaining until Capco start (Apr 8, 2026 — or Mar 16 if buyout confirmed; check `~/notes/Capco/Capco Transition.md` for current date)
@@ -122,3 +122,6 @@ Skip anything with nothing to report — don't mention empty sections. The brief
 - If yesterday had no daily note (skipped `/daily`), fall back to fuller review: include TODO scan + priority check from vault context files.
 - Keep it to a short paragraph or two. The point is to start working, not to read a report.
 - For ad-hoc mid-session priority checks later in the day, `/kairos`.
+
+## Calls
+- `kairos` — today's plate (calendar, NOW.md, overdue TODOs)

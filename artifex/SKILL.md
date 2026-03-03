@@ -65,9 +65,15 @@ Keep scripts/code inside the skill directory, not scattered elsewhere.
   └── mcp-sync.py
 ```
 
-### 3. Chain, Don't Duplicate
+### 3. Chain, Don't Duplicate — Treat Skills Like Code
 
-Skills should call other skills, not copy their logic. When a skill delegates to or depends on another skill, document it with a `## Calls` footer:
+Skills should call other skills, not copy their logic. **The DRY principle applies here exactly as it does in code:** one update to the dependency benefits every caller automatically. Three skills each duplicating a calendar read means three places to update when the calendar API changes. One kairos skill means one.
+
+**Why this matters more than it seems:** Skills drift. A skill updated six months ago may have a gotcha fix or a better command that its three duplicators never inherited. Factoring prevents silent divergence.
+
+**The output interface:** When delegating to a sub-skill, extract its *findings* and reframe them in the caller's voice — don't paste output verbatim. The sub-skill is a data source; the parent synthesises. Example: auspex calls kairos, gets calendar events and open gates, then weaves those facts into the morning brief in auspex's prose — not a kairos block bolted on.
+
+When a skill delegates to or depends on another, document it with a `## Calls` footer:
 
 ```markdown
 ## Calls

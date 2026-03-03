@@ -79,3 +79,6 @@ Short prose. Two sections max:
 - If morning was light (few sessions, few prompts), the output should be proportionally short.
 - This is a transition ritual, not an audit. Keep it under 2 minutes to run.
 - For ad-hoc priority checks outside the midday window, `/kairos`.
+
+## Calls
+- `kairos` — afternoon situational snapshot (calendar, NOW.md, overdue TODOs)
