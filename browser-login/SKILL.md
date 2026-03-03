@@ -58,6 +58,36 @@ After successful login, update the authenticated sites table in `~/docs/solution
 | Substack (Latent Space) | substack.com/sign-in | Feb 2026 |
 | Taobao/Tmall | login.taobao.com | Feb 2026 |
 
+## Cloudflare + localStorage Auth Sites — Use `nodriver` Instead
+
+If a site uses Cloudflare bot protection AND stores auth in localStorage (not cookies):
+- `porta list --domain site.com` finds no cookies → can't bridge
+- Headed Playwright (agent-browser `--headed`) is blocked by Cloudflare
+
+Use nodriver with a persistent profile:
+```bash
+cd /tmp && uv run --python 3.13 --with nodriver python3 -c "
+import asyncio, nodriver as uc
+from pathlib import Path
+PROFILE = Path.home() / '.config/lustro/nodriver-profile'
+PROFILE.mkdir(parents=True, exist_ok=True)
+async def main():
+    b = await uc.start(headless=False, user_data_dir=str(PROFILE))
+    await b.get('https://site.com/login')
+    print('Log in via Jump Desktop — waiting 120s...')
+    await asyncio.sleep(120)
+    b.stop()
+asyncio.run(main())
+"
+```
+Session persists in `~/.config/lustro/nodriver-profile/` for future headless use.
+Confirmed working: **quaily.com** (Mar 2026). Full reference: `browser-automation-comparison.md`.
+
+**Decision flow:**
+1. `porta list --domain site.com` → cookies found → use `porta inject`
+2. No cookies + Google OAuth blocked → headed Playwright + Google sign-in not viable → try nodriver
+3. No cookies + Cloudflare → nodriver headed login above
+
 ## Google OAuth Sites — Use `porta` Instead
 
 If a site only supports Google SSO (e.g. Vercel, Google-gated dashboards), the headed Playwright flow will be blocked by Google's bot detection. Use `porta` instead:
