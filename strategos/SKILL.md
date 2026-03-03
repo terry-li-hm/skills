@@ -49,6 +49,16 @@ Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 
 **Rule of thumb:** If you'd build more than one file, touch existing architecture, or need research agents to surface best practices → `/workflows:plan`. `EnterPlanMode` is for trivial tasks where the user needs to make live decisions as the plan unfolds.
 
+**HARD GATE — EnterPlanMode is ONLY valid when ALL of these are true:**
+- Single file touched (or two files with trivially obvious changes)
+- No new types/enums/structs being added
+- No function signature changes propagating to other files
+- User must make live decisions mid-plan that you can't anticipate
+
+**Anti-pattern (do NOT rationalize past this):** "User already knows what they want, requirements are clear, so EnterPlanMode is fine." → WRONG. Clear requirements are exactly when CE plan adds most value — it surfaces codebase gotchas and KB learnings the user doesn't know about, not requirements. In one real case: a "simple" CLI flag + enum change had 25 cascading signature changes, a missing provider branch, a dedup bug in quick_models(), and an Anthropic max_tokens constraint — none visible from the feature description. CE plan caught all of them. EnterPlanMode caught none.
+
+**Approved plan ≠ skip CE plan:** Even if you have an approved plan (from EnterPlanMode or brainstorm), run CE plan anyway before delegating. CE plan deepens the plan with codebase-specific gotchas. It's additive, not duplicative.
+
 **Why CE plan beats built-in plan:** `/workflows:plan` runs `learnings-researcher` + `repo-research-analyst` in parallel — surfacing `~/docs/solutions/` gotchas and exact patterns from reference projects. Built-in plan is a single-model think-through that misses institutional knowledge entirely. In practice, CE plan catches things like wrong crate versions, agent-first output requirements, implementation ordering, and Codex delegation gotchas that built-in plan never surfaces. The cost is ~2 min of research time; the benefit compounds with every prior solution captured in the KB.
 
 ### 3. Delegate execution

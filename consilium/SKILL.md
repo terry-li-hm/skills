@@ -221,6 +221,7 @@ consilium "My plan: migrate the monolith to microservices over 6 months..." \
 --decompose             # Break complex question into sub-questions first
 --rounds 3              # Rounds for --discuss or --socratic (0 = unlimited)
 --followup              # Interactive drill-down after judge synthesis (council only)
+--effort high           # Reasoning effort: low|medium|high. Blind=set, debate=step down, judge=always high. Default: provider defaults.
 # Output
 --format json           # Machine-parseable output (council + quick modes)
 --share                 # Upload to secret Gist
@@ -455,14 +456,17 @@ This surfaces compliance concerns early rather than as afterthoughts.
 
 ## Model Tendencies
 
-| Model | Tendency | Useful For |
-|-------|----------|------------|
-| **GPT-5.2 Pro** | Practical, implementation-focused | Actionable steps |
-| **Gemini 3.1 Pro** | Technical depth, systems thinking | Architecture |
-| **Grok 4** | Contrarian, challenges consensus | Stress-testing ideas |
-| **Kimi K2.5** | Coding-strong, cross-lab diversity (Moonshot) | Technical depth |
-| **GLM-5** | Strategic, pragmatic (Zhipu, best-validated CN model) | Business decisions |
-| **Claude Opus 4.6** (Judge) | Balanced, integrates critique | Synthesis |
+| Model | Role | Tendency | Useful For |
+|-------|------|----------|------------|
+| **GPT-5.2 Pro** | M1 (OpenAI) | Practical, implementation-focused | Actionable steps |
+| **Claude Opus 4.6** | M2 (Anthropic) | Balanced, expert judgment | Strategic depth |
+| **Grok 4** | M3 (xAI) | Contrarian, challenges consensus | Stress-testing ideas |
+| **Kimi K2.5** | M4 (Moonshot) | Coding-strong, cross-lab diversity | Technical depth |
+| **GLM-5** | M5 (Zhipu) | Strategic, pragmatic (best-validated CN model) | Business decisions |
+| **Gemini 3.1 Pro** | Judge (Google) | Technical synthesis, systems thinking | Final judgment |
+| **Claude Opus 4.6** | Critique (Anthropic) | Independent review of judge synthesis | Catching judge gaps |
+
+*All 6 frontier labs represented. Gemini became judge Mar 2026 (was Claude); Claude moved to M2 panelist + critique.*
 
 **Default challenger:** GPT (rotates each round). Grok is naturally contrarian regardless, so GPT as explicit challenger gives two sources of pushback.
 
@@ -508,6 +512,8 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 
 ## Recent Features
 
+- **Gemini as judge + Claude as M2** (Mar 2026): All 6 frontier labs now in council. Gemini 3.1 Pro replaced Claude Opus as judge; Claude Opus moved to M2 panelist + critique role. `CONSILIUM_MODEL_JUDGE` env var restores Opus as judge. `CONSILIUM_MODEL_M2` env var overrides M2.
+- **`--effort low|medium|high`** (Mar 2026): Per-phase reasoning budget. Blind phase uses configured effort; debate steps down one level (High→Medium, Medium→Low); judge always uses High. Default (no flag) = provider defaults, unchanged behaviour.
 - **Blind claims for judge** (v0.5.1, Mar 2026): Judge now receives the raw blind-phase claims before the debate transcript. Enables direct blind→post-debate position comparison to detect sycophantic drift. CONVERGENCE SIGNAL prompt updated to reference this section.
 - **Confidence extraction** (v0.5.1, Mar 2026): `extract_confidence_score()` parses "Confidence: N/10" from each panelist's last response. Judge receives a summary; cross-references with POSITION CHANGE labels and CONVERGENCE SIGNAL.
 - **Response order randomization** (v0.5.1, Mar 2026): Other speakers' responses are shuffled per panelist per round, preventing first-listed-speaker position anchoring.
