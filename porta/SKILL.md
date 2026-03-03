@@ -148,15 +148,15 @@ Run with: `uv run --script --python 3.13 script.py`
 - Use `wait_for_load_state("domcontentloaded")` not `"networkidle"` — Circle.so and React SPAs hang on networkidle
 - Extract cookies from both `.domain.com` AND `subdomain.domain.com` — CF stores `cf_clearance` on the parent, session cookies on the subdomain
 
-## When porta FAILS — use `browser-login` instead
+## When porta FAILS — use `tessera` instead
 
 | Site | Why porta fails | Fix |
 |------|----------------|-----|
-| **linkedin.com** | `li_at` session is IP + device-fingerprint bound. Injected cookie is silently rejected. | `browser-login` for linkedin.com |
-| **cora.computer** | Uses Devise auth (own login form, not Google SSO). | `browser-login` for cora.computer |
+| **linkedin.com** | `li_at` session is IP + device-fingerprint bound. Injected cookie is silently rejected. | `tessera` for linkedin.com |
+| **cora.computer** | Uses Devise auth (own login form, not Google SSO). | `tessera` for cora.computer |
 | Any Google SSO third-party | Google cookies ≠ third-party site session. Log in via Google SSO in Chrome first, *then* `porta inject --domain site.com` for that site's cookies. | |
 
-**Decision rule:** If `agent-browser` redirects to a login page after `porta inject`, the site uses fingerprint-binding or own auth. Switch to `browser-login`.
+**Decision rule:** If `agent-browser` redirects to a login page after `porta inject`, the site uses fingerprint-binding or own auth. Switch to `tessera`.
 
 ## Authenticated Sites (via porta)
 

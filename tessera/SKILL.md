@@ -1,6 +1,6 @@
 ---
-name: browser-login
-description: Save a website login to the agent-browser profile for future headless access.
+name: tessera
+description: Authenticate a website for headless agent access — routes to headed login, porta (cookie bridge), or nodriver (stealth Chrome) as appropriate.
 user_invocable: true
 platform: claude-code
 trigger_phrases: ["browser login", "save login", "browser-login"]
