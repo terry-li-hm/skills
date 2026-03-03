@@ -103,6 +103,11 @@ If any answer is no, say so and suggest skipping or just reacting.
 
 **The frame: Echo + Extend.** The best comment echoes what the poster said (makes them feel heard) then extends it with one specific insight they didn't name. Not a new topic — an extension of their exact point.
 
+**Post quality check — before finding an angle, assess the post critically:**
+- Is there a genuinely distinctive insight to echo, or is it a solid synthesis of conventional wisdom?
+- Common false positives: banking controls doctrine (maker/checker), consulting truisms (operating model vs technology upgrade), standard checklist items (include compliance costs in the business case). These feel specific but aren't sharp.
+- If no single insight stands out as distinctive: don't force it. Use the "thank you for this — particularly X" pattern (see Step 5) — generic warmth rescued by a specific point.
+
 **Brainstorm method:** Map the poster's actual claims (list them), then ask:
 - What did they almost say but didn't?
 - What's the next logical step they left implicit?
@@ -132,7 +137,7 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 ### 5. Draft the Comment
 
 **Voice rules** (rationale: `[[LinkedIn Commenting Principles]]`)**:**
-- **No grading openers** — banned: "Great call", "Spot on", "Exactly right", "Well said", "You're right to" — all put Terry in the judge seat. Use peer-level observation or lead directly from Terry's lane instead.
+- **No grading openers** — banned: "Great call", "Spot on", "Exactly right", "Well said", "You're right to", "Sharp", "Right starting point" — all put Terry in the judge seat. Use peer-level observation or lead directly from Terry's lane instead.
 - **"Yes-and", never "yes-but"** — extend their thesis, don't redirect it
 - **Match the poster's emotional register** — measured post → measured comment, no injected optimism
 - **Never raise corrections or risks unless explicitly invited**
@@ -151,6 +156,8 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 3. Concrete illustration (the vivid contrast or example)
 4. Implication (why this matters — the "so what")
 5. Optional: closing observation (not a question demanding disclosure)
+
+**When there's no single profound insight to call out:** Use "thank you for this — particularly [specific point]" — generic warmth rescued by a specific point that proves you read it. The specific point does the work; the warmth is just the frame. Example: "Gary, thank you for this — particularly the accuracy-improves-progressively point. From the data science side, [add]." Don't try to call something "sharp" or "insightful" if it isn't — the specific point is enough.
 
 **Stay in the poster's thesis.** The comment should extend *their* point, not introduce a third topic they didn't raise. If the post is about encryption risk, respond to encryption risk — don't pivot to ML infrastructure overhead just because it's related to quantum. Adjacent ≠ responsive. Check: does the comment answer the question the poster was implicitly asking?
 
