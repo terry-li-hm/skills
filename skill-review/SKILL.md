@@ -80,6 +80,13 @@ For each active skill, check:
 | **Vocabulary aligned?** | Does skill terminology match current vault notes? |
 | **Workflow still accurate?** | Has the process changed since skill was written? |
 | **Context shifted?** | Has a hook, tool, or other skill made parts of this skill redundant? A component can be correct but no longer worth its weight. See `~/docs/solutions/patterns/tightening-pass.md`. |
+| **Description trigger timing?** | Does the description fire at the *earliest useful moment* — when the uncertainty exists — or only after the decision is already made? A skill consulted too late is a skill not consulted. |
+
+**Open question (unresolved as of 2026-03-04):** MEMORY.md vs skill description — which is more reliable for behavioral nudges?
+- MEMORY.md: always in context for Claude Code, but read reactively, truncates past line 200, easy to miss in a long list
+- Skill description: fires at a specific trigger, but only if the description matches the right moment — too late = never loaded
+- Current working hypothesis: skill descriptions are more reliable *if* the trigger is right; MEMORY.md is the fallback for patterns that don't have a natural trigger point
+- Revisit this question each review — if skills are consistently being loaded too late or missed, the system needs a structural fix
 
 ### 5. Gap Analysis
 
@@ -134,6 +141,7 @@ Lighter version for weekly reset:
 1. Any skills invoked incorrectly this week?
 2. Any manual workflows repeated 3+ times?
 3. Any skill descriptions that confused routing?
+4. Any skill that should have fired but didn't — because the description trigger was too late?
 
 ## Related Skills
 
