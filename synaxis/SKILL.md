@@ -72,6 +72,10 @@ synaxis --help
 | Codex | `~/.codex/skills/`, `~/.agents/skills/` | `~/.codex/config.toml` | `~/.codex/AGENTS.md → ~/CLAUDE.md` |
 | Gemini CLI | — | — | `~/.gemini/GEMINI.md` |
 
+## Frontmatter validation
+
+`synaxis` warns (`⚠`) on any `SKILL.md` missing a `---` YAML frontmatter block. Non-blocking — skill still syncs. Hard gate is the pre-commit hook in `~/skills/.git/hooks/pre-commit`.
+
 ## Gotchas
 
 - **Dir-level symlinks break Codex skill discovery** — must be real dir with per-skill symlinks inside (bug [#11314](https://github.com/openai/codex/issues/11314))
