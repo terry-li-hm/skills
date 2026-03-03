@@ -4,8 +4,8 @@ description: Multi-model deliberation — auto-routes by difficulty. Full counci
 aliases: [ask-llms, council, ask llms]
 github_url: https://github.com/terry-li-hm/consilium
 user_invocable: true
-cli_version: 0.5.0
-cli_verified: 2026-03-01
+cli_version: 0.5.1
+cli_verified: 2026-03-03
 runtime: rust
 ---
 
@@ -187,7 +187,7 @@ consilium "Should we use microservices or a monolith?" \
   --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
 ```
 
-- ~~`--named`~~ — **NOT IMPLEMENTED**. Models show as Speaker 1, 2, etc.
+- **Anonymization is always on.** Models see each other as "Speaker 1, 2, etc." — in both panelist system prompts and peer messages. The judge also receives anonymous labels. This is hardcoded, not a flag.
 
 **Force full council with persona context:**
 ```bash
@@ -451,11 +451,11 @@ This surfaces compliance concerns early rather than as afterthoughts.
 
 | Model | Tendency | Useful For |
 |-------|----------|------------|
-| **GPT-5.2** | Practical, implementation-focused | Actionable steps |
+| **GPT-5.2 Pro** | Practical, implementation-focused | Actionable steps |
 | **Gemini 3.1 Pro** | Technical depth, systems thinking | Architecture |
 | **Grok 4** | Contrarian, challenges consensus | Stress-testing ideas |
-| **DeepSeek R1** | Analytical, thorough reasoning | Deep analysis |
-| **GLM-5** | Strategic, pragmatic | Business decisions |
+| **Kimi K2.5** | Coding-strong, cross-lab diversity (Moonshot) | Technical depth |
+| **GLM-5** | Strategic, pragmatic (Zhipu, best-validated CN model) | Business decisions |
 | **Claude Opus 4.6** (Judge) | Balanced, integrates critique | Synthesis |
 
 **Default challenger:** GPT (rotates each round). Grok is naturally contrarian regardless, so GPT as explicit challenger gives two sources of pushback.
@@ -464,7 +464,7 @@ This surfaces compliance concerns early rather than as afterthoughts.
 
 ## Research Foundations
 
-Consilium's architecture is grounded in group deliberation research. See `[[Group Deliberation Research - Consilium Design]]` for full synthesis with sources.
+Consilium's architecture is grounded in group deliberation research. Full synthesis with 21 papers and consilium architecture assessment: `~/docs/solutions/multi-llm-deliberation-research.md`.
 
 **Why the blind phase matters most** (Surowiecki, Delphi, Tetlock): Independence before exposure is the single most validated principle. The blind phase captures independent positions before herding kicks in. These outputs should weigh heavily in final synthesis.
 
@@ -500,11 +500,14 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 
 ## Recent Features
 
-- **Colored output** (v0.1.3+): Semantic colors for phase banners, model headers, notices, stats. Auto-disabled in pipes (`IsTerminal`). Use `--no-color` to force plain.
+- **Blind claims for judge** (v0.5.1, Mar 2026): Judge now receives the raw blind-phase claims before the debate transcript. Enables direct blind→post-debate position comparison to detect sycophantic drift. CONVERGENCE SIGNAL prompt updated to reference this section.
+- **Confidence extraction** (v0.5.1, Mar 2026): `extract_confidence_score()` parses "Confidence: N/10" from each panelist's last response. Judge receives a summary; cross-references with POSITION CHANGE labels and CONVERGENCE SIGNAL.
+- **Response order randomization** (v0.5.1, Mar 2026): Other speakers' responses are shuffled per panelist per round, preventing first-listed-speaker position anchoring.
+- **Fallacy-Oversight rubric** (v0.5.1, Mar 2026): Gemini critique prompt now explicitly checks for unsupported premises, invalid inferences, false dichotomies, correlation-causation conflation — the most underweighted judge bias (CALM paper, score 0.566).
+- **Gemini critique env-configurable** (v0.5.1): `CONSILIUM_MODEL_CRITIQUE` env var overrides critique model, matching judge override pattern.
+- **Colored output** (v0.1.3+): Semantic colors for phase banners, model headers, notices, stats. Auto-disabled in pipes. Use `--no-color` to force plain.
 - **Context compression** (v0.1.4+): Multi-round debates compress prior rounds via Llama 3.3 70B. Judge always gets full transcripts. Use `--thorough` to disable.
 - **Challenger dissent protection** (v0.1.5+): If the challenger is actively dissenting, consensus early exit is blocked.
-- **`--doctor`** (v0.1.5+): First-run diagnostics — checks API keys, connectivity, session directory.
-- **JSON fixes** (v0.1.6+): JSON/YAML block now appears on stdout (was file-only). Decision field extraction is cleaner — actionable prose, not section headers.
 
 ## Known Issues
 
