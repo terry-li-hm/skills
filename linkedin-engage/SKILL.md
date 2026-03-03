@@ -163,16 +163,27 @@ All comments get `--deep` consilium before finalising — comments are public an
 
 Run automatically (no need to ask): provide full post context (verbatim text, all comments, author background) — never summarise the post for the council.
 
-Always include these explicit review criteria in the prompt:
+Always include the voice rules AND review criteria in the prompt:
 
 ```
+VOICE RULES (Terry's LinkedIn commenting style):
+- "Yes-and", never "yes-but" — extend the thesis, don't redirect it
+- No grading openers — banned: "Exactly right", "Great call", "Spot on", "You're right to", "Well said", "This is exactly the point". Anything that evaluates whether the poster got it correct is a grading move.
+- For senior practitioners: "I learned X from you" pattern works well — name + thanks → specific learning (one phrase) → add from Terry's lane. The specific learning must be named; vague "this reframed how I think" is hollow.
+- Address by first name at the start — signals genuine engagement, not a broadcast
+- Match the poster's emotional register — measured post → measured comment, no injected optimism
+- Add something the poster didn't say — don't restate their own points back to them
+- End with an observation, not a question
+- ~50-70 words, plain text, British spelling
+
 REVIEW CRITERIA:
 1. Does the comment extend the poster's thesis without redirecting it?
-2. SENIORITY CHECK: Does the opener put Terry in the judge seat? Banned openers: "Exactly right", "Great call", "Spot on", "You're right to", "Well said", "This is exactly the point" — anything that evaluates whether the poster got it correct is a grading move, regardless of how complimentary. Flag and rewrite if present.
+2. SENIORITY CHECK: Does the opener put Terry in the judge seat? Flag and suggest rewrite if present.
 3. Does it avoid repeating points the poster already made?
 4. Does it avoid yes-but / correction patterns?
-5. Does it match the poster's emotional register (measured post → measured comment, no injected optimism)?
+5. Does it match the poster's emotional register?
 6. Is the angle from Terry's lane (AI/data science), not the poster's domain?
+7. Does the comment clearly connect back to the post — would a reader who skims both see the thread?
 ```
 
 ### 7. Finalise and Deliver
