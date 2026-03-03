@@ -3,7 +3,7 @@
 Demo CLI for Lacuna regulatory gap analysis. Wraps the Railway API with Rich output.
 
 **Script:** `~/bin/lacuna` (uv run --script, no install needed)
-**API:** `https://meridian-production-1bdb.up.railway.app` (no auth)
+**API:** `https://lacuna.sh` (custom domain, no auth) — Railway: `https://lacuna-production-8dbb.up.railway.app`
 
 ## Commands
 
