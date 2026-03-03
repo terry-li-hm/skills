@@ -478,6 +478,8 @@ Consilium's architecture is grounded in group deliberation research. Full synthe
 
 **Why convergence is a strong signal** (Tetlock/GJP): When independent agents with different models/priors agree, the evidence is multiplicative. The judge should extremize convergent conclusions — push confidence further than a simple average.
 
+**Exception — regulatory/domain-specific groupthink:** Unanimous alarm on a technical/regulatory concern is a red flag, not a strong signal. All models share training data from the same domain literature. Observed live (Mar 2026): 4/5 panelists flagged "training signal" as an SR 11-7 MRM risk — but the reasoning was identical across all four (same vocabulary, same framing). Judge caught it after Gemini critique. Rule: when all agents converge on a named regulatory concept (SR 11-7, BCBS 239, MAS AIRM), check whether the reasoning is *independently derived* or *shared framing from training data*. Discount unanimous alarm on domain-specific regulatory concerns; require at least one agent to articulate a distinct mechanism.
+
 **Why sycophancy is the #1 risk** (ICLR 2025, ACL 2025): Multi-agent debate produces "correct-to-incorrect" flips that exceed improvements. Position changes without new evidence are sycophancy, not reasoning. The debate and judge prompts include anti-sycophancy measures.
 
 **Why the judge uses ACH** (Heuer/CIA): Analysis of Competing Hypotheses — list competing conclusions, evaluate evidence against each, eliminate rather than confirm. This counters confirmation bias in synthesis.
