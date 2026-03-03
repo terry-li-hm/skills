@@ -109,13 +109,11 @@ If batch modify fails, do not continue cleanup; report IDs not processed.
 
 ### 4. Cora brief — read from website (more complete than email)
 ```bash
-AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser open "https://cora.computer/14910/briefs?date=<YYYY-MM-DD>&time=morning" \
-  && AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser wait --load networkidle \
-  && AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser eval "document.querySelector('main')?.innerText"
+uv run ~/scripts/cora_brief.py <YYYY-MM-DD> <morning|afternoon>
 ```
-The website brief includes payments, newsletters, and promotions that the summary email omits.
-**Login gotcha:** If agent-browser redirects to `https://cora.computer/users/sign_in`, the profile is not logged into Cora. Run `browser-login` skill to log in and save the session. Until then, fall back to the email brief.
-If agent-browser fails or redirects to sign-in, fall back to Cora brief email via `gog gmail search "from:briefs@cora.computer newer_than:1d" --max 1 --plain`.
+This script injects Chrome's session cookies into Playwright in the same context and navigates to the brief. More reliable than the agent-browser profile approach (cookies don't persist across Playwright contexts for Cora).
+**Prereq:** Must be logged into cora.computer in regular Chrome. If Chrome session expires, re-login there first.
+If the script returns `ERROR: Cora session invalid`, fall back to email: `gog gmail search "from:briefs@cora.computer newer_than:1d" --max 1 --plain`.
 If both fail, note "Cora brief unavailable" and continue.
 
 ### 5a. LinkedIn job alerts — surface if Cora brief mentions them
