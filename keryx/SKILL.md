@@ -1,11 +1,11 @@
 ---
 name: keryx
-description: WhatsApp CLI wrapper — contact name resolution, dual-JID conversation merging, daemon-aware send block. Use instead of raw wacli when working with contacts by name.
+description: WhatsApp CLI wrapper — contact name resolution, dual-JID conversation merging, daemon-aware send block, sync daemon management. Use instead of raw wacli when working with contacts by name.
 ---
 
 # keryx
 
-Thin wrapper around `wacli` that fixes its three friction points: manual JID lookup, split conversations across phone/LID JIDs, and daemon lock on send.
+Thin wrapper around `wacli` that fixes its four friction points: manual JID lookup, split conversations across phone/LID JIDs, daemon lock on send, and sync reliability (periodic catch-up).
 
 ## Commands
 
@@ -17,6 +17,13 @@ keryx send "Herman" "Hi" --copy   # same + copies (tmux: set-buffer, paste with 
 keryx chats                    # recent chats (passthrough)
 keryx chats --limit 10
 keryx add-contact "Dorothy" "+85252660778"  # add to Contacts.app + local alias
+
+# Sync daemon management
+keryx sync status              # show daemon PID, running state, last 5 log lines
+keryx sync start               # load LaunchAgent
+keryx sync stop                # unload LaunchAgent
+keryx sync restart             # stop + start
+keryx sync catchup             # stop → wacli sync --once → start (recover missed messages)
 ```
 
 ## How It Works
@@ -52,7 +59,7 @@ The alias makes `keryx send` work **immediately** without waiting for WhatsApp t
 
 ## Gotchas
 
-- **wacli daemon must be running** for reads to have current data. Check: `launchctl list com.terry.wacli-sync` (exit 113 = dead, restart with `launchctl load ~/Library/LaunchAgents/com.terry.wacli-sync.plist`)
+- **wacli daemon must be running** for reads to have current data. Check with `keryx sync status`. Restart with `keryx sync restart`.
 - **`brew upgrade wacli` overwrites the patched binary.** keryx itself is fine but wacli may break — see `~/docs/solutions/wacli-business-message-fix.md` to re-patch.
 - **Multiple name matches** are only an error if they're different people. Same-name / multiple-JID (dual-JID case) is handled automatically.
 - **Send requires interactive terminal** — keryx intentionally outputs the command block rather than executing. Paste and run in your shell.
@@ -71,4 +78,6 @@ The alias makes `keryx send` work **immediately** without waiting for WhatsApp t
 | Lookup by JID | `wacli messages list --chat <jid>` directly |
 | Search across chats | `wacli messages search "keyword"` directly |
 | Add new contact + save alias | `keryx add-contact "Name" "+852..."` |
-| Admin (sync, auth, contacts) | `wacli` directly |
+| Check/manage sync daemon | `keryx sync status/start/stop/restart` |
+| Recover missed messages | `keryx sync catchup` |
+| Auth, contacts refresh | `wacli` directly |
