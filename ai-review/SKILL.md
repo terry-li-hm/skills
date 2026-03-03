@@ -78,6 +78,18 @@ Append to `[[AI Landscape]]` under `## Weekly Snapshots`:
 **Sources:** [X items from AI News Log, Y from live WebSearch]
 ```
 
+### Step 3.5: Governance translation pass
+
+For each top development, ask: **does this expose a governance gap no current framework (MAS AIRM, HKMA, PRA SS1/23) explicitly covers?**
+
+If yes — act, don't just flag:
+1. Add a new row to `[[Capco - AI Regulatory Gap Assessment 2026]]` in the most relevant domain, with Gap + Action Item in the standard table format.
+2. If it's a vendor/procurement requirement, add a new clause to `codex-argentum-v1.txt` in Section 8 (Third-Party and Vendor Requirements) or Section 3 (Pre-Deployment Requirements).
+3. Re-upload Codex Argentum to Lacuna if changed (see Re-upload Workflow in `~/code/lacuna/CLAUDE.md`). Flag demo cache as stale.
+4. Note what was updated in the weekly snapshot under "Also notable."
+
+**Bar for acting:** the gap must be genuinely novel (not implied by existing requirements), and the development must be a clear trigger (not speculative). When in doubt, add to "Also notable" with a governance flag rather than updating the docs.
+
 ### Step 4: Suggest
 
 Cross-reference findings with active pipeline:
