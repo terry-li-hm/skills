@@ -119,6 +119,8 @@ Terry's strongest angles (in order of preference):
 4. **The regulatory/institutional signal** — "the regulators are also moving on this" — echoes their thesis with external confirmation
 5. **Echo their opening with an irony or tension they didn't name** — extends their frame without leaving it
 
+**For senior former colleagues specifically:** the "I learned X from you" pattern is the most natural register — it's warm without grading, and specific > generic. Structure: name + thanks → name exactly what you learned (one phrase, specific) → add from your own lane. Example: "Gary, thanks — [specific reframe] is the reframe I didn't know I needed. From the data science side, [DS add]." Address by first name at the start; it signals a real relationship, not a broadcast comment.
+
 Check vault for supporting material:
 
 ```bash
