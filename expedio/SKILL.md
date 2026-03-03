@@ -99,6 +99,8 @@ If this fails, stop triage and report "Inbox fetch unavailable."
 
 ### 2. Triage — categorise each as: action / informational / archive
 
+**GitHub PR notifications:** Always surface comments on Terry's own PRs (from `notifications@github.com`), even if the comment contains no explicit ask. Positive feedback ("that is cool!", "LGTM") signals momentum toward review/merge and is worth knowing. Do not deprioritise as "no action required."
+
 ### 3. Batch mark read + archive
 ```bash
 gog gmail batch modify <id1> <id2> ... --remove UNREAD --remove INBOX -y
