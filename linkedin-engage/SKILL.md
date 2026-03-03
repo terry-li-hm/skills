@@ -174,6 +174,8 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 
 **Iteration note.** Consilium is better at catching what's wrong than finding the right voice. After the council review, expect to iterate on tone, structure, and connection to the post through back-and-forth — that loop does more work than the upfront council. Don't treat the council draft as final.
 
+**Time budget.** A LinkedIn comment should take 20-30 minutes total. One council run, then direct iteration with Terry. Stop when it passes the stress-tests — not when it feels perfect. LinkedIn comments have a 24h relevance window; perfect is the enemy of posted. If iteration has gone past 3 rounds after the council, call it and post. Remind Terry of this explicitly if the loop is running long.
+
 Present the draft in chat with a one-line rationale for the angle chosen. **Stop here and wait for input.**
 
 ### 6. Consilium Review (mandatory for all comments)
