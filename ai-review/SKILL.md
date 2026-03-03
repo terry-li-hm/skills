@@ -164,3 +164,4 @@ Append the full monthly review under `## Monthly Reviews`:
 - **Don't benchmark-chase.** "Model X scores 3% higher on HumanEval" is not a talking point.
 - **Don't repeat the news log.** This adds the "so what" layer.
 - **Don't hedge everything.** Take positions. A consultant who says "it depends" adds no value.
+- **Run the governance translation pass.** For each top development, ask: does this expose a governance gap no current framework covers? The best Capco talking points come from news → implication → regulatory blind spot. If yes → flag it explicitly and consider whether it should be incorporated into [[Capco - AI Regulatory Gap Assessment 2026]] or Codex Argentum. Examples: geopolitical vendor availability (Trump/Anthropic ban), AI TCO risk (pricing sustainability), vendor ethical alignment (alignment schism).
