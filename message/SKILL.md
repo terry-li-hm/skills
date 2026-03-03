@@ -55,11 +55,16 @@ Review:
 
 ### 4. Draft Reply
 
+**Start from natural speech, not formal drafts.** Ask: "what would Terry actually say to this person on WhatsApp?" — then polish. Don't anchor on council-approved or vault drafts and iterate from there; those are strategy, not phrasing. Natural first, refined second.
+
 Apply Terry's messaging preferences:
 - **Minimal exclamation marks** - one at most, prefer periods
 - **No redundant context** - don't repeat what they already know
 - **Trim filler** - keep it tight and direct
 - **Match tone** - professional but warm for recruiters
+- **Disclaimers can backfire** — "no stress either way," "no offence," etc. draw attention to exactly what they deny. Use only when genuinely needed; often cutting them makes the message more confident.
+- **Pre-emptive thanks is filler** — thanking before the person has done anything reads as nervous, not polite. Cut it.
+- **Don't manufacture reasons for a follow-up** — if a reason isn't genuinely true and naturally occurring, leave it out. A clean question stands on its own; over-explaining signals anxiety.
 - **When someone is already acting on your behalf** (checking with boss, making an intro, forwarding your profile) — close short. Acknowledge, thank, stop. Don't re-sell, don't add CTAs, don't drill into details they mentioned in passing. The process is running; more words = noise.
 - **Don't say what they already know** - "didn't know X" when there's no reason you would know is filler. "Hope for good news" puts outcome pressure on the helper.
 
