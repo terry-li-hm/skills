@@ -36,16 +36,15 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Flag anything requiring action
    - **SmarTone bill:** If a SmarTone statement appears, extract the QR code payment link from the raw email HTML (`gog gmail get <id> --plain`) — look for `QRCodeGenServlet` href and surface as a clickable link with amount and due date.
 
-5. **Cora inbox triage** (read full brief from website + Gmail labels):
+5. **Cora inbox triage** — **MUST fetch from website, not just email. Email is summary only.**
    - Get today's brief ID: `gog gmail search "from:briefs@cora.computer newer_than:12h" --max 1 --plain`
-   - Read headline stats: `gog gmail get <id> --plain` (handled %, needs attention count)
-   - **Read full brief content from Cora website** (more complete than email):
+   - **REQUIRED: Fetch full brief from Cora website** (email only has handled % and category counts — website has the actual action items, payment details, and flagged emails):
      ```
-     AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser open "https://cora.computer/<account_id>/briefs?date=<YYYY-MM-DD>&time=morning" \
+     AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser open "https://cora.computer/14910/briefs?date=<YYYY-MM-DD>&time=morning" \
        && agent-browser wait --load networkidle \
        && AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser eval "document.querySelector('main')?.innerText"
      ```
-     Account ID is `14910`. Extracts full brief text including payments, newsletters, promotions, and action items.
+   - Only fall back to `gog gmail get <id> --plain` if agent-browser fails.
    - Action items: `gog gmail search "label:Cora/Action newer_than:12h" --max 5 --plain`
    - If any action/response items found, list them
    - If no brief and no flagged items, skip silently
@@ -58,11 +57,6 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Check `~/notes/opencode-runs/` for last night's run — read the most recent `summary.md` (by date folder). Report task count, pass/fail, and flag anything NEEDS_ATTENTION or CRITICAL.
    - If no results, skip silently.
 
-7b. **Read NOW.md** (`~/notes/NOW.md`):
-   - Scan for running processes — check if PIDs are still alive (`ps -p <PID>`)
-   - Note what was active last session — follow links to canonical project tracker notes for real context
-   - If stale (>24h), mention it but don't rely on it
-
 8. **Health scores** (from Oura Ring):
    - Run: `oura scores` (requires `OURA_TOKEN` in env — set in `~/.zshenv`)
    - Include the one-line output in the brief under "Health:"
@@ -74,18 +68,12 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - **Send to Tara**: compose a friendly prose weather note (2–3 sentences max). One lead weather emoji only + umbrella ☂️ if rain likely — no other inline emojis. Include temp range, key conditions, and anything actionable. Then send: `~/scripts/imessage.sh "<composed message>"`. Log "Weather sent to Tara ✓" in the brief.
    - If imessage.sh fails (non-zero exit), note "Weather send to Tara failed" — don't retry.
 
-10. **Today's calendar** (what's on the schedule):
-   - Run: `gog calendar list` (NOT `gog calendar today` — that subcommand doesn't exist)
-   - List events with times. Flag any that need prep (meetings, appointments)
-   - If empty, skip silently
+10. **Today's plate** — delegate to kairos:
+   - Run `/kairos` to get the situational snapshot: calendar, open NOW.md gates, overdue TODOs.
+   - Incorporate its output verbatim into the closing section of the brief ("Today's plate:").
+   - Don't re-run calendar or NOW.md independently — kairos owns that.
 
-11. **Overdue + today's deadlines** (quick scan, not full TODO review):
-   - Read `~/notes/TODO.md`
-   - Surface only: items with `due:` <= today, items with `when:` <= today
-   - Skip someday items, skip items due later this week
-   - This is a reminder, not a restatement — daily's tomorrow preview already set expectations
-
-12. **Capco countdown + daily intel** (until start date):
+11. **Capco countdown + daily intel** (until start date):
    - Run `date` to calculate days remaining until Capco start (Apr 8, 2026 — or Mar 16 if buyout confirmed; check `~/notes/Capco/Capco Transition.md` for current date)
    - **Pick today's prep item** — rotate through topics by day-of-week (Mon: Capco methodology, Tue: client knowledge, Wed: AI governance frameworks, Thu: HK regulatory landscape, Fri: personal brand/intro pitch). One specific, 15-minute-doable item.
    - **Quick intel sweep** — 2–3 targeted searches:

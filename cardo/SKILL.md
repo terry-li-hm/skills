@@ -45,9 +45,10 @@ Lighter than `/morning` (no weather, health, inbox). Heavier than a `/wrap` (syn
    - **Open loose ends:** Things discussed but not completed, or deferred with "fix next time"
    - **Unresolved decisions:** Naming choices, architecture questions, etc. that ended without conclusion
 
-6. **Afternoon priorities** — ask Terry:
-   - "What's the one thing that matters most this afternoon?"
-   - Or if the session scan surfaces clear priorities (e.g., a half-done task, a pending delegate), propose 2–3 options
+6. **Afternoon priorities** — delegate to kairos:
+   - Run `/kairos` for the live situational snapshot: calendar, open NOW.md gates, overdue TODOs.
+   - Use its output alongside the session scan to propose 2–3 concrete afternoon options.
+   - Kairos owns the "what's live right now" read; cardo contributes the "what shipped / what's still open" from this morning's sessions.
 
 7. **File loose ends** — for each open item identified:
    - If it's a quick fix: add to TODO.md `someday` or `low-energy`
