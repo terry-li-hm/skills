@@ -67,6 +67,8 @@ The alias makes `keryx send` work **immediately** without waiting for WhatsApp t
 - **`dirs::config_dir()` on macOS** = `~/Library/Application Support/`, not `~/.config`. All keryx data lives there.
 - **`add-contact` opens Contacts.app** — requires the Mac's GUI to be accessible. Works from Ghostty/local terminal; may fail silently from pure SSH.
 - **`--copy` in tmux** uses `tmux set-buffer` — paste with `prefix + ]` (not Cmd+V). Outside tmux, uses osascript → system clipboard.
+- **Quoted messages are truncated in plain output** — the `Text` column only shows the quoted prefix. Use `wacli messages list --chat <jid> --limit N --json` to get the full body (`Text` field in JSON = actual message, `DisplayText` = quote + body).
+- **LID name mismatch can cause missed messages** — if a contact's LID chat has a different display name than the phone JID (e.g. "Joel" vs "Joel Tse"), `keryx read` may not merge them. Symptom: read looks stale despite recent activity. Fix: `keryx chats --limit 20` to spot the LID entry, then query directly with `wacli messages list --chat <lid-jid> --limit N`.
 
 ## When to Use keryx vs wacli Directly
 
@@ -75,7 +77,7 @@ The alias makes `keryx send` work **immediately** without waiting for WhatsApp t
 | Read conversation by name | `keryx read "Name"` |
 | Send message by name | `keryx send "Name" "..."` |
 | List chats | `keryx chats` |
-| Lookup by JID | `wacli messages list --chat <jid>` directly |
+| Lookup by JID / LID mismatch | `wacli messages list --chat <jid>` directly |
 | Search across chats | `wacli messages search "keyword"` directly |
 | Add new contact + save alias | `keryx add-contact "Name" "+852..."` |
 | Check/manage sync daemon | `keryx sync status/start/stop/restart` |
