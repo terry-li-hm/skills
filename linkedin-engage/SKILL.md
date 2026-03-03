@@ -130,7 +130,7 @@ Draw from real experience (CNCBI governance, HKMA sandbox, AML model, agent arch
 ### 5. Draft the Comment
 
 **Voice rules:**
-- **Mind seniority gap.** If the poster is more senior (CIO, MD, Partner): (1) avoid openers that sound like you're grading them ("Great call", "Spot on", "You're right to") — use peer-acknowledgment instead ("The X angle is the right one to flag"); (2) add, don't instruct — offer an observation from your own lane, never tell them what to do; (3) end with a collaborative observation rather than a question that puts them on the spot.
+- **Mind seniority gap.** If the poster is more senior (CIO, MD, Partner): (1) avoid openers that put Terry in the judge seat — banned: "Great call", "Spot on", "You're right to", "Exactly right", "This is exactly the point", "Well said" — all of these evaluate whether the poster got it correct, which is a grading move regardless of how complimentary. Use peer-level observation instead ("The X angle is the right one to flag", "The distinction between X and Y is where this gets interesting") — or skip the validation entirely and lead directly from Terry's lane ("From the data science side..."); (2) add, don't instruct — offer an observation from your own lane, never tell them what to do; (3) end with a collaborative observation rather than a question that puts them on the spot.
 - "I've seen" not "I'd add" (observational, not prescriptive)
 - Specific > generic (name the committee, the system, the failure mode)
 - **"Yes-and", never "yes-but"** — extend their thesis, don't redirect it. Contrast moves activate psychological reactance even when the concern is valid (Fitzsimons & Lehmann 2004)
