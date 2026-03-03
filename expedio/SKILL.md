@@ -109,11 +109,11 @@ If batch modify fails, do not continue cleanup; report IDs not processed.
 
 ### 4. Cora brief — read from website (more complete than email)
 ```bash
-uv run ~/scripts/cora_brief.py <YYYY-MM-DD> <morning|afternoon>
+porta run --domain cora.computer "https://cora.computer/14910/briefs?date=<YYYY-MM-DD>&time=<morning|afternoon>"
 ```
-This script injects Chrome's session cookies into Playwright in the same context and navigates to the brief. More reliable than the agent-browser profile approach (cookies don't persist across Playwright contexts for Cora).
+Injects Chrome's Cora session into Playwright in the same context and navigates. More reliable than agent-browser profile (cookies don't persist across contexts for Cora).
 **Prereq:** Must be logged into cora.computer in regular Chrome. If Chrome session expires, re-login there first.
-If the script returns `ERROR: Cora session invalid`, fall back to email: `gog gmail search "from:briefs@cora.computer newer_than:1d" --max 1 --plain`.
+If porta returns `ERROR: session invalid`, fall back to email: `gog gmail search "from:briefs@cora.computer newer_than:1d" --max 1 --plain`.
 If both fail, note "Cora brief unavailable" and continue.
 
 ### 5a. LinkedIn job alerts — surface if Cora brief mentions them
