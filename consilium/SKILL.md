@@ -38,6 +38,8 @@ runtime: rust
 
 ## Routing: Which Mode?
 
+**Mental model: `--quick` = breadth (generate candidates, surface perspectives), `--council` = convergence (evaluate a specific decision, models push back on each other).** When you want diverse inputs to synthesise yourself → quick. When you want the models to stress-test a specific position → council or deeper.
+
 ```
 Does the question have a single correct answer? (specs, facts, how-to)
   YES → Web search or ask Claude directly. Don't use consilium.
