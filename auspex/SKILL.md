@@ -85,11 +85,16 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Skip someday items, skip items due later this week
    - This is a reminder, not a restatement — daily's tomorrow preview already set expectations
 
-12. **Capco countdown** (until start date):
+12. **Capco countdown + daily intel** (until start date):
    - Run `date` to calculate days remaining until Capco start (Apr 8, 2026 — or Mar 16 if buyout confirmed; check `~/notes/Capco/Capco Transition.md` for current date)
-   - Show: "X days to Capco"
-   - If `/capco-prep brief` hasn't been run recently (check `~/notes/Capco/.capco-drill-state.json` last_session date), nudge: "Run `/capco-prep brief` for today's prep item"
-   - Weave the countdown naturally into the brief — don't make it a separate section
+   - **Pick today's prep item** — rotate through topics by day-of-week (Mon: Capco methodology, Tue: client knowledge, Wed: AI governance frameworks, Thu: HK regulatory landscape, Fri: personal brand/intro pitch). One specific, 15-minute-doable item.
+   - **Quick intel sweep** — 2–3 targeted searches:
+     - "Capco HK news" or "Capco Asia fintech" (past week)
+     - "HKMA AI banking announcement" (past week)
+     - One competitor signal: Accenture/EY/KPMG/Deloitte APAC financial services AI
+   - Surface: one key signal (1–2 sentences) + one talking point for client conversations
+   - Skip the sweep if no results worth noting — don't pad
+   - Weave countdown, prep item, and intel naturally into the brief — no separate section
 
 13. **GARP quiz check** (until Apr 4):
    - Run `~/scripts/rai.py stats 2>/dev/null | head -5` to get session count and phase
