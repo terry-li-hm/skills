@@ -56,6 +56,7 @@ Scan for signals of unfinished business:
 - Git diff — uncommitted changes that need context preserved
 - Decisions made but not written anywhere
 - **LinkedIn angle?** Did anything this session surface a non-obvious insight, architecture decision, or inversion worth sharing? If yes → add entry to `[[LinkedIn Content Ideas]]` before wrapping. Don't draft — just capture the hook and angle.
+- **Governance gap?** Did anything this session expose a gap no current AI governance framework (MAS AIRM, HKMA, PRA SS1/23) explicitly covers? If yes → act before wrapping: add a row to `[[Capco - AI Regulatory Gap Assessment 2026]]` and/or a clause to `codex-argentum-v1.txt` (Section 3 or 8). Re-upload Codex Argentum to Lacuna if changed (see Re-upload Workflow in `~/code/lacuna/CLAUDE.md`). Bar: must be genuinely novel and clearly triggered by this session's work — not speculative.
 
 Present as brief suggestions. User decides what to act on now vs. defer.
 
