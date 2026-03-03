@@ -38,13 +38,16 @@ Extract: author name/title, verbatim post text, all comments (author + text), en
 
 ### 2. Research the Author
 
-Web search for the author's **full background** — current role AND prior career. Current title undersells domain overlap (e.g. a healthcare AI founder may have previously built FS AI). Check vault too:
+**Check vault first.** Profiles are cached at `~/notes/LinkedIn Profiles/<Name>.md`. Check before fetching LinkedIn:
 
 ```bash
-cerno "<author name>"
+ls ~/notes/LinkedIn\ Profiles/
+# look for <Name>.md — if found, read it
 ```
 
-**Always open the full experience page** — the main profile truncates roles. Navigate to `/details/experience`, not just `/in/<username>`:
+If a cached profile exists and was updated within 90 days, use it and **skip the LinkedIn experience fetch entirely**. The cached file includes career history, relationship context, and engagement history.
+
+If no cached profile (or >90 days old): fetch the full experience page — the main profile truncates roles. Navigate to `/details/experience`, not just `/in/<username>`:
 
 ```bash
 agent-browser open "https://www.linkedin.com/in/<username>/details/experience" --profile
@@ -53,6 +56,36 @@ agent-browser snapshot --profile
 
 Key things to surface: prior companies, domain expertise accumulated before current role, any FS/banking background. This prevents explaining someone's own domain back to them.
 
+**After researching, save or update the vault profile:**
+
+```bash
+# Create or overwrite ~/notes/LinkedIn Profiles/<Name>.md
+```
+
+Profile format:
+```md
+---
+type: linkedin-profile
+name: <Full Name>
+url: https://www.linkedin.com/in/<username>
+last_updated: <YYYY-MM-DD>
+---
+
+# <Full Name>
+
+**Current:** <role> at <company>
+**Relationship:** <how connected to Terry — former colleague, 1st connection, potential Capco client, etc.>
+
+## Career History
+- <Company> — <role> (<years>)
+- ...
+
+## Engagement History
+- <YYYY-MM-DD>: Commented on "<post topic>" — <one-line summary of what Terry said>
+```
+
+Add each new comment to the Engagement History section after posting. This log replaces `anam search` for frequent contacts.
+
 ### 3. Assess: Should Terry Comment?
 
 Answer these before drafting:
@@ -60,7 +93,7 @@ Answer these before drafting:
 1. **Is the topic in Terry's lane?** (AI, financial services, governance, enterprise tech, consulting)
 2. **Can Terry add a distinct angle?** (Not just agreement — a practitioner insight, extension, or counterpoint)
 3. **Is the author worth engaging?** (Senior practitioner, potential client/referral, thought leader in FS/AI)
-4. **Is the timing right?** LinkedIn's algorithm weights first-hour engagement most heavily — a post >24h old has already peaked in distribution. But timing affects *reach*, not whether the poster sees it — LinkedIn notifies authors of every comment regardless of age. So: >48h is fine if the author is a high-value target (senior FS exec, potential Capco client) and the post has low engagement (<50 reactions) — they'll notice and appreciate it. Skip only if the post is >1 week old or already has 100+ comments. Also check `anam search "<author/company>" --deep` — if Terry already commented on this person/company today, skip.
+4. **Is the timing right?** LinkedIn's algorithm weights first-hour engagement most heavily — a post >24h old has already peaked in distribution. But timing affects *reach*, not whether the poster sees it — LinkedIn notifies authors of every comment regardless of age. So: >48h is fine if the author is a high-value target (senior FS exec, potential Capco client) and the post has low engagement (<50 reactions) — they'll notice and appreciate it. Skip only if the post is >1 week old or already has 100+ comments. Check the vault profile's Engagement History — if Terry commented on this person in the last 7 days, skip. Fallback: `anam search "<author>" --deep`.
 5. **Is the post worth Terry's comment?** If Terry's comment would be smarter than the post itself, react and move on. Comment when the post pulls the conversation *up* — original frameworks, genuine depth, substantive takes. Skip well-packaged platitudes, repackaged concepts, and content-mill series. Terry's practitioner insights should add to something strong, not carry something thin.
 6. **Will the poster be happy to see this comment?** Read the emotional register of the post. If they wrote an enthusiasm/vision post, a purely risk-focused or corrective comment lands as a buzzkill — even if factually additive. The comment should match or gently extend the poster's tone, not deflate it. A cold commenter who makes a CIO look behind on risk management in front of their peers is not welcome. If the honest angle is negative, consider liking and moving on instead.
 
@@ -147,7 +180,14 @@ agent-browser click <react-like-ref> --profile
 agent-browser close --profile
 ```
 
-Delete gist after Terry confirms posted.
+After Terry confirms posted, **update the vault profile's Engagement History**:
+
+```bash
+# Append to ~/notes/LinkedIn Profiles/<Name>.md Engagement History
+# - <YYYY-MM-DD>: Commented on "<topic>" — <one-line summary>
+```
+
+Then delete the gist.
 
 ```bash
 gh gist create --public=false -f "linkedin-review.md" - << EOF
