@@ -509,7 +509,7 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 ## Known Issues
 
 - **Binary can go stale after code changes.** Source at `~/code/consilium`. After edits: `cd ~/code/consilium && cargo build --release`. Binary is symlinked from `~/.local/bin/consilium`.
-- **Model timeouts:** Some models (historically Kimi, now DeepSeek/GLM) occasionally time out. Partial outputs add noise but the council still works with remaining speakers.
+- **Model timeouts:** Some models (historically Kimi, now DeepSeek/GLM) occasionally time out. Partial outputs add noise but the council still works with remaining speakers. In `--quick` mode this is less impactful since all models run concurrently — a slow model no longer blocks others.
 - **JSON output truncation:** ~~Fixed in v0.1.6~~ — JSON block now written to stdout. Use `--output file.md` as belt-and-suspenders.
 - **JSON `decision` field can be noisy:** ~~Improved in v0.1.6~~ — extraction prompt tightened, fallback skips section headers.
 - **`--format json` only works with council and quick modes.** All other modes (discuss, redteam, solo, socratic, oxford) output prose only. Use `--output file.md` to capture. See flag compatibility table above.
