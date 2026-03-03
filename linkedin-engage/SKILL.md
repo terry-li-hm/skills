@@ -108,6 +108,13 @@ If any answer is no, say so and suggest skipping or just reacting.
 - Common false positives: banking controls doctrine (maker/checker), consulting truisms (operating model vs technology upgrade), standard checklist items (include compliance costs in the business case). These feel specific but aren't sharp.
 - If no single insight stands out as distinctive: don't force it. Use the "thank you for this — particularly X" pattern (see Step 5) — generic warmth rescued by a specific point.
 
+**Finding the DS add — look for the unstated dual function or secondary mechanism.** When a poster names a role or concept (e.g. "checker role"), ask: does this role serve a second function they didn't name? A concept often has a primary use (what the poster said) and a secondary mechanism (what the data layer sees). That gap is usually where the genuine DS contribution lives. Example: "checker role" = quality control (Gary's framing) + data labeling (DS framing the poster left implicit).
+
+**Technical claim stress-test — before including any DS claim, ask three questions:**
+1. Is this from Terry's actual lane (data science / ML), not the poster's domain (ops, compliance, IT)?
+2. Does it apply to the full scope the poster describes — or only one part of their progression?
+3. Would a domain expert push back on this? If yes, drop it or narrow the claim.
+
 **Brainstorm method:** Map the poster's actual claims (list them), then ask:
 - What did they almost say but didn't?
 - What's the next logical step they left implicit?
@@ -125,6 +132,8 @@ Terry's strongest angles (in order of preference):
 5. **Echo their opening with an irony or tension they didn't name** — extends their frame without leaving it
 
 **For senior practitioners (any relationship):** the "I learned X from you" pattern is the most natural register — it's warm without grading, and specific > generic. Structure: name + thanks → name exactly what you learned (one phrase, specific) → add from your own lane. Example: "Gary, thanks — [specific reframe] is the reframe I didn't know I needed. From the data science side, [DS add]." Address by first name at the start; it signals genuine engagement, not a broadcast comment. The specific learning must be named — vague "this reframed how I think" is as hollow as "very insightful."
+
+**When the poster is more senior (GM, MD, Partner, CIO):** contribute as a supplemental observation from your lane only — never implicit design advice or recommendations in their domain. Frame as "from the data science side, [observation]" not "you should design X" or "only if Y is built in." The caveat test: if your closing sentence implies the poster needs to do something differently, reframe it as an observation or drop it.
 
 Check vault for supporting material:
 
