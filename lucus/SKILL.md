@@ -82,6 +82,7 @@ lucus switch @   # current worktree
 
 ## Gotchas
 
+- **`lucus merge` does not exist yet** (Phase 3). To merge a worktree branch back: `git merge <branch> --no-ff` from the main repo, then `git worktree remove --force <path>`. Don't call `lucus merge` — it errors.
 - `lucus remove` fails with uncommitted/untracked files — `--force` flag is **not yet implemented**. Use `git worktree remove --force <path>` directly as workaround.
 - `lucus switch` requires the shell wrapper (`lucus init zsh`) to actually `cd`
 - Worktrees land at `../{repo}.{branch}` by default — sibling directories of the source repo

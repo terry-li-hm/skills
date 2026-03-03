@@ -1,21 +1,24 @@
 ---
 name: porta
-description: Bridge Chrome cookies into agent-browser profile (solves Google OAuth block)
+description: Bridge browser cookies (Chrome, Firefox, Arc) into agent-browser profile (solves Google OAuth block)
 triggers:
   - porta inject
+  - porta watch
   - agent-browser google oauth
   - chrome cookies playwright
+  - firefox cookies playwright
 ---
 
 # porta
 
-Bridges Chrome cookies into the agent-browser Playwright persistent profile.
+Bridges browser cookies into the agent-browser Playwright persistent profile.
 Solves the Google OAuth block (agent-browser can't authenticate via Google SSO).
+Supports Chrome (multi-profile), Firefox, and Arc. Has a watch mode for long-running sessions.
 
 ## Workflow
 
 ```
-# 1. Log in to the target site in Chrome (normal browser, not headless)
+# 1. Log in to the target site in your browser (Chrome/Firefox — normal, not headless)
 open -a "Google Chrome" "https://site.com/login"
 # → user logs in manually
 
@@ -25,31 +28,64 @@ porta inject --domain site.com
 # 3. Verify headless access works
 agent-browser open "https://site.com/dashboard"
 agent-browser get url  # should NOT redirect to login
+
+# 4. For long-running tasks: keep cookies fresh automatically
+porta watch --domain site.com --interval 300
 ```
 
 ## Commands
 
 ```bash
-# Inject all cookies for a domain
-porta inject --domain vercel.com
+# --- Inject ---
+porta inject --domain vercel.com                    # Chrome Default profile
+porta inject --domain vercel.com --dry-run          # see what would be injected
+porta inject --browser firefox --domain google.com  # Firefox
+porta inject --browser arc --domain linear.app      # Arc
+porta inject --chrome-profile "Profile 1" --domain site.com  # Chrome non-default profile
 
-# Dry-run: see what would be injected
-porta inject --domain vercel.com --dry-run
+# --- List ---
+porta list --domain vercel.com                      # Chrome Default
+porta list --browser firefox --domain google.com    # Firefox
+porta list --browser arc --domain site.com          # Arc
+porta list --chrome-profile "Profile 1" --domain site.com
 
-# List cookies for a domain (from Chrome)
-porta list --domain vercel.com
+# --- Watch mode ---
+# Re-injects automatically when auth cookies near expiry (default: every 5 min)
+porta watch --domain vercel.com
+porta watch --browser firefox --domain site.com --interval 120
+# Ctrl+C to stop
 
-# Inject without domain filter (all cookies — use carefully)
+# --- All cookies (no domain filter) ---
 porta inject
 ```
 
+## Browser paths (auto-detected)
+
+| Browser | Cookies DB | Keychain service |
+|---------|-----------|-----------------|
+| Chrome Default | `~/Library/Application Support/Google/Chrome/Default/Cookies` | `Chrome Safe Storage` |
+| Chrome Profile N | `~/Library/Application Support/Google/Chrome/<profile>/Cookies` | `Chrome Safe Storage` |
+| Arc | `~/Library/Application Support/Arc/User Data/Default/Cookies` | `Arc Safe Storage` |
+| Firefox | `~/Library/Application Support/Firefox/Profiles/*.default-release/cookies.sqlite` | plaintext, no decrypt |
+
+## Watch mode — when to use
+
+Watch re-injects when:
+- No auth cookies are found (count = 0), OR
+- Any auth cookie expires within `2 × interval` seconds
+
+Auth cookies detected by name containing: `session`, `auth`, `token`, `login`, `sid`, `credential`, `psid`, `sapisid` (covers Google `1PSID`/`SAPISID`).
+
+Typical use: leave running during a long agentic task that hits authenticated endpoints.
+
 ## How it works
 
-1. Copies Chrome's `Default/Cookies` SQLite DB to `/tmp`
-2. Decrypts values using `AES-128-CBC` + key from macOS Keychain (`Chrome Safe Storage`)
-3. Closes agent-browser and clears `SingletonLock`
-4. Uses `uv run playwright` Python to call `ctx.add_cookies()` on the persistent profile
-   — required for HttpOnly cookies (JS `document.cookie` can't set them)
+1. Copies browser's Cookies SQLite DB to `/tmp` (avoids lock contention)
+2. Chrome/Arc: decrypts values via `AES-128-CBC` + PBKDF2 key from macOS Keychain; strips 32-byte SHA256 prefix for DB schema v24+
+3. Firefox: plaintext values, reads `moz_cookies` table directly
+4. Removes agent-browser `SingletonLock` if present
+5. Writes cookies JSON to `/tmp/porta_inject_cookies.json`, runs Playwright Python via `uv`
+6. `ctx.add_cookies()` — the only way to set HttpOnly cookies (JS `document.cookie` can't)
 
 ## Prerequisites
 
@@ -59,8 +95,7 @@ porta inject
 
 ## Requirements for injection to work
 
-- Chrome must be closed or at least have written the cookies to disk
-  (Chrome flushes on close; copying while open usually works but may miss very recent cookies)
+- Browser must have written cookies to disk (usually fine while open; close first if in doubt)
 - macOS Keychain must be unlocked (`security unlock-keychain` in another tab if locked)
 
 ## Install / Update
@@ -71,18 +106,18 @@ cd ~/code/porta && cargo install --path .
 
 ## Caveats
 
-- Google OAuth cookies are session-bound; they expire after some hours/days
-- If Vercel re-prompts for login: re-run `porta inject --domain vercel.com`
-- Session cookies (`expires=None`) aren't persisted across browser restarts by Playwright
-  by default — test access immediately after injecting
+- Google OAuth cookies are session-bound; they expire after hours/days
+- If Vercel re-prompts for login: `porta inject --domain vercel.com`
+- Session cookies (`expires=None`) aren't persisted across browser restarts by Playwright — test access immediately after injecting
+- Arc: only useful if Arc is installed and has a Default profile
 
 ## When porta FAILS — use `browser-login` instead
 
 | Site | Why porta fails | Fix |
 |------|----------------|-----|
 | **linkedin.com** | `li_at` session is IP + device-fingerprint bound. Injected cookie is silently rejected. | `browser-login` for linkedin.com |
-| **cora.computer** | Uses Devise auth (own login form, not Google SSO). No real session cookie in Chrome unless you've logged in there. | `browser-login` for cora.computer |
-| Any Google SSO third-party | Google cookies ≠ third-party site session. Injecting .google.com cookies doesn't grant access to the downstream site. | Log in via Google SSO in Chrome first, *then* `porta inject --domain site.com` for that site's cookies |
+| **cora.computer** | Uses Devise auth (own login form, not Google SSO). | `browser-login` for cora.computer |
+| Any Google SSO third-party | Google cookies ≠ third-party site session. Log in via Google SSO in Chrome first, *then* `porta inject --domain site.com` for that site's cookies. | |
 
 **Decision rule:** If `agent-browser` redirects to a login page after `porta inject`, the site uses fingerprint-binding or own auth. Switch to `browser-login`.
 
