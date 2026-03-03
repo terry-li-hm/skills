@@ -152,6 +152,26 @@ Swapped DeepSeek R1 → Kimi K2.5 based on:
 - Lab diversity: Moonshot (Kimi) + Zhipu (GLM) + xAI (Grok) + Anthropic (judge) = 4 distinct orgs
 - Current council: GPT-5.2-pro, Gemini-3.1-pro-preview, Grok-4, Kimi-K2.5, GLM-5
 
+### Role review (2026-03-03)
+
+Reviewed whether to swap judge (Opus 4.6) ↔ critique (Gemini 3.1 Pro Preview). Kept current setup.
+
+**Benchmark snapshot** (AA intelligence index):
+- Gemini 3.1 Pro Preview: AA #1 (57), Arena #4 (ELO 1500) — strongest on AA
+- Claude Opus 4.6: AA #3 (53), Arena #2 (ELO 1503) — strongest on Arena
+- GLM-5: AA #6 (50), Arena #14 (1451)
+- GPT-5.2 (xhigh): AA #5 (51), Arena #7 (1481)
+- Kimi K2.5: AA #9 (47), no Arena entry — coding-strong, reasoning thinly validated
+- Grok-4: AA #15 (42) — weakest panelist; Arena match unreliable (matched grok-4-1-fast-search, different endpoint)
+
+**Why Opus stays as judge:** Judge independence from the council is the primary architectural property. Opus is not a panelist — it reads all 5 voices without skin in the game. Gemini IS a panelist; promoting it to judge creates a model evaluating its own panel output. The 4-point AA gap doesn't justify breaking independence.
+
+**Gemini as critique:** Imperfect — it's both a panelist and the critique layer, so it may re-assert its own position when reviewing Opus's synthesis. Acceptable because: (a) judge independence is the structural guarantee, critique is advisory; (b) no strong non-panelist alternative exists.
+
+**Grok-4 as weakest panelist:** Keep for lab diversity (xAI training pipeline ≠ others). No stronger xAI model available.
+
+**Fix shipped:** Added `CONSILIUM_MODEL_CRITIQUE_ENV` env var so critique model is now configurable, matching the judge env var pattern.
+
 ## Future Work (low priority)
 
 - Terminal-Bench: strip `AGENT /` prefix for alias matching
