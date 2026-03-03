@@ -19,6 +19,8 @@ Scenario-based drill for upcoming meetings. Generates likely questions, objectio
 - **count** (optional): Number of questions. Default 5.
 - **mode** (optional): `questions` (likely Qs you'll face), `objections` (pushback scenarios), `knowledge` (domain knowledge checks). Default: `questions`.
 
+> **Consult `cursus` skill** for pre-engagement prep principles — research-first, specific observations, first impression window.
+
 ## Workflow
 
 ### 1. Gather Context

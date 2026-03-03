@@ -55,6 +55,8 @@ Review:
 
 ### 4. Draft Reply
 
+> **Consult `cursus` skill** for career communication principles before drafting any outreach to a career contact (managers, clients, recruiters, peers). Key principles: no blank asks, show don't tell, narrative consistency, network capital.
+
 **No blank asks — research first, then ask specifically.** For any outreach where Terry is asking for something (pre-reading, advice, intro, referral), check vault for prior research before drafting. Frame every ask as a specific gap: "I've done X and Y — is there Z I'm missing?" not "any advice?" or "anything to read?". A blank ask wastes the relationship — the more specific, the more it signals preparation. Applies especially to career-critical contacts. If vault has no prior research, run `cerno` + quick web search first, then draft.
 
 **Start from natural speech, not formal drafts.** Ask: "what would Terry actually say to this person on WhatsApp?" — then polish. Don't anchor on council-approved or vault drafts and iterate from there; those are strategy, not phrasing. Natural first, refined second.
