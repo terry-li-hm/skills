@@ -68,9 +68,11 @@ Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 | Signal | Tool | Why |
 |--------|------|-----|
 | Needs repo navigation, test loops, multi-file | **Codex** | Best developer (Terminal-Bench #1) |
+| **Rust feature requiring `cargo build` validation** | **Gemini CLI** | Runs on your machine — discovers compile errors. Codex sandbox blocks DNS/cargo. |
 | Algorithmic, isolated logic, "write X that does Y" | **Gemini CLI** | Best programmer (LiveCodeBench #1), free |
 | Bulk ops, boilerplate, routine refactoring | **OpenCode** | Free, unlimited |
 | Hard task that failed 3+ times | **→ Opus in-session** | Escalation only, switch back after |
+| Routing uncertain despite benchmarks | **Run `judex` experiment** | Parallel Codex+Gemini → real evidence → update routing |
 
 **Context packaging checklist** (delegates need to be self-sufficient):
 - [ ] Absolute file paths (let delegate read, don't inline full files)
@@ -181,7 +183,7 @@ If compound workflow is unavailable, add a short manual note in `~/docs/solution
 
 | Language | Default tool | Caveats |
 |----------|-------------|---------|
-| Rust | Codex | Check Rust regex crate: no lookahead. `cargo clean -p <crate>` if stale build. |
+| Rust | **Gemini** (if build validation needed) / Codex (repo nav) | Codex sandbox blocks DNS → can't run `cargo build` → can't discover compile errors. Use Gemini for Rust features where the verification requires building. Codex for complex multi-file repo navigation where compilation isn't the blocker. Rust regex: no lookahead. |
 | Python | Gemini or OpenCode | Use `uv` not pip. Single-file scripts: `uv run --script` shebang. |
 | TypeScript | Codex or Gemini | pnpm, not npm. |
 | Shell scripts | OpenCode | New `~/bin/` scripts must be Python (bash-guard). |
