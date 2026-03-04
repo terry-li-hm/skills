@@ -79,4 +79,5 @@ Deleted items go into `dl` dict (UUID → deletion timestamp). Timers live in `t
 
 - Always use HKT for times. moneo handles timezone internally.
 - `moneo ls` shows ⚠ for overdue reminders.
-- For iPhone sync: open the reminder in Due on Mac and hit Save — that pushes via CloudKit.
+- **moneo writes are Mac-only** — CloudKit is bypassed. For important recurring reminders, open in Due on Mac and hit Save once → CloudKit syncs to iPhone.
+- No separate backup needed — recovery is just re-adding via moneo (2 min).
