@@ -3,6 +3,8 @@ name: capco-prep
 description: "Capco onboarding readiness — drill, brief, or event-specific prep. 'capco prep', 'capco drill', 'capco brief'"
 user_invocable: true
 model: sonnet
+status: retiring
+retire_after: 2026-04-08
 ---
 
 # Capco Readiness
