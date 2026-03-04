@@ -11,9 +11,11 @@ runtime: rust
 
 # Consilium
 
-5 frontier models deliberate on a question, then Claude Opus 4.6 judges and adds its own perspective. Models see and respond to previous speakers, with a rotating challenger ensuring sustained disagreement. Auto-routes by difficulty — simple questions get quick parallel, complex ones get full council.
+5 frontier models deliberate on a question, then Gemini judges and Claude critiques. Models see and respond to previous speakers, with a rotating challenger ensuring sustained disagreement. Auto-routes by difficulty.
 
-> **Rust rewrite (2026-02-28).** consilium is now a Rust binary (4.7MB, ~50ms cold start). Same CLI interface, same modes, same output format. Python version preserved as `consilium-py` fallback. Source: `~/code/consilium/`. GitHub: `terry-li-hm/consilium` (Rust), `terry-li-hm/consilium-py` (Python legacy). Site: [consilium.sh](https://consilium.sh). crates.io: [consilium](https://crates.io/crates/consilium).
+> Source: `~/code/consilium/`. Site: [consilium.sh](https://consilium.sh). Extended reference: `~/skills/consilium/REFERENCE.md`.
+
+---
 
 ## Modes
 
@@ -22,549 +24,165 @@ runtime: rust
 | Auto (default) | *(none)* | varies | Opus classifies difficulty, picks quick or council |
 | Quick | `--quick` | ~$0.10 | Parallel queries, no debate/judge |
 | Council | `--council` | ~$0.50 | Full multi-round debate + judge |
-| Deep | `--deep` | ~$0.90 | Council + auto-decompose + 2 debate rounds. For complex multi-part questions. |
+| Deep | `--deep` | ~$0.90 | Council + auto-decompose + 2 debate rounds |
+| Deep + xpol | `--deep --xpol` | ~$1.05 | Deepest — cross-pollination pass after debate |
 
-**Modifiers** (combine with council/deep):
-| Flag | Cost Delta | Description |
-|------|-----------|-------------|
-| `--xpol` | ~+$0.15 | Cross-pollination: second parallel pass where each model reads all blind claims and investigates gaps. Extends, not argues. |
-| Discuss | `--discuss` | ~$0.30 | Hosted roundtable exploration |
-| Socratic | `--socratic` | ~$0.30 | Probing questions to expose assumptions |
-| Oxford | `--oxford` | ~$0.40 | Binary for/against with rebuttals + verdict |
-| Red Team | `--redteam` | ~$0.20 | Adversarial stress-test of a plan |
-| Pre-mortem | `--premortem` | ~$0.20 | Assume failure, work backward from it |
-| Forecast | `--forecast` | ~$0.25 | Probability estimates + reconciliation (superforecasting) |
-| Solo | `--solo` | ~$0.40 | Claude debates itself in multiple roles |
+**Other modes:** `--redteam` (~$0.20), `--premortem` (~$0.20), `--forecast` (~$0.25), `--oxford` (~$0.40), `--discuss` (~$0.30), `--socratic` (~$0.30), `--solo` (~$0.40)
 
-## Routing: Which Mode?
+---
 
-**Mental model: `--quick` = breadth (generate candidates, surface perspectives), `--council` = convergence (evaluate a specific decision, models push back on each other).** When you want diverse inputs to synthesise yourself → quick. When you want the models to stress-test a specific position → council or deeper.
+## Routing
+
+**Mental model:** `--quick` = breadth (surface perspectives), `--council` = convergence (stress-test a decision).
+
+**Default bias: deep > council > quick.** Career, negotiation, strategy, real consequences → `--deep`. Reserve `--quick` for naming and pure brainstorming.
 
 ```
-Does the question have a single correct answer? (specs, facts, how-to)
-  YES → Web search or ask Claude directly. Don't use consilium.
-  NO ↓
-Is this personal preference / physical / visual? (glasses, photos, food)
-  YES → Try it in person. Don't use consilium.
-  NO ↓
-Do you need multiple perspectives but not debate? (naming only, pure brainstorm)
-  YES → consilium --quick
-  NO → default to --council or --deep. When in doubt, go deeper.
-  NO ↓
-Binary decision with clear for/against?
-  YES → consilium --oxford
-  NO ↓
-Stress-testing a specific plan?
-  YES → consilium --redteam
-  NO ↓
-Already committed but want to pressure-test it?
-  YES → consilium --premortem
-  NO ↓
-Question has a probabilistic answer? (will X happen, how likely is Y?)
-  YES → consilium --forecast
-  NO ↓
-Exploratory — still forming the question?
-  YES → consilium --discuss (or --socratic to probe assumptions)
-  NO ↓
-Genuine trade-offs requiring deliberation?
-  YES → consilium (auto-route, or --council to force full debate)
+Single correct answer? → Web search or ask Claude directly
+Personal preference / physical / visual? → Try it in person
+Measurable outcome? → judex (run the experiment)
+Need perspectives without debate? → --quick
+Binary for/against? → --oxford
+Stress-testing a plan? → --redteam
+Assume failure, work backward? → --premortem
+Probabilistic answer? → --forecast
+Exploratory, still forming the question? → --discuss or --socratic
+Everything else → --deep (default)
 ```
 
-Auto-routing works well for most questions — Opus classifies and picks the right mode. Use explicit flags when you're confident about the format (e.g., `--oxford` for "A vs B" decisions, `--redteam` for plans).
+---
 
-**Cost is not the filter for mode selection.** All modes are affordable ($0.10–$0.90). Route by question structure — what kind of thinking does the question need? Don't reach for `--quick` to save $0.40 on a career or strategic decision. The right mode is the one that matches the question's shape.
+## When to Use / Not Use
 
-**Default bias: deep over council over quick.** If the question touches career, negotiation, strategy, or real-world consequences — default to `--deep`. Dial back to `--council` only if the question is narrow and single-part. Reserve `--quick` for naming exercises and pure brainstorming where debate adds no value.
+**Use:** Genuine trade-offs, domain-specific decisions, strategy, stress-testing plans, probabilistic forecasting, code/security audit (`--redteam` with code pasted in).
 
-## When to Use
+**Skip:** Single correct answer, personal taste/physical (glasses, food), thinking out loud, already converged, speed matters (60-90s for full council).
 
-At ~$0.50/run, the cost threshold is negligible. Use whenever:
-
-- **Genuine trade-offs with competing values** — the sweet spot (CV positioning, governance frameworks, architecture decisions)
-- **Domain-specific professional decisions** — regulatory, career, strategic
-- You need a synthesized recommendation, not raw comparison
-- Questions with cognitive, social, or behavioural dimensions (council catches hidden angles Claude underestimates)
-- **Stress-testing a plan** — `--redteam` for adversarial, `--socratic` for assumption-probing, `--premortem` for backward induction from failure
-- **Probabilistic questions** — `--forecast` when you want a calibrated estimate with reconciled confidence intervals, not prose hedging
-- **Code review / security audit** — `--redteam` with actual code pasted into the prompt. Models can't read files, so concatenate source files into the prompt text. ~55K chars (8 modules) works fine. Produces compound attack chains that single-model review misses (SSRF→prompt injection→LLM exfil). ~$1.50 for full codebase review.
-- **Iterating on a previous council** — second passes go deeper
-
-## When NOT to Use
-
-- **Single correct answer** — photo crop rules, product specs, naming preferences. Use web search or a single model
-- **Personal preference / physical** — glasses frames, food, clothing. Council reasons from theory; go try it in person instead
-- **Thinking out loud** — exploratory discussions where you're still forming the question
-- **Claude has good context** — if we've been discussing the topic, direct conversation is faster
-- **Already converged** — if discussion reached a conclusion, council just validates
-- **Speed matters** — takes 60-90s for full council
-- **Naming exercises (full council)** — council debates taste in circles. But `--quick` works well: independent samples beat single-model brainstorming, and convergence (4/5 models picking the same name) is a strong signal. Use `--quick` to brainstorm candidates, then registry-check. Full council only if evaluating a shortlist against specific criteria
+---
 
 ## Prerequisites
 
 ```bash
-# Binary is symlinked: ~/.local/bin/consilium → ~/code/consilium/target/release/consilium
+# API key — already in ~/.zshenv, available in all shells including background
+export OPENROUTER_API_KEY=$(security find-generic-password -s openrouter-api-key -a terry -w 2>/dev/null)
+
+# Binary: ~/.local/bin/consilium → ~/code/consilium/target/release/consilium
 # After code changes: cd ~/code/consilium && cargo build --release
-
-# Python fallback still available as consilium-py
-
-# API keys
-export OPENROUTER_API_KEY=sk-or-v1-...    # Required
-export GOOGLE_API_KEY=AIza...              # Optional: Gemini fallback
 ```
 
-## Instructions
+---
 
-### Step 0: Suitability Check
+## Running the Council
 
-**First: consilium or judex?**
-> consilium = outcome is uncertain, needs perspectives. judex = outcome is measurable, needs evidence.
+### Step 0: Suitability check
 
-Before deliberating — can you just run both options and compare? If the question has a measurable pass/fail criterion (build succeeds, benchmark faster, output quality checkable), run a `judex` experiment instead. Deliberation is for decisions you can't measure.
+**consilium or judex?** If the outcome is measurable (build passes, benchmark faster, quality checkable) → `judex`. Deliberation is for decisions you can't measure.
 
-Before running the council, evaluate the question against the routing table above. If the question falls into "When NOT to Use", redirect:
+Check the routing table above. If it falls in "Skip", redirect.
 
-- **Factual/single-answer** → answer directly or web search
-- **Personal preference** → "This is better answered by trying it in person"
-- **Naming** → brainstorm candidates with a single model first, then offer council to evaluate shortlist
-- **Quick parallel opinions** → `--quick` (naming/brainstorm only — not for decisions)
-- **Measurable outcome** → `judex` (run the experiment, consult `~/skills/judex/SKILL.md`)
+### Step 0.5: Propose mode
 
-Only proceed to Step 1 if the question involves genuine trade-offs or domain-specific judgment.
+Tell the user which mode and why (one line), then confirm. Don't run until confirmed.
 
-### Step 0.5: Propose Mode and Confirm
+> "Strategic question with real consequences — I'd use **--deep --xpol**. Good?"
 
-Before running, tell the user which mode you recommend and why (one line), then confirm. If auto-routing is appropriate, say so — don't force an explicit mode when auto would work.
-
-**Bias toward depth.** For anything touching career, negotiation, strategy, or real consequences — propose `--deep` by default. Dial back to `--council` only if the question is narrow and single-part. Only propose `--quick` for naming exercises or pure brainstorming. When uncertain between modes, go deeper.
-
-Example proposals:
-> "Strategic question with real consequences — I'd use **--deep**. Good?"
-> "Binary decision with clear trade-offs — I'd use **--oxford**. Good?"
-> "Exploratory with genuine trade-offs — I'd let it auto-route (likely council). Good?"
-> "Naming exercise — **--quick** gives independent samples without debate overhead. Good?"
-
-Don't run the council until the user confirms or picks a different mode.
-
-### Step 1: Get the Question
-
-Ask the user what question they want the council to deliberate, or use the question they provided.
-
-### Step 2: Gather Context (for important decisions)
-
-For job/career decisions, read relevant vault files and compose into `--persona`:
+### Step 1: Gather context (for career/strategic decisions)
 
 ```bash
-# Read context files
-CLAUDE_MD=$(cat /Users/terry/notes/CLAUDE.md | head -100)
-PIPELINE=$(cat "/Users/terry/notes/Capco Transition.md" | head -50)
-
-# Compose persona
-PERSONA="Background: Terry is Principal Consultant / AI Solution Lead at Capco.
-Current context: $PIPELINE"
-```
-If either file read fails, run without persona context and note "Context files unavailable."
-
-For other decisions, use simpler context or skip this step.
-
-### Step 3: Run the Council
-
-**Auto-routing is the default** — Opus classifies the question and picks the best mode. Pass an explicit mode flag only when you know what you want (e.g., `--oxford` for a binary decision, `--redteam` to stress-test a plan).
-
-**Always run in background:** Use `run_in_background: true` on the Bash tool. The user can watch live via `consilium --watch` or `--tui` in another tmux tab.
-
-**After completion, read the latest session file — no flags needed:**
-```bash
-cat ~/.consilium/sessions/$(/bin/ls -t ~/.consilium/sessions/ | head -1)
-```
-If session file read fails, use stdout summary only and state "Transcript unavailable."
-
-**Standard invocation — zero flags:**
-```bash
-consilium "Should we use microservices or a monolith?"
-```
-
-**Transcript persistence rule — always use `--vault` for:**
-- Any `--deep` or `--council` run
-- Any design/architecture/review question (topic contains "design", "architecture", "review", "v0.x", "refactor", "redesign")
-- Any run where the output will inform a multi-session build (tool design, system changes)
-
-**Skip `--vault` for:** `--quick` naming/decision runs — auto-saved to `~/.consilium/sessions/` is enough.
-
-**Why `--vault` over `--output`:** `--vault` auto-saves to `~/notes/Councils/` with a clean auto-generated filename, backed up by Obsidian Sync. No manual path construction needed.
-
-```bash
-consilium "Should we use microservices or a monolith?" --vault
-```
-
-- **Anonymization is always on.** Models see each other as "Speaker 1, 2, etc." — in both panelist system prompts and peer messages. The judge also receives anonymous labels. This is hardcoded, not a flag.
-
-**Force full council with persona context:**
-```bash
-consilium "Should I accept the Standard Chartered offer?" \
-  --council --format json \
-  --persona "$PERSONA" \
-  --context "job-offer" \
+consilium "Should I accept this offer?" \
+  --deep \
+  --persona "Principal Consultant at Capco, ex-CNCBI Head of DS, HK market" \
+  --domain banking \
   --vault
 ```
 
-**Red team a plan:**
+### Step 2: Run — always backgrounded, always `--vault`
+
 ```bash
-consilium "My plan: migrate the monolith to microservices over 6 months..." \
-  --redteam \
-  --vault
+# Standard invocation
+consilium "question" --deep --vault
+
+# With prompt file (avoids shell quoting issues for long prompts)
+consilium --prompt-file /tmp/prompt.txt --deep --vault
 ```
 
-**Common flags:**
+**`--vault` is mandatory for:** any `--deep`, `--council`, or architecture/review run. Auto-saves to `~/notes/Councils/` with Obsidian Sync backup. Never use `--output /tmp/...` — `/tmp` doesn't survive reboot.
+
+**Always `run_in_background: true`** on the Bash tool. Watch live: `consilium --watch` or `--tui` in another tmux tab.
+
+### Step 3: Parse and present
+
+After completion:
+1. Read `[DECISION]` line as quick signal
+2. Read vault file in `~/notes/Councils/`
+3. Synthesize: decision + key reasoning + dissents + cost
+4. **Never dump raw transcript into context**
+
+If `--vault` was used but file is missing in `~/notes/Councils/`, treat run as partial.
+
+---
+
+## Common Flags
+
 ```bash
-# Context & persona
 --persona "context"     # Personal context injected into prompts
 --domain banking        # Regulatory context (banking|healthcare|eu|fintech|bio)
 --context "hint"        # Context hint for the judge
-
-# Deliberation control
 --challenger gemini     # Assign contrarian role (council mode only)
 --decompose             # Break complex question into sub-questions first
---rounds 3              # Rounds for --discuss or --socratic (0 = unlimited)
---followup              # Interactive drill-down after judge synthesis (council only)
---effort high           # Reasoning effort: low|medium|high. Blind=set, debate=step down, judge=always high. Default: provider defaults.
-# Output
---format json           # Machine-parseable output (council + quick modes)
+--rounds 3              # Rounds for --discuss or --socratic
+--followup              # Interactive drill-down after judge (council only)
+--effort high           # Reasoning effort: low|medium|high
+--format json           # Machine-parseable output (council + quick only)
 --share                 # Upload to secret Gist
---quiet                 # Suppress live output (auto-enabled when stdout is not a TTY)
+--thorough              # Skip consensus early exit + context compression
 --no-save               # Don't auto-save to ~/.consilium/sessions/
---no-judge              # Skip judge synthesis (for external judge integration)
---no-color              # Disable colored output (auto-disabled in pipes)
---feedback              # Prompt for 1-5 rating after session
---thorough              # Skip consensus early exit + context compression (full deliberation)
 ```
-
-**Oxford debate (binary decisions):**
-```bash
-consilium "Should we use microservices?" --oxford
-consilium "Hire seniors or train juniors?" --oxford --motion "This house believes..."
-```
-
-**Solo council (Claude debates itself in roles):**
-```bash
-consilium "Pricing strategy" --solo --roles "investor,founder,customer"
-consilium --list-roles  # See predefined roles
-```
-
-**Domain-specific deliberation (banking, healthcare, etc.):**
-```bash
-consilium "Should we build an agent for KYC?" \
-  --domain banking \
-  --challenger gemini \
-  --followup \
-  --output counsel.md
-```
-
-Available domains: `banking`, `healthcare`, `eu`, `fintech`, `bio`
-
-### Flag Compatibility
-
-| Flag | council | quick | discuss | socratic | oxford | redteam | solo |
-|------|---------|-------|---------|----------|--------|---------|------|
-| `--format json` | yes | yes | **no** | **no** | **no** | **no** | **no** |
-| `--challenger` | yes | **no** | **no** | **no** | **no** | **no** | **no** |
-| `--followup` | yes | **no** | **no** | **no** | **no** | **no** | **no** |
-| `--rounds` | no | no | yes | yes | no | no | no |
-| `--motion` | no | no | no | no | yes | no | no |
-| `--roles` | no | no | no | no | no | no | yes |
-| `--decompose` | yes | no | no | no | no | no | no |
-| `--xpol` | yes | no | no | no | no | no | no |
-
-### Step 4: Parse and Present
-
-**After background task completes**, always read the vault file (or task output file) and synthesize the digest yourself — don't rely solely on the `[DECISION]` summary line. The summary line is a convenience signal; CC is the agent and can reason about the full output regardless of format.
-
-**Workflow:**
-1. Read the `[DECISION]` or `[DONE]` line from stdout as a quick signal
-2. Read the vault file in `~/notes/Councils/` (or task output file if `--vault` wasn't used)
-3. Synthesize: decision/recommendation + key reasoning + dissents + cost
-4. For quick mode (parallel responses, no judge): CC extracts the consensus from the prose itself
-If `--vault` was used but file is missing in `~/notes/Councils/`, treat run as partial and do not claim full synthesis coverage.
-
-**Always present a digest** — never dump the raw transcript into the CC context.
-
-**JSON block (council mode with `--format json`):**
-
-When present, the output ends with a JSON block after `---`:
-
-```json
-{
-  "schema_version": "1.0",
-  "question": "Should I accept the Standard Chartered offer?",
-  "decision": "Accept the offer with negotiation on start date",
-  "confidence": "high",
-  "reasoning_summary": "Council agreed that...",
-  "dissents": [{"model": "Grok", "concern": "Consider counter-offer timing"}],
-  "action_items": [
-    {"action": "Send acceptance email", "priority": "high"},
-    {"action": "Negotiate start date", "priority": "medium"}
-  ],
-  "meta": {
-    "timestamp": "2026-01-31T14:30:00",
-    "models_used": ["GPT", "Gemini", "Grok", "DeepSeek", "GLM"],
-    "rounds": 2,
-    "duration_seconds": 67,
-    "estimated_cost_usd": 0.53
-  }
-}
-```
-
-Parse this and present:
-1. **Decision** with confidence level
-2. **Key reasoning** (summary)
-3. **Dissenting views** (if any)
-4. **Claude's critique** — did they miss anything? Does it fit Terry's context?
-5. **Static note candidates** — if the judge proposed any, flag them for review
-
-### Step 5: Offer Follow-Up Actions
-
-After presenting the council's recommendation, use AskUserQuestion:
-
-**Question:** "What would you like to do with this decision?"
-
-**Options:**
-1. **Create tasks** — Add action_items to task list
-2. **Save to vault** — Create decision record in `~/notes/Councils/`
-3. **Draft messages** — Draft follow-up messages based on action_items
-4. **Just note it** — No further action needed
-
-### Step 6: Execute Selected Action
-
-**If "Create tasks":**
-Use TaskCreate for each action_item with appropriate priority.
-
-**If "Save to vault":**
-Use `--vault` flag (auto-saves to `~/notes/Councils/` with generated filename). Or create manually at `~/notes/Councils/Consilium - {Topic} - {YYYY-MM-DD}.md`:
-
-```markdown
----
-date: {date}
-type: decision
-question: "{question}"
-status: pending
-decision: "{decision}"
-confidence: {confidence}
-participants: {from meta.models_used}
-tags:
-  - decision
-  - consilium
----
-
-**Related:** [[Capco Transition]] | [[Job Hunting]]
-
-# {Title from question}
-
-## Question
-{question}
-
-## Decision
-{decision}
-
-## Reasoning
-{reasoning_summary}
-
-## Dissents
-{for each dissent: - **{model}:** {concern}}
-
-## Action Items
-{for each action: - [ ] {action}}
 
 ---
-*Council convened: {date} | {models count} models | {rounds} rounds | ~${cost}*
-```
-
-**If "Draft messages":**
-Review action_items and offer to draft relevant messages (acceptance emails, follow-ups, etc.)
 
 ## Session Management
 
 ```bash
-consilium --sessions              # List recent 20 sessions
-consilium --stats                 # Cost breakdown by mode, 7-day summary
-consilium --watch                 # Live tail from another tmux tab (rich formatted)
-consilium --tui                   # TUI with phase/cost/time tracking
-consilium --view                  # View latest session in pager
-consilium --view "career"         # View session matching term (filename or content)
+consilium --sessions              # List recent sessions
+consilium --stats                 # Cost breakdown
+consilium --watch                 # Live tail (rich formatted)
+consilium --tui                   # TUI with phase/cost/time
+consilium --view "career"         # View session matching term
 consilium --search "career"       # Search all session content
-consilium --list-roles            # Show predefined roles for --solo
-consilium --doctor               # Check API keys and connectivity
-```
-If `consilium --doctor` reports missing keys or connectivity failure, stop and report setup issue before running councils.
-
-## Prompting Tips
-
-**For draft reviews** (LinkedIn comments, emails, messages, posts):
-
-Always include the source material in the prompt — models can't judge tone, positioning, or reception risk without seeing what the draft responds to. Structure the prompt as:
-1. The original post/email/thread being responded to (full text or key excerpts)
-2. The drafted response
-3. Context about the author's relationship to the recipient and goals
-4. Specific review criteria (tone, positioning risk, information leaks, reception)
-
-Mode selection by stakes:
-- `--quick` (~$0.10): Internal messages, Slack replies, low-visibility comments
-- `--redteam` (~$0.20): Plans or proposals being stress-tested
-- `--council --domain <X>` (~$0.50): **Public comments, LinkedIn posts, anything that builds or risks reputation.** Reputation-building content is not a tone check — it needs full deliberation on positioning, strategic value, and network effects. Include `--persona` with career context and goals.
-
-**For social/conversational contexts** (interview questions, networking, outreach):
-
-LLMs over-optimize for thoroughness. Add constraints like:
-- "Make it feel like a natural conversation"
-- "Something you'd actually ask over coffee"
-- "Simple and human, not structured and comprehensive"
-
-**Match context depth to question type:**
-- Strategic decisions: provide rich context (full background, constraints, history)
-- Social questions: minimal context + clear tone constraints
-
-**For architecture/design questions:**
-
-Provide scale and constraints upfront to avoid premature optimization advice:
-- "This is a single-user system" (avoids multi-user concerns)
-- "We have 500 notes, not 50,000" (avoids scaling infrastructure)
-- "Manual processes are acceptable" (avoids automation overkill)
-
-Without these constraints, council tends to suggest infrastructure for problems that don't exist yet.
-
-**For skill/tool design questions:**
-
-Council optimizes for architecture but often misses input edge cases. Add:
-- "What input variations should this handle?" (e.g., URLs vs pasted content)
-- "What edge cases might break this?" (e.g., hybrid content types)
-- "What would make users reach for a different tool instead?"
-
-This stress-tests the input surface, not just the processing logic.
-
-**For philosophical/contemplative questions:**
-
-Council excels at finding structural cracks in propositional claims — but blind to teachings that are *instructions* rather than *arguments*. "Look for the self" is a direction to look, not a truth claim. When evaluating non-propositional frameworks (meditation, therapy, coaching), add:
-- "Distinguish claims (testable assertions) from pointers (instructions for seeing)"
-- "Rate practical utility separately from philosophical coherence"
-- `--decompose` works well here — breaks apart the sub-questions that a philosophical system bundles together
-
-Without this framing, council will evaluate a ladder as a floor.
-
-**For domain-specific questions (banking, healthcare, etc.):**
-
-Use `--domain` flag to auto-inject regulatory context:
-```bash
-consilium "question" --domain banking   # HKMA/MAS/FCA, MRM requirements
-consilium "question" --domain healthcare # HIPAA constraints
-consilium "question" --domain eu        # GDPR/AI Act considerations
+consilium --doctor                # Check API keys and connectivity
 ```
 
-This surfaces compliance concerns early rather than as afterthoughts.
-
-## Model Tendencies
-
-| Model | Role | Tendency | Useful For |
-|-------|------|----------|------------|
-| **GPT-5.2 Pro** | M1 (OpenAI) | Practical, implementation-focused | Actionable steps |
-| **Claude Opus 4.6** | M2 (Anthropic) | Balanced, expert judgment | Strategic depth |
-| **Grok 4** | M3 (xAI) | Contrarian, challenges consensus | Stress-testing ideas |
-| **Kimi K2.5** | M4 (Moonshot) | Coding-strong, cross-lab diversity | Technical depth |
-| **GLM-5** | M5 (Zhipu) | Strategic, pragmatic (best-validated CN model) | Business decisions |
-| **Gemini 3.1 Pro** | Judge (Google) | Technical synthesis, systems thinking | Final judgment |
-| **Claude Opus 4.6** | Critique (Anthropic) | Independent review of judge synthesis | Catching judge gaps |
-
-*All 6 frontier labs represented. Gemini became judge Mar 2026 (was Claude); Claude moved to M2 panelist + critique.*
-
-**Default challenger:** GPT (rotates each round). Grok is naturally contrarian regardless, so GPT as explicit challenger gives two sources of pushback.
-
-**Override:** `--challenger gemini` (architecture), `--challenger grok` (max pushback).
-
-## Research Foundations
-
-Consilium's architecture is grounded in group deliberation research. Full synthesis with 21 papers and consilium architecture assessment: `~/docs/solutions/multi-llm-deliberation-research.md`.
-
-**Why the blind phase matters most** (Surowiecki, Delphi, Tetlock): Independence before exposure is the single most validated principle. The blind phase captures independent positions before herding kicks in. These outputs should weigh heavily in final synthesis.
-
-**Why the challenger works** (Nemeth 2001): Assigned devil's advocates produce bolstering, not reconsideration. Consilium mitigates this by framing the challenger with questions (not assertions) and different epistemic priors — but the limitation is real. Authentic dissent > role-played dissent.
-
-**Why convergence is a strong signal** (Tetlock/GJP): When independent agents with different models/priors agree, the evidence is multiplicative. The judge should extremize convergent conclusions — push confidence further than a simple average.
-
-**Exception — regulatory/domain-specific groupthink:** Unanimous alarm on a technical/regulatory concern is a red flag, not a strong signal. All models share training data from the same domain literature. Observed live (Mar 2026): 4/5 panelists flagged "training signal" as an SR 11-7 MRM risk — but the reasoning was identical across all four (same vocabulary, same framing). Judge caught it after Gemini critique. Rule: when all agents converge on a named regulatory concept (SR 11-7, BCBS 239, MAS AIRM), check whether the reasoning is *independently derived* or *shared framing from training data*. Discount unanimous alarm on domain-specific regulatory concerns; require at least one agent to articulate a distinct mechanism.
-
-**Why sycophancy is the #1 risk** (ICLR 2025, ACL 2025): Multi-agent debate produces "correct-to-incorrect" flips that exceed improvements. Position changes without new evidence are sycophancy, not reasoning. The debate and judge prompts include anti-sycophancy measures.
-
-**Why the judge uses ACH** (Heuer/CIA): Analysis of Competing Hypotheses — list competing conclusions, evaluate evidence against each, eliminate rather than confirm. This counters confirmation bias in synthesis.
-
-**What consilium can't fix** (MAD literature): Most of the apparent value of multi-agent debate comes from generating multiple independent samples, not from the debate itself. Consilium's real value is divergent thinking (strategy, framing, angles) — not convergent reasoning (math, facts).
-
-## Cost & ROI
-
-- ~$0.60 for full discuss mode. Worth it when genuinely novel insights emerge (bouncer pattern, compliance flag). Diminishing returns on second pass of same topic.
-- **2 novel insights per council = good; 0 = should have used `--quick`.**
-- **Tone/networking review = good ROI.** Substack comment review caught "unguided AI" phrasing that could read as "consultant advocates shipping AI without governance" in banking context — reputational risk invisible to the drafter. When your name is public + reader could be a future client, $0.50 is cheap insurance.
-- **Framing bias:** 6/6 unanimity in quick mode is a red flag — means the prompt is one-sided, not that the answer is obvious. Always include "Option: fix the existing thing" for deprecation/migration decisions. No council will challenge the frame you give them — the user has to. See [[Frontier Council Lessons]].
-
-## Key Lessons
-
-See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
-
-- **Add constraints upfront** — models default to enterprise-grade without "this is a POC" / "single-user" / "speed > perfection"
-- **Include real metrics** for optimization questions, not just descriptions
-- **Trust the judge's framing over its action list** — it diagnoses well but over-aggregates prescriptions
-- **Challenger round is the highest-value component** — GPT-5.2 as explicit challenger consistently produces the best single insight
-- **Iterative councils beat single deep runs** — second pass on same topic goes deeper with sharper framing
-- **Blind phase often produces agreement, not debate** — the real value comes from challenger + judge
-- **Front-load constraints in the question** — "this must work for HKMA-regulated banks" produces tighter output than "how should banks govern AI?"
-- **Critic phase catches real gaps** — the Gemini critique of the judge's synthesis frequently identifies tactical errors (e.g., "email HR" vs "use disclosure form")
-
-## Recent Features
-
-- **Gemini as judge + Claude as M2** (Mar 2026): All 6 frontier labs now in council. Gemini 3.1 Pro replaced Claude Opus as judge; Claude Opus moved to M2 panelist + critique role. `CONSILIUM_MODEL_JUDGE` env var restores Opus as judge. `CONSILIUM_MODEL_M2` env var overrides M2.
-- **`--effort low|medium|high`** (Mar 2026): Per-phase reasoning budget. Blind phase uses configured effort; debate steps down one level (High→Medium, Medium→Low); judge always uses High. Default (no flag) = provider defaults, unchanged behaviour.
-- **Blind claims for judge** (v0.5.1, Mar 2026): Judge now receives the raw blind-phase claims before the debate transcript. Enables direct blind→post-debate position comparison to detect sycophantic drift. CONVERGENCE SIGNAL prompt updated to reference this section.
-- **Confidence extraction** (v0.5.1, Mar 2026): `extract_confidence_score()` parses "Confidence: N/10" from each panelist's last response. Judge receives a summary; cross-references with POSITION CHANGE labels and CONVERGENCE SIGNAL.
-- **Response order randomization** (v0.5.1, Mar 2026): Other speakers' responses are shuffled per panelist per round, preventing first-listed-speaker position anchoring.
-- **Fallacy-Oversight rubric** (v0.5.1, Mar 2026): Gemini critique prompt now explicitly checks for unsupported premises, invalid inferences, false dichotomies, correlation-causation conflation — the most underweighted judge bias (CALM paper, score 0.566).
-- **Gemini critique env-configurable** (v0.5.1): `CONSILIUM_MODEL_CRITIQUE` env var overrides critique model, matching judge override pattern.
-- **Colored output** (v0.1.3+): Semantic colors for phase banners, model headers, notices, stats. Auto-disabled in pipes. Use `--no-color` to force plain.
-- **Context compression** (v0.1.4+): Multi-round debates compress prior rounds via Llama 3.3 70B. Judge always gets full transcripts. Use `--thorough` to disable.
-- **Challenger dissent protection** (v0.1.5+): If the challenger is actively dissenting, consensus early exit is blocked.
+---
 
 ## Known Issues
 
-- **`--vault` is the default for any background or overnight run.** Never output to `/tmp` — it doesn't survive reboot and gets wiped mid-session. `--vault` auto-saves to `~/notes/Councils/` with a clean filename, backed by Obsidian Sync. Using `--output /tmp/...` + manual copy is a pattern to avoid entirely.
-- **OPENROUTER_API_KEY not set in background shells** — fixed: key now in `~/.zshenv` via `security find-generic-password`. No inline python3 fetch needed.
+- **`--vault` is mandatory for background/overnight runs.** Never `/tmp` — wiped on reboot. `--vault` → `~/notes/Councils/` with Obsidian Sync.
+- **OPENROUTER_API_KEY in background shells** — fixed: key in `~/.zshenv`. No inline fetch needed.
+- **Binary can go stale after code changes.** `cd ~/code/consilium && cargo build --release`
+- **Model timeouts** (historically DeepSeek/GLM) — partial outputs add noise but council still works.
+- **`--format json` only works with council and quick modes.** Other modes output prose only.
+- **`--challenger` and `--followup` are council-only.**
 
-- **Binary can go stale after code changes.** Source at `~/code/consilium`. After edits: `cd ~/code/consilium && cargo build --release`. Binary is symlinked from `~/.local/bin/consilium`.
-- **Model timeouts:** Some models (historically Kimi, now DeepSeek/GLM) occasionally time out. Partial outputs add noise but the council still works with remaining speakers. In `--quick` mode this is less impactful since all models run concurrently — a slow model no longer blocks others.
-- **JSON output truncation:** ~~Fixed in v0.1.6~~ — JSON block now written to stdout. Use `--output file.md` as belt-and-suspenders.
-- **JSON `decision` field can be noisy:** ~~Improved in v0.1.6~~ — extraction prompt tightened, fallback skips section headers.
-- **`--format json` only works with council and quick modes.** All other modes (discuss, redteam, solo, socratic, oxford) output prose only. Use `--output file.md` to capture. See flag compatibility table above.
-- **`--challenger` and `--followup` are council-only.** The CLI will error if combined with other modes.
-- **`--forecast` reconciliation:** Occasionally a model (often Gemini) omits the explicit final number despite prompt instruction. Host interpolates from context. Prompt tightening opportunity.
+---
 
-## Output Formats
+## Reference
 
-| Format | Use Case |
-|--------|----------|
-| `prose` (default) | Human reading, exploratory |
-| `json` | Agent workflows, parsing, automation |
-| `yaml` | Human-readable structured output |
+Extended docs in `~/skills/consilium/REFERENCE.md`:
+- Prompting tips (drafts, social, architecture, philosophical, domain-specific)
+- Model tendencies table
+- Flag compatibility matrix
+- Follow-up workflow + vault template
+- Cost & ROI
+- Key lessons
+- Research foundations (Surowiecki, Tetlock, Nemeth, CIA ACH)
+- Recent features changelog
 
-## Boundaries
-
-- Do NOT run councils for single-fact lookups or purely personal taste questions.
-- Do NOT auto-execute downstream actions; always confirm before creating tasks, notes, or drafts.
-- Stop at recommendation + offered follow-up unless user explicitly selects an action.
-
-## Example
-
-> Recommended mode: `--deep` (strategic, high-consequence question).  
-> Decision: Negotiate start-date flexibility before acceptance.  
-> Confidence: high; dissent: one model warned about delay risk.  
-> Next options: create tasks, save council note, draft reply, or just record.
+---
 
 ## See Also
 
-- Repository (Rust): https://github.com/terry-li-hm/consilium
-- Repository (Python legacy): https://github.com/terry-li-hm/consilium-py
-- PyPI (Python): https://pypi.org/project/consilium/
-- Related skill: `/ask-llms` (simpler parallel queries)
+- Repository: https://github.com/terry-li-hm/consilium
+- Related: `/judex` (measurable outcomes), `/ask-llms` (alias)
+- Lessons: `[[Frontier Council Lessons]]`
+- Research: `~/docs/solutions/multi-llm-deliberation-research.md`
