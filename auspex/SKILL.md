@@ -89,7 +89,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
      - "Capco HK news" or "Capco Asia fintech" (past week)
      - "HKMA AI banking announcement" (past week)
      - One competitor signal: Accenture/EY/KPMG/Deloitte APAC financial services AI
-   - Surface: one key signal (1–2 sentences) + one talking point for client conversations
+   - Surface: one key signal (1–2 sentences, **including publication date**) + one talking point for client conversations
    - Skip the sweep if no results worth noting — don't pad
    - Weave countdown, prep item, and intel naturally into the brief — no separate section
 
