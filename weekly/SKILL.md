@@ -136,7 +136,10 @@ If a check command fails, mark that metric as `Unavailable` in the table and con
 
 8. **wacli daemon** — `launchctl list com.terry.wacli-sync`. Check exit code (0 = running, 113 = dead). If dead, flag for restart.
 9. **Vault git backup** — Check recency: `cd ~/notes && git log -1 --format='%ci'`. Flag if last commit >2h old (cron runs every 30 min).
-10. **Vault link health** — `nexis ~/notes --exclude Archive --exclude "Waking Up" --exclude memory 2>/dev/null`. Note broken link count. Flag if count increased from last week or signal broken links >30. Full triage is a separate `/nexis` session — don't do it inline here.
+10. **Vault link health** — Run two passes:
+    - Broken links: `nexis ~/notes --exclude Archive --exclude "Waking Up" --exclude memory 2>/dev/null`. Flag if broken link count >30 or increased from last week.
+    - Asymmetric links: `nexis ~/notes --asymmetry --exclude Archive --exclude "Waking Up" --exclude memory 2>/dev/null`. Surface notes that link out but have no backlinks — add backlinks inline if obvious, defer to `/nexis` session if large volume.
+    Full triage (atomicity, restructuring) is a separate `/nexis` session — don't do it inline here.
 11. **Agent-browser profile** — `ls -la ~/.agent-browser-profile/Default/Cookies 2>/dev/null && echo "OK" || echo "MISSING"`. Flag if profile directory is missing or Cookies file absent.
 
 ### AI Tooling
