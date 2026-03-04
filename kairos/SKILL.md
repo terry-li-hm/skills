@@ -51,6 +51,16 @@ gog calendar list
 - Flag: anything within 2–4 hours (good to know)
 - If nothing remaining, note "calendar clear"
 
+### 2b. Recurring commitments — Schedule.md
+
+Read `~/notes/Schedule.md`.
+
+- Extract today's day-of-week from the `date` output
+- Match any recurring meetings listed under **Recurring meetings:** that fall on today's day
+- Treat them as calendar events for synthesis purposes — merge with gog results
+- Example: "Wednesday 11:30am: Engagement centre weekly" → treat as an 11:30am event on Wednesdays
+- If Schedule.md is missing/unreadable, skip silently
+
 ### 3. Active decisions and gates — NOW.md
 
 Read `~/notes/NOW.md`.
