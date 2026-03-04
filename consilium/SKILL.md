@@ -9,7 +9,7 @@ cli_verified: 2026-03-03
 runtime: rust
 ---
 
-# LLM Council
+# Consilium
 
 5 frontier models deliberate on a question, then Claude Opus 4.6 judges and adds its own perspective. Models see and respond to previous speakers, with a rotating challenger ensuring sustained disagreement. Auto-routes by difficulty — simple questions get quick parallel, complex ones get full council.
 
@@ -338,7 +338,7 @@ After presenting the council's recommendation, use AskUserQuestion:
 Use TaskCreate for each action_item with appropriate priority.
 
 **If "Save to vault":**
-Create note at `~/notes/Councils/LLM Council - {Topic} - {YYYY-MM-DD}.md`:
+Use `--vault` flag (auto-saves to `~/notes/Councils/` with generated filename). Or create manually at `~/notes/Councils/Consilium - {Topic} - {YYYY-MM-DD}.md`:
 
 ```markdown
 ---
