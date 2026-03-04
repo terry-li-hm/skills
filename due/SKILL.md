@@ -80,5 +80,7 @@ Deleted items go into `dl` dict (UUID → deletion timestamp). Timers live in `t
 
 - Always use HKT for times. moneo handles timezone internally.
 - `moneo ls` shows ⚠ for overdue reminders.
-- **moneo writes are Mac-only** by default — CloudKit bypassed. Add `--sync` to trigger Due's editor + peekaboo click Save → CloudKit syncs to iPhone.
+- **moneo writes are Mac-only** by default — CloudKit bypassed. Add `--sync` to trigger CloudKit sync → iPhone.
+- `--sync` tries native Shortcuts path first (`shortcuts run "Due Add Recurring"` — silent, no screen required), then falls back to peekaboo (opens Due editor, clicks Save).
+- **One-time Shortcuts setup:** `open ~/bin/DueAddRecurring.shortcut` → click "Add Shortcut" in Shortcuts.app. After that, `--sync` works without a screen.
 - No separate backup needed — recovery is just re-adding via moneo (2 min).
