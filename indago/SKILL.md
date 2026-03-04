@@ -51,12 +51,13 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 Rust CLI wrapping the Perplexity API. Source: `~/code/noesis`. Binary: `noesis`. Published on crates.io as `noesis`.
 
 ```bash
-noesis search "query"     # sonar               ~$0.006
-noesis ask "query"        # sonar-pro           ~$0.01
-noesis reason "query"     # sonar-reasoning-pro ~$0.01
-noesis research "query"   # sonar-deep-research ~$0.40 ← EXPENSIVE
-noesis log                # last 20 queries
-noesis log --stats        # cost summary by mode
+noesis search "query"            # sonar               ~$0.006
+noesis ask "query"               # sonar-pro           ~$0.01
+noesis reason "query"            # sonar-reasoning-pro ~$0.01
+noesis research "query"          # sonar-deep-research ~$0.40 ← EXPENSIVE
+noesis research --save "query"   # research + save to ~/docs/solutions/research/
+noesis log                       # last 20 queries
+noesis log --stats               # cost summary by mode
 ```
 
 **Flags:** `--raw` (JSON output), `--no-log` (skip logging).
@@ -64,6 +65,10 @@ noesis log --stats        # cost summary by mode
 **Fallback:** `~/scripts/perplexity.sh` (bash wrapper, same API, no logging).
 
 Reasoning responses (`noesis reason`) strip `<think>` tags by default. Use `--raw` to preserve.
+
+## Capture Rule
+
+**`noesis research` → always use `--save`.** Output is saved to `~/docs/solutions/research/YYYY-MM-DD-slug.md` with frontmatter (query, date, model, cost, sources). This prevents re-running $0.40 queries and preserves citations. No exceptions.
 
 ## grok CLI
 
