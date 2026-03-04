@@ -1,6 +1,6 @@
 ---
 name: summarize
-description: Summarize or extract text from URLs, podcasts, and local files. "summarize this"
+description: Quick read — fetch and summarize content from any URL, podcast, or local file. No vault note saved. "summarize this", "what's this link about?"
 user_invocable: true
 github_url: https://github.com/steipete/summarize
 ---

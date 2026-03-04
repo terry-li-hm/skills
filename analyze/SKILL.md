@@ -1,6 +1,6 @@
 ---
 name: analyze
-description: Universal content analyzer. Auto-detects type (article, job, repo, video) and routes to handler. "analyze this"
+description: Classify content, extract insights, and save a structured vault note. Auto-detects type (article, job, repo, video). "analyze this"
 user_invocable: true
 ---
 
