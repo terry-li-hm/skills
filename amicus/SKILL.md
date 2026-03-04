@@ -20,6 +20,7 @@ amicus lookup "name"       # FTS5 search: profile + last 5 interactions
 amicus stale [--days 30]   # Contacts not reached in N days (default 30)
 amicus dossier --today     # Today's calendar attendees with CRM profiles
 amicus stats               # Summary + top 10 most active contacts
+amicus import <dir>        # Import LinkedIn data export (Connections.csv + messages.csv)
 ```
 
 ## First Run
@@ -44,6 +45,18 @@ amicus stats         # verify contacts loaded
 - **Re-install after code changes**: `cargo install --path ~/code/amicus` (NOT `cargo build --release` — that doesn't update `~/.cargo/bin/amicus`).
 - **DB at `~/.crm/crm.db`** — same path as the old Python `crm` tool. Existing data from Python migration is preserved.
 - **TTY detection** — `dossier` command auto-detects TTY: rich table in terminal, plain text for agent pipes. Use `2>/dev/null` in auspex to suppress errors without breaking output.
+
+## LinkedIn Import
+
+LinkedIn DMs are the primary channel for professional contacts — `amicus sync` alone won't capture those relationships. Bridge the gap with LinkedIn's official data export (zero scraping, no account risk):
+
+1. LinkedIn → Settings → Data Privacy → Get a copy of your data → select **Connections** + **Messages**
+2. Wait ~24h for the download email
+3. Unzip, then: `amicus import ~/Downloads/linkedin-export/`
+
+Run **monthly**. Imports:
+- `Connections.csv` — seeds contacts with name, company, role, connected date
+- `messages.csv` — updates `last_contact` from message timestamps (matched by name)
 
 ## Weekly Use
 
