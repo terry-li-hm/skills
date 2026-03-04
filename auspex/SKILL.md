@@ -1,6 +1,6 @@
 ---
 name: auspex
-description: Daily briefing to start the day with focus. Use when user says morning, good morning, or gm.
+description: Daily briefing to start the day with focus. Invoke with /auspex.
 user_invocable: true
 ---
 
