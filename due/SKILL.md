@@ -24,7 +24,8 @@ moneo ls                                              # list all reminders with 
 moneo add "Call dentist" --in 30m                    # relative time
 moneo add "Standup" --at 09:30                       # today at HH:MM
 moneo add "Pay rent" --date 2026-04-01 --at 10:00   # specific date + time
-moneo add "Team sync" --at 11:00 --recur weekly      # recurring weekly
+moneo add "Team sync" --at 11:00 --recur weekly      # recurring weekly (Mac only)
+moneo add "Team sync" --at 11:00 --recur weekly --sync  # recurring + CloudKit → iPhone
 moneo add "Pay rent" --date 2026-04-01 --recur monthly  # recurring monthly
 moneo edit <index> --title "New title"               # rename
 moneo edit <index> --at 16:00                        # change time
