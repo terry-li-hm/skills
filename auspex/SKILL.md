@@ -12,9 +12,7 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
 
 ## Triggers
 
-- "morning"
-- "good morning"
-- "gm"
+- `/auspex` (user-invocable only)
 
 ## Steps
 
