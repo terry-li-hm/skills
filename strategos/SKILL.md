@@ -36,6 +36,7 @@ Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 
 | Task size | Use |
 |-----------|-----|
+| **Trivial:** new skill file, single script <50 lines, clear spec, no existing code touched | **Build directly in-session** — skip CE plan and delegation |
 | Single-file, ≤3 commands, no architecture decisions, requires live user decisions mid-plan | `EnterPlanMode` → delegate |
 | Multi-command CLI, new architecture, Max20 pool healthy | `/slfg <description>` — fully autonomous (plan → deepen → CE swarm → review) |
 | Same as above but Max20 is low, or tasks map cleanly to independent files | `/ce:plan` → `/deepen-plan` → **external swarm** (lucus + parallel delegates) → `/ce:review` |
