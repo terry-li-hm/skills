@@ -530,6 +530,9 @@ See `[[Frontier Council Lessons]]` for full usage lessons. Critical ones:
 
 ## Known Issues
 
+- **`--vault` is the default for any background or overnight run.** Never output to `/tmp` — it doesn't survive reboot and gets wiped mid-session. `--vault` auto-saves to `~/notes/Councils/` with a clean filename, backed by Obsidian Sync. Using `--output /tmp/...` + manual copy is a pattern to avoid entirely.
+- **OPENROUTER_API_KEY not set in background shells** — fixed: key now in `~/.zshenv` via `security find-generic-password`. No inline python3 fetch needed.
+
 - **Binary can go stale after code changes.** Source at `~/code/consilium`. After edits: `cd ~/code/consilium && cargo build --release`. Binary is symlinked from `~/.local/bin/consilium`.
 - **Model timeouts:** Some models (historically Kimi, now DeepSeek/GLM) occasionally time out. Partial outputs add noise but the council still works with remaining speakers. In `--quick` mode this is less impactful since all models run concurrently — a slow model no longer blocks others.
 - **JSON output truncation:** ~~Fixed in v0.1.6~~ — JSON block now written to stdout. Use `--output file.md` as belt-and-suspenders.
