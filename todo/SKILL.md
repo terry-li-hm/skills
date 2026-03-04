@@ -187,6 +187,16 @@ Show the `🔋 Spare Capacity` section items — low-priority maintenance for wh
 - When comparing dates, use `date +%Y-%m-%d` (system is HKT)
 - Related files: `[[TODO Archive]]` · `[[Reflections Queue]]`
 
+## Due Alarm Convention
+
+When adding a task with `due:` within 7 days, also set a phone alarm:
+
+```bash
+moneo add "<task title>" --date YYYY-MM-DD --at HH:MM --sync
+```
+
+**When to apply:** Hard deadlines requiring action on a specific day — not `someday`, not `when:` gates, not recurring habits. Pick a time that fits the day (not just 9am default). This is a manual step — don't automate it, so the time is chosen deliberately.
+
 ## Boundaries
 
 - Do NOT reinterpret task intent; only perform requested task list operations.
