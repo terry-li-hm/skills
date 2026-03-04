@@ -77,6 +77,18 @@ open "due://x-callback-url/add?title=Recycle&recurunit=256&recurbyday=3,6"
 sleep 1 && osascript -e 'tell application "System Events" to tell process "Due" to click button "Save" of window "Reminder Editor"'
 ```
 
+**If AppleScript fails:** Use peekaboo to click Save by coordinates:
+```bash
+# 1. Get window position
+peekaboo list windows --app Due  # note Reminder Editor position e.g. (117, 879) size 439x275
+# 2. Take screenshot to confirm Save button location
+peekaboo image --window-id <ID>
+# 3. Click Save (bottom-right ~(415, 252) within window + window origin)
+peekaboo click --coords "<win_x+415>,<win_y+252>"
+# 4. Confirm by checking window is gone
+peekaboo list windows --app Due  # Reminder Editor should no longer appear
+```
+
 ### Recurrence parameters
 
 | `recurunit` | Meaning |
