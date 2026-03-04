@@ -138,7 +138,11 @@ b. **SCB Prime rate** — verify still 5.25% (affects your cap). Check SCB websi
 c. **Credit card balances** — any unpaid statement balances? (CCBA, SCB, BOC)
 If rate/search sources are unavailable, note "Finance check partial" and avoid firm recommendations.
 
-### 9. Housekeeping
+### 9. Direction Audit (quarterly — March, June, September, December only)
+
+Read `~/notes/Life OS.md`. For each domain ask: is this still the right framing? Has anything shifted? Is the listed "next step" still relevant or stale? Update the note in-place — it's a live map, not a historical document. Skip this step in non-quarter months.
+
+### 10. Housekeeping
 
 - Purge orphaned agent files: `/usr/bin/find ~/.claude/todos -name "*.json" -mtime +7 -delete`
 - Check MEMORY.md line count (`wc -l`). Flag if >150 — trim or demote to vault.
