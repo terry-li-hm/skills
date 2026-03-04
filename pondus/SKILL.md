@@ -1,7 +1,8 @@
 ---
 name: pondus
 description: "AI model benchmark aggregator CLI. Use when comparing models, checking benchmark scores, or looking up leaderboard rankings."
-user_invocable: false
+user_invocable: true
+disable-model-invocation: true
 ---
 
 # Pondus

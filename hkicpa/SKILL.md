@@ -1,7 +1,8 @@
 ---
 name: hkicpa
 description: Reference for HKICPA portal access and CPD compliance. Use when working with CPD submissions or HKICPA portal tasks.
-user_invocable: false
+user_invocable: true
+disable-model-invocation: true
 ---
 
 # HKICPA

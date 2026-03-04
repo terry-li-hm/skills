@@ -1,7 +1,8 @@
 ---
 name: fingo
 description: Rust CLI for AI image generation and editing via Gemini. Use when generating or editing images from the terminal.
-user_invocable: false
+user_invocable: true
+disable-model-invocation: true
 ---
 
 # fingo

@@ -1,7 +1,8 @@
 ---
 name: hypha
 description: "Obsidian vault link graph traversal — navigate outgoing/incoming links from a note, explore to depth N, find shortest path between notes."
-user_invocable: false
+user_invocable: true
+disable-model-invocation: true
 cli: hypha
 cli_version: 0.1.4
 crates_io: https://crates.io/crates/hypha
