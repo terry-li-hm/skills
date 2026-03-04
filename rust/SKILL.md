@@ -105,7 +105,44 @@ fn stdout_is_file_redirect() -> bool {
 
 Then: TTY → human UX, pipe (`S_IFIFO`) → compact/scriptable, file (`S_IFREG`) → full output for capture.
 
-### 5. Common deps
+### 5. Test scaffold (mandatory)
+
+Create immediately — no CLI ships without a baseline:
+
+```bash
+cargo add --dev assert_cmd predicates
+mkdir tests
+```
+
+```rust
+// tests/cli_test.rs
+use assert_cmd::prelude::*;
+use predicates::prelude::*;
+use std::process::Command;
+
+#[test]
+fn test_version() -> Result<(), Box<dyn std::error::Error>> {
+    Command::cargo_bin!("<name>").arg("--version").assert()
+        .success().stdout(predicate::str::contains("<name>"));
+    Ok(())
+}
+
+#[test]
+fn test_help() -> Result<(), Box<dyn std::error::Error>> {
+    Command::cargo_bin!("<name>").arg("--help").assert().success();
+    Ok(())
+}
+
+#[test]
+fn test_no_args_fails() -> Result<(), Box<dyn std::error::Error>> {
+    Command::cargo_bin!("<name>").assert().failure();
+    Ok(())
+}
+```
+
+Run immediately: `cargo nextest run` — must pass before any feature work begins.
+
+### 7. Common deps
 
 ```bash
 cargo add serde --features derive
@@ -167,6 +204,7 @@ Run in order. All must pass before bumping version.
 # README exists? (one-time check — skip on subsequent releases)
 ls README.md
 
+cargo nextest run                   # all tests must pass — HARD GATE
 cargo fmt --check                   # formatting clean?
 cargo clippy -- -D warnings         # zero warnings
 cargo machete                       # unused deps
