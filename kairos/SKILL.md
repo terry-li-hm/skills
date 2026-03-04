@@ -51,15 +51,15 @@ gog calendar list
 - Flag: anything within 2–4 hours (good to know)
 - If nothing remaining, note "calendar clear"
 
-### 2b. Recurring commitments — Schedule.md
+### 2b. Upcoming Due reminders — moneo
 
-Read `~/notes/Schedule.md`.
+```bash
+moneo ls
+```
 
-- Extract today's day-of-week from the `date` output
-- Match any recurring meetings listed under **Recurring meetings:** that fall on today's day
-- Treat them as calendar events for synthesis purposes — merge with gog results
-- Example: "Wednesday 11:30am: Engagement centre weekly" → treat as an 11:30am event on Wednesdays
-- If Schedule.md is missing/unreadable, skip silently
+- Surface any reminders due **today** — merge with gog calendar results for synthesis
+- Flag anything within the next 60 minutes as imminent
+- If moneo fails or isn't installed, skip silently
 
 ### 3. Active decisions and gates — NOW.md
 
