@@ -134,7 +134,7 @@ if (/\.claude\/projects\//.test(cmd) && /\.jsonl/.test(cmd)) {
 | Hook | Purpose |
 |------|---------|
 | `session-end-reminder.js` | Suggests /daily (after 9pm) or /retro (daytime) |
-| `dirty-repos.js` | Warns about uncommitted changes in agent-config, skills, notes |
+| `dirty-repos.js` | Warns about uncommitted changes in officina, skills, notes |
 
 ### PreCompact — Sentinel (1 hook)
 
