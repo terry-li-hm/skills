@@ -79,6 +79,8 @@ The `/daily` skill previews tomorrow's plate at end of day. This skill focuses o
    - Use those findings — calendar events, open gates, overdue items — to close the brief in auspex's morning voice. Don't paste kairos's output; reframe the facts for the morning narrative.
    - Don't re-run calendar or NOW.md independently — kairos owns that logic.
 
+10b. **Pre-meeting dossiers** — run `crm dossier --today 2>/dev/null`. If output is non-empty, weave attendee context (name, last contact, recent subjects) naturally into the Today's plate narrative. Fail silently if crm is not installed or DB is empty — do not block the brief.
+
 11. **Capco countdown + daily intel** (until start date):
    - Run `date` to calculate days remaining until Capco start (Apr 8, 2026 — or Mar 16 if buyout confirmed; check `~/notes/Capco/Capco Transition.md` for current date)
    - If transition note is missing, default to Apr 8, 2026 and note "Capco Transition note unavailable".
