@@ -1,7 +1,12 @@
 ---
 name: crm
-description: Personal CRM CLI — relationship intelligence from Gmail + Calendar. Use when checking stale contacts, looking up who someone is, or getting pre-meeting context.
-user_invocable: true
+description: "DEPRECATED — superseded by amicus (Rust). See ~/skills/amicus/SKILL.md."
+user_invocable: false
+---
+
+> **DEPRECATED** — superseded by `amicus` (Rust binary). Use `amicus` instead. See `~/skills/amicus/SKILL.md`.
+> The Python `crm` CLI and source at `~/code/crm/` are retained for reference only. DB at `~/.crm/crm.db` is shared — data preserved.
+
 ---
 
 # crm — Personal CRM CLI
