@@ -13,7 +13,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | Tool | Type | Cost | Best For |
 |------|------|------|----------|
 | **WebSearch** | Built-in | Free | General purpose, quick searches |
-| **pplx** | Rust CLI | $0.006–0.40/query | Deep research, reasoning |
+| **noesis** | Rust CLI | $0.006–0.40/query | Deep research, reasoning |
 | **grok** | Python CLI | ~$0.02/query | X/Twitter search, real-time web |
 | **WebFetch** | Built-in | Free | Scrape specific URLs to markdown |
 
@@ -22,9 +22,9 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | Tier | Tool | Cost/query | Use When |
 |------|------|------------|----------|
 | **Free** | `WebSearch` | $0 | Default for everything |
-| **Cheap** | `pplx search` | ~$0.006 | Need cited synthesis, WebSearch insufficient |
-| **Mid** | `pplx ask` / `pplx reason` / `grok` | ~$0.01–0.02 | Structured surveys, complex reasoning, X/Twitter |
-| **Expensive** | `pplx research` | ~$0.40 | Deep novel research. Use freely when it adds value. |
+| **Cheap** | `noesis search` | ~$0.006 | Need cited synthesis, WebSearch insufficient |
+| **Mid** | `noesis ask` / `noesis reason` / `grok` | ~$0.01–0.02 | Structured surveys, complex reasoning, X/Twitter |
+| **Expensive** | `noesis research` | ~$0.40 | Deep novel research. Use freely when it adds value. |
 
 **Default to free tier.** Only escalate when the cheaper tool genuinely can't answer.
 
@@ -33,37 +33,37 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | Need | Tool | Why |
 |------|------|-----|
 | Quick answer / general search | `WebSearch` | Free, fast, no overhead |
-| Structured survey ("list the platforms for X") | `pplx ask` | Concise, tabular, low fabrication |
-| **Algorithm/framework comparison ("which is better?")** | **`pplx search` or `pplx reason`** | **Needs synthesis + citations — WebSearch returns raw URLs, not answers** |
-| Deep analysis of novel questions | `pplx research` | Breadth + citations. ~$0.40/query |
-| Complex reasoning / trade-off analysis | `pplx reason` | Reasoning chain, best for hard questions |
+| Structured survey ("list the platforms for X") | `noesis ask` | Concise, tabular, low fabrication |
+| **Algorithm/framework comparison ("which is better?")** | **`noesis search` or `noesis reason`** | **Needs synthesis + citations — WebSearch returns raw URLs, not answers** |
+| Deep analysis of novel questions | `noesis research` | Breadth + citations. ~$0.40/query |
+| Complex reasoning / trade-off analysis | `noesis reason` | Reasoning chain, best for hard questions |
 | Verify claims / get primary sources | `WebSearch` | Returns links, no hallucinated synthesis |
-| Find specific content URLs (YouTube, podcast episodes, etc.) | `pplx search` | WebSearch doesn't index platform-internal pages well; pplx does |
+| Find specific content URLs (YouTube, podcast episodes, etc.) | `noesis search` | WebSearch doesn't index platform-internal pages well; noesis does |
 | AI news / X/Twitter | `grok --x-only` → `grok` | Real-time X/Twitter data + web search via xAI API |
 | Scrape a specific URL (static) | `defuddle` → `WebFetch` | defuddle first — cleaner output, fewer tokens |
 | Scrape JS-heavy / bot-protected URL | `peruro <url>` | Firecrawl backend bypasses JS rendering and Cloudflare |
 | Web search + scrape results | `peruro search <query>` | Returns scraped markdown per result, not just links |
 | Code & documentation | Context7 plugin | Best for library docs |
-| Job/company research | `WebSearch` → `pplx ask` | Free first, paid for depth |
+| Job/company research | `WebSearch` → `noesis ask` | Free first, paid for depth |
 
-## pplx CLI
+## noesis CLI
 
-Rust CLI wrapping the Perplexity API. Source: `~/code/pplx`. Published on crates.io.
+Rust CLI wrapping the Perplexity API. Source: `~/code/noesis`. Binary: `noesis`. Published on crates.io as `noesis`.
 
 ```bash
-pplx search "query"     # sonar               ~$0.006
-pplx ask "query"        # sonar-pro           ~$0.01
-pplx reason "query"     # sonar-reasoning-pro ~$0.01
-pplx research "query"   # sonar-deep-research ~$0.40 ← EXPENSIVE
-pplx log                # last 20 queries
-pplx log --stats        # cost summary by mode
+noesis search "query"     # sonar               ~$0.006
+noesis ask "query"        # sonar-pro           ~$0.01
+noesis reason "query"     # sonar-reasoning-pro ~$0.01
+noesis research "query"   # sonar-deep-research ~$0.40 ← EXPENSIVE
+noesis log                # last 20 queries
+noesis log --stats        # cost summary by mode
 ```
 
 **Flags:** `--raw` (JSON output), `--no-log` (skip logging).
-**Log:** `~/.local/share/pplx/log.jsonl` — use `pplx log --stats` to assess cost over time.
+**Log:** `~/Library/Application Support/noesis/log.jsonl` — use `noesis log --stats` to assess cost over time.
 **Fallback:** `~/scripts/perplexity.sh` (bash wrapper, same API, no logging).
 
-Reasoning responses (`pplx reason`) strip `<think>` tags by default. Use `--raw` to preserve.
+Reasoning responses (`noesis reason`) strip `<think>` tags by default. Use `--raw` to preserve.
 
 ## grok CLI
 
@@ -97,7 +97,7 @@ grok --raw "query"           # raw JSON response
 
 | Domain | Language | Example |
 |--------|----------|---------|
-| HK local (doctors, govt, restaurants) | Chinese (中文) | `pplx search "香港脊椎側彎骨科醫生推薦 私家 2026"` |
+| HK local (doctors, govt, restaurants) | Chinese (中文) | `noesis search "香港脊椎側彎骨科醫生推薦 私家 2026"` |
 | Niche keeb switches/builds | Japanese (日本語) | `bird search "HMX K01 タクタイル" -n 10` |
 | Taobao/Chinese products | Chinese (中文) | Reviews, Douyin/Bilibili content |
 | K-beauty, Korean tech | Korean (한국어) | Naver blogs, Korean review sites |
@@ -114,23 +114,23 @@ When constructing prompts for researcher subagents, **explicitly specify the sea
 
 | Topic type | Specify in agent prompt |
 |---|---|
-| Academic / scientific / neuroscience | Use `pplx research` for primary sources |
-| Market / product research | `pplx ask` or `pplx search` |
+| Academic / scientific / neuroscience | Use `noesis research` for primary sources |
+| Market / product research | `noesis ask` or `noesis search` |
 | Quick factual lookup | `WebSearch` (default) |
 | AI news / real-time | `grok` |
 
-Default: agents fall back to WebSearch. For academic research this misses cited primary sources — always specify `pplx research` explicitly in the agent prompt.
+Default: agents fall back to WebSearch. For academic research this misses cited primary sources — always specify `noesis research` explicitly in the agent prompt.
 
-## pplx research vs Researcher Agent
+## noesis research vs Researcher Agent
 
 These are complementary, not interchangeable:
 
 | Tool | Best for |
 |------|----------|
-| `pplx research` | Recent platform-specific facts: algorithm rules, word count thresholds, timing windows, product specs. Fast, cheap-ish ($0.40), current. |
+| `noesis research` | Recent platform-specific facts: algorithm rules, word count thresholds, timing windows, product specs. Fast, cheap-ish ($0.40), current. |
 | Researcher agent | Foundational academic synthesis: established theory, citable papers, cross-study analysis. Slower, more thorough. |
 
-**Pattern:** use researcher agent for the "why" (mechanism, theory), `pplx research` for the "what now" (current platform behaviour, recent data). Both on the same topic often yields more than either alone — agent surfaces the theory, pplx surfaces what's changed since.
+**Pattern:** use researcher agent for the "why" (mechanism, theory), `noesis research` for the "what now" (current platform behaviour, recent data). Both on the same topic often yields more than either alone — agent surfaces the theory, noesis surfaces what's changed since.
 
 ## Perplexity Quality Notes
 
