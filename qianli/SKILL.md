@@ -1,6 +1,6 @@
 ---
 name: qianli
-description: Search Chinese content platforms from the terminal
+description: Search Chinese content platforms (Weibo, Zhihu, Bilibili, XHS) from the terminal. Use when searching for Chinese-language content or community discussions.
 user_invocable: true
 trigger: "/qianli"
 ---

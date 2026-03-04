@@ -2,6 +2,8 @@
 name: vigilia
 description: AML triage model work — STR relabelling (FR-MLP-002) deployment + hibernation analysis. Use when working on CDSW, hibernation customer counts, Marco/Benjamin/Daffy requests, or STR handover.
 user_invocable: true
+status: retiring
+retire_after: 2026-03-13
 ---
 
 # STR Relabelling (FR-MLP-002)
