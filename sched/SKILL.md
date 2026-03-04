@@ -41,7 +41,7 @@ Times must be RFC3339 with `+08:00` offset (HKT).
 ### 2. Set Due reminder via moneo
 
 ```bash
-moneo add "Event title" --date 2026-03-05 --at 11:45
+moneo add "Event title" --date 2026-03-05 --at 11:45 --sync
 ```
 
 **Reminder time logic:**
@@ -65,12 +65,11 @@ gog calendar create terry.li.hm@gmail.com \
   --from "2026-03-10T12:30:00+08:00" \
   --to "2026-03-10T14:00:00+08:00"
 
-moneo add "Lunch with Simon" --date 2026-03-10 --at 12:00
+moneo add "Lunch with Simon" --date 2026-03-10 --at 12:00 --sync
 ```
 
 ## Gotchas
 
 - `gog calendar create` requires RFC3339 with timezone offset — never bare `HH:MM`
-- `moneo add` with `--date` + `--at` syncs to iPhone via CloudKit
-- If the Reminder Editor dialog opens (URL scheme path), use peekaboo to click Save — see `due` skill
+- `moneo add` is Mac-only by default — `--sync` triggers CloudKit → iPhone (requires DueAddRecurring shortcut installed; see `due` skill)
 - Always confirm the reminder time with the user if it wasn't explicitly stated

@@ -352,9 +352,9 @@ Not installed yet. Install when needed: `go install github.com/simonw/showboat@l
 
 ## Profile Backup
 
-Profile data at `~/.agent-browser-profile/`. Backup location: `~/agent-config/browser-profile/` (Cookies, Local Storage, Sessions).
+Profile data at `~/.agent-browser-profile/`. Backup location: `~/officina/browser-profile/` (Cookies, Local Storage, Sessions).
 
-Restore: `cp -r ~/agent-config/browser-profile/* ~/.agent-browser-profile/`
+Restore: `cp -r ~/officina/browser-profile/* ~/.agent-browser-profile/`
 
 ## Playwright Binaries
 

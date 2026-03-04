@@ -201,4 +201,4 @@ lustro digest --themes 5          # Limit to 5 themes
 - Log: `~/notes/AI News Log.md`
 - Article cache: `~/.cache/lustro/articles/`
 - State: `~/.cache/lustro/state.json`
-- LaunchAgent: `~/agent-config/launchd/com.terry.lustro-daily.plist`
+- LaunchAgent: `~/officina/launchd/com.terry.lustro-daily.plist`

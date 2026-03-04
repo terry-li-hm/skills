@@ -1,19 +1,19 @@
 ---
 name: synaxis
-description: "Sync AI tool config across Claude Code, OpenCode, Codex, and Gemini CLI — skills, MCP, CE, from ~/agent-config/ as source of truth. Run after any config change."
+description: "Sync AI tool config across Claude Code, OpenCode, Codex, and Gemini CLI — skills, MCP, CE, from ~/officina/ as source of truth. Run after any config change."
 user_invocable: true
 ---
 
-# Necto
+# Synaxis
 
-Single Rust binary that keeps all AI coding tools in sync from `~/agent-config/` as the source of truth.
+Single Rust binary that keeps all AI coding tools in sync from `~/officina/` as the source of truth.
 
 ## What it syncs
 
 | Step | What | Source | Targets |
 |------|------|--------|---------|
 | Skills | Symlinks | `~/skills/` | `~/.claude/skills/`, `~/.opencode/skills/`, `~/.codex/skills/`, `~/.agents/skills/` |
-| MCP | Config files | `~/agent-config/mcp-servers.json` | `~/.opencode/mcp.json`, `~/.codex/config.toml` (managed block) |
+| MCP | Config files | `~/officina/mcp-servers.json` | `~/.opencode/mcp.json`, `~/.codex/config.toml` (managed block) |
 | CE | Plugin install | every-marketplace | codex, opencode, gemini |
 
 Gemini CLI has no skills directory — CE only.
@@ -39,7 +39,7 @@ synaxis --help
 | Config | File |
 |--------|------|
 | Skills | `~/skills/` (git repo) |
-| MCP servers | `~/agent-config/mcp-servers.json` |
+| MCP servers | `~/officina/mcp-servers.json` |
 | CE plugin | `~/.claude/plugins/marketplaces/every-marketplace/` |
 
 ### mcp-servers.json format
@@ -66,7 +66,7 @@ synaxis --help
 
 | Platform | Skills | MCP | Instructions |
 |----------|--------|-----|-------------|
-| Source | `~/skills/` | `~/agent-config/mcp-servers.json` | `~/CLAUDE.md` |
+| Source | `~/skills/` | `~/officina/mcp-servers.json` | `~/CLAUDE.md` |
 | Claude Code | `~/.claude/skills/` | (manual via `claude mcp add`) | auto-loaded |
 | OpenCode | `~/.opencode/skills/` | `~/.opencode/mcp.json` | — |
 | Codex | `~/.codex/skills/`, `~/.agents/skills/` | `~/.codex/config.toml` | `~/.codex/AGENTS.md → ~/CLAUDE.md` |

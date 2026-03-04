@@ -35,9 +35,9 @@ comm -23 <(/bin/ls $HOME/skills/ | sort) <(/bin/ls ~/.claude/skills/ | sort)
 If gaps: list them, suggest `/agent-sync` or `ln -s`.
 If command fails (missing dir/symlink issue), note "Skill link check unavailable" and continue.
 
-**Dirty key repos:** Lost changes to `~/skills/` and `~/agent-config/` hurt future sessions.
+**Dirty key repos:** Lost changes to `~/skills/` and `~/officina/` hurt future sessions.
 ```bash
-git -C ~/skills status --short && git -C ~/agent-config status --short
+git -C ~/skills status --short && git -C ~/officina status --short
 ```
 If dirty: show which files, offer to commit. Don't auto-commit.
 If either repo is missing or command fails, note which status check is unavailable and continue.

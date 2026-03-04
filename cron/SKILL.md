@@ -16,7 +16,7 @@ launchctl list | grep com.terry
 
 ## LaunchAgents
 
-Plists tracked in `~/agent-config/launchd/`, symlinked to `~/Library/LaunchAgents/`.
+Plists tracked in `~/officina/launchd/`, symlinked to `~/Library/LaunchAgents/`.
 
 | Agent | Schedule | Purpose |
 |-------|----------|---------|
@@ -52,7 +52,7 @@ launchctl unload ~/Library/LaunchAgents/com.terry.AGENT.plist
 launchctl load ~/Library/LaunchAgents/com.terry.AGENT.plist
 
 # Add new agent
-# 1. Create plist in ~/agent-config/launchd/
-# 2. ln -s ~/agent-config/launchd/com.terry.NAME.plist ~/Library/LaunchAgents/
+# 1. Create plist in ~/officina/launchd/
+# 2. ln -s ~/officina/launchd/com.terry.NAME.plist ~/Library/LaunchAgents/
 # 3. launchctl load ~/Library/LaunchAgents/com.terry.NAME.plist
 ```
