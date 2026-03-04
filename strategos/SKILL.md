@@ -130,6 +130,7 @@ lucus merge <task-c-branch>
 - One `lucus` worktree per delegate — never share a worktree
 - Mix tools by task type: Codex for multi-file/repo nav, Gemini for algorithmic, OpenCode for boilerplate
 - Review `git diff --stat` per branch before merging — Gemini touches extra files
+- **Gemini executes live mutations during testing** — if the CLI wraps a live service (calendar, WhatsApp, DB), expect real side effects during Gemini's verification pass. Brief with a test fixture or accept live side effects and clean up after.
 - Merge conflicts = tasks weren't independent enough; phase them next time
 - If any delegate branch fails, do not merge partial branches blindly; finish successful branches first, then re-scope failed task as a new single delegation.
 
