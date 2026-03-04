@@ -78,6 +78,7 @@ Read `~/notes/TODO.md`.
 - If file is missing/unreadable, note "TODO.md unavailable" and continue.
 
 - Surface only: items with `due:` <= today, items with `when:` <= today that are not completed
+- Also surface `recurring:daily` items and day-of-week recurring items that match today (e.g. `recurring:3x-week` on Mon/Wed/Fri, `recurring:weekly` on the matching weekday, `recurring:biweekly` if applicable). Cross-reference with the current day from step 1.
 - Skip `someday` items, skip items due later in the week
 - Max 5 items — if more qualify, pick the most time-sensitive
 
