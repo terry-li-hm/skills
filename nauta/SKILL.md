@@ -240,6 +240,66 @@ Filling long registration forms (e.g. Cliniko, medical intake). Learned patterns
 
 **Command chaining:** Never chain agent-browser commands with `&&` — the daemon can't handle concurrent requests and throws "Resource temporarily unavailable (os error 35)". Run each command as a separate Bash call.
 
+## When User Needs to See the Browser (CAPTCHA, Jump/remote desktop)
+
+`agent-browser` is **headless — invisible on screen**, even via Jump Desktop. If the user needs to watch or interact (CAPTCHA, visual confirm), use **osascript JS injection into visible Chrome** instead.
+
+**Workflow:**
+1. `open "https://..."` → opens URL in user's visible Chrome
+2. Query field names/IDs via osascript
+3. Inject values via osascript JS
+4. User handles CAPTCHA + final submit
+
+```bash
+# Step 1: open URL in visible Chrome
+open "https://example.com/register"
+
+# Step 2: discover field names
+osascript << 'EOF'
+tell application "Google Chrome"
+  execute active tab of front window javascript "
+    var r = [];
+    document.querySelectorAll('input,select').forEach(function(el) {
+      r.push(el.tagName+'|'+el.type+'|'+el.name+'|'+el.id);
+    });
+    r.join('\\n');
+  "
+end tell
+EOF
+
+# Step 3: fill all fields in one injection
+osascript << 'EOF'
+tell application "Google Chrome"
+  execute active tab of front window javascript "
+    function setVal(el, val) {
+      var s = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value');
+      if (s) s.set.call(el, val);
+      el.dispatchEvent(new Event('input', {bubbles: true}));
+      el.dispatchEvent(new Event('change', {bubbles: true}));
+    }
+    setVal(document.getElementById('firstname'), 'Terry');
+    setVal(document.getElementById('lastname'), 'Li');
+    document.getElementById('salutation').value = 'Mr';
+    document.getElementById('salutation').dispatchEvent(new Event('change', {bubbles:true}));
+    // Uncheck marketing opt-ins:
+    ['opt1','opt2'].forEach(function(id) {
+      var cb = document.getElementById(id);
+      if (cb && cb.checked) cb.click();
+    });
+    'done';
+  "
+end tell
+EOF
+```
+
+**Take a screenshot to verify before telling user to submit:**
+```bash
+screencapture -x /tmp/form_check.png
+# Then Read /tmp/form_check.png to visually confirm
+```
+
+**Limitation:** Works on plain HTML forms. React/Angular state-synced forms may not respond — fall back to agent-browser `fill @ref + Tab`.
+
 ## Backup: Rodney (simonw/rodney)
 
 Go-based browser automation CLI using Chrome CDP (rod library). Installed at `~/go/bin/rodney`. Use when agent-browser fails or Playwright binaries break.
