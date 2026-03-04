@@ -1,107 +1,92 @@
 ---
 name: anam
-description: Search and surface past chat history and conversation transcripts. Use when reviewing what was discussed on a specific day or searching for past conversations.
+description: Search past chat history and AI coding memories. Use when recalling what was discussed, finding past decisions, or looking up extracted learnings and gotchas.
 user_invocable: true
 ---
 
-# History
+# History & Memory Search
 
-Search AI coding chat history from Claude Code, Codex, and OpenCode.
-
-## Tools
-
-- **`anam`** (Rust CLI, `~/.cargo/bin/anam`) — programmatic date scan, keyword search, deep transcript search, cross-tool support (Claude + Codex + OpenCode), HKT day boundaries. Works from Claude Code (non-interactive). Source: `~/code/anam/`.
-- **`claude-history`** (Rust CLI) — interactive TUI fuzzy search over Claude Code conversations. Best for browsing or resuming a session. **Requires interactive terminal** — won't work from Claude Code's Bash tool.
+Two layers of search:
+- **`anam`** — raw transcript search (what happened, when, exact words)
+- **`oghma`** — semantic memory search (extracted learnings, gotchas, preferences)
 
 ## Before Searching
 
-Follow `eruo` lookup order — anam is step 3 (specific past conversation), only after the canonical project note (step 1) and `cerno` (step 2).
+Check canonical project note and `cerno` first. History search is for "I know we discussed this in a session" — not for facts that belong in the vault.
 
-## Trigger
+## anam — Raw Transcript Search
 
-- `/anam` — today's prompts across all tools
-- `/anam yesterday` — yesterday's prompts
-- `/anam 2026-01-18` — specific date
-- `/anam --tool=Codex` — filter by specific tool
-- `/anam search self-intro` — search prompts for keyword (last 7 days)
-- `/anam search DBS --deep` — search full transcripts (user + assistant)
-- `/anam search DBS --days=30` — search last 30 days
-- `/anam browse` — launch claude-history TUI (interactive fuzzy search)
-- `/anam browse --global` — search all projects at once
-
-## anam (Programmatic — use from Claude Code)
+Rust CLI (`~/.cargo/bin/anam`). Programmatic, works from Claude Code. Source: `~/code/anam/`.
 
 ```bash
-# --- Date scan mode ---
+# Date scan
 anam                          # Today's prompts (last 50)
-anam yesterday                # Yesterday's prompts
-anam 2026-01-23               # Specific date
-anam --full                   # Show all prompts (not just last 50)
-anam --json                   # Output as JSON
-anam --tool Claude            # Filter by tool
+anam yesterday
+anam 2026-01-23
+anam --full                   # All prompts (not just last 50)
+anam --tool Claude
 
-# --- Search mode (prompts only — fast) ---
-anam search "self-intro"                  # Last 7 days
-anam search "DBS" --days=30               # Last 30 days
-anam search "DBS" --tool Claude           # Filter by tool
+# Search (prompts only — fast)
+anam search "keyword"                    # Last 7 days
+anam search "keyword" --days=30
+anam search "keyword" --tool Claude
 
-# --- Search mode (full transcripts — user + assistant, parallel with rayon) ---
-anam search "self-intro" --deep           # Last 7 days
-anam search "DBS" --deep --days=30        # Last 30 days
-
-# --- Filtering (deep mode) ---
-anam search "weekly" --deep --role claude     # Only AI responses
-anam search "weekly" --deep --role you         # Only user messages
-anam search "W09" --deep --session b1b94317   # Specific session (prefix match)
-anam search "weekly" --deep --role claude --session b1b94317  # Combined
+# Deep search (full transcripts — user + assistant)
+anam search "keyword" --deep
+anam search "keyword" --deep --days=30
+anam search "keyword" --deep --role claude    # AI responses only
+anam search "keyword" --deep --role you       # User messages only
+anam search "keyword" --deep --session b1b94317  # Specific session (prefix)
 ```
 
 ### Role aliases
 
-| Filter value | Matches |
+| Value | Matches |
 |---|---|
 | `you` / `user` / `me` | User messages |
-| `claude` / `assistant` / `ai` | AI responses (Claude + OpenCode) |
+| `claude` / `assistant` / `ai` | AI responses |
 | `opencode` | OpenCode responses only |
 
-## claude-history (Interactive TUI — use from terminal)
+### claude-history (Interactive TUI — terminal only)
 
 ```bash
-claude-history                     # Interactive fuzzy search (current project)
-claude-history --global            # Search all projects
-claude-history --resume            # Resume selected conversation in Claude Code
-claude-history --show-tools        # Show tool calls
-claude-history --plain --no-pager  # Plain text (still needs terminal)
+claude-history                 # Fuzzy search current project
+claude-history --global        # All projects
+claude-history --resume        # Resume selected session in Claude Code
 ```
+
+## oghma — Semantic Memory Search
+
+Extracted and indexed memories from AI coding transcripts. Best for "what's the right approach to X that we've learned."
+
+```bash
+oghma search "query" --mode hybrid --limit 5
+oghma search "query" --category learning    # learning | preference | project_context | gotcha | workflow
+oghma search "query" --tool claude_code     # claude_code | codex | opencode
+oghma status
+```
+
+**Search modes:** `keyword` (FTS5, fast) · `vector` (semantic) · `hybrid` (RRF fusion, best quality — default)
 
 ## Which Tool When
 
 | Need | Tool |
 |------|------|
-| From Claude Code (any search) | `anam` |
-| "What did I do today/yesterday" | `anam` or `anam --full` |
-| "Did X happen today?" | **Check daily note first** (`~/notes/Daily/$(date +%Y-%m-%d).md`), then `anam search --deep --role claude` |
-| Search prompts (fast) | `anam search "pattern"` |
-| Deep transcript search | `anam search "pattern" --deep` |
-| Filter out noise (intent vs execution) | `--role claude` (AI confirmations only) |
-| Retrieve a draft/email I wrote in a past session | `anam search "keyword" --deep --role claude` — never write custom Python to parse JSONL |
-| Drill into specific session | `--session <8-char-prefix>` |
-| Browse/find a conversation interactively | `claude-history` (terminal only) |
-| Resume a past Claude Code session | `claude-history --resume` (terminal only) |
-
-## Performance
-
-- **anam prompt search:** <0.1s
-- **anam deep search:** 0.1-0.3s (rayon parallel scan across 3.2GB)
-- **claude-history TUI:** instant (fuzzy filter in-memory)
-- Binary: 1.3MB (release optimised)
+| "What did we do today/yesterday?" | `anam` or `anam --full` |
+| "Did X happen?" | Check daily note first, then `anam search --deep --role claude` |
+| Find a draft/email I wrote | `anam search "keyword" --deep --role claude` |
+| Drill into specific session | `anam search --session <8-char-prefix>` |
+| Browse interactively | `claude-history` (terminal only) |
+| Resume a past session | `claude-history --resume` (terminal only) |
+| Recall a learning or gotcha | `oghma search "topic" --mode hybrid` |
+| "What's the right approach to X?" | `oghma search "topic" --category workflow` |
+| Find a preference or style choice | `oghma search "topic" --category preference` |
 
 ## Notes
 
 - Always uses HKT (UTC+8) for day boundaries
-- `chat_history.py` (`~/scripts/chat_history.py`) still works as fallback
-- This skill can be called by `/daily` for chat scanning
-- Deep search includes tool names (e.g. `[tool: Read]`) for context but skips tool input/output
-- **Session storage gotcha:** Claude Code stores entries from session A inside session B's JSONL file (via context compaction/continuity). The `--session` filter checks the entry-level `sessionId`, not the filename — this is correct.
-- **"Did X happen?" strategy:** Search for execution markers (e.g. "synthesis complete", "note written", week number) not trigger words (e.g. "weekly"). Use `--role claude` to filter out intent mentions.
-- **Use single keywords, not phrases.** `anam search` matches the full query as a literal substring in each prompt. Multi-word queries like `"winnie joel lunch"` miss cases where terms appeared separately. Always start with the most distinctive single word (e.g. `"winnie"`), then narrow with `--session` if needed.
+- **Use single keywords, not phrases.** Multi-word queries match the full phrase literally — miss cases where terms appeared separately. Start with the most distinctive single word, narrow with `--session` if needed.
+- **"Did X happen?" strategy:** Search for execution markers ("synthesis complete", "note written") not trigger words. Use `--role claude` to filter intent mentions.
+- **Session storage gotcha:** Claude Code stores entries from session A inside session B's JSONL file. `--session` filter checks entry-level `sessionId`, not filename — this is correct.
+- `chat_history.py` (`~/scripts/chat_history.py`) still works as fallback for anam
+- `/daily` calls this skill for chat scanning

@@ -25,6 +25,16 @@ ls -la /Users/terry/.claude/skills/*/SKILL.md | wc -l
 
 Count skills in both locations. Flag any missing symlinks.
 
+**Budget check** — estimate character usage vs the configured limit:
+```bash
+# Skills in budget (excludes disable-model-invocation: true)
+grep -rL 'disable-model-invocation: true' /Users/terry/skills/*/SKILL.md | wc -l
+# Rough estimate: in-budget count × 309 chars (200 avg desc + 109 overhead)
+# Current limit: SLASH_COMMAND_TOOL_CHAR_BUDGET=40000 (set in ~/.zshenv, Mar 2026)
+# Default is ~16K — aim to get back under default naturally over time via consolidation
+# Full reference: ~/docs/solutions/ai-agent-skill-tool-count-research.md
+```
+
 ### 2. Usage Scan
 
 Search recent chat history for skill invocations. **Important:** Count BOTH explicit `/name` invocations AND keyword triggers — most skills are triggered by natural language, not slash commands. Counting only slash invocations drastically undercounts usage (e.g. consilium showed 0 slash but ~300 keyword triggers).
