@@ -183,18 +183,17 @@ If session file read fails, use stdout summary only and state "Transcript unavai
 consilium "Should we use microservices or a monolith?"
 ```
 
-**Transcript persistence rule — always use `--output` for:**
+**Transcript persistence rule — always use `--vault` for:**
 - Any `--deep` or `--council` run
 - Any design/architecture/review question (topic contains "design", "architecture", "review", "v0.x", "refactor", "redesign")
 - Any run where the output will inform a multi-session build (tool design, system changes)
 
-**Skip `--output` only for:** `--quick` naming/decision runs where the session log summary is enough.
+**Skip `--vault` for:** `--quick` naming/decision runs — auto-saved to `~/.consilium/sessions/` is enough.
 
-**Why:** Task output files are ephemeral — gone after session ends. `--output` is the only durable record.
+**Why `--vault` over `--output`:** `--vault` auto-saves to `~/notes/Councils/` with a clean auto-generated filename, backed up by Obsidian Sync. No manual path construction needed.
 
 ```bash
-consilium "Should we use microservices or a monolith?" \
-  --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
+consilium "Should we use microservices or a monolith?" --vault
 ```
 
 - **Anonymization is always on.** Models see each other as "Speaker 1, 2, etc." — in both panelist system prompts and peer messages. The judge also receives anonymous labels. This is hardcoded, not a flag.
@@ -205,14 +204,14 @@ consilium "Should I accept the Standard Chartered offer?" \
   --council --format json \
   --persona "$PERSONA" \
   --context "job-offer" \
-  --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
+  --vault
 ```
 
 **Red team a plan:**
 ```bash
 consilium "My plan: migrate the monolith to microservices over 6 months..." \
   --redteam \
-  --output ~/notes/Councils/LLM\ Council\ -\ {Topic}\ -\ $(date +%Y-%m-%d).md
+  --vault
 ```
 
 **Common flags:**
@@ -277,14 +276,14 @@ Available domains: `banking`, `healthcare`, `eu`, `fintech`, `bio`
 
 ### Step 4: Parse and Present
 
-**After background task completes**, always read the `--output` file and synthesize the digest yourself — don't rely solely on the `[DECISION]` summary line. The summary line is a convenience signal; CC is the agent and can reason about the full output regardless of format.
+**After background task completes**, always read the vault file (or task output file) and synthesize the digest yourself — don't rely solely on the `[DECISION]` summary line. The summary line is a convenience signal; CC is the agent and can reason about the full output regardless of format.
 
 **Workflow:**
 1. Read the `[DECISION]` or `[DONE]` line from stdout as a quick signal
-2. Read the `--output` file (markdown with full transcript)
+2. Read the vault file in `~/notes/Councils/` (or task output file if `--vault` wasn't used)
 3. Synthesize: decision/recommendation + key reasoning + dissents + cost
 4. For quick mode (parallel responses, no judge): CC extracts the consensus from the prose itself
-If `--output` was requested but file is missing, treat run as partial and do not claim full synthesis coverage.
+If `--vault` was used but file is missing in `~/notes/Councils/`, treat run as partial and do not claim full synthesis coverage.
 
 **Always present a digest** — never dump the raw transcript into the CC context.
 
