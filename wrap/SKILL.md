@@ -30,7 +30,7 @@ Run before anything else. Present all findings in one block, then proceed — do
 
 **Skill gap:** Only check if `~/skills/` was modified this session. Unlinked skills are invisible to Claude Code.
 ```bash
-comm -23 <(/bin/ls $HOME/skills/ | sort) <(/bin/ls ~/.claude/skills/ | sort)
+comm -23 <(/bin/ls /Users/terry/skills/ | sort) <(/bin/ls /Users/terry/.claude/skills/ | sort)
 ```
 If gaps: list them, suggest `/agent-sync` or `ln -s`.
 If command fails (missing dir/symlink issue), note "Skill link check unavailable" and continue.
