@@ -51,8 +51,8 @@ Max20 has **four independent counters** visible via `/status`:
 | Counter | Scope | Reset Cycle | Notes |
 |---------|-------|-------------|-------|
 | Session | Per-session | ~4pm HKT daily | Least important — resets frequently |
-| Weekly (all models) | Opus + Sonnet + Haiku | Saturday ~8pm HKT | **Primary limiter** |
-| Weekly (Sonnet only) | Sonnet usage only | ~Sunday 1pm HKT (different cycle) | Separate Sonnet quota |
+| Weekly (all models) | Opus + Sonnet + Haiku | Friday ~11am HKT | **Primary limiter** |
+| Weekly (Sonnet only) | Sonnet usage only | Friday ~3pm HKT | Separate Sonnet quota |
 | Extra usage | Monthly spend cap | 1st of month | $50 hard cap, shows $/$ spent |
 
 **How the counters interact** ([source](https://github.com/anthropics/claude-code/issues/12487)):
@@ -82,7 +82,7 @@ Safe daily budget: ~$193/day (7-day week).
 | 70-85% | $945-1,148 | Warning — shift routine tasks to Sonnet |
 | 85%+ | $1,148+ | Danger — Sonnet/Haiku only |
 
-**To calculate:** Find last Saturday ~8pm HKT, sum equiv cost since then, show % of ~$1,350 cap. Note: recalibrate if model pricing changes again — the dollar figure is a proxy, not the actual limit.
+**To calculate:** Find last Friday ~11am HKT (all models reset), sum equiv cost since then, show % of ~$1,350 cap. Note: recalibrate if model pricing changes again — the dollar figure is a proxy, not the actual limit.
 
 ## Model Mix & Cost (Feb 2026 baseline)
 

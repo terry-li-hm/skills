@@ -52,7 +52,7 @@ Show a one-line status: `Session #N | Readings: X/15 | Scenarios: Y/10 | Mode: [
 
 ```
 What's the one principle you'd take from this?
-And how does it apply to HSBC specifically?
+And how does it apply to Capco clients specifically?
 ```
 
 6. Wait for Terry's response. Don't judge it — this is extraction practice, not a quiz.
@@ -96,7 +96,7 @@ For Read & Extract:
 ## Consulting Prep
 📖 [title/source]
 → Principle: [Terry's extraction]
-→ HSBC application: [Terry's application]
+→ Capco client application: [Terry's application]
 ```
 
 For Scenario Practice:
@@ -132,7 +132,7 @@ If Terry has something, log it. If not, move on — don't force it.
 ## Scenario Bank
 
 Stored in the program note. If Terry exhausts all 10, generate new ones based on:
-- Patterns from his actual HSBC prep (Capco Transition note, First 30 Days)
+- Patterns from his actual Capco prep (Capco Transition note, First 30 Days)
 - Emerging weak areas from previous sessions
 - Escalating difficulty (early scenarios are simpler dynamics, later ones combine multiple principles)
 

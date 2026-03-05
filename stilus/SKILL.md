@@ -4,7 +4,7 @@ description: Direct Gmail operations via gog CLI — inbox triage, send/reply, a
 user_invocable: true
 ---
 
-# Expedio
+# Stilus
 
 Gmail inbox processing — read, surface, clear. Status-aware operations using the `gog` CLI.
 
