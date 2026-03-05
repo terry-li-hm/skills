@@ -1,5 +1,5 @@
 ---
-name: expedio
+name: stilus
 description: Direct Gmail operations via gog CLI — inbox triage, send/reply, archive, batch modify, drafts. Use for hands-on email actions. NOT for Cora-specific features (briefs, todos, AI chat) — use nuntius for those.
 user_invocable: true
 ---
