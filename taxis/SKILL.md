@@ -148,6 +148,16 @@ if (/\.claude\/projects\//.test(cmd) && /\.jsonl/.test(cmd)) {
 |------|---------|
 | `notification-logger.js` | Logs background task notifications to `~/logs/notification-log.jsonl` |
 
+## Hook Effectiveness vs Activity
+
+**Hook fires ≠ effective hook.** A deny log only tells you the hook is active. Effectiveness requires knowing what happened *after* the deny:
+
+- **Decay rate** — same rule firing less each week → rule being internalized (teacher). Constant rate → permanent guardrail. Both are fine, but know which you have.
+- **Recidivism** — same rule fires 2+ times within minutes → deny message is unclear or the alternative is hard. Fix the message.
+- **Zero fires** — either working perfectly or dead code. Verify with a test occasionally.
+
+All 4 guards log to `~/logs/hook-fire-log.jsonl`. `/weekly` step 9 surfaces decay trends.
+
 ## Enforcement Anti-Patterns
 
 - **Rule without enforcement path:** "Be concise" in MEMORY.md with no way to detect violations. Either accept it's advisory or find a hookable proxy.
