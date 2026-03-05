@@ -118,8 +118,6 @@ After evaluation, create:
 - SessionStart hook (conflicts with WORKING.md)
 - Generic rules (already have better in CLAUDE.md)
 
-**Created:** `/sync-ecc` skill for tracking updates
-
 ## Meta-Lesson
 
 A repo optimized for everyone may be less valuable than a setup optimized for you. Adopt surgically, not wholesale.

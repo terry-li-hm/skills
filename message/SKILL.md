@@ -22,7 +22,7 @@ Draft responses to messages from recruiters, networking contacts, and others.
 
 Check these sources:
 
-- **Gmail**: `gog gmail search "from:[name]"` or `mcporter call gmail.search_emails query="from:[name]"`
+- **Gmail**: `gog gmail search "from:[name]"`
 - **LinkedIn**: Browser automation to check messaging
 - **WhatsApp**: `keryx read "Name" --limit 30` (handles dual-JID merging automatically). If multiple matches, try full name. For full message text (keryx truncates), load the `whatsapp` skill and use `wacli messages list --chat "<jid>" --after <date> --json` — parse `Text` field from JSON output.
 

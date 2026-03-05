@@ -155,7 +155,7 @@ This saves Claude tokens for work that actually needs orchestration and judgment
 
 ## PII Masking
 
-Prompts with personal info → mask via `~/skills/pii-mask/mask.py` before sending. `uv run mask.py --dry-run "text"` to preview. Skip for: Claude Code prompts (same trust boundary), code-only prompts, PII essential to the task.
+Prompts with personal info → mask via `~/skills/.archive/pii-mask/mask.py` before sending. `uv run mask.py --dry-run "text"` to preview. Skip for: Claude Code prompts (same trust boundary), code-only prompts, PII essential to the task.
 
 ## Notes
 
@@ -168,7 +168,6 @@ Prompts with personal info → mask via `~/skills/pii-mask/mask.py` before sendi
 - **Output often empty:** OpenCode doesn't reliably capture stdout. Check session JSON instead.
 - **GLM-5 restored in OpenCode** (tested Feb 24 2026). Previous malformed tool call JSON issue ([#13982](https://github.com/anomalyco/opencode/issues/13982), [#13900](https://github.com/anomalyco/opencode/issues/13900)) appears fixed. GLM-4.7 available as fallback if it regresses.
 - **GPT-5.2 Thinking:** Available via OpenAI API ($1.75/$14/Mtok). Best-in-class for reading comprehension, long-context, vision (chart/diagram analysis). xhigh reasoning effort. Route document-heavy analysis here.
-- **GPT-4.5:** Deprecated from API Jul 2025. ChatGPT Pro "Legacy" only. Not automatable.
 - **Gemini maxOutputTokens gotcha:** Default ~8192 tokens. Set 65536 in generationConfig for long outputs. API silently caps to model's actual max — safe to pass a large value.
 - **Delegated AI builds well, never consolidates:** Great for greenfield + targeted bug fixes. But each fix is locally scoped — accumulates structural debt. Plan a human/Claude Code consolidation pass after every 5-10 delegated hardening commits.
 
