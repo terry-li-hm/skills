@@ -128,6 +128,8 @@ Link from the skill with a one-liner: `(rationale: [[Note Name]])`. The skill st
 
 Signal that a skill needs splitting: you find yourself reading the rationale section to remember the rule, rather than reading it to understand why the rule exists.
 
+**Hard cap: operational core ≤150 lines.** If the skill file exceeds ~150 lines, split: keep the operational core (steps, commands, decision rules) in `SKILL.md`; move extended reference (flag compatibility, prompting tips, model tendencies, changelog, research foundations) to `REFERENCE.md` in the same directory. Link from the skill: `(extended reference: [REFERENCE.md](./REFERENCE.md))`. Applied to consilium Mar 2026 — 571L → 180L SKILL.md + REFERENCE.md.
+
 ### 8. Naming
 
 - **Action skills** → verb-first: `evaluate-job`, `design-skill`
