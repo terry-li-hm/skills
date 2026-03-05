@@ -18,6 +18,15 @@ Structured on-ramp for any coding task. Enforces: orchestrate here, execute else
 
 ### 0. Pre-flight (before anything else)
 
+**Data governance gate — before any delegation:**
+Can this code leave the machine? Check:
+- No `.env`, secrets, credentials, or production data in scope
+- No proprietary client code that can't go to external CLIs (Codex/Gemini run on third-party infra)
+- If unsure → local-only tools (Opus in-session) or redact before delegating
+
+**Break-glass (hotfix only):**
+If a production incident requires skipping this workflow, that's allowed — but not silent. Create a `HOTFIX_BYPASS.md` at repo root documenting: what was skipped, why, and a post-hoc review task. Without this artifact, "it was urgent" becomes the universal excuse to skip planning.
+
 **Parallel agent sessions on the same repo?** → `lucus new <branch>` first. One worktree per session prevents `git add -A` conflicts between delegates. See `~/skills/lucus/SKILL.md`.
 - If `lucus` is unavailable, continue in current worktree and explicitly warn about merge/conflict risk.
 
@@ -27,7 +36,7 @@ Structured on-ramp for any coding task. Enforces: orchestrate here, execute else
 ```bash
 cerno "<topic or tool name>"
 ```
-Read the result. If prior art exists, use it. Don't duplicate captured learnings.
+Read the result. If prior art exists, verify it still applies (check dates, tool versions, repo state) before using. Don't blindly reuse stale KB entries — a bad solution propagates indefinitely.
 If `cerno` fails or returns no results, continue and note "No KB prior art found".
 
 ### 2. Choose weight class
@@ -36,17 +45,16 @@ Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 
 | Task size | Use |
 |-----------|-----|
-| **Trivial:** new skill file, single script <50 lines, clear spec, no existing code touched | **Build directly in-session** — skip CE plan and delegation |
+| **Trivial:** new skill file, single script <50 lines, clear spec, no existing code touched, zero cascading changes | **Build directly in-session** — skip CE plan and delegation |
 | Single-file, ≤3 commands, no architecture decisions, requires live user decisions mid-plan | `EnterPlanMode` → delegate |
-| Multi-command CLI, new architecture, Max20 pool healthy | `/slfg <description>` — fully autonomous (plan → deepen → CE swarm → review) |
+| Multi-command CLI, new architecture, requires vault context or cross-file reasoning | `/slfg <description>` — fully autonomous (plan → deepen → CE swarm → review). Burns Max20 — use only when vault context is essential. |
 | Same as above but Max20 is low, or tasks map cleanly to independent files | `/ce:plan` → `/deepen-plan` → **external swarm** (lucus + parallel delegates) → `/ce:review` |
 | Unclear requirements | `/workflows:brainstorm` first |
-| Approved plan already exists (any source) | Skip to `/ce:work` or external swarm |
 
 **`/slfg` vs external swarm:**
 - `/slfg` = Claude Task agents, burns Max20, fully automated, no manual decomposition
 - External swarm = Codex/Gemini/OpenCode in parallel worktrees, free, requires manual decomposition + merge
-- Default to `/slfg` unless Max20 is constrained or task decomposition is obvious from the plan
+- **Default to external swarm.** Use `/slfg` only when the task requires vault context or cross-file reasoning that can't be captured in a task spec. "It's easier" is not a reason to burn Max20.
 
 **Rule of thumb:** If you'd build more than one file, touch existing architecture, or need research agents to surface best practices → `/workflows:plan`. `EnterPlanMode` is for trivial tasks where the user needs to make live decisions as the plan unfolds.
 
@@ -58,7 +66,7 @@ Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 
 **Anti-pattern (do NOT rationalize past this):** "User already knows what they want, requirements are clear, so EnterPlanMode is fine." → WRONG. Clear requirements are exactly when CE plan adds most value — it surfaces codebase gotchas and KB learnings the user doesn't know about, not requirements. In one real case: a "simple" CLI flag + enum change had 25 cascading signature changes, a missing provider branch, a dedup bug in quick_models(), and an Anthropic max_tokens constraint — none visible from the feature description. CE plan caught all of them. EnterPlanMode caught none.
 
-**Approved plan ≠ skip CE plan:** Even if you have an approved plan (from EnterPlanMode or brainstorm), run CE plan anyway before delegating. CE plan deepens the plan with codebase-specific gotchas. It's additive, not duplicative.
+**Approved plan ≠ skip CE plan:** Even if you have an approved plan (from EnterPlanMode or brainstorm), run CE plan anyway before delegating — unless the plan already came from `/ce:plan` against the current repo HEAD. CE plan deepens with codebase-specific gotchas. It's additive, not duplicative.
 
 **Why CE plan beats built-in plan:** `/workflows:plan` runs `learnings-researcher` + `repo-research-analyst` in parallel — surfacing `~/docs/solutions/` gotchas and exact patterns from reference projects. Built-in plan is a single-model think-through that misses institutional knowledge entirely. In practice, CE plan catches things like wrong crate versions, agent-first output requirements, implementation ordering, and Codex delegation gotchas that built-in plan never surfaces. The cost is ~2 min of research time; the benefit compounds with every prior solution captured in the KB.
 
@@ -72,7 +80,8 @@ Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 | **Rust feature requiring `cargo build` validation** | **Gemini CLI** | Runs on your machine — discovers compile errors. Codex sandbox blocks DNS/cargo. |
 | Algorithmic, isolated logic, "write X that does Y" | **Gemini CLI** | Best programmer (LiveCodeBench #1), free |
 | Bulk ops, boilerplate, routine refactoring | **OpenCode** | Free, unlimited |
-| Hard task that failed 3+ times | **→ Opus in-session** | Escalation only, switch back after |
+| Task failed 3+ times from **reasoning difficulty** | **→ Opus in-session** | Escalation only, switch back after |
+| Task failed from **sandbox constraint** (DNS, build, write access) | **→ Switch tool laterally** | Codex DNS failure → Gemini; OpenCode write block → Codex. Not a reasoning problem. |
 | Routing uncertain despite benchmarks | **Run `judex` experiment** | Parallel Codex+Gemini → real evidence → update routing |
 
 **Context packaging checklist** (delegates need to be self-sufficient):
