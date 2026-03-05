@@ -1,6 +1,6 @@
 ---
 name: expedio
-description: Gmail inbox processing — read Cora brief, scan unread, surface actionable items, mark read, archive. Use when processing the inbox or checking/replying to emails.
+description: Direct Gmail operations via gog CLI — inbox triage, send/reply, archive, batch modify, drafts. Use for hands-on email actions. NOT for Cora-specific features (briefs, todos, AI chat) — use nuntius for those.
 user_invocable: true
 ---
 
