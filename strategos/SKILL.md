@@ -62,6 +62,16 @@ CE: security-sentinel + kieran-*-reviewer           ← thorough final review
 ```
 Skip CE plan (redundant with writing-plans). Use hybrid when: existing codebase with KB history + want tight per-task review loops in-session.
 
+**External tool override inside subagent-driven-development:**
+When dispatching the implementer subagent, route by task signal instead of always using `general-purpose`:
+| Signal | Implementer |
+|--------|-------------|
+| Rust + needs `cargo build`/`cargo test` | Gemini CLI (`gemini -p "..." --yolo`, `run_in_background: true`) |
+| Multi-file, repo navigation | Codex (`codex exec --full-auto "..."`) |
+| Boilerplate / bulk | OpenCode |
+| Default / everything else | `general-purpose` subagent (current default) |
+Reviews (spec compliance + code quality) always stay as Claude subagents regardless of implementer choice.
+
 **`/slfg` vs external swarm:**
 - `/slfg` = Claude Task agents, burns Max20, fully automated, no manual decomposition
 - External swarm = Codex/Gemini/OpenCode in parallel worktrees, free, requires manual decomposition + merge
