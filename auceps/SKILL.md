@@ -49,8 +49,8 @@ Note: `focus` is empty — bird doesn't expose profile bio text. Fill manually a
 
 ## Gotchas
 
-- **Auth:** `--cookie-source chrome` always injected. Never add it manually.
-- **SSH/tmux:** bird auth requires macOS Keychain. In SSH, auceps surfaces a clear error with fix: `security unlock-keychain ~/Library/Keychains/login.keychain-db`
+- **Auth:** Prefers `AUTH_TOKEN`/`CT0` env vars (injected via `~/.zshenv.tpl` from 1Password). Falls back to `--cookie-source chrome` if env vars absent. Never add auth args manually.
+- **SSH/tmux:** If env vars not injected, bird fails with keychain exit 36. Fix: ensure `AUTH_TOKEN`/`CT0` are in `~/.zshenv.tpl` and shell was started after `op inject`. The old `security unlock-keychain` workaround is obsolete.
 - **`-n` not `-l`:** short flag for limit is `-n`, long is `--limit`
 - **`about` not `profile`:** auceps uses the correct bird subcommand internally — callers never need to know
 - **focus field:** `--lustro` leaves focus blank; bio isn't available from bird. Fill it manually or from context.
