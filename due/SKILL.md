@@ -81,6 +81,7 @@ Deleted items go into `dl` dict (UUID → deletion timestamp). Timers live in `t
 - Always use HKT for times. moneo handles timezone internally.
 - `moneo ls` shows ⚠ for overdue reminders.
 - **moneo writes are Mac-only** by default — CloudKit bypassed. Add `--sync` to trigger CloudKit sync → iPhone.
-- `--sync` uses AppleScript (osascript): opens Due editor via URL scheme, then clicks Save via System Events. **Works screen-free** (display can sleep; doesn't work when screen is locked).
-- `~/bin/DueAddRecurring.shortcut` exists for reference but Shortcuts text-parsing path is disabled — AppleScript is the active sync path.
+- `--sync` uses AppleScript to open the Due editor, then **peekaboo** (`/opt/homebrew/bin/peekaboo`) to auto-click Save. Requires peekaboo to have **Accessibility + Screen Recording** permissions — grant via System Settings → Privacy & Security → add `/opt/homebrew/bin/peekaboo` to both. Without permissions, moneo prints "Due editor open — please click Save manually."
+- `peekaboo permissions` check can show stale results even after granting — verify by running an actual `--sync` rather than trusting the check output.
+- `~/bin/DueAddRecurring.shortcut` exists for reference but Shortcuts text-parsing path is disabled — AppleScript + peekaboo is the active sync path.
 - No separate backup needed — recovery is just re-adding via moneo (2 min).

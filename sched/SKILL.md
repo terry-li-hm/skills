@@ -67,7 +67,7 @@ Confirm: "Reminder set for March 10 at 12:00."
 
 ## Gotchas
 
-- `moneo add --sync` opens Due's editor via URL scheme + AppleScript-clicks Save — works screen-free (display-sleep safe)
-- If moneo prints "Due editor open — please click Save manually", AppleScript failed; peekaboo fallback: `peekaboo click "Save" --app Due --wait-for 3000`
+- `moneo add --sync` opens Due's editor via AppleScript, then uses **peekaboo** to auto-click Save — works screen-free (display-sleep safe)
+- If moneo prints "Due editor open — please click Save manually", peekaboo lacks permissions — grant **Accessibility + Screen Recording** to `/opt/homebrew/bin/peekaboo` in System Settings → Privacy & Security. `peekaboo permissions` may show stale results; test with an actual `--sync` to confirm.
 - `moneo rm` does not sync deletions to iPhone — if added with `--sync`, delete in Due on iPhone directly
 - Always confirm the reminder time with the user if it wasn't explicitly stated
