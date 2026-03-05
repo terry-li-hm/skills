@@ -16,12 +16,7 @@ Run when you sit down and are ready to work. Loads your priority context, clears
 
 1. **Get today's date and day of week**
 
-2. **Health scores** (from Oura Ring):
-   - Run: `oura scores`
-   - Note sleep + readiness scores. If readiness <65, flag it — may affect how hard to push today.
-   - If fails or returns all `--`, skip silently.
-
-3. **Staleness check**:
+2. **Staleness check**:
    - Run `stat -f '%Sm' -t '%Y-%m-%d' ~/notes/NOW.md ~/notes/Capco/Capco\ Transition.md ~/notes/TODO.md`
    - If any file's last-modified date is >24h old, flag it: "NOW.md last updated X — treat as stale"
 
@@ -34,32 +29,15 @@ Run when you sit down and are ready to work. Loads your priority context, clears
    - Read `~/notes/NOW.md`
    - Surface all `[open]` items with their context. This is the work queue.
 
-5. **Cora inbox triage** — **fetch from website, not just email**:
-   - Get today's brief ID: `gog gmail search "from:briefs@cora.computer newer_than:12h" --max 1 --plain`
-   - Fetch full brief from Cora website:
-     ```
-     AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser open "https://cora.computer/14910/briefs?date=<YYYY-MM-DD>&time=morning" \
-       && agent-browser wait --load networkidle \
-       && AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser eval "document.querySelector('main')?.innerText"
-     ```
-   - Fall back to `gog gmail get <id> --plain` if agent-browser fails
-   - Action items: `gog gmail search "label:Cora/Action newer_than:24h" --max 5 --plain`
-   - If no brief and no flagged items, skip silently
-
-6. **Overnight Gmail scan** — action items only:
-   - Run: `gog gmail search "capco OR PILON OR alison OR nicole OR AML newer_than:24h" | head -10`
-   - If gog fails (keychain locked): note "Gmail unavailable — unlock keychain" and skip
-   - Flag anything requiring action today only. Skip FYI/newsletters.
-
-7. **Check cron logs** (overnight output):
+5. **Check cron logs** (overnight output):
    - Check `~/logs/` for any cron job failures (oghma, opencode-nightly, vault-backup, etc.)
    - Note failures only; skip silently if all clean
 
-8. **Check overnight OpenCode results**:
+6. **Check overnight OpenCode results**:
    - Check `~/notes/opencode-runs/` for last night's run — read most recent `summary.md`
    - Flag NEEDS_ATTENTION or CRITICAL items; skip silently if none or missing
 
-9. **Pre-meeting dossiers**:
+7. **Pre-meeting dossiers**:
    - Run: `amicus dossier --today 2>/dev/null`
    - If output is non-empty, surface attendee context (name, last contact, recent subjects) for any meeting today
    - Fail silently if amicus unavailable or DB empty

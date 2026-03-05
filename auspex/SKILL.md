@@ -16,7 +16,12 @@ A 60-second brief for the moment you wake up. What's the weather, how did you sl
 
 1. **Get today's date and day of week**
 
-2. **Weather**:
+2. **Health scores** (from Oura Ring):
+   - Run: `oura scores`
+   - Note sleep + readiness. If readiness <65, flag it.
+   - If fails or returns all `--`, skip silently (ring may not have synced yet).
+
+3. **Weather**:
    - Run: `caelum`
    - Always include in the brief
    - **Send to Tara**: compose a friendly prose weather note (2–3 sentences max). One lead weather emoji only + umbrella ☂️ if rain likely — no other inline emojis. Include temp range, key conditions, anything actionable. Send: `~/scripts/imessage.sh "<composed message>"`. Log "Weather sent to Tara ✓".
@@ -37,15 +42,15 @@ A 60-second brief for the moment you wake up. What's the weather, how did you sl
 
 ## Output
 
-Weather first, then anything urgent overnight, then today's calendar. That's the whole brief.
+Open with Oura (if synced), then weather, then today's calendar. That's the whole brief.
 
 **Example:**
 
 > **Thursday, 5 March 2026**
 >
-> Mainly cloudy, 16–21°C, light rain early then some sun. Weather sent to Tara ✓
+> Sleep 72, readiness 81 — rough night but functional. Mainly cloudy, 16–21°C, light rain early then sunny intervals. Weather sent to Tara ✓
 >
-> Today: lunch with Tara at 12:15, physio at 16:00. Nothing urgent overnight.
+> Today: lunch with Tara at 12:15, physio at 16:00.
 
 Skip empty sections entirely. If nothing urgent overnight, one sentence saying so. Keep it short enough to read while still in bed.
 

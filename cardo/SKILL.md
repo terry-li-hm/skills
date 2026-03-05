@@ -38,7 +38,21 @@ Lighter than `/morning` (no weather, health, inbox). Heavier than a `/wrap` (syn
    - Note anything that was flagged as active this morning
    - Cross-reference against what sessions actually shipped
 
-4. **Token budget** (brief):
+4. **Inbox triage** — first email check of the day:
+   - **Cora brief** — fetch from website (not just email):
+     ```
+     AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser open "https://cora.computer/14910/briefs?date=<YYYY-MM-DD>&time=morning" \
+       && agent-browser wait --load networkidle \
+       && AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser eval "document.querySelector('main')?.innerText"
+     ```
+     Fall back to `gog gmail get <id> --plain` if agent-browser fails.
+   - **Action items**: `gog gmail search "label:Cora/Action newer_than:12h" --max 5 --plain`
+   - **Gmail scan**: `gog gmail search "capco OR PILON OR alison OR nicole OR AML newer_than:12h" | head -10`
+   - If gog fails (keychain locked): note "Gmail unavailable — unlock keychain" and skip.
+   - Surface only items needing a reply or action today. Skip FYI/newsletters.
+   - SmarTone bill: if it appears, extract QR payment link (`gog gmail get <id> --plain`) and surface with amount + due date.
+
+5. **Token budget** (brief):
    - Run: `ccusage daily 2>/dev/null | tail -5` or check `/status` if concerned
    - If both commands fail, skip budget commentary.
    - If budget is tight (<20% remaining), flag it — affects afternoon delegation strategy
@@ -88,7 +102,7 @@ Short prose. Two sections max:
 
 ## Boundaries
 
-- Do NOT run full inbox, weather, or health checks; those belong to `/auspex`.
+- Do NOT run weather or health checks; those belong to `/auspex`.
 - Do NOT produce a full-day close; `/daily` owns that.
 - Stop after midday synthesis + afternoon options; do not initiate new execution tasks unless explicitly asked.
 
