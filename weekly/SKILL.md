@@ -156,6 +156,20 @@ If a check command fails, mark that metric as `Unavailable` in the table and con
 6. **Cron scripts** — Check `~/scripts/crons/` and `~/logs/cron-*.log` for failures or stale output.
 7. **QMD index** — `qmd cleanup && qmd update` to prune stale entries and re-index. Then `qmd status` for collection health.
 8. **Delegation log** — Read `~/docs/solutions/delegation-log.md`. Scan by eye: any tool+task-type with 2+ ✗ or ~ entries? If yes, update strategos routing table. If table has grown since last week, the log is working. If not, I failed to log and should catch up now.
+9. **Hook fire log** — Check `~/logs/hook-fire-log.jsonl` for the past 7 days:
+   ```bash
+   python3 -c "
+   import json; from datetime import datetime, timedelta, timezone
+   cutoff = datetime.now(timezone.utc) - timedelta(days=7)
+   lines = open('/Users/terry/logs/hook-fire-log.jsonl').readlines()
+   recent = [json.loads(l) for l in lines if json.loads(l)['ts'] > cutoff.isoformat()]
+   from collections import Counter
+   counts = Counter(e['hook']+': '+e['rule'][:50] for e in recent)
+   [print(v, k) for k,v in sorted(counts.items(), key=lambda x:-x[1])]
+   print(len(recent),'total fires')
+   " 2>/dev/null || echo "No hook log yet"
+   ```
+   **Interpret:** High-frequency rules = not yet internalized. Zero fires on a rule = either working perfectly or dead code (verify with a test). Same rule firing 2+ times within minutes = deny message unclear. Flag rules with 5+ fires/week for message improvement.
 
 Include a summary table in the weekly note:
 
@@ -176,6 +190,7 @@ Include a summary table in the weekly note:
 | Max20 usage | X% weekly | ✅/⚠️ |
 | Oghma memories | X | — |
 | Cron scripts (healthy/total) | X/Y | — |
+| Hook fires (7d) | X total, top rule | — |
 ```
 
 ## Friday Reset Checklist
