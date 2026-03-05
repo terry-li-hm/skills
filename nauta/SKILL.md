@@ -70,6 +70,8 @@ agent-browser snapshot
 
 Common authenticated sites: LinkedIn, X/Twitter, Gmail, career portals.
 
+**LinkedIn profile editing (confirmed Mar 2026):** Navigate directly to edit URLs (e.g. `/in/terrylihm/edit/about/`). Edit modal loads with a `<textarea>` — use native value setter + `input`/`change` events to update content, then click Save ref. About section, name field, and certifications all editable this way.
+
 ## Useful Commands
 
 ```bash
