@@ -82,6 +82,7 @@ Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 | Bulk ops, boilerplate, routine refactoring | **OpenCode** | Free, unlimited |
 | Task failed 3+ times from **reasoning difficulty** | **→ Opus in-session** | Escalation only, switch back after |
 | Task failed from **sandbox constraint** (DNS, build, write access) | **→ Switch tool laterally** | Codex DNS failure → Gemini; OpenCode write block → Codex. Not a reasoning problem. |
+| **Rust complex bug (diagnosis only)** | **Codex → Gemini handoff** | Codex navigates + diagnoses; Gemini builds/verifies locally. Pass Codex output as context to Gemini. |
 | Routing uncertain despite benchmarks | **Run `judex` experiment** | Parallel Codex+Gemini → real evidence → update routing |
 
 **Context packaging checklist** (delegates need to be self-sufficient):
@@ -91,6 +92,7 @@ Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 - [ ] Verification command ("run `cargo test` to verify")
 - [ ] Anti-placeholder: "Implement fully. No stubs, no TODOs, no simplified versions."
 - [ ] Prompt length: OpenCode hard limit ~4K chars, Codex ~8K chars safe
+- [ ] **Patch receipt request:** "End your response with: Files touched: [...], Commands run: [...], Tests added: [...], Risks: [...]"
 
 **Launch backgrounded (single delegate):**
 ```bash
