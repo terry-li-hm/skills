@@ -47,9 +47,20 @@ Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 |-----------|-----|
 | **Trivial:** new skill file, single script <50 lines, clear spec, no existing code touched, zero cascading changes | **Build directly in-session** — skip CE plan and delegation |
 | Single-file, ≤3 commands, no architecture decisions, requires live user decisions mid-plan | `EnterPlanMode` → delegate |
+| **New project / fresh codebase** (blank repo, new crate, no existing code to research) | `superpowers:brainstorming` → `superpowers:writing-plans` → `superpowers:subagent-driven-development` — CE research agents find nothing on blank repos; skip them |
 | Multi-command CLI, new architecture, requires vault context or cross-file reasoning | `/slfg <description>` — fully autonomous (plan → deepen → CE swarm → review). Burns Max20 — use only when vault context is essential. |
 | Same as above but Max20 is low, or tasks map cleanly to independent files | `/ce:plan` → `/deepen-plan` → **external swarm** (lucus + parallel delegates) → `/ce:review` |
 | Unclear requirements | `/workflows:brainstorm` first |
+
+**CE + superpowers hybrid (existing codebase, in-session execution):**
+CE research first → superpowers execution loop. Best of both: CE's `learnings-researcher` + `repo-research-analyst` surface institutional gotchas; superpowers' two-stage per-task review (spec compliance → code quality) catches over-building.
+```
+CE: learnings-researcher + repo-research-analyst   ← surface codebase gotchas
+superpowers:writing-plans                           ← convert to TDD task steps
+superpowers:subagent-driven-development             ← execute with per-task review
+CE: security-sentinel + kieran-*-reviewer           ← thorough final review
+```
+Skip CE plan (redundant with writing-plans). Use hybrid when: existing codebase with KB history + want tight per-task review loops in-session.
 
 **`/slfg` vs external swarm:**
 - `/slfg` = Claude Task agents, burns Max20, fully automated, no manual decomposition
