@@ -135,6 +135,16 @@ gog gmail get <smartone_id> --plain | grep -o 'href="https://myaccount.smartone.
 Surface as clickable link with amount and due date.
 If grep finds no QR link, note "QR link not found" and continue without payment link.
 
+## Auth Gotcha
+
+`gog` requires `GOG_KEYRING_PASSWORD` in env. If not set (e.g. in Claude Code Bash calls):
+
+```bash
+GOG_KEYRING_PASSWORD=<password> gog gmail send ...
+```
+
+Password is in 1Password: item `sge746vsbefyi6pojwwodzu3o4`, field `gog_keyring_password`.
+
 ## Known Gaps
 - **No trash/delete command in gog.** User must delete messages manually in Gmail.
 
