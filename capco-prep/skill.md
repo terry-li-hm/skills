@@ -9,7 +9,9 @@ retire_after: 2026-04-08
 
 # Capco Readiness
 
-Three modes for Capco onboarding prep before start (Mar 16 / Apr 8).
+Three modes for Capco onboarding prep before start (Apr 8, 2026 — confirmed).
+
+**Primary client context:** HSBC is the anchor account for Terry's placement. Key contacts: Simon Eltringham and Tobin Joseph. See [[Capco Day 1 Strategy]], [[Simon Eltringham - HSBC Profile]], [[Tobin Joseph - HSBC Profile]].
 
 **Model: Sonnet.** Brief and prep modes need web search + synthesis. Drill mode is simple but keeping one model for the whole skill.
 
@@ -26,9 +28,12 @@ Default (no args) = **drill** mode.
 
 ## Data
 
-- **Questions:** `~/notes/Capco/Capco Readiness Drill.md` — 40 numbered questions in 7 categories (A-G)
+- **Questions:** `~/notes/Capco/Capco Readiness Drill.md` — 40 numbered questions in 7 categories (A-G): tiering framework, regulatory landscape, AI/FS knowledge, consulting delivery, Capco culture, client questions (HSBC context), personal narrative
 - **State:** `~/notes/Capco/.capco-drill-state.json` — drill history and ratings
 - **Reference:** Questions link to source material in `~/notes/Capco/` — read if user asks "what's the answer?"
+- **Verbal Narrative Bank:** `~/notes/Capco/Verbal Narrative Bank.md` — practiced narratives for client and team introductions
+- **Client First Meeting Cheat Sheet:** `~/notes/Capco/Client First Meeting Cheat Sheet.md` — HSBC-specific first impression guide
+- **90-Day Scorecard:** `~/notes/Capco/90-Day Success Scorecard.md` — success metrics and gates for first 90 days
 
 ## Workflow
 
@@ -119,7 +124,7 @@ Pull-based replacement for the daily cron. User pulls when they want it, not pus
 
 ### Workflow
 
-1. **Run `date` first** — know the current date and days to Capco (Apr 8).
+1. **Run `date` first** — know the current date and days until Apr 8, 2026 start.
 
 2. **Check First 30 Days checklist** — Read `~/notes/Capco/Capco - First 30 Days.md`. Identify one unchecked item that's actionable today. Prioritise "Must do" over "Should do" over "Nice to have".
 
