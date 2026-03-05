@@ -73,6 +73,19 @@ cora chat send "message" --chat <id>  # Continue conversation
 - **Don't use `cora flow`** — requires interactive stdin, will hang
 - **Don't retry failures** more than once — ask user for guidance
 
+## Known Gotchas
+
+### `important_draft` emails are excluded from briefs (by design)
+Cora keeps `important_draft` emails in the inbox rather than digesting them into the brief — and they do NOT generate todos either. High-stakes emails (interview invitations, time-sensitive replies) can go completely unnoticed.
+
+**Mitigation:** When expecting a reply from a specific sender, proactively search:
+```
+cora email search "from:domain.com"
+cora email search "interview"
+```
+
+Real case: MTR interview invitation (Mar 4 2026, 18:15) was categorised `important_draft` — missed by both the 16:08 brief and the todo queue. Found only via manual `cora email search "MTR"`.
+
 ## Error Codes
 
 - `0` — Success  
