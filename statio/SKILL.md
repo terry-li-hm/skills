@@ -16,7 +16,12 @@ Run when you sit down and are ready to work. Loads your priority context, clears
 
 1. **Get today's date and day of week**
 
-2. **Staleness check**:
+2. **Health scores** (from Oura Ring):
+   - Run: `oura scores`
+   - Note sleep + readiness scores. If readiness <65, flag it — may affect how hard to push today.
+   - If fails or returns all `--`, skip silently.
+
+3. **Staleness check**:
    - Run `stat -f '%Sm' -t '%Y-%m-%d' ~/notes/NOW.md ~/notes/Capco/Capco\ Transition.md ~/notes/TODO.md`
    - If any file's last-modified date is >24h old, flag it: "NOW.md last updated X — treat as stale"
 
