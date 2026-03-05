@@ -102,12 +102,20 @@ grok --raw "query"           # raw JSON response
 
 | Domain | Language | Example |
 |--------|----------|---------|
-| HK local (doctors, govt, restaurants) | Chinese (中文) | `noesis search "香港脊椎側彎骨科醫生推薦 私家 2026"` |
+| HK local (doctors, govt, restaurants, fintech, consumer products) | Chinese/Cantonese (中文) | `noesis search "香港脊椎側彎骨科醫生推薦 私家 2026"` |
 | Niche keeb switches/builds | Japanese (日本語) | `bird search "HMX K01 タクタイル" -n 10` |
 | Taobao/Chinese products | Chinese (中文) | Reviews, Douyin/Bilibili content |
 | K-beauty, Korean tech | Korean (한국어) | Naver blogs, Korean review sites |
 
 **Pattern:** English first (free). If results are retailer copy or zero community discussion → re-search in the relevant language.
+
+**HK local sources by type:**
+- Consumer sentiment / opinions → **LIHKG** (forums, ground-level)
+- Editorial reviews, listicles → **HK01, Sundaykiss**
+- F&B → **OpenRice**
+- Finance / banking / fintech → **Planto, InvestBrother, EconManBlog, MoneyHero**
+
+Validated: Cantonese search for HK banking app UX (Mox, ZA Bank) returned richer, more current results than English equivalents (Mar 2026).
 
 **HK product price search:** See `~/docs/solutions/hk-product-price-search.md`.
 
