@@ -106,7 +106,7 @@ If write fails, note "Daily log update failed" in final wrap output and continue
 
 **NOW.md** (`~/notes/NOW.md`) — check age first:
 ```bash
-/usr/bin/find $HOME/notes/NOW.md -mmin -60 2>/dev/null | grep -q . && echo "recent" || echo "stale"
+python3 -c "import os,time; print('recent' if time.time()-os.path.getmtime(os.path.expanduser('~/notes/NOW.md'))<3600 else 'stale')"
 ```
 If recent (<1h, likely another session), update only what changed. Otherwise, full overwrite.
 If age check command fails, treat as stale and proceed with full overwrite.
