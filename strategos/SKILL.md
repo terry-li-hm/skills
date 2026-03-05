@@ -176,6 +176,15 @@ For targeted/quick review, run agents directly in order:
 3. `security-sentinel` — if handles input, auth, or secrets
 4. `code-simplicity-reviewer` — YAGNI check last
 
+**Optional static security gate (production code / published packages):**
+Run after `security-sentinel` when code handles external input, auth, or is published:
+- `/diff-review` — security-focused diff review (Trail of Bits `differential-review` plugin)
+- `semgrep` skill — pattern-based vulnerability detection (`static-analysis` plugin)
+- `codeql` skill — deep static analysis (`static-analysis` plugin)
+- `insecure-defaults` skill — hardcoded credentials, fail-open patterns
+
+Skip for: personal scripts, internal tools, leaf-node changes with no external surface.
+
 **Before marking any task done — System-Wide Test Check** (stolen from CE `/ce:work`):
 
 | Question | What to check |
