@@ -39,14 +39,8 @@ Lighter than `/morning` (no weather, health, inbox). Heavier than a `/wrap` (syn
    - Cross-reference against what sessions actually shipped
 
 4. **Inbox triage** — first email check of the day:
-   - **Cora brief** — fetch from website (not just email):
-     ```
-     AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser open "https://cora.computer/14910/briefs?date=<YYYY-MM-DD>&time=morning" \
-       && agent-browser wait --load networkidle \
-       && AGENT_BROWSER_PROFILE="$HOME/.agent-browser-profile" agent-browser eval "document.querySelector('main')?.innerText"
-     ```
-     Fall back to `gog gmail get <id> --plain` if agent-browser fails.
-   - **Action items**: `gog gmail search "label:Cora/Action newer_than:12h" --max 5 --plain`
+   - **Cora brief**: `cora brief show` (instant, no browser needed)
+   - **Cora todos**: `cora todo list` — surface any action items Cora has flagged
    - **Gmail scan**: `gog gmail search "capco OR PILON OR alison OR nicole OR AML newer_than:12h" | head -10`
    - If gog fails (keychain locked): note "Gmail unavailable — unlock keychain" and skip.
    - Surface only items needing a reply or action today. Skip FYI/newsletters.
