@@ -19,18 +19,19 @@ Use when:
 
 ### Commands
 
+**Always add `--sync` to every `moneo add` command** — Terry wants all reminders synced to iPhone via CloudKit.
+
 ```bash
-moneo ls                                              # list all reminders with index
-moneo add "Call dentist" --in 30m                    # relative time
-moneo add "Standup" --at 09:30                       # today at HH:MM
-moneo add "Pay rent" --date 2026-04-01 --at 10:00   # specific date + time
-moneo add "Team sync" --at 11:00 --recur weekly      # recurring weekly (Mac only)
-moneo add "Team sync" --at 11:00 --recur weekly --sync  # recurring + CloudKit → iPhone
-moneo add "Pay rent" --date 2026-04-01 --recur monthly  # recurring monthly
-moneo edit <index> --title "New title"               # rename
-moneo edit <index> --at 16:00                        # change time
-moneo edit <index> --in 1h                           # push forward by 1h from now
-moneo rm <index>                                     # delete by index
+moneo ls                                                        # list all reminders with index
+moneo add "Call dentist" --in 30m --sync                       # relative time + iPhone sync
+moneo add "Standup" --at 09:30 --sync                          # today at HH:MM + iPhone sync
+moneo add "Pay rent" --date 2026-04-01 --at 10:00 --sync       # specific date + time + iPhone sync
+moneo add "Team sync" --at 11:00 --recur weekly --sync         # recurring weekly + iPhone sync
+moneo add "Pay rent" --date 2026-04-01 --recur monthly --sync  # recurring monthly + iPhone sync
+moneo edit <index> --title "New title"                          # rename
+moneo edit <index> --at 16:00                                   # change time
+moneo edit <index> --in 1h                                      # push forward by 1h from now
+moneo rm <index>                                                # delete by index
 ```
 
 ### Time flags (mutually exclusive)
