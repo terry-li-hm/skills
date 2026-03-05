@@ -155,6 +155,7 @@ If a check command fails, mark that metric as `Unavailable` in the table and con
 5. **Oghma health** — `oghma_stats` for DB size, memory count, extraction backlog.
 6. **Cron scripts** — Check `~/scripts/crons/` and `~/logs/cron-*.log` for failures or stale output.
 7. **QMD index** — `qmd cleanup && qmd update` to prune stale entries and re-index. Then `qmd status` for collection health.
+8. **Delegation log** — Read `~/docs/solutions/delegation-log.md`. Scan by eye: any tool+task-type with 2+ ✗ or ~ entries? If yes, update strategos routing table. If table has grown since last week, the log is working. If not, I failed to log and should catch up now.
 
 Include a summary table in the weekly note:
 
