@@ -1,5 +1,5 @@
 ---
-name: linkedin-engage
+name: agoras
 description: Draft LinkedIn comments and posts. Use when user shares a LinkedIn URL to comment on, says "linkedin comment", "linkedin post", or wants to draft/post content.
 user_invocable: true
 ---
@@ -95,6 +95,7 @@ Answer these before drafting:
 3. **Is the author worth engaging?** (Senior practitioner, potential client/referral, thought leader in FS/AI)
 4. **Is the timing right?** LinkedIn's algorithm weights first-hour engagement most heavily — a post >24h old has already peaked in distribution. But timing affects *reach*, not whether the poster sees it — LinkedIn notifies authors of every comment regardless of age. So: >48h is fine if the author is a high-value target (senior FS exec, potential Capco client) and the post has low engagement (<50 reactions) — they'll notice and appreciate it. Skip only if the post is >1 week old or already has 100+ comments. Check the vault profile's Engagement History — if Terry commented on this person in the last 7 days, skip. Fallback: `anam search "<author>" --deep`.
 5. **Is the post worth Terry's comment?** If Terry's comment would be smarter than the post itself, react and move on. Comment when the post pulls the conversation *up* — original frameworks, genuine depth, substantive takes. Skip well-packaged platitudes, repackaged concepts, and content-mill series. Terry's practitioner insights should add to something strong, not carry something thin.
+   **High-frequency poster signal:** If a connection has recently shifted to posting every 1-2 days with consistent format and recurring themes, check whether insight-per-post is diluting. High volume + uniform structure + checklist content = likely AI-generated cadence. Downgrade engagement threshold: only comment when there's a specific structural claim worth extending. In practice this means once a month at most, regardless of posting frequency. Use as a negative example for Terry's own cadence — low frequency, high specificity is the counter-model.
 6. **Will the poster be happy to see this comment?** Read the emotional register of the post. If they wrote an enthusiasm/vision post, a purely risk-focused or corrective comment lands as a buzzkill — even if factually additive. The comment should match or gently extend the poster's tone, not deflate it. A cold commenter who makes a CIO look behind on risk management in front of their peers is not welcome. If the honest angle is negative, consider liking and moving on instead.
 
 If any answer is no, say so and suggest skipping or just reacting.
