@@ -1,12 +1,14 @@
 ---
 name: sched
-description: Set a Due reminder for an event. "schedule", "remind me about", "book X with reminder". Use --invite only when user wants to send a calendar invite to others.
+description: Schedule an event — adds to both Due (nag reminder) and Google Calendar by default. "schedule", "remind me about", "book X with reminder".
 user_invocable: true
 ---
 
-# /sched — Schedule + Remind (Due-only)
+# /sched — Schedule + Remind
 
-Set a Due reminder for an event. Google Calendar is opt-in only (see below).
+Schedule an event by adding to **both Due and Google Calendar** by default. Due = nag reminder so you don't forget. Google Calendar = source of truth for your schedule.
+
+**Exception — Due only (no Google Calendar):** tasks, nudges, habits, follow-up reminders that aren't time-blocked appointments (e.g. "nudge Gavin if no reply", "dim lights tonight").
 
 ## Trigger
 
@@ -17,53 +19,50 @@ Set a Due reminder for an event. Google Calendar is opt-in only (see below).
 
 Collect from the user (ask only what's missing):
 - **Title** — event name
-- **Date** — e.g. "tomorrow", "March 10"
-- **Reminder time** — explicit HH:MM, or `--remind-before Xm` to back-calculate from start time
+- **Date + time** — e.g. "tomorrow 10am"
+- **End time** — default to 1h after start if not given
+- **Location** — optional, include if known
 
 ## Steps
 
 ### 1. Set Due reminder via moneo
 
-```bash
-moneo add "Event title" --date 2026-03-10 --at 11:30 --sync
-```
+Default reminder time: **30 minutes before event start**.
 
-**Reminder time logic:**
-- `--remind-at HH:MM` → use directly
-- `--remind-before Xm` → subtract X minutes from event start
-- Default if neither given: **30 minutes before event start**
+```bash
+moneo add "Event title" --date 2026-03-10 --at 09:30 --sync
+```
 
 **Duplicate guard:** `moneo add` rejects same title on same day — edit instead of re-adding.
 
-### 2. Confirm to user
-
-Report: reminder title + time set.
-
-## Calendar (opt-in only)
-
-Only when user explicitly asks to "send an invite" or "put it on the calendar":
+### 2. Add to Google Calendar
 
 ```bash
-gog calendar create terry.li.hm@gmail.com \
+gog calendar add primary \
   --summary "Event title" \
-  --from "2026-03-10T12:00:00+08:00" \
-  --to "2026-03-10T14:00:00+08:00"
+  --from "2026-03-10T10:00:00+08:00" \
+  --to "2026-03-10T11:00:00+08:00" \
+  --location "Optional location" \
+  --description "Optional notes"
 ```
 
-Default calendar: `terry.li.hm@gmail.com`
+Default calendar: `primary` (terry.li.hm@gmail.com).
 Use `family16675940229854502575@group.calendar.google.com` for family events.
 Times must be RFC3339 with `+08:00` offset (HKT).
-**Never add `--attendees`** — sending a calendar invite causes email notifications. Personal events are reminders only, not invites.
+**Never add `--attendees`** — triggers email notifications to recipients.
+
+### 3. Confirm to user
+
+Report: reminder time (Due) + calendar event created.
 
 ## Example
 
-> "Remind me about lunch with Simon on March 10 at 12:30, ends 2pm"
+> "Schedule AIA call tomorrow 10am, Tommy Lau +852 3727 6441"
 
 ```bash
-moneo add "Lunch with Simon" --date 2026-03-10 --at 12:00 --sync
+moneo add "AIA call - Tommy Lau" --date 2026-03-06 --at 09:30 --sync
+gog calendar add primary --summary "AIA call - Tommy Lau" --from "2026-03-06T10:00:00+08:00" --to "2026-03-06T11:00:00+08:00" --description "Tommy Lau +852 3727 6441"
 ```
-
-Confirm: "Reminder set for March 10 at 12:00."
 
 ## Gotchas
 
