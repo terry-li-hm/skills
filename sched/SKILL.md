@@ -53,6 +53,7 @@ gog calendar create terry.li.hm@gmail.com \
 Default calendar: `terry.li.hm@gmail.com`
 Use `family16675940229854502575@group.calendar.google.com` for family events.
 Times must be RFC3339 with `+08:00` offset (HKT).
+**Never add `--attendees`** — sending a calendar invite causes email notifications. Personal events are reminders only, not invites.
 
 ## Example
 
