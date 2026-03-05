@@ -15,7 +15,7 @@ Demo CLI for Lacuna regulatory gap analysis. Wraps the Railway API with Rich out
 ## Commands
 
 ```bash
-lacuna docs                                          # list all documents (12 docs)
+lacuna docs                                          # list all documents (9 live; NIST/SG PDFs not in repo)
 lacuna preflight                                     # health check: API + docs + cache (use before demo)
 lacuna chat                                          # interactive chat with full corpus
 lacuna chat --jurisdiction hk                        # chat filtered to HK docs
@@ -64,8 +64,8 @@ Raw UUIDs also accepted anywhere an alias is used.
 ## Demo Day Checklist
 
 **Night before:**
-1. `lacuna preflight` — full health check (API + all 12 docs + cache warmup in one command)
-2. Expected: `PASS — demo ready.` with Full:0 Partial:3 Gap:4 (hkma-cp vs Codex Argentum v1.0)
+1. `lacuna preflight` — full health check (API + 9 docs + cache warmup in one command)
+2. Expected: `PASS — demo ready.` with Full:1 Partial:5 Gap:2 (hkma-cp vs Codex Argentum v1.1) — counts changed after v1.1 update
 3. Start a QuickTime screen recording as backup before the meeting
 
 **Day of (before Tobin arrives):**
@@ -91,7 +91,9 @@ Raw UUIDs also accepted anywhere an alias is used.
 - **uv resolves deps on first run** — if demo machine has never run it, first invocation hits PyPI (needs internet). Pre-warm by running any lacuna command once the day before.
 - **Auth is bypass-enabled when LACUNA_API_KEYS not set on server** — dev/local mode works without key. Set before production deploy.
 - **`lacuna remediate` returns 404** if `/remediation/plan` endpoint not yet deployed — prints graceful message, not a crash.
-- **`lacuna upload` has 600s timeout** — LLM extraction takes 2-3 min; Railway 5-min HTTP timeout is tight. Use `--no-llm` for large docs.
+- **`lacuna upload` has 600s timeout** — LLM extraction takes 2-3 min; Railway's HTTP timeout is tight for large docs (hkma-gai took 369s). Use `--no-llm` for very large docs.
+- **Volume is now persistent** (`lacuna-volume` at `/app/data`). If data is ever lost, run `python3 /tmp/lacuna-seed.py` then `python3 /tmp/lacuna-update-aliases.py`. Source PDFs in `data/documents/corpus/`.
+- **NIST/SG docs not in repo** — need to be sourced and uploaded manually if needed for demo.
 - **Frontend fetch wrapper patches `window.fetch` globally** — all XHR calls auto-inject `X-API-Key` from localStorage. Export PDF/DOCX buttons use fetch+blob (not window.open), so auth is always included.
 
 ## Second Credibility Baseline
