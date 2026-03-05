@@ -352,6 +352,32 @@ Not installed yet. Install when needed: `go install github.com/simonw/showboat@l
 - **Google:** Blocks Playwright Chromium entirely. Use email/password login, not Google SSO.
 - **WeChat Web:** Killed by Tencent — returns "cannot log in to Weixin for Web". Desktop app only.
 
+## LinkedIn-Specific Patterns (Mar 2026)
+
+**`wait --load networkidle` times out.** Use fixed-ms wait:
+```bash
+agent-browser open "https://www.linkedin.com/jobs/view/4380373181/"
+agent-browser wait 4000
+agent-browser snapshot
+```
+
+**Notification onboarding loop.** After a fresh profile, LinkedIn cycles every navigation through notification preference pages. Escape:
+```bash
+agent-browser close
+porta inject --browser chrome --domain linkedin.com   # pull fresh cookies from Chrome
+agent-browser open "https://www.linkedin.com/..."
+agent-browser wait 4000
+agent-browser snapshot
+```
+
+**Verify navigation succeeded** before trusting the snapshot:
+```bash
+agent-browser eval "document.title + ' | ' + window.location.href"
+# If still on mypreferences/ URL, repeat the escape pattern
+```
+
+**Per-session profiles (Mar 2026).** `~/.zshrc` now sets `AGENT_BROWSER_SESSION=cc-$TMUX_WINDOW` and `AGENT_BROWSER_PROFILE=~/.agent-browser-profile-$WINDOW` per tmux window. Each Claude Code session has its own daemon + profile — no cross-session interference. Run `porta inject` once per window before hitting authenticated sites.
+
 ## Profile Backup
 
 Profile data at `~/.agent-browser-profile/`. Backup location: `~/officina/browser-profile/` (Cookies, Local Storage, Sessions).

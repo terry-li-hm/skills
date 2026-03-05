@@ -11,15 +11,21 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 
 ## Workflow
 
-1. **Navigate to job posting:**
+1. **Navigate to job posting — HARD GATE: actual JD required before proceeding:**
    - **Primary:** `WebFetch` — fast, works for most JD content
-   - **Fallback:** `agent-browser --profile` for logged-in view (applicant stats, seniority breakdown, salary source attribution)
+   - **Fallback:** `agent-browser` for logged-in view (applicant stats, seniority breakdown, salary source attribution)
    - Extract: company name, role title, requirements, responsibilities, preferred qualifications, salary if disclosed, applicant stats
+
+   **CRITICAL: Never use search engine result summaries as JD source.** Google/Bing summaries can describe a *different role at the same company* — same employer, similar title, completely different function and requirements. This has happened (Hang Seng "Head of AI and Data Applications" summary was used for what turned out to be "Head of AI Adoption" — IT PM role, not data science). If the source URL is 404/403, try agent-browser before writing any note. If genuinely unreachable, say so explicitly and do not infer JD from search summaries.
 
    **WebFetch limitations on LinkedIn:**
    - Misses **applicant stats** (count, seniority breakdown) — requires being logged in
    - Cannot distinguish LinkedIn's estimated salary range from employer-disclosed salary. Mark any salary as `(LinkedIn estimate — not employer-disclosed)` unless the JD text explicitly states the range
-   - If applicant stats or salary attribution matter, use `agent-browser --profile` (persistent login via `AGENT_BROWSER_PROFILE` env var)
+   - If applicant stats or salary attribution matter, use agent-browser (see nauta skill for LinkedIn navigation pattern)
+
+   **LinkedIn agent-browser pattern (Mar 2026):**
+   - `wait --load networkidle` times out — use `wait 4000` (fixed ms)
+   - Notification onboarding loop: `agent-browser close` → `porta inject --browser chrome --domain linkedin.com` → `agent-browser open <url>` → `agent-browser wait 4000` → `agent-browser snapshot`
 
 2. **Check for duplicates and same-employer saturation** (before full analysis):
    - Search vault for existing note matching company + role (e.g., `[[*Role* - *Company*]]`)
