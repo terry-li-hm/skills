@@ -28,28 +28,16 @@ Run before anything else. Present all findings in one block, then proceed — do
 
 #### A. Mechanical checks (run in parallel)
 
-**Skill gap:** Only check if `~/skills/` was modified this session. Unlinked skills are invisible to Claude Code.
+Run all mechanical checks with:
 ```bash
-comm -23 <(/bin/ls /Users/terry/skills/ | sort) <(/bin/ls /Users/terry/.claude/skills/ | sort)
+prewrap
 ```
-If gaps: list them, suggest `/agent-sync` or `ln -s`.
-If command fails (missing dir/symlink issue), note "Skill link check unavailable" and continue.
-
-**Dirty key repos:** Lost changes to `~/skills/` and `~/officina/` hurt future sessions.
-```bash
-git -C ~/skills status --short && git -C ~/officina status --short
-```
-If dirty: show which files, offer to commit. Don't auto-commit.
-If either repo is missing or command fails, note which status check is unavailable and continue.
+Interprets output: `⚠` = action needed, `✓` = clean, `?` = check unavailable.
+- Unlinked skills → suggest `ln -s` or `/agent-sync`
+- Dirty repos → show files, offer to commit (don't auto-commit)
+- MEMORY.md >150 lines → suggest demoting to `~/docs/solutions/memory-overflow.md`
 
 **CLAUDE.md modified?** If CLAUDE.md was changed this session, do a one-line tightening check on each addition: does this need to be in CLAUDE.md, or does it belong in a skill / MEMORY.md / `~/docs/solutions/`? Flag candidates — don't move them automatically.
-
-**MEMORY.md budget:** Budget is 150 lines.
-```bash
-wc -l ~/.claude/projects/-Users-terry/memory/MEMORY.md
-```
-If >150: flag it, suggest demoting to `~/docs/solutions/memory-overflow.md`.
-If file missing/unreadable, note "MEMORY.md budget check unavailable" and continue.
 
 #### B. Session loose ends (cognitive scan)
 
