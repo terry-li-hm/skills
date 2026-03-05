@@ -1,6 +1,6 @@
 ---
 name: lustro
-description: Check AI news sources for recent developments using Lustro (~/code/lustro). Use when user says "lustro", "ai news", "check ai news", "what's new in AI", or wants to catch up on AI developments.
+description: Check AI news sources for recent developments using Lustro (~/code/lustro). Use when user says "lustro", "ai news", "check ai news", "what's new in AI", or wants to catch up on AI developments. Sources are tagged (ai, tech, health, etc.) — digest can filter by tag.
 user_invocable: true
 ---
 
@@ -28,6 +28,7 @@ Terry is joining Capco as Principal Consultant / AI Solution Lead, advising bank
 **Cron** (silent index builder, 6:30 PM HKT daily, `lustro fetch`):
 - Fetches **all sources** (Tier 1 + Tier 2) + **X accounts** + **X bookmarks** via `bird --json`, cadence-gated — **zero LLM tokens**
 - Tier controls **display priority**, not fetch: Tier 1 always surfaced, Tier 2 mentioned only if noteworthy or in deep mode
+- Each source has a `tags` field (e.g. `[ai]`, `[health]`, `[tech]`) — used for digest filtering, not fetch
 - Date-based + title-prefix dedup, cadence-aware skipping
 - Appends delta to `[[AI News Log]]` (`~/notes/AI News Log.md`)
 - State in `~/.cache/lustro/state.json`
@@ -84,14 +85,26 @@ Only if the discussion surfaced something worth preserving:
 
 ## Sources
 
-Defined in `~/.config/lustro/sources.yaml`. Key high-signal sources for perspective:
-- **Import AI** (Jack Clark) — policy + research framing, weekly
-- **Interconnects** (Nathan Lambert) — scaling, alignment, "what's next", 2x/week
-- **Simon Willison** — hands-on LLM practitioner, daily
-- **机器之心 / 量子位** — Chinese AI ecosystem, daily
-- **Bank tech blogs** (Layer 6, Sardine, Plaid) — peer patterns, biweekly/weekly
+Defined in `~/.config/lustro/sources.yaml` (user copy) or `~/code/lustro/src/lustro/sources/default.yaml` (bundled defaults). Key high-signal sources:
 
-Full source list with cadence and RSS URLs in `~/.config/lustro/sources.yaml`.
+**Tier 1 — AI:**
+- **Import AI** (Jack Clark) — policy + research framing, weekly
+- **Interconnects** (Nathan Lambert) — frontier AI, technical depth, weekly
+- **Ahead of AI** (Sebastian Raschka) — deep technical ML, weekly
+- **Simon Willison** — hands-on LLM practitioner, daily
+- **Anthropic / OpenAI blogs** — lab announcements
+
+**Tier 2 — AI:**
+- **The Gradient** — academic/research interviews
+- **MIT Technology Review AI** — business/policy angle
+- **Latent Space** — AI engineering/product
+- **AI Snake Oil** — sceptical/critical takes
+- **机器之心 / 量子位 / 新智元** — Chinese AI ecosystem, daily (via local wechat2rss)
+
+**Tier 2 — Tech:**
+- **Stripe Engineering / GitHub Blog** — tagged `[tech]`, not `[ai]`
+
+To add personal/non-AI sources, add `tags: [health]` (or similar) to YAML — they'll be fetched but filtered out of the default AI digest.
 
 ## Paywalled Sources (Latent Space / Substack)
 
@@ -177,10 +190,12 @@ This prevents the "did we really check all sources?" question.
 Monthly evidence-grounded synthesis of AI developments. Reads archived article full text from the cron's article cache and clusters by theme.
 
 ```bash
-lustro digest                    # Current month
+lustro digest                    # Current month, all sources
+lustro digest --tag ai           # AI sources only
+lustro digest -t ai -t tech      # AI + tech sources
 lustro digest --month 2026-02    # Specific month
-lustro digest --dry-run           # Preview themes only
-lustro digest --themes 5          # Limit to 5 themes
+lustro digest --dry-run          # Preview themes only
+lustro digest --themes 5         # Limit to 5 themes
 ```
 
 **Pipeline:**
