@@ -1,5 +1,5 @@
 ---
-name: cora-email
+name: nuntius
 description: Use when the user asks about their email, inbox, briefs, email todos, or wants to interact with Cora — an AI email assistant. Covers checking briefs, managing todos, drafting replies, and chatting with Cora via the CLI.
 ---
 
