@@ -1,12 +1,12 @@
 ---
 name: auspex
-description: Wake-up brief — Oura scores, weather, today's calendar, overnight urgent emails. Run when you wake up. Invoke with /auspex.
+description: Wake-up brief — weather, calendar, key deadlines today. Run when you wake up. Invoke with /auspex.
 user_invocable: true
 ---
 
 # Wake-Up Brief
 
-A 60-second brief for the moment you wake up. What's the weather, how did you sleep, what's on today, anything urgent overnight? That's it — work priorities and planning belong to `/statio` when you sit down.
+A 60-second brief for the moment you wake up. Weather, what's on today, anything due today. That's it — work priorities belong to `/statio` when you sit down.
 
 ## Triggers
 
@@ -23,21 +23,21 @@ A 60-second brief for the moment you wake up. What's the weather, how did you sl
    - If imessage.sh fails (non-zero exit or "compose window" fallback), note "Weather send to Tara failed" — don't retry.
    - If `caelum` fails, note "Weather unavailable" and continue.
 
-4. **Today's calendar** — what's actually on today:
+3. **Today's calendar**:
    - Run: `fasti list` (or `gog calendar list` if fasti unavailable)
    - List events with times. Flag anything before 10am that requires prep.
 
-5. **Overnight urgent emails** — a narrow scan only:
-   - Run: `gog gmail search "capco OR PILON OR alison OR urgent" | head -5`
-   - If gog fails (keychain locked): note "Gmail unavailable — unlock keychain" and skip.
-   - Surface only emails that require action today. Skip FYI/newsletters/receipts.
-   - SmarTone bill: if it appears, extract the QR payment link from raw HTML (`gog gmail get <id> --plain`) and surface with amount + due date.
+4. **Key deadlines today** — a quick scan of TODO.md:
+   - Grep `~/notes/TODO.md` for items tagged `when: <today's date>` or `due: <today>`
+   - Surface only hard deadlines — things with a specific date on them today
+   - Skip someday/low-energy/undated items entirely — those are statio's job
+   - If nothing due today, skip silently
 
-6. **Deliver the brief** — two short paragraphs max:
+5. **Deliver the brief**:
 
 ## Output
 
-Weather, then today's calendar. That's the whole brief.
+Weather, calendar, any hard deadlines today. Two short paragraphs max. Short enough to read while still in bed.
 
 **Example:**
 
@@ -45,17 +45,15 @@ Weather, then today's calendar. That's the whole brief.
 >
 > Mainly cloudy, 16–21°C, light rain early then sunny intervals. Weather sent to Tara ✓
 >
-> Today: lunch with Tara at 12:15, physio at 16:00.
-
-Skip empty sections entirely. If nothing urgent overnight, one sentence saying so. Keep it short enough to read while still in bed.
+> Lunch with Tara 12:15, physio 16:00. Nicole usage report due today.
 
 ## Boundaries
 
-- Do NOT surface work priorities, NOW.md gates, or task queues — that's `/statio`
-- Do NOT triage full inbox — narrow overnight scan only
-- Do NOT run Capco intel, GARP check, or token budget — those belong in `/statio`
+- Do NOT surface work priorities, NOW.md gates, or full task queues — that's `/statio`
+- Do NOT check inbox — no email, no Cora
+- Do NOT run Oura, Capco intel, GARP, or token budget — those belong in `/statio`
 - Do NOT create or edit vault notes
 
 ## See also
-- `/statio` — start-of-work brief (priorities, gates, prep items)
+- `/statio` — start-of-work brief (Oura, priorities, gates, prep items)
 - `/kairos` — ad-hoc situational snapshot any time of day
