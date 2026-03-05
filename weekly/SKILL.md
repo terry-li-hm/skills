@@ -211,8 +211,9 @@ Run this alongside the synthesis every Friday:
    - Synthesize into 3 bullets: Capco firm news | AI x banking | Competitor signal
    - Feed anything useful into `~/notes/Capco/Conversation Cards/` if it's a durable talking point
 9. **ClawHub scan** — Browse [clawhub.ai](https://clawhub.ai) for new/notable skills using semantic search. Focus areas: messaging, health/biometrics, calendar, finance, relationship/CRM. Surface 1-3 ideas worth building; append to `~/notes/Awesome OpenClaw Skills - Evaluation.md` if notable. Skip if nothing new since last week.
+10. **Scripts repo hygiene** — `cd ~/scripts && git status --short`. Any untracked files? Commit and push. Keep the repo in sync with what's actually running.
 
-10. **First Friday only** — Run `/monthly` (content digests, skill review, AI deep review, vault hygiene)
+11. **First Friday only** — Run `/monthly` (content digests, skill review, AI deep review, vault hygiene)
    - If a checklist command fails, keep the item open and note the failure reason in the weekly note.
 
 [[Capco Transition]] is source of truth for exit/onboarding; [[Job Hunting]] is the archive.
