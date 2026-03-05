@@ -1,6 +1,6 @@
 ---
 name: nuntius
-description: Cora CLI — AI email assistant. Use for Cora-specific actions: reading briefs, managing email todos, chatting with Cora, or searching email via the Cora interface. NOT for direct Gmail operations (send, archive, triage) — use expedio for those.
+description: "Cora CLI — AI email assistant. Use for Cora-specific actions: reading briefs, managing email todos, chatting with Cora, or searching email via the Cora interface. NOT for direct Gmail operations (send, archive, triage) — use expedio for those."
 ---
 
 # Cora CLI — AI Email Assistant
