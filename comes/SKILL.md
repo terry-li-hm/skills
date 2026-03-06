@@ -18,6 +18,17 @@ Crate: `phron` on crates.io. Binary: `comes`. Source: `~/code/phron/`. GitHub: h
 | `comes overnight` | OpenRouter research per topic → vault digest → Telegram summary |
 | `comes status` | Stub (Phase 3) |
 
+## Telegram Bot Commands (comes-bot)
+
+| Message type | What it does |
+|---|---|
+| `/health` | Same as `comes health` — Oura readiness report |
+| `/brief` | Same as `comes brief` — morning synthesis |
+| `/status` | System status |
+| `/help` | Available commands |
+| Voice message | Whisper transcription → librosa audio analysis → 5-dimension speaking critique |
+| PDF document | pdftotext extraction → 5-dimension deck/presentation critique (structure, exec clarity, MECE, evidence, action) |
+
 ## Config
 
 `~/.config/comes/config.toml` — copy from `~/code/phron/config.toml.example`
@@ -46,6 +57,9 @@ Key fields:
 - **`cargo install --path .`** to update the installed binary after code changes. `cargo build --release` alone does NOT update `~/.cargo/bin/comes`.
 - **`PHRON_SCRIPTS_DIR` must be set** for `comes-bot` when running as an installed binary (not from `target/release/`). Add to LaunchAgent plist or `~/.zshenv`: `PHRON_SCRIPTS_DIR=/Users/terry/code/phron/scripts`. Without it, librosa analysis silently skips (critique still works, just no audio metrics).
 - **`OPENAI_API_KEY` needed for Whisper** — separate from OpenRouter. Whisper uses OpenAI's API directly. Check 1Password for key.
+- **`pdftotext` needed for deck review** — install via `brew install poppler`. Deck review silently fails without it. Already installed on iMac (`/opt/homebrew/bin/pdftotext`).
+- **Image-only PDFs not supported** — pdftotext extracts text layer only. Scanned decks → empty output → error returned to user.
+- **Deck text truncated at 12K chars** — LLM context limit. For very long decks, only first ~12K chars are critiqued.
 
 ## LaunchAgents
 
