@@ -14,6 +14,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 |------|------|------|----------|
 | **WebSearch** | Built-in | Free | General purpose, quick searches |
 | **noesis** | Rust CLI | $0.006–0.40/query | Deep research, reasoning |
+| **exauro** | Rust CLI | ~$0.001–0.01/query | Semantic/neural search, find-similar, content extraction |
 | **grok** | Python CLI | ~$0.02/query | X/Twitter search, real-time web |
 | **WebFetch** | Built-in | Free | Scrape specific URLs to markdown |
 
@@ -22,7 +23,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | Tier | Tool | Cost/query | Use When |
 |------|------|------------|----------|
 | **Free** | `WebSearch` | $0 | Default for everything |
-| **Cheap** | `noesis search` | ~$0.006 | Need cited synthesis, WebSearch insufficient |
+| **Cheap** | `exauro search` / `noesis search` | ~$0.001–0.006 | Semantic search (`exauro`), cited synthesis (`noesis`) |
 | **Mid** | `noesis ask` / `noesis reason` / `grok` | ~$0.01–0.02 | Structured surveys, complex reasoning, X/Twitter |
 | **Expensive** | `noesis research` | ~$0.40 | Deep novel research. Use freely when it adds value. |
 
@@ -40,6 +41,10 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | Verify claims / get primary sources | `WebSearch` | Returns links, no hallucinated synthesis |
 | Find specific content URLs (YouTube, podcast episodes, etc.) | `noesis search` | WebSearch doesn't index platform-internal pages well; noesis does |
 | AI news / X/Twitter | `grok --x-only` → `grok` | Real-time X/Twitter data + web search via xAI API |
+| **Semantic/conceptual search ("find pages about X idea")** | `exauro search --search-type neural` | Neural embeddings — finds meaning, not keywords |
+| **Find pages similar to a URL** | `exauro similar <url>` | Exa find-similar, great for research trails |
+| **Quick AI answer with citations** | `exauro answer "question"` | Cheaper than noesis, good for factual questions |
+| **Extract full content of a page** | `exauro contents <url>` | Alternative to defuddle for non-JS pages |
 | Scrape a specific URL (static) | `defuddle` → `WebFetch` | defuddle first — cleaner output, fewer tokens |
 | Scrape JS-heavy / bot-protected URL | `peruro <url>` | Firecrawl backend bypasses JS rendering and Cloudflare |
 | Web search + scrape results | `peruro search <query>` | Returns scraped markdown per result, not just links |
