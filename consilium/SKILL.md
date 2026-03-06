@@ -108,6 +108,10 @@ consilium --prompt-file /tmp/prompt.txt --deep --vault
 
 **`--vault` is mandatory for:** any `--deep`, `--council`, or architecture/review run. Auto-saves to `~/notes/Councils/` with Obsidian Sync backup. Never use `--output /tmp/...` — `/tmp` doesn't survive reboot.
 
+**For `--quick --quiet` batch/agent-test runs:** use `-o ~/docs/solutions/agent-tests/<name>.md` — skips Obsidian sync but survives session end. Pattern: `consilium --quick --quiet --domain banking -o ~/docs/solutions/agent-tests/proposal-architect.md "..."`
+
+**`--quick` vs `--council` in background:** Running 4+ parallel `--council` sessions hits OpenRouter rate limits (20+ concurrent API calls). Use `--quick` for parallel batch runs; `--council` for single focused deliberations.
+
 **Always `run_in_background: true`** on the Bash tool. Watch live: `consilium --watch` or `--tui` in another tmux tab.
 
 ### Step 3: Parse and present
