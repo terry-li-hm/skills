@@ -191,7 +191,7 @@ pondus watch gpt-5.4 --once   # same but shows ✓/✗ per source
 
 Output shows which sources have data (✓) and which don't (✗), plus rank/score where available. Exits 0 when all covered, 1 if any missing (--once mode). Runs in background via `run_in_background: true` — dies on reboot, just relaunch in tmux if needed.
 
-**GPT-5.4 watch status (as of Mar 6, 2026):** 1/8 sources (Arena only). Recheck daily until aider, swebench, AA, tbench catch up.
+**GPT-5.4 watch status (as of Mar 6, 2026):** 1/8 sources (Arena only). Recheck daily until aider, swebench, AA, tbench catch up. Note: OpenRouter access opened Mar 6 — consilium already upgraded to gpt-5.4-pro.
 
 ## Future Work (low priority)
 
