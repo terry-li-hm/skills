@@ -151,7 +151,7 @@ Swapped DeepSeek R1 → Kimi K2.5 based on:
 - R1 (Jan 2025) unranked on AA, weakest on Aider vs Kimi
 - `pondus rank --aggregate --tag reasoning` confirms: GLM-5 rank 3 (0.818, 2 sources), Kimi K2.5 rank 1 on AA (0.972) but only 1 reasoning source
 - Lab diversity: Moonshot (Kimi) + Zhipu (GLM) + xAI (Grok) + Anthropic (judge) = 4 distinct orgs
-- Current council: GPT-5.4-pro, Gemini-3.1-pro-preview, Grok-4, Kimi-K2.5, GLM-5
+- Current council: GPT-5.2-pro, Gemini-3.1-pro-preview, Grok-4, Kimi-K2.5, GLM-5
 
 ### Role review (2026-03-03)
 
