@@ -19,8 +19,8 @@ A 60-second brief for the moment you wake up. Weather, what's on today, anything
 2. **Weather**:
    - Run: `caelum`
    - Always include in the brief
-   - **Send to Tara**: compose a friendly prose weather note (2–3 sentences max). One lead weather emoji only + umbrella ☂️ if rain likely — no other inline emojis. Include temp range, key conditions, anything actionable. Send: `~/scripts/imessage.sh "<composed message>"`. Log "Weather sent to Tara ✓".
-   - If imessage.sh fails (non-zero exit or "compose window" fallback), note "Weather send to Tara failed" — don't retry.
+   - **Send to Tara**: send the raw caelum output directly — no prose, no greeting, no personality. Just the factual weather line(s) as-is. Run: `~/scripts/imessage.sh "$(caelum)"`. Log "Weather sent to Tara ✓".
+   - If imessage.sh exits non-zero, note "Weather send to Tara failed" — don't retry.
    - If `caelum` fails, note "Weather unavailable" and continue.
 
 3. **Today's calendar**:
