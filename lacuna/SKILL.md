@@ -97,6 +97,7 @@ Raw UUIDs also accepted anywhere an alias is used.
 - **Volume is now persistent** (`lacuna-volume` at `/app/data`). If data is ever lost: `cd ~/code/lacuna && python3 tools/seed_corpus.py && python3 tools/update_aliases.py`. Source PDFs in `data/documents/corpus/`.
 - **NIST/SG docs ARE in repo** (`data/documents/corpus/global/`, `data/documents/corpus/sg/`) — uploaded no_llm. Previously thought missing; confirmed present after Mar 6 re-seed.
 - **Dockerfile: `libgdk-pixbuf-2.0-0` not `libgdk-pixbuf2.0-0`** — Debian Bookworm renamed the package. Old name breaks `apt-get install` silently across all builds.
+- **Railway build failures → read the build log URL** printed by `railway up`, or run `railway logs --build <deployment_id>`. Don't diagnose from local Docker — silent `apt-get` failures and import errors are only visible in Railway's build log. See `~/docs/solutions/railway.md` for full reference.
 - **Frontend fetch wrapper patches `window.fetch` globally** — all XHR calls auto-inject `X-API-Key` from localStorage. Export PDF/DOCX buttons use fetch+blob (not window.open), so auth is always included.
 
 ## Second Credibility Baseline
