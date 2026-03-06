@@ -151,7 +151,7 @@ Swapped DeepSeek R1 → Kimi K2.5 based on:
 - R1 (Jan 2025) unranked on AA, weakest on Aider vs Kimi
 - `pondus rank --aggregate --tag reasoning` confirms: GLM-5 rank 3 (0.818, 2 sources), Kimi K2.5 rank 1 on AA (0.972) but only 1 reasoning source
 - Lab diversity: Moonshot (Kimi) + Zhipu (GLM) + xAI (Grok) + Anthropic (judge) = 4 distinct orgs
-- Current council: GPT-5.2-pro, Gemini-3.1-pro-preview, Grok-4, Kimi-K2.5, GLM-5
+- Current council: GPT-5.4-pro, Gemini-3.1-pro-preview, Grok-4, Kimi-K2.5, GLM-5
 
 ### Role review (2026-03-03)
 
@@ -172,6 +172,26 @@ Reviewed whether to swap judge (Opus 4.6) ↔ critique (Gemini 3.1 Pro Preview).
 **Grok-4 as weakest panelist:** Keep for lab diversity (xAI training pipeline ≠ others). No stronger xAI model available.
 
 **Fix shipped:** Added `CONSILIUM_MODEL_CRITIQUE_ENV` env var so critique model is now configurable, matching the judge env var pattern.
+
+## Watching New Models (`pondus watch`)
+
+Track a newly-released model until all benchmark sources index it:
+
+```bash
+# One-shot coverage check
+pondus watch gpt-5.4 --once
+
+# Hourly polling until all sources covered (run in tmux, survives session)
+pondus watch gpt-5.4 --interval 3600
+
+# Review current status any time
+pondus check gpt-5.4 --format table
+pondus watch gpt-5.4 --once   # same but shows ✓/✗ per source
+```
+
+Output shows which sources have data (✓) and which don't (✗), plus rank/score where available. Exits 0 when all covered, 1 if any missing (--once mode). Runs in background via `run_in_background: true` — dies on reboot, just relaunch in tmux if needed.
+
+**GPT-5.4 watch status (as of Mar 6, 2026):** 1/8 sources (Arena only). Recheck daily until aider, swebench, AA, tbench catch up.
 
 ## Future Work (low priority)
 
