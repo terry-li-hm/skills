@@ -36,6 +36,20 @@ For well-specified coding tasks, use `strategos` + CE plan instead.
 
 Don't run heuretes for everything. Reserve it for genuinely open questions.
 
+## Autonomous vs Monitored
+
+The trend toward long-running autonomous agents is real — but Karpathy runs his research org **long-running but watched**, not fire-and-forget. The deciding factor is whether the **correctness signal is fast and cheap**:
+
+| Signal type | Mode | Example |
+|---|---|---|
+| Automated eval (loss, test pass) | Autonomous — fire and forget | nanochat perf loop, CI test runs |
+| Human judgment required | Monitored — check findings as they land | Research synthesis, experiment comparison |
+| No clear success criterion | Human-led short sessions | Architecture decisions, creative direction |
+
+**Rule: automate where you can verify cheaply. Monitor where you can't.**
+
+For us: TaskCreate + TaskOutput covers monitoring without a tmux grid. Read findings as they land; TaskStop if a track goes sideways.
+
 ---
 
 ## Org Structure
