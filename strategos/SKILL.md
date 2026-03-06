@@ -156,6 +156,12 @@ lucus merge <task-c-branch>
 /ce:review
 ```
 
+**Sequential dependent phases? Use Phase Contract pattern** (`~/docs/solutions/phase-contract-pattern.md`):
+- Each phase runs as a fresh-context subagent → produces a file artifact + JSON summary
+- Orchestrator validates JSON contract before launching next phase
+- On `"status": "failed"` → stop and restart from that phase, not the beginning
+- Complements swarm: use swarm for parallel independent tasks, phase contracts for sequential dependent tasks
+
 **Rules for external swarm:**
 - **Commit the plan before `lucus new`** — worktrees only see committed history. Uncommitted plan files are invisible to delegates.
 - Decompose the plan first — tasks must be truly independent (different files)
