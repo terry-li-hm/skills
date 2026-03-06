@@ -64,8 +64,8 @@ Raw UUIDs also accepted anywhere an alias is used.
 ## Demo Day Checklist
 
 **Night before:**
-1. `lacuna preflight` — full health check (API + 9 docs + cache warmup in one command)
-2. Expected: `PASS — demo ready.` with Full:0 Partial:5 Gap:2 (hkma-cp vs Codex Argentum v1.1) — always re-verify, counts shift after re-seeds
+1. `lacuna preflight` — full health check (API + 12 docs + cache warmup in one command)
+2. Expected: `PASS — demo ready.` with Full:0 Partial:6 Gap:2 (hkma-cp vs Codex Argentum v1.1, Mar 6 re-seed) — always re-verify, counts shift after re-seeds
 3. Start a QuickTime screen recording as backup before the meeting
 
 **Day of (before Tobin arrives):**
@@ -88,14 +88,15 @@ Raw UUIDs also accepted anywhere an alias is used.
 - **NIST, NIST crosswalk, and demo-baseline show jurisdiction "-"** — hardcoded in BASELINES set; they're not jurisdiction-specific.
 - **Gap analysis on no_llm baselines works — quality is demo-grade.** Tested: `lacuna gap --circular hkma-cp --baseline fca` (FCA is no_llm) produced coherent Full/Partial/Gap with chunk citations. The system already falls back to chunk-based reasoning when requirements are empty. "Sparse" note in older docs was overly conservative.
 - **Upload is 5+ min even with --no-llm.** Bottleneck is sentence-transformer embedding generation on Railway CPU, not LLM extraction. Live upload during a meeting is not viable. Strategy: pre-upload the night before, or use an already-ingested doc (mas-mrmf) as the credibility test.
-- **sg-genai and nist-iso42001 uploaded no_llm** — chunks exist for RAG queries. Gap analysis works but NIST/SG not currently in system (PDFs not in repo). Use `mas-mrmf` as the second credibility baseline instead.
+- **sg-genai and nist-iso42001 uploaded no_llm** — chunks exist for RAG queries. Gap analysis works. All 12 docs now in system after Mar 6 re-seed (PDFs were in `data/documents/corpus/` after all).
 - **Override API URL:** `LACUNA_API_URL=http://localhost:8000 lacuna docs` for local dev.
 - **uv resolves deps on first run** — if demo machine has never run it, first invocation hits PyPI (needs internet). Pre-warm by running any lacuna command once the day before.
 - **Auth is bypass-enabled when LACUNA_API_KEYS not set on server** — dev/local mode works without key. Set before production deploy.
 - **`lacuna remediate` returns 404** if `/remediation/plan` endpoint not yet deployed — prints graceful message, not a crash.
 - **`lacuna upload` has 600s timeout** — LLM extraction takes 2-3 min; Railway's HTTP timeout is tight for large docs (hkma-gai took 369s). Use `--no-llm` for very large docs.
-- **Volume is now persistent** (`lacuna-volume` at `/app/data`). If data is ever lost, run `python3 /tmp/lacuna-seed.py` then `python3 /tmp/lacuna-update-aliases.py`. Source PDFs in `data/documents/corpus/`.
-- **NIST/SG docs not in repo** — need to be sourced and uploaded manually if needed for demo.
+- **Volume is now persistent** (`lacuna-volume` at `/app/data`). If data is ever lost: `cd ~/code/lacuna && python3 tools/seed_corpus.py && python3 tools/update_aliases.py`. Source PDFs in `data/documents/corpus/`.
+- **NIST/SG docs ARE in repo** (`data/documents/corpus/global/`, `data/documents/corpus/sg/`) — uploaded no_llm. Previously thought missing; confirmed present after Mar 6 re-seed.
+- **Dockerfile: `libgdk-pixbuf-2.0-0` not `libgdk-pixbuf2.0-0`** — Debian Bookworm renamed the package. Old name breaks `apt-get install` silently across all builds.
 - **Frontend fetch wrapper patches `window.fetch` globally** — all XHR calls auto-inject `X-API-Key` from localStorage. Export PDF/DOCX buttons use fetch+blob (not window.open), so auth is always included.
 
 ## Second Credibility Baseline
