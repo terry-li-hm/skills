@@ -258,9 +258,18 @@ If compound workflow is unavailable, add a short manual note in `~/docs/solution
 - Do NOT skip planning because prior discussion exists; this skill always enforces planning gate.
 - Stop after orchestration, delegation, review routing, and companion-skill capture.
 
+## Troubleshooting Delegation
+
+When a delegate fails or behaves unexpectedly, check `~/docs/solutions/delegation-reference.md`.
+Key quick-reference:
+- OpenCode silent fail → prompt >4K chars
+- Codex hangs → bundle files into `/tmp/` first
+- Gemini no file changes → missing `--yolo`
+- Double-backgrounded → never use `&` with `run_in_background: true`
+- After Codex → always `git add && git commit` manually (sandbox blocks `.git`)
+
 ## Calls
 - `cerno` — solutions KB check (step 1)
-- `delegate` — for tool routing and prompt packaging
 - `lucus` — for parallel worktree isolation
 - `scrutor` — for post-implementation review
 - `artifex` — for naming conventions
