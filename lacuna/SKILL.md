@@ -65,7 +65,7 @@ Raw UUIDs also accepted anywhere an alias is used.
 
 **Night before:**
 1. `lacuna preflight` — full health check (API + 9 docs + cache warmup in one command)
-2. Expected: `PASS — demo ready.` with Full:1 Partial:5 Gap:2 (hkma-cp vs Codex Argentum v1.1) — counts changed after v1.1 update
+2. Expected: `PASS — demo ready.` with Full:0 Partial:5 Gap:2 (hkma-cp vs Codex Argentum v1.1) — always re-verify, counts shift after re-seeds
 3. Start a QuickTime screen recording as backup before the meeting
 
 **Day of (before Tobin arrives):**
@@ -86,7 +86,9 @@ Raw UUIDs also accepted anywhere an alias is used.
 - **Gap analysis timeout is 45s** — if Railway cold-started, first run can exceed this. Always warmup.
 - **Cache is in-memory on Railway** — resets on every service restart. Re-run `lacuna warmup` (or `lacuna preflight`) if Railway was redeployed.
 - **NIST, NIST crosswalk, and demo-baseline show jurisdiction "-"** — hardcoded in BASELINES set; they're not jurisdiction-specific.
-- **sg-genai and nist-iso42001 uploaded no_llm** — chunks exist for RAG queries, but extracted requirements field is sparse. Don't demo gap analysis against these as baseline.
+- **Gap analysis on no_llm baselines works — quality is demo-grade.** Tested: `lacuna gap --circular hkma-cp --baseline fca` (FCA is no_llm) produced coherent Full/Partial/Gap with chunk citations. The system already falls back to chunk-based reasoning when requirements are empty. "Sparse" note in older docs was overly conservative.
+- **Upload is 5+ min even with --no-llm.** Bottleneck is sentence-transformer embedding generation on Railway CPU, not LLM extraction. Live upload during a meeting is not viable. Strategy: pre-upload the night before, or use an already-ingested doc (mas-mrmf) as the credibility test.
+- **sg-genai and nist-iso42001 uploaded no_llm** — chunks exist for RAG queries. Gap analysis works but NIST/SG not currently in system (PDFs not in repo). Use `mas-mrmf` as the second credibility baseline instead.
 - **Override API URL:** `LACUNA_API_URL=http://localhost:8000 lacuna docs` for local dev.
 - **uv resolves deps on first run** — if demo machine has never run it, first invocation hits PyPI (needs internet). Pre-warm by running any lacuna command once the day before.
 - **Auth is bypass-enabled when LACUNA_API_KEYS not set on server** — dev/local mode works without key. Set before production deploy.
