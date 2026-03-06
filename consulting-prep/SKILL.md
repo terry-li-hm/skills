@@ -60,6 +60,10 @@ And how does it apply to Capco clients specifically?
 
 ### 2B. Scenario Practice Mode (Tue/Thu)
 
+**Scenario sources (in priority order):**
+1. `~/notes/Career/Consulting Readiness Program.md` — primary scenario bank
+2. `~/docs/solutions/agent-tests/` — HK FS consulting scenarios with multi-model analysis (proposal-architect, governance-sentinel, eval-designer). Use these for deeper domain practice: present the client brief, ask Terry how he'd approach it, then share the key insights from the README as the debrief.
+
 1. Read the program note's scenario bank
 2. Pick a scenario Terry hasn't done recently (prioritise unplayed, then least recent)
 3. Present the scenario. Set the scene in 2-3 sentences — make it vivid enough to feel real.
