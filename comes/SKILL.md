@@ -44,6 +44,8 @@ Key fields:
 - **LaunchAgents exit 0 always** — nudge and overnight commands catch all errors internally and log to `~/logs/comes-*.log`. Never let LaunchAgent retry on business logic failures.
 - **config.toml must exist** — binary panics with a clear error if missing. Run `scripts/setup-config.sh` on first install.
 - **`cargo install --path .`** to update the installed binary after code changes. `cargo build --release` alone does NOT update `~/.cargo/bin/comes`.
+- **`PHRON_SCRIPTS_DIR` must be set** for `comes-bot` when running as an installed binary (not from `target/release/`). Add to LaunchAgent plist or `~/.zshenv`: `PHRON_SCRIPTS_DIR=/Users/terry/code/phron/scripts`. Without it, librosa analysis silently skips (critique still works, just no audio metrics).
+- **`OPENAI_API_KEY` needed for Whisper** — separate from OpenRouter. Whisper uses OpenAI's API directly. Check 1Password for key.
 
 ## LaunchAgents
 
