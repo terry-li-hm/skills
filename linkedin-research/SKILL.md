@@ -12,7 +12,22 @@ user_invocable: false
 - Extracting profile details (experience, education, skills)
 - Mapping team/org structure from LinkedIn
 
-## Search Strategy (Waterfall)
+## CLI First
+
+For bulk or structured research (multiple profiles, org traversal), use **`nexum`** instead of manual agent-browser:
+
+```bash
+nexum search "AIA Hong Kong" "data science AI"   # find people
+nexum profile <url>                               # extract one profile
+nexum traverse <url> --depth 1                   # BFS network graph
+```
+
+Requires LinkedIn auth first: `porta inject --browser chrome --domain linkedin.com`
+See `nexum` skill for full reference.
+
+## Manual Search Strategy (Waterfall)
+
+For one-off lookups when nexum isn't needed:
 
 1. **Name + company + site:linkedin.com** — default first attempt
 2. **Role/title + company + site:linkedin.com** — when name search fails (privacy-gated names show as "Simon E.")
