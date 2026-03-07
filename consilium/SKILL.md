@@ -167,6 +167,7 @@ consilium --doctor                # Check API keys and connectivity
 - **Model timeouts** (historically DeepSeek/GLM) — partial outputs add noise but council still works.
 - **`--format json` only works with council and quick modes.** Other modes output prose only.
 - **`--challenger` and `--followup` are council-only.**
+- **GPT-5.4-Pro (Responses API) is slow for `--council`.** Takes 67-120s+ per call with structured prompts — times out in blind (90s cap) and debate (120s cap). Council completes with 3/5 models in ~7-9 min. For faster runs: `CONSILIUM_MODEL_M1="google/gemini-2.5-flash" consilium --council "..."`. Full diagnosis: `~/docs/solutions/gpt-5.4-pro-responses-api-latency.md`.
 
 ---
 
