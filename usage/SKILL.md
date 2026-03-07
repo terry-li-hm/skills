@@ -26,6 +26,7 @@ claude-monitor --plan max20
 
 ## Procedure
 
+### Standard usage check
 1. Run `ccusage daily -s $(date +%Y%m01) --breakdown` for current month with model breakdown
 2. Summarize key stats:
    - Total tokens used this month
@@ -34,6 +35,20 @@ claude-monitor --plan max20
    - Model mix (Opus vs Haiku vs Sonnet)
 3. Calculate weekly usage (see below)
 4. If user wants live tracking, suggest running `claude-monitor --plan max20` in a separate terminal
+
+### When Terry posts /status output (calibration trigger)
+1. Extract the weekly all-models % and Sonnet % from the pasted output
+2. Run ccusage since last Friday to get week-to-date dollar equiv:
+   ```bash
+   ccusage daily -s <last_friday_YYYYMMDD> --json | python3 -c "
+   import json,sys; d=json.load(sys.stdin)
+   total=sum(x['totalCost'] for x in d['daily'])
+   print(f'Week-to-date: \${total:.2f}')
+   "
+   ```
+3. Calculate implied cap: `total / (pct / 100)`
+4. Add new row to the Calibration Data table in this skill
+5. Report: current week %, implied cap, and safety status
 
 ## Max Plan Context
 
@@ -63,26 +78,49 @@ Max20 has **four independent counters** visible via `/status`:
 
 ## Weekly Limit Tracking (All Models)
 
-**Calibrated estimate: ~$1,350 equiv** for Max20 weekly all-models cap.
+**The weekly cap is in Anthropic's internal token units — NOT dollars.** ccusage dollar-equiv is a proxy that varies significantly by model mix.
 
-**Important caveat:** The weekly cap is in Anthropic's internal token units, not dollars. The ccusage equiv cost shifts when API pricing changes (e.g., Opus 4.5 → 4.6 dropped from $15/$75 to $5/$25). Earlier data points from the Opus 4.5 era underestimated the dollar-equivalent cap because the same internal quota now maps to more dollars at lower per-token prices.
+### Calibration Data
 
-Calibration data (Feb 2026):
-- Data point 1 (early Feb, Opus 4.5 era): $470-490 equiv = 44% → implied cap ~$1,070-1,115
-- Data point 2 (early Feb, Opus 4.5 era): $200-260 equiv = 20% → implied cap ~$1,000-1,300
-- Data point 3 (Feb 25, Opus 4.6 era): ~$717-767 equiv = 54% → implied cap ~$1,330-1,420
-- Best estimate: **~$1,350** (Data point 3 is most reliable — largest spend, current pricing)
+| Date | Era | ccusage equiv | /status % | Implied cap | Mix |
+|------|-----|--------------|-----------|-------------|-----|
+| Early Feb 2026 | Opus 4.5 | $470-490 | 44% | ~$1,070-1,115 | Opus-heavy |
+| Early Feb 2026 | Opus 4.5 | $200-260 | 20% | ~$1,000-1,300 | Opus-heavy |
+| Feb 25, 2026 | Opus 4.6 | ~$717-767 | 54% | ~$1,330-1,420 | Opus-heavy |
+| Mar 8, 2026 | Sonnet 4.6 | ~$392-421 | 13% | ~$3,000-3,200 | Sonnet-only |
 
-Safe daily budget: ~$193/day (7-day week).
+### Cap Estimates by Model Mix
 
-| % Used | Equiv Cost | Status |
-|--------|------------|--------|
-| 0-50% | $0-675 | Safe |
-| 50-70% | $675-945 | Caution — pace yourself |
-| 70-85% | $945-1,148 | Warning — shift routine tasks to Sonnet |
-| 85%+ | $1,148+ | Danger — Sonnet/Haiku only |
+| Dominant model | Implied dollar-equiv cap | Notes |
+|---------------|--------------------------|-------|
+| **Opus 4.6** | ~**$1,350** | Well-calibrated (3 data points) |
+| **Sonnet 4.6** | ~**$3,000+** | 1 data point (Mar 2026) — directional only |
+| Mixed | Interpolate | Sonnet shifts cap higher |
 
-**To calculate:** Find last Friday ~11am HKT (all models reset), sum equiv cost since then, show % of ~$1,350 cap. Note: recalibrate if model pricing changes again — the dollar figure is a proxy, not the actual limit.
+**Key insight:** Anthropic's internal weights treat Opus as ~2-3x heavier than Sonnet, vs. the 1.67x public API price ratio. Don't use the $1,350 cap when running Sonnet-dominant sessions.
+
+### Calibration Protocol — When /status Data Is Posted
+
+**Whenever Terry posts /status output → invoke this skill and run:**
+```bash
+ccusage daily -s <last_friday_YYYYMMDD> --json | python3 -c "
+import json,sys; d=json.load(sys.stdin)
+total=sum(x['totalCost'] for x in d['daily'])
+print(f'Week-to-date: \${total:.2f}')
+"
+```
+Then: `implied_cap = ccusage_total / (status_pct / 100)`. Add new row to calibration table above.
+
+### Status Thresholds
+
+| % Used | Opus-equiv | Sonnet-equiv | Status |
+|--------|-----------|--------------|--------|
+| 0-50% | $0-675 | $0-1,500 | Safe |
+| 50-70% | $675-945 | $1,500-2,100 | Caution |
+| 70-85% | $945-1,148 | $2,100-2,550 | Warning |
+| 85%+ | $1,148+ | $2,550+ | Danger |
+
+**To calculate weekly %:** Find last Friday ~11am HKT (all models reset), sum ccusage cost since then, divide by appropriate cap for current model mix.
 
 ## Model Mix & Cost (Feb 2026 baseline)
 

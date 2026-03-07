@@ -16,6 +16,18 @@ Structured on-ramp for any coding task. Enforces: orchestrate here, execute else
 
 ## Steps
 
+### −1. Should we build at all?
+
+Before scoping, ask: **is this a one-off or a recurring need?**
+
+| Signal | Action |
+|--------|--------|
+| Will run this logic >1 time | Build a proper CLI or skill — not a script |
+| Ad-hoc data wrangling, truly once | Inline Python/bash is fine |
+| Unsure | Default to building — purge cost is `deleo <path>`, rewrite cost is an hour |
+
+Build cost is low (delegated to Codex/OpenCode). Purge cost is near-zero. Rewriting ad-hoc scripts repeatedly costs more than a tool that might get deleted.
+
 ### 0. Pre-flight (before anything else)
 
 **Data governance gate — before any delegation:**

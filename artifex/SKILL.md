@@ -30,6 +30,18 @@ Two types:
 
 **Reference skill caveat:** Only useful if Claude actively decides to check it. High-signal patterns should graduate to MEMORY.md or CLAUDE.md where they're always in context. Keep reference skills as detailed appendices, not primary behavior drivers.
 
+## When to Build a Skill vs. Script
+
+**Default to building a skill** when a pattern will recur. The threshold is low — even two occurrences justify a skill. Build cost is delegated and cheap; purge cost is `rm -rf ~/skills/<name>`. Rewriting the same prompt logic repeatedly costs more than a skill that might get deleted.
+
+| Signal | Action |
+|--------|--------|
+| Same workflow invoked >1 time | Write a skill |
+| One-off lookup or transformation | Inline is fine |
+| Unsure | Build the skill — you can always purge |
+
+Same principle applies to CLIs: if you'd write the same script twice, build a binary instead.
+
 ## Skill vs Other Storage
 
 | Signal | Where | Example |
