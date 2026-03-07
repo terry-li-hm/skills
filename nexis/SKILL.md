@@ -3,7 +3,7 @@ name: nexis
 description: "Obsidian vault link health — scan, triage broken links, surface orphans. Use when running nexis CLI or triaging vault link issues."
 user_invocable: true
 cli: nexis
-cli_version: 0.2.4
+cli_version: 0.2.5
 ---
 
 # /nexis — Vault Link Health
@@ -21,19 +21,21 @@ Three modes: **scan** (quick health check), **triage** (fix broken links interac
 
 ## Mode: Scan
 
-Quick health check. Always exclude noise dirs by default.
+Quick health check. `.nexisignore` at vault root auto-excludes structural noise — no flags needed.
 
 ```bash
-# Summary (default — counts only)
-nexis ~/notes --exclude Archive --exclude "Waking Up" --exclude memory
-
-# Full vault (with noise context)
+# Summary (default — counts only, .nexisignore applied automatically)
 nexis ~/notes
+
+# Override: add extra excludes on top of .nexisignore
+nexis ~/notes --exclude "Some Other Dir"
 ```
 
+**`.nexisignore`** lives at `~/notes/.nexisignore` — one directory name per line, `#` for comments. Excluded dirs are silently skipped in all scans.
+
 **Interpreting results:**
-- Broken links: Archive + Waking Up + memory = noise. Signal = everything else.
-- Orphans: Daily notes + Archive = expected. Flag active notes with no connections.
+- Orphans: ~161 after .nexisignore; the real actionable set is ~20-30 notes.
+- Broken links: ~109 signal (Archive/noise already excluded by .nexisignore).
 - Embeds: Informational — embeds count toward connectivity.
 
 ---
@@ -138,19 +140,17 @@ nexis ~/notes --exclude Archive --exclude "Waking Up" 2>/dev/null
 
 Surface non-noise orphans that might need attention.
 
-**Default (summary only):** The total orphan count (~8K) is dominated by noise. Real signal is ~293 after excluding structural directories:
+**Default (summary only):** `.nexisignore` handles the structural noise automatically. With it in place, `nexis ~/notes` reports ~161 orphans (down from 8,113 raw).
 
 ```bash
-# Canonical orphan scan — signal only
-nexis ~/notes --orphans \
-  --exclude Archive \
-  --exclude Daily \
-  --exclude dedao-courses \
-  --exclude Councils
+# All you need — .nexisignore does the filtering
+nexis ~/notes --orphans
+
+# Further narrow to recently active orphans
+nexis ~/notes --orphans --orphan-days 30
 ```
 
-Breakdown of noise: dedao-courses (6,471 course transcripts — terminal by design), Archive (historical), Daily (journals), Councils (AI council transcripts).
-Use `--orphan-days 30` to further narrow to recently active notes that drifted disconnected.
+Breakdown of excluded noise: `dedao-courses` (6,471 transcripts), `Archive`, `Daily`, `Councils`, `Clippings`, `Readwise`, `Waking Up`, `copilot`, `memory`, `opencode-runs`, `Job Scans`, `Consilium Reviews`, `Books`, `Learnings`, `Templates`.
 
 ```bash
 # Recency filter — the right default (v0.2.2+)
