@@ -138,7 +138,19 @@ nexis ~/notes --exclude Archive --exclude "Waking Up" 2>/dev/null
 
 Surface non-noise orphans that might need attention.
 
-**Default (summary only):** The total orphan count (~8K) includes Daily/Archive/Books noise. Excluding Archive + Daily alone drops to ~6,900. Use `--orphan-days` or `--exclude` to get actionable signal.
+**Default (summary only):** The total orphan count (~8K) is dominated by noise. Real signal is ~293 after excluding structural directories:
+
+```bash
+# Canonical orphan scan — signal only
+nexis ~/notes --orphans \
+  --exclude Archive \
+  --exclude Daily \
+  --exclude dedao-courses \
+  --exclude Councils
+```
+
+Breakdown of noise: dedao-courses (6,471 course transcripts — terminal by design), Archive (historical), Daily (journals), Councils (AI council transcripts).
+Use `--orphan-days 30` to further narrow to recently active notes that drifted disconnected.
 
 ```bash
 # Recency filter — the right default (v0.2.2+)
