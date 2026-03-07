@@ -290,6 +290,7 @@ Read the playbook: `~/notes/LinkedIn Posting Playbook.md`
 - Don't undersell — "system" not "script" when architecture warrants
 - Add a visual recommendation (screenshot, diagram, architecture)
 - One solid post per 2-3 weeks cadence
+- **Write in prose, not lists.** Terry's default is flowing paragraphs. No numbered headers, no bullet points. Bold lead sentences are fine for scannability but structure should come from paragraph breaks, not list formatting.
 
 **Post types:**
 - "I built X" — credibility through shipping
