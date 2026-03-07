@@ -38,27 +38,22 @@ date
 Note: day of week, time of day (HKT), proximity to end of day.
 If `date` fails, use system-provided current time and continue.
 
-### 2. Today's calendar — what's coming
+### 2. Today's calendar + Due reminders
+
+Always run both — Due reminders are not visible in fasti, calendar events are not visible in moneo:
 
 ```bash
-gog calendar list
+fasti list        # Google Calendar events (today by default)
+moneo ls          # Due app reminders
 ```
 
-- If `gog` fails (keychain locked, no TTY, auth), note "Calendar unavailable" and continue without calendar-derived priorities.
+- If `fasti` fails, fall back to `gog calendar list`. Note "Calendar unavailable" and continue if both fail.
 
-- Extract remaining events for today
-- Flag: anything within the next 60 minutes (needs prep or wrap-up now)
+- Extract remaining calendar events for today
+- Surface Due reminders due **today** — merge with calendar results for synthesis
+- Flag: anything within the next 60 minutes (needs prep or imminent)
 - Flag: anything within 2–4 hours (good to know)
-- If nothing remaining, note "calendar clear"
-
-### 2b. Upcoming Due reminders — moneo
-
-```bash
-moneo ls
-```
-
-- Surface any reminders due **today** — merge with gog calendar results for synthesis
-- Flag anything within the next 60 minutes as imminent
+- If nothing remaining on either, note "clear"
 - If moneo fails or isn't installed, skip silently
 
 ### 3. Active decisions and gates — NOW.md

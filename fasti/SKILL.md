@@ -1,7 +1,7 @@
 ---
 name: fasti
-description: Google Calendar CLI wrapper — list, move, delete events via fasti instead of raw gog commands
-triggers: ["fasti", "calendar list", "reschedule event", "move calendar event", "delete calendar event"]
+description: Google Calendar CLI wrapper — list, move, create, delete events via fasti instead of raw gog commands
+triggers: ["fasti", "calendar list", "reschedule event", "move calendar event", "delete calendar event", "create calendar event", "schedule"]
 ---
 # fasti — Google Calendar CLI
 
@@ -15,6 +15,10 @@ fasti list
 fasti list tomorrow
 fasti list 2026-03-10
 
+# Create an event
+fasti create "Event title" --date today --from 10:00 --to 11:00
+fasti create "Meeting" --date 2026-03-12 --from 14:00 --to 15:00 --description "Optional notes"
+
 # Move an event (preserves duration)
 fasti move <event-id> today 14:00
 fasti move <event-id> tomorrow 09:30
@@ -24,16 +28,20 @@ fasti move <event-id> 2026-03-10 11:00
 fasti delete <event-id>
 ```
 
-## Creating events (fasti has no create — use gog directly)
+## Schedule view — always check both calendar AND Due
+
+When discussing or checking schedule, always run both:
+```bash
+fasti list [date]   # Google Calendar events
+moneo ls            # Due app reminders
+```
+Due reminders (one-off and recurring) are not visible in fasti. Both together give the full picture.
+
+## Creating events with attendees (use gog directly)
+
+`fasti create` doesn't support attendees — use gog for those:
 
 ```bash
-gog calendar create primary \
-  --summary "Event title" \
-  --from "2026-03-12T10:00:00+08:00" \
-  --to   "2026-03-12T11:00:00+08:00" \
-  --description "Optional notes"
-
-# With attendees
 gog calendar create primary \
   --summary "Meeting" \
   --from "2026-03-12T10:00:00+08:00" \
