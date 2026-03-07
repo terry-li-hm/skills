@@ -116,3 +116,4 @@ NIST AI RMF was uploaded `no_llm=true` so findings will differ from the primary 
 - Lacuna CLAUDE.md (doc IDs, deploy): `~/code/lacuna/CLAUDE.md`
 - Demo script: `~/code/lacuna/DEMO_SCRIPT.md`
 - Vault: `~/notes/Capco/Lacuna/` (symlinks to CLAUDE.md, DEMO_SCRIPT.md, Codex Argentum)
+- **Product strategy** (CLI-first principle, completeness workflow design): `~/notes/Capco/Lacuna/Lacuna - Product Strategy.md`
