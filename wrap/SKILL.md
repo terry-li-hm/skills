@@ -28,7 +28,7 @@ Before anything else, run:
 ```bash
 now-age
 ```
-If NOW.md is **<15 minutes old**, this wrap already ran in this session. Skip Steps 0–3 and go straight to [Output](#output) — a one-liner like "Already wrapped X min ago, nothing new since" is fine.
+If NOW.md is **<15 minutes old** AND the user did not explicitly invoke `/wrap`, this wrap already ran in this session. Skip Steps 0–3 and go straight to [Output](#output) — a one-liner like "Already wrapped X min ago, nothing new since" is fine. If the user explicitly typed `/wrap` or "wrap", always proceed regardless of age.
 
 ### Step 0: Pre-Wrap Check (soft gate)
 
