@@ -138,7 +138,7 @@ nexis ~/notes --exclude Archive --exclude "Waking Up" 2>/dev/null
 
 Surface non-noise orphans that might need attention.
 
-**Default (summary only):** The total orphan count includes 8K+ Daily/Archive/Books noise. Use `--orphan-days` to get actionable signal immediately.
+**Default (summary only):** The total orphan count (~8K) includes Daily/Archive/Books noise. Excluding Archive + Daily alone drops to ~6,900. Use `--orphan-days` or `--exclude` to get actionable signal.
 
 ```bash
 # Recency filter — the right default (v0.2.2+)
@@ -183,3 +183,4 @@ nexis ~/notes --orphans 2>/dev/null \
 - **Never run `nexis ~/notes/<subfolder>`** — links to notes outside the subfolder will always appear broken. Run on vault root, filter output by path.
 - **Broken count drops ~70 with v0.2.1** anchor fix. If seeing high counts on older versions: `cargo install nexis` to upgrade.
 - **`--exclude` names match path components exactly** — case-sensitive. `--exclude Archive` works; `--exclude archive` does not.
+- **`--exclude` does NOT accept comma-separated values.** `--exclude "Archive,Daily"` passes the literal string "Archive,Daily" and matches nothing. Use separate flags: `--exclude Archive --exclude Daily`.
