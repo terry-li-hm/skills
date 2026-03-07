@@ -75,16 +75,28 @@ cora chat send "message" --chat <id>  # Continue conversation
 
 ## Known Gotchas
 
-### `important_draft` emails are excluded from briefs (by design)
-Cora keeps `important_draft` emails in the inbox rather than digesting them into the brief — and they do NOT generate todos either. High-stakes emails (interview invitations, time-sensitive replies) can go completely unnoticed.
+### Interview/recruiter emails silently missing from inbox
+Two confirmed cases of interview invitation emails arriving without an `INBOX` Gmail label — meaning they never appear in inbox and Cora never processes them (Cora only scans inbox). Root cause unclear: may be Gmail miscategorisation or Cora stripping INBOX during processing.
 
-**Mitigation:** When expecting a reply from a specific sender, proactively search:
-```
-cora email search "from:domain.com"
-cora email search "interview"
+Affected emails had `CATEGORY_PERSONAL` but no `INBOX` label and no `Cora/` label — i.e. Cora never touched them at all.
+
+**Permanent mitigation:** Gmail filters for active job application domains force `--important` and `--never-spam`. Currently set for: `aia.com`, `mtr.com.hk`, `capco.com`. Add new domains when applying.
+```bash
+gog gmail filters create --from "<domain>" --never-spam --important
 ```
 
-Real case: MTR interview invitation (Mar 4 2026, 18:15) was categorised `important_draft` — missed by both the 16:08 brief and the todo queue. Found only via manual `cora email search "MTR"`.
+**When expecting a reply, also proactively search:**
+```bash
+cora email search "from:<domain>"
+gog gmail search "from:<domain>"  # catches emails Cora missed entirely
+```
+
+**If email is missing INBOX label, restore it:**
+```bash
+gog gmail thread modify <threadId> --add INBOX
+```
+
+Real cases: MTR interview (Mar 4 2026) — `important_draft` category. AIA/Cherry Ma interview (Mar 6 2026) — `CATEGORY_PERSONAL`, no INBOX, no Cora label.
 
 ## Error Codes
 
