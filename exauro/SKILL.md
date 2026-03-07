@@ -26,15 +26,25 @@ exauro search "AI governance frameworks Hong Kong" --n 10
 exauro search "rust async tokio" --search-type fast
 exauro search "topic" --json  # raw API response
 
+# WeChat 公众号 discovery — Exa indexes mp.weixin.qq.com directly
+exauro search "AI 银行 大模型 site:mp.weixin.qq.com" --search-type auto
+exauro search "DeepSeek 银行 site:mp.weixin.qq.com" --search-type neural
+
 # Find similar pages
 exauro similar https://example.com/article
 
-# Extract full content of a URL
-exauro contents https://example.com/article
+# Extract full content of a URL (incl. WeChat articles — bypasses CAPTCHA)
+exauro contents https://mp.weixin.qq.com/s/...
 
 # AI answer with citations
 exauro answer "What is the HKMA's stance on AI in banking?"
 ```
+
+### WeChat article workflow
+
+**Discovery:** `exauro search "query site:mp.weixin.qq.com" --search-type auto` returns real mp.weixin.qq.com URLs with Chinese summaries. Neural search finds semantically related articles, not just keyword matches. No Sogou, no CDP Chrome, no login required.
+
+**Fetch full content:** `exauro contents <url>` bypasses WeChat CAPTCHA (~80% success). See `wechat-article` skill for full detail.
 
 ## Setup
 
@@ -49,6 +59,8 @@ Injected automatically via `~/.zshenv.tpl` → no manual setup needed.
 
 ## Gotchas
 
-- `exauro` is a workspace member of `~/code/Cargo.toml` — build with `--target-dir target` to avoid sandbox issues
+- **Build:** `exauro` is in the `~/code` workspace — build with `cd ~/code && cargo build --release -p exauro`, then `cp ~/code/target/release/exauro ~/bin/exauro`. Don't build from `~/code/exauro/` directly (workspace conflict).
+- **phron workspace conflict (fixed Mar 2026):** `~/code/phron/Cargo.toml` had a bare `[workspace]` that caused "multiple workspace roots" errors. Removed. Rebuild if you see that error.
+- **Unicode truncation (fixed Mar 2026):** Old binary panicked on CJK summaries (`byte index N is not a char boundary`). Fixed by switching from `&summary[..197]` to `.chars().take(100)`. If you see this panic, `cp ~/code/target/release/exauro ~/bin/exauro`.
 - `reqwest` uses blocking client — not async, but fine for CLI use
 - `search_type` enum values: `auto`, `neural`, `fast`, `deep`
