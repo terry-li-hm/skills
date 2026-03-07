@@ -132,8 +132,8 @@ Reviews (spec compliance + code quality) always stay as Claude subagents regardl
 # Codex
 codex exec --skip-git-repo-check --full-auto "<prompt>"
 
-# Gemini
-gemini -p "<prompt>" --yolo
+# Gemini — MUST cd into the project repo first (Gemini locks workspace to CWD)
+cd ~/code/<project> && gemini -p "<prompt>" --yolo
 
 # OpenCode
 OPENCODE_HOME=~/.opencode-lean opencode run \
