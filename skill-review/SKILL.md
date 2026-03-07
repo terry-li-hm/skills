@@ -103,48 +103,9 @@ For each active skill, check:
 Audit wrap output quality to catch skill drift before it compounds. Run once per monthly review.
 
 **Extract a sample:**
-```python
-import json, glob, os
-from datetime import datetime
-
-base = '/Users/terry/.claude/projects/-Users-terry/'
-all_wraps = []
-
-for jsonl_file in glob.glob(f'{base}*.jsonl'):
-    sid = os.path.basename(jsonl_file).split('.')[0][:8]
-    session_wraps = 0
-    try:
-        with open(jsonl_file) as f:
-            for line in f:
-                try:
-                    msg = json.loads(line)
-                    if msg.get('type') == 'assistant':
-                        for c in msg.get('message', {}).get('content', []):
-                            if isinstance(c, dict) and '─── Wrap' in c.get('text', ''):
-                                mtime = os.path.getmtime(jsonl_file)
-                                text = c['text']
-                                idx = text.find('Wrap')
-                                all_wraps.append((
-                                    datetime.fromtimestamp(mtime).strftime('%Y-%m-%d'),
-                                    sid, text[idx:idx+500]
-                                ))
-                                session_wraps += 1
-                except:
-                    pass
-    except:
-        pass
-
-# Stats
-from collections import Counter
-session_counts = Counter(s for _, s, _ in all_wraps)
-multi = sum(1 for c in session_counts.values() if c > 1)
-print(f"Total wraps: {len(all_wraps)}, unique sessions: {len(session_counts)}, multi-wrap: {multi} ({100*multi//max(len(session_counts),1)}%)")
-
-# Sample spread
-all_wraps.sort()
-step = max(1, len(all_wraps) // 15)
-for date, sid, text in all_wraps[::step][:15]:
-    print(f"\n=== {date} [{sid}] ===\n{text[:400]}")
+```bash
+evolvo              # 30-day window, 15-sample spread (default)
+evolvo --days 90    # extend to 90 days for thorough monthly review
 ```
 
 **Evaluate each sampled output against:**
