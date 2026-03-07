@@ -448,6 +448,10 @@ This is more reliable than `get text` for SPAs where content loads dynamically i
 
 ## Known Footguns
 
+- **`screencapture` returns black when display is sleeping.** The command succeeds but captures nothing. Wake first: `caffeinate -u -t 1`, wait 2s, then screencapture.
+
+- **osascript JS injection blocked by site CSP for write operations.** `execute javascript` via osascript works for reading DOM on most sites, but security-conscious sites (X/Twitter, banking) block clicks and form submissions. Fall back to native System Events: `keystroke`, `click at {x, y}`, or `key code`.
+
 - **`--wait` flag creates a directory in CWD.** `agent-browser open "url" --profile --wait 8000` creates a browser profile directory named `--wait/` in the current working directory. Use `sleep` between commands instead of `--wait`.
 
 ## Tips
