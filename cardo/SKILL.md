@@ -46,7 +46,12 @@ Lighter than `/morning` (no weather, health, inbox). Heavier than a `/wrap` (syn
    - Surface only items needing a reply or action today. Skip FYI/newsletters.
    - SmarTone bill: if it appears, extract QR payment link (`gog gmail get <id> --plain`) and surface with amount + due date.
 
-5. **Token budget** (brief):
+5. **LinkedIn job alerts** (speculor):
+   - Check if today's note exists: `~/notes/Job Hunting/Job Alerts YYYY-MM-DD.md`
+   - If exists: count flagged roles (lines starting with `- [ ]`) and surface them — "X roles flagged — run `/evaluate-job` on any that look interesting"
+   - Skip silently if missing
+
+6. **Token budget** (brief):
    - Run: `ccusage daily 2>/dev/null | tail -5` or check `/status` if concerned
    - If both commands fail, skip budget commentary.
    - If budget is tight (<20% remaining), flag it — affects afternoon delegation strategy

@@ -42,11 +42,6 @@ Run when you sit down and are ready to work. Loads your priority context, clears
    - Check `~/notes/opencode-runs/` for last night's run — read most recent `summary.md`
    - Flag NEEDS_ATTENTION or CRITICAL items; skip silently if none or missing
 
-8. **LinkedIn job alerts** (speculor):
-   - Check if today's note exists: `~/notes/Job Hunting/Job Alerts YYYY-MM-DD.md`
-   - If exists: count flagged roles (lines starting with `- [ ]`) and surface them — "X roles flagged, run `/evaluate-job` on any that look interesting"
-   - If missing (before noon): skip silently
-
 7. **Pre-meeting dossiers**:
    - Run: `amicus dossier --today 2>/dev/null`
    - If output is non-empty, surface attendee context (name, last contact, recent subjects) for any meeting today
