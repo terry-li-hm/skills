@@ -204,7 +204,7 @@ Skip for: personal scripts, internal tools, leaf-node changes with no external s
 Skip when: leaf-node change, purely additive, no callbacks or state persistence.
 If review agents are unavailable, run a manual `git diff` + smoke test and mark review as "manual fallback".
 
-### 5. Companion skill (for any installed CLI or published tool)
+### 5. Companion skill + GitHub repo + crates.io (for any installed CLI or published tool)
 
 Create `~/skills/<name>/SKILL.md` in the same session — gotchas are freshest now.
 
@@ -220,6 +220,28 @@ mkdir -p ~/skills/<name>
 cd ~/skills && git add <name>/SKILL.md && git commit -m "feat: add <name> skill" && git push
 ```
 If commit/push fails, keep the skill file and report "Companion skill not committed" with the failing command.
+
+**GitHub backup — do this every session for any CLI built or modified:**
+```bash
+# If repo doesn't exist yet:
+cd ~/code/<name> && git init && git add -A && git commit -m "init: <name>"
+gh repo create terry-li-hm/<name> --private --source . --push
+# If repo exists, just push:
+git push
+```
+All personal CLIs are **private** by default. Flip to public only if genuinely general-purpose.
+
+**crates.io — reserve name and/or publish if ALL of these are true:**
+- [ ] General-purpose (useful to strangers, not just Terry's setup)
+- [ ] Uses registered API credentials (not shared/Desktop creds like Telegram's 2040)
+- [ ] No hardcoded personal paths, macOS-only assumptions, or Terry-specific keychain keys
+- [ ] Willing to field issues
+
+**Reserve name only (publish stub):** if you want the name but the tool isn't ready — do immediately after `cargo new`, names go fast.
+
+**Skip crates.io:** personal tooling, hardcoded assumptions, credentials only Terry has.
+
+Good candidates from existing CLIs: `exauro`, `caelum`, `poros`, `deleo` (general-purpose). Not ready: `graphis`, `auspex`, `amicus` (too personal as-is).
 
 ### 6. Compound (if non-obvious solve)
 ```
