@@ -66,7 +66,7 @@ sarcio list | grep <keyword>
 When a publishable insight surfaces in a session:
 1. Draft the post (blog/CLAUDE.md style, session context as material)
 2. Run judge (`article` criteria)
-3. **Pass** → `sarcio publish <slug>` → notify via deltos: `echo "Published: <title> → terryli.hm/posts/<slug>" | deltos "garden"`
+3. **Pass** → `sarcio publish <slug>`
 4. **Needs work** → one revision pass → judge again
 5. **Still failing** → `echo "Garden post failed judge: <title>" | deltos "garden"` — do NOT publish silently
 
