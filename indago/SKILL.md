@@ -71,6 +71,29 @@ noesis log --stats               # cost summary by mode
 
 Reasoning responses (`noesis reason`) strip `<think>` tags by default. Use `--raw` to preserve.
 
+## Search Retrospective — When You Finally Find It
+
+When a search succeeds after multiple attempts, **immediately capture the finding** before moving on. Ask three questions:
+
+**1. Where did it live?**
+Update the routing table or add a vault location note here. Future searches start there.
+- Vault article notes: `~/notes/Articles/` — `ls /Users/terry/notes/Articles/ | grep -i <keyword>` beats `anam search` for filename-level lookup (Mar 2026).
+
+**2. What does the failure tell us about the CLI?**
+A search miss is a signal about the tool, not just the query. Ask:
+- Did `anam` fail because the content was in a file never ingested (directory listing, not chat)? → `anam` indexes *chat history*, not vault files — wrong tool for this.
+- Did `exauro` or `noesis` surface irrelevant results? → Was it a keyword vs semantic mismatch? Try the other.
+- Did a multi-word `anam` query fail where a single keyword would have worked? → `anam` matches phrases, not individual words across a prompt. Use the most distinctive single term.
+- Recurrent failure pattern → file a feature note in `~/docs/solutions/` or the relevant tool's skill.
+
+**3. Should these findings be interlinked?**
+After finding a cluster of related notes (articles, blog posts, vault notes), add wikilinks between them before moving on:
+- Article note → related garden post: `[[Writing/Blog/Published/slug|Title]]`
+- Garden post → other garden posts: inline prose link `[title](/posts/slug)`
+- Article note → related article notes: `[[Articles/Filename|Title]]`
+
+The moment of finding is when context is freshest. Don't defer any of these three.
+
 ## Capture Rule
 
 **`noesis research` → always use `--save`.** Output is saved to `~/docs/solutions/research/YYYY-MM-DD-slug.md` with frontmatter (query, date, model, cost, sources). This prevents re-running $0.40 queries and preserves citations. No exceptions.
