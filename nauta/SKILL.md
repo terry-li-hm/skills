@@ -484,3 +484,28 @@ This is more reliable than `get text` for SPAs where content loads dynamically i
 - Sessions persist between commands — no need to re-open
 - **Keep agent-browser updated:** `pnpm update -g agent-browser`
 - **`--profile` flag position:** Either `agent-browser --profile -- open <url>` (with separator) or after the command. Without `--`, `--profile open` treats the URL as an unknown command. If the daemon is already running, `--profile` is ignored with a warning — use `agent-browser close` first to restart with new options.
+
+## When agent-browser Is Blocked — Find the Hidden API
+
+Sites that block headless browsers often have unprotected internal API endpoints.
+Pattern (used to crack MTR journey planner):
+
+```bash
+# 1. Fetch page source directly (curl bypasses bot-blocking)
+curl -s "https://site.com/page" | grep -o 'src="[^"]*\.js[^"]*"'
+
+# 2. Grep JS files for API endpoints
+curl -s "https://site.com/main.js" | grep -o '"[^"]*\.php[^"]*"\|api/[^"]*"'
+
+# 3. Find AJAX calls to discover params
+curl -s "https://site.com/main.js" | grep -B2 -A8 "\.ajax\|fetch("
+
+# 4. Probe the endpoint — error messages reveal correct params
+curl -s "https://site.com/api/route/?from=1&to=1"
+# → {"errorCode":"3","errorMsg":"The values of o and d cannot be the same"}
+# Reveals: params are `o` and `d`, not `from`/`to`
+```
+
+Real example: MTR journey planner blocks agent-browser, but
+`https://www.mtr.com.hk/share/customer/jp/api/HRRoutes/?o=103&d=15`
+returns full route JSON with no auth — discovered via jp_router.js grep.
