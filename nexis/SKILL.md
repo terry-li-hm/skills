@@ -140,28 +140,25 @@ nexis ~/notes --exclude Archive --exclude "Waking Up" 2>/dev/null
 
 Surface non-noise orphans that might need attention.
 
-**Default (summary only):** `.nexisignore` handles the structural noise automatically. With it in place, `nexis ~/notes` reports ~161 orphans (down from 8,113 raw).
+**Default:** `.nexisignore` at `~/notes/.nexisignore` handles permanently terminal dirs automatically. `nexis ~/notes` reports ~211 orphans (down from 8,113 raw).
+
+**Three categories of orphans:**
+- **Permanently terminal** → in `.nexisignore` (dedao-courses, Archive, Daily, etc.)
+- **Not yet linked** → surface with `--orphan-days 14`; they'll appear when recently touched
+- **Done/closed** → job applications, session artifacts — ignore or add to `.nexisignore`
 
 ```bash
-# All you need — .nexisignore does the filtering
+# Weekly hygiene — recently active, unconnected (the real working set)
+nexis ~/notes --orphans --orphan-days 14
+
+# Asymmetric links — strongest "should link back" signal
+nexis ~/notes --asymmetry --orphan-days 14
+
+# Full list (all orphans post-.nexisignore)
 nexis ~/notes --orphans
-
-# Further narrow to recently active orphans
-nexis ~/notes --orphans --orphan-days 30
 ```
 
-Breakdown of excluded noise: `dedao-courses` (6,471 transcripts), `Archive`, `Daily`, `Councils`, `Clippings`, `Readwise`, `Waking Up`, `copilot`, `memory`, `opencode-runs`, `Job Scans`, `Consilium Reviews`, `Books`, `Learnings`, `Templates`.
-
-```bash
-# Recency filter — the right default (v0.2.2+)
-nexis ~/notes --orphan-days 30 2>/dev/null
-
-# Full orphan list (noisy — use grep to filter)
-nexis ~/notes --orphans 2>/dev/null \
-  | grep -v "^  Archive/\|^  Daily/\|^  Waking Up/\|^Vault\|^  Orphans\|^  Broken\|^  Embeds\|^===" \
-  | grep -v "^$" \
-  | head -30
-```
+**`.nexisignore`** lives at `~/notes/.nexisignore`. Currently excludes: `dedao-courses`, `Archive`, `Daily`, `Councils`, `Clippings`, `Readwise`, `Waking Up`, `copilot`, `memory`, `opencode-runs`, `Job Scans`, `Consilium Reviews`, `Templates`. Books and Learnings are intentionally NOT excluded — they have synthesis value and should surface when recently touched.
 
 `--orphan-days 7` → orphans modified in the last 7 days (recently active, not yet connected)
 `--orphan-days 30` → broader recent window — catches notes that drifted disconnected over the past month
