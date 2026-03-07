@@ -1,6 +1,9 @@
 ---
 name: linkedin-research
-description: Reference for finding people on LinkedIn and extracting profile data. Consult when task involves LinkedIn profile lookup, team mapping, or org research.
+description: >
+  Research OTHER people on LinkedIn — profile lookup, team mapping, org research.
+  NOT for managing your own profile (use linkedin-profile skill for that).
+  Triggers: "look up X on LinkedIn", "find Y's profile", "who works at Z", "org chart".
 user_invocable: false
 ---
 
