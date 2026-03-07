@@ -22,6 +22,14 @@ End-of-session wrap-up. Pre-wrap check + three mechanical steps + conditional me
 
 ## Workflow
 
+### Skip gate (repeat wrap guard)
+
+Before anything else, run:
+```bash
+now-age
+```
+If NOW.md is **<15 minutes old**, this wrap already ran in this session. Skip Steps 0–3 and go straight to [Output](#output) — a one-liner like "Already wrapped X min ago, nothing new since" is fine.
+
 ### Step 0: Pre-Wrap Check (soft gate)
 
 Run before anything else. Present all findings in one block, then proceed — don't block waiting for user action.
@@ -46,10 +54,8 @@ Scan for signals of unfinished business:
 - Conversation mentions of "later", "next", "should", "TODO", "follow up"
 - Git diff — uncommitted changes that need context preserved
 - Decisions made but not written anywhere
-- **LinkedIn angle?** Did anything this session surface a non-obvious insight, architecture decision, or inversion worth sharing? If yes → add entry to `[[LinkedIn Content Ideas]]` before wrapping. Don't draft — just capture the hook and angle.
-- **Consulting arsenal?** Did anything this session surface a concrete insight, framing, or pattern applicable to a bank or client AI engagement — beyond what's worth posting publicly? If yes → add a bullet to `[[Capco Transition]]` under a "Consulting Arsenal" heading (create if absent). Distinct from LinkedIn: this is private client value. Today's example: sycophancy research → AML review prompt design gotcha.
-- **Governance gap?** Did anything this session expose a gap no current AI governance framework (MAS AIRM, HKMA, PRA SS1/23) explicitly covers? If yes → act before wrapping: add a row to `[[Capco - AI Regulatory Gap Assessment 2026]]` and/or a clause to `codex-argentum-v1.txt` (Section 3 or 8). Re-upload Codex Argentum to Lacuna if changed (see Re-upload Workflow in `~/code/lacuna/CLAUDE.md`). Bar: must be genuinely novel and clearly triggered by this session's work — not speculative.
-- **Vault orphan check:** If any `~/notes/` files were created or modified this session, run `nexis ~/notes --asymmetry --orphan-days 1` and flag any new notes with no backlinks. Add backlinks before wrapping — an unlinked note is invisible to future navigation.
+- **LinkedIn angle?** If anything this session surfaced a non-obvious insight, architecture decision, or inversion worth sharing → add entry to `[[LinkedIn Content Ideas]]`. Don't draft — just capture the hook and angle.
+- **Consulting arsenal?** If anything surfaced a concrete insight applicable to a bank or client AI engagement → add a bullet to `[[Capco Transition]]` under "Consulting Arsenal" (create if absent). Distinct from LinkedIn: this is private client value.
 
 Present as brief suggestions. User decides what to act on now vs. defer.
 
@@ -130,13 +136,6 @@ One pass, three outputs:
 **A. What generalises?** — The strongest consolidation signal is top-down intent. Explicitly ask: what from this session applies beyond today? Patterns, corrections, architectural insights, reusable approaches. If something generalises → **write it now**: route to MEMORY.md or vault before context is lost. If nothing generalises, say so and skip.
 
 **B. File learnings** — Uncaptured friction, corrections, gotchas, or system evolution? Route to the most specific file: tool gotcha → `~/docs/solutions/`, cross-session context → MEMORY.md, skill workflow → the skill's SKILL.md. **Implement directly** — edit the target file now. Should a skill be tightened? Edit it. Hook needed? Write it. Same mistake twice → escalate per `~/docs/solutions/enforcement-ladder.md`. Only defer if the change requires user input or is genuinely out of scope for a wrap.
-
-For any MEMORY.md entry that fired this session (prevented a mistake or was actively consulted), record it:
-```bash
-grapho hit "<distinctive substring of entry>"
-```
-This feeds the hit counter — the empirical basis for `grapho demote` decisions.
-If `grapho` fails, note "MEMORY hit counter update skipped" and continue.
 
 **C. Implement improvements** — 1-3 specific improvement candidates: things that felt clunky, a tool that behaved unexpectedly, a repeated manual step that could be automated. For each: **implement if it's a small, safe, local change** (skill edit, MEMORY.md addition, solutions file). Propose (don't implement) only if the change is large, risky, or requires user decision. If nothing surfaced, say "Nothing to implement." Do NOT ask open-ended questions — the burden is on Claude to identify and act on candidates.
 
