@@ -98,14 +98,75 @@ For each active skill, check:
 - Current working hypothesis: skill descriptions are more reliable *if* the trigger is right; MEMORY.md is the fallback for patterns that don't have a natural trigger point
 - Revisit this question each review — if skills are consistently being loaded too late or missed, the system needs a structural fix
 
-### 5. Gap Analysis
+### 5. Session Quality Review
+
+Audit wrap output quality to catch skill drift before it compounds. Run once per monthly review.
+
+**Extract a sample:**
+```python
+import json, glob, os
+from datetime import datetime
+
+base = '/Users/terry/.claude/projects/-Users-terry/'
+all_wraps = []
+
+for jsonl_file in glob.glob(f'{base}*.jsonl'):
+    sid = os.path.basename(jsonl_file).split('.')[0][:8]
+    session_wraps = 0
+    try:
+        with open(jsonl_file) as f:
+            for line in f:
+                try:
+                    msg = json.loads(line)
+                    if msg.get('type') == 'assistant':
+                        for c in msg.get('message', {}).get('content', []):
+                            if isinstance(c, dict) and '─── Wrap' in c.get('text', ''):
+                                mtime = os.path.getmtime(jsonl_file)
+                                text = c['text']
+                                idx = text.find('Wrap')
+                                all_wraps.append((
+                                    datetime.fromtimestamp(mtime).strftime('%Y-%m-%d'),
+                                    sid, text[idx:idx+500]
+                                ))
+                                session_wraps += 1
+                except:
+                    pass
+    except:
+        pass
+
+# Stats
+from collections import Counter
+session_counts = Counter(s for _, s, _ in all_wraps)
+multi = sum(1 for c in session_counts.values() if c > 1)
+print(f"Total wraps: {len(all_wraps)}, unique sessions: {len(session_counts)}, multi-wrap: {multi} ({100*multi//max(len(session_counts),1)}%)")
+
+# Sample spread
+all_wraps.sort()
+step = max(1, len(all_wraps) // 15)
+for date, sid, text in all_wraps[::step][:15]:
+    print(f"\n=== {date} [{sid}] ===\n{text[:400]}")
+```
+
+**Evaluate each sampled output against:**
+
+| Signal | Healthy | Flag if |
+|--------|---------|---------|
+| **Narrative specificity** | Names tools, decisions, outcomes | Generic ("light session", "routine work") |
+| **Multi-wrap rate** | <15% of sessions | >25% — skip gate not firing |
+| **Pre-wrap block** | ⚠/✓ mix, dirty repos caught | Always "all clear" (may be skipping) |
+| **Step 4 boilerplate** | "Nothing to implement" or silent skip | "Nothing new here" repeated >3× in sample |
+| **Decisions captured** | Open items surface in NOW.md | Same open items appear across multiple wraps |
+
+Flag any signal for skill edit. If multi-wrap rate is high, the skip gate in the wrap skill needs tightening.
+
+### 6. Gap Analysis
 
 Review recent sessions for patterns:
 - Tasks done manually that could be skills
 - Repeated multi-step workflows
 - Questions asked that required vault deep-dives
 
-### 6. Output
+### 7. Output
 
 ```markdown
 ## Skill Review - [Date]
@@ -128,7 +189,7 @@ Review recent sessions for patterns:
 - [ ] Deprecate Z
 ```
 
-### 7. External Inspiration
+### 8. External Inspiration
 
 Quick skim of releases/READMEs for new patterns worth cherry-picking. Don't adopt wholesale — just note anything novel.
 
@@ -140,7 +201,7 @@ Quick skim of releases/READMEs for new patterns worth cherry-picking. Don't adop
 | [OthmanAdi/planning-with-files](https://github.com/OthmanAdi/planning-with-files) | Planning workflows |
 | [parcadei/Continuous-Claude-v3](https://github.com/parcadei/Continuous-Claude-v3) | Context management, state persistence |
 
-### 8. Save to Vault
+### 9. Save to Vault
 
 Save review to `/Users/terry/notes/Skill Review - YYYY-MM.md`
 
