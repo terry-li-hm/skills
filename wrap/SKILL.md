@@ -60,19 +60,22 @@ Answer each question before moving on. Do not scan and skip — a "no" is a vali
 
 Questions 4–6 require an explicit yes/no answer in the Pre-Wrap output block. Omitting them is a skip, not a "no."
 
+**Active experiments?** Run `peira status 2>/dev/null` — if a campaign is active, surface current score in the Pre-Wrap block.
+
 #### Output format
 
-One block, before any wrap steps:
+One block, before any wrap steps. Q4–6 are **always present** — no "all clear" shortcut that skips them:
 
 ```
 ─── Pre-Wrap ────────────────────────────────────
-⚠  [anything needing action]
-→  [loose ends / suggested next steps]
-✓  [clean checks, or "all clear" if nothing found]
+⚠  [anything needing action, or "none"]
+→  [loose ends, or "none"]
+✓  [clean checks]
+Garden post: yes/no — [one-line reason]
+LinkedIn:    yes/no — [one-line reason]
+Arsenal:     yes/no — [one-line reason]
 ─────────────────────────────────────────────────
 ```
-
-If everything is clean and no loose ends, one line: "All clear — proceeding."
 
 ### Step 1: TODO Sweep
 
@@ -140,8 +143,6 @@ One pass, three outputs:
 
 **C. Implement improvements** — 1-3 specific improvement candidates: things that felt clunky, a tool that behaved unexpectedly, a repeated manual step that could be automated. For each: **implement if it's a small, safe, local change** (skill edit, MEMORY.md addition, solutions file). Propose (don't implement) only if the change is large, risky, or requires user decision. If nothing surfaced, say "Nothing to implement." Do NOT ask open-ended questions — the burden is on Claude to identify and act on candidates.
 
-If neither A nor B surfaces anything, skip silently.
-
 ## Output
 
 **Write first, then summarise.** All file writes must complete before the bordered output appears.
@@ -164,7 +165,7 @@ STR relabelling: from WIP to cold-start handover package. Handover doc drafted, 
 
 ## Notes
 
-- Steps 0–3 are mechanical and fast. Step 4 is the only place judgment is needed — and only when the session had substance.
+- Steps 0–3 are mechanical and fast. Step 4 always runs — "Nothing to generalise" is a valid one-line answer for light sessions.
 - One insight well-routed beats five dumped in the same file
 
 ## Boundaries
