@@ -123,6 +123,8 @@ When a skill needs the model to scan or evaluate something, use direct yes/no qu
 
 Add a **fast path** for genuinely trivial cases (e.g., ≤3 turns) so the questions don't add overhead where there's clearly nothing to find.
 
+**Require explicit answers, not just engagement.** Active questions are necessary but not sufficient — the model can read a question and still skip it silently. For high-stakes checklist items, add: *"Answer yes or no explicitly. Omitting this is a skip, not a no."* This makes failure visible rather than silent, and creates an audit trail in the output block. Applied to wrap Step 0B (garden post / LinkedIn / consulting arsenal): passive scan → active yes/no → explicit answer required.
+
 ### 6. Seed Skills Early
 
 When a novel pattern emerges (a useful visualization technique, a new workflow, a research method), **propose creating a stub skill immediately** — don't wait for three occurrences. The skill acts as a collector: one pattern today, more added organically as they come up. A stub that grows is better than reconstructing three patterns from memory after the fact. If it's still a single pattern after a month, demote to `~/docs/solutions/`.
