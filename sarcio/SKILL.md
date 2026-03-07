@@ -44,8 +44,8 @@ sarcio index
 **New post from session insight:**
 1. `sarcio new "Title"` — scaffolds with correct frontmatter
 2. Write the post (prose style per ~/code/blog/CLAUDE.md)
-3. **Run judge** — `article` criteria; fix any `needs_work` before publishing (max 1 iteration)
-4. `sarcio publish <slug>` when ready
+3. **Run judge** — `article` criteria; fix any `needs_work` (max 1 iteration)
+4. **If judge passes → auto-publish immediately** (`sarcio publish <slug>`), no manual review needed
 5. Sync picks it up within 5 min → live at terryli.hm
 
 **Revise an existing post:**
@@ -62,7 +62,7 @@ sarcio list | grep <keyword>
 ## Cadence
 
 Flag "garden post?" whenever something interesting surfaces in a session.
-Draft to publishable quality; Terry does quick skim only.
+Draft to publishable quality and auto-publish when judge passes — no manual review.
 Flag factual claims that need verification before publishing.
 
 ## Gotchas
