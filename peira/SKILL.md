@@ -17,14 +17,28 @@ Answer all four before starting. If any is unclear → ask. Do not begin the loo
 1. **Target** — what changes each experiment? (the "train.py" equivalent)
 2. **Metric** — how do we measure success? Must be a number. State direction: lower = better or higher = better.
 3. **Baseline** — run or observe the current state now. Record its metric score.
-4. **Budget** — max experiments, API cost cap, or time limit. Default: **10 experiments**.
+4. **Budget** — max experiments, API cost cap, or time limit. Default: **10 experiments**. This is a hard stop — do not exceed without explicit user approval mid-session.
+5. **Metric discipline** — pick one metric and lock it in. Do not add a second metric mid-campaign because the first looks bad. If you need multiple metrics, rank them and use only the primary for keep/discard decisions.
 
-Create the log file immediately:
+Create two files immediately:
+
+**Log:** `~/notes/Experiments/peira-YYYY-MM-DD-<topic>/log.md`
+**Brief:** `~/notes/Experiments/peira-YYYY-MM-DD-<topic>/brief.md`
+
+The brief is the living research context — the human iterates on it, not Claude:
 ```
-~/notes/Experiments/peira-YYYY-MM-DD-<topic>.md
+## Brief: <topic>
+- Goal: [what we want to achieve, in plain English]
+- Target: [what changes each experiment]
+- Metric: [name + direction] — LOCKED
+- Baseline: [score]
+- Budget: [N] experiments — HARD STOP
+- Constraints: [what must not change]
+- Hypothesis backlog: [ideas not yet tried]
+- Ruled out: [what we've learned doesn't work]
 ```
 
-Write the setup block at the top:
+Write the setup block at the top of the log:
 ```
 ## Setup
 - Target: [what we're changing]
@@ -98,6 +112,8 @@ When budget is exhausted:
 - Do NOT declare a winner before budget is exhausted unless gain is dramatic (>20%).
 - Do NOT run autonomous mode for experiments with external side effects (sending emails, publishing, spending >$1 real money) without explicit per-experiment approval.
 - Do NOT re-run failed experiments without diagnosing why they failed first.
+- Do NOT change the metric mid-campaign. If the metric feels wrong, stop, reset, and restart with a corrected brief.
+- Budget is a hard gate. When N experiments are done, stop and report — even if the best result is worse than baseline.
 
 ## Examples
 
@@ -118,3 +134,9 @@ When budget is exhausted:
 - Metric: Terry's clarity rating after cold read (1–5, higher = better)
 - Budget: 5 variants
 - Baseline: 3/5
+
+## Source
+
+Adapted from Karpathy's [autoresearch](https://github.com/karpathy/autoresearch) (Mar 2026).
+Key ideas taken: fixed budget as hard gate, single locked metric, brief.md as human-editable research context, append-only experiment log.
+Generalized from GPU/ML training to any measurable target.
