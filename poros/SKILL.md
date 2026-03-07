@@ -12,6 +12,7 @@ Queries MTR point-to-point journey times from a local cache. Source: piliapp.com
 
 ```bash
 poros "Wu Kai Sha" "Kwun Tong"   # → 39 min
+                                  #    Route: Wu Kai Sha → [Tuen Ma] → Diamond Hill → [Kwun Tong] → Kwun Tong
 poros kwun "wu kai"               # fuzzy, case-insensitive
 poros --refresh                   # re-scrape piliapp (~5 min, 101 stations)
 poros --matrix                    # dump full N×N TSV table
