@@ -22,6 +22,28 @@ Cookies, logins, and local storage persist across sessions automatically.
 
 **Fixed (Feb 2026):** `AGENT_BROWSER_PROFILE` is set in `~/.claude/settings.json` `env` field, so it's available in all Bash calls automatically. No manual prefix needed. If it ever breaks: never use `AGENT_BROWSER_PROFILE=1` — that creates a profile at literal path "1".
 
+## When agent-browser Gets Blocked (Public Sites)
+
+Some public sites (e.g. MTR) return "Access Denied" based on Playwright's user-agent — no login involved, so `porta inject` won't help. Clean profile (`AGENT_BROWSER_PROFILE=""`) also doesn't help if the block is server-side.
+
+**Pattern:** Don't fight the block — find an alternative source.
+- MTR journey planner blocked → piliapp.com has the same data and isn't protected
+- Search for "[site] data alternative" or "[data type] tool" to find a proxy site
+
+**For map-based SPAs** where stations/items aren't in the snapshot refs (rendered as SVG/canvas):
+```bash
+# Find element by exact text, get its ID
+agent-browser eval "[...document.querySelectorAll('*')].filter(e => e.textContent.trim() === 'Wu Kai Sha').map(e => e.tagName + ' id=' + e.id).join('\n')"
+# → SPAN id=t103
+
+# Click it
+agent-browser eval "document.getElementById('t103').click(); 'clicked'"
+
+# Read sibling value
+agent-browser eval "[...document.querySelectorAll('*')].filter(e => e.textContent.trim() === 'Kwun Tong').map(e => e.nextSibling && e.nextSibling.textContent).join('')"
+# → "39"
+```
+
 ## Two Modes
 
 | Mode | Command | Use case |
