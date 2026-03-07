@@ -126,15 +126,15 @@ Resume points must pass the cold-start test: could another session resume from t
 **Vault flush:** If the session advanced a project with a canonical tracker note (e.g. `[[Capco Transition]]`), update that note now. Context doesn't survive — if it's not in a file, it's lost.
 If tracker note is missing, note "Tracker unavailable" and keep summary in daily note.
 
-### Step 4: Meta-Close (conditional)
+### Step 4: Meta-Close (always run)
 
-**Run if:** a new skill was created, 2+ friction points encountered, or 2+ related decisions made. Otherwise skip.
+Always run. If nothing surfaces, one line: "Nothing to generalise." Do NOT invent learnings.
 
-Do NOT invent learnings. A routine session producing nothing here is correct.
+**Scope: this session + any direct predecessors since last deep capture.** Follow-on sessions (NOW.md recent, short conversation) often contain gems from the preceding session that weren't captured yet. Don't restrict the scan to just what happened in this exchange.
 
 One pass, three outputs:
 
-**A. What generalises?** — The strongest consolidation signal is top-down intent. Explicitly ask: what from this session applies beyond today? Patterns, corrections, architectural insights, reusable approaches. If something generalises → **write it now**: route to MEMORY.md or vault before context is lost. If nothing generalises, say so and skip.
+**A. What generalises?** — Start with: *"Name 1–3 things from this session (or the work it built on) that were non-obvious."* If you can name them, write them now. Patterns, corrections, architectural insights, reusable approaches — route to MEMORY.md or `~/docs/solutions/` before context is lost. If truly nothing, say so explicitly.
 
 **B. File learnings** — Uncaptured friction, corrections, gotchas, or system evolution? Route to the most specific file: tool gotcha → `~/docs/solutions/`, cross-session context → MEMORY.md, skill workflow → the skill's SKILL.md. **Implement directly** — edit the target file now. Should a skill be tightened? Edit it. Hook needed? Write it. Same mistake twice → escalate per `~/docs/solutions/enforcement-ladder.md`. Only defer if the change requires user input or is genuinely out of scope for a wrap.
 
