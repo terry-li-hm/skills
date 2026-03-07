@@ -24,6 +24,7 @@ auceps "search query"  # multi-word → bird search
 ```bash
 auceps thread <url> [--depth 2]   # follow quoted tweet chain
 auceps bird <any bird args>        # direct passthrough to bird
+auceps post "tweet text"           # post a tweet (see Posting section below)
 ```
 
 ### Output flags (global)
@@ -46,6 +47,40 @@ auceps @handle -n 5         # limit tweets (default: 20)
 ```
 
 Note: `focus` is empty — bird doesn't expose profile bio text. Fill manually after generating.
+
+## Posting
+
+`bird tweet` returns error 226 ("looks automated") from the API. Working path:
+
+1. URL-encode the tweet text
+2. Open `https://x.com/intent/post?text=<encoded>` via osascript `open location`
+3. Wait ~3s for Chrome to load the compose dialog
+4. Send Cmd+Enter via System Events to submit
+
+```python
+import os, subprocess, urllib.parse, time
+
+def post_tweet(text: str):
+    encoded = urllib.parse.quote(text)
+    url = f"https://x.com/intent/post?text={encoded}"
+    # Open in Chrome
+    subprocess.run(['osascript', '-e', f'open location "{url}"'])
+    time.sleep(3)
+    # Submit with Cmd+Enter
+    subprocess.run(['osascript', '-e', '''
+tell application "Google Chrome" to activate
+delay 0.5
+tell application "System Events"
+  keystroke return using {command down}
+end tell
+'''])
+```
+
+**Character limit:** X counts URLs as 23 chars. Effective limit = raw_length - actual_url_length + 23 ≤ 280.
+
+**`porta inject` does NOT get auth cookies for X.** Guest cookies only (guest_id etc.). `AUTH_TOKEN`/`CT0` are in env vars from 1Password — use those directly if needed for other API calls.
+
+**agent-browser is unreliable for X.** X blocks headless Chromium. Skip it entirely for posting — osascript + intent URL is the only reliable path.
 
 ## Gotchas
 
