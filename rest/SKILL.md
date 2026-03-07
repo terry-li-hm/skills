@@ -44,12 +44,20 @@ Read `~/notes/TODO.md` and collect unchecked items (`- [ ]`) that fit a low-ener
 - Items with `agent:` tag (these are for Claude, not leisure)
 - Completed items (`- [x]`)
 
-### 3. Present Menu
+### 3. LinkedIn job alerts (post-noon only)
+
+If current time is after 12:00 HKT, check `~/notes/Job Hunting/Job Alerts YYYY-MM-DD.md`:
+- Count unchecked flagged roles (`- [ ]` lines)
+- If any exist, include in the menu as: "💼 Job alerts: X roles flagged — `/evaluate-job`"
+- Skip silently if file missing or all items checked
+
+### 4. Present Menu
 
 Show results as a short, scannable list grouped by type:
 
 ```
 📬 Inbox: 3 Gmail, 1 WhatsApp
+💼 Job alerts: 4 roles flagged
 🏠 Quick wins: [2-5 items from TODO.md]
 ```
 

@@ -66,7 +66,14 @@ Read `~/notes/NOW.md`.
 - Pull any active processes or waiting-on states
 - If a PID is mentioned, skip process check — too slow for a quick snapshot
 
-### 4. Overdue and today's TODO items
+### 4. LinkedIn job alerts (post-noon only)
+
+If current time is after 12:00 HKT, check `~/notes/Job Hunting/Job Alerts YYYY-MM-DD.md`:
+- Count unchecked flagged roles (`- [ ]` lines)
+- If any exist, surface briefly: "X job alerts flagged — `/evaluate-job` when you have a moment"
+- Skip silently if file missing or all items checked
+
+### 5. Overdue and today's TODO items
 
 Read `~/notes/TODO.md`.
 
@@ -77,7 +84,7 @@ Read `~/notes/TODO.md`.
 - Skip `someday` items, skip items due later in the week
 - Max 5 items — if more qualify, pick the most time-sensitive
 
-### 5. Synthesise — time-aware routing
+### 6. Synthesise — time-aware routing
 
 Based on current time and what was found:
 
