@@ -300,11 +300,17 @@ Read the playbook: `~/notes/LinkedIn Posting Playbook.md`
 - Posts that need "AI Solution Lead" title weight → after Capco start (Mar 16+)
 - Builder/personal posts → anytime
 
-### 3. Review
+### 3. Judge Review (first pass)
+
+Run judge with `linkedin-post` criteria before spending on consilium:
+- If `needs_work`: revise and re-judge (max 1 iteration)
+- If `pass`: proceed to consilium
+
+### 4. Consilium Review
 
 All posts get consilium `--council` (~$0.50) — posts are public and reputation-building, `--quick` doesn't catch tone/positioning risks. High-stakes posts (first Capco-era, controversial angle) get `--deep` (~$0.90) or `--redteam` (~$0.20) to stress-test the angle.
 
-### 4. Deliver
+### 5. Deliver
 
 Gist the draft for mobile:
 
