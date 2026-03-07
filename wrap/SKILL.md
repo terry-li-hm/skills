@@ -6,12 +6,12 @@ user_invocable: true
 
 # Wrap
 
-End-of-session wrap-up. Pre-wrap check + three mechanical steps + conditional meta-close.
+End-of-session wrap-up. Pre-wrap check + three mechanical steps + meta-close.
 
 ## Execution Notes
 
 - Execute in order. Don't skip earlier steps because a later one seems more interesting.
-- Skip any step silently if nothing applies. No ceremony.
+- Skip Steps 1–3 silently if nothing applies. Step 4 always runs and always produces output. No ceremony.
 - Session scope = files modified + tool calls + conversation turns since this session began.
 
 ## Triggers
@@ -28,7 +28,7 @@ Before anything else, run:
 ```bash
 now-age
 ```
-If NOW.md is **<15 minutes old** AND the user did not explicitly invoke `/wrap`, this wrap already ran in this session. Skip Steps 0–3 and go straight to [Output](#output) — a one-liner like "Already wrapped X min ago, nothing new since" is fine. If the user explicitly typed `/wrap` or "wrap", always proceed regardless of age.
+If NOW.md is **<15 minutes old** AND the user did not explicitly invoke `/wrap`, this wrap already ran in this session. Skip Steps 0–3, run Step 4 briefly, then Output. If the user explicitly typed `/wrap` or "wrap", always run all steps regardless of age.
 
 ### Step 0: Pre-Wrap Check (soft gate)
 
