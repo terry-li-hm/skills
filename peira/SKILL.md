@@ -8,6 +8,19 @@ user_invocable: true
 
 Karpathy's autoresearch loop, generalized: **propose → run → measure → keep/discard → log → repeat**.
 
+## CLI
+
+```bash
+peira init <topic>                          # scaffold campaign dir + brief.md + log.toml
+peira status [--campaign <name>]            # current best, experiments run vs budget
+peira log --score <n> [--decision keep|discard] [--notes "..."] [--campaign <name>]
+peira best [--campaign <name>]             # print winning experiment
+```
+
+Campaigns live in `~/notes/Experiments/peira-YYYY-MM-DD-<topic>/`. Active campaign = most recent. `--campaign` matches by substring.
+
+Log is TOML (`log.toml`); brief stays human-editable markdown (`brief.md`). Source: `~/code/peira/`.
+
 Works for anything with a quantifiable metric: prompts, habits, benchmarks, classifier tuning, writing structure, CLI config.
 
 ## Phase 1: Setup (once, before any experiments)
