@@ -24,6 +24,25 @@ fasti move <event-id> 2026-03-10 11:00
 fasti delete <event-id>
 ```
 
+## Creating events (fasti has no create — use gog directly)
+
+```bash
+gog calendar create primary \
+  --summary "Event title" \
+  --from "2026-03-12T10:00:00+08:00" \
+  --to   "2026-03-12T11:00:00+08:00" \
+  --description "Optional notes"
+
+# With attendees
+gog calendar create primary \
+  --summary "Meeting" \
+  --from "2026-03-12T10:00:00+08:00" \
+  --to   "2026-03-12T11:00:00+08:00" \
+  --attendees "cherry.ma@aia.com"
+```
+
+Time format: RFC3339 with HKT offset (`+08:00`). Calendar ID is always `primary`.
+
 ## Event IDs
 
 `fasti list` shows 8-char prefix IDs. `move` and `delete` accept either the prefix or the full ID.
