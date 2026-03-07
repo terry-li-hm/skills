@@ -50,6 +50,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | Web search + scrape results | `peruro search <query>` | Returns scraped markdown per result, not just links |
 | Code & documentation | Context7 plugin | Best for library docs |
 | Job/company research | `WebSearch` → `noesis ask` | Free first, paid for depth |
+| **HK restaurant lookup** | **`exauro search`** | **Surfaces OpenRice listings reliably; noesis has index gaps, WebFetch fails on OpenRice (JS)** |
 
 ## noesis CLI
 
