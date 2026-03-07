@@ -33,7 +33,12 @@ A 60-second brief for the moment you wake up. Weather, what's on today, anything
    - Skip someday/low-energy/undated items entirely — those are statio's job
    - If nothing due today, skip silently
 
-5. **Deliver the brief**:
+5. **Missed email scan** (known Cora blind spot):
+   - Run: `gog gmail search "category:personal -label:Cora/Action -label:Cora/Important Info -label:Cora/Other -label:Cora/Newsletter -label:Cora/Payments -label:Cora/Promotion -label:Cora/Packages newer_than:1d"`
+   - If any results: flag them by sender + subject. These are emails Cora received but never labelled — the same failure mode that swallowed two interview invitations (Mar 2026).
+   - If no results: skip silently.
+
+6. **Deliver the brief**:
 
 ## Output
 
