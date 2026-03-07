@@ -20,9 +20,31 @@ Full worked example: `graphis` — Telegram bot manager built specifically for a
 | Errors can be vague | Errors must be actionable (agent needs to know what to do next) |
 | `/dev/tty` reads are fine | `/dev/tty` reads hang the agent session |
 
-## Pattern 1: Split at every human-in-the-loop point
+## Pattern 0: Eliminate human-in-the-loop before designing around it
 
-Any step that requires out-of-band human input (SMS code, 2FA, CAPTCHA, approval) must be a separate command invocation.
+Before splitting a step into two commands, ask: **can the human step be removed entirely?**
+
+| Human step | Elimination options |
+|------------|-------------------|
+| SMS/OTP code | App-level session reuse (Telegram session persists indefinitely — auth is one-time) |
+| 2FA password | Store in keychain; read with `security find-generic-password` |
+| CAPTCHA | Headless-detectable endpoint → use API instead of web scrape |
+| OAuth browser flow | Service account / API key / long-lived token |
+| Manual approval | Webhook + auto-confirm if criteria met |
+| Copy-paste output | Pipe directly to next command; save to keychain or file |
+
+**The goal is zero recurring human steps.** One-time setup (initial auth, keychain seeding) is acceptable. Anything that recurs per-operation is a design flaw.
+
+**graphis example:** The SMS code is genuinely one-time — session persists to `session.bin` and survives reboots. The design is correct: auth once, never again. If you're being asked for a code repeatedly, the session is being deleted or not saved correctly — fix that, don't add a recurring human step.
+
+**Red flags that mean you haven't eliminated enough:**
+- User must copy a value from one tool and paste it into another → pipe it or save to keychain
+- User must approve each operation → add a `--yes` flag and document when it's safe to use
+- User must watch for output and react → write result to a file the next step reads
+
+## Pattern 1: Split at every remaining human-in-the-loop point
+
+Once you've eliminated what you can, any *genuinely unavoidable* human step (first-time SMS code, physical security key) must be a separate command invocation.
 
 **Structure:**
 ```
@@ -137,6 +159,7 @@ DC migration handled:
 
 ## Checklist before shipping an agent-facing CLI
 
+- [ ] **Every human step audited** — is it truly unavoidable, or can it be eliminated via keychain, session persistence, API key, or `--yes` flag?
 - [ ] No blocking stdin reads (`io::stdin().read_line()`, `/dev/tty`)
 - [ ] Every human-in-the-loop step is a separate subcommand
 - [ ] State between steps is fully serialised to disk (not just session file)
