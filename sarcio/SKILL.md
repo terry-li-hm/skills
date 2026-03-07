@@ -59,11 +59,23 @@ Shows revised date + note on the post automatically.
 sarcio list | grep <keyword>
 ```
 
-## Cadence
+## Auto-Publish Protocol
 
-Flag "garden post?" whenever something interesting surfaces in a session.
-Draft to publishable quality and auto-publish when judge passes — no manual review.
-Flag factual claims that need verification before publishing.
+When a publishable insight surfaces in a session:
+1. Draft the post (blog/CLAUDE.md style, session context as material)
+2. Run judge (`article` criteria)
+3. **Pass** → `sarcio publish <slug>` → notify via deltos: `echo "Published: <title> → terryli.hm/posts/<slug>" | deltos "garden"`
+4. **Needs work** → one revision pass → judge again
+5. **Still failing** → `echo "Garden post failed judge: <title>" | deltos "garden"` — do NOT publish silently
+
+**Insight detection — draft autonomously when ALL of:**
+- A non-obvious observation emerged naturally (not manufactured)
+- Clear one-sentence thesis
+- In Terry's lane: AI, work, tools, personal systems, consulting
+- No factual claims needing verification
+- No real names, companies, or time-sensitive content that could embarrass
+
+When in doubt: draft and let judge decide. Judge is the gate, not the intent check.
 
 ## Gotchas
 

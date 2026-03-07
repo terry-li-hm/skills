@@ -54,6 +54,7 @@ Scan for signals of unfinished business:
 - Conversation mentions of "later", "next", "should", "TODO", "follow up"
 - Git diff — uncommitted changes that need context preserved
 - Decisions made but not written anywhere
+- **Garden post?** Did any session insight meet the sarcio auto-publish heuristic (non-obvious, clear thesis, Terry's lane, no factual claims or real names) and wasn't already published this session? If yes → run the sarcio auto-publish protocol now. Wrap is the safety net for missed in-session opportunities.
 - **LinkedIn angle?** If anything this session surfaced a non-obvious insight, architecture decision, or inversion worth sharing → add entry to `[[LinkedIn Content Ideas]]`. Don't draft — just capture the hook and angle.
 - **Consulting arsenal?** If anything surfaced a concrete insight applicable to a bank or client AI engagement → add a bullet to `[[Capco Transition]]` under "Consulting Arsenal" (create if absent). Distinct from LinkedIn: this is private client value.
 
