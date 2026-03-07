@@ -140,7 +140,7 @@ grok --raw "query"           # raw JSON response
 **HK local sources by type:**
 - Consumer sentiment / opinions → **LIHKG** (forums, ground-level)
 - Editorial reviews, listicles → **HK01, Sundaykiss**
-- F&B → **OpenRice**
+- F&B → **OpenRice** ← de facto standard for HK restaurants. For branch/location verification, go direct: `WebFetch` an OpenRice search URL or use OpenRice short links users share. Do NOT rely on noesis/Perplexity for specific mall branch lookups — index gaps cause confident false negatives (e.g. 但馬屋 at APM Kwun Tong, Mar 2026).
 - Finance / banking / fintech → **Planto, InvestBrother, EconManBlog, MoneyHero**
 
 Validated: Cantonese search for HK banking app UX (Mox, ZA Bank) returned richer, more current results than English equivalents (Mar 2026).
