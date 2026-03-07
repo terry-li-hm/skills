@@ -171,4 +171,4 @@ DC migration handled:
 ## See also
 
 - `graphis` skill — full worked example
-- `~/docs/solutions/agent-cli-patterns.md` — extended notes from the graphis build
+- `~/docs/solutions/grammers-mtproto-agent-auth.md` — concrete implementation: DC migration code, raw TL auth.SendCode, LoginToken workaround, SRP 2FA, Cargo.toml deps, recovery procedure
