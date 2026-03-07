@@ -47,18 +47,18 @@ Interprets output: `⚠` = action needed, `✓` = clean, `?` = check unavailable
 
 **CLAUDE.md modified?** If CLAUDE.md was changed this session, do a one-line tightening check on each addition: does this need to be in CLAUDE.md, or does it belong in a skill / MEMORY.md / `~/docs/solutions/`? Flag candidates — don't move them automatically.
 
-#### B. Session loose ends (cognitive scan)
+#### B. Session loose ends (active checklist)
 
-Scan for signals of unfinished business:
-- Recent tool calls and file writes — anything not verified or tested?
-- Conversation mentions of "later", "next", "should", "TODO", "follow up"
-- Git diff — uncommitted changes that need context preserved
-- Decisions made but not written anywhere
-- **Garden post?** Did any session insight meet the sarcio auto-publish heuristic (non-obvious, clear thesis, Terry's lane, no factual claims or real names) and wasn't already published this session? If yes → run the sarcio auto-publish protocol now. Wrap is the safety net for missed in-session opportunities.
-- **LinkedIn angle?** If anything this session surfaced a non-obvious insight, architecture decision, or inversion worth sharing → add entry to `[[LinkedIn Content Ideas]]`. Don't draft — just capture the hook and angle.
-- **Consulting arsenal?** If anything surfaced a concrete insight applicable to a bank or client AI engagement → add a bullet to `[[Capco Transition]]` under "Consulting Arsenal" (create if absent). Distinct from LinkedIn: this is private client value.
+Answer each question before moving on. Do not scan and skip — a "no" is a valid answer; silence is not.
 
-Present as brief suggestions. User decides what to act on now vs. defer.
+1. **Anything unverified?** Did any tool call, file write, or command run this session produce output that wasn't checked? If yes → note it.
+2. **Anything deferred?** Did the conversation mention "later", "next", "should", "TODO", or "follow up" for something not yet captured? If yes → add to TODO.md or note it.
+3. **Uncommitted changes?** Any dirty repo with context that won't survive `/clear`? If yes → offer to commit.
+4. **Garden post?** Did a non-obvious insight emerge with a clear thesis, in Terry's lane, with no factual claims needing verification and no real names? Answer yes or no explicitly. If yes → run the sarcio auto-publish protocol now. Do not defer. Wrap is the safety net.
+5. **LinkedIn angle?** Did anything surface worth sharing publicly — an inversion, an architectural decision, a non-obvious pattern? Answer yes or no explicitly. If yes → add entry to `[[LinkedIn Content Ideas]]` now.
+6. **Consulting arsenal?** Did anything surface that's concretely applicable to a bank or client AI engagement? Answer yes or no explicitly. If yes → add bullet to `[[Capco Transition]]` under "Consulting Arsenal" now.
+
+Questions 4–6 require an explicit yes/no answer in the Pre-Wrap output block. Omitting them is a skip, not a "no."
 
 #### Output format
 
