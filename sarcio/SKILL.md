@@ -48,6 +48,8 @@ sarcio index
 4. **If judge passes → auto-publish immediately** (`sarcio publish <slug>`), no manual review needed
 5. Sync picks it up within 5 min → live at terryli.hm
 
+**Brainstorming for garden posts:** Skip the full brainstorm skill. One angle-check question max ("who's the reader?" or "what's the hook?"), then draft. Garden posts are low-risk — judge is the gate.
+
 **Revise an existing post:**
 ```bash
 sarcio revise autonomous-vs-monitored-agents --note "Added Karpathy follow-up example"
