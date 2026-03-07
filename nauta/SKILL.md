@@ -55,6 +55,40 @@ sleep 8
 agent-browser snapshot
 ```
 
+## Multi-Tab Flows (same-browser-session verification)
+
+Some sites (e.g. Stripe) require verification to be completed "in another tab of the same browser." The pattern:
+
+```bash
+# Tab 0: start the action (e.g. key rotation dialog waiting)
+agent-browser open https://site.com/action --profile
+
+# Trigger the action — site sends a verification email/link
+agent-browser click @eXX   # starts the flow
+
+# Get the verification link from email (gog/stilus)
+LINK=$(gog gmail search "from:site subject:verify" --limit 1 | ...)
+
+# Tab 1: open the link in the SAME browser session
+agent-browser tab 1        # switch to existing tab 1 (or creates it)
+agent-browser open "$LINK" # navigate tab 1 to the verification link
+
+# Verification succeeds — return to tab 0 to complete
+agent-browser tab 0
+agent-browser click @eXX   # continue the original flow
+```
+
+**Key commands:**
+- `agent-browser tab list` — list all open tabs with index
+- `agent-browser tab N` — switch active tab to index N
+- `agent-browser tab new <url>` — open URL in a new tab (browser must already be running)
+
+**Why `tab new` fails mid-session:** `agent-browser tab new <url>` requires the browser to already be running. If the session died, relaunch with `open --profile` first, then use `tab list`/`tab N` to manage existing tabs.
+
+**Don't use `window.open()` via eval** — agent-browser follows focus to the new window, abandoning the original dialog context. Use `tab N` + `open <url>` instead.
+
+**Stripe-specific (Mar 2026):** Email verification link must be opened in the same browser session as the dashboard. After verification, a TOTP dialog may appear — get the code via `op item get "Stripe" --vault Agents --otp` (requires TOTP field in 1Password item).
+
 ## Login-Required Sites
 
 With the persistent profile, sites stay logged in between sessions. First-time setup:
