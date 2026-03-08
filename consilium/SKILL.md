@@ -177,7 +177,8 @@ consilium --doctor                # Check API keys and connectivity
 - **Model timeouts** (historically DeepSeek/GLM) — partial outputs add noise but council still works.
 - **`--format json` only works with council and quick modes.** Other modes output prose only.
 - **`--challenger` and `--followup` are council-only.**
-- **GPT-5.4-Pro (Responses API) is slow for `--council`.** Takes 67-120s+ per call with structured prompts — times out in blind (90s cap) and debate (120s cap). Council completes with 3/5 models in ~7-9 min. For faster runs: `CONSILIUM_MODEL_M1="google/gemini-2.5-flash" consilium --council "..."`. Full diagnosis: `~/docs/solutions/gpt-5.4-pro-responses-api-latency.md`.
+- **GPT-5.4-Pro removed from council (LRN-20260308-001).** Real latency: 907s per call. Responses API models are incompatible with council timeouts. Current M1 = `gpt-5.2-pro` (3.6s). Kimi also removed — connection failures, replaced by DeepSeek-V3.2. Full notes: `~/docs/solutions/consilium-api-latency-benchmark.md`.
+- **Before adding any new model to the council:** run `consilium --quick --quiet "name a color" > ~/tmp/consi-speedtest.txt` and check per-model timings. Any model >60s does not belong in rotation.
 - **402 = OpenRouter out of credits.** Tell Terry to top up at openrouter.ai/credits. Do not retry or proceed.
 - **403 on a new model = access restricted (allowlist-gated).** Test before upgrading: `consilium --quick --quiet "test" 2>&1 | grep -i "403\|error"`. Swap to an available model or remove from rotation.
 
