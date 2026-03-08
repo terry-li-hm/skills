@@ -114,6 +114,16 @@ consilium --prompt-file /tmp/prompt.txt --deep --vault
 
 **Always `run_in_background: true`** on the Bash tool. Watch live: `consilium --watch` or `--tui` in another tmux tab.
 
+**Retrieving output:** TaskOutput times out at 120s — consilium `--quick` takes ~150s, `--council` longer. Always redirect to `~/tmp/` and read with `cat`:
+```bash
+consilium "..." --quick > ~/tmp/consi-<name>.txt 2>&1
+# then after task completes:
+cat ~/tmp/consi-<name>.txt
+```
+Never use TaskOutput alone to retrieve consilium results — it will timeout and the output file in `/private/tmp` will vanish. `~/tmp/` survives the session.
+
+**Don't retry if seemingly stuck.** One background job per query. If TaskOutput times out, just `cat ~/tmp/consi-<name>.txt` — the job is likely still running or already done.
+
 ### Step 3: Parse and present
 
 After completion:
