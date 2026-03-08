@@ -49,9 +49,22 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | Scrape JS-heavy or Cloudflare-protected URL | `peruro <url>` | Only tool that reliably handles both. 1 credit/page. |
 | Need facts from a protected page (not raw content) | `noesis search` | Synthesises from indexed sources — no direct fetch. ~$0.006 |
 | Web search + scrape results | `peruro search <query>` | Returns scraped markdown per result, not just links |
+| peruro failed + site needs Chrome auth | `stealth-browser` skill | Last resort — Chrome cookie injection + playwright-extra |
 | Code & documentation | Context7 plugin | Best for library docs |
 | Job/company research | `WebSearch` → `noesis ask` | Free first, paid for depth |
-| **HK restaurant lookup** | **`exauro search`** | **Surfaces OpenRice listings reliably; noesis has index gaps, WebFetch fails on OpenRice (JS)** |
+| **HK restaurant lookup** | **`exauro search` → `peruro`** | **exauro finds the OpenRice URL; peruro fetches full page (corkage, hours, policies)** |
+
+## Unknown Site Types — Log and Learn
+
+**First encounter with a new site type → run the ladder top-to-bottom, log all outcomes.**
+
+Don't skip straight to peruro on unfamiliar sites — run noesis → exauro → peruro in order and record what each returns. Append findings to `~/docs/solutions/cloudflare-bypass-tools.md` under "Confirmed working sites". This builds empirical data without burning peruro credits speculatively on known patterns.
+
+Known site types (skip to winner directly):
+- OpenRice → `peruro`
+- Wix JS-rendered → `peruro`
+- Cloudflare Bot Management → `peruro`
+- Static HTML → `defuddle`
 
 ## noesis CLI
 

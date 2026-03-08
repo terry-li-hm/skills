@@ -1,11 +1,18 @@
 ---
 name: stealth-browser
-description: Reference skill for bypassing Cloudflare Turnstile via Chrome cookies + playwright-extra stealth. Consult when agent-browser fails on Cloudflare-protected sites.
+description: >-
+  Last-resort Cloudflare bypass via Chrome cookies + playwright-extra stealth.
+  Only invoke AFTER peruro has failed — peruro handles most Cloudflare sites at
+  1 credit/page with no setup. This skill is for: peruro failed, site needs
+  authenticated Chrome session, or full browser automation required.
+  NOT for general web fetching — see indago skill for tool selection.
 ---
 
 # Stealth Browser
 
-Reference skill for bypassing Cloudflare Turnstile and accessing authenticated sites via Chrome cookie extraction + playwright-extra stealth. Consult when agent-browser fails on Cloudflare-protected sites or when browser automation needs an authenticated Chrome session.
+**Last resort.** For tool selection and the full fetch ladder, see `indago` skill first.
+
+Reference skill for bypassing Cloudflare Turnstile and accessing authenticated sites via Chrome cookie extraction + playwright-extra stealth. Only reach here after `peruro` has failed or the site requires an authenticated Chrome session.
 
 ## Escalation Order (Cloudflare-blocked sites)
 
