@@ -470,7 +470,9 @@ This is more reliable than `get text` for SPAs where content loads dynamically i
 
 ## Known Footguns
 
-- **`screencapture` returns black when display is sleeping.** The command succeeds but captures nothing. Wake first: `caffeinate -u -t 1`, wait 2s, then screencapture.
+- **`screencapture` returns black when display is sleeping.** The command succeeds but captures nothing. Wake first with `caffeinate -u -t 5`, then screencapture **immediately** — no sleep in between or the display goes back to sleep before the capture fires.
+
+- **osascript JS injection doesn't trigger React state.** `element.value = x` sets the DOM but React ignores it — form submits empty. Use `System Events keystroke` to type into fields instead; keystrokes trigger proper React event handlers.
 
 - **osascript JS injection blocked by site CSP for write operations.** `execute javascript` via osascript works for reading DOM on most sites, but security-conscious sites (X/Twitter, banking) block clicks and form submissions. Fall back to native System Events: `keystroke`, `click at {x, y}`, or `key code`.
 
