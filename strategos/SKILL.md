@@ -78,8 +78,7 @@ Skip CE plan (redundant with writing-plans). Use hybrid when: existing codebase 
 When dispatching the implementer subagent, route by task signal instead of always using `general-purpose`:
 | Signal | Implementer |
 |--------|-------------|
-| Rust, single-file / simple | Gemini CLI (`gemini -p "..." --yolo`, `run_in_background: true`) |
-| Rust, multi-file + repo nav | Codex (`codex exec --sandbox danger-full-access --full-auto "..."`) |
+| Rust | Codex (`codex exec --sandbox danger-full-access --full-auto "..."`) — Gemini as fallback if budget low or code sensitive |
 | Multi-file, repo navigation | Codex (`codex exec --full-auto "..."`) |
 | Boilerplate / bulk | OpenCode |
 | Default / everything else | `general-purpose` subagent (current default) |
@@ -111,8 +110,8 @@ Reviews (spec compliance + code quality) always stay as Claude subagents regardl
 | Signal | Tool | Why |
 |--------|------|-----|
 | Needs repo navigation, test loops, multi-file | **Codex** | Best developer (Terminal-Bench #1) |
-| **Rust, single-file or simple feature** | **Gemini CLI** | Runs locally, free, no config. `cd ~/code/<project> && gemini -p "..." --yolo` |
-| **Rust, multi-file + repo nav needed** | **Codex `--sandbox danger-full-access`** | Lifts DNS block so `cargo build` works. `codex exec --sandbox danger-full-access --full-auto "..."` |
+| **Rust (any)** | **Codex `--sandbox danger-full-access`** | Default for Rust. Lifts DNS block, `cargo build` works, Terminal-Bench #1 for dev tasks. `codex exec --sandbox danger-full-access --full-auto "..."` |
+| **Rust — Codex budget exhausted or code is sensitive** | **Gemini CLI** | Fallback. Runs locally, no code leaves machine. `cd ~/code/<project> && gemini -p "..." --yolo` |
 | Algorithmic, isolated logic, "write X that does Y" | **Gemini CLI** | Best programmer (LiveCodeBench #1), free |
 | Bulk ops, boilerplate, routine refactoring | **OpenCode** | Free, unlimited |
 | Task failed 3+ times from **reasoning difficulty** | **→ Opus in-session** | Escalation only, switch back after |
@@ -268,7 +267,7 @@ If compound workflow is unavailable, add a short manual note in `~/docs/solution
 
 | Language | Default tool | Caveats |
 |----------|-------------|---------|
-| Rust | **Gemini** (single-file/simple) / **Codex `--sandbox danger-full-access`** (multi-file) | `--full-auto` alone keeps `workspace-write` sandbox which blocks DNS/cargo. `--sandbox danger-full-access` lifts all restrictions. Gemini still default for simple tasks — free, no config. Rust regex: no lookahead. |
+| Rust | **Codex `--sandbox danger-full-access`** (default) / Gemini (fallback if budget low or code sensitive) | `--full-auto` alone keeps `workspace-write` sandbox which blocks DNS/cargo. `--sandbox danger-full-access` lifts all restrictions. Rust regex: no lookahead. |
 | Python | Gemini or OpenCode | Use `uv` not pip. Single-file scripts: `uv run --script` shebang. |
 | TypeScript | Codex or Gemini | pnpm, not npm. |
 | Shell scripts | OpenCode | New `~/bin/` scripts must be Python (bash-guard). |
