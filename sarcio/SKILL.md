@@ -29,6 +29,12 @@ sarcio list
 # Publish a draft (flips draft: true → false)
 sarcio publish <slug>
 
+# Publish and sync immediately (bypasses 5-min LaunchAgent)
+sarcio publish <slug> --push
+
+# Sync vault → blog → push now (bypasses 5-min LaunchAgent)
+sarcio push
+
 # Revise a published post (bumps modDatetime, sets revisionNote)
 sarcio revise <slug> --note "What changed and why"
 
@@ -45,8 +51,8 @@ sarcio index
 1. `sarcio new "Title"` — scaffolds with correct frontmatter
 2. Write the post (prose style per ~/code/blog/CLAUDE.md)
 3. **Run judge** — `article` criteria; fix any `needs_work` (max 1 iteration)
-4. **If judge passes → auto-publish immediately** (`sarcio publish <slug>`), no manual review needed
-5. Sync picks it up within 5 min → live at terryli.hm
+4. **If judge passes → auto-publish immediately** (`sarcio publish <slug> --push`), live instantly
+5. Or omit `--push` to let the LaunchAgent pick it up within 5 min
 
 **Brainstorming for garden posts:** Skip the full brainstorm skill. One angle-check question max ("who's the reader?" or "what's the hook?"), then draft. Garden posts are low-risk — judge is the gate.
 
