@@ -45,8 +45,9 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | **Find pages similar to a URL** | `exauro similar <url>` | Exa find-similar, great for research trails |
 | **Quick AI answer with citations** | `exauro answer "question"` | Cheaper than noesis, good for factual questions |
 | **Extract full content of a page** | `exauro contents <url>` | Alternative to defuddle for non-JS pages |
-| Scrape a specific URL (static) | `defuddle` → `WebFetch` | defuddle first — cleaner output, fewer tokens |
-| Scrape JS-heavy / bot-protected URL | `peruro <url>` | Firecrawl backend bypasses JS rendering and Cloudflare |
+| Scrape a specific URL (static, no Cloudflare) | `defuddle` → `WebFetch` | defuddle first — cleaner output, fewer tokens |
+| Scrape JS-heavy or Cloudflare-protected URL | `peruro <url>` | Only tool that reliably handles both. 1 credit/page. |
+| Need facts from a protected page (not raw content) | `noesis search` | Synthesises from indexed sources — no direct fetch. ~$0.006 |
 | Web search + scrape results | `peruro search <query>` | Returns scraped markdown per result, not just links |
 | Code & documentation | Context7 plugin | Best for library docs |
 | Job/company research | `WebSearch` → `noesis ask` | Free first, paid for depth |
