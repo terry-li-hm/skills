@@ -1,6 +1,6 @@
 ---
 name: iter
-description: HK bus stop navigator — know which stop to get off at when boarding an unfamiliar route. Use when boarding a bus and need to track stops or get an alert before your destination. NOT for MTR (use poros).
+description: HK bus stop navigator — know which stop to get off at when boarding an unfamiliar route. Also does Google Maps transit directions. Use when boarding a bus and need to track stops, or when planning a transit route in HK. NOT for MTR-only (use poros).
 ---
 
 # iter — HK Bus Stop Navigator
@@ -22,6 +22,10 @@ iter 1 --list --inbound
 
 # Force operator if auto-detect picks wrong one
 iter 8 "Heng Fa Chuen" "Central" --operator ctb
+
+# Get Google Maps transit directions (bus + MTR)
+iter route "Pok Fu Lam Fire Station" "Grand Promenade Sai Wan Ho"
+iter route "Central" "Diamond Hill"
 ```
 
 ## How it works
@@ -33,6 +37,8 @@ iter 8 "Heng Fa Chuen" "Central" --operator ctb
 5. Sends a **Telegram push notification** at `--alert N` stops before destination
 6. Prints "NEXT STOP IS YOURS" at 1 remaining; "GET OFF NOW" at 0
 
+`iter route` calls Google Maps Routes API and shows each transit leg with route number, stop names, and total time.
+
 ## Operators
 
 | Flag | Operator | Routes |
@@ -43,6 +49,15 @@ iter 8 "Heng Fa Chuen" "Central" --operator ctb
 
 GMB (green minibus) not supported — different API.
 
+## Environment variables
+
+| Var | Purpose | Source |
+|-----|---------|--------|
+| `TELEGRAM_BOT_TOKEN` | Telegram alerts | 1Password Agents vault |
+| `GOOGLE_MAPS_API_KEY` | `iter route` subcommand | 1Password Agents vault (`iter-routes-gmaps-key`), project `consilium-489403` |
+
+Both injected automatically via `~/.zshenv.tpl` at login.
+
 ## Gotchas
 
 - **Route not found**: try `--inbound` (some routes only run one direction, or the stops are listed in reverse)
@@ -50,14 +65,17 @@ GMB (green minibus) not supported — different API.
 - **Telegram alert missing**: check `TELEGRAM_BOT_TOKEN` env var is set (injected via 1Password at login)
 - **Stop name matches wrong stop**: fuzzy threshold is 60; if it picks wrong one, use a more specific substring (e.g., "Star Ferry Harbour" instead of just "Star Ferry")
 - **N+1 API calls**: ~25 HTTP calls to fetch stop names on first run — takes 5–10 seconds. Normal.
-- **Shebang uses `uv run --script`**: direct execution (`iter`) works because `~/bin/iter → ~/code/iter/iter.py`
+- **Binary in `~/bin/iter`**: Rust binary, not a Python script. Copy from `~/code/target/release/iter` after rebuild.
+- **KMB API base URL**: `data.etabus.gov.hk/v1/transport/kmb/` (NOT `rt.data.gov.hk/v2/transport/kmb/` — that's CTB only)
+- **Workspace build**: `cargo build --release` runs from `~/code/` workspace, so binary lands in `~/code/target/release/iter` (not `~/code/iter/target/`)
+- **Google Maps project**: API key belongs to `consilium-489403` (project number `99120138623`). Routes API enabled there. Use gcloud to manage.
 
 ## Files
 
-- Script: `~/code/iter/iter.py`
-- Symlink: `~/bin/iter`
+- Source: `~/code/iter/src/main.rs`
+- Binary: `~/bin/iter` (copied from `~/code/target/release/iter`)
 - Repo: `https://github.com/terry-li-hm/iter`
-- APIs: `data.etabus.gov.hk` (KMB) · `rt.data.gov.hk` (CTB)
+- APIs: `data.etabus.gov.hk` (KMB) · `rt.data.gov.hk` (CTB) · `routes.googleapis.com` (Google Maps)
 
 ## Related
 
