@@ -62,6 +62,8 @@ Don't split when:
 - Note is actively being iterated (wait until stable)
 - The two concerns are always read together (keep, add clear sections)
 
+**When splitting: always interlink.** Split notes lose context at the seams — the protocol makes more sense because of the EF context; the research makes more sense because of the protocol. Counter this by: (1) dense **Related:** lines on every child note, (2) a "child notes" pointer in the hub body, (3) cross-references at the point where context would otherwise be lost (e.g. "For *why* this works, see [[Research note]]"). Split for navigation clarity; interlink so nothing becomes opaque in isolation.
+
 ## Relationship Builders (strongest to weakest)
 
 | Tool | Strength | Use for |
@@ -95,7 +97,27 @@ Conversation Cards and positioning notes → link to the Reference note for fact
 - **Stale inline facts:** Numbers repeated in multiple notes without linking to a canonical source. One source of truth; others link.
 - **CLAUDE.md fact creep:** Time-sensitive data (dates, amounts, status) written into CLAUDE.md instead of vault. Facts age; rules don't.
 
+## Evidence Quality Tagging
+
+For research-backed notes, annotate each claim with its evidence quality inline. Makes the note honest and prevents treating soft extrapolations as hard facts on re-read.
+
+```
+| Claim | Research | Confidence |
+|-------|----------|------------|
+| ... | Warneken & Tomasello (2014) — directly tested on toddlers | `[strong]` — replicated, specific to domain |
+| ... | Vygotsky ZPD applied to cleanup routines | `[inferred]` — established theory, practitioner extrapolation |
+```
+
+Quality levels:
+- `[strong]` — well-replicated, multiple studies, or consensus review papers
+- `[moderate]` — single study or small sample; directionally reliable
+- `[inferred]` — reasonable extrapolation from adjacent research; not directly tested
+
+Add a one-paragraph "what the evidence is and isn't" section at the bottom distinguishing the well-supported mechanism from the inferred strategies. Example: [[Theo - Tidying Research]].
+
 ## Learnings
 
 - **Capco vs. vault root split (Mar 2026):** Operational project notes (CNCBI work) → vault root. Capco-facing angles/positioning → `notes/Capco/`. Caught when `AML Triage Model - Reference.md` was initially placed in `notes/Capco/`.
 - **Seed skills early.** Don't wait for three note-structure corrections — the pattern is clear after the first. (This skill exists because of that.)
+- **Split but interlink (Mar 2026):** When splitting a hub note, the split is only half the work — dense cross-references at the seams are what keep the notes useful in isolation. See "When splitting: always interlink" above.
+- **Evidence quality tagging (Mar 2026):** Research notes without confidence levels cause future misreading — inferred strategies look like strong findings. Tag inline, explain why. See Evidence Quality Tagging section above.
