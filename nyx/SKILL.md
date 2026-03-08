@@ -37,7 +37,10 @@ From 60-day historical analysis:
 
 ## Implementation notes
 
-- `bedtime_start` stored as **local HKT** in DuckDB (no UTC offset needed)
-- Numeric columns cast explicitly in SQL to avoid mixed-type duckdb returns
-- Script at `~/bin/nyx` (uv run --script, deps: duckdb, colored)
-- Source tracked in `~/officina/bin/nyx`
+- `bedtime_start` stored as **local HKT** in DuckDB (no UTC offset, `HKT_OFFSET_HOURS = 0`)
+- Rust binary — Cargo source at `~/code/nyx/`, binary installed to `~/bin/nyx`
+- Links against **system libduckdb** (`brew install duckdb`) — NOT the bundled crate (avoids 10min C++ compile)
+- `.cargo/config.toml` sets `DUCKDB_LIB_DIR`/`DUCKDB_INCLUDE_DIR` — `cargo build --release` just works
+- `duckdb` crate feature `chrono` enables `NaiveDate`/`NaiveDateTime` as `FromSql`/`ToSql` directly
+- Build time: ~4s cold, ~0.7s incremental
+- Repo: `github.com/terry-li-hm/nyx` (private)
