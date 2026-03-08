@@ -54,7 +54,7 @@ Answer each question before moving on. Do not scan and skip — a "no" is a vali
 1. **Anything unverified?** Did any tool call, file write, or command run this session produce output that wasn't checked? If yes → note it.
 2. **Anything deferred?** Did the conversation mention "later", "next", "should", "TODO", or "follow up" for something not yet captured? If yes → add to TODO.md or note it.
 3. **Uncommitted changes?** Any dirty repo with context that won't survive `/clear`? If yes → offer to commit.
-4. **Garden post?** Did a non-obvious insight emerge with a clear thesis, in Terry's lane, with no factual claims needing verification and no real names? Answer yes or no explicitly. If yes → run the sarcio auto-publish protocol now. Do not defer. Wrap is the safety net.
+4. **Garden post?** Did a non-obvious insight emerge with a clear thesis, no factual claims needing verification, and no real names? Terry's lane = AI engineering, workflow systems, tooling, personal systems, consulting practice — if the insight touches any of these, lane = yes. **When in doubt: draft and let judge decide. Judge is the gate, not this check.** Answer yes or no explicitly. If yes → run the sarcio auto-publish protocol now. Do not defer. Wrap is the safety net.
 5. **LinkedIn angle?** Did anything surface worth sharing publicly — an inversion, an architectural decision, a non-obvious pattern? Answer yes or no explicitly. If yes → add entry to `[[LinkedIn Content Ideas]]` now.
 6. **Consulting arsenal?** Did anything surface that's concretely applicable to a bank or client AI engagement? Answer yes or no explicitly. If yes → add bullet to `[[Capco Transition]]` under "Consulting Arsenal" now.
 
