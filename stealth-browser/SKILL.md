@@ -7,8 +7,16 @@ description: Reference skill for bypassing Cloudflare Turnstile via Chrome cooki
 
 Reference skill for bypassing Cloudflare Turnstile and accessing authenticated sites via Chrome cookie extraction + playwright-extra stealth. Consult when agent-browser fails on Cloudflare-protected sites or when browser automation needs an authenticated Chrome session.
 
+## Escalation Order (Cloudflare-blocked sites)
+
+**Try in this order — stop at first success:**
+
+1. `peruro "<url>"` — Firecrawl residential proxies, 1 credit/page. Works on most Cloudflare Bot Management sites (confirmed: OpenRice). No setup needed.
+2. `stealth-browser` (this skill) — full Chrome cookie injection + playwright-extra stealth. Use when `peruro` fails or site requires authentication.
+
 ## When to Use
 
+- `peruro` has failed or returned a challenge page
 - `agent-browser` gets blocked by Cloudflare Turnstile CAPTCHA
 - Need to automate a site the user is logged into in Chrome
 - Need to inject Chrome's authenticated session into Playwright
@@ -16,7 +24,7 @@ Reference skill for bypassing Cloudflare Turnstile and accessing authenticated s
 ## When NOT to Use
 
 - Site works fine with `agent-browser` (no Cloudflare)
-- Public pages without authentication
+- Public pages without authentication → try `peruro` first
 - Sites that need interactive login (Google OAuth blocks Playwright — no workaround)
 
 ## Prerequisites
