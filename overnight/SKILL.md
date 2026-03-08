@@ -30,8 +30,23 @@ Check results from the nightly queue and manage tasks.
 |---------|------|------|------------|
 | `opencode` (default) | Code review, file analysis, local tasks | Free (GLM-5) | No |
 | `gemini` | Web scraping, news, anything needing URLs | Free (1500 RPD) | Yes |
+| `claude` | Peira experiments, vault-aware tasks, skill-level reasoning | Max20 tokens | Yes |
 
 Set `backend: gemini` on any task in the queue YAML.
+
+## Peira Experiments (Overnight)
+
+Queue a peira campaign to run autonomously overnight:
+
+```bash
+peira init "topic"          # scaffold campaign + brief.md
+# fill in brief.md (target, metric, baseline, budget)
+peira-queue                 # adds most recent campaign to queue (enabled: true)
+peira-queue --list          # show available campaigns
+peira-queue --dry-run       # preview the queue entry
+```
+
+The experiment runs via `backend: claude` — full Claude reasoning, writes results directly to `~/notes/Experiments/<campaign>/log.md`. Check results in the morning with `/overnight results`.
 
 ## Default: Show Last Run Summary
 
