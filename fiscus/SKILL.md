@@ -124,3 +124,11 @@ Save updated `~/docs/financials/recurring-baseline.json`.
 - [ ] Confirm iCloud Drive statement folder path — update Step 0
 - [ ] Run on first SC statement PDF to build baseline
 - [ ] Decide if HSBC account should be added
+
+## Bank Automation Status
+
+| Bank | Automatable? | Notes |
+|------|-------------|-------|
+| HSBC | No | Hard bot detection (EAC error) even in headed Chromium |
+| CCBA | Likely yes | Loaded cleanly; "system busy" = unauthenticated only. Log in via headed Chromium → cookies persist |
+| SCB | Untested | In maintenance Mar 8 |
