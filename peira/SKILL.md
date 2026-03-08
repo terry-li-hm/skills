@@ -1,6 +1,10 @@
 ---
 name: peira
-description: Autonomous experiment-optimize loop for any measurable target. Use when prompt engineering, habit tuning, performance benchmarking, classifier improvement, config search — any "what works better?" question with a quantifiable metric. Trigger: /peira.
+description: >-
+  Autonomous experiment-optimize loop for any measurable target. Use when
+  prompt engineering, habit tuning, performance benchmarking, classifier
+  improvement, config search — any "what works better?" question with a
+  quantifiable metric. Trigger: /peira.
 user_invocable: true
 ---
 
