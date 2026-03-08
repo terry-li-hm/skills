@@ -33,6 +33,8 @@ Does it change a standing rule? → `CLAUDE.md`.
 
 If in doubt: skill holds the rule, docs holds the *why*. Non-exclusive.
 
+**Gate before writing to MEMORY.md:** Ask — "does an existing skill own this behaviour?" If yes, update the skill instead. MEMORY.md is the last resort, not the default capture target. Writing to MEMORY.md without checking skills first is a miss.
+
 ## CLAUDE.md Rules
 
 - Rules only — no time-sensitive facts (dates, status, amounts).
