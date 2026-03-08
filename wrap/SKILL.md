@@ -84,6 +84,8 @@ Arsenal:     yes/no — [one-line reason]
 
 "I'll do it later" or adding to NOW.md does not count. The point of the gate is that session context — the material for the post — evaporates after wrap. Act while the insight is hot.
 
+**HARD STOP after Pre-Wrap block.** Output the Pre-Wrap block, then stop. Do not continue to Steps 1–4 in the same response. Wait for user reply. This is the only real enforcement — if Pre-Wrap and Step 1 are in the same response, there is no pause and blocking yes answers get skipped.
+
 ### Step 1: TODO Sweep
 
 Read `~/notes/TODO.md`. Two scans:
