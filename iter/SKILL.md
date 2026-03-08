@@ -54,7 +54,7 @@ GMB (green minibus) not supported — different API.
 | Var | Purpose | Source |
 |-----|---------|--------|
 | `TELEGRAM_BOT_TOKEN` | Telegram alerts | 1Password Agents vault |
-| `GOOGLE_MAPS_API_KEY` | `iter route` subcommand | 1Password Agents vault (`iter-routes-gmaps-key`), project `consilium-489403` |
+| `GOOGLE_MAPS_API_KEY` | `iter route` subcommand | 1Password Agents vault (`iter-routes-gmaps-key`), GCP project `iter-hk-bus` |
 
 Both injected automatically via `~/.zshenv.tpl` at login.
 
@@ -68,7 +68,7 @@ Both injected automatically via `~/.zshenv.tpl` at login.
 - **Binary in `~/bin/iter`**: Rust binary, not a Python script. Copy from `~/code/target/release/iter` after rebuild.
 - **KMB API base URL**: `data.etabus.gov.hk/v1/transport/kmb/` (NOT `rt.data.gov.hk/v2/transport/kmb/` — that's CTB only)
 - **Workspace build**: `cargo build --release` runs from `~/code/` workspace, so binary lands in `~/code/target/release/iter` (not `~/code/iter/target/`)
-- **Google Maps project**: API key belongs to `consilium-489403` (project number `99120138623`). Routes API enabled there. Use gcloud to manage.
+- **Google Maps project**: API key belongs to `iter-hk-bus` (project number `5375087751`). Routes API enabled there. Use gcloud to manage.
 
 ## Files
 
