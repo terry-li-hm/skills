@@ -51,6 +51,10 @@ launchctl list com.terry.lustro-daily
 launchctl unload ~/Library/LaunchAgents/com.terry.AGENT.plist
 launchctl load ~/Library/LaunchAgents/com.terry.AGENT.plist
 
+# Fully disable (stop + prevent restart)
+launchctl unload ~/Library/LaunchAgents/com.terry.AGENT.plist
+# NOTE: `launchctl stop` alone does NOT disable — KeepAlive restarts it immediately. Always use unload.
+
 # Add new agent
 # 1. Create plist in ~/officina/launchd/
 # 2. ln -s ~/officina/launchd/com.terry.NAME.plist ~/Library/LaunchAgents/

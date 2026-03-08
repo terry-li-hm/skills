@@ -178,6 +178,8 @@ consilium --doctor                # Check API keys and connectivity
 - **`--format json` only works with council and quick modes.** Other modes output prose only.
 - **`--challenger` and `--followup` are council-only.**
 - **GPT-5.4-Pro (Responses API) is slow for `--council`.** Takes 67-120s+ per call with structured prompts — times out in blind (90s cap) and debate (120s cap). Council completes with 3/5 models in ~7-9 min. For faster runs: `CONSILIUM_MODEL_M1="google/gemini-2.5-flash" consilium --council "..."`. Full diagnosis: `~/docs/solutions/gpt-5.4-pro-responses-api-latency.md`.
+- **402 = OpenRouter out of credits.** Tell Terry to top up at openrouter.ai/credits. Do not retry or proceed.
+- **403 on a new model = access restricted (allowlist-gated).** Test before upgrading: `consilium --quick --quiet "test" 2>&1 | grep -i "403\|error"`. Swap to an available model or remove from rotation.
 
 ---
 
