@@ -1,6 +1,6 @@
 ---
 name: deltos
-description: Send text/code snippets to Telegram as formatted code blocks for mobile copy-paste. Replaces tg-clip bash script.
+description: Send text/code snippets or image files to Telegram. Text → HTML code blocks for mobile copy-paste. Images → sendPhoto with optional caption.
 ---
 
 # deltos
@@ -20,6 +20,10 @@ deltos "label" "content"
 
 # Plain mode (URLs, no <pre> wrapper)
 echo "https://example.com" | deltos --plain "link"
+
+# Send an image file (--photo)
+deltos --photo ~/tmp/qrcode.png "optional caption"
+deltos --photo ~/screenshots/chart.png
 ```
 
 ## Config
