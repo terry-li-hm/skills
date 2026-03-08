@@ -77,6 +77,13 @@ Arsenal:     yes/no — [one-line reason]
 ─────────────────────────────────────────────────
 ```
 
+**YES answers are blocking.** Do not proceed to Step 1 until each yes is actioned:
+- Garden post YES → run sarcio protocol inline, right now, before Step 1
+- LinkedIn YES → add entry to `[[LinkedIn Content Ideas]]` inline, before Step 1
+- Arsenal YES → add bullet to `[[Capco Transition]]` inline, before Step 1
+
+"I'll do it later" or adding to NOW.md does not count. The point of the gate is that session context — the material for the post — evaporates after wrap. Act while the insight is hot.
+
 ### Step 1: TODO Sweep
 
 Read `~/notes/TODO.md`. Two scans:
