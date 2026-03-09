@@ -68,8 +68,8 @@ One block, before any wrap steps. Q4–6 are **always present** — no "all clea
 
 ```
 ─── Pre-Wrap ────────────────────────────────────
-⚠  [anything needing action, or "none"]
-→  [loose ends, or "none"]
+⚠  [action needed, or "none"]
+→  Deferred: [things mentioned as "later/next/TODO" not yet captured, or "none"]
 ✓  [clean checks]
 Garden post: drafted → <slug> | no — [reason]
 LinkedIn:    added → [[LinkedIn Content Ideas]] | no — [reason]
@@ -150,7 +150,7 @@ Always run. If nothing surfaces, one line: "Nothing to generalise." Do NOT inven
 
 One pass, three outputs:
 
-**A. What generalises?** — Start with: *"Name 1–3 things from this session (or the work it built on) that were non-obvious."* If you can name them, write them now. Patterns, corrections, architectural insights, reusable approaches — route to MEMORY.md or `~/docs/solutions/` before context is lost. If truly nothing, say so explicitly.
+**A. What generalises?** — Start with: *"Name 1–3 things from this session (or the work it built on) that were non-obvious."* If you can name them, **file them immediately** — edit MEMORY.md, `~/docs/solutions/`, or the relevant skill now. Do not state them in the wrap output without also writing them to a file. Stated-but-not-filed learnings are lost after `/clear`. If truly nothing, say so explicitly.
 
 **B. File learnings** — Uncaptured friction, corrections, gotchas, or system evolution? Route to the most specific file: tool gotcha → `~/docs/solutions/`, cross-session context → MEMORY.md, skill workflow → the skill's SKILL.md. **Implement directly** — edit the target file now. Should a skill be tightened? Edit it. Hook needed? Write it. Same mistake twice → escalate per `~/docs/solutions/enforcement-ladder.md`. Only defer if the change requires user input or is genuinely out of scope for a wrap.
 
