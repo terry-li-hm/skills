@@ -217,6 +217,8 @@ Skip for: personal scripts, internal tools, leaf-node changes with no external s
 Skip when: leaf-node change, purely additive, no callbacks or state persistence.
 If review agents are unavailable, run a manual `git diff` + smoke test and mark review as "manual fallback".
 
+**CLI binary changes — always smoke test before closing.** After any `cargo build --release` or equivalent: run `<binary> --version` or a minimal real invocation to confirm the new binary works. Don't wait to be asked. Burned: swapped consilium council model, shipped and committed without testing until user prompted.
+
 ### 5. Companion skill + GitHub repo + crates.io (for any installed CLI or published tool)
 
 Create `~/skills/<name>/SKILL.md` in the same session — gotchas are freshest now.
