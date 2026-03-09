@@ -12,12 +12,15 @@ A collaborative inbox triage. Claude pulls the inbox and all unread briefs, read
 
 Run in parallel:
 ```bash
-cora brief                                      # list all briefs — check for unread ones
-gog gmail search "in:inbox" --limit 30          # full inbox list
-gog gmail search "label:Cora/Action" --limit 20 # Cora-flagged actions outside inbox
+cora brief                                                                         # list all briefs — check for unread ones
+gog gmail search "in:inbox" --limit 30                                             # full inbox list
+gog gmail search "label:Cora/Action" --limit 20                                    # Cora-flagged actions outside inbox
+gog gmail search "category:personal -label:Cora -in:inbox newer_than:7d" --limit 30  # silent miss sweep
 ```
 
 **`Cora/Action` emails must be triaged** even though they're not in inbox — Cora explicitly flagged them as requiring action but strips the INBOX label. Treat them identically to inbox items.
+
+**Silent miss sweep** catches real emails (from actual people) that Gmail miscategorised and Cora never processed. Expect noise (Cora brief emails, Vercel alerts, X pings) — scan for human senders and restore INBOX for anything actionable: `gog gmail thread modify <id> --add INBOX`.
 
 Then read **all unread briefs** before triaging:
 ```bash
