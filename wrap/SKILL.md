@@ -73,7 +73,7 @@ Dispatch standing audits when the session touched the relevant area. Fire with `
 | Solutions KB dedup (find overlapping entries in `~/docs/solutions/`) | `~/docs/solutions/` modified |
 | Vault orphan links (`nexis` skill) | Monthly only — skip if run this month |
 
-If nothing qualifies, skip silently. If dispatched, add a `Dispatched:` line to the Pre-Wrap block. Result arrives next session or same session if short.
+If nothing qualifies, skip silently. If dispatched, add a `Dispatched:` line to the Pre-Wrap block. **Check results at Step 4** (meta-close) — dispatch happens early enough in wrap that most audits complete before Step 4 runs. Do NOT dispatch at the very end of a session; background agents are child processes and die when the session closes.
 
 #### Output format
 
