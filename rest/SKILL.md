@@ -51,12 +51,23 @@ If current time is after 12:00 HKT, check `~/notes/Job Hunting/Job Alerts YYYY-M
 - If any exist, include in the menu as: "💼 Job alerts: X roles flagged — `/evaluate-job`"
 - Skip silently if file missing or all items checked
 
-### 4. Present Menu
+### 4. Inbox triage prompt (post-3pm only)
+
+If current time is after 15:00 HKT, check inbox count from Step 1. If Gmail shows any unread/inbox items, include in the menu:
+
+```
+📧 Inbox triage: X in inbox — `/acta` (10 min, wind-down)
+```
+
+This is the daily acta slot. Email is a low-energy end-of-day task, not a morning one.
+
+### 5. Present Menu
 
 Show results as a short, scannable list grouped by type:
 
 ```
 📬 Inbox: 3 Gmail, 1 WhatsApp
+📧 Inbox triage: 3 in inbox — /acta (10 min, wind-down)
 💼 Job alerts: 4 roles flagged
 🏠 Quick wins: [2-5 items from TODO.md]
 ```
@@ -67,8 +78,8 @@ End with: "Want to tackle any of these, or just check messages?"
 
 ## Notes
 
-- This skill does NOT do Gmail triage. It shows unread count so Terry can decide to open Gmail himself or ask for `/gmail`.
+- This skill does NOT do Gmail triage itself. It surfaces the count so Terry can decide to run `/acta`.
 - Don't add low-energy items to TODO.md from this skill — it's read-only on TODO.md.
-- If Terry picks "check Gmail", hand off to `/gmail` skill.
+- If Terry picks "check Gmail" or "acta", hand off to `/acta` skill.
 - If Terry picks a TODO item, help with it directly.
 - The `low-energy` tag is compatible with the existing `/todo` system — items tagged this way still show in `/todo` normally.
