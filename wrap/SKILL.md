@@ -40,7 +40,7 @@ Run all mechanical checks with:
 ```bash
 prewrap
 ```
-Interprets output: `⚠` = action needed, `✓` = clean, `?` = check unavailable.
+Interprets output: `⚠` = action needed, `✓` = clean, `?` = check unavailable. Only use `⚠` when there is something to act on — never `⚠  none`.
 - Unlinked skills → suggest `ln -s` or `/agent-sync`
 - Dirty repos → show files, offer to commit (don't auto-commit)
 - MEMORY.md >150 lines → suggest demoting to `~/docs/solutions/memory-overflow.md`
@@ -68,9 +68,9 @@ One block, before any wrap steps. Q4–6 are **always present** — no "all clea
 
 ```
 ─── Pre-Wrap ────────────────────────────────────
-⚠  [action needed, or "none"]
+⚠  [only if action needed — omit this line entirely if nothing to flag]
 →  Deferred: [things mentioned as "later/next/TODO" not yet captured, or "none"]
-✓  [clean checks]
+✓  [clean checks, e.g. "skills synced, repos clean, MEMORY.md 147/150"]
 Garden post: drafted → <slug> | no — [reason]
 LinkedIn:    added → [[LinkedIn Content Ideas]] | no — [reason]
 Arsenal:     added → [[Capco Transition]] | no — [reason]
