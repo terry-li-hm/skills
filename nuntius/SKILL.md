@@ -66,6 +66,34 @@ cora chat send "message"              # New conversation (10-60s)
 cora chat send "message" --chat <id>  # Continue conversation
 ```
 
+## Daily Email Workflow (AI-native with review layer)
+
+Cora is the primary triage layer. Inbox = action queue; archive = done. Work off Cora's output, not the raw inbox — but spot-check while trust is being established.
+
+### Morning routine
+```bash
+cora brief show          # Step 1: digest — what came in, what's flagged
+cora todo list           # Step 2: action queue — work from here, not the inbox
+cora email glimpse       # Step 3: spot-check — scan inbox for anything brief missed
+```
+
+### Closing an email
+Once actioned: archive it. Cora stops seeing it; inbox stays clean.
+```bash
+cora email archive <id>
+```
+
+### Trust-building review (run until confident — target ~2 weeks clean)
+After the brief, ask: did Cora catch everything I would have caught manually?
+- Silent miss → log it, check domain filters
+- Missed action item → check if todo was created
+- Two misses in the same category → fix the root cause (filter, label, or Cora config)
+
+### Exit criteria for dropping the spot-check
+- 2 weeks with no silent misses
+- Todos consistently match actual action items
+- Keep domain filters permanently regardless
+
 ## Best Practices
 
 - **Prefer instant commands** over `cora chat send` — chat is 10-60s
