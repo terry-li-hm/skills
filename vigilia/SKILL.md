@@ -73,6 +73,12 @@ Run `pipeline_node_test.py` — expect:
 - Relabel count ~14,881 (±500)
 - "ALL PASSED"
 
+## Working Style
+
+**Write scripts to check, never ask Terry to relay.** When investigating a data issue — pipeline gap, schema diff, result comparison — add a step to the script that computes and prints the answer. "What step_upd values are in gap but not scored?" → add a diff block. Asking Terry to read a long table and describe it is wrong. Terry runs on CDSW; Claude writes the queries.
+
+**`alert_stat` is unreliable for historical analysis (Minnie).** Always overwritten with latest status on data reload. Use `step_upd` + `step_upd_tm` to infer pipeline step at point in time.
+
 ## Critical Gotchas
 
 - **`alert_typ_id` is NOT in `imh_apm_core.str`.** Do not filter on it. Pipeline filters for system alerts (10007) upstream. Earlier versions of the patch had this filter — it would crash with `KeyError`.
