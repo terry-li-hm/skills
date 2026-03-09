@@ -18,6 +18,7 @@ fasti list 2026-03-10
 # Create an event
 fasti create "Event title" --date today --from 10:00 --to 11:00
 fasti create "Meeting" --date 2026-03-12 --from 14:00 --to 15:00 --description "Optional notes"
+fasti create "Interview" --date 2026-03-16 --from 15:30 --to 16:30 --location "8/F MTR HQ, KLB"
 
 # Move an event (preserves duration)
 fasti move <event-id> today 14:00
