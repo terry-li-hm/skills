@@ -130,8 +130,8 @@ Reviews (spec compliance + code quality) always stay as Claude subagents regardl
 
 **Launch backgrounded (single delegate):**
 ```bash
-# Codex
-codex exec --skip-git-repo-check --full-auto "<prompt>"
+# Codex — MUST cd into the target repo first (writes scoped to CWD even with --sandbox danger-full-access)
+cd ~/code/<repo> && codex exec --skip-git-repo-check --full-auto "<prompt>"
 
 # Gemini — MUST cd into the project repo first (Gemini locks workspace to CWD)
 cd ~/code/<project> && gemini -p "<prompt>" --yolo
@@ -301,6 +301,7 @@ When a delegate fails or behaves unexpectedly, check `~/docs/solutions/delegatio
 Key quick-reference:
 - OpenCode silent fail → prompt >4K chars
 - Codex hangs → bundle files into `/tmp/` first
+- Codex write blocked ("Operation not permitted") → launched from wrong CWD; always `cd ~/code/<repo> && codex exec ...`
 - Gemini no file changes → missing `--yolo`
 - Double-backgrounded → never use `&` with `run_in_background: true`
 - After Codex → always `git add && git commit` manually (sandbox blocks `.git`)
