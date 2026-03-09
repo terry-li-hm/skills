@@ -278,6 +278,8 @@ result.join(' | ');
 
 **Quick rule:** `eval` for navigation/reading state, `fill` for text inputs, `click @ref` or `click "selector"` for buttons, `upload` for files, `check "#id"` for checkboxes. Only dropdowns on heavy SPAs need manual interaction.
 
+**`upload` syntax:** `agent-browser upload "css-selector" "/path/to/file"` — two args: selector first, path second. `upload "/path/file"` treats the path as a CSS selector and fails. The file input is often hidden until a dialog is opened; find it with `eval "Array.from(document.querySelectorAll('input[type=file]')).map(el => el.id).join('\\n')"` then use `upload "input[type=file]" "/path/file"`.
+
 ## Multi-Field Form Filling
 
 Filling long registration forms (e.g. Cliniko, medical intake). Learned patterns:

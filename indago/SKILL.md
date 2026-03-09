@@ -66,6 +66,7 @@ Known site types (skip to winner directly):
 - Wix JS-rendered (no Cloudflare) → `agent-browser get text` (free); `peruro` only if Cloudflare blocks agent-browser too
 - Cloudflare Bot Management → `peruro`
 - Static HTML → `defuddle`
+- SAP SuccessFactors (`career10.successfactors.com`) → `agent-browser` works fine (no Cloudflare). Navigate via employer careers site → Apply Now (direct URL fails). See `~/docs/solutions/browser-automation/successfactors-career-portal.md`.
 
 ## noesis CLI
 
