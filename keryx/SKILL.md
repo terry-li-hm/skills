@@ -7,6 +7,16 @@ description: WhatsApp CLI wrapper — contact name resolution, dual-JID conversa
 
 Thin wrapper around `wacli` that fixes its four friction points: manual JID lookup, split conversations across phone/LID JIDs, daemon lock on send, and sync reliability (periodic catch-up).
 
+## Pre-flight: Research Before Messaging
+
+If the message asks for publicly available info (fee, hours, address, availability) — check the website first:
+```bash
+defuddle parse https://their-website.com   # fast, fails silently on JS-rendered sites
+# if empty → fall back to:
+agent-browser open https://their-website.com && agent-browser wait 3000 && agent-browser get text
+```
+Only draft the WhatsApp if both fail. Wix/React/SPA sites look scraped but return nothing to defuddle — agent-browser handles them.
+
 ## Commands
 
 ```bash
