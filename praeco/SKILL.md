@@ -37,10 +37,6 @@ launchctl unload ~/Library/LaunchAgents/com.terry.praeco.plist
 launchctl load ~/Library/LaunchAgents/com.terry.praeco.plist
 ```
 
-## Telegram
-Bot token from env `TELEGRAM_BOT_TOKEN` or keychain `telegram-bot-token`.
-Chat ID: `6201770409` (TekmarBot).
-
 ## Gotchas
 - **BRDR SSL cert**: `brdr.hkma.gov.hk` has a self-signed cert — `danger_accept_invalid_certs(true)` is scoped to that host only
 - **BRDR returns HTML for some docs**: non-PDF responses are silently skipped (Content-Type check). `-1-EN` docs often return HTML index page, not a PDF
