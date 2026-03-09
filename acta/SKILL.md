@@ -1,6 +1,6 @@
 ---
-name: relego
-description: "Guided inbox triage session — review Gmail inbox together with Terry, prioritise actionable items, action each one, and archive noise. Use when Terry says 'review inbox', 'check emails', 'email review', or 'relego'."
+name: acta
+description: "Guided inbox triage session — review Gmail inbox together with Terry, prioritise actionable items, action each one, and archive noise. Use when Terry says 'review inbox', 'check emails', 'email review', or 'acta'."
 user_invocable: true
 ---
 
