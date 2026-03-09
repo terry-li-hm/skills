@@ -49,7 +49,7 @@ If Endgame Mode: append `⚡ Endgame Mode — N days to start`
 ### 2A. Read & Extract Mode (Mon/Wed/Fri)
 
 1. Read the program note's reading list
-2. Pick the next unread item (sequential order)
+2. Pick the next unread item (sequential order). **Skip the "Client-specific pre-work" block** — those are standalone research sessions run outside this skill, not 15-min reads.
 3. **If it's a book:** Give a 2-3 paragraph summary of the key concepts relevant to Terry's situation. Focus on one actionable principle.
 4. **If it's a search topic:** Run a web search, find the best piece, summarise in 2-3 paragraphs.
 5. After presenting the material, ask Terry:
