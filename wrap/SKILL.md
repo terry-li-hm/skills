@@ -60,7 +60,7 @@ Answer each question before moving on. Do not scan and skip — a "no" is a vali
 
 Questions 4–6 require an explicit yes/no answer in the Pre-Wrap output block. Omitting them is a skip, not a "no."
 
-**Active experiments?** Run `peira status 2>/dev/null` — if a campaign is active, surface current score in the Pre-Wrap block.
+**Active experiments?** Run `peira status 2>/dev/null` — if a campaign is active, surface current score in the Pre-Wrap block. Exit code 1 with "Failed to read log.toml" = no active experiment, treat as clean skip.
 
 #### Output format
 

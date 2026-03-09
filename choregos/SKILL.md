@@ -1,5 +1,5 @@
 ---
-name: ductus
+name: choregos
 description: >
   Auto-routed parallel dev pipeline. Use when you have 2+ independent tasks to execute
   simultaneously without Terry in the loop per step. Decomposes, routes, launches all
