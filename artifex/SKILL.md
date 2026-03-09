@@ -214,3 +214,17 @@ Expected output:
 ```
 
 The example also acts as a regression anchor: if a skill starts behaving oddly after an edit, check whether the example still holds.
+
+### 13. Skills Fetch, LaunchAgents Collect
+
+**Skills should be result renderers, not data gatherers.** If a skill makes API calls or runs file scans to assemble its output, ask: could a LaunchAgent pre-compute this and write a snapshot?
+
+```
+LaunchAgent (scheduled)  →  writes snapshot to known path
+Skill (on demand)        →  reads snapshot, renders instantly
+```
+
+Apply when: data has latency >2s, changes on a known schedule, or multiple skills need it.
+Skip when: data must be real-time (live calendar, current search results).
+
+Full pattern: `~/docs/solutions/patterns/skill-as-renderer.md`
