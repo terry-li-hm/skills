@@ -103,6 +103,11 @@ After the brief, ask: did Cora catch everything I would have caught manually?
 
 ## Known Gotchas
 
+### Unread count in "All Mail" is expected noise
+Cora intentionally never marks emails as read. Its model: the daily brief is the reading interface, not Gmail. Cora labels emails (`Cora/Newsletter`, `Cora/Payments` etc.) but leaves read/unread state untouched. The `📥 Next Brief` label tracks "briefed yet", not Gmail's unread flag.
+
+**Don't try to zero the All Mail unread count** — it will just accumulate again. Set Gmail's unread badge to inbox-only (Settings → General → Inbox count). Inbox zero is the goal; All Mail unread is noise.
+
 ### Interview/recruiter emails silently missing from inbox
 Two confirmed cases of interview invitation emails arriving without an `INBOX` Gmail label — meaning they never appear in inbox and Cora never processes them (Cora only scans inbox). Root cause unclear: may be Gmail miscategorisation or Cora stripping INBOX during processing.
 
