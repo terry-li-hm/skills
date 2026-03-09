@@ -1,11 +1,11 @@
 ---
 name: praeco
-description: Monitor HK financial regulatory circulars (HKMA + SFC). Use when checking for new regulatory circulars, running praeco commands, or troubleshooting the regulatory monitor. Triggers on "praeco", "regulatory monitor", "HKMA circular check", "SFC circular".
+description: Monitor HK financial regulatory circulars (HKMA + SFC + IA). Use when checking for new regulatory circulars, running praeco commands, or troubleshooting the regulatory monitor. Triggers on "praeco", "regulatory monitor", "HKMA circular check", "SFC circular", "IA circular".
 ---
 
 # praeco — HK Regulatory Circular Monitor
 
-Rust CLI that polls HKMA and SFC for new circulars and press releases, downloads PDFs automatically, and sends Telegram notifications.
+Rust CLI that polls HKMA, SFC, and IA for new circulars and press releases, and downloads PDFs automatically.
 
 ## Commands
 
@@ -19,6 +19,8 @@ praeco download <url> # Download a specific PDF by URL
 ## Sources
 - **HKMA**: `https://api.hkma.gov.hk/public/press-releases?lang=en` (JSON API, no scraping)
 - **SFC**: `https://www.sfc.hk/en/RSS-Feeds/Circulars` (RSS 2.0 feed)
+- **IA**: `http://www.ia.org.hk/en/rss/rss_news_en.xml` (RSS "What's New" feed — covers circulars + press releases)
+- **MPFA**: email-only (subscribed to Circulars category at terry.li.hm@gmail.com)
 
 ## State & Output
 - Seen items: `~/.local/share/praeco/seen.json`
@@ -43,7 +45,8 @@ launchctl load ~/Library/LaunchAgents/com.terry.praeco.plist
 - **BRDR probing is noisy**: scam alerts / bond tenders show "non-PDF" warnings because BRDR returns HTML for non-circular press releases — expected, not a bug
 - **SFC refNo extraction**: parsed from URL query param `refNo=` (e.g. `26EC11`)
 - **Workspace build**: binary lands at `~/code/target/release/praeco`, not `~/code/praeco/target/release/praeco`
-- **IA / MPFA**: not covered — both sites are JS-rendered with no RSS/API. Joint circulars always appear on HKMA, so coverage is complete for cross-regulator items
+- **IA has RSS**: `http://www.ia.org.hk/en/rss/rss_news_en.xml` — "What's New" feed, covered. MPFA is email-only (subscribed to Circulars).
+- **Don't assume no feed**: checked IA in Mar 2026 — had RSS all along. Always verify before concluding "no feed available."
 
 ## Rebuild & Install
 ```bash
