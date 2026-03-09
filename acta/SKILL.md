@@ -4,19 +4,24 @@ description: "Guided inbox triage session — review Gmail inbox together with T
 user_invocable: true
 ---
 
-# Relego — Email Review Session
+# Acta — Email Review Session
 
-A collaborative inbox triage. Claude pulls the inbox, reads each email, and works through them with Terry one by one.
+A collaborative inbox triage. Claude pulls the inbox and all unread briefs, reads everything, and works through items with Terry one by one.
 
-## Step 1 — Load the inbox
+## Step 1 — Load the inbox and briefs
 
 Run in parallel:
 ```bash
-cora brief show          # digest since last review
-gog gmail search "in:inbox" --limit 30   # full inbox list
+cora brief                               # list all briefs — check for unread ones
+gog gmail search "in:inbox" --limit 30  # full inbox list
 ```
 
-If the brief errored or is stale (>6h), note it but continue with the glimpse.
+Then read **all unread briefs** before triaging:
+```bash
+cora brief show <id>    # for each unread brief
+```
+
+If `cora brief show` errors, note it but continue with the inbox. If multiple unread briefs, read newest first — older ones may be superseded.
 
 ## Step 2 — Triage and present
 
@@ -28,7 +33,9 @@ Categorise every email into one of three buckets:
 | **Monitor / waiting** | Ball is in someone else's court | Note and archive if clean |
 | **Archive now** | Transactional, automated, or already handled | Archive without presenting |
 
-**Archive now without asking:** Cora Briefs emails, OTPs, login notifications, password resets, booking confirmations already actioned, automated "pending request" emails that have been superseded.
+**Archive now without asking:** OTPs, login notifications, password resets, automated "pending request" emails that have been superseded, booking confirmations already actioned.
+
+**Cora Briefs emails — read before archiving.** Each brief email in the inbox represents unread digest content. Read the brief via `cora brief show <id>` first, extract any action items, then archive the email. Never batch-archive briefs without reading them.
 
 Present the action-required list first. For each item, include:
 - Who it's from and subject
