@@ -136,6 +136,8 @@ now-age
 If recent (<1h, likely another session), update only what changed. Otherwise, full overwrite.
 If age check command fails, treat as stale and proceed with full overwrite.
 
+**ALWAYS read NOW.md from disk before writing.** Use the on-disk content as the baseline — never reconstruct from session memory alone. Apply session deltas (new decisions, completed items) on top of what's already there. This prevents resurrecting items completed in other sessions or by Obsidian CloudKit sync between wraps.
+
 A session is **light** if: <3 files were modified and no decisions were made. If light and NOW.md is still accurate, skip.
 
 Max 15 lines:
