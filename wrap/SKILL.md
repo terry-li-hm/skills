@@ -150,7 +150,7 @@ Always run. If nothing surfaces, one line: "Nothing to generalise." Do NOT inven
 
 One pass, three outputs:
 
-**A. What generalises?** — Start with: *"Name 1–3 things from this session (or the work it built on) that were non-obvious."* If you can name them, **file them immediately** — edit MEMORY.md, `~/docs/solutions/`, or the relevant skill now. Do not state them in the wrap output without also writing them to a file. Stated-but-not-filed learnings are lost after `/clear`. If truly nothing, say so explicitly.
+**A. What generalises?** — Start with: *"Name 1–3 things from this session (or the work it built on) that were non-obvious."* If you can name them, **file them immediately** — edit MEMORY.md, `~/docs/solutions/`, or the relevant skill now. Do not state them in the wrap output without also writing them to a file. Stated-but-not-filed learnings are lost after `/clear`. If truly nothing, say "Nothing to generalise" explicitly.
 
 **B. File learnings** — Uncaptured friction, corrections, gotchas, or system evolution? Route to the most specific file: tool gotcha → `~/docs/solutions/`, cross-session context → MEMORY.md, skill workflow → the skill's SKILL.md. **Implement directly** — edit the target file now. Should a skill be tightened? Edit it. Hook needed? Write it. Same mistake twice → escalate per `~/docs/solutions/enforcement-ladder.md`. Only defer if the change requires user input or is genuinely out of scope for a wrap.
 
@@ -171,8 +171,11 @@ Handoff note to tomorrow-you, not a build log. 2-3 sentences for light sessions,
 
 STR relabelling: from WIP to cold-start handover package. Handover doc drafted, 34 scripts committed with README, CDSW dry run passed. Pipeline test gist staged for the next window.
 
+Filed: [file path or "nothing to generalise"]
 ─────────────────────────────────────────────────
 ```
+
+The `Filed:` line is a receipt — name the exact file edited, or state "nothing to generalise" explicitly. Omitting it means Step 4 was skipped.
 
 **Do NOT hard-wrap the prose.** Let the terminal handle line wrapping naturally.
 
