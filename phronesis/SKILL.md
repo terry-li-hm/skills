@@ -13,8 +13,7 @@ Daily practice skill for building consulting mental models before Capco start. T
 **State:** `~/notes/Career/.consulting-prep-state.json` (progress tracking)
 **Log target:** Today's daily note at `~/notes/Daily/YYYY-MM-DD.md`
 
-**Expires:** When Terry starts at Capco (Apr 8). After that, suggest switching to the live observation format described in the program note.
-**Start date:** 2026-04-08
+**Expires:** 2026-04-08 (Capco start). After that, suggest switching to the live observation format described in the program note.
 
 ## Trigger
 
