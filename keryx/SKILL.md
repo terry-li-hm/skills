@@ -9,23 +9,13 @@ Thin wrapper around `wacli` that fixes its four friction points: manual JID look
 
 ## Pre-flight: Research Before Messaging
 
-If the message asks for publicly available info (fee, hours, address, availability):
-
-**Step 1: Check anam first** — we may have already researched this today.
-```bash
-anam search "<contact name>" --days 1
-```
-If pricing/info found → use it. Skip Steps 2–3.
-
-**Step 2: Check the website.**
+If the message asks for publicly available info (fee, hours, address, availability) — check anam + website before messaging (per CLAUDE.md "Check anam before re-researching" rule):
 ```bash
 defuddle parse https://their-website.com   # fast, fails silently on JS-rendered sites
 # if empty → fall back to:
 agent-browser open https://their-website.com && agent-browser wait 3000 && agent-browser get text
 ```
 Only draft the WhatsApp if both fail. Wix/React/SPA sites look scraped but return nothing to defuddle — agent-browser handles them.
-
-**Step 3: Save findings.** If agent-browser cracks a JS-gated site and returns useful data (pricing, hours), write it to `~/notes/` or `~/docs/solutions/` immediately so `cerno` finds it next session.
 
 ## Commands
 
