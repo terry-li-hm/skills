@@ -12,9 +12,12 @@ A collaborative inbox triage. Claude pulls the inbox and all unread briefs, read
 
 Run in parallel:
 ```bash
-cora brief                               # list all briefs — check for unread ones
-gog gmail search "in:inbox" --limit 30  # full inbox list
+cora brief                                      # list all briefs — check for unread ones
+gog gmail search "in:inbox" --limit 30          # full inbox list
+gog gmail search "label:Cora/Action" --limit 20 # Cora-flagged actions outside inbox
 ```
+
+**`Cora/Action` emails must be triaged** even though they're not in inbox — Cora explicitly flagged them as requiring action but strips the INBOX label. Treat them identically to inbox items.
 
 Then read **all unread briefs** before triaging:
 ```bash
