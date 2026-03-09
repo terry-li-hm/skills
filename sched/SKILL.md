@@ -1,41 +1,52 @@
 ---
 name: sched
-description: Schedule an event — adds to both Due (nag reminder) and Google Calendar by default. "schedule", "remind me about", "book X with reminder".
+description: Schedule events and manage Due reminders via moneo CLI. Use for ANY Due or calendar operation: "schedule", "remind me", "add to Due", "remind me in X", "book X", "list/edit/delete reminders". Covers both one-off and recurring. Entry point for all scheduling — replaces the separate 'due' skill.
 user_invocable: true
 ---
 
 # /sched — Schedule + Remind
 
-Schedule an event by adding to **both Due and Google Calendar** by default. Due = nag reminder so you don't forget. Google Calendar = source of truth for your schedule.
+Single entry point for all scheduling. Due = nag reminders. Google Calendar = source of truth for time-blocked events.
 
-**Exception — Due only (no Google Calendar):** tasks, nudges, habits, follow-up reminders that aren't time-blocked appointments (e.g. "nudge Gavin if no reply", "dim lights tonight").
+**Default behaviour by type:**
 
-## Trigger
+| Type | Due | Google Calendar |
+|------|-----|----------------|
+| Appointment / meeting | ✅ 30 min before | ✅ |
+| Recurring meeting | ✅ 5 min before | ✅ (if not already there) |
+| Task / nudge / habit / follow-up | ✅ | ❌ |
 
-- User says "schedule", "book", "remind me about X at Y"
-- User wants a Due reminder for an upcoming event
+## moneo CLI Reference
 
-## Usage
-
-Collect from the user (ask only what's missing):
-- **Title** — event name
-- **Date + time** — e.g. "tomorrow 10am"
-- **End time** — default to 1h after start if not given
-- **Location** — optional, include if known
-
-## Steps
-
-### 1. Set Due reminder via moneo
-
-Default reminder time: **30 minutes before event start**.
+**Always add `--sync`** to every `moneo add` — Terry wants all reminders synced to iPhone.
 
 ```bash
-moneo add "Event title" --date 2026-03-10 --at 09:30 --sync
+moneo ls                                                        # list all reminders with index
+moneo add "Call dentist" --in 30m --sync                       # relative time + iPhone sync
+moneo add "Standup" --at 09:30 --sync                          # today at HH:MM + iPhone sync
+moneo add "Pay rent" --date 2026-04-01 --at 10:00 --sync       # specific date + time + iPhone sync
+moneo add "Team sync" --at 11:00 --recur weekly --sync         # recurring weekly + iPhone sync
+moneo add "Pay rent" --date 2026-04-01 --recur monthly --sync  # recurring monthly + iPhone sync
+moneo edit <index> --title "New title"                          # rename (Mac only)
+moneo edit <index> --at 16:00 --sync                           # change time + sync to iPhone
+moneo edit <index> --in 1h --sync                              # push forward + sync
+moneo rm <index>                                                # delete (Mac only — delete on iPhone directly if added with --sync)
 ```
 
-**Duplicate guard:** `moneo add` rejects same title on same day — edit instead of re-adding.
+### Time flags (mutually exclusive)
 
-### 2. Add to Google Calendar
+| Flag | Example | Meaning |
+|---|---|---|
+| `--in` | `--in 30m` | Relative: `s`, `m`, or `h` |
+| `--at` | `--at 14:35` | Today at HH:MM (HKT) |
+| `--date` + `--at` | `--date 2026-04-01 --at 09:00` | Specific date + time |
+| `--date` only | `--date 2026-04-01` | That date at 09:00 |
+
+`--recur daily|weekly|monthly|yearly` — first occurrence = the date/time you specify.
+
+## Adding to Google Calendar
+
+For appointments and meetings:
 
 ```bash
 gog calendar add primary \
@@ -46,14 +57,18 @@ gog calendar add primary \
   --description "Optional notes"
 ```
 
-Default calendar: `primary` (terry.li.hm@gmail.com).
-Use `family16675940229854502575@group.calendar.google.com` for family events.
-Times must be RFC3339 with `+08:00` offset (HKT).
-**Never add `--attendees`** — triggers email notifications to recipients.
+- Default calendar: `primary` (terry.li.hm@gmail.com)
+- Family events: `family16675940229854502575@group.calendar.google.com`
+- Times must be RFC3339 with `+08:00` offset (HKT)
+- **Never add `--attendees`** — triggers email notifications
+- Default duration: 1h if end time not given
 
-### 3. Confirm to user
+## Steps for Appointments
 
-Report: reminder time (Due) + calendar event created.
+1. Collect: title, date + time, end time (default +1h), location (optional)
+2. `moneo add` with reminder 30 min before (or 5 min before for recurring meetings)
+3. `gog calendar add` for the event itself
+4. Confirm both to user
 
 ## Example
 
@@ -66,7 +81,11 @@ gog calendar add primary --summary "AIA call - Tommy Lau" --from "2026-03-06T10:
 
 ## Gotchas
 
-- `moneo add --sync` opens Due's editor via AppleScript, then uses **peekaboo** to auto-click Save — works screen-free (display-sleep safe)
-- If moneo prints "Due editor open — please click Save manually", peekaboo lacks permissions — grant **Accessibility + Screen Recording** to `/opt/homebrew/bin/peekaboo` in System Settings → Privacy & Security. `peekaboo permissions` may show stale results; test with an actual `--sync` to confirm.
-- `moneo rm` does not sync deletions to iPhone — if added with `--sync`, delete in Due on iPhone directly
-- Always confirm the reminder time with the user if it wasn't explicitly stated
+- `moneo add --sync` uses AppleScript + **peekaboo** to auto-click Save in Due — works screen-free
+- If moneo prints "Due editor open — please click Save manually": grant **Accessibility + Screen Recording** to `/opt/homebrew/bin/peekaboo` in System Settings → Privacy & Security. `peekaboo permissions` may show stale results — test with an actual `--sync` to confirm.
+- `moneo rm` does not sync deletions to iPhone — delete in Due on iPhone directly if added with `--sync`
+- `moneo add` rejects same title on same day — use `moneo edit` instead
+- Due uses CloudKit (not iCloud Drive). Direct file edits bypass CloudKit — always use `--sync`
+- UUID gotcha: Due requires base64 UUIDs without `=` padding — moneo handles this automatically
+- Always use HKT. moneo handles timezone internally.
+- `moneo ls` shows ⚠ for overdue reminders

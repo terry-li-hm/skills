@@ -115,6 +115,10 @@ Quality levels:
 
 Add a one-paragraph "what the evidence is and isn't" section at the bottom distinguishing the well-supported mechanism from the inferred strategies. Example: [[Theo - Tidying Research]].
 
+## Execution
+
+Vault restructuring (splits, interlinks, renames) is reversible and local. When Terry confirms or asks to do it — **just do it, no mid-task confirmation pauses.** Don't ask "now?" or "want me to proceed?" — execute directly.
+
 ## Learnings
 
 - **Capco vs. vault root split (Mar 2026):** Operational project notes (CNCBI work) → vault root. Capco-facing angles/positioning → `notes/Capco/`. Caught when `AML Triage Model - Reference.md` was initially placed in `notes/Capco/`.
