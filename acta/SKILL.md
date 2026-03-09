@@ -63,7 +63,9 @@ gog gmail thread modify <id2> --remove INBOX
 
 Verify with `gog gmail search "in:inbox" --limit 20` at the end — if anything remains, remove INBOX label directly.
 
-Confirm count: "Archived X emails."
+Confirm count: "Archived X emails. Inbox zero."
+
+**Note:** Gmail's unread badge in "All Mail" will still show a count — Cora intentionally never marks emails as read (the brief is the reading interface, not Gmail). Inbox zero is the goal; All Mail unread count is expected noise.
 
 ## Step 5 — Sync NOW.md
 
