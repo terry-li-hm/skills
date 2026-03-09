@@ -62,6 +62,19 @@ Questions 4–6 require an explicit yes/no answer in the Pre-Wrap output block. 
 
 **Active experiments?** Run `peira status 2>/dev/null` — if a campaign is active, surface current score in the Pre-Wrap block. Exit code 1 with "Failed to read log.toml" = no active experiment, treat as clean skip.
 
+#### C. Background dispatch queue
+
+Dispatch standing audits when the session touched the relevant area. Fire with `run_in_background: true` — don't wait for results.
+
+| Audit | Dispatch when |
+|-------|---------------|
+| MEMORY.md budget + hook coverage | MEMORY.md was modified this session |
+| Skill staleness (scan `~/skills/` for outdated refs) | Any skill edited or added |
+| Solutions KB dedup (find overlapping entries in `~/docs/solutions/`) | `~/docs/solutions/` modified |
+| Vault orphan links (`nexis` skill) | Monthly only — skip if run this month |
+
+If nothing qualifies, skip silently. If dispatched, add a `Dispatched:` line to the Pre-Wrap block. Result arrives next session or same session if short.
+
 #### Output format
 
 One block, before any wrap steps. Q4–6 are **always present** — no "all clear" shortcut that skips them:
@@ -74,6 +87,7 @@ One block, before any wrap steps. Q4–6 are **always present** — no "all clea
 Garden post: drafted → <slug> | no — [reason]
 LinkedIn:    added → [[LinkedIn Content Ideas]] | no — [reason]
 Arsenal:     added → [[Capco Transition]] | no — [reason]
+Dispatched:  <audit name> (<task-id>) | none
 ─────────────────────────────────────────────────
 ```
 
