@@ -58,6 +58,7 @@ Telegram **bot push notifications** (via Bot API in CLIs/LaunchAgents) are a dif
 ## Gotchas
 
 - **Inline arg only works in a real TTY.** Scripts and agent shells are non-TTY — `deltos "text"` will wait for stdin. Use `echo "text" | deltos` in scripts.
+- **Single arg = label, not content.** `subprocess.run(["deltos", msg])` treats `msg` as the LABEL (bold header) with no content — message sends empty. In Python scripts: `subprocess.run(["deltos", "--plain"], input=msg, text=True)` to pipe correctly.
 - **Rate limit:** 1s gap enforced via `/tmp/deltos.lock`. Parallel sends will queue.
 - **HTML in content:** `&`, `<`, `>` are escaped automatically. No double-escaping needed.
 
