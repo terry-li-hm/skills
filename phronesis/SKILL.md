@@ -46,6 +46,22 @@ Determine today's mode from day of week (unless Endgame Mode is active):
 Show a one-line status: `Session #N | Readings: X/15 | Scenarios: Y/10 | Mode: [today's mode]`
 If Endgame Mode: append `⚡ Endgame Mode — N days to start`
 
+### 2. Daily Scenario Warm-Up (Every Session, 5 min)
+
+Before the main mode, run a quick scenario — even on Read & Extract days. This is the recall layer: short, sharp, no debrief needed.
+
+1. Pick a scenario Terry has done before (rotating through completed ones). If none yet, use the first unplayed one.
+2. Present it in one sentence (no scene-setting — he should be able to reconstruct from memory):
+
+```
+🔁 Recall: [scenario title] — what's your instinct?
+```
+
+3. Terry gives a one-line answer. Respond with one line only: what he got right, or what he missed. No extended debrief — save that for Scenario Practice days.
+4. Move immediately to the main mode.
+
+**Skip this step** only if Terry explicitly says "skip warm-up" or if it's the very first session.
+
 ### 2A. Read & Extract Mode (Mon/Wed/Fri)
 
 1. Read the program note's reading list
