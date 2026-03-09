@@ -60,6 +60,10 @@ claude-history --resume        # Resume selected session in Claude Code
 Extracted and indexed memories from AI coding transcripts. Best for "what's the right approach to X that we've learned."
 
 ```bash
+# Note: prefer cerno over direct oghma search — cerno is QMD-first with oghma fallback
+cerno "query"
+
+# Direct oghma search (fallback only):
 oghma search "query" --mode hybrid --limit 5
 oghma search "query" --category learning    # learning | preference | project_context | gotcha | workflow
 oghma search "query" --tool claude_code     # claude_code | codex | opencode

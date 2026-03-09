@@ -161,7 +161,7 @@ If a check command fails, mark that metric as `Unavailable` in the table and con
 2. **Skills inventory** — `ls ~/skills/*/SKILL.md | wc -l` for total count. `cd ~/skills && git log --oneline --since="7 days ago"` for changes. Flag skills not invoked in 30+ days (check `~/.claude/anam.jsonl` for recent `/skill` usage). Check for overdue retirements: `grep -rl "retire_after:" ~/skills/*/SKILL.md | xargs grep "retire_after:" | awk -F': ' '{print $1, $NF}'` — delete any skill whose `retire_after` date has passed.
 3. **MCP servers** — `claude mcp list` to verify health. Flag any disconnected, orphaned from experiments, or version-drifted servers.
 4. **Token consumption** — Run `cu` alias for Max20 usage stats. Note weekly trend and any spikes.
-5. **Oghma health** — `oghma_stats` for DB size, memory count, extraction backlog.
+5. **Oghma health** — `oghma stats` for DB size, memory count, extraction backlog.
 6. **Cron scripts** — Check `~/scripts/crons/` and `~/logs/cron-*.log` for failures or stale output.
 7. **QMD index** — `qmd cleanup && qmd update` to prune stale entries and re-index. Then `qmd status` for collection health.
 8. **Delegation log** — Read `~/docs/solutions/delegation-log.md`. Scan by eye: any tool+task-type with 2+ ✗ or ~ entries? If yes, update strategos routing table. If table has grown since last week, the log is working. If not, I failed to log and should catch up now.

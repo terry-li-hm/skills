@@ -30,8 +30,8 @@ Count skills in both locations. Flag any missing symlinks.
 # Skills in budget (excludes disable-model-invocation: true)
 grep -rL 'disable-model-invocation: true' /Users/terry/skills/*/SKILL.md | wc -l
 # Rough estimate: in-budget count × 309 chars (200 avg desc + 109 overhead)
-# Current limit: SLASH_COMMAND_TOOL_CHAR_BUDGET=40000 (set in ~/.zshenv, Mar 2026)
-# Default is ~16K — aim to get back under default naturally over time via consolidation
+# Note: SLASH_COMMAND_TOOL_CHAR_BUDGET is a no-op since v2.1.32 — auto-scales at 2% of context window
+# Sonnet 4.6 Max (200k) = ~4k token budget. Aim to reduce via consolidation.
 # Full reference: ~/docs/solutions/ai-agent-skill-tool-count-research.md
 ```
 

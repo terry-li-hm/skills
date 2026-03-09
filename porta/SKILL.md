@@ -164,5 +164,5 @@ Run with: `uv run --script --python 3.13 script.py`
 |------|--------------|--------|-------|
 | vercel.com | Mar 2026 | ✅ works | Google OAuth, ~20 cookies |
 | linkedin.com | Mar 2026 | ❌ fails | IP-bound session |
-| cora.computer | Mar 2026 | ⚠️ partial | Cookies inject OK in-context but don't survive profile restart. Fix: `~/scripts/cora_brief.py` |
+| cora.computer | Mar 2026 | ⚠️ partial | Cookies inject OK in-context but don't survive profile restart. No fix script available — investigate manually. |
 | community.linkingyourthinking.com | Mar 2026 | ✅ works (direct Playwright only) | Cloudflare-protected — porta inject → agent-browser blocked. Use direct Playwright pattern above instead. |
