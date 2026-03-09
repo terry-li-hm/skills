@@ -79,6 +79,7 @@ legatus batch --dry-run
 - `opencode` (default) — free, unlimited
 - `claude` — Claude Code CLI, uses Max plan credits
 - `gemini` — Gemini CLI, `--yolo` mode
+- `codex` — Codex CLI, `--sandbox danger-full-access`, good for multi-file/Rust tasks
 
 ## Gotchas
 - **Duplicate names error:** `legatus cancel <name>` first, then re-add
@@ -87,6 +88,7 @@ legatus batch --dry-run
 - **Session independence:** `legatus run` spawns a detached subprocess. Session can close; job keeps running.
 - **Timeout + orphans:** `legatus batch` SIGKILLs the direct child on timeout. Grandchildren spawned by claude/gemini/opencode are not reaped — they may outlive the timeout.
 - **CLAUDECODE env:** stripped for Backend::Claude so nested claude invocations aren't blocked.
+- **Post-run reporting:** `legatus-notify` runs automatically after each batch window — writes `~/.cache/opencode-runs/latest-summary.md` and sends a Telegram ping. Run manually: `legatus-notify`.
 
 ## Source
 `~/code/legatus/` — Rust, clap 4, serde_yaml 0.9. GitHub: `terry-li-hm/legatus` (private).

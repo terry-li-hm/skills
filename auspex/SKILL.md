@@ -33,12 +33,17 @@ A 60-second brief for the moment you wake up. Weather, what's on today, anything
    - Skip someday/low-energy/undated items entirely — those are statio's job
    - If nothing due today, skip silently
 
-5. **Missed email scan** (known Cora blind spot):
+5. **Queue results** (if recent run):
+   - Check: `find ~/.cache/opencode-runs/latest-summary.md -mtime -0.5 2>/dev/null`
+   - If file exists and was modified within 12 hours: read first 3 lines, surface as one line in the brief (e.g. "Queue: 3/4 ✅, 1 ❌ — /overnight for details")
+   - If no recent run: skip silently — don't mention the queue
+
+6. **Missed email scan** (known Cora blind spot):
    - Run: `gog gmail search "category:personal -label:Cora/Action -label:Cora/Important Info -label:Cora/Other -label:Cora/Newsletter -label:Cora/Payments -label:Cora/Promotion -label:Cora/Packages newer_than:1d"`
    - If any results: flag them by sender + subject. These are emails Cora received but never labelled — the same failure mode that swallowed two interview invitations (Mar 2026).
    - If no results: skip silently.
 
-6. **Deliver the brief**:
+7. **Deliver the brief**:
 
 ## Output
 
