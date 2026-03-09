@@ -13,7 +13,8 @@ Daily practice skill for building consulting mental models before Capco start. T
 **State:** `~/notes/Career/.consulting-prep-state.json` (progress tracking)
 **Log target:** Today's daily note at `~/notes/Daily/YYYY-MM-DD.md`
 
-**Expires:** When Terry starts at Capco (Mar 16 or Apr 8). After that, suggest switching to the live observation format described in the program note.
+**Expires:** When Terry starts at Capco (Apr 8). After that, suggest switching to the live observation format described in the program note.
+**Start date:** 2026-04-08
 
 ## Trigger
 
@@ -35,12 +36,15 @@ Read the state file. If it doesn't exist, initialise it:
 }
 ```
 
-Determine today's mode from day of week:
+**Check time to start:** If today is within 14 days of 2026-04-08, activate **Endgame Mode** — regardless of day of week, default to Scenario Practice. Reading is optional only if Terry explicitly asks.
+
+Determine today's mode from day of week (unless Endgame Mode is active):
 - **Mon / Wed / Fri** → Read & Extract
 - **Tue / Thu** → Scenario Practice
 - **Sat / Sun** → User's choice (offer both, or skip)
 
 Show a one-line status: `Session #N | Readings: X/15 | Scenarios: Y/10 | Mode: [today's mode]`
+If Endgame Mode: append `⚡ Endgame Mode — N days to start`
 
 ### 2A. Read & Extract Mode (Mon/Wed/Fri)
 
@@ -55,8 +59,10 @@ What's the one principle you'd take from this?
 And how does it apply to Capco clients specifically?
 ```
 
-6. Wait for Terry's response. Don't judge it — this is extraction practice, not a quiz.
-7. Log to daily note and update state.
+6. **Training mode guard:** If Terry asks for your opinion before giving his own, redirect once: *"Your instinct first — what would you take from this? Then I'll push back."* Only share your view after he's committed to an answer.
+
+7. Wait for Terry's response. Don't judge it — this is extraction practice, not a quiz.
+8. Log to daily note and update state.
 
 ### 2B. Scenario Practice Mode (Tue/Thu)
 
