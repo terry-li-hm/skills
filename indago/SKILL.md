@@ -46,7 +46,8 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | **Quick AI answer with citations** | `exauro answer "question"` | Cheaper than noesis, good for factual questions |
 | **Extract full content of a page** | `exauro contents <url>` | Alternative to defuddle for non-JS pages |
 | Scrape a specific URL (static, no Cloudflare) | `defuddle` → `WebFetch` | defuddle first — cleaner output, fewer tokens |
-| Scrape JS-heavy or Cloudflare-protected URL | `peruro <url>` | Only tool that reliably handles both. 1 credit/page. |
+| Scrape JS-rendered URL (Wix, React SPA, no Cloudflare) | `agent-browser open <url> && agent-browser wait 3000 && agent-browser eval "document.body.innerText"` | Free. defuddle silently returns empty on client-side rendered sites. agent-browser is the fix. |
+| Scrape JS-heavy or Cloudflare-protected URL | `peruro <url>` | Only tool that reliably handles both. 1 credit/page. Don't reach for peruro if agent-browser suffices — save credits for Cloudflare. |
 | Need facts from a protected page (not raw content) | `noesis search` | Synthesises from indexed sources — no direct fetch. ~$0.006 |
 | Web search + scrape results | `peruro search <query>` | Returns scraped markdown per result, not just links |
 | peruro failed + site needs Chrome auth | `stealth-browser` skill | Last resort — Chrome cookie injection + playwright-extra |
@@ -62,7 +63,7 @@ Don't skip straight to peruro on unfamiliar sites — run noesis → exauro → 
 
 Known site types (skip to winner directly):
 - OpenRice → `peruro`
-- Wix JS-rendered → `peruro`
+- Wix JS-rendered (no Cloudflare) → `agent-browser get text` (free); `peruro` only if Cloudflare blocks agent-browser too
 - Cloudflare Bot Management → `peruro`
 - Static HTML → `defuddle`
 

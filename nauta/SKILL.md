@@ -468,6 +468,19 @@ This is more reliable than `get text` for SPAs where content loads dynamically i
 
 **Tested working:** Eats365 (restaurant ordering platform used across HK).
 
+## URL Discovery on CMS/Wix Sites
+
+Never guess URL paths on Wix, Squarespace, or other CMS-built sites — slugs are often long and non-obvious (e.g. `/physiotherapy-hong-kong-price` not `/price`). Always discover nav links via snapshot first:
+
+```bash
+agent-browser open "https://site.com"
+agent-browser wait 3000
+agent-browser snapshot   # look for nav links with /url: fields — use those exact hrefs
+agent-browser eval "window.location.href = 'https://site.com/full-slug-here'"
+```
+
+Burned: Jeff Law Physio pricing at `/physiotherapy-hong-kong-price` — guessing `/price` 404s silently.
+
 ## Known Footguns
 
 - **`screencapture` returns black when display is sleeping.** The command succeeds but captures nothing. Wake first with `caffeinate -u -t 5`, then screencapture **immediately** — no sleep in between or the display goes back to sleep before the capture fires.
