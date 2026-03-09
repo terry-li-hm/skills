@@ -178,7 +178,8 @@ consilium --doctor                # Check API keys and connectivity
 - **`--format json` only works with council and quick modes.** Other modes output prose only.
 - **`--challenger` and `--followup` are council-only.**
 - **GPT-5.4-Pro removed from council (LRN-20260308-001).** Real latency: 907s per call. Responses API models are incompatible with council timeouts. Current M1 = `gpt-5.2-pro` (3.6s). Kimi also removed — connection failures, replaced by DeepSeek-V3.2. Full notes: `~/docs/solutions/consilium-api-latency-benchmark.md`.
-- **Before adding any new model to the council:** run `consilium --quick --quiet "name a color" > ~/tmp/consi-speedtest.txt` and check per-model timings. Any model >60s does not belong in rotation.
+- **Before adding any new model to the council:** run `consilium --quick --quiet "name a color" > ~/tmp/consi-speedtest.txt` and check per-model timings. Any model >60s does not belong in rotation. Also run `pondus check "<model>" --format table` to verify pricing — `-pro` reasoning variants can cost 10-12x more than base.
+- **Two spend streams to monitor:** OpenRouter (`stips`) + OpenAI direct (`platform.openai.com/usage`). Responses API models (gpt-5.4-pro etc.) bypass OpenRouter and burn the direct OPENAI_API_KEY — invisible in stips. Keep OpenAI direct budget cap at $20.
 - **402 = OpenRouter out of credits.** Tell Terry to top up at openrouter.ai/credits. Do not retry or proceed.
 - **403 on a new model = access restricted (allowlist-gated).** Test before upgrading: `consilium --quick --quiet "test" 2>&1 | grep -i "403\|error"`. Swap to an available model or remove from rotation.
 
