@@ -27,6 +27,7 @@ Create a weekly synthesis of work, thinking, and progress.
    - Check git log for skills/vault commits: `cd ~/skills && git log --oneline --since="7 days ago"`
    - Check `~/logs/` for cron output logs
    - Check CSB job monitor results: `tail -20 ~/logs/cron-csb-jobs.log` and `cat ~/.local/share/csb-jobs/seen.json | python3 -c "import sys,json; print(len(json.load(sys.stdin)),'jobs tracked')"`
+   - **GARP RAI exam prep** (until Apr 4 exam): run `melete stats && melete coverage`. Flag: (a) any weak topic (<60%) with no drill entry → create one; (b) low-coverage topics (<3 attempts) → note for next week's sessions; (c) overall rate trend vs last week.
    - If any source file is missing/unreadable, note it as unavailable and continue with remaining sources.
    - If a command fails, do not retry repeatedly; record one-line failure and continue.
 
@@ -70,6 +71,14 @@ Create a weekly synthesis of work, thinking, and progress.
 
 ### Projects
 - [Project]: [status change]
+
+### GARP RAI Prep (until Apr 4)
+- Overall rate: X% (vs last week X%)
+- Sessions this week: X
+- Weak topics (<60%): [list]
+- Low coverage (<3 attempts): [list]
+- Drill gaps fixed: [any new drill entries created]
+- Next focus: [topic to prioritise]
 
 ## Learnings Captured
 
