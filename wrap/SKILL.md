@@ -71,16 +71,20 @@ One block, before any wrap steps. Q4–6 are **always present** — no "all clea
 ⚠  [anything needing action, or "none"]
 →  [loose ends, or "none"]
 ✓  [clean checks]
-Garden post: yes/no — [one-line reason]
-LinkedIn:    yes/no — [one-line reason]
-Arsenal:     yes/no — [one-line reason]
+Garden post: drafted → <slug> | no — [reason]
+LinkedIn:    added → [[LinkedIn Content Ideas]] | no — [reason]
+Arsenal:     added → [[Capco Transition]] | no — [reason]
 ─────────────────────────────────────────────────
 ```
 
-**YES answers are blocking.** Do not proceed to Step 1 until each yes is actioned:
-- Garden post YES → run sarcio protocol inline, right now, before Step 1
-- LinkedIn YES → add entry to `[[LinkedIn Content Ideas]]` inline, before Step 1
-- Arsenal YES → add bullet to `[[Capco Transition]]` inline, before Step 1
+**"yes" is not a valid terminal state for garden post.** It must resolve to either `drafted → <slug>` (sarcio ran, judge passed, published) or `no — [reason]`. "Flagging as idea", "needs more work", or "will do later" are all `no`. Draft now or say no — there is no middle ground.
+
+**Blocking actions — complete before outputting pre-wrap block:**
+- Garden post: run sarcio protocol, judge, publish. Then write `drafted → <slug>` in the block.
+- LinkedIn: add entry to `[[LinkedIn Content Ideas]]`. Then write `added → [[LinkedIn Content Ideas]]`.
+- Arsenal: add bullet to `[[Capco Transition]]`. Then write `added → [[Capco Transition]]`.
+
+The block is a receipt, not a plan. Write it after the action, not before.
 
 "I'll do it later" or adding to NOW.md does not count. The point of the gate is that session context — the material for the post — evaporates after wrap. Act while the insight is hot.
 
