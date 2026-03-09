@@ -136,6 +136,21 @@ gog gmail thread modify <threadId> --add INBOX
 
 Real cases: MTR interview (Mar 4 2026) — `important_draft` category. AIA/Cherry Ma interview (Mar 6 2026) — `CATEGORY_PERSONAL`, no INBOX, no Cora label.
 
+### gog thread show truncates body
+`gog gmail thread show <id>` truncates the email body at ~1000 chars. For full content — headers (e.g. `List-Unsubscribe`) and base64 body parts — use:
+```bash
+gog gmail thread get <id> --json | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+def walk(obj):
+    if isinstance(obj, dict):
+        if obj.get('name','').lower() == 'list-unsubscribe': print(obj.get('value',''))
+        for v in obj.values(): walk(v)
+    elif isinstance(obj, list): [walk(i) for i in obj]
+walk(data)
+"
+```
+
 ## Error Codes
 
 - `0` — Success  
