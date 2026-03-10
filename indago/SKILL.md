@@ -35,12 +35,13 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 |------|------|-----|
 | Quick answer / general search | `WebSearch` | Free, fast, no overhead |
 | Structured survey ("list the platforms for X") | `noesis ask` | Concise, tabular, low fabrication |
-| **Algorithm/framework comparison ("which is better?")** | **`noesis search` or `noesis reason`** | **Needs synthesis + citations — WebSearch returns raw URLs, not answers** |
+| **Algorithm/framework comparison ("which is better?")** | **`noesis search`** | **Needs synthesis + citations — WebSearch returns raw URLs, not answers. noesis search beats noesis reason for comparisons with available sources (empirically confirmed Mar 2026).** |
 | Deep analysis of novel questions | `noesis research` | Breadth + citations. ~$0.40/query |
-| Complex reasoning / trade-off analysis | `noesis reason` | Reasoning chain, best for hard questions |
+| Complex reasoning where sources are thin / multi-dimensional synthesis | `noesis reason` | Only escalate from noesis search when sources are insufficient or reasoning chain matters. noesis reason does NOT outperform noesis search when sources exist. |
+| Employer/company culture reviews | `noesis search` | Reviews live on Glassdoor/Indeed, not X. noesis synthesises them well at $0.006. grok --x-only finds nothing for employer culture. |
 | Verify claims / get primary sources | `WebSearch` | Returns links, no hallucinated synthesis |
 | Find specific content URLs (YouTube, podcast episodes, etc.) | `noesis search` | WebSearch doesn't index platform-internal pages well; noesis does |
-| AI news / X/Twitter | `grok --x-only` → `grok` | Real-time X/Twitter data + web search via xAI API |
+| AI news / X/Twitter real-time reactions | `grok --x-only` → `grok` | Real-time X/Twitter data + web search via xAI API. NOT for employer/company culture reviews — those don't live on X. |
 | **Semantic/conceptual search ("find pages about X idea")** | `exauro search --search-type neural` | Neural embeddings — finds meaning, not keywords |
 | **Find pages similar to a URL** | `exauro similar <url>` | Exa find-similar, great for research trails |
 | **Quick AI answer with citations** | `exauro answer "question"` | Cheaper than noesis, good for factual questions |
@@ -53,6 +54,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | peruro failed + site needs Chrome auth | `stealth-browser` skill | Last resort — Chrome cookie injection + playwright-extra |
 | Code & documentation | Context7 plugin | Best for library docs |
 | Job/company research | `WebSearch` → `noesis ask` | Free first, paid for depth |
+| **Rare/proprietary proper noun (insider term, project codename)** | **`WebSearch` first** | **Fast free sanity check. If nothing found, term isn't publicly indexed — no tool can help. Don't burn paid tools on unindexed terms (confirmed Mar 2026).** |
 | **HK restaurant lookup** | **`exauro search` → `peruro`** | **exauro finds the OpenRice URL; peruro fetches full page (corkage, hours, policies)** |
 
 ## Unknown Site Types — Log and Learn
