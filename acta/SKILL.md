@@ -60,14 +60,14 @@ For each action-required email:
 
 ## Step 4 — Archive the noise
 
-After working through all action items, batch-archive the identified noise using `gog` — **not** `cora email archive` (Cora updates its own DB but does not reliably remove the Gmail INBOX label):
+After working through all action items, batch-archive using `cora email archive` — **not** `gog gmail thread modify --remove INBOX` (gog silently fails for filtered/labelled emails; Gmail re-applies INBOX immediately):
 ```bash
-gog gmail thread modify <id1> --remove INBOX
-gog gmail thread modify <id2> --remove INBOX
+cora email archive <id1>
+cora email archive <id2>
 # ...
 ```
 
-Verify with `gog gmail search "in:inbox" --limit 20` at the end — if anything remains, remove INBOX label directly.
+Verify with `gog gmail search "in:inbox" --limit 20` at the end — if anything remains, use `cora email archive` directly.
 
 Confirm count: "Archived X emails. Inbox zero."
 
