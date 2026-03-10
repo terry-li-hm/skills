@@ -36,8 +36,8 @@ legatus list
 
 - **Queue file:** `~/notes/opencode-queue.yaml` — task definitions
 - **Scheduling:** individual CalendarInterval LaunchAgents per task (`~/officina/launchd/com.terry.legatus-*.plist`)
-- **Output:** `~/.cache/opencode-runs/<YYYY-MM-DD-HHMM>/<task>/stdout.txt`
-- **Hot dispatch logs:** `~/.cache/opencode-runs/hot-<name>.log`
+- **Output:** `~/.cache/legatus-runs/<YYYY-MM-DD-HHMM>/<task>/stdout.txt`
+- **Hot dispatch logs:** `~/.cache/legatus-runs/hot-<name>.log`
 
 ## Adding a New Task
 
@@ -56,7 +56,7 @@ legatus list
 ## Gotchas
 - **Session independence:** `legatus run` spawns a detached subprocess. Session can close; job keeps running.
 - **CLAUDECODE env:** stripped for Backend::Claude so nested claude invocations aren't blocked.
-- **Results location:** `legatus run` → `hot-<name>.log` (live tail); scheduled → `~/.cache/opencode-runs/<timestamp>/<name>/stdout.txt`
+- **Results location:** `legatus run` → `hot-<name>.log` (live tail); scheduled → `~/.cache/legatus-runs/<timestamp>/<name>/stdout.txt`
 - **No batch command** — removed. Use `legatus run <name>` for on-demand dispatch; LaunchAgents handle scheduling.
 
 ## Source

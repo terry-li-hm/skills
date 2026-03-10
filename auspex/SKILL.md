@@ -34,7 +34,7 @@ A 60-second brief for the moment you wake up. Weather, what's on today, anything
    - If nothing due today, skip silently
 
 5. **Overnight results** (if recent run):
-   - Find latest morning-dashboard output: `LATEST=$(ls -dt ~/.cache/opencode-runs/2[0-9]*/ 2>/dev/null | head -1) && cat "$LATEST/morning-dashboard/stdout.txt" 2>/dev/null`
+   - Find latest morning-dashboard output: `LATEST=$(ls -dt ~/.cache/legatus-runs/2[0-9]*/ 2>/dev/null | head -1) && cat "$LATEST/morning-dashboard/stdout.txt" 2>/dev/null`
    - If found and the run dir is from last night (within 12h): surface as one line (e.g. "Overnight: vault HEALTHY, 2 git issues — /overnight for details")
    - If nothing found: skip silently — don't mention the queue
 

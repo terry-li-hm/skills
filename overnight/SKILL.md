@@ -19,7 +19,7 @@ Check results from the overnight legatus runs. Each task runs as its own LaunchA
 - **Queue file:** `~/notes/opencode-queue.yaml` — task definitions + schedule documentation
 - **Dispatcher:** `legatus run <name>` (pure dispatcher, no scheduling logic)
 - **Scheduling:** 7 individual CalendarInterval LaunchAgents in `~/officina/launchd/`
-- **Output:** `~/.cache/opencode-runs/<YYYY-MM-DD-HHMM>/<taskname>/` — one dir per dispatch
+- **Output:** `~/.cache/legatus-runs/<YYYY-MM-DD-HHMM>/<taskname>/` — one dir per dispatch
 - **Morning brief:** latest `morning-dashboard` output — see Default section below
 - **No Telegram notifications** — surface via `/overnight`, `/auspex`, `/kairos`
 
@@ -40,7 +40,7 @@ Check results from the overnight legatus runs. Each task runs as its own LaunchA
 Find and read the latest morning-dashboard output:
 
 ```bash
-LATEST=$(ls -dt ~/.cache/opencode-runs/2[0-9]*/ 2>/dev/null | head -1)
+LATEST=$(ls -dt ~/.cache/legatus-runs/2[0-9]*/ 2>/dev/null | head -1)
 cat "$LATEST/morning-dashboard/stdout.txt" 2>/dev/null || echo "No morning dashboard found"
 ```
 
@@ -49,7 +49,7 @@ Present as a scannable summary. Flag anything marked NEEDS_ATTENTION.
 ## Results: Drill Into Individual Tasks
 
 ```bash
-LATEST=$(ls -dt ~/.cache/opencode-runs/2[0-9]*/ 2>/dev/null | head -1)
+LATEST=$(ls -dt ~/.cache/legatus-runs/2[0-9]*/ 2>/dev/null | head -1)
 ls "$LATEST"                              # see which tasks ran
 cat "$LATEST/<taskname>/stdout.txt"       # read specific task output
 ```

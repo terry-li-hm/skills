@@ -39,7 +39,7 @@ Run when you sit down and are ready to work. Loads your priority context, clears
    - Note failures only; skip silently if all clean
 
 6. **Check overnight OpenCode results**:
-   - Check `~/notes/opencode-runs/` for last night's run — read most recent `summary.md`
+   - Check `~/cache/legatus-runs/` for last night's run — read most recent `summary.md`
    - Flag NEEDS_ATTENTION or CRITICAL items; skip silently if none or missing
 
 7. **Pre-meeting dossiers**:
