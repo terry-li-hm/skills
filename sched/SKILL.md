@@ -28,8 +28,8 @@ moneo add "Pay rent" --date 2026-04-01 --at 10:00             # specific date + 
 moneo add "Team sync" --at 11:00 --recur weekly               # recurring weekly
 moneo add "Pay rent" --date 2026-04-01 --recur monthly        # recurring monthly
 moneo edit <index> --title "New title"                         # rename (Mac only)
-moneo edit <index> --at 16:00 --sync                          # change time + sync to iPhone
-moneo edit <index> --in 1h --sync                             # push forward + sync
+moneo edit <index> --at 16:00                                  # change time (Due opens to sync)
+moneo edit <index> --in 1h                                    # push forward (Due opens to sync)
 moneo rm <index>                                               # delete by index (Mac only)
 moneo rm --title "pattern"                                     # delete all matching by title (safe batch delete)
 ```
