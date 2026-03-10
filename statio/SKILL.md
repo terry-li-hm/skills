@@ -35,7 +35,7 @@ Run when you sit down and are ready to work. Loads your priority context, clears
    - Surface all `[open]` items with their context. This is the work queue.
 
 5. **Check cron logs** (overnight output):
-   - Check `~/logs/` for any cron job failures (oghma, opencode-nightly, vault-backup, etc.)
+   - Check `~/logs/` for any cron job failures (oghma, vault-backup, legatus-*, etc.)
    - Note failures only; skip silently if all clean
 
 6. **Check overnight OpenCode results**:
