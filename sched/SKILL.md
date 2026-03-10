@@ -32,6 +32,10 @@ moneo edit <index> --at 16:00                                  # change time (Du
 moneo edit <index> --in 1h                                    # push forward (Due opens to sync)
 moneo rm <index>                                               # delete by index (Mac only)
 moneo rm --title "pattern"                                     # delete all matching by title (safe batch delete)
+moneo log                                                       # show last 20 completions (from Due's lb table)
+moneo log --n 50                                               # show more
+moneo log --filter "medicine"                                  # filter by title substring
+moneo snapshot                                                  # manual git snapshot of current DB state
 ```
 
 ### Time flags (mutually exclusive)
@@ -43,7 +47,7 @@ moneo rm --title "pattern"                                     # delete all matc
 | `--date` + `--at` | `--date 2026-04-01 --at 09:00` | Specific date + time |
 | `--date` only | `--date 2026-04-01` | That date at 09:00 |
 
-`--recur daily|weekly|monthly|yearly` — first occurrence = the date/time you specify.
+`--recur daily|weekly|monthly|quarterly|yearly` — first occurrence = the date/time you specify. Quarterly = every 3 months.
 
 ## Adding to Google Calendar
 
@@ -82,8 +86,10 @@ gog calendar add primary --summary "AIA call - Tommy Lau" --from "2026-03-06T10:
 
 ## Gotchas
 
+- **moneo is now a Rust binary** (`~/bin/moneo`, source `~/code/moneo/`). No Python/uv dependency.
 - `moneo add` uses AppleScript to open Due editor via URL scheme and auto-click Save → CloudKit sync to iPhone. Works screen-free.
-- If moneo prints "Due editor open — please click Save manually": grant **Accessibility + Screen Recording** to `/opt/homebrew/bin/peekaboo` in System Settings → Privacy & Security. `peekaboo permissions` may show stale results — test with an actual add to confirm.
+- **LaunchAgent `com.terry.due-snapshot`** auto-runs `moneo snapshot` every 5 min — git-commits DB state to `~/officina/backups/due-reminders.json` only when changed. Requires Full Disk Access granted to `~/bin/moneo` in System Settings → Privacy & Security.
+- `moneo log` reads Due's `lb` table — includes both Mac and iPhone completions/dismissals. iPhone entries appear after CloudKit sync (typically <5 min). Note: `lb` records dismissals, not just true completions — no distinction available from DB.
 - **`moneo edit --at <time>` resets the date to today**, even if the reminder was set for a future date. To change only the time on a future reminder, always use `--date YYYY-MM-DD --at HH:MM` together.
 - `moneo rm` does not sync deletions to iPhone — delete in Due on iPhone directly
 - `moneo rm --title "pattern"` — safe batch delete by name; avoids index-shift bug when deleting multiple reminders
