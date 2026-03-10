@@ -67,7 +67,7 @@ Dispatch standing audits when the session touched the relevant area. Fire with `
 
 | Audit | Dispatch when |
 |-------|---------------|
-| MEMORY.md budget + hook coverage | MEMORY.md was modified this session |
+| MEMORY.md hook coverage | MEMORY.md was modified this session AND line count <145 |
 | Skill staleness (scan `~/skills/` for outdated refs) | Any skill edited or added |
 | Solutions KB dedup (find overlapping entries in `~/docs/solutions/`) | `~/docs/solutions/` modified |
 | Vault orphan links (`nexis` skill) | Monthly only — skip if run this month |
@@ -168,6 +168,8 @@ One pass, three outputs:
 **B. File learnings** — Uncaptured friction, corrections, gotchas, or system evolution? Route to the most specific file: tool gotcha → `~/docs/solutions/`, cross-session context → MEMORY.md, skill workflow → the skill's SKILL.md. **Implement directly** — edit the target file now. Should a skill be tightened? Edit it. Hook needed? Write it. Same mistake twice → escalate per `~/docs/solutions/enforcement-ladder.md`. Only defer if the change requires user input or is genuinely out of scope for a wrap.
 
 **C. Implement improvements** — 1-3 specific improvement candidates: things that felt clunky, a tool that behaved unexpectedly, a repeated manual step that could be automated. For each: **implement if it's a small, safe, local change** (skill edit, MEMORY.md addition, solutions file). Propose (don't implement) only if the change is large, risky, or requires user decision. If nothing surfaced, say "Nothing to implement." Do NOT ask open-ended questions — the burden is on Claude to identify and act on candidates.
+
+**MEMORY.md at ≥145 lines and entries added this session → demote inline now.** Don't dispatch an audit — identify the lowest-recurrence entries added this session and move them to `~/docs/solutions/memory-overflow.md` immediately. The background hook audit is for general coverage; budget pressure is the trigger for immediate action.
 
 ## Output
 
