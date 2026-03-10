@@ -4,122 +4,77 @@ description: "Check async queue results and manage tasks. 'overnight', 'overnigh
 user_invocable: true
 ---
 
-# Async Agent Queue
+# Overnight Agent Results
 
-Check results from the latest queue run and manage tasks. The queue runs at **noon + 10pm HKT daily** via LaunchAgent.
+Check results from the overnight legatus runs. Each task runs as its own LaunchAgent on a CalendarInterval schedule — no batch runner, no polling.
 
 ## Triggers
 
-- `/overnight` — show last run summary
-- `/overnight results` — show detailed results from last run
+- `/overnight` — show morning dashboard brief
+- `/overnight results` — drill into individual task outputs
 - `/overnight add` — help add a new task to the queue
 
 ## Architecture
 
-- **Queue file:** `~/notes/opencode-queue.yaml`
-- **Runner:** `legatus batch` (Rust CLI at `~/.cargo/bin/legatus`)
-- **Shell wrapper:** `~/scripts/opencode-nightly.sh`
-- **LaunchAgent:** `com.terry.opencode-nightly` — fires at **noon + 10pm HKT daily**
-- **Output:** `~/.cache/opencode-runs/<YYYY-MM-DD-HHMM>/` — one dir per run, task subdirs with stdout.txt + metadata.json
-- **Latest summary:** `~/.cache/opencode-runs/latest-summary.md` — overwritten after each run
-- **Rotation:** Runs older than 7 days auto-deleted at start of each run
-- **Notification:** `legatus-notify` sends a Telegram ping after each batch completes
+- **Queue file:** `~/notes/opencode-queue.yaml` — task definitions + schedule documentation
+- **Dispatcher:** `legatus run <name>` (pure dispatcher, no scheduling logic)
+- **Scheduling:** 7 individual CalendarInterval LaunchAgents in `~/officina/launchd/`
+- **Output:** `~/.cache/opencode-runs/<YYYY-MM-DD-HHMM>/<taskname>/` — one dir per dispatch
+- **Morning brief:** latest `morning-dashboard` output — see Default section below
+- **No Telegram notifications** — surface via `/overnight`, `/auspex`, `/kairos`
 
-## Backends
+## Schedule
 
-| Backend | When | Cost | Web access |
-|---------|------|------|------------|
-| `opencode` (default) | Code review, file analysis, local tasks | Free (GLM-5) | No |
-| `gemini` | Web scraping, news, anything needing URLs | Free (1500 RPD) | Yes |
-| `claude` | Vault-aware tasks, skill-level reasoning, peira experiments | Max20 tokens | Yes |
-| `codex` | Multi-file code tasks, Rust, repo-nav tasks | Codex credits | Yes |
+| Task | Time | Days |
+|------|------|------|
+| git-health | 00:30 | Daily |
+| vault-health-check | 01:00 | Daily |
+| lustro-digest | 01:30 | Daily |
+| solutions-dedup | 02:00 | Sunday |
+| todo-stale-sweep | 02:15 | Sunday |
+| notes-orphan-scan | 02:30 | Sunday |
+| morning-dashboard | 03:30 | Daily |
 
-## Default: Show Last Run Summary
+## Default: Show Morning Brief
+
+Find and read the latest morning-dashboard output:
 
 ```bash
-cat ~/.cache/opencode-runs/latest-summary.md
+LATEST=$(ls -dt ~/.cache/opencode-runs/2[0-9]*/ 2>/dev/null | head -1)
+cat "$LATEST/morning-dashboard/stdout.txt" 2>/dev/null || echo "No morning dashboard found"
 ```
 
-1. Read `latest-summary.md` for pass/fail overview
-2. Find latest run dir for detail drilling:
-   ```bash
-   LATEST=$(ls -dt ~/.cache/opencode-runs/2026-*/ 2>/dev/null | head -1)
-   ```
-3. Read `$LATEST/morning-dashboard/stdout.txt` for the daily brief (if present)
-4. If GARP drill exists, mention "5 GARP questions ready" with path
+Present as a scannable summary. Flag anything marked NEEDS_ATTENTION.
 
-Present as a quick scannable summary. Flag anything marked NEEDS_ATTENTION or CRITICAL.
+## Results: Drill Into Individual Tasks
 
-## Results: Detailed View
-
-Read `stdout.txt` from each task subdirectory in the latest run. Present findings grouped by:
-
-1. **Action required** — security issues, bugs, broken links
-2. **Intel** — regulatory updates, AI news
-3. **Study** — GARP drill questions
-4. **Maintenance** — dedup, skill health, vault health
+```bash
+LATEST=$(ls -dt ~/.cache/opencode-runs/2[0-9]*/ 2>/dev/null | head -1)
+ls "$LATEST"                              # see which tasks ran
+cat "$LATEST/<taskname>/stdout.txt"       # read specific task output
+```
 
 ## Add: New Task
 
-Walk the user through adding a task to `~/notes/opencode-queue.yaml`:
-
-1. Ask for: name, title, backend (opencode/gemini/claude/codex), working_dir, timeout, prompt
-2. Remind: OpenCode prompts must be <4K chars, use file paths not inline content
-3. Append to the YAML under the appropriate section
+1. Add entry to `~/notes/opencode-queue.yaml` with: name, title, backend, timeout, schedule (doc only), prompt
+2. Create a CalendarInterval plist in `~/officina/launchd/com.terry.legatus-<name>.plist`
+3. Copy to `~/Library/LaunchAgents/` and `launchctl load`
 4. Verify with: `legatus list`
 
-## Manual Run
+## Manual Dispatch
 
 ```bash
-# Run all enabled tasks now
-legatus batch
-
-# Run specific task
-legatus batch --task garp-drill
-
-# Dry run (preview only)
-legatus batch --dry-run
-
-# List queue
-legatus list
-
-# Hot dispatch (detached, immediate, no timeout)
-legatus run <name>
+legatus run <name>      # fire immediately, detached
+legatus list            # show all tasks + schedules
+legatus results <name>  # show latest output for a task
+legatus cancel <name>   # disable a task
 ```
 
-## Peira Experiments (Overnight)
+## Backends
 
-Queue a peira campaign to run autonomously overnight:
-
-```bash
-peira init "topic"          # scaffold campaign + brief.md
-# fill in brief.md (target, metric, baseline, budget)
-peira-queue                 # adds most recent campaign to queue (enabled: true)
-peira-queue --list          # show available campaigns
-peira-queue --dry-run       # preview the queue entry
-```
-
-The experiment runs via `backend: claude` — full Claude reasoning, writes results directly to `~/notes/Experiments/<campaign>/log.md`. Check results with `/overnight results`.
-
-## Current Enabled Tasks
-
-| Task | Backend | What it does |
-|------|---------|-------------|
-| nightly-git-review | opencode | Review commits across 7 repos |
-| claude-md-freshness | opencode | Spot-check CLAUDE.md paths |
-| weekly-security-scan | opencode | CVE + secrets scan |
-| skill-health-check | opencode | Verify SKILL.md exists |
-| hkma-sfc-sweep | gemini | Regulatory developments (needs web) |
-| lustro-digest | gemini | AI news summary (needs web) |
-| vault-health-check | opencode | Broken links, overdue TODOs |
-| garp-drill | opencode | Generate 5 practice questions |
-| solutions-dedup | opencode | Find duplicate/stale docs |
-| morning-dashboard | opencode | Synthesize all outputs |
-
-## Notes
-
-- GLM-5 is free and unlimited — no cost concern
-- Gemini CLI: ~4–8 requests/run, well within 1500 RPD limit
-- OpenCode uses lean config (`OPENCODE_HOME=~/.opencode-lean`) — no MCPs, faster startup
-- Queue runs sequentially — total runtime ~25–40 min for 10 tasks
-- Noon window: good for tasks queued during the morning; 10pm window: classic overnight
+| Backend | When | Cost |
+|---------|------|------|
+| `opencode` (default) | File analysis, local tasks | Free (GLM-5) |
+| `gemini` | Web synthesis, news, URLs | Free (1500 RPD) |
+| `claude` | Vault-aware, complex reasoning | Max20 tokens |
+| `codex` | Multi-file code tasks, Rust | Codex credits |

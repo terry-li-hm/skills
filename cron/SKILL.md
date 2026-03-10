@@ -32,7 +32,13 @@ Plists tracked in `~/officina/launchd/`, symlinked to `~/Library/LaunchAgents/`.
 | `strip-compaction` | Every 6h | Strip compaction markers from WORKING.md |
 | `bread-reminder` | Mon & Wed 6:00 PM | Big Grains bread → Telegram |
 | `csb-ai-jobs` | Fri 12:00 PM | CSB AI job vacancies → Telegram |
-| `opencode-nightly` | 10:00 PM daily | OpenCode nightly update |
+| `legatus-git-health` | 00:30 daily | Git health across active repos |
+| `legatus-vault-health-check` | 01:00 daily | Vault link + TODO health |
+| `legatus-lustro-digest` | 01:30 daily | AI news digest (Capco lens) |
+| `legatus-solutions-dedup` | 02:00 Sunday | Solutions KB dedup |
+| `legatus-todo-stale-sweep` | 02:15 Sunday | Stale TODO sweep |
+| `legatus-notes-orphan-scan` | 02:30 Sunday | Vault orphan scan |
+| `legatus-morning-dashboard` | 03:30 daily | Morning brief synthesis |
 | `update-coding-tools` | 3:00 AM daily | Coding tools update |
 | `rotate-logs` | Sun 5:00 AM | Truncate logs to 200 lines |
 
