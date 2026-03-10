@@ -18,7 +18,7 @@ Single entry point for all scheduling. Due = nag reminders. Google Calendar = so
 
 ## moneo CLI Reference
 
-`moneo add` syncs to iPhone by default. Use `--no-sync` only for DB-only writes (rare).
+`moneo add` always syncs to iPhone via CloudKit.
 
 ```bash
 moneo ls                                                        # list all reminders with index
@@ -87,7 +87,7 @@ gog calendar add primary --summary "AIA call - Tommy Lau" --from "2026-03-06T10:
 - `moneo rm` does not sync deletions to iPhone — delete in Due on iPhone directly
 - `moneo rm --title "pattern"` — safe batch delete by name; avoids index-shift bug when deleting multiple reminders
 - Same title at different times on the same day is allowed. Same title at the same time on the same day is rejected.
-- Due uses CloudKit (not iCloud Drive). Direct file edits bypass CloudKit — use `moneo add` (default syncs) not `--no-sync`.
+- Due uses CloudKit (not iCloud Drive). Direct file edits bypass CloudKit — always use `moneo add`.
 - UUID gotcha: Due requires base64 UUIDs without `=` padding — moneo handles this automatically
 - Always use HKT. moneo handles timezone internally.
 - `moneo ls` shows ⚠ for overdue reminders
