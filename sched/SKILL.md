@@ -18,19 +18,20 @@ Single entry point for all scheduling. Due = nag reminders. Google Calendar = so
 
 ## moneo CLI Reference
 
-**Always add `--sync`** to every `moneo add` — Terry wants all reminders synced to iPhone.
+`moneo add` syncs to iPhone by default. Use `--no-sync` only for DB-only writes (rare).
 
 ```bash
 moneo ls                                                        # list all reminders with index
-moneo add "Call dentist" --in 30m --sync                       # relative time + iPhone sync
-moneo add "Standup" --at 09:30 --sync                          # today at HH:MM + iPhone sync
-moneo add "Pay rent" --date 2026-04-01 --at 10:00 --sync       # specific date + time + iPhone sync
-moneo add "Team sync" --at 11:00 --recur weekly --sync         # recurring weekly + iPhone sync
-moneo add "Pay rent" --date 2026-04-01 --recur monthly --sync  # recurring monthly + iPhone sync
-moneo edit <index> --title "New title"                          # rename (Mac only)
-moneo edit <index> --at 16:00 --sync                           # change time + sync to iPhone
-moneo edit <index> --in 1h --sync                              # push forward + sync
-moneo rm <index>                                                # delete (Mac only — delete on iPhone directly if added with --sync)
+moneo add "Call dentist" --in 30m                              # relative time
+moneo add "Standup" --at 09:30                                 # today at HH:MM
+moneo add "Pay rent" --date 2026-04-01 --at 10:00             # specific date + time
+moneo add "Team sync" --at 11:00 --recur weekly               # recurring weekly
+moneo add "Pay rent" --date 2026-04-01 --recur monthly        # recurring monthly
+moneo edit <index> --title "New title"                         # rename (Mac only)
+moneo edit <index> --at 16:00 --sync                          # change time + sync to iPhone
+moneo edit <index> --in 1h --sync                             # push forward + sync
+moneo rm <index>                                               # delete by index (Mac only)
+moneo rm --title "pattern"                                     # delete all matching by title (safe batch delete)
 ```
 
 ### Time flags (mutually exclusive)
@@ -75,17 +76,18 @@ gog calendar add primary \
 > "Schedule AIA call tomorrow 10am, Tommy Lau +852 3727 6441"
 
 ```bash
-moneo add "AIA call - Tommy Lau" --date 2026-03-06 --at 09:30 --sync
+moneo add "AIA call - Tommy Lau" --date 2026-03-06 --at 09:30
 gog calendar add primary --summary "AIA call - Tommy Lau" --from "2026-03-06T10:00:00+08:00" --to "2026-03-06T11:00:00+08:00" --description "Tommy Lau +852 3727 6441"
 ```
 
 ## Gotchas
 
-- `moneo add --sync` uses AppleScript + **peekaboo** to auto-click Save in Due — works screen-free
-- If moneo prints "Due editor open — please click Save manually": grant **Accessibility + Screen Recording** to `/opt/homebrew/bin/peekaboo` in System Settings → Privacy & Security. `peekaboo permissions` may show stale results — test with an actual `--sync` to confirm.
-- `moneo rm` does not sync deletions to iPhone — delete in Due on iPhone directly if added with `--sync`
-- `moneo add` rejects same title on same day — use `moneo edit` instead
-- Due uses CloudKit (not iCloud Drive). Direct file edits bypass CloudKit — always use `--sync`
+- `moneo add` uses AppleScript to open Due editor via URL scheme and auto-click Save → CloudKit sync to iPhone. Works screen-free.
+- If moneo prints "Due editor open — please click Save manually": grant **Accessibility + Screen Recording** to `/opt/homebrew/bin/peekaboo` in System Settings → Privacy & Security. `peekaboo permissions` may show stale results — test with an actual add to confirm.
+- `moneo rm` does not sync deletions to iPhone — delete in Due on iPhone directly
+- `moneo rm --title "pattern"` — safe batch delete by name; avoids index-shift bug when deleting multiple reminders
+- Same title at different times on the same day is allowed. Same title at the same time on the same day is rejected.
+- Due uses CloudKit (not iCloud Drive). Direct file edits bypass CloudKit — use `moneo add` (default syncs) not `--no-sync`.
 - UUID gotcha: Due requires base64 UUIDs without `=` padding — moneo handles this automatically
 - Always use HKT. moneo handles timezone internally.
 - `moneo ls` shows ⚠ for overdue reminders
