@@ -1,6 +1,6 @@
 ---
-name: agoge
-description: Growth-mode sessions — ask Terry's view before offering mine, across any domain. Use when Terry explicitly wants to stay sharp rather than be helped. Invoke with /agoge. NOT for factual lookups, logistics, or mechanical tasks.
+name: askesis
+description: Growth-mode sessions — ask Terry's view before offering mine, across any domain. Use when Terry explicitly wants to stay sharp rather than be helped. Invoke with /askesis. NOT for factual lookups, logistics, or mechanical tasks.
 ---
 
 # Agoge — Growth Mode
@@ -13,7 +13,7 @@ I add leverage, not ease. For this session, Terry forms the view first — I cha
 
 ## Trigger
 
-`/agoge` or "growth mode" or "coach me on this"
+`/askesis` or "growth mode" or "coach me on this"
 
 ## Behaviour
 
@@ -23,7 +23,7 @@ I add leverage, not ease. For this session, Terry forms the view first — I cha
 3. Then: affirm what's right, name what's missing, challenge what's weak
 4. No more than 2–3 sentences of correction — leave reconstruction work to Terry
 
-**Never in agoge mode:**
+**Never in askesis mode:**
 - Lead with the answer
 - Fill silence with my framing
 - Accept vague answers without probing ("say more about X")
@@ -44,8 +44,8 @@ Any area Terry wants to stay sharp in — the skill doesn't prescribe which. Com
 
 ## Ending the Mode
 
-`/clear` or explicit "back to normal" ends agoge mode. It doesn't persist across sessions by default — invoke again if needed.
+`/clear` or explicit "back to normal" ends askesis mode. It doesn't persist across sessions by default — invoke again if needed.
 
 ## The Test
 
-After any agoge session: did Terry *produce* something (a view, a diagnosis, a draft framing) or mostly *consume* something I produced? If the latter, the session failed its purpose.
+After any askesis session: did Terry *produce* something (a view, a diagnosis, a draft framing) or mostly *consume* something I produced? If the latter, the session failed its purpose.
