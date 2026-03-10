@@ -84,6 +84,7 @@ gog calendar add primary --summary "AIA call - Tommy Lau" --from "2026-03-06T10:
 
 - `moneo add` uses AppleScript to open Due editor via URL scheme and auto-click Save → CloudKit sync to iPhone. Works screen-free.
 - If moneo prints "Due editor open — please click Save manually": grant **Accessibility + Screen Recording** to `/opt/homebrew/bin/peekaboo` in System Settings → Privacy & Security. `peekaboo permissions` may show stale results — test with an actual add to confirm.
+- **`moneo edit --at <time>` resets the date to today**, even if the reminder was set for a future date. To change only the time on a future reminder, always use `--date YYYY-MM-DD --at HH:MM` together.
 - `moneo rm` does not sync deletions to iPhone — delete in Due on iPhone directly
 - `moneo rm --title "pattern"` — safe batch delete by name; avoids index-shift bug when deleting multiple reminders
 - Same title at different times on the same day is allowed. Same title at the same time on the same day is rejected.
