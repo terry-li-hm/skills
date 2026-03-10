@@ -45,6 +45,8 @@ Determine today's mode from day of week (unless Endgame Mode is active):
 Show a one-line status: `Session #N | Readings: X/15 | Scenarios: Y/10 | Mode: [today's mode]`
 If Endgame Mode: append `⚡ Endgame Mode — N days to start`
 
+**Pattern watch:** If `patterns_watching` exists in the state file, check each entry. If `count >= threshold`, trigger the listed `action_if_hit` before proceeding. Otherwise surface any active patterns as a one-liner: `⚠️ Watching: [pattern] (seen N/threshold times)`
+
 ### 2. Daily Scenario Warm-Up (Every Session, 5 min)
 
 Before the main mode, run a quick scenario — even on Read & Extract days. This is the recall layer: short, sharp, no debrief needed.
