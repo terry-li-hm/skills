@@ -54,11 +54,10 @@ Answer each question before moving on. Do not scan and skip — a "no" is a vali
 1. **Anything unverified?** Did any tool call, file write, or command run this session produce output that wasn't checked? If yes → note it.
 2. **Anything deferred?** Did the conversation mention "later", "next", "should", "TODO", or "follow up" for something not yet captured? If yes → add to TODO.md or note it.
 3. **Uncommitted changes?** Any dirty repo with context that won't survive `/clear`? **Only act on repos touched this session** — dirty files from other sessions or parallel agents should be left alone (they may be in-progress work). If yes and touched this session → offer to commit.
-4. **Garden post?** Did a non-obvious insight emerge with a clear thesis, no factual claims needing verification, and no real names? Terry's lane = AI engineering, workflow systems, tooling, personal systems, consulting practice — if the insight touches any of these, lane = yes. **When in doubt: draft and let judge decide. Judge is the gate, not this check.** Answer yes or no explicitly. If yes → run the sarcio auto-publish protocol now. Do not defer. Wrap is the safety net.
-5. **LinkedIn angle?** Did anything surface worth sharing publicly — an inversion, an architectural decision, a non-obvious pattern? Answer yes or no explicitly. If yes → add entry to `[[LinkedIn Content Ideas]]` now.
-6. **Consulting arsenal?** Did anything surface that's concretely applicable to a bank or client AI engagement? Answer yes or no explicitly. If yes → add bullet to `[[Capco Transition]]` under "Consulting Arsenal" now.
+4. **Garden post?** Did a non-obvious insight emerge with a clear thesis, no factual claims needing verification, and no real names? Terry's lane = AI engineering, workflow systems, tooling, personal systems, consulting practice — if the insight touches any of these, lane = yes. **Bar is staging, not perfection** — the garden is a holding area; LinkedIn pulls from it when timing is right. When in doubt: draft and let judge decide. Judge is the gate, not this check. Answer yes or no explicitly. If yes → run the sarcio auto-publish protocol now. Do not defer. Wrap is the safety net.
+5. **Consulting arsenal?** Did anything surface that's concretely applicable to a bank or client AI engagement? Answer yes or no explicitly. If yes → add bullet to `[[Capco Transition]]` under "Consulting Arsenal" now.
 
-Questions 4–6 require an explicit yes/no answer in the Pre-Wrap output block. Omitting them is a skip, not a "no."
+Questions 4–5 require an explicit yes/no answer in the Pre-Wrap output block. Omitting them is a skip, not a "no."
 
 **Active experiments?** Run `peira status 2>/dev/null || true` — if a campaign is active, surface current score in the Pre-Wrap block. Exit code 1 with "Failed to read log.toml" = no active experiment, treat as clean skip.
 
@@ -85,7 +84,6 @@ One block, before any wrap steps. Q4–6 are **always present** — no "all clea
 →  Deferred: [things mentioned as "later/next/TODO" not yet captured, or "none"]
 ✓  [clean checks, e.g. "skills synced, repos clean, MEMORY.md 147/150"]
 Garden post: drafted → <slug> | no — [reason]
-LinkedIn:    added → [[LinkedIn Content Ideas]] | no — [reason]
 Arsenal:     added → [[Capco Transition]] | no — [reason]
 Dispatched:  <audit name> (<task-id>) | none
 ─────────────────────────────────────────────────
@@ -95,7 +93,6 @@ Dispatched:  <audit name> (<task-id>) | none
 
 **Blocking actions — complete before outputting pre-wrap block:**
 - Garden post: run sarcio protocol, judge, publish. Then write `drafted → <slug>` in the block.
-- LinkedIn: add entry to `[[LinkedIn Content Ideas]]`. Then write `added → [[LinkedIn Content Ideas]]`.
 - Arsenal: add bullet to `[[Capco Transition]]`. Then write `added → [[Capco Transition]]`.
 
 The block is a receipt, not a plan. Write it after the action, not before.
