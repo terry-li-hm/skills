@@ -286,7 +286,7 @@ If compound workflow is unavailable, add a short manual note in `~/docs/solution
 - **Never write non-trivial code in-session** without proposing delegation first.
 - **One task per delegation.** If there are 3 independent tasks, launch 3 separate delegates.
 - **Don't inline full files.** Give paths, let delegates read.
-- **Delegates don't write tests by default.** Add a separate test task if needed.
+- **Write tests for any non-trivial fix or feature.** At minimum: a test that would have caught the bug just fixed, plus any critical invariants (caps, bounds, parse contracts). Delegates don't write tests by default — add a dedicated test task in the delegation prompt or as a separate delegate. Don't ship without it.
 - **Review `git diff --stat` scope** after Gemini delegates — it touches extra files.
 
 ## Example
