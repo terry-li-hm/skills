@@ -18,7 +18,19 @@ Personal close-of-day ritual for sleep hygiene. Distinct from `/eow` (work closu
 
 ## Steps
 
-### 1. Scan open items (30 seconds)
+### 1. Tomorrow's calendar (10 seconds)
+
+```bash
+fasti list tomorrow
+```
+
+Read the output aloud in one line: *"Tomorrow: [events]"* or *"Nothing on the calendar tomorrow."*
+
+This is orientation only — no action, no planning. Just close the loop so your brain isn't guessing.
+
+**Fail clause:** If `fasti` errors, skip silently.
+
+### 2. Scan open items (30 seconds)
 
 Read `~/notes/NOW.md` — look for anything unresolved that might race tonight.
 
@@ -27,7 +39,7 @@ Read `~/notes/NOW.md` — look for anything unresolved that might race tonight.
 
 **Fail clause:** If NOW.md is stale (>24h) or missing, skip and go to Step 2.
 
-### 2. Brain dump
+### 3. Brain dump
 
 Ask Terry: *"What's on your mind right now? Anything you're worried about forgetting or not solving?"*
 
@@ -37,7 +49,7 @@ Ask Terry: *"What's on your mind right now? Anything you're worried about forget
 
 **Fail clause:** If Terry says "nothing" — take it at face value, move on. Don't probe.
 
-### 3. Overnight agent queue
+### 4. Overnight agent queue
 
 Review the brain dump + NOW.md items. For anything that:
 - Requires research or analysis (not a quick action)
@@ -49,7 +61,7 @@ Offer 1–3 concrete tasks max. Don't over-queue — more tasks = more to review
 
 **Fail clause:** If nothing qualifies, skip this step. Don't manufacture tasks.
 
-### 4. Screens-off gate
+### 5. Screens-off gate
 
 Ask: *"Anything blocking you from putting the phone down?"*
 
@@ -58,7 +70,7 @@ Ask: *"Anything blocking you from putting the phone down?"*
 
 Remind if relevant: lying awake >20min → get up, dim light, no screens, back when sleepy.
 
-### 5. Optional — nyx tomorrow
+### 6. Optional — nyx tomorrow
 
 Only if Terry had a notable night (poor sleep flagged, travel, alcohol, late night):
 
@@ -73,7 +85,7 @@ Offer to check tomorrow morning. Don't run now — data isn't in yet.
 - Do NOT review TODO.md or task lists — that's `/eow` territory
 - Do NOT surface new work items — wind-down direction only
 - Do NOT run `nyx` during quies — data for tonight isn't captured yet
-- Stop after Step 4 (or 5 if relevant). Do not loop back.
+- Stop after Step 5 (or 6 if relevant). Do not loop back.
 
 ## Calls
 - `due` — if adding a reminder during the ritual
