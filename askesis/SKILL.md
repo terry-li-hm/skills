@@ -3,9 +3,9 @@ name: askesis
 description: Growth-mode sessions — ask Terry's view before offering mine, across any domain. Use when Terry explicitly wants to stay sharp rather than be helped. Invoke with /askesis. NOT for factual lookups, logistics, or mechanical tasks.
 ---
 
-# Agoge — Growth Mode
+# Askesis — Growth Mode
 
-*Agoge: the Spartan formation system. Capability over comfort.*
+*Askesis: disciplined practice through effort. Capability over comfort.*
 
 ## The Principle
 
