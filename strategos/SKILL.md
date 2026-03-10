@@ -131,6 +131,7 @@ Reviews (spec compliance + code quality) always stay as Claude subagents regardl
 **Launch backgrounded (single delegate):**
 ```bash
 # Codex — MUST cd into the target repo first (writes scoped to CWD even with --sandbox danger-full-access)
+# Default: FOREGROUND (omit run_in_background) — keeps tmux tab active. Background only when doing parallel in-session work.
 cd ~/code/<repo> && codex exec --skip-git-repo-check --full-auto "<prompt>"
 
 # Gemini — MUST cd into the project repo first (Gemini locks workspace to CWD)
