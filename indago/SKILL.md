@@ -42,7 +42,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | Verify claims / get primary sources | `WebSearch` | Returns links, no hallucinated synthesis |
 | Find specific content URLs (YouTube, podcast episodes, etc.) | `noesis search` | WebSearch doesn't index platform-internal pages well; noesis does |
 | AI news / X/Twitter real-time reactions | `grok --x-only` → `grok` | Real-time X/Twitter data + web search via xAI API. NOT for employer/company culture reviews — those don't live on X. |
-| **Semantic/conceptual search ("find pages about X idea")** | `exauro search --search-type neural` | Neural embeddings — finds meaning, not keywords |
+| **Semantic/conceptual search ("find pages about X idea")** | `exauro search --search-type neural` | Neural embeddings — finds meaning, not keywords. Confirmed effective for conceptual queries (Mar 2026) — Q4 failure was an unindexed term, not a tool failure. At $0.003 it's a valid cheap alternative to noesis search for URL-finding on abstract topics. |
 | **Find pages similar to a URL** | `exauro similar <url>` | Exa find-similar, great for research trails |
 | **Quick AI answer with citations** | `exauro answer "question"` | Cheaper than noesis, good for factual questions |
 | **Extract full content of a page** | `exauro contents <url>` | Alternative to defuddle for non-JS pages |
@@ -149,7 +149,8 @@ grok --raw "query"           # raw JSON response
 
 | Domain | Language | Example |
 |--------|----------|---------|
-| HK local (doctors, govt, restaurants, fintech, consumer products) | Chinese/Cantonese (中文) | `noesis search "香港脊椎側彎骨科醫生推薦 私家 2026"` |
+| HK local (doctors, govt, restaurants, consumer sentiment, local services) | Chinese/Cantonese (中文) | `noesis search "香港脊椎側彎骨科醫生推薦 私家 2026"` |
+| **HK professional salary / compensation data** | **English** | **Salary benchmarks published on Indeed HK, Payscale, Morgan McKinley — all in English. Chinese search returns regulatory docs and job listings, not salary numbers. Empirically confirmed Mar 2026.** |
 | Niche keeb switches/builds | Japanese (日本語) | `bird search "HMX K01 タクタイル" -n 10` |
 | Taobao/Chinese products | Chinese (中文) | Reviews, Douyin/Bilibili content |
 | K-beauty, Korean tech | Korean (한국어) | Naver blogs, Korean review sites |
