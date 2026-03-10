@@ -92,7 +92,7 @@ Dispatched:  <audit name> (<task-id>) | none
 **"yes" is not a valid terminal state for garden post.** It must resolve to either `drafted → <slug>` (sarcio ran, judge passed, published) or `no — [reason]`. "Flagging as idea", "needs more work", or "will do later" are all `no`. Draft now or say no — there is no middle ground.
 
 **Blocking actions — complete before outputting pre-wrap block:**
-- Garden post: run sarcio protocol, judge, publish. Then write `drafted → <slug>` in the block.
+- Garden post: invoke the `sarcio` skill to get command syntax, then run: `sarcio new "Title"` → write post → judge → `sarcio publish <slug> --push`. Then write `drafted → <slug>` in the block. Do NOT stage or defer — draft and publish in the same wrap.
 - Arsenal: add bullet to `[[Capco Transition]]`. Then write `added → [[Capco Transition]]`.
 
 The block is a receipt, not a plan. Write it after the action, not before.
