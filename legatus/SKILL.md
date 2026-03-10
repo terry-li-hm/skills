@@ -1,11 +1,11 @@
 ---
 name: legatus
-description: Manage the background AI agent job queue — list tasks, dispatch immediately, cancel, view results. Use when dispatching a session-independent AI job via `legatus run`.
+description: Session-independent AI agent dispatcher — list tasks, dispatch immediately, cancel, view results. Use for any background AI job that should run detached from the current CC session.
 ---
 
-# legatus — Background Agent Dispatcher
+# legatus — Session-Independent AI Agent Dispatcher
 
-Pure dispatcher for session-independent AI agent jobs. Scheduling is handled by individual CalendarInterval LaunchAgents — legatus itself has no scheduling logic.
+Dispatch any AI agent job detached from the current session — overnight tasks, long research, post-meeting work, slow delegations. Scheduling (if needed) is handled by CalendarInterval LaunchAgents; legatus itself is scheduling-agnostic.
 
 ## Quick Reference
 
