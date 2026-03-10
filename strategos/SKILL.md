@@ -149,6 +149,8 @@ If chosen delegate command fails immediately, switch once to a backup tool based
 
 When the plan decomposes into N independent tasks, launch all at once — free, async, no Max20 cost.
 
+**Parallelise across independence boundaries, not arbitrary splits.** More agents only helps when tasks don't need each other's output. Splitting coupled files across agents causes merge conflicts — one agent per dependency chain. Splitting tiny tasks (10-line config files) costs more to package than to write inline. The right decomposition is: different files + no shared output = different agents.
+
 ```
 # 1. One worktree per task (prevents git add -A conflicts)
 lucus new <task-a-branch>
