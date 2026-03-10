@@ -60,14 +60,17 @@ For each action-required email:
 
 ## Step 4 — Archive the noise
 
-After working through all action items, batch-archive using `cora email archive` — **not** `gog gmail thread modify --remove INBOX` (gog silently fails for filtered/labelled emails; Gmail re-applies INBOX immediately):
+After working through all action items, batch-archive using the right tool per email source:
+
+- **Inbox emails** → `cora email archive <id>` (reliable; `gog gmail thread modify --remove INBOX` silently fails for filtered/labelled emails)
+- **Silent miss sweep emails** → `gog gmail thread modify <id> --remove INBOX` (`cora email archive` fails — Cora never indexed these)
+
 ```bash
-cora email archive <id1>
-cora email archive <id2>
-# ...
+cora email archive <id1>   # inbox emails
+gog gmail thread modify <id2> --remove INBOX  # silent miss sweep emails
 ```
 
-Verify with `gog gmail search "in:inbox" --limit 20` at the end — if anything remains, use `cora email archive` directly.
+Verify with `gog gmail search "in:inbox" --limit 20` at the end.
 
 Confirm count: "Archived X emails. Inbox zero."
 
