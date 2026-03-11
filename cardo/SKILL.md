@@ -38,13 +38,12 @@ Lighter than `/morning` (no weather, health, inbox). Heavier than a `/wrap` (syn
    - Note anything that was flagged as active this morning
    - Cross-reference against what sessions actually shipped
 
-4. **Inbox triage** — first email check of the day:
+4. **Inbox check**:
    - **Cora brief**: `cora brief show` (instant, no browser needed)
    - **Cora todos**: `cora todo list` — surface any action items Cora has flagged
-   - **Gmail scan**: `gog gmail search "capco OR PILON OR alison OR nicole OR AML newer_than:12h" | head -10`
+   - **Inbox count**: `gog gmail search "in:inbox" --limit 5`
+   - If inbox has items: surface count and nudge `/acta` — don't triage inline here
    - If gog fails (keychain locked): note "Gmail unavailable — unlock keychain" and skip.
-   - Surface only items needing a reply or action today. Skip FYI/newsletters.
-   - SmarTone bill: if it appears, extract QR payment link (`gog gmail get <id> --plain`) and surface with amount + due date.
 
 5. **LinkedIn job alerts** (speculor):
    - Check if today's note exists: `~/notes/Job Hunting/Job Alerts YYYY-MM-DD.md`

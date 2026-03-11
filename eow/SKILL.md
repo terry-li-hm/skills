@@ -60,10 +60,15 @@ A checkpoint that looks at the **whole work day** as a unit. `/wrap` handles ind
 **Work mood:** [1-5 or word, with colour if offered]
 ```
 
-6. **TODO sweep** — quick scan: anything completed today that should be marked in `~/notes/TODO.md`? Any new commitments? Same as wrap's TODO sweep but day-scoped.
+6. **Inbox check**:
+   - Run: `gog gmail search "in:inbox" --limit 5`
+   - If results: surface count and nudge `/acta` before switching off — clearing inbox at end of day avoids overnight backlog
+   - If empty: note "Inbox clear" and continue
+
+7. **TODO sweep** — quick scan: anything completed today that should be marked in `~/notes/TODO.md`? Any new commitments? Same as wrap's TODO sweep but day-scoped.
    - If TODO write fails, report "TODO sweep skipped (write failed)" in output.
 
-7. Done. No tomorrow preview — `/daily` handles that before bed.
+8. Done. No tomorrow preview — `/daily` handles that before bed.
 
 ## Output
 

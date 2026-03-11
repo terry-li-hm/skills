@@ -47,6 +47,11 @@ Run when you sit down and are ready to work. Loads your priority context, clears
    - If output is non-empty, surface attendee context (name, last contact, recent subjects) for any meeting today
    - Fail silently if amicus unavailable or DB empty
 
+8. **Inbox check**:
+   - Run: `gog gmail search "in:inbox" --limit 5`
+   - If results: surface count and nudge `/acta` — don't triage here, just flag it
+   - If empty: note "Inbox clear" and move on
+
 10. **Capco countdown + daily prep item** (until start date):
     - Calculate days remaining: `python3 -c "from datetime import date; print((date(2026,4,8)-date.today()).days)"`
     - Check `~/notes/Capco/Capco Transition.md` for confirmed start date if different
