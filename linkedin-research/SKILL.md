@@ -81,3 +81,8 @@ This data is free — it's already in the snapshot. Don't discard it.
 - **Initials-only display names:** Some users set their name to initials (e.g., "H Y LI" instead of "Ho Yin Li"). Google and WebSearch won't match full-name queries to these profiles. If external search draws a blank for someone you know exists, try searching initials on LinkedIn directly via agent-browser before concluding the account is deactivated.
 - The existing `agoras` skill is for **content** (posts/comments) — this skill is for **research**
 - Profile data from snapshots may be incomplete — check "Show all X experiences" expand links
+- **Never run two `agent-browser open` calls in parallel for LinkedIn** — they share one browser instance; the second open overwrites the first. Always run sequentially.
+- **`agent-browser get text body` returns raw 370KB+ HTML** — useless for LinkedIn. Always use `snapshot` + grep instead.
+- **`/details/experience/` URL doesn't work** — redirects to generic LinkedIn page. Stick to the main profile URL and use snapshot to extract experience.
+- **`--profile` flag ignored if daemon already running** — warning appears but it still works if the existing daemon is already authenticated. Not a blocker.
+- **`recent-activity/all/` works** for reading someone's public posts — useful for gauging communication style and recent focus areas before a meeting.
