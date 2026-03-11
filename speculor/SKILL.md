@@ -57,6 +57,7 @@ To update the profile: edit `src/main.rs`, `cargo build --release -p speculor`, 
 - `claude -p` inside a Claude Code session fails with "nested session" error — binary strips `CLAUDECODE` env var to bypass this.
 - Triage re-runs safely on already-triaged notes (parser handles bold + rationale suffixes).
 - CCB Asia duplicate jobs (same role, two job IDs) — triage classifies both independently; usually one skip, one review.
+- **Salary range overlap ≠ skip** — triage sometimes downgrades roles where the floor (HKD 100K) is above the salary band bottom. Correct logic: if the range top is at or above floor, it's acceptable (negotiable). Only skip if the *ceiling* is below floor. If `TRIAGE_SYSTEM_PROMPT` produces false negatives on governance/strategy roles, add this explicitly. (Confirmed: SP003 StanChart AI Governance mis-triaged weak→should be strong, Mar 2026)
 
 ## Calibration
 
