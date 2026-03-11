@@ -124,7 +124,11 @@ Two confirmed cases of interview invitation emails arriving without an `INBOX` G
 
 Affected emails had `CATEGORY_PERSONAL` but no `INBOX` label and no `Cora/` label — i.e. Cora never touched them at all.
 
-**Permanent mitigation:** Gmail filters for active job application domains force `--important` and `--never-spam`. Currently set for: `aia.com`, `mtr.com.hk`, `capco.com`, `myworkday.com` (Workday sends interview emails from this domain regardless of hiring company). Add new domains when applying.
+**Permanent mitigation:** Gmail filters for active job application domains force `--important` and `--never-spam`. Currently set for:
+- Company domains: `aia.com`, `mtr.com.hk`, `capco.com`
+- ATS platforms (cover any company using these): `myworkday.com`, `greenhouse.io`, `lever.co`, `smartrecruiters.com`, `taleo.net`, `icims.com`
+
+Add new company domains when applying. ATS platforms are already covered globally.
 ```bash
 gog gmail filters create --from "<domain>" --never-spam --important
 ```
