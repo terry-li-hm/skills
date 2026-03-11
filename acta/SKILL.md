@@ -15,12 +15,12 @@ Run in parallel:
 cora brief                                                                         # list all briefs — check for unread ones
 gog gmail search "in:inbox" --limit 30                                             # full inbox list
 gog gmail search "label:Cora/Action" --limit 20                                    # Cora-flagged actions outside inbox
-gog gmail search "category:personal -label:Cora -in:inbox newer_than:7d" --limit 30  # silent miss sweep
+gog gmail search "-in:inbox newer_than:3d" --limit 50  # silent miss sweep — all non-inbox emails
 ```
 
 **`Cora/Action` emails must be triaged** even though they're not in inbox — Cora explicitly flagged them as requiring action but strips the INBOX label. Treat them identically to inbox items.
 
-**Silent miss sweep** catches real emails (from actual people) that Gmail miscategorised and Cora never processed. Expect noise (Cora brief emails, Vercel alerts, X pings) — scan for human senders and restore INBOX for anything actionable: `gog gmail thread modify <id> --add INBOX`.
+**Silent miss sweep** catches anything not in inbox — interview emails, ATS notifications, banking alerts, anything Cora moved to brief-only or Gmail miscategorised. Expect noise (newsletters, Vercel alerts, OTPs) — scan quickly for anything actionable and restore INBOX: `gog gmail thread modify <id> --add INBOX`.
 
 Then read **all unread briefs** before triaging:
 ```bash
@@ -88,7 +88,7 @@ After the session:
 - **Inbox = action queue.** Archive = done. Don't leave resolved emails in inbox.
 - **Thread view first.** Before actioning, always check if there are newer messages in the thread (`gog gmail thread show`).
 - **Silent miss check.** For any expected email that isn't in the inbox: `gog gmail search "from:<domain>"` — catches emails Cora missed entirely.
-- **Domain filters.** If a critical domain keeps missing the inbox, add a filter: `gog gmail filters create --from "<domain>" --never-spam --important`. Currently set: `aia.com`, `mtr.com.hk`, `capco.com`.
+- **Domain filters.** If a critical domain keeps missing the inbox, add a filter: `gog gmail filters create --from "<domain>" --never-spam --important`. Currently set: `aia.com`, `mtr.com.hk`, `capco.com`, `myworkday.com`, `greenhouse.io`, `lever.co`, `smartrecruiters.com`, `taleo.net`, `icims.com`.
 
 ## Fail states
 
