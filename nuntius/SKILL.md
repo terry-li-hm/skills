@@ -38,6 +38,12 @@ cora brief show --open  # Show and open in browser
 cora brief --json       # JSON output (note: briefs use --json not --format json)
 ```
 
+**Known crash:** `cora brief show` crashes mid-render on PPS payment items — drops remaining emails silently. Fallback: read via browser.
+```bash
+porta run --domain cora.computer --selector body "https://cora.computer/14910/briefs?date=YYYY-MM-DD&time=morning"
+```
+Login to cora.computer in Chrome first. Account ID is `14910`.
+
 ### Todos
 ```
 cora todo list                                           # List pending todos

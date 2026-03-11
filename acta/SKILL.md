@@ -92,9 +92,23 @@ After the session:
 
 ## Fail states
 
-- `cora brief show` errors → continue with gog inbox; note brief is unavailable
+- `cora brief show` errors → try `porta run` as fallback (see below), then continue with gog inbox
 - Email not in inbox but expected → search gog directly before concluding missing
 - Can't draft reply in session → add to NOW.md as `[open]` and archive the email
+
+### `cora brief show` crash fallback
+
+When `cora brief show <id>` crashes mid-render (known issue: PPS payment items), read the brief via browser:
+
+```bash
+# Get the brief URL from the brief email in inbox
+cora email show <brief_email_id>   # find the "Read full brief" link
+
+# Then fetch via porta run (login to cora.computer in Chrome first)
+porta run --domain cora.computer --selector body "https://cora.computer/<id>/briefs?date=<YYYY-MM-DD>&time=morning"
+```
+
+URL pattern: `https://cora.computer/14910/briefs?date=YYYY-MM-DD&time=morning` (account ID 14910).
 
 ## Calls
 - `nuntius` — Cora CLI reference
