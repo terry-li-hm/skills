@@ -1,6 +1,7 @@
 ---
 name: sched
-description: Schedule events and manage Due reminders via moneo CLI. Use for ANY Due or calendar operation: "schedule", "remind me", "add to Due", "remind me in X", "book X", "list/edit/delete reminders". Covers both one-off and recurring. Entry point for all scheduling — replaces the separate 'due' skill.
+description: >-
+  Schedule events and manage Due reminders via moneo CLI. Use for ANY Due or calendar operation: "schedule", "remind me", "add to Due", "remind me in X", "book X", "list/edit/delete reminders". Covers both one-off and recurring. Entry point for all scheduling — replaces the separate 'due' skill.
 user_invocable: true
 ---
 
