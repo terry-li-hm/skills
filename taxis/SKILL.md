@@ -123,7 +123,7 @@ if (/\.claude\/projects\//.test(cmd) && /\.jsonl/.test(cmd)) {
 | Hook | Purpose |
 |------|---------|
 | `auto-learning.sh` | Reminds to capture non-obvious learnings |
-| `oghma-session-inject.py` | Injects top Oghma memories for cwd (debounced 30min) |
+| `oghma-session-inject.py` | Injects top Oghma memories + project CONTEXT.md for cwd (debounced 30min) |
 | `url-skill-router.py` | Detects URLs, routes to domain-specific skills (LinkedIn, X, Taobao) |
 | `time-gate.js` | After 9pm HKT, suggests /daily via stderr |
 
