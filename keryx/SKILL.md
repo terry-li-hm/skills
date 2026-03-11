@@ -73,7 +73,7 @@ The alias makes `keryx send` work **immediately** without waiting for WhatsApp t
 - **wacli daemon must be running** for reads to have current data. Check with `keryx sync status`. Restart with `keryx sync restart`.
 - **`brew upgrade wacli` overwrites the patched binary.** keryx itself is fine but wacli may break — see `~/docs/solutions/wacli-business-message-fix.md` to re-patch.
 - **Multiple name matches** are only an error if they're different people. Same-name / multiple-JID (dual-JID case) is handled automatically.
-- **Send requires interactive terminal** — keryx intentionally outputs the command block rather than executing. Paste and run in your shell.
+- **Send requires interactive terminal** — wacli enforces this at the binary level. `--execute` works from a user shell but Claude cannot invoke it on Terry's behalf (non-interactive subprocess). Always paste and run, or use `--execute` yourself.
 - **Cache** at `~/Library/Application Support/keryx/contacts.json` — delete to force refresh if a new contact isn't found.
 - **`dirs::config_dir()` on macOS** = `~/Library/Application Support/`, not `~/.config`. All keryx data lives there.
 - **`add-contact` opens Contacts.app** — requires the Mac's GUI to be accessible. Works from Ghostty/local terminal; may fail silently from pure SSH.
