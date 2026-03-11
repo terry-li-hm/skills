@@ -15,7 +15,7 @@ Run in parallel:
 cora brief                                                                         # list all briefs — check for unread ones
 gog gmail search "in:inbox" --limit 30                                             # full inbox list
 gog gmail search "label:Cora/Action" --limit 20                                    # Cora-flagged actions outside inbox
-gog gmail search "NOT in:inbox newer_than:3d" --limit 50  # silent miss sweep — all non-inbox emails
+gog gmail search "NOT in:inbox newer_than:7d" --limit 50  # silent miss sweep — all non-inbox emails
 ```
 
 **`Cora/Action` emails must be triaged** even though they're not in inbox — Cora explicitly flagged them as requiring action but strips the INBOX label. Treat them identically to inbox items.
