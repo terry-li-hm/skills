@@ -39,6 +39,17 @@ Bedtime close → daily note. The final checkpoint of the day.
    - Show the summary — "Here's how today groups..."
    - Ask: anything missing? Any sessions without a wrap?
 
+   Then run through the reflection questions. Split: pre-fill what's observable from the logs, ask Terry for what only he can answer.
+
+   **Pre-fill from logs (present your read, Terry confirms/corrects):**
+   - **Time well spent?** — This is the anchor question. Read today's themes against known needle-movers (from NOW.md + imminent TODO due dates). Name the needle-movers explicitly, map today's themes against them, give a direct verdict: moved / partial / missed. Don't hedge. Terry reacts.
+   - **Body check** — Did the sleep hygiene protocol appear to be followed? (caffeine cutoff 2pm, meal cutoff 8pm, screens down before bed, target bed by 11pm). State what the log shows. Terry corrects if wrong.
+   - **Theo time** — Did Theo appear in the day's log? Flag yes/no. If no, note it plainly — don't editorialize.
+
+   **Ask Terry (felt experience, you react after):**
+   - **Best moment of the day** — one thing, work or personal, that felt good or surprising. Not the most productive — the best.
+   - **One thing you'd do differently** — one, keep it brief. Then offer your read from the logs if you saw friction worth naming.
+
 5. **Tomorrow preview** — scan for what's queued tomorrow:
    - Get tomorrow's date (`date -v+1d +%Y-%m-%d`)
    - If date command fails, skip tomorrow preview and note "Tomorrow preview unavailable".
@@ -65,7 +76,7 @@ Bedtime close → daily note. The final checkpoint of the day.
 
 ## Reflection
 
-[Full-day synthesis. If eow exists, weave work themes with evening activity into a day arc — don't repeat the eow summary, build on it. If no eow, cover everything. Then 1-2 sentences on patterns: time allocation, focus vs scatter, energy, what worked vs what drifted. Honest, not cheerful.]
+[Full-day synthesis. If eow exists, weave work themes with evening activity into a day arc — don't repeat the eow summary, build on it. If no eow, cover everything. Then: (1) time well spent verdict — did today's themes move the actual needle or generate busy-work? be direct; (2) 1-2 sentences on patterns: focus vs scatter, energy, what worked vs drifted. Honest, not cheerful.]
 
 ## Learnings
 
