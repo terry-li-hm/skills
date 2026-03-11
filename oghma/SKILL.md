@@ -11,8 +11,9 @@ Rust CLI that watches AI coding session transcripts, extracts technical gotchas 
 
 ```bash
 oghma search "rust cargo workspace"   # FTS5 keyword search (default)
-oghma search "query" --mode vector    # vector search (requires embeddings)
-oghma search "query" -n 5 -c gotcha   # limit + category filter
+oghma search "query" --mode hybrid    # hybrid RRF search (FTS5 + vector + recency boost)
+oghma search "query" --mode vector    # pure vector search
+oghma search "query" -n 5 -c gotcha  # limit + category filter
 oghma add "content" -c gotcha         # manual memory insert
 oghma status                          # DB path, memory count, daemon state
 oghma stats                           # category + tool counts
@@ -21,6 +22,15 @@ oghma start -f                        # start daemon (foreground, for debug)
 oghma stop                            # stop daemon
 oghma migrate-embeddings --dry-run    # check pending embeddings
 oghma migrate-embeddings              # backfill embeddings for all memories
+oghma mcp                             # start stdio MCP server (for Claude Code)
+oghma dedup --dry-run                 # find semantic duplicates (default threshold 0.95)
+oghma dedup --threshold 0.98 --execute  # actually delete duplicates
+oghma export --format json            # export all memories as JSON
+oghma export --format markdown -o out.md  # export as markdown
+oghma migrate --from ~/.oghma/oghma.db --dry-run  # preview import from another DB
+oghma migrate --from ~/.oghma/oghma.db  # import + re-embed memories
+oghma prune-stale --max-age-days 365 --dry-run  # preview old memory deletion
+oghma prune-stale --max-age-days 365 --execute   # soft-delete old memories
 oghma init                            # create ~/.oghma/config.toml
 ```
 
@@ -83,4 +93,5 @@ cp target/release/oghma ~/bin/oghma
 
 - **Phase 1** ✅ — search MVP (FTS5, status, stats, add, init)
 - **Phase 2** ✅ — daemon + ingestion (parsers, extractor, embedder, watcher, start/stop, migrate-embeddings)
-- **Phase 3** 🔜 — hybrid RRF search, MCP server (rmcp), migration tool from Python 1536-dim DB, crates.io publish
+- **Phase 3** ✅ — hybrid RRF search, MCP server (rmcp 0.16), dedup/export/migrate/prune-stale
+- **crates.io publish** 🔜 — manual step when ready (cargo-semver-checks, cargo-deny, then `cargo publish`)
