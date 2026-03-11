@@ -124,7 +124,7 @@ Two confirmed cases of interview invitation emails arriving without an `INBOX` G
 
 Affected emails had `CATEGORY_PERSONAL` but no `INBOX` label and no `Cora/` label — i.e. Cora never touched them at all.
 
-**Permanent mitigation:** Gmail filters for active job application domains force `--important` and `--never-spam`. Currently set for: `aia.com`, `mtr.com.hk`, `capco.com`. Add new domains when applying.
+**Permanent mitigation:** Gmail filters for active job application domains force `--important` and `--never-spam`. Currently set for: `aia.com`, `mtr.com.hk`, `capco.com`, `myworkday.com` (Workday sends interview emails from this domain regardless of hiring company). Add new domains when applying.
 ```bash
 gog gmail filters create --from "<domain>" --never-spam --important
 ```
@@ -140,7 +140,7 @@ gog gmail search "from:<domain>"  # catches emails Cora missed entirely
 gog gmail thread modify <threadId> --add INBOX
 ```
 
-Real cases: MTR interview (Mar 4 2026) — `important_draft` category. AIA/Cherry Ma interview (Mar 6 2026) — `CATEGORY_PERSONAL`, no INBOX, no Cora label.
+Real cases: MTR interview (Mar 4 2026) — `important_draft` category. AIA/Cherry Ma interview (Mar 6 2026) — `CATEGORY_PERSONAL`, no INBOX, no Cora label. AIA Workday interview (Mar 9 2026) — sent from `aia@myworkday.com`, no Cora label, caught via Gmail diff. Filter for `myworkday.com` added Mar 11 2026.
 
 ### gog thread show truncates body
 `gog gmail thread show <id>` truncates the email body at ~1000 chars. For full content — headers (e.g. `List-Unsubscribe`) and base64 body parts — use:
