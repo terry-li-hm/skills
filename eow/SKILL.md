@@ -39,6 +39,7 @@ A checkpoint that looks at the **whole work day** as a unit. `/wrap` handles ind
    - Show themes — "Here's how the work day groups..."
    - Ask: anything missing from work sessions?
    - Ask: **work mood** (1-5 or a word) — energy, focus, satisfaction with what got done
+   - Ask: **was it a productive day?** — give your own honest read first (output vs effort, what moved vs what stalled), then ask if Terry agrees or sees it differently
    - Ask: anything weighing on you going into the evening? (free-text, not a picker)
    - **Unfinished items: scan TODO.md yourself** — list items with today's date or imminent due dates. Don't make Terry pick from a checkbox list (implies unchecked = dropped).
    - If TODO.md is missing/unreadable, note "TODO scan unavailable" and continue.
