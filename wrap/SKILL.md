@@ -83,6 +83,7 @@ One block, before any wrap steps. Q4–6 are **always present** — no "all clea
 ⚠  [only if action needed — omit this line entirely if nothing to flag]
 →  Deferred: [things mentioned as "later/next/TODO" not yet captured, or "none"]
 ✓  [clean checks, e.g. "skills synced, repos clean, MEMORY.md 147/150"]
+TODOs added: [item names, or "none"]
 Garden post: drafted → <slug> | no — [reason]
 Arsenal:     added → [[Capco Transition]] | no — [reason]
 Dispatched:  <audit name> (<task-id>) | none
