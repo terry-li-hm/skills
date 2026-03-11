@@ -155,6 +155,36 @@ Resume points must pass the cold-start test: could another session resume from t
 **Vault flush:** If the session advanced a project with a canonical tracker note (e.g. `[[Capco Transition]]`), update that note now. Context doesn't survive — if it's not in a file, it's lost.
 If tracker note is missing, note "Tracker unavailable" and keep summary in daily note.
 
+**Project CONTEXT.md** — if the session cwd is inside `~/code/<project>/`:
+
+Check for `~/code/<project>/CONTEXT.md`. If the session made meaningful progress (code written, decisions made, direction changed) → write or update it:
+
+```markdown
+# <project> Context
+<!-- Updated: YYYY-MM-DD -->
+
+## What it does
+One sentence.
+
+## State
+Current implementation status.
+
+## Last session
+What was done or decided.
+
+## Next
+Immediate next step (one action).
+
+## Open questions
+Things still to resolve (omit section if none).
+```
+
+Only the **State**, **Last session**, **Next**, and **Open questions** sections change between sessions — don't rewrite the whole file if only one section changed.
+
+After writing: `cd ~/code/<project> && git add CONTEXT.md && git commit -m "Update CONTEXT.md"`.
+
+Skip if: the session was a light read/explore with no new decisions, or CONTEXT.md is already accurate.
+
 ### Step 4: Meta-Close (always run)
 
 Always run. If nothing surfaces, one line: "Nothing to generalise." Do NOT invent learnings.
