@@ -22,8 +22,9 @@ Only draft the WhatsApp if both fail. Wix/React/SPA sites look scraped but retur
 ```bash
 keryx read "Herman"            # merged conversation (phone + LID JIDs)
 keryx read "Herman" --limit 5  # last 5 messages
-keryx send "Herman" "Hi"           # prints daemon-safe 3-command block
-keryx send "Herman" "Hi" --copy   # same + copies (tmux: set-buffer, paste with prefix+]; outside tmux: clipboard)
+keryx send "Herman" "Hi"              # prints daemon-safe 3-command block
+keryx send "Herman" "Hi" --copy      # same + copies (tmux: set-buffer, paste with prefix+]; outside tmux: clipboard)
+keryx send "Herman" "Hi" --execute   # executes directly: stop daemon → send → restart (use on Blink/iOS)
 keryx chats                    # recent chats (passthrough)
 keryx chats --limit 10
 keryx add-contact "Dorothy" "+85252660778"  # add to Contacts.app + local alias
