@@ -71,7 +71,7 @@ consilium "question" --domain eu        # GDPR/AI Act considerations
 | **GPT-5.2 Pro** | M1 (OpenAI) | Practical, implementation-focused | Actionable steps |
 | **Claude Opus 4.6** | M2 (Anthropic) | Balanced, expert judgment | Strategic depth |
 | **Grok 4** | M3 (xAI) | Contrarian, challenges consensus | Stress-testing ideas |
-| **Kimi K2.5** | M4 (Moonshot) | Coding-strong, cross-lab diversity | Technical depth |
+| **DeepSeek-V3.2** | M4 (DeepSeek) | Coding-strong, cross-lab diversity | Technical depth |
 | **GLM-5** | M5 (Zhipu) | Strategic, pragmatic (best-validated CN model) | Business decisions |
 | **Gemini 3.1 Pro** | Judge (Google) | Technical synthesis, systems thinking | Final judgment |
 | **Claude Opus 4.6** | Critique (Anthropic) | Independent review of judge synthesis | Catching judge gaps |

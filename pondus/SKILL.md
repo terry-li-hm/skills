@@ -152,7 +152,7 @@ Swapped DeepSeek R1 → Kimi K2.5 based on:
 - R1 (Jan 2025) unranked on AA, weakest on Aider vs Kimi
 - `pondus rank --aggregate --tag reasoning` confirms: GLM-5 rank 3 (0.818, 2 sources), Kimi K2.5 rank 1 on AA (0.972) but only 1 reasoning source
 - Lab diversity: Moonshot (Kimi) + Zhipu (GLM) + xAI (Grok) + Anthropic (judge) = 4 distinct orgs
-- Current council: GPT-5.2-pro, Gemini-3.1-pro-preview, Grok-4, Kimi-K2.5, GLM-5
+- Current council (Mar 2026): GPT-5.2-pro, Gemini-3.1-pro-preview, Grok-4, DeepSeek-V3.2, GLM-5 (Kimi removed: connection failures)
 
 ### Role review (2026-03-03)
 
@@ -235,7 +235,7 @@ pondus watch gpt-5.4 --once   # same but shows ✓/✗ per source
 
 Output shows which sources have data (✓) and which don't (✗), plus rank/score where available. Exits 0 when all covered, 1 if any missing (--once mode). Runs in background via `run_in_background: true` — dies on reboot, just relaunch in tmux if needed.
 
-**GPT-5.4 watch status (as of Mar 6, 2026):** 1/8 sources (Arena only). Recheck daily until aider, swebench, AA, tbench catch up. Note: OpenRouter access opened Mar 6 — consilium already upgraded to gpt-5.4-pro.
+**GPT-5.4 watch status (as of Mar 6, 2026):** 1/8 sources (Arena only). Recheck daily until aider, swebench, AA, tbench catch up. Note: OpenRouter access opened Mar 6. GPT-5.4-Pro was trialled in consilium but removed (907s latency — unusable). GPT-5.2-pro remains M1.
 
 ## Future Work (low priority)
 
