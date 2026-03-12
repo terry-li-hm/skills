@@ -39,6 +39,24 @@ legatus list
 - **Output:** `~/.cache/legatus-runs/<YYYY-MM-DD-HHMM>/<task>/stdout.txt`
 - **Hot dispatch logs:** `~/.cache/legatus-runs/hot-<name>.log`
 
+## `output_dir` — Auto-Copy Results to Vault
+
+Add `output_dir` to any task definition to auto-copy output files to a persistent location after a successful run:
+
+```yaml
+- name: hsbc-desk-research
+  output_dir: ~/notes/Capco
+  backend: gemini
+  ...
+```
+
+- If set: copies all files from `~/.cache/legatus-runs/<timestamp>/<name>/` to `output_dir` on success
+- If unset: output stays in cache only (ephemeral — fine for health checks)
+- Tilde expansion handled automatically
+- Copy failure prints a warning but doesn't fail the run
+
+**Rule of thumb:** health checks → no `output_dir` (disposable). Research deliverables → set `output_dir` (durable).
+
 ## Adding a New Task
 
 1. Add entry to `~/notes/opencode-queue.yaml`
@@ -56,8 +74,10 @@ legatus list
 ## Gotchas
 - **Session independence:** `legatus run` spawns a detached subprocess. Session can close; job keeps running.
 - **CLAUDECODE env:** stripped for Backend::Claude so nested claude invocations aren't blocked.
-- **Results location:** `legatus run` → `hot-<name>.log` (live tail); scheduled → `~/.cache/legatus-runs/<timestamp>/<name>/stdout.txt`
+- **Results location:** `legatus run` → `hot-<name>.log` (live tail); scheduled → `~/.cache/legatus-runs/<timestamp>/<name>/stdout.txt`. If `output_dir` set, also copied there.
 - **No batch command** — removed. Use `legatus run <name>` for on-demand dispatch; LaunchAgents handle scheduling.
+- **Codex from CC background:** Use `codex exec --full-auto`, NOT interactive `codex "prompt"` (needs TTY). Don't pass `-a never` — conflicts with `--dangerously-bypass-approvals-and-sandbox` in config. See `~/docs/solutions/delegation-reference.md`.
+- **Scheduled runs producing empty output (Mar 11+):** LaunchAgents fire but write 0 bytes. Manual `legatus run` works. Likely env var issue in launchd context — debug pending.
 
 ## Source
 `~/code/legatus/` — Rust, clap 4, serde_yaml 0.9. GitHub: `terry-li-hm/legatus` (private).
