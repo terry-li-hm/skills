@@ -87,6 +87,7 @@ When in doubt: draft and let judge decide. Judge is the gate, not the intent che
 
 ## Gotchas
 
+- **`sarcio new` scaffolds with `draft: false`** — so `sarcio publish <slug>` immediately returns "Already published". This is correct behaviour (new posts go live immediately). If you need to draft privately first, manually set `draft: true` in frontmatter after `sarcio new`. If the post already has `draft: false` and you want to update content, use Write tool to overwrite the file directly — `sarcio publish` is a no-op on already-published posts.
 - `serde_yaml` is deprecated upstream but works fine — may need migration eventually
 - Frontmatter revision uses string matching, not full YAML round-trip — keys must be consistently formatted (no extra whitespace)
 - Slug derived from title: lowercase, spaces → `-`, non-alphanumeric stripped
