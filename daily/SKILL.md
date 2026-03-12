@@ -30,27 +30,17 @@ Bedtime close → daily note. The final checkpoint of the day.
    - If the note is empty or missing, **fallback:** delegate history scan to a subagent — use Task tool (subagent_type: "general-purpose", model: "haiku") with prompt: "Run `python ~/scripts/chat_history.py --full` and synthesize a concise summary of today's activity. Group by theme. List key accomplishments, decisions, and unfinished threads. Keep output under 30 lines."
    - If both note read and fallback scan fail, continue with a minimal close based on current session context and label it "partial".
 
-3. **Thematic summary:**
-   - **If eow exists:** Acknowledge work themes already captured. Add any evening/personal sessions. Synthesise the full day arc (work + personal).
-   - **If no eow:** Cluster all sessions into 3-5 major themes (e.g. "DBS prep", "system hygiene", "personal"). For each theme: key actions and outcomes in one line.
-   - Present to Terry in chat before writing.
+3. **Conversation** — ask Terry one open question: **"How was today?"**
+   - Let Terry talk. Follow up naturally — 2-3 exchanges max.
+   - Use the daily note, NOW.md, and TODO scan as context to ask good follow-up questions — don't dump them as a report.
+   - Things worth probing naturally if Terry doesn't mention them:
+     - Whether the day moved the actual needle (check against NOW.md / imminent TODOs)
+     - Theo time (if not mentioned)
+     - Best moment (not most productive — best)
+   - **If eow was run:** Work themes are already captured. Focus the conversation on the evening and the full-day arc.
+   - **If no eow:** Cover the full day.
 
-4. **Review with Terry:**
-   - Show the summary — "Here's how today groups..."
-   - Ask: anything missing? Any sessions without a wrap?
-
-   Then run through the reflection questions. Split: pre-fill what's observable from the logs, ask Terry for what only he can answer.
-
-   **Pre-fill from logs (present your read, Terry confirms/corrects):**
-   - **Time well spent?** — This is the anchor question. Read today's themes against known needle-movers (from NOW.md + imminent TODO due dates). Name the needle-movers explicitly, map today's themes against them, give a direct verdict: moved / partial / missed. Don't hedge. Terry reacts.
-   - **Body check** — Did the sleep hygiene protocol appear to be followed? (caffeine cutoff 2pm, meal cutoff 8pm, screens down before bed, target bed by 11pm). State what the log shows. Terry corrects if wrong.
-   - **Theo time** — Did Theo appear in the day's log? Flag yes/no. If no, note it plainly — don't editorialize.
-
-   **Ask Terry (felt experience, you react after):**
-   - **Best moment of the day** — one thing, work or personal, that felt good or surprising. Not the most productive — the best.
-   - **One thing you'd do differently** — one, keep it brief. Then offer your read from the logs if you saw friction worth naming.
-
-5. **Tomorrow preview** — scan for what's queued tomorrow:
+4. **Tomorrow preview** — scan for what's queued tomorrow:
    - Get tomorrow's date (`date -v+1d +%Y-%m-%d`)
    - If date command fails, skip tomorrow preview and note "Tomorrow preview unavailable".
    - Read `~/notes/Schedule.md` — check for recurring commitments on that day of the week
@@ -64,19 +54,19 @@ Bedtime close → daily note. The final checkpoint of the day.
    - **Thursday only (token budget check):** Weekly Claude Max reset is Friday ~11am HKT. Run `/status` or `cu` and if weekly usage is low (significant headroom remaining), surface it: "Weekly reset tomorrow 11am — X% unused. Spare Capacity tasks in TODO.md if you want to burn tokens tonight or early tomorrow."
    - If `/status`/`cu` unavailable, skip token budget line silently.
 
-6. **Fix header** — validate and update the `# YYYY-MM-DD — Day` line:
+5. **Fix header** — validate and update the `# YYYY-MM-DD — Day` line:
    - Verify day-of-week matches `date` output (wrap sometimes gets this wrong). Fix if needed.
    - Append a thematic tagline: compress the themes to a few words each, comma-separated.
    - Result: `# 2026-02-19 — Thursday — Doumei shipped, CV submitted, GARP grinding`
 
-7. **Finalize the daily note** — append all closing sections at once:
+6. **Finalize the daily note** — append all closing sections at once:
 
 ```markdown
 ---
 
 ## Reflection
 
-[Full-day synthesis. If eow exists, weave work themes with evening activity into a day arc — don't repeat the eow summary, build on it. If no eow, cover everything. Then: (1) time well spent verdict — did today's themes move the actual needle or generate busy-work? be direct; (2) 1-2 sentences on patterns: focus vs scatter, energy, what worked vs drifted. Honest, not cheerful.]
+[Synthesise from the conversation — use Terry's framing, not yours. Weave in observable data (logs, TODO) but the arc should reflect what Terry said mattered. If eow exists, build on it. Honest, not cheerful.]
 
 ## Learnings
 
