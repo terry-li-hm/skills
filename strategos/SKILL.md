@@ -119,8 +119,8 @@ Reviews (spec compliance + code quality) always stay as Claude subagents regardl
 |--------|------|-----|
 | Needs repo navigation, test loops, multi-file | **Codex** | Best developer (Terminal-Bench #1) |
 | **Rust (any)** | **Codex `--sandbox danger-full-access`** | Default for Rust. Lifts DNS block, `cargo build` works, Terminal-Bench #1 for dev tasks. `codex exec --sandbox danger-full-access --full-auto "..."` |
-| **Rust — Codex budget exhausted or code is sensitive** | **Gemini CLI** | Fallback. Runs locally, no code leaves machine. `cd ~/code/<project> && gemini -p "..." --yolo` |
-| Algorithmic, isolated logic, "write X that does Y" | **Gemini CLI** | Best programmer (LiveCodeBench #1), free |
+| **Rust — Codex budget exhausted or code is sensitive** | **Gemini CLI** | Fallback. Runs locally, no code leaves machine. `cd ~/code/<project> && gemini -m gemini-3.1-pro-preview -p "..." --yolo` |
+| Algorithmic, isolated logic, "write X that does Y" | **Gemini CLI** | AA index 57 (beats Opus 4.6 at 53), free. `gemini -m gemini-3.1-pro-preview -p "..." --yolo` |
 | Bulk ops, boilerplate, routine refactoring | **OpenCode** | Free, unlimited |
 | Task failed 3+ times from **reasoning difficulty** | **→ Opus in-session** | Escalation only, switch back after |
 | Task failed from **sandbox constraint** (DNS, build, write access) | **→ Switch tool laterally** | Codex DNS failure → Gemini; OpenCode write block → Codex. Not a reasoning problem. |
@@ -143,7 +143,8 @@ Reviews (spec compliance + code quality) always stay as Claude subagents regardl
 cd ~/code/<repo> && codex exec --skip-git-repo-check --full-auto "<prompt>"
 
 # Gemini — MUST cd into the project repo first (Gemini locks workspace to CWD)
-cd ~/code/<project> && gemini -p "<prompt>" --yolo
+# Default to gemini-3.1-pro-preview (AA index 57, beats Opus 4.6)
+cd ~/code/<project> && gemini -m gemini-3.1-pro-preview -p "<prompt>" --yolo
 
 # OpenCode
 OPENCODE_HOME=~/.opencode-lean opencode run \
