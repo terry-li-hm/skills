@@ -38,7 +38,7 @@ A checkpoint that looks at the **whole work day** as a unit. `/wrap` handles ind
 4. **Review with Terry:**
    - Show themes — "Here's how the work day groups..."
    - Ask: anything missing from work sessions?
-   - Ask: **work mood** (1-5 or a word) — energy, focus, satisfaction with what got done
+   - Ask: **work mood** — one honest line, not a number. What did the day feel like?
    - Ask: **was it a productive day?** — give your own honest read first (output vs effort, what moved vs what stalled), then ask if Terry agrees or sees it differently
    - Ask: anything weighing on you going into the evening? (free-text, not a picker)
    - **Unfinished items: scan TODO.md yourself** — list items with today's date or imminent due dates. Don't make Terry pick from a checkbox list (implies unchecked = dropped).
@@ -58,7 +58,7 @@ A checkpoint that looks at the **whole work day** as a unit. `/wrap` handles ind
 **Unfinished:**
 - [ ] [Threads carrying over — brief, actionable]
 
-**Work mood:** [1-5 or word, with colour if offered]
+**Work mood:** [one honest line — what the day felt like, not a number]
 ```
 
 6. **Inbox check**:
