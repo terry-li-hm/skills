@@ -53,12 +53,12 @@ If `cerno` fails or returns no results, continue and note "No KB prior art found
 
 ### 2. Choose weight class
 
-**Model switching (opusplan pattern):** For multi-file or architectural tasks, switch to Opus before CE plan review, then back to Sonnet before delegation. The planning/architecture phase is where Opus's reasoning advantage is real (GPQA: 74% Sonnet vs 91% Opus). Execution and delegation are Sonnet territory.
+**Effort switching (opusplan pattern):** Opus is always the session default — no model switching needed. For multi-file or architectural tasks, bump to max effort for the CE plan + weight-class step, then drop back to medium before delegation. Planning is where Opus's reasoning gap is real; execution goes to external delegates regardless of effort level.
 ```
-/model opus    ← before CE plan + weight-class decision
-/model sonnet  ← before step 3 delegation
+/model → max effort   ← CE plan + weight-class decision
+/model → medium       ← step 3 delegation (CC default)
 ```
-Skip for trivial tasks (single file, clear spec). *Pattern sourced from Claude Code's `opusplan` alias.*
+Skip for trivial tasks (single file, clear spec). *Pattern sourced from Claude Code's `opusplan` alias; updated Mar 2026 when Opus became session default.*
 
 Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 
