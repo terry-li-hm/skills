@@ -200,7 +200,7 @@ One pass, three outputs:
 
 **C. Implement improvements** — 1-3 specific improvement candidates: things that felt clunky, a tool that behaved unexpectedly, a repeated manual step that could be automated. For each: **implement if it's a small, safe, local change** (skill edit, MEMORY.md addition, solutions file). Propose (don't implement) only if the change is large, risky, or requires user decision. If nothing surfaced, say "Nothing to implement." Do NOT ask open-ended questions — the burden is on Claude to identify and act on candidates.
 
-**MEMORY.md at ≥145 lines and entries added this session → demote inline now.** Don't dispatch an audit — identify the lowest-recurrence entries added this session and move them to `~/docs/solutions/memory-overflow.md` immediately. The background hook audit is for general coverage; budget pressure is the trigger for immediate action.
+**MEMORY.md at ≥145 lines and entries added this session → demote inline now.** Don't dispatch an audit — identify the lowest-recurrence entries added this session and move them to `~/docs/solutions/memory-overflow.md` immediately. The background hook audit is for general coverage; budget pressure is the trigger for immediate action. **Pick the demotion target yourself — do not ask the user.** Recurrence signal: version-specific library gotchas < general OS behaviours < interaction patterns. Demote the lowest-signal entry and proceed.
 
 ## Output
 
