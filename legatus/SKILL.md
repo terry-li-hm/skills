@@ -77,7 +77,7 @@ Add `output_dir` to any task definition to auto-copy output files to a persisten
 - **Results location:** `legatus run` → `hot-<name>.log` (live tail); scheduled → `~/.cache/legatus-runs/<timestamp>/<name>/stdout.txt`. If `output_dir` set, also copied there.
 - **No batch command** — removed. Use `legatus run <name>` for on-demand dispatch; LaunchAgents handle scheduling.
 - **Codex from CC background:** Use `codex exec --full-auto`, NOT interactive `codex "prompt"` (needs TTY). Don't pass `-a never` — conflicts with `--dangerously-bypass-approvals-and-sandbox` in config. See `~/docs/solutions/delegation-reference.md`.
-- **Scheduled runs producing empty output (Mar 11+):** LaunchAgents fire but write 0 bytes. Manual `legatus run` works. Likely env var issue in launchd context — debug pending.
+- **Scheduled runs need `legatus-env` wrapper:** LaunchAgents don't source `.zshenv`, so backends have no API keys. All plists now call `~/bin/legatus-env` (sources `.zshenv` then exec's legatus). Fixed Mar 12.
 
 ## Source
 `~/code/legatus/` — Rust, clap 4, serde_yaml 0.9. GitHub: `terry-li-hm/legatus` (private).
