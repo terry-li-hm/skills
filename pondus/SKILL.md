@@ -17,12 +17,13 @@ Opinionated AI model benchmark aggregator. Rust CLI, open-source.
 
 ```
 src/
-├── main.rs          # CLI (clap derive): sources, compare, list subcommands
+├── main.rs          # CLI (clap derive): sources, compare, rank, recommend subcommands
 ├── models.rs        # Core types: ModelScore, SourceResult, MetricValue, SourceStatus
 ├── alias.rs         # Model name → canonical alias resolution (exact + prefix matching)
 ├── cache.rs         # JSON file cache in dirs::cache_dir()/pondus/ (macOS: ~/Library/Caches/pondus/)
 ├── config.rs        # Config from ~/.config/pondus/config.toml
 ├── output.rs        # Table/JSON/YAML output formatting
+├── recommend.rs     # recommend subcommand: task taxonomy → source ranking → top N output
 └── sources/
     ├── mod.rs       # Source trait + registry
     ├── aa.rs        # Artificial Analysis (REST API primary, scrape fallback)
@@ -172,6 +173,49 @@ Reviewed whether to swap judge (Opus 4.6) ↔ critique (Gemini 3.1 Pro Preview).
 **Grok-4 as weakest panelist:** Keep for lab diversity (xAI training pipeline ≠ others). No stronger xAI model available.
 
 **Fix shipped:** Added `CONSILIUM_MODEL_CRITIQUE_ENV` env var so critique model is now configurable, matching the judge env var pattern.
+
+## recommend subcommand (v0.7+)
+
+`pondus recommend <task>` answers "which model should I use for this?" — maps task types to relevant benchmark sources, fetches, and ranks top N.
+
+```bash
+pondus recommend coding                          # top 5 by SWE-bench (primary) + Terminal-Bench + Aider + SWE-rebench
+pondus recommend intelligence                    # top 5 by AA intelligence index
+pondus recommend intelligence --effort max       # filter to max-effort (reasoning) AA variants only
+pondus recommend agentic                         # Terminal-Bench (primary) + SEAL
+pondus recommend general                         # Arena ELO
+pondus recommend cost                            # OpenRouter, cheapest first (prompt + completion combined)
+pondus recommend coding --top 10 --format table
+pondus recommend --list-tasks                    # print available tasks with descriptions
+pondus recommend --list-tasks --format json      # machine-readable
+```
+
+**Task taxonomy:**
+
+| Task | Primary source | Other sources | Sort |
+|---|---|---|---|
+| `coding` | SWE-bench | Terminal-Bench, Aider, SWE-rebench | resolved_rate ↓ |
+| `agentic` | Terminal-Bench | SEAL | tasks_completed ↓ |
+| `intelligence` | Artificial Analysis | — | intelligence_index ↓ |
+| `general` | Arena | — | elo_score ↓ |
+| `cost` | OpenRouter | — | prompt+completion ↑ |
+
+**Key behaviour:**
+- Models with no data for that task are excluded entirely
+- When a model appears in multiple sources: each source gets its own column, no averaging
+- Ranking is by primary source first; secondary sources used as tiebreaker
+- `--effort` flag (max/standard/all) only applies when AA is in scope (intelligence task)
+- `--format table|json|markdown` reuses existing format flag
+
+**Gotcha (coding/agentic):** SWE-bench tests agent+model scaffolds — top results show compound names like `live-swe-agent-+-claude-4.5-opus`. These are not raw model scores. SWE-rebench tests raw models without scaffolding (20-30pt lower).
+
+## compare --effort flag (v0.6+)
+
+```bash
+pondus compare opus-4.6 sonnet-4.6 --effort max       # compare only max-effort (reasoning) AA variants
+pondus compare opus-4.6 sonnet-4.6 --effort standard  # standard effort only
+pondus compare opus-4.6 sonnet-4.6 --effort all       # default, shows all effort levels
+```
 
 ## Watching New Models (`pondus watch`)
 
