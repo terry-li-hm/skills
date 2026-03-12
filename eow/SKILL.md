@@ -25,63 +25,55 @@ A checkpoint that looks at the **whole work day** as a unit. `/wrap` handles ind
 
 ## Workflow
 
-1. **Get today's date** — run `date` (HKT)
-   - If `date` fails, use system-provided current date and continue.
+1. **Prep (silent)** — before the conversation:
+   - Run `date` (HKT). If fails, use system-provided date.
+   - Read today's daily note (`~/notes/Daily/YYYY-MM-DD.md`) — session logs from `/wrap` should already be there.
+   - Scan `~/notes/TODO.md` for items with today's date or imminent due dates.
+   - Run `gog gmail search "in:inbox" --limit 5`.
+   - If daily note is empty/missing, delegate history scan to a subagent.
 
-2. **Read today's daily note** (`~/notes/Daily/YYYY-MM-DD.md`)
-   - Session logs from `/wrap` should already be there
-   - If empty/missing, delegate history scan to a subagent (same as daily skill fallback)
-   - If both note read and fallback scan fail, continue with a short summary from current session context and mark it partial.
+2. **Conversation** — ask Terry one open question: **"How was the work day?"**
+   - Let Terry talk. Follow up naturally — dig into what mattered, what felt off, what's unfinished.
+   - Use the daily note and TODO scan as context to ask good follow-up questions (don't dump them as a report).
+   - If inbox has items, mention it naturally in the conversation ("also, X unread — worth clearing before you switch off?").
+   - This should feel like a 2-minute chat, not a form. 2-3 exchanges max.
 
-3. **Synthesise work themes** — cluster work sessions into 3-5 themes. For each: one line with key actions and outcomes. Present to Terry.
-
-4. **Review with Terry:**
-   - Show themes — "Here's how the work day groups..."
-   - Ask: anything missing from work sessions?
-   - Ask: **work mood** — one honest line, not a number. What did the day feel like?
-   - Ask: **was it a productive day?** — give your own honest read first (output vs effort, what moved vs what stalled), then ask if Terry agrees or sees it differently
-   - Ask: anything weighing on you going into the evening? (free-text, not a picker)
-   - **Unfinished items: scan TODO.md yourself** — list items with today's date or imminent due dates. Don't make Terry pick from a checkbox list (implies unchecked = dropped).
-   - If TODO.md is missing/unreadable, note "TODO scan unavailable" and continue.
-
-5. **Append to daily note:**
+3. **Summarise** — once the conversation feels done, write the EOW close:
 
 ```markdown
 ---
 
 ## End of Work
 
-**Themes:** [comma-separated theme labels]
+**Themes:** [comma-separated theme labels, drawn from conversation + daily note]
 
-[2-3 sentence synthesis — what the work day was about, what moved, what's stuck. Honest assessment, not a status report.]
+[2-3 sentence synthesis — what Terry said the day was about, what moved, what's stuck. Use Terry's framing, not yours.]
 
 **Unfinished:**
-- [ ] [Threads carrying over — brief, actionable]
+- [ ] [Threads carrying over — from conversation + TODO scan]
 
-**Work mood:** [one honest line — what the day felt like, not a number]
+**Work mood:** [one honest line — Terry's words, not a paraphrase]
 ```
 
-6. **Inbox check**:
-   - Run: `gog gmail search "in:inbox" --limit 5`
-   - If results: surface count and nudge `/acta` before switching off — clearing inbox at end of day avoids overnight backlog
-   - If empty: note "Inbox clear" and continue
+   - Append to today's daily note.
+   - TODO sweep: mark anything completed, add any new commitments mentioned in conversation.
 
-7. **TODO sweep** — quick scan: anything completed today that should be marked in `~/notes/TODO.md`? Any new commitments? Same as wrap's TODO sweep but day-scoped.
-   - If TODO write fails, report "TODO sweep skipped (write failed)" in output.
-
-8. Done. No tomorrow preview — `/daily` handles that before bed.
+4. Done. No tomorrow preview — `/daily` handles that before bed.
 
 ## Output
 
-Short prose summary of the work day themes and mood. Mention what was written to the daily note. Keep it to 3-4 sentences.
+Confirm what was written to the daily note. One sentence, not a recap.
 
 ## Notes
 
 - If `/wrap` wasn't run on the last session, do a quick session log first (step 2 of wrap), then proceed
 - If Terry runs `/daily` without running `/eow` first, daily should still work fine — eow is additive, not required
 - The work mood is separate from the daily mood — work might be frustrating but the evening great, or vice versa
-- Keep it fast — this is a 1-minute checkpoint, not a retrospective
+- Keep it fast — a short conversation, not a retrospective
+- **Conversation first, summary second.** Never present a pre-built report for Terry to approve. The daily note logs and TODO scan are *your* context for asking better questions — they're not the output.
 
 ## Example
 
-> End-of-work close done. Today clustered around three themes: Capco onboarding prep, skill maintenance, and inbox/process cleanup. Work mood was steady but slightly fatigued. I added two unfinished threads to the daily note and left tomorrow planning for `/daily`.
+> "How was the work day?"
+> [Terry talks — 2-3 exchanges]
+> "Got it. I've written the EOW close to the daily note — themes: X, Y, Z. Enjoy the evening."
