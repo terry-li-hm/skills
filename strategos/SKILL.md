@@ -53,6 +53,13 @@ If `cerno` fails or returns no results, continue and note "No KB prior art found
 
 ### 2. Choose weight class
 
+**Model switching (opusplan pattern):** For multi-file or architectural tasks, switch to Opus before CE plan review, then back to Sonnet before delegation. The planning/architecture phase is where Opus's reasoning advantage is real (GPQA: 74% Sonnet vs 91% Opus). Execution and delegation are Sonnet territory.
+```
+/model opus    ← before CE plan + weight-class decision
+/model sonnet  ← before step 3 delegation
+```
+Skip for trivial tasks (single file, clear spec). *Pattern sourced from Claude Code's `opusplan` alias.*
+
 Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
 
 | Task size | Use |
