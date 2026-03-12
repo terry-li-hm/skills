@@ -40,7 +40,7 @@ Read the state file. If it doesn't exist, initialise it:
 Determine today's mode from day of week (unless Endgame Mode is active):
 - **Mon / Wed / Fri** → Read & Extract
 - **Tue / Thu** → Scenario Practice
-- **Sat / Sun** → User's choice (offer both, or skip)
+- **Sat / Sun** → Skip (weekends reserved for family)
 
 Show a one-line status: `Session #N | Readings: X/15 | Scenarios: Y/10 | Mode: [today's mode]`
 If Endgame Mode: append `⚡ Endgame Mode — N days to start`
