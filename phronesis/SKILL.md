@@ -143,7 +143,7 @@ For Scenario Practice:
 **Close with:**
 - If both readings and scenarios are progressing well: one encouraging line, no fluff
 - If a pattern is emerging across sessions (e.g., consistently jumping to solutions): name it directly
-- Remind of any GARP RAI quiz due today (check `~/scripts/rai.py today`)
+- Remind of any GARP RAI quiz due today (check `melete today`)
 
 ### 4. Observation Prompt (Every Session)
 
