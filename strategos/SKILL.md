@@ -279,6 +279,10 @@ Good candidates from existing CLIs: `exauro`, `caelum`, `poros`, `deleo` (genera
 Captures the learnings in `~/docs/solutions/`.
 If compound workflow is unavailable, add a short manual note in `~/docs/solutions/` instead.
 
+## Language Selection
+
+**Default: Python for new tools.** Use Rust only when there's a specific reason (CPU-bound, startup speed, extending existing Rust tool). Capco/client work is always Python. Full heuristic: `~/docs/solutions/rust-vs-python-heuristic.md`.
+
 ## Defaults by Language
 
 | Language | Default tool | Caveats |
