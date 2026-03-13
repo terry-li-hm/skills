@@ -75,7 +75,7 @@ CE plan still runs (catches codebase gotchas) — only the review/approval pause
 
 | Task size | Use |
 |-----------|-----|
-| **Trivial:** new skill file, single script <50 lines, clear spec, no existing code touched, zero cascading changes | **Build directly in-session** — skip CE plan and delegation |
+| **Trivial:** new skill file, config change, ≤20 lines of code, no existing code touched, zero cascading changes | **Build directly in-session** — skip CE plan and delegation. Hook enforced: Write/Edit to `~/code/` >20 lines is hard-blocked. |
 | Single-file, ≤3 commands, no architecture decisions, requires live user decisions mid-plan | `EnterPlanMode` → delegate |
 | **New project / fresh codebase** (blank repo, new crate, no existing code to research) | `superpowers:brainstorming` → `superpowers:writing-plans` → `superpowers:subagent-driven-development` — CE research agents find nothing on blank repos; skip them |
 | **Spec already written** (brainstorm done, design doc exists, task is clear) | Skip writing-plans → delegate directly to Codex/Gemini with spec as context. writing-plans adds nothing when requirements are already locked. |
