@@ -83,29 +83,66 @@ CE plan still runs (catches codebase gotchas) — only the review/approval pause
 | Single-file, ≤3 commands, no architecture decisions, requires live user decisions mid-plan | `EnterPlanMode` → delegate |
 | **New project / fresh codebase** (blank repo, new crate, no existing code to research) | `superpowers:brainstorming` → `superpowers:writing-plans` → `superpowers:subagent-driven-development` — CE research agents find nothing on blank repos; skip them |
 | **Spec already written** (brainstorm done, design doc exists, task is clear) | Skip writing-plans → delegate directly to Codex/Gemini with spec as context. writing-plans adds nothing when requirements are already locked. |
-| Multi-command CLI, new architecture, requires vault context or cross-file reasoning | `/slfg <description>` — fully autonomous (plan → deepen → CE swarm → review). Burns Max20 — use only when vault context is essential. |
-| Same as above but Max20 is low, or tasks map cleanly to independent files | `/ce:plan` → `/deepen-plan` → **external swarm** (lucus + parallel delegates) → `/ce:review` |
+| Multi-command CLI, new architecture, existing codebase | **CE research → Superpowers plan → External execution → CE review** (see pipeline below). Default for non-trivial builds. Max20 = orchestration only. |
+| Same as above but genuinely needs vault context mid-execution | `/slfg <description>` — fully autonomous. Burns Max20 — use only when vault context can't be serialised into a prompt. |
 | Unclear requirements | `/workflows:brainstorm` first |
 
-**CE + superpowers hybrid (existing codebase, in-session execution):**
-CE research first → superpowers execution loop. Best of both: CE's `learnings-researcher` + `repo-research-analyst` surface institutional gotchas; superpowers' two-stage per-task review (spec compliance → code quality) catches over-building.
-```
-CE: learnings-researcher + repo-research-analyst   ← surface codebase gotchas
-superpowers:writing-plans                           ← convert to TDD task steps
-superpowers:subagent-driven-development             ← execute with per-task review
-CE: security-sentinel + kieran-*-reviewer           ← thorough final review
-```
-Skip CE plan (redundant with writing-plans). Use hybrid when: existing codebase with KB history + want tight per-task review loops in-session.
+**CE + Superpowers + External Execution (the full free pipeline):**
 
-**External tool override inside subagent-driven-development:**
-When dispatching the implementer subagent, route by task signal instead of always using `general-purpose`:
-| Signal | Implementer |
-|--------|-------------|
-| Rust | Codex (`codex exec --sandbox danger-full-access --full-auto "..."`) — Gemini as fallback if budget low or code sensitive |
-| Multi-file, repo navigation | Codex (`codex exec --full-auto "..."`) |
-| Boilerplate / bulk | OpenCode |
-| Default / everything else | `general-purpose` subagent (current default) |
-Reviews (spec compliance + code quality) always stay as Claude subagents regardless of implementer choice.
+The integrated pipeline that maximises quality while minimising Max20 spend. CE and Superpowers handle judgment (research, planning, review); free tools handle implementation.
+
+```
+┌─ RESEARCH (cheap — Haiku/Sonnet subagents) ──────────────┐
+│ CE: learnings-researcher + repo-research-analyst          │
+│ → surfaces ~/docs/solutions/ gotchas + codebase patterns  │
+│ → run in parallel, ~2min, catches institutional knowledge │
+└──────────────────────────────────────────────────────────┘
+          ↓ gotchas + patterns feed into plan
+┌─ PLANNING (one Opus pass) ───────────────────────────────┐
+│ superpowers:writing-plans                                 │
+│ → converts research into structured TDD task steps        │
+│ → file structure, test-first, exact commands              │
+│ → identifies shared artifacts (Phase 1) vs independent    │
+│   tasks (Phase 2)                                         │
+└──────────────────────────────────────────────────────────┘
+          ↓ plan decomposes into tasks
+┌─ EXECUTION (FREE — external tools) ─────────────────────┐
+│ Phase 1: Build shared artifacts sequentially, commit      │
+│ Phase 2: Fan out to lucus worktrees + mixed tools         │
+│   → Route by signal: Codex (multi-file/Rust),             │
+│     Gemini (algorithmic), OpenCode (boilerplate)           │
+│ Phase 3: Validate each on completion (deps, scope, tests) │
+│ Phase 4: Merge passing branches                           │
+└──────────────────────────────────────────────────────────┘
+          ↓ merged code ready for review
+┌─ REVIEW (cheap — Sonnet subagents) ─────────────────────┐
+│ CE: pattern-recognition-specialist → spec compliance      │
+│ CE: kieran-python/rust/ts-reviewer → code quality         │
+│ CE: security-sentinel → if handles input/auth/secrets     │
+│ CE: code-simplicity-reviewer → YAGNI check last           │
+└──────────────────────────────────────────────────────────┘
+```
+
+**When to use:** Existing codebase with KB history + multi-task work. This is the **default pipeline for non-trivial builds**. The only Max20 spend is orchestration (reading outputs, routing decisions) + one planning pass.
+
+**When NOT to use:** Fresh codebase (CE finds nothing), trivial single-file change, or tasks requiring live vault context that can't be serialised into a prompt.
+
+**Superpowers writing-plans → external execution bridge:**
+The plan from `writing-plans` produces per-task specs with exact file paths, test commands, and code. Each task spec becomes a self-contained delegate prompt:
+1. Extract task from plan → write to `/tmp/<project>-task-N.txt`
+2. Identify shared artifacts (types, interfaces, helpers) → build those first in Phase 1
+3. Independent tasks → fan out as External Agent Teams (see below)
+
+**Routing table for execution step:**
+| Signal | Tool | Why |
+|--------|------|-----|
+| Rust | Codex `--sandbox danger-full-access` | Best dev tool, DNS for cargo |
+| Multi-file, cross-imports | Codex | Repo navigation |
+| Algorithmic, isolated logic | Gemini | AA index 57, free |
+| Boilerplate, routine adapter | OpenCode | Free, unlimited |
+| All three down | Sonnet subagent | Last resort, burns Max20 |
+
+Reviews (spec compliance + code quality) always stay as Claude subagents — judgment work belongs on Max20.
 
 **`/slfg` vs external swarm:**
 - `/slfg` = Claude Task agents, burns Max20, fully automated, no manual decomposition
