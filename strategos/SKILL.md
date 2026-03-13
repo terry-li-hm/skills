@@ -53,6 +53,10 @@ cerno "<topic or tool name>"
 Read the result. If prior art exists, verify it still applies (check dates, tool versions, repo state) before using. Don't blindly reuse stale KB entries — a bad solution propagates indefinitely.
 If `cerno` fails or returns no results, continue and note "No KB prior art found".
 
+### 1.5. Scope checkpoint (lightweight, no blocking)
+
+**If >30 min have passed since the task was stated and no code/delegation has started:** flag it. Say: "We've been exploring for [X] min — the primary deliverable is [Y]. Continue exploring or start building?" One sentence, not a lecture. This catches the byproduct trap (garden posts, research tangents, naming debates pulling focus from the build). Exploring is fine — but make it a conscious choice, not drift. Burned: spent 60+ min on garden posts, research gaps, and career reflection before writing a single line of docima code.
+
 ### 2. Choose weight class
 
 **Effort switching (opusplan pattern):** Opus is always the session default — no model switching needed. For multi-file or architectural tasks, bump to max effort for the CE plan + weight-class step, then drop back to medium before delegation. Planning is where Opus's reasoning gap is real; execution goes to external delegates regardless of effort level.

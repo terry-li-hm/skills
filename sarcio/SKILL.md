@@ -50,8 +50,8 @@ sarcio index
 **New post from session insight:**
 1. `sarcio new "Title"` — scaffolds with correct frontmatter
 2. Write the post (prose style per ~/code/blog/CLAUDE.md)
-3. **Run judge** — `article` criteria; fix any `needs_work` (max 1 iteration)
-4. **If judge passes → auto-publish immediately** (`sarcio publish <slug> --push`), live instantly
+3. **Judge gate — skip for standard garden posts.** Judge (article criteria) has never failed a garden post (always scores 88-94). Only run judge when: factual claims need verification, sensitive topic, or front-stage content. For normal opinion/reflection posts → publish directly.
+4. **Publish immediately** (`sarcio publish <slug> --push`), live instantly
 5. Or omit `--push` to let the LaunchAgent pick it up within 5 min
 
 **Brainstorming for garden posts:** Skip the full brainstorm skill. One angle-check question max ("who's the reader?" or "what's the hook?"), then draft. Garden posts are low-risk — judge is the gate.
