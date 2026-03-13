@@ -1,21 +1,13 @@
 ---
 name: choregos
-description: >
-  Auto-routed parallel dev pipeline. Use when you have 2+ independent tasks to execute
-  simultaneously without Terry in the loop per step. Decomposes, routes, launches all
-  delegates in parallel lucus worktrees, auto-validates results, sends deltos summary,
-  escalates failures only. Replaces: Terry manually routing each task through /strategos
-  sequentially. NOT for tasks that share files (use lucus + strategos instead).
-triggers:
-  - "pipeline these"
-  - "run all these in parallel"
-  - "do all of these"
-  - Any time strategos decomposition yields 2+ independent tasks and Terry says go
+description: "DEPRECATED — folded into strategos (swarm mode). Use /strategos instead."
 ---
 
-# ductus — Auto-Routed Parallel Dev Pipeline
+# choregos — DEPRECATED
 
-Removes Terry as the router and validator between every delegate step.
+**Folded into `/strategos` as swarm mode (Step 3).** All parallel pipeline functionality — auto-routing, validation, summary, merge+escalate — is now in strategos.
+
+Use `/strategos` for all coding tasks, including parallel execution.
 
 ## When to Use
 
