@@ -44,7 +44,7 @@ If a production incident requires skipping this workflow, that's allowed — but
 **Parallel agent sessions on the same repo?** → `lucus new <branch>` first. One worktree per session prevents `git add -A` conflicts between delegates. See `~/skills/lucus/SKILL.md`.
 - If `lucus` is unavailable, continue in current worktree and explicitly warn about merge/conflict risk.
 
-**Naming anything (CLI, skill, or tool)?** → Follow `artifex` naming convention: consilium first, crates.io check for every candidate, reserve before planning.
+**Naming anything (CLI, skill, or tool)?** → **HARD GATE: name before code.** No `uv init`, `cargo new`, or scaffold until the name is confirmed available on the target registry (PyPI for Python, crates.io for Rust). Burned: built entire scaffold + delegated Chunk 1 as "mnemon", discovered PyPI was taken, had to rename everything. Flow: consilium `--quick` for candidates → check availability → reserve/publish stub → then scaffold. See `artifex` for naming conventions.
 
 ### 1. Solutions KB check
 ```bash
@@ -241,11 +241,12 @@ Use when: tasks need vault context, cross-file reasoning, or live user decisions
 - Decompose the plan first — tasks must be truly independent (different files)
 - One `lucus` worktree per delegate — never share a worktree
 - Mix tools by task type: Codex for multi-file/repo nav, Gemini for algorithmic, OpenCode for boilerplate
-- Review `git diff --stat` per branch before merging — Gemini touches extra files
+- Review `git diff --stat` per branch before merging — Gemini touches extra files. **Specific pattern:** Gemini promotes optional dependencies to main `dependencies` in pyproject.toml/Cargo.toml when it sees imports in the file it's implementing. Always check dependency changes after Gemini delegates.
 - **Gemini executes live mutations during testing** — if the CLI wraps a live service (calendar, WhatsApp, DB), expect real side effects during Gemini's verification pass. Brief with a test fixture or accept live side effects and clean up after.
 - Merge conflicts = tasks weren't independent enough; phase them next time
 - If any delegate branch fails, do not merge partial branches blindly; finish successful branches first, then re-scope failed task as a new single delegation.
 - **Don't launch sequentially** — defeats the purpose of swarm mode
+- **Rate limit fallback:** If a delegate returns 429 (Gemini capacity exhausted), wait 60s and retry once. If still failing, switch to backup tool (Gemini → Codex or OpenCode). Don't launch all delegates simultaneously to the same provider — stagger by 30s or split across providers.
 
 ### 4. Review (for significant changes)
 

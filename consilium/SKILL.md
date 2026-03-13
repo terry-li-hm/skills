@@ -114,7 +114,9 @@ consilium --prompt-file /tmp/prompt.txt --deep --vault
 
 **Always `run_in_background: true`** on the Bash tool. Watch live: `consilium --watch` or `--tui` in another tmux tab.
 
-**Retrieving output:** TaskOutput times out at 120s — consilium `--quick` takes ~150s, `--council` longer. Always redirect to `~/tmp/` and read with `cat`:
+**Timing:** `--quick` takes ~30-40s (6 parallel model queries). `--council` takes 2-5 min (multiple rounds + judge). Don't kill a `--quick` run before 45s — it's not hung, just waiting for all models.
+
+**Retrieving output:** When running from CC background with pipes (`2>&1 | tail`), consilium detects the pipe and uses SilentOutput — the pipe gets nothing until the session file path prints at the end. Always redirect to `~/tmp/` and read with `cat`:
 ```bash
 consilium "..." --quick > ~/tmp/consi-<name>.txt 2>&1
 # then after task completes:
