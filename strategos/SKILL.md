@@ -11,8 +11,10 @@ Structured on-ramp for any coding task. Enforces: orchestrate here, execute else
 ## Triggers
 
 - `/strategos <task description>` — start a coding task the right way
+- `/strategos --yolo <task>` — skip plan review (personal tools, low blast radius)
 - Proactively when user asks to build, port, fix, refactor, or add a feature
 - **After consilium/brainstorm/design discussion when user says "implement", "build", "do it", "go ahead"** — prior discussion is NOT a plan, always start here
+- "pipeline these", "run all these in parallel", "do all of these" — auto-enters swarm mode (Step 3)
 
 ## Steps
 
@@ -61,6 +63,15 @@ If `cerno` fails or returns no results, continue and note "No KB prior art found
 Skip for trivial tasks (single file, clear spec). *Pattern sourced from Claude Code's `opusplan` alias; updated Mar 2026 when Opus became session default.*
 
 Default to `/workflows:plan`. Use `EnterPlanMode` only as the exception.
+
+**`--yolo` mode (personal tools, low blast radius):**
+Skip plan review — go straight from CE plan to delegation. Valid when ALL of:
+- Personal tool (not client/production code)
+- Blast radius = only Terry (no shared repos, no external sends)
+- Spec is clear (from prior brainstorm, consilium, or user description)
+- No architecture decisions that need human judgment
+
+CE plan still runs (catches codebase gotchas) — only the review/approval pause is skipped. Terry can invoke explicitly (`/strategos --yolo <task>`) or Claude can auto-detect when all conditions are met and announce: "Auto-yolo: personal tool, clear spec, low blast radius."
 
 | Task size | Use |
 |-----------|-----|
@@ -155,7 +166,7 @@ OPENCODE_HOME=~/.opencode-lean opencode run \
 Use Bash tool's `run_in_background: true` — not shell `&`.
 If chosen delegate command fails immediately, switch once to a backup tool based on task type; if backup fails, stop and report delegation blocked.
 
-**Swarm mode (parallel external delegates):**
+**Swarm mode (2+ independent tasks → parallel execution):**
 
 **Default posture: always look for the parallel split.** When scoping a task, the first question is "what are the independent units?" not "how do I sequence this?" Parallel is free and async; sequential is a bottleneck. Only fall back to sequential when tasks genuinely depend on each other's output.
 
@@ -163,25 +174,61 @@ When the plan decomposes into N independent tasks, launch all at once — free, 
 
 **Parallelise across independence boundaries, not arbitrary splits.** More agents only helps when tasks don't need each other's output. Splitting coupled files across agents causes merge conflicts — one agent per dependency chain. Splitting tiny tasks (10-line config files) costs more to package than to write inline. The right decomposition is: different files + no shared output = different agents.
 
+**Choose parallel execution method:**
+
+| Method | When | Pros | Cons |
+|--------|------|------|------|
+| **External swarm** (lucus + Codex/Gemini/OpenCode) | Multi-file tasks, Rust, need sandbox/DNS | Free, best dev tools, full isolation | Manual decomposition, merge step |
+| **Agent Teams** (TeamCreate) | In-session tasks, need vault/session context | Shares context, no merge, auto-parallel | Burns Max20, Claude-only (no Codex/Gemini) |
+
+**Default: external swarm.** Use Agent Teams when tasks need vault context or cross-file reasoning that can't be captured in a standalone prompt.
+
+#### External swarm pipeline
+
+**Step 1 — Decompose.** For each task, capture:
 ```
-# 1. One worktree per task (prevents git add -A conflicts)
+name:        short-kebab-name
+spec:        full self-contained prompt (include file paths, constraints, verification cmd)
+lang:        rust | python | typescript | other
+validation:  cargo build && cargo test | uv run pytest | pnpm test | <custom>
+```
+
+**Step 2 — Auto-route (no asking).** Route each task by signal (see tool table above). Report inline: "→ feature-a: Codex (Rust), feature-b: Gemini (new logic), feature-c: OpenCode (boilerplate)"
+
+**Step 3 — Create worktrees + launch all in parallel:**
+```bash
+# Worktrees
 lucus new <task-a-branch>
 lucus new <task-b-branch>
-lucus new <task-c-branch>
 
-# 2. Launch all in parallel (Bash tool run_in_background: true for each)
-cd <worktree-a> && codex exec --full-auto "<task A prompt>"
-cd <worktree-b> && gemini -p "<task B prompt>" --yolo
-cd <worktree-c> && opencode run --title "task-c" "<task C prompt>"
-
-# 3. Wait for all to complete, then merge
-lucus merge <task-a-branch>
-lucus merge <task-b-branch>
-lucus merge <task-c-branch>
-
-# 4. Review merged result
-/ce:review
+# Launch all simultaneously (Bash tool run_in_background: true for each)
+cd <worktree-a> && codex exec --sandbox danger-full-access --full-auto "<spec-a>"
+cd <worktree-b> && gemini -m gemini-3.1-pro-preview -p "<spec-b>" --yolo
 ```
+
+**Step 4 — Validate as each completes.** Don't wait for all — validate on notification:
+```bash
+cd <worktree-X> && <validation_cmd>
+# Pass (exit 0): ✓, run git diff --stat
+# Fail (exit ≠ 0): ✗, capture last 20 lines of error
+```
+
+**Step 5 — Summary + merge:**
+```
+Pipeline complete: N/M tasks passed
+✓ feature-a   Codex    3 files   cargo test passed    2m14s
+✗ feature-b   Gemini   —         build failed         3m02s
+```
+Merge passing branches (`lucus merge <branch>`). For failures: show error, propose retry with different delegate / fix in-session / skip. Wait for Terry's call. Don't auto-fix without input.
+
+#### Agent Teams pipeline
+
+For in-session parallel execution using Claude subagents:
+```
+# TeamCreate with Sonnet teammates, Opus as orchestrator
+# Each task gets its own agent — truly parallel, shared context
+```
+Use when: tasks need vault context, cross-file reasoning, or live user decisions. Burns Max20 — prefer external swarm when tasks are self-contained.
 
 **Sequential dependent phases? Use Phase Contract pattern** (`~/docs/solutions/phase-contract-pattern.md`):
 - Each phase runs as a fresh-context subagent → produces a file artifact + JSON summary
@@ -189,7 +236,7 @@ lucus merge <task-c-branch>
 - On `"status": "failed"` → stop and restart from that phase, not the beginning
 - Complements swarm: use swarm for parallel independent tasks, phase contracts for sequential dependent tasks
 
-**Rules for external swarm:**
+**Rules for all parallel execution:**
 - **Commit the plan before `lucus new`** — worktrees only see committed history. Uncommitted plan files are invisible to delegates.
 - Decompose the plan first — tasks must be truly independent (different files)
 - One `lucus` worktree per delegate — never share a worktree
@@ -198,6 +245,7 @@ lucus merge <task-c-branch>
 - **Gemini executes live mutations during testing** — if the CLI wraps a live service (calendar, WhatsApp, DB), expect real side effects during Gemini's verification pass. Brief with a test fixture or accept live side effects and clean up after.
 - Merge conflicts = tasks weren't independent enough; phase them next time
 - If any delegate branch fails, do not merge partial branches blindly; finish successful branches first, then re-scope failed task as a new single delegation.
+- **Don't launch sequentially** — defeats the purpose of swarm mode
 
 ### 4. Review (for significant changes)
 
