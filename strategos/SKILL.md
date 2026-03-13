@@ -14,7 +14,7 @@ Structured on-ramp for any coding task. Enforces: orchestrate here, execute else
 - `/strategos --yolo <task>` — skip plan review (personal tools, low blast radius)
 - Proactively when user asks to build, port, fix, refactor, or add a feature
 - **After consilium/brainstorm/design discussion when user says "implement", "build", "do it", "go ahead"** — prior discussion is NOT a plan, always start here
-- "pipeline these", "run all these in parallel", "do all of these" — auto-enters swarm mode (Step 3)
+- "pipeline these", "run all these in parallel", "do all of these" — auto-enters parallel delegation (Step 3)
 
 ## Steps
 
@@ -175,11 +175,11 @@ Reviews (spec compliance + code quality) always stay as Claude subagents — jud
 
 | Method | When | Cost |
 |--------|------|------|
-| **External swarm** (opifex / raw Codex/Gemini/OpenCode) | Default. Self-contained specs, no vault context needed | Free |
+| **Parallel delegation** (opifex / raw Codex/Gemini/OpenCode) | Default. Self-contained specs, no vault context needed | Free |
 | **superpowers:subagent-driven-development** | Tasks need session context, or plan has many small interdependent steps | Max20 (Sonnet subagents) |
 | **`/slfg`** | Fully autonomous, no decomposition needed, vault context required | Max20 (heavy) |
 
-**Default to external swarm.** Use in-session subagents (`subagent-driven-development`) when tasks share context that can't be serialised into standalone prompts. Use `/slfg` only as last resort when full autonomy + vault access is needed. "It's easier" is not a reason to burn Max20.
+**Default to parallel delegation.** Use in-session subagents (`subagent-driven-development`) when tasks share context that can't be serialised into standalone prompts. Use `/slfg` only as last resort when full autonomy + vault access is needed. "It's easier" is not a reason to burn Max20.
 
 **subagent-driven-development pattern (from superpowers):**
 - Fresh subagent per task (clean context, no cross-contamination)
@@ -256,7 +256,7 @@ OPENCODE_HOME=~/.opencode-lean opencode run \
 Use Bash tool's `run_in_background: true` — not shell `&`.
 If chosen delegate command fails immediately, switch once to a backup tool based on task type; if backup fails, stop and report delegation blocked.
 
-**Swarm mode (2+ independent tasks → parallel execution):**
+**Parallel delegation (2+ independent tasks → parallel execution):**
 
 **Default posture: always look for the parallel split.** When scoping a task, the first question is "what are the independent units?" not "how do I sequence this?" Parallel is free and async; sequential is a bottleneck. Only fall back to sequential when tasks genuinely depend on each other's output.
 
@@ -268,12 +268,34 @@ When the plan decomposes into N independent tasks, launch all at once — free, 
 
 | Method | When | Pros | Cons |
 |--------|------|------|------|
-| **External swarm** (lucus + Codex/Gemini/OpenCode) | Multi-file tasks, Rust, need sandbox/DNS | Free, best dev tools, full isolation | Manual decomposition, merge step |
+| **Parallel delegation** (lucus + Codex/Gemini/OpenCode) | Multi-file tasks, Rust, need sandbox/DNS | Free, best dev tools, full isolation | Manual decomposition, merge step |
 | **Agent Teams** (TeamCreate) | In-session tasks, need vault/session context | Shares context, no merge, auto-parallel | Burns Max20, Claude-only (no Codex/Gemini) |
 
-**Default: external swarm.** Use Agent Teams when tasks need vault context or cross-file reasoning that can't be captured in a standalone prompt.
+**Default: parallel delegation.** Use Agent Teams when tasks need real coordination (see below).
 
-#### External swarm pipeline
+**Parallel delegation vs Agent Teams — the real distinction:**
+
+Parallel delegation = **fan-out/fan-in**. Decompose → launch independent workers → collect results → merge. Workers never talk to each other. The orchestrator mediates everything. This is map-reduce, not swarm. Works for 90% of tasks because most tasks ARE independent.
+
+Agent Teams = **true coordination**. Agents share context, can message each other mid-task, adapt based on what others discover. This is the real swarm — but costs Max20.
+
+**When Agent Teams (true coordination) actually helps:**
+
+| Scenario | Why parallel delegation fails | Agent Teams adds |
+|----------|------------------------------|-----------------|
+| **Shared API/schema design** — two features need a common interface | Each agent invents its own interface → merge conflict | Agents negotiate the interface together |
+| **Exploratory refactor** — "improve this module" with no clear decomposition | Can't pre-decompose what you haven't understood yet | Agents discover the decomposition as they go |
+| **Cross-cutting concern** — error handling strategy, logging format, auth pattern | Each agent makes different choices → inconsistent codebase | One agent sets the pattern, others follow |
+| **Bug with unknown scope** — "something broke" spanning multiple systems | Can't assign to one agent without knowing where the bug is | Agents investigate in parallel, share findings |
+| **Design feedback loop** — implementation reveals spec problems | Parallel worker discovers issue but can't change another worker's spec | Agent flags issue, team adapts |
+
+**When parallel delegation is better (most of the time):**
+- Tasks touch different files with no shared types
+- Spec is clear and complete (no mid-task discoveries expected)
+- Each task is self-contained and independently testable
+- You want free execution (external tools)
+
+#### Parallel delegation pipeline
 
 **Step 1 — Decompose.** For each task, capture:
 ```
@@ -311,7 +333,7 @@ Pipeline complete: N/M tasks passed
 ```
 Merge passing branches (`lucus merge <branch>`). For failures: show error, propose retry with different delegate / fix in-session / skip. Wait for Terry's call. Don't auto-fix without input.
 
-#### External Agent Teams (free swarm with coordination)
+#### External Agent Teams (parallel delegation with file-based coordination)
 
 **The goal: Agent Teams coordination without Max20 cost.** Opus orchestrates in-session (the only cost), free tools execute in parallel worktrees. This is the default for all multi-task work.
 
@@ -345,7 +367,7 @@ All three down → Sonnet subagent (last resort, burns Max20)
 
 **Tool diversity rule:** Never launch 3+ delegates to the same provider simultaneously. Gemini free tier quota is shared — parallel Gemini calls burn through it in one burst. Mix tools: Gemini (algorithmic) + Codex (multi-file) + OpenCode (boilerplate).
 
-**Key insight: coordination via files, not shared context.** Agent Teams' advantage is shared conversation context. External swarm replaces that with:
+**Key insight: coordination via files, not shared context.** Agent Teams' advantage is shared conversation context. Parallel delegation replaces that with:
 - Shared artifacts committed to repo (Phase 1)
 - Self-contained spec files at `/tmp/` per task
 - Orchestrator validates and connects outputs
@@ -356,7 +378,7 @@ This works for 90% of tasks. Reserve Agent Teams (TeamCreate) for the rare case 
 - Each phase runs as a fresh-context subagent → produces a file artifact + JSON summary
 - Orchestrator validates JSON contract before launching next phase
 - On `"status": "failed"` → stop and restart from that phase, not the beginning
-- Complements swarm: use swarm for parallel independent tasks, phase contracts for sequential dependent tasks
+- Complements parallel delegation: use fan-out for independent tasks, phase contracts for sequential dependent tasks
 
 **Max20 conservation principle:** Opus token spend should be brainstorm and judgment, not orchestration or implementation. Once a plan exists, hand off to `plan-exec` — zero Max20 from that point.
 
@@ -396,7 +418,7 @@ Results: `~/.cache/plan-exec/<timestamp>/`. If all backends fail, escalate to Op
 - **Gemini executes live mutations during testing** — if the CLI wraps a live service (calendar, WhatsApp, DB), expect real side effects during Gemini's verification pass. Brief with a test fixture or accept live side effects and clean up after.
 - Merge conflicts = tasks weren't independent enough; phase them next time
 - If any delegate branch fails, do not merge partial branches blindly; finish successful branches first, then re-scope failed task as a new single delegation.
-- **Don't launch sequentially** — defeats the purpose of swarm mode
+- **Don't launch sequentially** — defeats the purpose of parallel delegation
 - **Rate limit fallback:** If a delegate returns 429 (Gemini capacity exhausted), switch tool laterally immediately (don't wait). Gemini → Codex or OpenCode. Don't launch all delegates simultaneously to the same provider — split across providers.
 - **Codex can't write to lucus worktree paths** if `apply_patch` resolves to the main repo path. Workaround: use Sonnet subagent or Gemini (both respect CWD). See `delegation-reference.md`.
 - **Post-delegate checklist (enforced by hook next session):** (1) `head -12 pyproject.toml` — dep pollution, (2) `git diff --stat` — scope creep, (3) run tests.
