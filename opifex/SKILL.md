@@ -1,9 +1,8 @@
 ---
 name: opifex
 description: >
-  Zero-Max20 plan execution CLI — routes tasks to free tools (Gemini→Codex→OpenCode).
-  Use when delegating implementation plans, checking execution history, or routing tasks.
-  Replaces ~/bin/plan-exec prototype.
+  AI agent orchestrator — delegates coding tasks to free tools (Gemini/Codex/OpenCode) with auto-routing, fallback chains, and optional 3-pass Opus planning (--plan).
+  Use when delegating any implementation task. Default tool for strategos Step 3.
 user_invocable: false
 ---
 
