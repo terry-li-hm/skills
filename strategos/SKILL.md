@@ -225,20 +225,54 @@ Pipeline complete: N/M tasks passed
 ```
 Merge passing branches (`lucus merge <branch>`). For failures: show error, propose retry with different delegate / fix in-session / skip. Wait for Terry's call. Don't auto-fix without input.
 
-#### Agent Teams pipeline
+#### External Agent Teams (free swarm with coordination)
 
-For in-session parallel execution using Claude subagents:
+**The goal: Agent Teams coordination without Max20 cost.** Opus orchestrates in-session (the only cost), free tools execute in parallel worktrees. This is the default for all multi-task work.
+
+**The pattern:**
 ```
-# TeamCreate with Sonnet teammates, Opus as orchestrator
-# Each task gets its own agent — truly parallel, shared context
+Opus (orchestrator, in-session)
+  ├── Phase 1: Build shared artifacts (sequential)
+  │   └── Write shared code (embeddings.py, types, interfaces)
+  │   └── Commit — worktrees only see committed history
+  │
+  ├── Phase 2: Fan out independent tasks (parallel)
+  │   ├── lucus new task-a → Codex (multi-file)
+  │   ├── lucus new task-b → Gemini (algorithmic)
+  │   └── lucus new task-c → OpenCode (boilerplate)
+  │
+  ├── Phase 3: Validate as each completes
+  │   ├── Check pyproject.toml for dep pollution
+  │   ├── git diff --stat for scope creep
+  │   └── Run tests
+  │
+  └── Phase 4: Merge passing branches, retry failures with different tool
 ```
-Use when: tasks need vault context, cross-file reasoning, or live user decisions. Burns Max20 — prefer external swarm when tasks are self-contained.
+
+**Fallback chain (when a tool fails, switch laterally — don't escalate to Max20):**
+```
+Gemini 429 (quota) → Codex or OpenCode
+Codex sandbox block → Gemini (runs locally) or Sonnet subagent
+OpenCode auth fail → Gemini or Codex
+All three down → Sonnet subagent (last resort, burns Max20)
+```
+
+**Tool diversity rule:** Never launch 3+ delegates to the same provider simultaneously. Gemini free tier quota is shared — parallel Gemini calls burn through it in one burst. Mix tools: Gemini (algorithmic) + Codex (multi-file) + OpenCode (boilerplate).
+
+**Key insight: coordination via files, not shared context.** Agent Teams' advantage is shared conversation context. External swarm replaces that with:
+- Shared artifacts committed to repo (Phase 1)
+- Self-contained spec files at `/tmp/` per task
+- Orchestrator validates and connects outputs
+
+This works for 90% of tasks. Reserve Agent Teams (TeamCreate) for the rare case where workers need live back-and-forth or vault context too large to paste into a prompt.
 
 **Sequential dependent phases? Use Phase Contract pattern** (`~/docs/solutions/phase-contract-pattern.md`):
 - Each phase runs as a fresh-context subagent → produces a file artifact + JSON summary
 - Orchestrator validates JSON contract before launching next phase
 - On `"status": "failed"` → stop and restart from that phase, not the beginning
 - Complements swarm: use swarm for parallel independent tasks, phase contracts for sequential dependent tasks
+
+**Max20 conservation principle:** Opus token spend should be orchestration (reading specs, validating outputs, routing decisions), not implementation. Every line of code a free tool writes is a line that doesn't cost Max20. The threshold: if you can express the task in a self-contained prompt (<8K chars), it goes to an external tool. If it genuinely needs vault context or live user decisions, it stays in-session.
 
 **Rules for all parallel execution:**
 - **Commit the plan before `lucus new`** — worktrees only see committed history. Uncommitted plan files are invisible to delegates.
@@ -250,7 +284,9 @@ Use when: tasks need vault context, cross-file reasoning, or live user decisions
 - Merge conflicts = tasks weren't independent enough; phase them next time
 - If any delegate branch fails, do not merge partial branches blindly; finish successful branches first, then re-scope failed task as a new single delegation.
 - **Don't launch sequentially** — defeats the purpose of swarm mode
-- **Rate limit fallback:** If a delegate returns 429 (Gemini capacity exhausted), wait 60s and retry once. If still failing, switch to backup tool (Gemini → Codex or OpenCode). Don't launch all delegates simultaneously to the same provider — stagger by 30s or split across providers.
+- **Rate limit fallback:** If a delegate returns 429 (Gemini capacity exhausted), switch tool laterally immediately (don't wait). Gemini → Codex or OpenCode. Don't launch all delegates simultaneously to the same provider — split across providers.
+- **Codex can't write to lucus worktree paths** if `apply_patch` resolves to the main repo path. Workaround: use Sonnet subagent or Gemini (both respect CWD). See `delegation-reference.md`.
+- **Post-delegate checklist (enforced by hook next session):** (1) `head -12 pyproject.toml` — dep pollution, (2) `git diff --stat` — scope creep, (3) run tests.
 
 ### 4. Review (for significant changes)
 
