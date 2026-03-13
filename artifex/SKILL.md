@@ -238,3 +238,22 @@ Apply when: data has latency >2s, changes on a known schedule, or multiple skill
 Skip when: data must be real-time (live calendar, current search results).
 
 Full pattern: `~/docs/solutions/patterns/skill-as-renderer.md`
+
+### 14. Feedback Loop Checkpoint
+
+When designing any tool or scheduled task, ask: **what number goes up or down?** If you can't name a feedback signal, you're building a cron job, not a learning system.
+
+The three-part upgrade from cron to loop:
+1. **Log** — append-only record of what happened (JSONL)
+2. **Metric** — extract the signal (success rate, relevance score, latency)
+3. **Rule update** — feed the metric back into the tool's behaviour (routing table, filter weights, thresholds)
+
+```
+# Cron job (collects, doesn't learn):
+scrape → output → wait → scrape again
+
+# Feedback loop (collects AND learns):
+scrape → score relevance → log → weekly: analyse scores → update filters → scrape with better filters
+```
+
+Apply when: the tool runs repeatedly and its output quality could vary. Skip when: truly one-shot or the output is binary (health check pass/fail).
