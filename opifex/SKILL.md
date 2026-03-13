@@ -2,7 +2,7 @@
 name: opifex
 description: >
   AI agent orchestrator — delegates coding tasks to free tools (Gemini/Codex/OpenCode) with auto-routing, fallback chains, and optional 3-pass Opus planning (--plan).
-  Use when delegating any implementation task. Default tool for strategos Step 3.
+  Use when delegating any implementation task. Default tool for rector Step 3.
 user_invocable: false
 ---
 
@@ -55,15 +55,15 @@ opifex status
 
 Gemini → Codex → OpenCode. If one tool fails (quota, auth, timeout), automatically tries the next. Fallbacks logged for stats.
 
-## Integration with strategos
+## Integration with rector
 
-strategos Step 3 delegates to opifex for plan execution. The typical flow:
+rector Step 3 delegates to opifex for plan execution. The typical flow:
 
 ```
-/strategos → CE plan → write plan.md → opifex exec plan.md -p ~/code/project
+/rector → CE plan → write plan.md → opifex exec plan.md -p ~/code/project
 ```
 
-For swarm mode, opifex `--decompose` splits the plan and routes each task independently.
+For parallel delegation, opifex `--decompose` splits the plan and routes each task independently.
 
 ## Log & Stats
 
