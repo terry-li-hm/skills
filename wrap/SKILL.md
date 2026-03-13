@@ -100,7 +100,7 @@ The block is a receipt, not a plan. Write it after the action, not before.
 
 "I'll do it later" or adding to NOW.md does not count. The point of the gate is that session context — the material for the post — evaporates after wrap. Act while the insight is hot.
 
-**HARD STOP after Pre-Wrap block.** Output the Pre-Wrap block, then stop. Do not continue to Steps 1–4 in the same response. Wait for user reply. This is the only real enforcement — if Pre-Wrap and Step 1 are in the same response, there is no pause and blocking yes answers get skipped.
+**Then proceed to Steps 1–4 in the same response.** Blocking actions are already complete (the block is a receipt), so no pause needed. User can interrupt if pre-wrap surfaced something unexpected.
 
 ### Step 1: TODO Sweep
 
