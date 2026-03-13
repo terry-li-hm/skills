@@ -93,6 +93,7 @@ When in doubt: draft and let judge decide. Judge is the gate, not the intent che
 - Slug derived from title: lowercase, spaces → `-`, non-alphanumeric stripped
 - `sarcio index` regenerates `~/notes/terryli.hm.md` — also runs automatically on every blog sync (via `sync-from-vault.sh`)
 - Add `sarcio` to exclude list in `~/code/Cargo.toml` — already done
+- **Quality degrades after ~5 posts per session.** Posts 1-5 tend to be genuine sparks; posts 6+ become thinner and forced. Cap at 5 per session. If the well is running dry, stop — don't manufacture.
 
 ## Files
 
