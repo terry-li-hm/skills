@@ -150,17 +150,27 @@ Signal that a skill needs splitting: you find yourself reading the rationale sec
 - **Trigger/lookup skills** → short nouns: `todo`, `hko`, `morning`
 - **Style:** Latin or Greek preferred. Run `consilium "Name a CLI/skill that does X. Style: Latin/Greek, short. Existing tools: cerno, oghma, qmd, synaxis..." --quick` first — don't propose names yourself.
 
-**For anything that may become a CLI — reserve the crates.io name before planning:**
+**For anything that may become a CLI — check BOTH registries before planning:**
 ```bash
-# Check every candidate (not just the winner)
-curl -s https://crates.io/api/v1/crates/<name> | python3 -c "import sys,json; d=json.load(sys.stdin); print('TAKEN' if 'crate' in d else 'AVAILABLE')"
+# Check every candidate on BOTH PyPI and crates.io (not just the winner)
+# PyPI (Python):
+curl -s -o /dev/null -w "%{http_code}" "https://pypi.org/pypi/<name>/json"
+# 404 = available, 200 = taken
 
-# Reserve immediately once confirmed available
-cd ~/code && cargo new <name> --bin
-# add metadata to Cargo.toml, then:
-cargo publish --dry-run && cargo publish
+# crates.io (Rust):
+curl -s https://crates.io/api/v1/crates/<name> | python3 -c "import sys,json; d=json.load(sys.stdin); print('TAKEN' if 'crate' in d else 'AVAILABLE')"
 ```
-A name collision mid-build forces a full rename (see: necto → synaxis). Reserve before planning, not after.
+
+**PyPI gotchas:**
+- No name squatting policy, no expiry — abandoned 2017 packages block the name forever
+- No reservation mechanism — must publish a real (even minimal) package to claim
+- Name normalization: `my-tool` and `my_tool` are the same name on PyPI
+
+**Reserve immediately once confirmed available:**
+- Rust: `cargo new <name> --bin` → `cargo publish`
+- Python: publish 0.1.0 stub via `uv build && uv publish` (needs PyPI token)
+
+A name collision mid-build forces a full rename (see: necto → synaxis, mnemon → docima). Reserve before planning, not after.
 
 ### 9. Single Responsibility
 

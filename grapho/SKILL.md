@@ -59,6 +59,7 @@ Hit data: `~/.grapho/hits.json`. Key = first 60 chars of entry text (bullet/mark
 - **Disambiguation requires TTY.** If >1 match, grapho prompts interactively. Run from a real terminal, not via Bash tool.
 - **`add`, `promote`, `review` require TTY.** `status`, `demote`, `solution`, `hit` work piped.
 - **Demoting duplicates:** if an entry already exists in overflow, demote adds it again. Check overflow first with `grep` if unsure.
+- **CLAUDE.md dedup:** Before adding to MEMORY.md, check if the same rule already exists in CLAUDE.md. CLAUDE.md = rules (loads in full), MEMORY.md = gotchas (200-line limit). If a rule is in both, delete it from MEMORY.md — CLAUDE.md is the canonical source. The nightly `memory-hygiene` legatus job checks for this, but catch it manually too.
 - **Empty sections stay.** Demoting all entries from a section leaves the `## Header` in MEMORY.md. Not a bug — add new entries to it later or ignore.
 
 ## Budget Workflow
