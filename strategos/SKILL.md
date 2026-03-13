@@ -82,8 +82,8 @@ CE plan still runs (catches codebase gotchas) — only the review/approval pause
 | **Trivial:** new skill file, config change, ≤20 lines of code, no existing code touched, zero cascading changes | **Build directly in-session** — skip CE plan and delegation. Hook enforced: Write/Edit to `~/code/` >20 lines is hard-blocked. |
 | Single-file, ≤3 commands, no architecture decisions, requires live user decisions mid-plan | `EnterPlanMode` → delegate |
 | **New project / fresh codebase** (blank repo, new crate, no existing code to research) | `superpowers:brainstorming` → `superpowers:writing-plans` → `superpowers:subagent-driven-development` — CE research agents find nothing on blank repos; skip them |
-| **Spec already written** (brainstorm done, design doc exists, task is clear) | Skip writing-plans → delegate directly to Codex/Gemini with spec as context. writing-plans adds nothing when requirements are already locked. |
-| Multi-command CLI, new architecture, existing codebase | **CE research → Superpowers plan → External execution → CE review** (see pipeline below). Default for non-trivial builds. Max20 = orchestration only. |
+| **Spec already written** (brainstorm done, design doc exists, task is clear) | `plan-exec <spec-file> -p ~/code/<project>` — **zero Max20**. Fallback chain: Gemini → Codex → OpenCode. |
+| Multi-command CLI, new architecture, existing codebase | **CE research → Superpowers plan → `plan-exec`** (see pipeline below). Max20 = brainstorm + plan only. Execution is free. |
 | Same as above but genuinely needs vault context mid-execution | `/slfg <description>` — fully autonomous. Burns Max20 — use only when vault context can't be serialised into a prompt. |
 | Unclear requirements | `/workflows:brainstorm` first |
 
@@ -309,7 +309,34 @@ This works for 90% of tasks. Reserve Agent Teams (TeamCreate) for the rare case 
 - On `"status": "failed"` → stop and restart from that phase, not the beginning
 - Complements swarm: use swarm for parallel independent tasks, phase contracts for sequential dependent tasks
 
-**Max20 conservation principle:** Opus token spend should be orchestration (reading specs, validating outputs, routing decisions), not implementation. Every line of code a free tool writes is a line that doesn't cost Max20. The threshold: if you can express the task in a self-contained prompt (<8K chars), it goes to an external tool. If it genuinely needs vault context or live user decisions, it stays in-session.
+**Max20 conservation principle:** Opus token spend should be brainstorm and judgment, not orchestration or implementation. Once a plan exists, hand off to `plan-exec` — zero Max20 from that point.
+
+**`plan-exec` — zero-Max20 execution:**
+```bash
+# Single task with spec file (fallback: gemini → codex → opencode)
+plan-exec /tmp/task-spec.txt -p ~/code/project
+
+# Force a specific backend
+plan-exec spec.txt -p ~/code/project -b codex
+
+# Dry run
+plan-exec spec.txt --dry-run
+
+# For multi-task plans: write per-task specs, launch parallel
+plan-exec /tmp/task-a.txt -p ~/code/project &
+plan-exec /tmp/task-b.txt -p ~/code/project &
+wait
+```
+Results: `~/.cache/plan-exec/<timestamp>/`. If all backends fail, escalate to Opus.
+
+**The ideal Max20 budget for a build session:**
+- Brainstorm/discuss with user → Max20 (irreplaceable)
+- Write plan → Max20 (one Opus pass, or use Gemini for simple plans)
+- Execute plan → `plan-exec` (FREE)
+- Validate results → quick in-session check (minimal Max20)
+- Review → CE agents as Sonnet subagents (cheap Max20)
+
+**Everything between "plan written" and "review needed" should cost zero Max20.**
 
 **Rules for all parallel execution:**
 - **Commit the plan before `lucus new`** — worktrees only see committed history. Uncommitted plan files are invisible to delegates.
