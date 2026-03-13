@@ -165,7 +165,16 @@ Reviews (spec compliance + code quality) always stay as Claude subagents — jud
 
 ### 3. Delegate execution
 
-**Pick the right tool:**
+**Default: use `opifex`** for all delegation. It handles routing, fallback chains, validation, and logging automatically. Write the spec to a plan file, then:
+```bash
+opifex exec /tmp/plan.txt -p ~/code/<project>           # auto-route
+opifex exec /tmp/plan.txt -p ~/code/<project> -b codex  # force backend
+opifex exec /tmp/plan.txt -p ~/code/<project> --decompose  # split into parallel tasks
+opifex exec /tmp/plan.txt -p ~/code/<project> --test-command "uv run pytest"
+```
+Only fall back to raw `codex exec` / `gemini -p` when opifex itself is broken or the task needs interactive features opifex doesn't support.
+
+**Routing (opifex auto-routes, but for manual override):**
 
 | Signal | Tool | Why |
 |--------|------|-----|
