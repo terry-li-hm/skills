@@ -163,7 +163,7 @@ cd ~/code/<project> && gemini -m gemini-3.1-pro-preview -p "<prompt>" --yolo
 
 # OpenCode
 OPENCODE_HOME=~/.opencode-lean opencode run \
-  -m zhipuai-coding-plan/glm-5 \
+  -m opencode/glm-5 \
   --title "<title>" \
   "<prompt>"
 ```
