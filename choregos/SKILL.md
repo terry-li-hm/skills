@@ -1,13 +1,13 @@
 ---
 name: choregos
-description: "DEPRECATED — folded into strategos (swarm mode). Use /strategos instead."
+description: "DEPRECATED — folded into rector (swarm mode). Use /rector instead."
 ---
 
 # choregos — DEPRECATED
 
-**Folded into `/strategos` as swarm mode (Step 3).** All parallel pipeline functionality — auto-routing, validation, summary, merge+escalate — is now in strategos.
+**Folded into `/rector` as swarm mode (Step 3).** All parallel pipeline functionality — auto-routing, validation, summary, merge+escalate — is now in rector.
 
-Use `/strategos` for all coding tasks, including parallel execution.
+Use `/rector` for all coding tasks, including parallel execution.
 
 ## When to Use
 
@@ -23,7 +23,7 @@ Use `/strategos` for all coding tasks, including parallel execution.
 If given a feature description instead of a task list, decompose first:
 - Break into independent sub-tasks (different files/modules)
 - Each task must be fully self-contained (no shared state)
-- If tasks can't be made independent, use sequential strategos instead
+- If tasks can't be made independent, use sequential rector instead
 
 For each task, capture:
 ```
@@ -44,7 +44,7 @@ git stash   # if needed
 lucus list
 ```
 
-If `lucus` unavailable, stop and fall back to sequential strategos — don't attempt pipeline without worktree isolation.
+If `lucus` unavailable, stop and fall back to sequential rector — don't attempt pipeline without worktree isolation.
 
 ## Step 3 — Auto-Route (no asking)
 
@@ -158,4 +158,4 @@ Terry can override auto-routing inline:
 
 - `lucus` — worktree management
 - `deltos` — mobile notification
-- `strategos` — fallback for sequential tasks or unclear routing
+- `rector` — fallback for sequential tasks or unclear routing

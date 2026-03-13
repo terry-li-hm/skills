@@ -1,17 +1,17 @@
 ---
-name: strategos
+name: rector
 description: Structured on-ramp for delegate-first dev work. Use at the start of any coding task. Runs solutions KB check → research → spec analysis → plan → delegate → verify → review → finish.
 user_invocable: true
 ---
 
-# /strategos — Delegate-First Dev Workflow
+# /rector — Delegate-First Dev Workflow
 
-Orchestrate here, execute elsewhere. Full reference: `~/docs/solutions/strategos-reference.md`
+Orchestrate here, execute elsewhere. Full reference: `~/docs/solutions/rector-reference.md`
 
 ## Triggers
 
-- `/strategos <task description>` — start a coding task the right way
-- `/strategos --yolo <task>` — skip plan review (personal tools, low blast radius)
+- `/rector <task description>` — start a coding task the right way
+- `/rector --yolo <task>` — skip plan review (personal tools, low blast radius)
 - Proactively when user asks to build, port, fix, refactor, or add a feature
 - **After consilium/brainstorm/design discussion when user says "implement", "build", "do it"** — prior discussion is NOT a plan, always start here
 
@@ -81,7 +81,7 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 - **Parallel delegation** (default): `opifex exec` or raw Codex/Gemini/OpenCode via `lucus` worktrees
 - **In-session subagents**: `superpowers:subagent-driven-development` when vault context needed
 - **Agent Teams** (TeamCreate): when true coordination needed (shared API design, exploratory refactor, unknown-scope bugs)
-- Route by signal: Rust→Codex, algorithmic→Gemini, boilerplate→OpenCode. Details: `strategos-reference.md`
+- Route by signal: Rust→Codex, algorithmic→Gemini, boilerplate→OpenCode. Details: `rector-reference.md`
 
 **5. Verify** (hard gate):
 - [ ] Tests pass — paste actual output
@@ -133,7 +133,7 @@ GitHub backup every session: `cd ~/code/<name> && git push` (or `gh repo create 
 
 ## Troubleshooting
 
-See `~/docs/solutions/strategos-reference.md` for: routing tables, launch commands, context packaging checklist, systematic debugging, troubleshooting quick reference, parallel delegation pipeline details, Agent Teams patterns, post-delegate checklist.
+See `~/docs/solutions/rector-reference.md` for: routing tables, launch commands, context packaging checklist, systematic debugging, troubleshooting quick reference, parallel delegation pipeline details, Agent Teams patterns, post-delegate checklist.
 
 Also: `~/docs/solutions/delegation-reference.md` for tool-specific gotchas.
 
