@@ -18,6 +18,12 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | **grok** | Python CLI | ~$0.02/query | X/Twitter search, real-time web |
 | **WebFetch** | Built-in | Free | Scrape specific URLs to markdown |
 
+## Default: elencho
+
+**Not sure which tool? Run `elencho --cheap "query"`.** It hits Grok + Exa + noesis in parallel (~$0.07, ~45s), synthesises agreements/disagreements, and logs the run. Use individual tools below only when you know you want a specific one.
+
+Full run (add noesis research): `elencho "query"` (~$0.50, ~3min). See `elencho` skill.
+
 ## Cost Tiers — Route by Budget
 
 | Tier | Tool | Cost/query | Use When |
