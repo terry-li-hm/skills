@@ -163,6 +163,8 @@ Reviews (spec compliance + code quality) always stay as Claude subagents — jud
 
 **Why CE plan beats built-in plan:** `/workflows:plan` runs `learnings-researcher` + `repo-research-analyst` in parallel — surfacing `~/docs/solutions/` gotchas and exact patterns from reference projects. Built-in plan is a single-model think-through that misses institutional knowledge entirely. In practice, CE plan catches things like wrong crate versions, agent-first output requirements, implementation ordering, and Codex delegation gotchas that built-in plan never surfaces. The cost is ~2 min of research time; the benefit compounds with every prior solution captured in the KB.
 
+**Planning needs eyes — CLI wrappers don't work.** Empirically tested (judex DP-001→003, `~/docs/solutions/judex-experiment-data.md`): `claude --print` planning scored 0/6 design issues because it has no tool access (no file reads, no WebSearch, no vault, no subagents). In-session CE plan scored 2.5/6 — the research agents surfaced correct patterns but the bottleneck shifted to information→action (comparing findings against the spec). Key lesson: planning that can't see the codebase is a code linter at best. `opifex --plan` was killed 2026-03-14. All planning stays in-session where tools are available.
+
 ### 3. Delegate execution
 
 **Default: use `opifex`** for all delegation. It handles routing, fallback chains, validation, and logging automatically. Write the spec to a plan file, then:
