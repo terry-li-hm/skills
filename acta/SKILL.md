@@ -29,13 +29,7 @@ cora brief show <id>    # for each unread brief
 
 If `cora brief show` errors, note it but continue with the inbox. If multiple unread briefs, read newest first — older ones may be superseded.
 
-After reading each brief, **mark it as read and archive its notification email:**
-```bash
-cora brief read <brief_id>                          # mark brief as read
-cora email archive <brief_notification_email_id>    # archive the "Morning Brief | ..." email from inbox
-```
-
-Do this immediately after reading — don't defer to Step 4. Unread briefs accumulate fast and create re-processing debt in future sessions.
+Extract any action items from briefs and include them in the Step 2 triage alongside inbox emails.
 
 ## Step 2 — Triage and present
 
@@ -80,6 +74,12 @@ gog gmail thread modify <id2> --remove INBOX  # silent miss sweep emails
 ```
 
 Verify with `gog gmail search "in:inbox" --limit 20` at the end.
+
+Then mark all processed briefs as read and archive their notification emails:
+```bash
+cora brief read <brief_id>                          # mark brief as read
+cora email archive <brief_notification_email_id>    # archive the "Morning Brief | ..." email from inbox
+```
 
 Confirm count: "Archived X emails. Inbox zero."
 
