@@ -38,12 +38,18 @@ A 60-second brief for the moment you wake up. Weather, what's on today, anything
    - If found and the run dir is from last night (within 12h): surface as one line (e.g. "Overnight: vault HEALTHY, 2 git issues — /overnight for details")
    - If nothing found: skip silently — don't mention the queue
 
-6. **Missed email scan** (known Cora blind spot):
+6. **AI intel teaser** (don't read the full brief — that's for commute):
+   - Find today's intel: `ls ~/notes/Capco/ai-intel-$(date +%Y-%m-%d).md 2>/dev/null || LATEST=$(ls -dt ~/.cache/legatus-runs/2[0-9]*/ai-intel/ 2>/dev/null | head -1) && ls "$LATEST"/ai-intel-*.md 2>/dev/null`
+   - If found: count consulting items, stack items, and any 🚨 READ ORIGINAL flags. Surface as one line: "AI intel ready: 4 consulting, 3 stack, 1 read-original — review on commute"
+   - Do NOT read or summarise the items — just the count. Morning is Theo time, not reading time.
+   - If not found: skip silently
+
+7. **Missed email scan** (known Cora blind spot):
    - Run: `gog gmail search "category:personal -label:Cora/Action -label:Cora/Important Info -label:Cora/Other -label:Cora/Newsletter -label:Cora/Payments -label:Cora/Promotion -label:Cora/Packages newer_than:1d"`
    - If any results: flag them by sender + subject. These are emails Cora received but never labelled — the same failure mode that swallowed two interview invitations (Mar 2026).
    - If no results: skip silently.
 
-7. **Deliver the brief**:
+8. **Deliver the brief**:
 
 ## Output
 
@@ -55,7 +61,7 @@ Weather, calendar, any hard deadlines today. Two short paragraphs max. Short eno
 >
 > Mainly cloudy, 16–21°C, light rain early then sunny intervals. Weather sent to Tara ✓
 >
-> Lunch with Tara 12:15, physio 16:00. Nicole usage report due today.
+> Lunch with Tara 12:15, physio 16:00. Nicole usage report due today. AI intel ready: 6 consulting, 8 stack, 1 read-original — review on commute.
 
 ## Boundaries
 
