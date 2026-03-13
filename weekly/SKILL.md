@@ -164,8 +164,7 @@ If a check command fails, mark that metric as `Unavailable` in the table and con
 5. **Oghma health** — `oghma stats` for DB size, memory count, extraction backlog.
 6. **Cron scripts** — Check `~/scripts/crons/` and `~/logs/cron-*.log` for failures or stale output.
 7. **QMD index** — `qmd cleanup && qmd update` to prune stale entries and re-index. Then `qmd status` for collection health.
-8. **Delegation log** — Read `~/docs/solutions/delegation-log.md`. Scan by eye: any tool+task-type with 2+ ✗ or ~ entries? If yes, update strategos routing table. If table has grown since last week, the log is working. If not, I failed to log and should catch up now.
-9. **Hook fire log** — Check `~/logs/hook-fire-log.jsonl` for the past 7 days:
+8. **Hook fire log** — Check `~/logs/hook-fire-log.jsonl` for the past 7 days:
    ```bash
    python3 -c "
    import json; from datetime import datetime, timedelta, timezone
@@ -210,8 +209,7 @@ Run this alongside the synthesis every Friday:
 2. **Transition status** — Update [[Capco Transition]] (PILON, onboarding, handover)
 3. **Networking status** — Who's in motion, who needs follow-up? (BOCHK bridge, Capco contacts)
 4. **CSB job monitor** — Any new AI-related government vacancies this week? Check `~/logs/cron-csb-jobs.log` for matches
-5. **Conversation Cards refresh** — Scan `~/notes/Capco/Conversation Cards/*.md` (governance, agentic, cost, responsible AI/MRM). Check: any data points outdated? Any new vault material that should feed in? Update `Last updated` date on any card you touch. 60-second scan per card — if nothing changed, move on.
-6. **Priorities for the week** — Top 2-3 actions
+5. **Priorities for the week** — Top 2-3 actions
 7. **AI landscape** — Run `/lustro --deep` first to pull full source sweep, then `/ai-review` for weekly synthesis (client talking points).
 8. **Capco intel sweep** (until start date only — remove after onboarding):
    - Search: "Capco HK" or "Capco Asia" news this week
