@@ -30,7 +30,14 @@ theoria --period weekly --dry-run
 
 5-node LangGraph pipeline: Gather → Gap Analysis → Research → Synthesise → Write
 
-- **Gather:** reads lustro log + AI News Log + AI Landscape.md (previous entries)
+**Roll-up architecture** — each cadence synthesizes from the layer below:
+- **Weekly:** raw feed (lustro log + AI News Log) → weekly snapshot
+- **Monthly:** weekly snapshots → thematic synthesis
+- **Quarterly:** monthly reviews → strategic assessment
+- **Yearly:** quarterly reviews → annual narrative
+
+Nodes:
+- **Gather:** weekly reads raw feed; other cadences extract lower-layer snapshots from AI Landscape.md
 - **Gap Analysis:** identifies missing coverage via claude --print
 - **Research:** fills top 5 gaps via claude --print (600s timeout)
 - **Synthesise:** produces the final snapshot (600s timeout)
