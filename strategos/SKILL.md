@@ -97,7 +97,15 @@ The integrated pipeline that maximises quality while minimising Max20 spend. CE 
 │ → surfaces ~/docs/solutions/ gotchas + codebase patterns  │
 │ → run in parallel, ~2min, catches institutional knowledge │
 └──────────────────────────────────────────────────────────┘
-          ↓ gotchas + patterns feed into plan
+          ↓ gotchas + patterns feed into spec analysis
+┌─ SPECFLOW (one Opus pass) ───────────────────────────────┐
+│ CE: spec-flow-analyzer                                    │
+│ → gaps in spec (missing error handling, edge cases)       │
+│ → assumptions that should be explicit                     │
+│ → acceptance criteria (functional + non-functional)       │
+│ Skip for: trivial tasks, clear specs with no ambiguity    │
+└──────────────────────────────────────────────────────────┘
+          ↓ validated spec feeds into plan
 ┌─ PLANNING (one Opus pass) ───────────────────────────────┐
 │ superpowers:writing-plans                                 │
 │ → converts research into structured TDD task steps        │
@@ -106,20 +114,39 @@ The integrated pipeline that maximises quality while minimising Max20 spend. CE 
 │   tasks (Phase 2)                                         │
 └──────────────────────────────────────────────────────────┘
           ↓ plan decomposes into tasks
-┌─ EXECUTION (FREE — external tools) ─────────────────────┐
-│ Phase 1: Build shared artifacts sequentially, commit      │
-│ Phase 2: Fan out to lucus worktrees + mixed tools         │
-│   → Route by signal: Codex (multi-file/Rust),             │
-│     Gemini (algorithmic), OpenCode (boilerplate)           │
-│ Phase 3: Validate each on completion (deps, scope, tests) │
-│ Phase 4: Merge passing branches                           │
+┌─ EXECUTION (FREE — external tools or in-session) ───────┐
+│ External (default): opifex / raw Codex/Gemini/OpenCode    │
+│   Phase 1: Build shared artifacts sequentially, commit    │
+│   Phase 2: Fan out to lucus worktrees + mixed tools       │
+│   Phase 3: Validate each on completion                    │
+│   Phase 4: Merge passing branches                         │
+│ In-session (when vault context needed):                   │
+│   superpowers:subagent-driven-development                 │
+│   → fresh subagent per task + two-stage review            │
+│   → burns Max20, but shares session context               │
 └──────────────────────────────────────────────────────────┘
-          ↓ merged code ready for review
+          ↓ merged code ready for verification
+┌─ VERIFY (hard gate — before claiming done) ─────────────┐
+│ superpowers:verification-before-completion                │
+│ → tests pass (not just "should pass")                     │
+│ → binary runs (smoke test real invocation)                │
+│ → no regressions (full test suite, not just new tests)    │
+│ → evidence in chat (paste output, not "it works")         │
+└──────────────────────────────────────────────────────────┘
+          ↓ verified code ready for review
 ┌─ REVIEW (cheap — Sonnet subagents) ─────────────────────┐
 │ CE: pattern-recognition-specialist → spec compliance      │
 │ CE: kieran-python/rust/ts-reviewer → code quality         │
 │ CE: security-sentinel → if handles input/auth/secrets     │
 │ CE: code-simplicity-reviewer → YAGNI check last           │
+└──────────────────────────────────────────────────────────┘
+          ↓ reviewed code ready for cleanup
+┌─ FINISH (branch cleanup + ship) ────────────────────────┐
+│ superpowers:finishing-a-development-branch                │
+│ → squash/rebase if needed, clean commit messages          │
+│ → PR creation (gh pr create)                              │
+│ → companion skill + GitHub push (Step 5)                  │
+│ Skip for: personal tools on main, no PR workflow          │
 └──────────────────────────────────────────────────────────┘
 ```
 
@@ -144,10 +171,21 @@ The plan from `writing-plans` produces per-task specs with exact file paths, tes
 
 Reviews (spec compliance + code quality) always stay as Claude subagents — judgment work belongs on Max20.
 
-**`/slfg` vs external swarm:**
-- `/slfg` = Claude Task agents, burns Max20, fully automated, no manual decomposition
-- External swarm = Codex/Gemini/OpenCode in parallel worktrees, free, requires manual decomposition + merge
-- **Default to external swarm.** Use `/slfg` only when the task requires vault context or cross-file reasoning that can't be captured in a task spec. "It's easier" is not a reason to burn Max20.
+**Execution method decision tree:**
+
+| Method | When | Cost |
+|--------|------|------|
+| **External swarm** (opifex / raw Codex/Gemini/OpenCode) | Default. Self-contained specs, no vault context needed | Free |
+| **superpowers:subagent-driven-development** | Tasks need session context, or plan has many small interdependent steps | Max20 (Sonnet subagents) |
+| **`/slfg`** | Fully autonomous, no decomposition needed, vault context required | Max20 (heavy) |
+
+**Default to external swarm.** Use in-session subagents (`subagent-driven-development`) when tasks share context that can't be serialised into standalone prompts. Use `/slfg` only as last resort when full autonomy + vault access is needed. "It's easier" is not a reason to burn Max20.
+
+**subagent-driven-development pattern (from superpowers):**
+- Fresh subagent per task (clean context, no cross-contamination)
+- Two-stage review: subagent self-reviews, then orchestrator validates
+- Works well with writing-plans output — each task becomes a subagent prompt
+- Use when: tasks share types/interfaces built in Phase 1, or when delegate tools are down
 
 **Rule of thumb:** If you'd build more than one file, touch existing architecture, or need research agents to surface best practices → `/workflows:plan`. `EnterPlanMode` is for trivial tasks where the user needs to make live decisions as the plan unfolds.
 
@@ -397,6 +435,29 @@ If review agents are unavailable, run a manual `git diff` + smoke test and mark 
 
 **CLI binary changes — always smoke test before closing.** After any `cargo build --release` or equivalent: run `<binary> --version` or a minimal real invocation to confirm the new binary works. Don't wait to be asked. Burned: swapped consilium council model, shipped and committed without testing until user prompted.
 
+### 4.5. Verification gate (hard gate — from superpowers:verification-before-completion)
+
+**NEVER claim "done" without evidence.** This is the most common failure mode in delegated workflows — the delegate says "all tests pass" but nobody verified.
+
+Before marking any task complete:
+- [ ] **Tests pass** — paste the actual test output, not "tests should pass"
+- [ ] **Binary runs** — `<tool> --version` or a real invocation, paste output
+- [ ] **No regressions** — full test suite, not just new tests
+- [ ] **Matches spec** — re-read the original requirement, compare against actual output
+
+**Evidence must be in chat.** "It works" is not evidence. Paste the command and its output. If you can't show it, it's not verified.
+
+Skip for: trivial config changes, documentation-only, changes with no executable output.
+
+### 4.6. Finish branch (from superpowers:finishing-a-development-branch)
+
+For work on feature branches (not direct-to-main personal tools):
+- Clean commit history (squash fixups, meaningful messages)
+- PR creation via `gh pr create`
+- Link to plan/issue if one exists
+
+Skip for: personal tools committed directly to main, single-commit changes.
+
 ### 5. Companion skill + GitHub repo + crates.io (for any installed CLI or published tool)
 
 Create `~/skills/<name>/SKILL.md` in the same session — gotchas are freshest now.
@@ -487,6 +548,22 @@ Key quick-reference:
 - Gemini no file changes → missing `--yolo`
 - Double-backgrounded → never use `&` with `run_in_background: true`
 - After Codex → always `git add && git commit` manually (sandbox blocks `.git`)
+
+**When delegation fails repeatedly → systematic debugging (from superpowers):**
+Don't just switch tools blindly. Follow this sequence:
+1. **Reproduce** — get the exact error, not a summary
+2. **Isolate** — is it the tool, the prompt, the code, or the environment?
+3. **Hypothesize** — one theory at a time, test it
+4. **Fix** — minimal change that addresses root cause
+5. **Verify** — confirm fix AND no regressions
+
+| Failure pattern | Likely cause | Action |
+|----------------|-------------|--------|
+| Same error across 2+ tools | Prompt or spec issue | Fix the spec, not the tool |
+| Tool-specific error | Tool constraint (sandbox, DNS, auth) | Switch tool laterally |
+| Works locally, fails in delegate | Environment difference | Add env setup to prompt |
+| Passes but wrong output | Spec ambiguity | Add explicit constraints/examples to prompt |
+| 3+ failed attempts | Architecture problem | Stop delegating, diagnose in-session |
 
 ## Calls
 - `cerno` — solutions KB check (step 1)
