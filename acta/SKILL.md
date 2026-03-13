@@ -29,6 +29,14 @@ cora brief show <id>    # for each unread brief
 
 If `cora brief show` errors, note it but continue with the inbox. If multiple unread briefs, read newest first — older ones may be superseded.
 
+After reading each brief, **mark it as read and archive its notification email:**
+```bash
+cora brief read <brief_id>                          # mark brief as read
+cora email archive <brief_notification_email_id>    # archive the "Morning Brief | ..." email from inbox
+```
+
+Do this immediately after reading — don't defer to Step 4. Unread briefs accumulate fast and create re-processing debt in future sessions.
+
 ## Step 2 — Triage and present
 
 Categorise every email into one of three buckets:
