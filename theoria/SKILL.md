@@ -42,12 +42,12 @@ Conditional edge: if gap analysis returns "NO GAPS", research is skipped.
 
 | Cadence | When | LaunchAgent |
 |---------|------|-------------|
-| Weekly | Friday 17:00 | `com.terry.ai-landscape-weekly` |
-| Monthly | 1st of month, 06:00 | `com.terry.ai-landscape-monthly` |
+| Weekly | Saturday 06:00 | `com.terry.ai-landscape-weekly` |
+| Monthly | 1st of month, 12:00 | `com.terry.ai-landscape-monthly` |
 | Quarterly | 2nd Jan/Apr/Jul/Oct, 06:00 | `com.terry.ai-landscape-quarterly` |
 | Yearly | Jan 3, 06:00 | `com.terry.ai-landscape-yearly` |
 
-Dependency chain: monthly (1st) → quarterly (2nd) → yearly (3rd). Each cadence can reference the output of the previous one.
+Dependency chain: weekly (Sat 06:00, catches US Fri EOB) → monthly (1st noon, after last weekly) → quarterly (2nd) → yearly (3rd).
 
 Logs: `~/logs/cron-ai-landscape-{weekly,monthly,quarterly,yearly}.log`
 
