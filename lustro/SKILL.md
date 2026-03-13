@@ -64,12 +64,32 @@ Read `[[AI News Log]]` — look for `<!-- Last discussed: YYYY-MM-DD -->` marker
 
 **Staleness note:** If the cron log has no entries from the last 2 days, mention it — the cron may have failed. Fall back to live WebFetch for a few key sources.
 
-### Step 3: Discuss
+### Step 3: Discuss + Auto-Log Engagement
 
 This is the actual value. Not a dump of headlines — a conversation:
 - Terry asks follow-up questions
 - Claude explains implications, connects to Terry's context
 - If Terry wants to go deep on an article, Claude WebFetches it live and discusses
+
+**Engagement logging (automatic, zero-friction):** When Terry engages with a specific item — asks a follow-up, requests the full article, says "tell me more", discusses implications, or asks "what's the banking angle" — log it silently:
+
+```bash
+cd ~/code/lustro && uv run python -c "
+from lustro.relevance import log_engagement
+log_engagement('EXACT TITLE FROM LOG', action='ACTION')
+"
+```
+
+Actions: `deepened` (asked follow-up), `read_full` (fetched article), `discussed` (extended conversation), `saved` (noted for later). Run this in the background — don't interrupt the conversation to announce it.
+
+**What counts as engagement:**
+- "Tell me more about X" → `deepened`
+- "Fetch that article" / "let me read that" → `read_full`
+- Extended back-and-forth about implications → `discussed`
+- "I should mention this to Tobin" / "save that" → `saved`
+- Skipping an item or saying "next" → NOT engagement (don't log)
+
+**Relevance markers:** When presenting items, note [★] markers from the log. If Terry consistently engages with non-starred items or skips starred ones, mention it — the scoring model may need recalibration.
 
 ### Step 4: Update marker + log (optional)
 
