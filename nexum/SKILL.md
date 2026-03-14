@@ -1,6 +1,6 @@
 ---
 name: nexum
-description: LinkedIn org research CLI — search people, extract profiles, traverse network graph. Use when researching org structures, finding LinkedIn profiles, or mapping teams.
+description: LinkedIn org research CLI — search people, extract profiles, traverse network graph. Use when researching org structures or mapping teams at scale. NOT for single profile lookups (use linkedin-research) or managing your own profile (use linkedin-profile).
 ---
 
 # nexum — LinkedIn Org Research CLI

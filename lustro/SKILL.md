@@ -1,6 +1,6 @@
 ---
 name: lustro
-description: Check AI news sources for recent developments using Lustro (~/code/lustro). Use when user says "lustro", "ai news", "check ai news", "what's new in AI", or wants to catch up on AI developments. Sources are tagged (ai, tech, health, etc.) — digest can filter by tag.
+description: Check AI news sources for recent developments using Lustro CLI (~/code/lustro). Use when user says "lustro", "ai news", "check ai news". Fetches from curated RSS/feeds. NOT for AI landscape analysis or consulting prep (use ai-review for weekly synthesis).
 user_invocable: true
 ---
 

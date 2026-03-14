@@ -1,6 +1,6 @@
 ---
 name: eow
-description: End-of-work checkpoint. Synthesise the work day, capture work mood, note unfinished threads. Use when user says "eow", "end of work", "done for the day" (before evening).
+description: End-of-work checkpoint (afternoon/early evening). Synthesise the work day, capture work mood, note unfinished threads. Use when user says "eow", "end of work", "done for the day". Evening sequence is eow → quies → daily. NOT for session end (use wrap) or bedtime close (use daily).
 user_invocable: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: consilium
-description: Multi-model deliberation — auto-routes by difficulty. Full council (~$0.50), quick parallel (~$0.10), red team (~$0.20), and more.
+description: Multi-model deliberation for judgment calls — auto-routes by difficulty. Full council (~$0.50), quick parallel (~$0.10), red team (~$0.20). Use for decisions, trade-offs, naming, strategy. NOT for factual research (use elencho or WebSearch).
 aliases: [ask-llms, council, ask llms]
 github_url: https://github.com/terry-li-hm/consilium
 user_invocable: true

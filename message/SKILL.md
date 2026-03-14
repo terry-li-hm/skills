@@ -1,6 +1,6 @@
 ---
 name: message
-description: Draft responses to recruiter, networking, and other messages. Use when the user asks to reply or draft a message.
+description: Draft responses to recruiter and networking messages (LinkedIn DMs, WhatsApp intros, cold outreach). NOT for email (use stilus), LinkedIn posts (use agoras), or iMessage (use imessage).
 user_invocable: true
 ---
 

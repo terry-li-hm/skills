@@ -1,6 +1,6 @@
 ---
 name: summarize
-description: Quick read — fetch and summarize content from any URL, podcast, or local file. No vault note saved. "summarize this", "what's this link about?"
+description: Quick read — fetch and summarize content from a URL, podcast, or local file. No vault note saved. Use for "summarize this", "what's this link about?" NOT for vault cataloguing (use analyze) or video transcripts (use video-digest).
 user_invocable: true
 github_url: https://github.com/steipete/summarize
 ---

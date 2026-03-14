@@ -1,5 +1,5 @@
 ---
-name: respice
+name: solutions
 description: Search docs/solutions/ for past learnings before starting work. Use proactively before implementing fixes, filling forms, or handling admin tasks — not just coding.
 user_invocable: false
 ---

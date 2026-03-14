@@ -1,6 +1,6 @@
 ---
 name: daily
-description: Bedtime daily close. Full-day reflection and tomorrow preview. Use when user says "daily", "end of day", "eod", or before bed.
+description: Bedtime daily close (last thing before sleep). Full-day reflection and tomorrow preview. Use when user says "daily", "end of day", "eod", or before bed. Comes after eow and quies in the evening sequence. NOT for end-of-work (use eow) or session end (use wrap).
 user_invocable: true
 ---
 

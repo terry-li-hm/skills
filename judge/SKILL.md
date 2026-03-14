@@ -1,6 +1,6 @@
 ---
 name: judge
-description: Review drafts and analyses against quality criteria. Use after generating output that benefits from a second pass.
+description: Review client-facing deliverables (SOWs, proposals, decks, reports) against quality criteria before sending. Use when output will be seen by external stakeholders. NOT for code review (use ce-review) or internal notes.
 user_invocable: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: analyze
-description: Classify content, extract insights, and save a structured vault note. Auto-detects type (article, job, repo, video). "analyze this"
+description: Classify content, extract insights, and save a structured vault note. Use when user shares content (article, job posting, repo, video) and wants it catalogued in the vault. NOT for quick summaries without vault save (use summarize) or job evaluation (use evaluate-job).
 user_invocable: true
 ---
 

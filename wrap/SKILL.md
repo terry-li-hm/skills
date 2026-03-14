@@ -1,6 +1,6 @@
 ---
 name: wrap
-description: End-of-session wrap-up. TODO sweep, session log, NOW.md, learnings safety net.
+description: End-of-Claude-Code-session wrap-up. TODO sweep, session log, NOW.md, learnings safety net. Use before /clear or ending a session. NOT a daily routine — use eow/daily for day-level closures.
 user_invocable: true
 ---
 

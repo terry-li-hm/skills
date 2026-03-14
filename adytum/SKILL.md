@@ -1,5 +1,6 @@
 ---
-description: 1Password vault management companion CLI.
+name: adytum
+description: 1Password vault management CLI — migrate, save, hygiene, get, list items in the Agents vault. Use when managing 1Password entries, rotating credentials, or auditing vault contents. "adytum", "1password", "vault hygiene".
 ---
 
 # adytum
