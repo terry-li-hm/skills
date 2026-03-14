@@ -50,7 +50,11 @@ Lighter than `/morning` (no weather, health, inbox). Heavier than a `/wrap` (syn
    - If exists: count flagged roles (lines starting with `- [ ]`) and surface them — "X roles flagged — run `/evaluate-job` on any that look interesting"
    - Skip silently if missing
 
-6. **Token budget** (brief):
+6. **Theoria eval check** (Fridays only):
+   - If today is Friday: "Which theoria cards this week did you actually use — in a meeting, a draft, or a conversation? Name 2-3." Log the answer to `~/notes/AI Landscape/eval-labels.md` with date.
+   - Other days: skip silently
+
+7. **Token budget** (brief):
    - Run: `ccusage daily 2>/dev/null | tail -5` or check `/status` if concerned
    - If both commands fail, skip budget commentary.
    - If budget is tight (<20% remaining), flag it — affects afternoon delegation strategy
