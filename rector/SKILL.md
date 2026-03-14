@@ -78,10 +78,15 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 - For multi-session projects: start `claude-progress.txt` (append-only log)
 
 **4. Execution** (FREE by default):
-- **Parallel delegation** (default): `opifex exec` or raw Codex/Gemini/OpenCode via `lucus` worktrees
-- **In-session subagents**: `superpowers:subagent-driven-development` when vault context needed
+- **Always route through opifex** — even single-task delegations. This ensures every execution is logged for the feedback loop.
+  ```bash
+  # Write spec to file, then:
+  opifex exec /tmp/<name>-plan.md -p <project-dir> -b <backend> --test-command "<test>"
+  ```
+- Backend selection: `-b gemini` (default/boilerplate), `-b codex` (Rust, hard bugs), `-b opencode` (bulk). Details: `rector-reference.md`
+- **Fallback:** if opifex fails (infra issue, not task issue), fall back to raw CLI (`gemini -p "$(cat /tmp/plan.md)"`) — but note the gap in logging.
+- **In-session subagents**: `superpowers:subagent-driven-development` when vault context needed mid-execution
 - **Agent Teams** (TeamCreate): when true coordination needed (shared API design, exploratory refactor, unknown-scope bugs)
-- Route by signal: Rust→Codex, algorithmic→Gemini, boilerplate→OpenCode. Details: `rector-reference.md`
 
 **5. Verify** (hard gate):
 - [ ] Tests pass — paste actual output
