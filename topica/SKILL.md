@@ -66,3 +66,7 @@ From Aristotle's *Τοπικά* — the "places" you go to find patterns of reas
 | **Gall's law** | Complex systems that work evolved from simple ones that worked. | Architecture, platform strategy, "let's build the platform first" |
 | **Barbell strategy** | Stable core + asymmetric bets. No middle-risk. | Career portfolio, tech bets, consulting vs side projects |
 | **Comparative advantage** | Win at the intersection, not the components. | Positioning, niche strategy, "should I specialise?" |
+| **Specific knowledge** | Found by pursuing curiosity, can't be trained for. | Career direction, "what should I build?", hiring |
+| **Permissionless leverage** | Code and media don't need anyone's permission to scale. | Side projects, content, tool-building vs waiting for mandate |
+| **Compounding** | Reputation, knowledge, relationships grow exponentially. | Long-term bets, "is this worth doing?", consistency |
+| **Accountability** | Take risk under your own name to earn outsized returns. | Publishing, public positions, career moves with skin in the game |
