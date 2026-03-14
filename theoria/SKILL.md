@@ -61,7 +61,7 @@ Logs: `~/logs/cron-ai-landscape-{weekly,monthly,quarterly,yearly}.log`
 ## Relationship to Other Tools
 
 - **lustro** — data collection (upstream). Feeds theoria's gather node via `lustro log -n 200`.
-- **ai-review skill** — manual synthesis (parallel). Theoria automates what ai-review does interactively. Both write to `~/notes/AI Landscape.md`. ai-review adds governance translation pass + client-specific suggestions that theoria doesn't.
+- **dialexis skill** — interactive synthesis (parallel). Theoria automates what dialexis does interactively. Both write to `~/notes/AI Landscape.md`. dialexis adds governance translation pass + client-specific suggestions that theoria doesn't.
 - **weekly skill** — consumer. References AI Landscape.md output during Friday review.
 
 ## Gotchas

@@ -20,7 +20,7 @@ Create a weekly synthesis of work, thinking, and progress.
 
 2. **Gather the week's data** (recursive — read distilled layers, not raw):
    - Read the **## Reflection**, **## Follow-ups**, and **## Mood** sections from each daily note `~/notes/YYYY-MM-DD.md` (not the full session logs — those are raw context, already distilled into the reflection)
-   - Read this week's **AI Landscape weekly snapshot** from `~/notes/AI Landscape.md` (written by `/ai-review`). Reference it in the synthesis — don't re-derive AI themes from the raw AI News Log.
+   - Read this week's **AI Landscape weekly snapshot** from `~/notes/AI Landscape.md` (written by `/dialexis`). Reference it in the synthesis — don't re-derive AI themes from the raw AI News Log.
    - Read `~/notes/Capco Transition.md` for transition status
    - Read `~/notes/TODO.md` for completed/outstanding items
    - Check `~/docs/solutions/` and `MEMORY.md` for entries this week
@@ -210,7 +210,7 @@ Run this alongside the synthesis every Friday:
 3. **Networking status** — Who's in motion, who needs follow-up? (BOCHK bridge, Capco contacts)
 4. **CSB job monitor** — Any new AI-related government vacancies this week? Check `~/logs/cron-csb-jobs.log` for matches
 5. **Priorities for the week** — Top 2-3 actions
-7. **AI landscape** — Run `/lustro --deep` first to pull full source sweep, then `/ai-review` for weekly synthesis (client talking points).
+7. **AI landscape** — Run `/lustro --deep` first to pull full source sweep, then `/dialexis` for weekly synthesis (client talking points).
 8. **Capco intel sweep** (until start date only — remove after onboarding):
    - Search: "Capco HK" or "Capco Asia" news this week
    - Search: HKMA AI/fintech guidance, GenAI deployments at HK banks

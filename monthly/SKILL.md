@@ -53,11 +53,11 @@ Cost: ~$0.05-0.15 (Gemini Flash via OpenRouter).
 
 ### 3. AI Landscape Deep Review
 
-Run `/ai-review` in monthly mode (deep review, not weekly synthesis):
+Run `/dialexis` in monthly mode (deep review, not weekly synthesis):
 - Update Current Landscape section
 - Append monthly review entry
 - Flag shifts relevant to Capco consulting conversations
-- If `/ai-review` is unavailable, add a one-line manual summary from latest weekly snapshot and mark as partial.
+- If `/dialexis` is unavailable, add a one-line manual summary from latest weekly snapshot and mark as partial.
 
 ### 4. Skill Review
 

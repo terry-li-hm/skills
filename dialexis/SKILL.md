@@ -1,10 +1,10 @@
 ---
-name: ai-review
-description: Weekly and monthly AI landscape review for consulting conversations. Use when user says "ai review", "ai landscape", "what's happening in AI", or on Fridays alongside weekly review.
+name: dialexis
+description: Weekly and monthly AI landscape review for consulting conversations. Use when user says "ai review", "ai landscape", "what's happening in AI", "dialexis", or on Fridays alongside weekly review.
 user_invocable: true
 ---
 
-# AI Landscape Review
+# /dialexis — AI Landscape Review
 
 Synthesize AI developments into opinionated, client-ready talking points. Not a news dump — a consultant's briefing.
 
@@ -166,7 +166,7 @@ Append the full monthly review under `## Monthly Reviews`:
 
 ## Integration with Other Skills
 
-- `/weekly` should suggest `/ai-review` on Fridays
+- `/weekly` should suggest `/dialexis` on Fridays
 - `/lustro` feeds the raw material; this skill synthesizes it
 - `/meeting-prep` can reference `[[AI Landscape]]` for talking points
 
