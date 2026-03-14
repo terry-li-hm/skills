@@ -4,7 +4,7 @@ description: Weekly and monthly AI landscape review for consulting conversations
 user_invocable: true
 ---
 
-# /dialexis — AI Landscape Review
+# /dialexis — Theoria Review
 
 Synthesize AI developments into opinionated, client-ready talking points. Not a news dump — a consultant's briefing.
 
@@ -26,7 +26,7 @@ Filter categories:
 4. **Agentic / coding AI** — what Capco's delivery teams should know
 5. **China ecosystem** — relevant for HK-based clients with mainland exposure
 
-## Output: `~/notes/AI Landscape.md`
+## Output: `~/notes/Theoria.md`
 
 Single persistent note, always fresh. Structure:
 - **Current Landscape** (top) — overwritten each monthly review
@@ -59,7 +59,7 @@ Skip anything that's just a version bump, benchmark improvement, or PR announcem
 
 ### Step 3: Write snapshot
 
-Append to `[[AI Landscape]]` under `## Weekly Snapshots`:
+Append to `[[Theoria]]` under `## Weekly Snapshots`:
 
 ```markdown
 ### Week of YYYY-MM-DD
@@ -129,7 +129,7 @@ For each theme:
 
 ### Step 3: Update Current Landscape
 
-**Overwrite** the "Current Landscape" section in `[[AI Landscape]]`:
+**Overwrite** the "Current Landscape" section in `[[Theoria]]`:
 - Refresh "Hot Takes" with 3-5 defensible positions
 - Refresh "What Clients Are Asking About"
 - Refresh "What Clients Should Be Asking About (But Aren't)"
@@ -168,7 +168,7 @@ Append the full monthly review under `## Monthly Reviews`:
 
 - `/weekly` should suggest `/dialexis` on Fridays
 - `/lustro` feeds the raw material; this skill synthesizes it
-- `/meeting-prep` can reference `[[AI Landscape]]` for talking points
+- `/meeting-prep` can reference `[[Theoria]]` for talking points
 
 ## Anti-Patterns
 

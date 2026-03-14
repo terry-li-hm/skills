@@ -51,7 +51,7 @@ Output: `~/notes/AI & Tech/YYYY-MM AI Thematic Digest.md`
 Prerequisites: lustro cron must have been running with article archival (default since Feb 2026).
 Cost: ~$0.05-0.15 (Gemini Flash via OpenRouter).
 
-### 3. AI Landscape Deep Review
+### 3. Theoria Deep Review
 
 Run `/dialexis` in monthly mode (deep review, not weekly synthesis):
 - Update Current Landscape section

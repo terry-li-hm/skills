@@ -51,7 +51,7 @@ Lighter than `/morning` (no weather, health, inbox). Heavier than a `/wrap` (syn
    - Skip silently if missing
 
 6. **Theoria eval check** (Fridays only):
-   - If today is Friday: "Which theoria cards this week did you actually use — in a meeting, a draft, or a conversation? Name 2-3." Log the answer to `~/notes/AI Landscape/eval-labels.md` with date.
+   - If today is Friday: "Which theoria cards this week did you actually use — in a meeting, a draft, or a conversation? Name 2-3." Log the answer to `~/notes/Theoria/eval-labels.md` with date.
    - Other days: skip silently
 
 7. **Token budget** (brief):
@@ -93,7 +93,7 @@ Short prose. Two sections max:
 >
 > Two loose ends: keryx `--copy` clipboard broken on M3 (filed as someday), claude-code-system naming unresolved (consilium ran, no conclusion — filed for revisit).
 >
-> This afternoon: Capco AI Landscape doc needs finishing, or GARP quiz if you want something lighter. Token budget looks healthy — delegate-first still viable.
+> This afternoon: Capco Theoria doc needs finishing, or GARP quiz if you want something lighter. Token budget looks healthy — delegate-first still viable.
 
 ## Notes
 

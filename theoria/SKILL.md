@@ -3,7 +3,7 @@ name: theoria
 description: Automated AI landscape synthesis pipeline (LangGraph + Opus). Use when checking landscape run status, running manual reviews, or debugging pipeline failures.
 ---
 
-# Theoria — AI Landscape Synthesis Pipeline
+# Theoria — Theoria Synthesis Pipeline
 
 Automated AI landscape snapshots at multiple cadences. LangGraph pipeline using `claude --print` (Opus). Named for the Greek official periodic mission dispatched to observe and report.
 
@@ -16,7 +16,7 @@ Automated AI landscape snapshots at multiple cadences. LangGraph pipeline using 
 ## Quick Reference
 
 ```bash
-# Manual run (writes to ~/notes/AI Landscape.md and commits)
+# Manual run (writes to ~/notes/Theoria.md and commits)
 theoria --period weekly
 theoria --period monthly
 theoria --period quarterly
@@ -37,11 +37,11 @@ theoria --period weekly --dry-run
 - **Yearly:** quarterly reviews → annual narrative
 
 Nodes:
-- **Gather:** weekly reads raw feed; other cadences extract lower-layer snapshots from AI Landscape.md
+- **Gather:** weekly reads raw feed; other cadences extract lower-layer snapshots from Theoria.md
 - **Gap Analysis:** identifies missing coverage via claude --print
 - **Research:** fills top 5 gaps via claude --print (600s timeout)
 - **Synthesise:** produces the final snapshot (600s timeout)
-- **Write:** appends to AI Landscape.md, commits to vault git
+- **Write:** appends to Theoria.md, commits to vault git
 
 Conditional edge: if gap analysis returns "NO GAPS", research is skipped.
 
@@ -61,8 +61,8 @@ Logs: `~/logs/cron-ai-landscape-{weekly,monthly,quarterly,yearly}.log`
 ## Relationship to Other Tools
 
 - **lustro** — data collection (upstream). Feeds theoria's gather node via `lustro log -n 200`.
-- **dialexis skill** — interactive synthesis (parallel). Theoria automates what dialexis does interactively. Both write to `~/notes/AI Landscape.md`. dialexis adds governance translation pass + client-specific suggestions that theoria doesn't.
-- **weekly skill** — consumer. References AI Landscape.md output during Friday review.
+- **dialexis skill** — interactive synthesis (parallel). Theoria automates what dialexis does interactively. Both write to `~/notes/Theoria.md`. dialexis adds governance translation pass + client-specific suggestions that theoria doesn't.
+- **weekly skill** — consumer. References Theoria.md output during Friday review.
 
 ## Gotchas
 
@@ -75,5 +75,5 @@ Logs: `~/logs/cron-ai-landscape-{weekly,monthly,quarterly,yearly}.log`
 
 - Repo: `~/code/theoria/` (GitHub: `terry-li-hm/theoria`, private)
 - PyPI: `theoria` (stub reserved)
-- Output: `~/notes/AI Landscape.md`
+- Output: `~/notes/Theoria.md`
 - Config: `~/code/theoria/src/theoria/prompts.py` (edit prompt templates here)

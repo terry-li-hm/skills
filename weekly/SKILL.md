@@ -20,7 +20,7 @@ Create a weekly synthesis of work, thinking, and progress.
 
 2. **Gather the week's data** (recursive — read distilled layers, not raw):
    - Read the **## Reflection**, **## Follow-ups**, and **## Mood** sections from each daily note `~/notes/YYYY-MM-DD.md` (not the full session logs — those are raw context, already distilled into the reflection)
-   - Read this week's **AI Landscape weekly snapshot** from `~/notes/AI Landscape.md` (written by `/dialexis`). Reference it in the synthesis — don't re-derive AI themes from the raw AI News Log.
+   - Read this week's **Theoria weekly snapshot** from `~/notes/Theoria.md` (written by `/dialexis`). Reference it in the synthesis — don't re-derive AI themes from the raw AI News Log.
    - Read `~/notes/Capco Transition.md` for transition status
    - Read `~/notes/TODO.md` for completed/outstanding items
    - Check `~/docs/solutions/` and `MEMORY.md` for entries this week

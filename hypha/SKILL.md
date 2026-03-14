@@ -27,21 +27,21 @@ Show outgoing and incoming links from a note, BFS to depth N (default 1).
 
 ```bash
 # Depth 1 — direct connections
-hypha ~/notes --from "Capco AI Landscape Intelligence"
+hypha ~/notes --from "Capco Theoria Intelligence"
 
 # Depth 2 — direct + one hop out
-hypha ~/notes --from "Capco AI Landscape Intelligence" --depth 2
+hypha ~/notes --from "Capco Theoria Intelligence" --depth 2
 
 # Exclude noisy dirs
 hypha ~/notes --from "Capco Transition" --exclude Archive --exclude "Waking Up"
 
 # JSON output
-hypha ~/notes --from "Capco AI Landscape Intelligence" --format json | jq .
+hypha ~/notes --from "Capco Theoria Intelligence" --format json | jq .
 ```
 
 **Output (depth 1):**
 ```
-=== Capco AI Landscape Intelligence ===
+=== Capco Theoria Intelligence ===
 
 Outgoing (6):
   Bertie Haskins Profile
@@ -61,21 +61,21 @@ Incoming (10):
 Surface notes that probably should connect to a note but don't yet. Scoring: **Resource Allocation** — each shared neighbor k contributes `1/degree(k)`. Penalises hub notes harder than Adamic-Adar; empirically outperforms it on sparse graphs. Calendrical notes (YYYY-MM-DD, YYYY-WXX) excluded — temporal hubs, not semantic signal.
 
 ```bash
-hypha ~/notes --suggest "Capco AI Landscape Intelligence"
+hypha ~/notes --suggest "Capco Theoria Intelligence"
 
 # Limit results (default 15)
-hypha ~/notes --suggest "Capco AI Landscape Intelligence" --top 5
+hypha ~/notes --suggest "Capco Theoria Intelligence" --top 5
 
 # Exclude noisy dirs
-hypha ~/notes --suggest "Capco AI Landscape Intelligence" --exclude Archive --exclude "Waking Up"
+hypha ~/notes --suggest "Capco Theoria Intelligence" --exclude Archive --exclude "Waking Up"
 
 # JSON
-hypha ~/notes --suggest "Capco AI Landscape Intelligence" --format json | jq .
+hypha ~/notes --suggest "Capco Theoria Intelligence" --format json | jq .
 ```
 
 **Output:**
 ```
-=== Suggested links for: Capco AI Landscape Intelligence ===
+=== Suggested links for: Capco Theoria Intelligence ===
 
   HSBC AI Risk Tiering Framework - Strawman
     → Capco Prep - AI Governance Research, Responsible AI and MRM, ...
