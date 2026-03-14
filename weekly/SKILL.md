@@ -31,7 +31,7 @@ Create a weekly synthesis of work, thinking, and progress.
    - If any source file is missing/unreadable, note it as unavailable and continue with remaining sources.
    - If a command fails, do not retry repeatedly; record one-line failure and continue.
 
-3. **Synthesize into themes** — don't just list events, find patterns:
+3. **Synthesize into themes** — don't just list events, find patterns. Consult `topica`: which mental model did I miss or misapply this week?
    - **Maximum 3-4 themes.** If the week had 6 themes, the skill is logging, not synthesising. Pick the 3 that matter next week.
    - What topics kept coming up?
    - What moved forward vs what stalled?

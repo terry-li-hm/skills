@@ -13,7 +13,7 @@ Three modes for Capco onboarding prep before start (Apr 8, 2026 — confirmed).
 
 **Primary client context:** HSBC is the anchor account for Terry's placement. Key contacts: Simon Eltringham and Tobin Joseph. See [[Capco Day 1 Strategy]], [[Simon Eltringham - HSBC Profile]], [[Tobin Joseph - HSBC Profile]].
 
-**Model: Sonnet.** Brief and prep modes need web search + synthesis. Drill mode is simple but keeping one model for the whole skill.
+**Model: Sonnet.** Brief and prep modes need web search + synthesis. Drill mode is simple but keeping one model for the whole skill. Consult `topica` for consulting-relevant models (automation bias, Goodhart's, principal-agent) when framing scenarios.
 
 ## Trigger & Modes
 

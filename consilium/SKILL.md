@@ -33,7 +33,7 @@ runtime: rust
 
 ## Routing
 
-**Mental model:** `--quick` = breadth (surface perspectives), `--council` = convergence (stress-test a decision).
+**Mental model:** `--quick` = breadth (surface perspectives), `--council` = convergence (stress-test a decision). Before framing the question, scan `topica` triggers — name 1-2 applicable models in the prompt context (e.g., "Noting: this has a sunk-cost + second-order shape").
 
 **Default bias: deep > council > quick.** Career, negotiation, strategy, real consequences → `--deep`. Reserve `--quick` for naming and pure brainstorming.
 
