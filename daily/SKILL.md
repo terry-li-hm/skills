@@ -66,7 +66,7 @@ Bedtime close → daily note. The final checkpoint of the day.
 
 ## Day rating
 
-[Joint assessment — not just Terry's word, not just the logs. Ask "Productive day?" then synthesise: what the session logs show (volume, decisions, things shipped) alongside how Terry felt about it. 2-3 sentences. Honest — a day with 10 commits but no needle movement is "busy, not productive". A rest day with one good decision is "light but effective".]
+[Assess from the evidence — session logs, things shipped, decisions made, needles moved. Don't ask Terry. 2-3 sentences. Be honest — 10 commits but no needle movement is "busy, not productive". A rest day with one good decision is "light but effective". A full Theo day with no work is "rest day, needed it".]
 
 ## Reflection
 
