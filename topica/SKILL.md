@@ -1,12 +1,12 @@
 ---
-name: paradigma
+name: topica
 description: Mental models catalog — situational thinking lenses for decisions, evaluation, systems, and people. Consult from consilium, examen, gnome, or any judgment-heavy task. Not user-invocable.
 user_invocable: false
 ---
 
-# Paradigma — Mental Models
+# Topica — Mental Models
 
-From *παράδειγμα* (pattern, model). A catalog of thinking lenses mapped to situational triggers.
+From Aristotle's *Τοπικά* — the "places" you go to find patterns of reasoning. A catalog of thinking lenses mapped to situational triggers.
 
 **Not user-invocable.** Consult when doing judgment-heavy work: consilium deliberations, examen premise audits, gnome decisions, strategy, stakeholder analysis, or when a cognitive bias might be distorting the framing.
 
