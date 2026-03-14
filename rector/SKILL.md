@@ -77,7 +77,8 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 - Write `AGENTS.md` to repo root (build/test/conventions/gotchas for future delegates)
 - For multi-session projects: start `claude-progress.txt` (append-only log)
 
-**4. Execution** (FREE by default):
+**4. Execution** (FREE by default — NEVER use in-session agents for implementation):
+- **HARD GATE: Do NOT use in-session general-purpose agents for coding.** The whole point of writing a detailed plan is so a context-free delegate can execute it. In-session agents burn Max20 tokens for work external tools do for free.
 - **Always route through opifex** — even single-task delegations. This ensures every execution is logged for the feedback loop.
   ```bash
   # Write spec to file, then:
@@ -85,7 +86,7 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
   ```
 - Backend selection: `-b gemini` (default/boilerplate), `-b codex` (Rust, hard bugs), `-b opencode` (bulk). Details: `rector-reference.md`
 - **Fallback:** if opifex fails (infra issue, not task issue), fall back to raw CLI (`gemini -p "$(cat /tmp/plan.md)"`) — but note the gap in logging.
-- **In-session subagents**: `superpowers:subagent-driven-development` when vault context needed mid-execution
+- **In-session subagents** (`subagent-driven-development`): ONLY when vault context or live user decisions are needed mid-execution — not as a convenience shortcut.
 - **Agent Teams** (TeamCreate): when true coordination needed (shared API design, exploratory refactor, unknown-scope bugs)
 
 **5. Verify** (hard gate):
