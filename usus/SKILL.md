@@ -11,10 +11,19 @@ Reads the live OAuth token from macOS Keychain and calls `GET https://api.anthro
 ## Commands
 
 ```bash
-usus                  # Human-readable display with status colour
-usus --json           # Raw JSON from the API
-usus --statusline     # Compact one-liner for statusLine config
+usus                              # Human-readable display with status colour
+usus --json                       # Raw JSON from the API
+usus --statusline                 # Compact one-liner for statusLine config
+usus log                          # Fetch + append snapshot to history.jsonl
+usus log --note "morning session" # Snapshot with freetext annotation
+usus history                      # Show all logged snapshots as table
+usus history --last 7             # Show last N snapshots
 ```
+
+## History
+
+Snapshots are stored in `~/.local/share/usus/history.jsonl` (JSONL, one row per `usus log`).
+Use `usus history` to review usage trends — replaces manual markdown tracking for quota validation.
 
 ## Output
 
