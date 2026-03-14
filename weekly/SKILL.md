@@ -153,12 +153,15 @@ If a check command fails, mark that metric as `Unavailable` in the table and con
 
 ### AI Tooling
 
-1. **CLAUDE.md & MEMORY.md content review** — Check line counts (`wc -l`). Flag if CLAUDE.md >200 or MEMORY.md >150. Then:
-   - **Staleness scan:** Flag sections referencing past dates, completed transitions, retired tools, or situations that no longer apply. Check "Current Situation", "Current Projects", date-anchored content in CLAUDE.md. Check MEMORY.md for entries about tools/projects no longer in use.
-   - **MEMORY.md frequency review:** Scan entries and ask: "Which of these fired this week?" Entries have three tiers — permanent (weekly use, never demote), active (current project, demote when project ends), provisional (single-incident). Any provisional entry not cited 2 consecutive weeks → demote to `~/docs/solutions/memory-overflow.md`. Any overflow entry cited 2+ weeks → promote back. Budget: ~150 lines (200 is hard truncation).
-   - Present a concrete list: "Remove X", "Demote Y to overflow", "Promote Z from overflow", "Keep W" — don't just flag, recommend actions.
-   - During transition periods (job changes, major project shifts), this is the most valuable check
-2. **Skills inventory** — `ls ~/skills/*/SKILL.md | wc -l` for total count. `cd ~/skills && git log --oneline --since="7 days ago"` for changes. Flag skills not invoked in 30+ days (check `~/.claude/anam.jsonl` for recent `/skill` usage). Check for overdue retirements: `grep -rl "retire_after:" ~/skills/*/SKILL.md | xargs grep "retire_after:" | awk -F': ' '{print $1, $NF}'` — delete any skill whose `retire_after` date has passed.
+1. **Knowledge system hygiene** — The principle: minimum in CLAUDE.md/MEMORY.md (loads every session), maximum in skills (loads on trigger). Check line counts: CLAUDE.md target ≤140, MEMORY.md target ≤130.
+   - **Decay tracker:** Read `memory/decay-tracker.md`. Any entry >4 weeks stale → demote to `~/docs/solutions/memory-overflow.md`. Any overflow entry cited this week → promote back.
+   - **Skill migration:** For each CLAUDE.md/MEMORY.md entry, ask: "does this only matter in a specific context?" If yes → move to the governing skill. Skills are contextual memory; CLAUDE.md/MEMORY.md are unconditional memory.
+   - **Staleness scan:** Flag entries referencing retired tools, completed transitions, past dates.
+   - Present concrete actions: "Remove X", "Demote Y", "Move Z to skill W".
+2. **Skills inventory** — `ls ~/skills/*/SKILL.md | wc -l` for total count. `cd ~/skills && git log --oneline --since="7 days ago"` for changes.
+   - **Description quality:** Spot-check 5 random skill descriptions. Is the trigger clear? Would the right skill fire from the description alone? If not, fix immediately — a perfectly written skill with a bad description is invisible.
+   - **Duplicates:** Flag skills with overlapping trigger space. Fold thin skills into their parent.
+   - **Retirements:** `grep -rl "DEPRECATED\|retire_after:" ~/skills/*/SKILL.md` — delete expired ones.
 3. **MCP servers** — `claude mcp list` to verify health. Flag any disconnected, orphaned from experiments, or version-drifted servers.
 4. **Token consumption** — Run `cu` alias for Max20 usage stats. Note weekly trend and any spikes.
 5. **Oghma health** — `oghma stats` for DB size, memory count, extraction backlog.
