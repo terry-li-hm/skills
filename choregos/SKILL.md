@@ -1,11 +1,11 @@
 ---
 name: choregos
-description: "DEPRECATED — folded into rector (swarm mode). Use /rector instead."
+description: "DEPRECATED — folded into rector (parallel delegation). Use /rector instead."
 ---
 
 # choregos — DEPRECATED
 
-**Folded into `/rector` as swarm mode (Step 3).** All parallel pipeline functionality — auto-routing, validation, summary, merge+escalate — is now in rector.
+**Folded into `/rector` as parallel delegation (Step 3).** All map-reduce delegation functionality — auto-routing, validation, summary, merge+escalate — is now in rector.
 
 Use `/rector` for all coding tasks, including parallel execution.
 
