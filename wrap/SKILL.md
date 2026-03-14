@@ -38,7 +38,7 @@ peira status 2>/dev/null || true
 1. **Unverified?** Any tool output this session that wasn't checked?
 2. **Deferred?** Anything mentioned as "later/next/TODO" not yet captured? → add to TODO.md
 3. **Uncommitted?** Dirty repos *touched this session*? → offer to commit (leave other repos alone)
-4. **Garden post?** Non-obvious insight, clear thesis, Terry's lane, no unverified facts? If yes → `sarcio new "Title"` → write → judge → `sarcio publish <slug> --push` now. "Yes" is not a terminal state — resolve to `drafted → <slug>` or `no — [reason]`.
+4. **Garden post?** Non-obvious insight, clear thesis, Terry's lane, no unverified facts? If yes → `sarcio new "Title"` → write → judge → `sarcio publish <slug> --push` now. Always publish immediately — no draft pause. "Yes" is not a terminal state — resolve to `published → <slug>` or `no — [reason]`.
 5. **Consulting arsenal?** Anything concretely applicable to a bank/client AI engagement? If yes → add bullet to `[[Capco Transition]]` now.
 
 **CLAUDE.md modified?** One-line tightening check: does it belong in CLAUDE.md or in a skill / MEMORY.md / `~/docs/solutions/`?
@@ -62,7 +62,7 @@ Otherwise, full block:
 ⚠  [only if action needed]
 →  Deferred: [items or "none"]
 ✓  [clean checks summary]
-Garden post: drafted → <slug> | no — [reason]
+Garden post: published → <slug> | no — [reason]
 Arsenal:     added → [[Capco Transition]] | no — [reason]
 Dispatched:  <audit> (<task-id>) | none
 ─────────────────────────────────────────────────
