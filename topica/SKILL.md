@@ -16,6 +16,8 @@ From Aristotle's *Τοπικά* — the "places" you go to find patterns of reas
 
 ## Decision & Strategy
 
+> For deeper planning theory (goal clarity, simulation, failure modes): consult `bouleusis` skill.
+
 | Model | One-liner | Trigger |
 |-------|-----------|---------|
 | **Inversion** | Ask "how would this fail?" instead of "how do I succeed?" | Planning, goal-setting, strategy |

@@ -64,6 +64,8 @@ If >30 min exploring with no code/delegation started → flag it. One sentence: 
 
 ### The Full Pipeline
 
+> **Planning theory:** consult `bouleusis` skill when designing plans — goal clarity, simulation depth, failure modes, commitment timing.
+
 ```
 RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 ```
