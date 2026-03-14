@@ -38,8 +38,9 @@ peira status 2>/dev/null || true
 1. **Unverified?** Any tool output this session that wasn't checked?
 2. **Deferred?** Anything mentioned as "later/next/TODO" not yet captured? → add to TODO.md
 3. **Uncommitted?** Dirty repos *touched this session*? → offer to commit (leave other repos alone)
-4. **Garden posts?** Scan the session for publishable insights — there may be more than one. For each candidate, test: non-obvious insight, clear thesis, Terry's lane, no unverified facts? A single session can produce multiple posts (e.g. one on architecture, one on a meta-principle). For each yes → `sarcio new "Title"` → write → `sarcio publish <slug> --push`. List all in wrap output. Don't stop at the first one found.
-5. **Consulting arsenal?** Anything concretely applicable to a bank/client AI engagement? If yes → add bullet to `[[Capco Transition]]` now.
+4. **Garden posts + consulting arsenal?** Pause and replay the session arc. What did we *learn*, not just *do*? What surprised us? What principle emerged that wasn't obvious at the start? Give yourself 30 seconds of generative thinking before answering — the best posts come from connections between topics, not from any single task.
+   - **Garden test:** Non-obvious insight, clear thesis, Terry's lane, no unverified facts? Publish immediately via `sarcio new` → write → `sarcio publish --push`. Multiple posts per session is normal for meaty sessions.
+   - **Arsenal test:** Concretely applicable to a bank/client AI engagement? If yes → add bullet to `[[Capco Transition]]` now.
 
 **CLAUDE.md modified?** One-line tightening check: does it belong in CLAUDE.md or in a skill / MEMORY.md / `~/docs/solutions/`?
 
