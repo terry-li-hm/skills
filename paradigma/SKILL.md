@@ -44,6 +44,8 @@ From *παράδειγμα* (pattern, model). A catalog of thinking lenses mappe
 | **Leverage points** | Small change in the right place → outsized effect. | Optimisation, resource constraints, "where to start?" |
 | **Goodhart's law** | When a measure becomes a target, it stops being a good measure. | KPIs, metrics design, incentive structures |
 | **Feedback loops** | Reinforcing or balancing? Which kind is driving this? | Diagnosing growth, decay, or stability |
+| **Conway's law** | Systems mirror the communication structures that built them. | Org design, platform architecture, team splits |
+| **OODA loop** | Observe → Orient → Decide → Act. Faster loops compound. | Iteration speed, competitive positioning, tool-building cadence |
 
 ## People & Communication
 
@@ -62,3 +64,5 @@ From *παράδειγμα* (pattern, model). A catalog of thinking lenses mappe
 | **Principal-agent** | The person deciding isn't the person bearing consequences. | Org dynamics, vendor selection, governance design |
 | **Worse is better** | Simple, working, shipped beats perfect and unshipped. | Build vs buy, MVP scoping, tool design |
 | **Gall's law** | Complex systems that work evolved from simple ones that worked. | Architecture, platform strategy, "let's build the platform first" |
+| **Barbell strategy** | Stable core + asymmetric bets. No middle-risk. | Career portfolio, tech bets, consulting vs side projects |
+| **Comparative advantage** | Win at the intersection, not the components. | Positioning, niche strategy, "should I specialise?" |
