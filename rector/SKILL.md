@@ -74,7 +74,8 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 
 **3. Planning** (one Opus pass):
 - `superpowers:writing-plans` — TDD tasks, file structure, exact commands
-- Write `AGENTS.md` to repo root (build/test/conventions/gotchas for future delegates). Also symlink as `CLAUDE.md` in the project root so Claude Code picks up project-specific context: `ln -sf AGENTS.md CLAUDE.md`
+- Write `AGENTS.md` to repo root (build/test/conventions for context-free delegates: Codex, Gemini, OpenCode)
+- If the project needs Claude Code-specific context (session rules, skill references, vault pointers), write a separate `CLAUDE.md` — don't symlink to AGENTS.md. Different audiences, different content.
 - For multi-session projects: start `claude-progress.txt` (append-only log)
 
 **4. Execution** (FREE by default — NEVER use in-session agents for implementation):
