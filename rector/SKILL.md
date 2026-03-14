@@ -94,7 +94,7 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 - **In-session subagents** (`subagent-driven-development`): ONLY when vault context or live user decisions are needed mid-execution — not as a convenience shortcut.
 - **Agent Teams** (TeamCreate): when true coordination needed (shared API design, exploratory refactor, unknown-scope bugs)
 
-**5. Verify** (hard gate):
+**5. Verify** (hard gate — if something fails, consult `diagnosis` skill before shotgunning fixes):
 - [ ] Tests pass — paste actual output
 - [ ] Binary runs — smoke test real invocation
 - [ ] No regressions — full test suite
