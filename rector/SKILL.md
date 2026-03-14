@@ -119,6 +119,7 @@ GitHub backup every session: `cd ~/code/<name> && git push` (or `gh repo create 
 ## Hard Rules
 
 - **Prior discussion ≠ plan.** Always run cerno + research first.
+- **No freestyle specs.** Non-trivial delegation requires a plan (`superpowers:writing-plans` or `EnterPlanMode`), not an ad-hoc prompt in `/tmp/`. The trivial exception (≤20 lines, single file) still applies. Burned: theoria daily cadence spec had rollup format gaps that a structured planning pass would have caught.
 - **Never write non-trivial code in-session** without proposing delegation first.
 - **One task per delegation.** 3 tasks = 3 delegates.
 - **Don't inline full files.** Give paths, let delegates read.
