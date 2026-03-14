@@ -64,6 +64,10 @@ Bedtime close → daily note. The final checkpoint of the day.
 ```markdown
 ---
 
+## Day rating
+
+[Ask Terry directly: "Productive day?" — capture his one-word or one-line answer verbatim. Don't infer or editorialize.]
+
 ## Reflection
 
 [Synthesise from the conversation — use Terry's framing, not yours. Weave in observable data (logs, TODO) but the arc should reflect what Terry said mattered. If eow exists, build on it. Honest, not cheerful.]
