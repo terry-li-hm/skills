@@ -13,9 +13,11 @@ When capturing a lesson, correction, or discovery, route it here first.
 | What is it? | Where |
 |-------------|-------|
 | Hard rule / prohibition ("never do X") | `CLAUDE.md` |
-| Recurring gotcha / tool quirk (one-liner) | `MEMORY.md` |
+| Recurring gotcha / tool quirk (one-liner) | `MEMORY.md` (with encoding context: why it exists) |
+| **Exception to a skill's normal behavior** | **The skill itself** (Gotchas section) — store only the deviation, not the whole pattern |
 | How-to / workflow with steps | `~/docs/solutions/` |
 | Changes *how to act* next time | Skill (update or create) |
+| Temporary "next time X, do Y" | `memory/prospective.md` (expires when actioned) |
 | Reference / background context | Vault note |
 | One-off correction, not generalizable | Daily note only |
 
