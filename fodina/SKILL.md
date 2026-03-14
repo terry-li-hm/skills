@@ -50,6 +50,20 @@ Deeper. Multiple models debate the extracted knowledge, find gaps, challenge ass
 
 **Output:** A battle-tested reference skill. The council catches things a single model misses: blind spots, false distinctions, missing failure modes.
 
+## Tier 3: Field Validation
+
+The only tier that touches reality. Tiers 1-2 are still theory — extracted and stress-tested, but untested in practice.
+
+**Process:**
+1. **Use the skill in real work** — let it load into sessions, observe when it fires
+2. **Track hits and misses** — when the skill helps, note it. When it's wrong or missing something, note that too. Log in the skill's own file or `decay-tracker.md`.
+3. **Revise from evidence** — after 2-4 weeks of use, update the skill based on what actually happened, not what the models thought would happen
+4. **Prune false distinctions** — theory that sounded right but never proved useful in practice gets cut
+
+**Output:** A field-tested skill. The difference between Tier 2 and Tier 3 is the difference between a peer-reviewed paper and a practitioner's handbook.
+
+**Cadence:** Passive — runs in the background as you work. Review each mined skill in `/weekly` or `/monthly`.
+
 ## Mining Queue
 
 Topics identified as worth mining (stable theory, currently in weights only):
