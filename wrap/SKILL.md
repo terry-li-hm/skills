@@ -36,7 +36,7 @@ peira status 2>/dev/null || true
 
 **Questions (explicit yes/no for Q4–5, silence is not "no"):**
 1. **Unverified?** Any tool output this session that wasn't checked?
-2. **Deferred?** Anything mentioned as "later/next/TODO" not yet captured? → add to TODO.md
+2. **Deferred?** Anything mentioned as "later/next/TODO" not yet captured? Route by type: has a deadline → TODO.md. Has a context trigger ("next time I'm in X") → `memory/prospective.md`. Neither → daily note.
 3. **Uncommitted?** Dirty repos *touched this session*? → offer to commit (leave other repos alone)
 4. **Garden posts + consulting arsenal?** Pause and replay the session arc. What did we *learn*, not just *do*? What surprised us? What principle emerged that wasn't obvious at the start? Give yourself 30 seconds of generative thinking before answering — the best posts come from connections between topics, not from any single task.
    - **Garden test:** Non-obvious insight, clear thesis, Terry's lane, no unverified facts? Publish immediately via `sarcio new` → write → `sarcio publish --push`. Multiple posts per session is normal for meaty sessions.
@@ -118,6 +118,8 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 - **Default: implement now.** Skill edits, MEMORY.md additions, solutions files, small hooks — do them, don't propose them. "Needs design input" is not a valid reason to defer a 20-line improvement. Propose only if: touches shared infrastructure, irreversible, or genuinely ambiguous (and state which). If you wrote "propose" in the wrap output, ask: could I have just done it? If yes, go back and do it.
 
 **MEMORY.md ≥145 lines + entries added this session →** demote lowest-recurrence entry to `~/docs/solutions/memory-overflow.md` now. Don't ask — pick it yourself.
+
+**Decay tracker:** If any MEMORY.md entries prevented mistakes this session, update `memory/decay-tracker.md` with today's date. This is the empirical signal for what to keep vs demote.
 
 **All file writes must complete before the wrap output.**
 
