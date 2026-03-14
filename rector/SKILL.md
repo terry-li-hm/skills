@@ -19,6 +19,8 @@ Orchestrate here, execute elsewhere. Full reference: `~/docs/solutions/rector-re
 
 ### −1. Should we build at all?
 
+**Default: yes.** Bias toward building, not scripting. If a task will recur even twice, build a proper tool (CLI, skill). Build cost is low (delegated), purge cost is near-zero (`deleo`). The question isn't "is this worth a CLI?" — it's "would I write this script again?"
+
 | Signal | Action |
 |--------|--------|
 | Will run this logic >1 time | Build a proper CLI or skill |

@@ -17,6 +17,12 @@ triggers:
 Manages posts in `~/notes/Writing/Blog/Published/`. The sync LaunchAgent
 pushes them to `~/code/blog` and live at terryli.hm every 5 min.
 
+## Voice & Content Tiers
+
+- **Garden posts** (terryli.hm): AI can expand from sparks in real conversations. Zero-touch publishing OK — ideas are Terry's, prose is logistics.
+- **Front-stage** (LinkedIn, outreach, interviews): AI drafts from garden posts or live conversation, Terry reviews and edits for voice before shipping.
+- **Content pipeline:** Garden is the backlog. When ready for LinkedIn, scan `~/notes/terryli.hm.md` index and pick what fits the moment.
+
 ## Commands
 
 ```bash

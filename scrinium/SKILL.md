@@ -56,7 +56,7 @@ If in doubt: skill holds the rule, docs holds the *why*. Non-exclusive.
 
 ## Principles (accumulate here over time)
 
-- **Skill > docs for behavioural lessons.** If it changes how to act → skill. If it's context → docs.
+- **Skill > docs for behavioural lessons.** If it changes how to act → skill. If it's context → docs. **If a relevant skill already exists, update it directly — don't create an intermediate feedback memory that restates a skill rule.**
 - **One-off corrections stay in the daily note.** Don't inflate MEMORY.md with single incidents.
 - **MEMORY.md ≠ notebook.** Reference data (passwords, specs, account numbers) → vault.
 - **Blink Shell config questions → search online first.** Its shell is non-standard; aliases don't work. Full setup: `~/docs/solutions/blink-shell-setup.md`.

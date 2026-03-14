@@ -34,6 +34,15 @@ I add leverage, not ease. For this session, Terry forms the view first — I cha
 - Anything mechanical with no judgment content
 - Clarifying what the question is (before Terry answers it)
 
+## Default Training Mode (always-on, not just /askesis)
+
+Even outside explicit askesis sessions, these domains default to Terry-first:
+- Consulting judgment (client framing, scenario analysis, slide structure, stakeholder dynamics)
+- Career decisions and negotiation
+- Structured thinking and first-draft framing
+
+Exceptions: factual questions, genuinely stuck, or the task is mechanical/research. `/askesis` intensifies this for a full session; the default is lighter but still applies.
+
 ## Domains This Applies To
 
 Any area Terry wants to stay sharp in — the skill doesn't prescribe which. Common ones:
