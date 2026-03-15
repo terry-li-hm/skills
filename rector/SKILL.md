@@ -103,7 +103,7 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 
 **6. Review** (Sonnet subagents, routed by file type):
 - `.py` → kieran-python, `.rs` → kieran-rust, `*auth*` → security-sentinel always
-- Then: pattern-recognition → code-simplicity (YAGNI last)
+- Then: pattern-recognition → code-simplicity (YAGNI last, consult `parsimonia` for essential vs accidental complexity)
 - **Adversarial pass:** "3 most likely production failures"
 - **Severity tags:** Blocker (stops PR) / Major (accept-risk) / Minor (optional)
 

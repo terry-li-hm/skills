@@ -69,7 +69,7 @@ The only tier that touches reality. Tiers 1-2 are still theory — extracted and
 Topics identified as worth mining (stable theory, currently in weights only):
 
 1. ~~Theory of debugging~~ → `diagnosis` (done)
-2. **Theory of simplification** — essential vs accidental complexity, finding simpler formulations, premature abstraction. → skill: *TBD*
+2. ~~Theory of simplification~~ → `parsimonia` (done)
 3. **Theory of delegation** — what makes a good spec, when ambiguity helps vs hurts, principal-agent in human-AI. → skill: *TBD*
 4. **Theory of evaluation** — what makes a metric good, vanity metrics, Goodhart's law in practice. → skill: *TBD*
 
@@ -89,6 +89,7 @@ After creating any mined skill:
 |-------|-------|------|----------|-------------|
 | Planning theory | `bouleusis` | 1 | rector, examen, topica | [Mining Your LLM](https://terryli.hm/posts/mining-your-llm) |
 | Debugging theory | `diagnosis` | 1 | rector | — |
+| Simplification theory | `parsimonia` | 1 | rector | — |
 
 ## Relationship to Other Skills
 
