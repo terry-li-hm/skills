@@ -70,7 +70,7 @@ Topics identified as worth mining (stable theory, currently in weights only):
 
 1. ~~Theory of debugging~~ → `diagnosis` (done)
 2. ~~Theory of simplification~~ → `parsimonia` (done)
-3. **Theory of delegation** — what makes a good spec, when ambiguity helps vs hurts, principal-agent in human-AI. → skill: *TBD*
+3. ~~Theory of delegation~~ → `mandatum` (done)
 4. **Theory of evaluation** — what makes a metric good, vanity metrics, Goodhart's law in practice. → skill: *TBD*
 
 **Cadence:** One per session. Don't batch — each needs a fresh conversation for depth.
@@ -90,6 +90,7 @@ After creating any mined skill:
 | Planning theory | `bouleusis` | 1 | rector, examen, topica | [Mining Your LLM](https://terryli.hm/posts/mining-your-llm) |
 | Debugging theory | `diagnosis` | 1 | rector | — |
 | Simplification theory | `parsimonia` | 1 | rector | — |
+| Delegation theory | `mandatum` | 1 | rector | — |
 
 ## Relationship to Other Skills
 

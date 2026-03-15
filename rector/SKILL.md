@@ -76,7 +76,7 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 **2. Spec analysis** (one Opus pass):
 - Gaps, assumptions, acceptance criteria. Skip for trivial/clear specs.
 
-**3. Planning** (one Opus pass):
+**3. Planning** (one Opus pass — consult `mandatum` for spec quality and decomposition depth):
 - `superpowers:writing-plans` — TDD tasks, file structure, exact commands
 - Write `AGENTS.md` to repo root (build/test/conventions for context-free delegates: Codex, Gemini, OpenCode)
 - If the project needs Claude Code-specific context (session rules, skill references, vault pointers), write a separate `CLAUDE.md` — don't symlink to AGENTS.md. Different audiences, different content.
