@@ -141,17 +141,25 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 
 **Decay tracker:** If any MEMORY.md entries prevented mistakes this session, update `memory/decay-tracker.md` with today's date. This is the empirical signal for what to keep vs demote.
 
-**Dispatch wrap audit agents (background, parallel).** These review the session with fresh eyes — not self-grading. Launch all applicable agents with `run_in_background: true`, collect results before writing wrap output.
+**Wrap audit: log, don't essay.** Instead of launching verbose audit agents, do a quick self-scan and append one-liners to `~/docs/solutions/operational/wrap-violations.jsonl`. Pattern detection happens in `/weekly`, not per-session.
 
-| Agent | Prompt | When |
-|-------|--------|------|
-| **Unhookable rules** | "Review this session. Flag moments where a CLAUDE.md rule was violated but couldn't have been caught by a hook (too fuzzy for regex). Examples: asking personal questions without checking vault, deferring instead of acting immediately, asking 'should we?' on obvious actions. List each violation with what happened and whether a mitigation was added." | Always |
-| **Compounding scan** | "Review this session. Flag things that compound (insights, frameworks, tools, relationships, skills) that weren't captured anywhere (garden post, skill, arsenal, vault note). Also flag time spent on non-compounding activity (pure admin, naming bikesheds, over-organising). One-line per item." | Always |
-| **Garden cull** | "Review garden posts published this session. For each, assess: strong thesis? Own angle (not restating others)? Non-generic? Flag weak ones for removal or merge." | 3+ posts published |
+**Self-scan checklist (30 seconds, no agents):**
+1. Did any CLAUDE.md rule get violated AND cause a worse outcome? (Not "technically violated but fine")
+2. Did anything compound (insight, tool, framework) that wasn't captured?
+3. Were garden posts published? If 3+, flag for quality cull.
 
-Pass session summary context (files modified, key decisions, corrections received) to each agent. Use `model: "haiku"` for speed. Present results in the wrap output under a `Wrap Agents` section.
+**If a violation caused harm:** append to `wrap-violations.jsonl`:
+```json
+{"date": "YYYY-MM-DD", "rule": "rule name", "harm": "what went wrong", "hookable": true/false}
+```
+
+**If something compounded but wasn't captured:** just capture it now (skill, garden, arsenal, vault). Don't log it — act on it.
+
+**Garden cull:** If 3+ posts published this session, launch one haiku agent: "Review these posts. Flag weak ones (no thesis, generic, restating others) for removal or merge." Present in wrap output.
 
 **Garden quality cull (weekly only):** If this is a `/weekly` wrap, also scan *all* posts from the week — not just this session's.
+
+**`/weekly` pattern detection:** Read `wrap-violations.jsonl`, group by rule. Any rule with 3+ violations → escalate per enforcement ladder. Any rule with 0 violations over 4 weeks → candidate for removal (dead rule).
 
 **All file writes must complete before the wrap output.**
 
