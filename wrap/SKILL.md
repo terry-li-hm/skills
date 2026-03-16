@@ -1,20 +1,32 @@
 ---
 name: wrap
-description: End-of-Claude-Code-session wrap-up. TODO sweep, session log, NOW.md, learnings safety net. Use before /clear or ending a session. NOT a daily routine — use eow/daily for day-level closures.
+description: Session wrap-up OR mid-session checkpoint. Learning capture, TODO sweep, session log. Use at gear shifts (checkpoint mode) or before /clear (full mode). NOT a daily routine — use eow/daily for day-level closures.
 user_invocable: true
 ---
 
 # Wrap
 
-End-of-session wrap-up. Pre-wrap check + mechanical steps + learning capture.
+Learning capture + session bookkeeping. Two modes:
 
-Session scope = files modified + tool calls + conversation turns since this session began.
+- **Full** (`/wrap`) — end-of-session close. All steps.
+- **Checkpoint** (`/wrap checkpoint`, or auto-triggered at gear shifts) — capture learnings + sweep TODOs, skip session-end bookkeeping. Preserves context — no /compact, no closure framing.
+
+Session scope = files modified + tool calls + conversation turns since this session began (or since last checkpoint).
 
 ## Triggers
 
-- "wrap", "wrap up", "let's wrap"
-- "what did we learn"
-- End of long/meaty session
+- "wrap", "wrap up", "let's wrap" → full mode
+- "checkpoint", "wrap checkpoint" → checkpoint mode
+- **Auto-trigger (Claude-initiated):** When detecting a significant gear shift (different project, different domain, switching from building to admin, etc.), run checkpoint mode silently before proceeding. Don't ask — just capture.
+- "what did we learn" → checkpoint mode
+
+## Mode Detection
+
+If invoked as `/wrap checkpoint` or auto-triggered at a gear shift → **checkpoint mode**.
+If invoked as `/wrap` or at session end → **full mode**.
+
+**Checkpoint mode runs:** Step 0 (pre-wrap), Step 0.5 (friction review, but don't truncate log), Step 1 (TODO sweep), Step 4 (learning capture).
+**Checkpoint mode skips:** Step 2 (session log), Step 3 (NOW.md rewrite — delta update only if needed).
 
 ## Workflow
 
@@ -38,7 +50,7 @@ peira status 2>/dev/null || true
 1. **Unverified?** Any tool output this session that wasn't checked?
 2. **Deferred?** Anything mentioned as "later/next/TODO" not yet captured? Route by type: has a deadline → TODO.md. Has a context trigger ("next time I'm in X") → `memory/prospective.md`. Neither → daily note.
 3. **Uncommitted?** Dirty repos *touched this session*? → offer to commit (leave other repos alone)
-4. **Garden posts + consulting arsenal?** Pause and replay the session arc. What did we *learn*, not just *do*? What surprised us? What principle emerged that wasn't obvious at the start? Give yourself 30 seconds of generative thinking before answering — the best posts come from connections between topics, not from any single task.
+4. **Garden posts + consulting arsenal?** Pause and replay the session arc (or arc since last checkpoint). What did we *learn*, not just *do*? What surprised us? What principle emerged that wasn't obvious at the start? Give yourself 30 seconds of generative thinking before answering — the best posts come from connections between topics, not from any single task.
    - **Garden test:** Non-obvious insight, clear thesis, Terry's lane, no unverified facts? Publish immediately via `sarcio new` → write → `sarcio publish --push`. Multiple posts per session is normal for meaty sessions.
    - **Arsenal test:** Concretely applicable to a bank/client AI engagement? If yes → add bullet to `[[Capco Transition]]` now.
 
@@ -69,7 +81,7 @@ Dispatched:  <audit> (<task-id>) | none
 ─────────────────────────────────────────────────
 ```
 
-Then proceed to Steps 1–4.
+Then proceed to remaining steps.
 
 ### Step 0.5: CLI Friction Review
 
@@ -77,7 +89,7 @@ Then proceed to Steps 1–4.
 cat ~/.claude/cli-friction.jsonl 2>/dev/null | wc -l
 ```
 
-If `~/.claude/cli-friction.jsonl` has entries: read the file, group errors by CLI tool, and for each tool with 2+ friction events (or 1 event with an obvious fix), suggest a concrete improvement (alias, positional arg, better error message). Output as a fenced block. If any fix is trivial (< 20 lines), implement it or add to TODO.md with `agent:claude`. Truncate the file after processing (`> ~/.claude/cli-friction.jsonl`). Skip silently if file is empty or missing.
+If `~/.claude/cli-friction.jsonl` has entries: read the file, group errors by CLI tool, and for each tool with 2+ friction events (or 1 event with an obvious fix), suggest a concrete improvement (alias, positional arg, better error message). Output as a fenced block. If any fix is trivial (< 20 lines), implement it or add to TODO.md with `agent:claude`. **Full mode:** truncate the file after processing (`> ~/.claude/cli-friction.jsonl`). **Checkpoint mode:** leave the file intact (accumulate across checkpoints, truncate only at session end).
 
 ### Step 1: TODO Sweep
 
@@ -86,7 +98,7 @@ Read `~/notes/TODO.md`. Skip if missing.
 - **Complete:** Done items → `[x]` with note and `done:YYYY-MM-DD`. Hard test: truly done, or just "dev done"? Move checked items to `~/notes/TODO Archive.md`.
 - **Create:** New commitments or interrupted WIP → add with verb + concrete next action. Tag `agent:` if Claude can resume.
 
-### Step 2: Session Log
+### Step 2: Session Log (full mode only)
 
 Append to `~/notes/Daily/YYYY-MM-DD.md`:
 
@@ -96,7 +108,7 @@ Append to `~/notes/Daily/YYYY-MM-DD.md`:
 - Abandoned: X because Y  ← if a path was explored and dropped
 ```
 
-### Step 3: NOW.md + Trackers
+### Step 3: NOW.md + Trackers (full mode only)
 
 ```bash
 now-age
@@ -114,7 +126,7 @@ Max 15 lines. Resume points must pass cold-start test. Use `[decided]` vs `[open
 
 Single pass. If nothing surfaces: "Nothing to generalise."
 
-**Scope:** This session + direct predecessors since last deep capture.
+**Scope:** Since last checkpoint (if any), otherwise since session start.
 
 **Scan → Route → Implement:**
 - Scan for non-obvious patterns, friction, corrections, gotchas, and new user preferences or personal context
@@ -133,7 +145,7 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 
 ## Output
 
-Bordered prose. Handoff note to tomorrow-you — arc, what's staged/unfinished, learnings captured. 2-3 sentences for light sessions, up to 6 for heavy. Don't hard-wrap.
+**Full mode:** Bordered prose. Handoff note to tomorrow-you — arc, what's staged/unfinished, learnings captured. 2-3 sentences for light sessions, up to 6 for heavy. Don't hard-wrap.
 
 ```
 ─── Wrap ───────────────────────────────────────
@@ -144,8 +156,17 @@ Filed: [exact file path or "nothing to generalise"]
 ─────────────────────────────────────────────────
 ```
 
+**Checkpoint mode:** Lighter border. What was captured, then move on. No handoff framing.
+
+```
+─── Checkpoint ─────────────────────────────────
+[1-2 sentences: what was captured/filed]
+─────────────────────────────────────────────────
+```
+
 ## Boundaries
 
 - Do NOT perform external sends (messages, emails, posts) during wrap.
 - Do NOT run deep audits or long research — wrap is a close-out, not a new workstream.
-- Stop after writes + wrap summary unless explicitly asked to continue.
+- **Full mode:** Stop after writes + wrap summary unless explicitly asked to continue.
+- **Checkpoint mode:** Continue with the next task after output. No stopping.
