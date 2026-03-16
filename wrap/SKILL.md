@@ -141,11 +141,17 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 
 **Decay tracker:** If any MEMORY.md entries prevented mistakes this session, update `memory/decay-tracker.md` with today's date. This is the empirical signal for what to keep vs demote.
 
-**Unhookable rules audit:** Replay the session for moments where a CLAUDE.md rule was violated but couldn't have been caught by a hook (too fuzzy for regex). Examples: asking Terry personal questions without checking vault first, deferring instead of acting immediately, asking "should we?" on obvious actions. Flag violations and note whether a mitigation was added. This is the enforcement layer for soft rules.
+**Dispatch wrap audit agents (background, parallel).** These review the session with fresh eyes — not self-grading. Launch all applicable agents with `run_in_background: true`, collect results before writing wrap output.
 
-**Compounding scan:** Replay the session for things that compound — insights, frameworks, tools, relationships, skills. Flag anything compoundable that wasn't captured (garden post, skill, arsenal entry, vault note). Also flag time spent on non-compounding activity (pure admin, naming bikesheds, over-organising).
+| Agent | Prompt | When |
+|-------|--------|------|
+| **Unhookable rules** | "Review this session. Flag moments where a CLAUDE.md rule was violated but couldn't have been caught by a hook (too fuzzy for regex). Examples: asking personal questions without checking vault, deferring instead of acting immediately, asking 'should we?' on obvious actions. List each violation with what happened and whether a mitigation was added." | Always |
+| **Compounding scan** | "Review this session. Flag things that compound (insights, frameworks, tools, relationships, skills) that weren't captured anywhere (garden post, skill, arsenal, vault note). Also flag time spent on non-compounding activity (pure admin, naming bikesheds, over-organising). One-line per item." | Always |
+| **Garden cull** | "Review garden posts published this session. For each, assess: strong thesis? Own angle (not restating others)? Non-generic? Flag weak ones for removal or merge." | 3+ posts published |
 
-**Garden quality cull (weekly only):** If this is a `/weekly` wrap or if 3+ garden posts were published this session, scan recent posts for weak ones (thin thesis, restating others without own angle, generic advice). Flag for removal or merge. Write freely, cull weekly.
+Pass session summary context (files modified, key decisions, corrections received) to each agent. Use `model: "haiku"` for speed. Present results in the wrap output under a `Wrap Agents` section.
+
+**Garden quality cull (weekly only):** If this is a `/weekly` wrap, also scan *all* posts from the week — not just this session's.
 
 **All file writes must complete before the wrap output.**
 
