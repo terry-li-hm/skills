@@ -51,9 +51,35 @@ HSBC "Director" "Responsible AI" "Risk Solutions" site:linkedin.com
 ## Profile Extraction
 
 - `WebFetch` → HTTP 999 (always blocked by LinkedIn)
-- `agent-browser` with `AGENT_BROWSER_PROFILE=1` → `open` → `snapshot`
+- **LinkedIn requires `--headed` mode always.** Headless is blocked even with valid cookies/profile. `porta inject` does NOT work — LinkedIn fingerprints the browser, not just cookies.
+- `agent-browser --headed open <url>` → `snapshot` → grep for data
 - Scroll + re-snapshot for experience/education sections below the fold
 - Key fields: headline, location, current company, experience list, education
+
+### Auto-Login Pattern (1Password)
+
+If cookies are expired, automate login instead of waiting for user:
+```bash
+agent-browser close
+agent-browser --headed open "https://www.linkedin.com/login"
+# Get creds from 1Password (two LinkedIn items — use ID)
+op item get tlahsscuctajs753gkddj6re4i --vault Agents --fields username --reveal
+op item get tlahsscuctajs753gkddj6re4i --vault Agents --fields password --reveal
+agent-browser fill "#username" "<email>"
+agent-browser fill "#password" '<password>'
+agent-browser click "[type=submit]"
+# Verify: get url should show /feed/
+```
+Session persists within the same headed session. Closing and reopening headed also works. Headless never works.
+
+### My Network Search
+
+To find all 1st connections at a company:
+```bash
+agent-browser --headed open "https://www.linkedin.com/search/results/people/?keywords=<Company>&network=%5B%22F%22%5D&origin=FACETED_SEARCH"
+agent-browser snapshot 2>&1 | grep "• 1st"
+```
+Don't use `currentCompany` filter with company IDs — LinkedIn's IDs are hard to guess and often wrong.
 
 ## Org Chart Mapping
 

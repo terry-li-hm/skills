@@ -52,11 +52,11 @@ After successful login, update the authenticated sites table in `~/docs/solution
 
 ## Authenticated Sites (Quick Reference)
 
-| Site | Login URL | Verified |
-|------|-----------|----------|
-| LinkedIn | linkedin.com/login | Feb 2026 |
-| Substack (Latent Space) | substack.com/sign-in | Feb 2026 |
-| Taobao/Tmall | login.taobao.com | Feb 2026 |
+| Site | Login URL | Verified | Notes |
+|------|-----------|----------|-------|
+| LinkedIn | linkedin.com/login | Mar 2026 | **Headed-only.** Headless always blocked. Use 1Password auto-login (see linkedin-research skill). |
+| Substack (Latent Space) | substack.com/sign-in | Feb 2026 | |
+| Taobao/Tmall | login.taobao.com | Feb 2026 | |
 
 ## Cloudflare + localStorage Auth Sites — Use `nodriver` Instead
 
