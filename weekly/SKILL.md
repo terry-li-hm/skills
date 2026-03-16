@@ -11,7 +11,7 @@ Create a weekly synthesis of work, thinking, and progress.
 ## Triggers
 
 - "weekly", "weekly review", "week in review"
-- Saturday morning — full week's data, fresh Max20 quota (resets Fri ~11am). Before Theo time.
+- Thursday PM or later — drawing class moved to Thu, free afternoon. Fresh Max20 quota (resets Fri ~11am). Hook nudges from Thu 14:00 onward.
 
 ## Workflow
 
