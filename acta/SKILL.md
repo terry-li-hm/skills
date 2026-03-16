@@ -33,32 +33,41 @@ Extract any action items from briefs and include them in the Step 2 triage along
 
 ## Step 2 — Triage and present
 
-Categorise every email into one of three buckets:
+Categorise every email into one of four buckets:
 
 | Bucket | Criteria | Action |
 |---|---|---|
 | **Action required** | Needs a reply, decision, or follow-up | Present with context |
+| **Borderline** | Probably noise but could matter — low confidence | One-line mention before archiving |
 | **Monitor / waiting** | Ball is in someone else's court | Note and archive if clean |
 | **Archive now** | Transactional, automated, or already handled | Archive without presenting |
+
+**Borderline bucket** exists because email delegation is a single point of failure. When in doubt, surface it in one line rather than silently archiving. Examples: financial emails from unfamiliar senders, anything mentioning deadlines, emails from domains that have previously contained action items. Present borderline items as a compact list after action-required items — Terry can scan in 10 seconds and say "all fine" or flag one.
 
 **Archive now without asking:** OTPs, login notifications, password resets, automated "pending request" emails that have been superseded, booking confirmations already actioned.
 
 **Cora Briefs emails — read before archiving.** Each brief email in the inbox represents unread digest content. Read the brief via `cora brief show <id>` first, extract any action items, then archive the email. Never batch-archive briefs without reading them.
+
+**Batch processing over one-by-one.** Don't work through items sequentially waiting for approval on each. Instead:
+1. Present all action-required items with recommendations
+2. Present borderline items as a compact list
+3. Auto-archive all noise
+4. Pull full details on action items in parallel
+5. Terry gives calls on the batch — then execute
 
 Present the action-required list first. For each item, include:
 - Who it's from and subject
 - What's needed (reply / decision / read)
 - Any relevant context from vault (e.g. open items in NOW.md that match)
 
-## Step 3 — Work through each item together
+## Step 3 — Execute decisions
 
-For each action-required email:
-1. `cora email show <id>` or `gog gmail thread show <id>` for full thread
-2. Summarise the situation in 2–3 sentences
-3. Recommend an action (reply, archive, research, calendar, vault update)
-4. Wait for Terry's call before acting
-5. Execute: draft reply / archive / update vault / update calendar as agreed
-6. Archive the email once resolved unless Terry says keep it
+After Terry gives calls on the batch:
+1. `cora email show <id>` or `gog gmail thread show <id>` for threads that need drafting
+2. Execute: draft reply / archive / update vault / update calendar as agreed
+3. Archive each email once resolved unless Terry says keep it
+
+**Prefer Gmail filters over unsubscribing.** When a sender is consistently noise, create a filter (`gog gmail filters create --from "<sender>" --archive`) rather than unsubscribing. Filters are reversible, don't require waiting for unsub propagation, and emails remain in archive for Cora briefs.
 
 ## Step 4 — Archive the noise
 
