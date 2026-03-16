@@ -55,6 +55,10 @@ Any area Terry wants to stay sharp in — the skill doesn't prescribe which. Com
 
 `/clear` or explicit "back to normal" ends askesis mode. It doesn't persist across sessions by default — invoke again if needed.
 
+## Grounding
+
+When career doubt, impostor feelings, or dread of people-work surfaces during an askesis session, surface `[[Career Priors Worth Correcting]]` — prior corrections from Mar 15 conversation. Challenge the prior before accepting the feeling.
+
 ## The Test
 
 After any askesis session: did Terry *produce* something (a view, a diagnosis, a draft framing) or mostly *consume* something I produced? If the latter, the session failed its purpose.

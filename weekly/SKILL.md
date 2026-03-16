@@ -155,6 +155,7 @@ If a check command fails, mark that metric as `Unavailable` in the table and con
 
 1. **Knowledge system hygiene** — The principle: minimum in CLAUDE.md/MEMORY.md (loads every session), maximum in skills (loads on trigger). Check line counts: CLAUDE.md target ≤140, MEMORY.md target ≤130.
    - **Decay tracker:** Read `memory/decay-tracker.md`. Any entry >4 weeks stale → demote to `~/docs/solutions/memory-overflow.md`. Any overflow entry cited this week → promote back.
+   - **Career north star check:** Surface `memory/user_career_north_star.md` — is this week's work building toward "real AI problems + sharp people who build"? Flag drift.
    - **Skill migration:** For each CLAUDE.md/MEMORY.md entry, ask: "does this only matter in a specific context?" If yes → move to the governing skill. Skills are contextual memory; CLAUDE.md/MEMORY.md are unconditional memory.
    - **Staleness scan:** Flag entries referencing retired tools, completed transitions, past dates.
    - Present concrete actions: "Remove X", "Demote Y", "Move Z to skill W".
