@@ -143,6 +143,8 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 
 **Unhookable rules audit:** Replay the session for moments where a CLAUDE.md rule was violated but couldn't have been caught by a hook (too fuzzy for regex). Examples: asking Terry personal questions without checking vault first, deferring instead of acting immediately, asking "should we?" on obvious actions. Flag violations and note whether a mitigation was added. This is the enforcement layer for soft rules.
 
+**Compounding scan:** Replay the session for things that compound — insights, frameworks, tools, relationships, skills. Flag anything compoundable that wasn't captured (garden post, skill, arsenal entry, vault note). Also flag time spent on non-compounding activity (pure admin, naming bikesheds, over-organising).
+
 **Garden quality cull (weekly only):** If this is a `/weekly` wrap or if 3+ garden posts were published this session, scan recent posts for weak ones (thin thesis, restating others without own angle, generic advice). Flag for removal or merge. Write freely, cull weekly.
 
 **All file writes must complete before the wrap output.**
