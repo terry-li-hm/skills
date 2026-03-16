@@ -147,6 +147,7 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 1. Did any CLAUDE.md rule get violated AND cause a worse outcome? (Not "technically violated but fine")
 2. Did anything compound (insight, tool, framework) that wasn't captured?
 3. Were garden posts published? If 3+, flag for quality cull.
+4. **Ad-hoc script spiral?** Were 5+ consecutive tool calls spent working around a broken CLI/tool (different keychain lookups, manual API calls, alternative scripts for the same goal)? If yes → file the root-cause fix as a prospective reminder or TODO, and log to `wrap-violations.jsonl` with `"rule": "ad-hoc-spiral"`.
 
 **If a violation caused harm:** append to `wrap-violations.jsonl`:
 ```json
