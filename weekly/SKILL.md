@@ -11,7 +11,7 @@ Create a weekly synthesis of work, thinking, and progress.
 ## Triggers
 
 - "weekly", "weekly review", "week in review"
-- Friday afternoon — end-of-week reflection before weekend (weekends reserved for Theo)
+- Saturday morning — full week's data, fresh Max20 quota (resets Fri ~11am). Before Theo time.
 
 ## Workflow
 
