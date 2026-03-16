@@ -23,13 +23,14 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 **Before asserting any fact about models, frameworks, benchmarks, API features, or regulatory updates — web-search first if the information could have changed since May 2025.** Training data is stale for fast-moving domains. This is not optional.
 
 Trigger categories (always verify):
-- Model names and versions (e.g., "Gemini 2.5 Pro" → is there a 3.x now?)
-- Framework versions and features (e.g., "CrewAI supports X")
-- Benchmark rankings and leaderboards
-- API pricing and availability
-- Regulatory guidance updates (HKMA, EU AI Act timelines)
+- Model rankings and versions → `pondus rank` (free, instant, always current)
+- Model head-to-head → `pondus compare <a> <b>`
+- Framework versions and features → `WebSearch`
+- Benchmark rankings beyond pondus → `WebSearch`
+- API pricing and availability → `WebSearch`
+- Regulatory guidance updates → `WebSearch`
 
-Cost: one free `WebSearch` call. Time: 5 seconds. Cost of getting it wrong in a consulting context: credibility.
+Cost: `pondus` is free and instant. `WebSearch` is free and 5 seconds. Cost of getting it wrong in a consulting context: credibility.
 
 ## Default: elencho
 
