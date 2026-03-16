@@ -163,6 +163,27 @@ If a check command fails, mark that metric as `Unavailable` in the table and con
    - **Description quality:** Spot-check 5 random skill descriptions. Is the trigger clear? Would the right skill fire from the description alone? If not, fix immediately — a perfectly written skill with a bad description is invisible.
    - **Duplicates:** Flag skills with overlapping trigger space. Fold thin skills into their parent.
    - **Retirements:** `grep -rl "DEPRECATED\|retire_after:" ~/skills/*/SKILL.md` — delete expired ones.
+   - **Zero-fire skills:** Cross-reference `~/.claude/skill-usage.tsv` against `ls ~/skills/*/SKILL.md`. Any user-invocable skill with zero fires over 4+ weeks of data → candidate for removal or description fix. (Non-user-invocable reference skills are exempt.) Run:
+     ```bash
+     python3 -c "
+     from pathlib import Path; from datetime import datetime, timedelta
+     import re
+     log = Path.home() / '.claude' / 'skill-usage.tsv'
+     cutoff = datetime.now() - timedelta(weeks=4)
+     fired = set()
+     if log.exists():
+         for line in log.read_text().splitlines():
+             parts = line.split('\t')
+             if len(parts) == 2 and datetime.fromisoformat(parts[0]) > cutoff:
+                 fired.add(parts[1])
+     skills_dir = Path.home() / 'skills'
+     for s in sorted(skills_dir.glob('*/SKILL.md')):
+         name = s.parent.name
+         text = s.read_text()
+         if 'user_invocable: true' in text and name not in fired:
+             print(f'  ⚠  {name} — zero fires in 4 weeks')
+     " 2>/dev/null
+     ```
 3. **MCP servers** — `claude mcp list` to verify health. Flag any disconnected, orphaned from experiments, or version-drifted servers.
 4. **Token consumption** — Run `cu` alias for Max20 usage stats. Note weekly trend and any spikes.
 5. **Oghma health** — `oghma stats` for DB size, memory count, extraction backlog.
