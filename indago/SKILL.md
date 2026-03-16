@@ -18,6 +18,19 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | **grok** | Python CLI | ~$0.02/query | X/Twitter search, real-time web |
 | **WebFetch** | Built-in | Free | Scrape specific URLs to markdown |
 
+## Pre-Flight: Post-Cutoff Verification
+
+**Before asserting any fact about models, frameworks, benchmarks, API features, or regulatory updates — web-search first if the information could have changed since May 2025.** Training data is stale for fast-moving domains. This is not optional.
+
+Trigger categories (always verify):
+- Model names and versions (e.g., "Gemini 2.5 Pro" → is there a 3.x now?)
+- Framework versions and features (e.g., "CrewAI supports X")
+- Benchmark rankings and leaderboards
+- API pricing and availability
+- Regulatory guidance updates (HKMA, EU AI Act timelines)
+
+Cost: one free `WebSearch` call. Time: 5 seconds. Cost of getting it wrong in a consulting context: credibility.
+
 ## Default: elencho
 
 **Not sure which tool? Run `elencho --cheap "query"`.** It hits Grok + Exa + noesis in parallel (~$0.07, ~45s), synthesises agreements/disagreements, and logs the run. Use individual tools below only when you know you want a specific one.
