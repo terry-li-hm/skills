@@ -89,6 +89,7 @@ After creating any mined skill:
 |-------|-------|------|----------|-------------|
 | Planning theory | `bouleusis` | 1 | rector, examen, topica | [Mining Your LLM](https://terryli.hm/posts/mining-your-llm) |
 | Debugging theory | `diagnosis` | 1 | rector | — |
+| Experimentation theory | `peirasmos` | 1 | peira, judex, examen, topica | [[The Persona Paradox in AI Agent Teams]] |
 | Simplification theory | `parsimonia` | 1 | rector | — |
 | Delegation theory | `mandatum` | 1 | rector | — |
 
