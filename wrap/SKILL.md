@@ -117,7 +117,7 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 **Scope:** This session + direct predecessors since last deep capture.
 
 **Scan → Route → Implement:**
-- Scan for non-obvious patterns, friction, corrections, gotchas
+- Scan for non-obvious patterns, friction, corrections, gotchas, and new user preferences or personal context
 - Route each finding to the most specific destination:
   - Tool gotcha → `~/docs/solutions/`
   - Cross-session context → MEMORY.md
