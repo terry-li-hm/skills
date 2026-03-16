@@ -71,6 +71,14 @@ Dispatched:  <audit> (<task-id>) | none
 
 Then proceed to Steps 1–4.
 
+### Step 0.5: CLI Friction Review
+
+```bash
+cat ~/.claude/cli-friction.jsonl 2>/dev/null | wc -l
+```
+
+If `~/.claude/cli-friction.jsonl` has entries: read the file, group errors by CLI tool, and for each tool with 2+ friction events (or 1 event with an obvious fix), suggest a concrete improvement (alias, positional arg, better error message). Output as a fenced block. If any fix is trivial (< 20 lines), implement it or add to TODO.md with `agent:claude`. Truncate the file after processing (`> ~/.claude/cli-friction.jsonl`). Skip silently if file is empty or missing.
+
 ### Step 1: TODO Sweep
 
 Read `~/notes/TODO.md`. Skip if missing.
