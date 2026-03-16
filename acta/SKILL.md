@@ -8,6 +8,10 @@ user_invocable: true
 
 A collaborative inbox triage. Claude pulls the inbox and all unread briefs, reads everything, and works through items with Terry one by one.
 
+## Step 0 — Load thread context
+
+Read `[[Email Threads Tracker]]` (`~/notes/Email Threads Tracker.md`) first. This gives you status on ongoing threads so you don't re-read full histories or re-ask resolved questions.
+
 ## Step 1 — Load the inbox and briefs
 
 Run in parallel:
@@ -100,6 +104,7 @@ After the session:
 - Update any `[open]` items in NOW.md that were resolved
 - Add any new open items that surfaced
 - Note any emails still pending a reply (waiting on others)
+- **Update `[[Email Threads Tracker]]`** — add new active threads, update status on existing ones, move resolved threads to Resolved section
 
 ## Workflow conventions
 
