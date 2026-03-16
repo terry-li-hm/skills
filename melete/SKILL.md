@@ -1,6 +1,6 @@
 ---
-name: phronesis
-description: Daily consulting readiness drill — scenarios, reading prompts, observation logging. "consulting prep", "prep drill", "consulting drill", "phronesis"
+name: melete
+description: Daily consulting readiness drill — scenarios, reading prompts, observation logging. "consulting prep", "prep drill", "consulting drill", "melete"
 user_invocable: true
 model: sonnet
 ---
@@ -17,7 +17,7 @@ Daily practice skill for building consulting mental models before Capco start. T
 
 ## Trigger
 
-- "consulting prep", "consulting drill", "prep drill", "phronesis"
+- "consulting prep", "consulting drill", "prep drill", "melete"
 - `/consulting-prep`, `/phronesis`
 
 ## Workflow
