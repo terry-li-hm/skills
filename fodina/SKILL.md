@@ -126,6 +126,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Evaluation | `kritike` | 1 | judex, peira | — |
 | Heuristics | `praecepta` | 1 | topica, gnome, mandatum, consilium | "Delegation Is Delegation", "The Heuristic Library" |
 | Wrap-ups | `conclusio` | 1 | wrap, eow, daily | — |
+| Toddler school refusal | `parens` | 1 | — (vault: Theo - Development & Parenting Notes) | — |
 
 ## Relationship to Other Skills
 
