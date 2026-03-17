@@ -65,7 +65,7 @@ If in doubt: skill holds the rule, docs holds the *why*. Non-exclusive.
 
 ## Principles (accumulate here over time)
 
-- **Garden posts are the most valuable layer.** They're Terry's published thinking — searchable, shareable, compounding. Low bar to publish. When in doubt between vault note and garden post, choose garden post. Always search `~/notes/Writing/Blog/Published/` alongside vault when looking for prior thinking on a topic.
+- **Garden posts are the most valuable layer.** They're Terry's published thinking — searchable, shareable, compounding. Low bar to publish. When in doubt between vault note and garden post, choose garden post.
 - **Skill > docs for behavioural lessons.** If it changes how to act → skill. If it's context → docs. **If a relevant skill already exists, update it directly — don't create an intermediate feedback memory that restates a skill rule.**
 - **One-off corrections stay in the daily note.** Don't inflate MEMORY.md with single incidents.
 - **MEMORY.md ≠ notebook.** Reference data (passwords, specs, account numbers) → vault.
