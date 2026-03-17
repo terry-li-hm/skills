@@ -90,6 +90,10 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 | **Competition** | Applicant count, seniority distribution, education levels |
 | **Salary** | Compare to current compensation if known. For foreign currencies, **always use Python** for FX conversion — never mental math. Flag LinkedIn estimates vs employer-disclosed. |
 | **Anti-Signal** | Does this match a known rejection pattern? |
+| **Evidence vs persuasion** | Does the role reward proving things work, or selling/performing confidence? Surgeon end or salesman end? |
+| **Meta vs execution** | Designing frameworks and methodology, or building to someone else's spec? |
+| **Shapeability** | Can Terry steer the role toward his strengths, or is scope rigid? |
+| **Conviction alignment** | Will he believe in what he's asked to advocate? (See `memory/user_why_ai.md`) |
 
 ## Note Template
 
