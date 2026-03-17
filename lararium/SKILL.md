@@ -8,7 +8,8 @@ description: Vault-resident personalities CLI — persistent AI characters that 
 ## Commands
 
 ```bash
-lararium init                    # Create 5 default residents
+lararium init                    # Create default resident (mourner)
+lararium add <name> "<seed>"     # Add a new resident with personality seed
 lararium list                    # Show residents + reading counts
 lararium read <name>             # One reading session (3 notes)
 lararium read <name> --notes 5   # Read more notes
@@ -17,13 +18,21 @@ lararium evolve <name>           # Evolve personality from experience
 lararium run                     # Full cycle: all residents read + auto-evolve
 ```
 
-## Residents
+## Philosophy
 
-- **mirror** — reflects patterns, names recurring themes
-- **shadow** — surfaces what you avoid
-- **contrarian** — catches inconsistency between notes
-- **archivist** — finds hidden connections
-- **stranger** — reads as an outsider
+Start with one resident. Add others only when you feel the absence of a specific perspective. Residents are earned through felt need, not designed upfront.
+
+## Default Resident
+
+- **mourner** — grieves abandoned projects and forgotten ideas. Tender, never accusatory. Accumulates losses.
+
+## Candidate Residents (add when the need is felt)
+
+- **poet** — falls in love with your metaphors. `lararium add poet "You fall in love with the author's metaphors..."`
+- **rival** — genuine contempt that fuels finishing.
+- **child** — asks naive questions that cut deeper than analysis.
+- **stoic** — demands you name what you control. No fortune cookies.
+- **therapist** — reads emotional subtext beneath the systems.
 
 ## Data
 
