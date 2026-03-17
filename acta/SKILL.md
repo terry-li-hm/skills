@@ -8,9 +8,12 @@ user_invocable: true
 
 A collaborative inbox triage. Claude pulls the inbox and all unread briefs, reads everything, and works through items with Terry one by one.
 
-## Step 0 — Load thread context
+## Step 0 — Load context
 
-Read `[[Email Threads Tracker]]` (`~/notes/Email Threads Tracker.md`) first. This gives you status on ongoing threads so you don't re-read full histories or re-ask resolved questions.
+Run in parallel:
+1. Read `[[Email Threads Tracker]]` (`~/notes/Email Threads Tracker.md`) — status on ongoing threads so you don't re-read full histories or re-ask resolved questions.
+2. Read `memory/prospective.md` — check for any `WHEN: email triage` entries. Surface matched reminders before presenting the inbox. Delete entries after actioning.
+3. If any action-required email involves a person Terry has history with, run `amicus lookup <name>` to surface last contact date and context. Don't do this for every email — only for replies/meetings where relationship context would help Terry decide.
 
 ## Step 1 — Load the inbox and briefs
 
