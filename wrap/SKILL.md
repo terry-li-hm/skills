@@ -130,6 +130,8 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 
 **Scope:** Since last checkpoint (if any), otherwise since session start.
 
+**Belief corrections?** Did a prior get challenged this session — something Terry (or I) assumed that turned out wrong? Not just career — technical assumptions, how things work, self-knowledge, anything. If yes → append to `[[Priors Worth Correcting]]` with: old belief, the correction, and when the old belief would reassert.
+
 **Scan → Route → Implement:**
 - Scan for non-obvious patterns, friction, corrections, gotchas, and new user preferences or personal context
 - Route each finding to the most specific destination:
