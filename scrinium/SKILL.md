@@ -18,8 +18,8 @@ When capturing a lesson, correction, or discovery, route it here first.
 | How-to / workflow with steps | `~/docs/solutions/` |
 | Changes *how to act* next time | Skill (update or create) |
 | Temporary "next time X, do Y" | `memory/prospective.md` (expires when actioned) |
-| Insight / opinion / analysis | Garden post (`sarcio new`) — already in vault, grep-searchable |
-| Reference / background context (facts, trackers) | Vault note |
+| Insight / opinion / analysis / op-ed | Garden post (`sarcio new`, `draft: false`) — low bar, publish by default |
+| Reference data (facts, trackers, account details) | Vault note (the "other" bucket) |
 | One-off correction, not generalizable | Daily note only |
 
 ## Worth Noting At All?
@@ -65,6 +65,7 @@ If in doubt: skill holds the rule, docs holds the *why*. Non-exclusive.
 
 ## Principles (accumulate here over time)
 
+- **Garden posts are the most valuable layer.** They're Terry's published thinking — searchable, shareable, compounding. Low bar to publish. When in doubt between vault note and garden post, choose garden post. Always search `~/notes/Writing/Blog/Published/` alongside vault when looking for prior thinking on a topic.
 - **Skill > docs for behavioural lessons.** If it changes how to act → skill. If it's context → docs. **If a relevant skill already exists, update it directly — don't create an intermediate feedback memory that restates a skill rule.**
 - **One-off corrections stay in the daily note.** Don't inflate MEMORY.md with single incidents.
 - **MEMORY.md ≠ notebook.** Reference data (passwords, specs, account numbers) → vault.
