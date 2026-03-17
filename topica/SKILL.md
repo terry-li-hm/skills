@@ -50,6 +50,7 @@ From Aristotle's *Τοπικά* — the "places" you go to find patterns of reas
 | **Feedback loops** | Reinforcing or balancing? Which kind is driving this? | Diagnosing growth, decay, or stability |
 | **Conway's law** | Systems mirror the communication structures that built them. | Org design, platform architecture, team splits |
 | **OODA loop** | Observe → Orient → Decide → Act. Faster loops compound. | Iteration speed, competitive positioning, tool-building cadence |
+| **Recursive floor** | Meta is useful until it stops changing behaviour at the level below. Then stop. | Meta-work, process improvement, "should we go deeper?" |
 
 ## People & Communication
 
