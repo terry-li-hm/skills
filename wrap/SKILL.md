@@ -8,6 +8,8 @@ user_invocable: true
 
 Learning capture + session bookkeeping. Two modes:
 
+> **Theory:** Consult `conclusio` (fodina mine) for failure modes, quality axes, and the state-transfer framing that underlies this skill.
+
 - **Full** (`/wrap`) — end-of-session close. All steps.
 - **Checkpoint** (`/wrap checkpoint`, or auto-triggered at gear shifts) — capture learnings + sweep TODOs, skip session-end bookkeeping. Preserves context — no /compact, no closure framing.
 
