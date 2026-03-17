@@ -11,6 +11,8 @@ tags: [meta, reference]
 
 Reference skill. Consult when deciding how to persist an insight, correction, or finding.
 
+**Garden post:** [[Systematise Decisions, Not Actions]]
+
 ## Rules
 
 1. **One home per insight.** Pick the place closest to where it's needed. Second layer only if genuinely different audience or trigger.
