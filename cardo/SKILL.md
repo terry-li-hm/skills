@@ -10,7 +10,7 @@ Midday checkpoint — what shipped this morning, what's still open, and what mat
 
 *Cardo* (Latin: hinge, pivot) — the structural turning point of the day.
 
-Lighter than `/morning` (no weather, health, inbox). Heavier than a `/wrap` (synthesises across sessions, not just the current one). The goal: arrive in the afternoon with intent, not momentum.
+Lighter than `/morning` (no weather, health, inbox). Heavier than a `/legatum` (synthesises across sessions, not just the current one). The goal: arrive in the afternoon with intent, not momentum.
 
 ## Triggers
 

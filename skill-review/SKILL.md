@@ -113,12 +113,12 @@ evolvo --days 90    # extend to 90 days for thorough monthly review
 | Signal | Healthy | Flag if |
 |--------|---------|---------|
 | **Narrative specificity** | Names tools, decisions, outcomes | Generic ("light session", "routine work") |
-| **Multi-wrap rate** | <15% of sessions | >25% — skip gate not firing |
+| **Multi-legatum rate** | <15% of sessions | >25% — skip gate not firing |
 | **Pre-wrap block** | ⚠/✓ mix, dirty repos caught | Always "all clear" (may be skipping) |
 | **Step 4 boilerplate** | "Nothing to implement" or silent skip | "Nothing new here" repeated >3× in sample |
 | **Decisions captured** | Open items surface in NOW.md | Same open items appear across multiple wraps |
 
-Flag any signal for skill edit. If multi-wrap rate is high, the skip gate in the wrap skill needs tightening.
+Flag any signal for skill edit. If multi-legatum rate is high, the skip gate in the legatum skill needs tightening.
 
 ### 6. Gap Analysis
 

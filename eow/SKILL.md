@@ -1,14 +1,12 @@
 ---
 name: eow
-description: End-of-work checkpoint (afternoon/early evening). Synthesise the work day, capture work mood, note unfinished threads. Use when user says "eow", "end of work", "done for the day". Evening sequence is eow → quies → daily. NOT for session end (use wrap) or bedtime close (use daily).
+description: End-of-work checkpoint (afternoon/early evening). Synthesise the work day, capture work mood, note unfinished threads. Use when user says "eow", "end of work", "done for the day". Evening sequence is eow → quies → daily. NOT for session end (use legatum) or bedtime close (use daily).
 user_invocable: true
 ---
 
 # End of Work
 
-> **Theory:** Consult `conclusio` for state-transfer framing and failure modes.
-
-Work-day close — the gap between per-session `/wrap` and bedtime `/daily`.
+Work-day close — the gap between per-session `/legatum` and bedtime `/daily`.
 
 ## Triggers
 
@@ -17,11 +15,11 @@ Work-day close — the gap between per-session `/wrap` and bedtime `/daily`.
 
 ## What This Is
 
-A checkpoint that looks at the **whole work day** as a unit. `/wrap` handles individual sessions. `/daily` handles the full day before bed. This sits between them: "how was the work day?"
+A checkpoint that looks at the **whole work day** as a unit. `/legatum` handles individual sessions. `/daily` handles the full day before bed. This sits between them: "how was the work day?"
 
 ## What This Is NOT
 
-- Not a session wrap (that's `/wrap`)
+- Not a session wrap (that's `/legatum`)
 - Not the daily close (that's `/daily` — handles tomorrow preview, bedtime mood)
 - Does not write the Tomorrow section
 
@@ -29,7 +27,7 @@ A checkpoint that looks at the **whole work day** as a unit. `/wrap` handles ind
 
 1. **Prep (silent)** — before the conversation:
    - Run `date` (HKT). If fails, use system-provided date.
-   - Read today's daily note (`~/notes/Daily/YYYY-MM-DD.md`) — session logs from `/wrap` should already be there.
+   - Read today's daily note (`~/notes/Daily/YYYY-MM-DD.md`) — session logs from `/legatum` should already be there.
    - Scan `~/notes/TODO.md` for items with today's date or imminent due dates.
    - Run `gog gmail search "in:inbox" --limit 5`.
    - If daily note is empty/missing, delegate history scan to a subagent.
@@ -68,7 +66,7 @@ Confirm what was written to the daily note. One sentence, not a recap.
 
 ## Notes
 
-- If `/wrap` wasn't run on the last session, do a quick session log first (step 2 of wrap), then proceed
+- If `/legatum` wasn't run on the last session, do a quick session log first (step 2 of legatum), then proceed
 - If Terry runs `/daily` without running `/eow` first, daily should still work fine — eow is additive, not required
 - The work mood is separate from the daily mood — work might be frustrating but the evening great, or vice versa
 - Keep it fast — a short conversation, not a retrospective

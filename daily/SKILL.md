@@ -1,12 +1,10 @@
 ---
 name: daily
-description: Bedtime daily close (last thing before sleep). Full-day reflection and tomorrow preview. Use when user says "daily", "end of day", "eod", or before bed. Comes after eow and quies in the evening sequence. NOT for end-of-work (use eow) or session end (use wrap).
+description: Bedtime daily close (last thing before sleep). Full-day reflection and tomorrow preview. Use when user says "daily", "end of day", "eod", or before bed. Comes after eow and quies in the evening sequence. NOT for end-of-work (use eow) or session end (use legatum).
 user_invocable: true
 ---
 
 # Daily
-
-> **Theory:** Consult `conclusio` for state-transfer framing and failure modes.
 
 Bedtime close → daily note. The final checkpoint of the day.
 
@@ -28,7 +26,7 @@ Bedtime close → daily note. The final checkpoint of the day.
    - If `date` fails, use system-provided current date and continue.
 
 2. **Read today's daily note** (`~/notes/Daily/YYYY-MM-DD.md`)
-   - Check for existing session logs from `/wrap` and an "End of Work" section from `/eow`.
+   - Check for existing session logs from `/legatum` and an "End of Work" section from `/eow`.
    - If the note is empty or missing, **fallback:** delegate history scan to a subagent — use Task tool (subagent_type: "general-purpose", model: "haiku") with prompt: "Run `python ~/scripts/chat_history.py --full` and synthesize a concise summary of today's activity. Group by theme. List key accomplishments, decisions, and unfinished threads. Keep output under 30 lines."
    - If both note read and fallback scan fail, continue with a minimal close based on current session context and label it "partial".
 

@@ -1,31 +1,31 @@
 ---
-name: wrap
-description: Session wrap-up OR mid-session checkpoint. Learning capture, TODO sweep, session log. Use at gear shifts (checkpoint mode) or before /clear (full mode). NOT a daily routine — use eow/daily for day-level closures.
+name: legatum
+description: Session state transfer — bequeath volatile context to durable storage before session death. Learning capture, TODO sweep, session log. Use at gear shifts (checkpoint mode) or before /clear (full mode). NOT a daily routine — use eow/daily for day-level closures. Aliases "wrap", "legatum".
 user_invocable: true
 ---
 
-# Wrap
+# Legatum — Session State Transfer
 
-Learning capture + session bookkeeping. Two modes:
+A dying session bequeaths its knowledge forward. Two modes:
 
-> **Theory:** Consult `conclusio` (fodina mine) for failure modes, quality axes, and the state-transfer framing that underlies this skill.
+> **Core framing:** This is state transfer, not documentation. The session holds volatile state — decisions, understanding, corrections — that dies with `/clear`. The legatum's job is to move what matters to durable storage. Everything else is theatre.
 
-- **Full** (`/wrap`) — end-of-session close. All steps.
-- **Checkpoint** (`/wrap checkpoint`, or auto-triggered at gear shifts) — capture learnings + sweep TODOs, skip session-end bookkeeping. Preserves context — no /compact, no closure framing.
+- **Full** (`/legatum` or `/wrap`) — end-of-session close. All steps.
+- **Checkpoint** (`/legatum checkpoint` or `/wrap checkpoint`, auto-triggered at gear shifts) — capture learnings + sweep TODOs, skip session-end bookkeeping. Preserves context — no /compact, no closure framing.
 
 Session scope = files modified + tool calls + conversation turns since this session began (or since last checkpoint).
 
 ## Triggers
 
-- "wrap", "wrap up", "let's wrap" → full mode
+- "wrap", "wrap up", "let's wrap", "legatum" → full mode
 - "checkpoint", "wrap checkpoint" → checkpoint mode
 - **Auto-trigger (Claude-initiated):** When detecting a significant gear shift (different project, different domain, switching from building to admin, etc.), run checkpoint mode silently before proceeding. Don't ask — just capture.
 - "what did we learn" → checkpoint mode
 
 ## Mode Detection
 
-If invoked as `/wrap checkpoint` or auto-triggered at a gear shift → **checkpoint mode**.
-If invoked as `/wrap` or at session end → **full mode**.
+If invoked as checkpoint or auto-triggered at a gear shift → **checkpoint mode**.
+If invoked at session end → **full mode**.
 
 **Checkpoint mode runs:** Step 0 (pre-wrap), Step 0.5 (friction review, but don't truncate log), Step 1 (TODO sweep), Step 4 (learning capture).
 **Checkpoint mode skips:** Step 2 (session log), Step 3 (NOW.md rewrite — delta update only if needed).
@@ -37,7 +37,7 @@ If invoked as `/wrap` or at session end → **full mode**.
 ```bash
 now-age
 ```
-If NOW.md is **<15 minutes old** AND user did not explicitly invoke `/wrap`, skip to Step 4 briefly, then Output. Explicit `/wrap` always runs all steps.
+If NOW.md is **<15 minutes old** AND user did not explicitly invoke `/legatum`, skip to Step 4 briefly, then Output. Explicit invocation always runs all steps.
 
 ### Step 0: Pre-Wrap Check
 
@@ -73,14 +73,14 @@ If all checks clean and no blocking actions: `✓ Clean — [prewrap summary]. G
 
 Otherwise, full block:
 ```
-─── Pre-Wrap ────────────────────────────────────
+─── Pre-Legatum ─────────────────────────────────
 ⚠  [only if action needed]
 →  Deferred: [items or "none"]
 ✓  [clean checks summary]
 Garden:      published → <slug>, <slug>, ... | no — [reason]
 Arsenal:     added → [[Capco Transition]] | no — [reason]
 Dispatched:  <audit> (<task-id>) | none
-─────────────────────────────────────────────────
+──────────────────────────────────────────────────
 ```
 
 Then proceed to remaining steps.
@@ -130,6 +130,17 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 
 **Scope:** Since last checkpoint (if any), otherwise since session start.
 
+**Failure mode check** (scan before writing):
+
+| Smell | Fix |
+|-------|-----|
+| "Updated X" with no what/why | State what changed and why — cold reader test |
+| "TODO: consider whether..." | Decide now or delete. Legatum is not a parking lot |
+| >3 "filed to X" items | Over-capturing. Prioritise |
+| Recording what happened, not what was learned | Logs → daily note. Insights → skill/memory/garden |
+| Legatum takes >10 minutes | You're writing, not closing. Stop |
+| "Fixed the bug" without generalising | Capture the pattern, not the instance |
+
 **Belief corrections?** Did a prior get challenged this session — something Terry (or I) assumed that turned out wrong? Not just career — technical assumptions, how things work, self-knowledge, anything. If yes → append to `[[Priors Worth Correcting]]` with: old belief, the correction, and when the old belief would reassert.
 
 **Scan → Route → Implement:**
@@ -139,14 +150,14 @@ Single pass. If nothing surfaces: "Nothing to generalise."
   - Cross-session context → MEMORY.md
   - Workflow change → the relevant skill's SKILL.md
   - Same mistake twice → escalate per `~/docs/solutions/enforcement-ladder.md`
-- **Default: implement now.** Skill edits, MEMORY.md additions, solutions files, small hooks — do them, don't propose them. "Needs design input" is not a valid reason to defer a 20-line improvement. Propose only if: touches shared infrastructure, irreversible, or genuinely ambiguous (and state which). If you wrote "propose" in the wrap output, ask: could I have just done it? If yes, go back and do it.
+- **Default: implement now.** Skill edits, MEMORY.md additions, solutions files, small hooks — do them, don't propose them. "Needs design input" is not a valid reason to defer a 20-line improvement. Propose only if: touches shared infrastructure, irreversible, or genuinely ambiguous (and state which). If you wrote "propose" in the output, ask: could I have just done it? If yes, go back and do it.
 - **Persistence gate:** Consult `custodia` before routing. One home per insight, never point to a pointer, count layers.
 
 **MEMORY.md ≥145 lines + entries added this session →** demote lowest-recurrence entry to `~/docs/solutions/memory-overflow.md` now. Don't ask — pick it yourself.
 
 **Decay tracker:** If any MEMORY.md entries prevented mistakes this session, update `memory/decay-tracker.md` with today's date. This is the empirical signal for what to keep vs demote.
 
-**Wrap audit: log, don't essay.** Instead of launching verbose audit agents, do a quick self-scan and append one-liners to `~/docs/solutions/operational/wrap-violations.jsonl`. Pattern detection happens in `/weekly`, not per-session.
+**Legatum audit: log, don't essay.** Instead of launching verbose audit agents, do a quick self-scan and append one-liners to `~/docs/solutions/operational/wrap-violations.jsonl`. Pattern detection happens in `/weekly`, not per-session.
 
 **Self-scan checklist (30 seconds, no agents):**
 1. Did any CLAUDE.md rule get violated AND cause a worse outcome? (Not "technically violated but fine")
@@ -161,20 +172,20 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 
 **If something compounded but wasn't captured:** just capture it now (skill, garden, arsenal, vault). Don't log it — act on it.
 
-**Garden cull:** If 3+ posts published this session, launch one haiku agent: "Review these posts. Flag weak ones (no thesis, generic, restating others) for removal or merge." Present in wrap output.
+**Garden cull:** If 3+ posts published this session, launch one haiku agent: "Review these posts. Flag weak ones (no thesis, generic, restating others) for removal or merge." Present in output.
 
-**Garden quality cull (weekly only):** If this is a `/weekly` wrap, also scan *all* posts from the week — not just this session's.
+**Garden quality cull (weekly only):** If this is a `/weekly` session, also scan *all* posts from the week — not just this session's.
 
 **`/weekly` pattern detection:** Read `wrap-violations.jsonl`, group by rule. Any rule with 3+ violations → escalate per enforcement ladder. Any rule with 0 violations over 4 weeks → candidate for removal (dead rule).
 
-**All file writes must complete before the wrap output.**
+**All file writes must complete before the output.**
 
 ## Output
 
 **Full mode:** Bordered prose. Handoff note to tomorrow-you — arc, what's staged/unfinished, learnings captured. 2-3 sentences for light sessions, up to 6 for heavy. Don't hard-wrap.
 
 ```
-─── Wrap ───────────────────────────────────────
+─── Legatum ────────────────────────────────────
 
 [Prose summary]
 
@@ -193,7 +204,7 @@ Session: [honest 1-line judgment — real output vs theatre, what moved vs what 
 
 ## Boundaries
 
-- Do NOT perform external sends (messages, emails, posts) during wrap.
-- Do NOT run deep audits or long research — wrap is a close-out, not a new workstream.
-- **Full mode:** Stop after writes + wrap summary unless explicitly asked to continue.
+- Do NOT perform external sends (messages, emails, posts) during legatum.
+- Do NOT run deep audits or long research — legatum is a close-out, not a new workstream.
+- **Full mode:** Stop after writes + summary unless explicitly asked to continue.
 - **Checkpoint mode:** Continue with the next task after output. No stopping.

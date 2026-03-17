@@ -24,7 +24,7 @@ Unlike skills (permanent, pattern-based) or MEMORY.md (unconditional, always loa
 
 - After deferring an action to "next time" — capture it as WHEN/THEN instead of relying on memory
 - When a session produces a follow-up that can't be done now
-- When `/wrap` identifies loose ends
+- When `/legatum` identifies loose ends
 
 ## Format
 
@@ -34,7 +34,7 @@ Unlike skills (permanent, pattern-based) or MEMORY.md (unconditional, always loa
 
 ## Lifecycle
 
-1. **Created** during session (wrap, manual, or when deferring work)
+1. **Created** during session (legatum, manual, or when deferring work)
 2. **Fires** when context matches (session start, project entry, skill invocation)
 3. **Actioned** — do the thing
 4. **Deleted** — remove the entry from prospective.md

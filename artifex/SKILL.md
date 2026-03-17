@@ -109,7 +109,7 @@ For steps Claude is tempted to skip, pre-list the common excuses. Use sparingly 
 
 ### 5. Active Questions > Passive Tables
 
-When a skill needs the model to scan or evaluate something, use direct yes/no questions — not reference tables. Tables present correct information but the model skips over them (wrap skill: 54% boilerplate rate with a passive "What to Look For" table). Rephrasing as questions forces the model to engage with each item before concluding "nothing here."
+When a skill needs the model to scan or evaluate something, use direct yes/no questions — not reference tables. Tables present correct information but the model skips over them (legatum skill: 54% boilerplate rate with a passive "What to Look For" table). Rephrasing as questions forces the model to engage with each item before concluding "nothing here."
 
 ```markdown
 # BAD: Passive — model scans the table and rubber-stamps "nothing"

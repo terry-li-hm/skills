@@ -45,7 +45,7 @@ Escalate to hook after 2 entries in `~/docs/solutions/rule-violation-log.md`.
 |------|----------|--------|---------|
 | Hard rule ("always/never") | CLAUDE.md | Every turn | "Never run tccutil reset" |
 | Gotcha ("X breaks when Y") | MEMORY.md | Every turn | "Glob ** on ~ times out" |
-| Procedure (trigger + steps) | Skill | On invocation | `/wrap`, `/morning` |
+| Procedure (trigger + steps) | Skill | On invocation | `/legatum`, `/morning` |
 | Deep reference | `~/docs/solutions/` | On lookup | Browser automation patterns |
 | Project context | Vault notes | On lookup | `[[Capco Transition]]` |
 | Conversation memory | Oghma | Via `cerno` | "What did we discuss about X" |
@@ -180,7 +180,7 @@ Route to most specific location:
     Skill workflow → the skill's SKILL.md
     Rule violation → ~/docs/solutions/rule-violation-log.md
     ↓
-/wrap meta-sweep catches anything missed
+/legatum meta-sweep catches anything missed
     ↓
 Weekly /skill-review checks for staleness
 ```
