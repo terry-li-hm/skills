@@ -18,7 +18,8 @@ When capturing a lesson, correction, or discovery, route it here first.
 | How-to / workflow with steps | `~/docs/solutions/` |
 | Changes *how to act* next time | Skill (update or create) |
 | Temporary "next time X, do Y" | `memory/prospective.md` (expires when actioned) |
-| Reference / background context | Vault note |
+| Insight / opinion / analysis | Garden post (`sarcio new`) — already in vault, grep-searchable |
+| Reference / background context (facts, trackers) | Vault note |
 | One-off correction, not generalizable | Daily note only |
 
 ## Worth Noting At All?
