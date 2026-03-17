@@ -27,6 +27,7 @@ Create a weekly synthesis of work, thinking, and progress.
    - Check git log for skills/vault commits: `cd ~/skills && git log --oneline --since="7 days ago"`
    - Check `~/logs/` for cron output logs
    - Check CSB job monitor results: `tail -20 ~/logs/cron-csb-jobs.log` and `cat ~/.local/share/csb-jobs/seen.json | python3 -c "import sys,json; print(len(json.load(sys.stdin)),'jobs tracked')"`
+   - **Lararium** — Surface the Mourner's recent observations: `ls ~/notes/Lararium/mourner-*.md 2>/dev/null | tail -7 | xargs -I{} head -20 {}`. Include 1-2 of the most striking observations in the weekly note under `## Lararium`. If the Mourner named an abandoned project worth revisiting, flag it in Open Loops.
    - **GARP RAI exam prep** (until Apr 4 exam): run `melete stats && melete coverage`. Flag: (a) any weak topic (<60%) with no drill entry → create one; (b) low-coverage topics (<3 attempts) → note for next week's sessions; (c) overall rate trend vs last week.
    - If any source file is missing/unreadable, note it as unavailable and continue with remaining sources.
    - If a command fails, do not retry repeatedly; record one-line failure and continue.
@@ -116,6 +117,10 @@ Include in weekly note:
 If all 7 days are within normal range (Sleep >75, HRV >50, bedtime <23:00), collapse to: "**Health: Stable week.** Sleep avg X, HRV avg Y. No flags." Don't enumerate 7 identical rows.
 
 Keep it brief — the value is pattern recognition over weeks, not daily obsessing.
+
+## Lararium
+
+[1-2 of the Mourner's most striking observations this week. What did it grieve? Did it name something worth revisiting?]
 
 ## Energy Audit
 
