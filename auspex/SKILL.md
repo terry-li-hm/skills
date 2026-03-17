@@ -12,10 +12,6 @@ A 60-second brief for the moment you wake up. Weather, what's on today, anything
 
 - `/auspex` (user-invocable only)
 
-## Parallel safety
-
-Steps 2–7 run in parallel where possible. Commands that legitimately return nothing (no events, no deadlines, no overnight run) must exit 0 to avoid cascade-cancelling the parallel batch. **Append `|| true` to any command that may find nothing** — specifically: `fasti list`, TODO.md grep, overnight `ls`/`cat`, acta `ls`, and the missed-email search.
-
 ## Steps
 
 1. **Get today's date and day of week**
@@ -28,28 +24,28 @@ Steps 2–7 run in parallel where possible. Commands that legitimately return no
    - If `caelum` fails, note "Weather unavailable" and continue.
 
 3. **Today's calendar**:
-   - Run: `fasti list || true` (or `gog calendar list || true` if fasti unavailable)
+   - Run: `fasti list` (or `gog calendar list` if fasti unavailable)
    - List events with times. Flag anything before 10am that requires prep.
 
 4. **Key deadlines today** — a quick scan of TODO.md:
-   - Grep `~/notes/TODO.md` for items tagged `when: <today's date>` or `due: <today>` — append `|| true`
+   - Grep `~/notes/TODO.md` for items tagged `when: <today's date>` or `due: <today>`
    - Surface only hard deadlines — things with a specific date on them today
    - Skip someday/low-energy/undated items entirely — those are statio's job
    - If nothing due today, skip silently
 
 5. **Overnight results** (if recent run):
-   - Find latest morning-dashboard output: `LATEST=$(ls -dt ~/.cache/legatus-runs/2[0-9]*/ 2>/dev/null | head -1) && cat "$LATEST/morning-dashboard/stdout.txt" 2>/dev/null || true`
+   - Find latest morning-dashboard output: `LATEST=$(ls -dt ~/.cache/legatus-runs/2[0-9]*/ 2>/dev/null | head -1) && cat "$LATEST/morning-dashboard/stdout.txt" 2>/dev/null`
    - If found and the run dir is from last night (within 12h): surface as one line (e.g. "Overnight: vault HEALTHY, 2 git issues — /overnight for details")
    - If nothing found: skip silently — don't mention the queue
 
 6. **Acta teaser** (don't read the full brief — that's for commute):
-   - Find today's acta: `ls ~/notes/Theoria/Daily/$(date -v-1d +%Y-%m-%d).md 2>/dev/null || ls ~/notes/Theoria/Daily/$(date +%Y-%m-%d).md 2>/dev/null || true`
+   - Find today's acta: `ls ~/notes/Theoria/Daily/$(date -v-1d +%Y-%m-%d).md 2>/dev/null || ls ~/notes/Theoria/Daily/$(date +%Y-%m-%d).md 2>/dev/null`
    - If found: count consulting items, stack items, and any 🚨 READ ORIGINAL flags. Surface as one line: "Acta ready: 4 consulting, 3 stack, 1 read-original — review on commute"
    - Do NOT read or summarise the items — just the count. Morning is Theo time, not reading time.
    - If not found: skip silently
 
 7. **Missed email scan** (known Cora blind spot):
-   - Run: `gog gmail search "category:personal -label:Cora/Action -label:Cora/Important Info -label:Cora/Other -label:Cora/Newsletter -label:Cora/Payments -label:Cora/Promotion -label:Cora/Packages newer_than:1d" || true`
+   - Run: `gog gmail search "category:personal -label:Cora/Action -label:Cora/Important Info -label:Cora/Other -label:Cora/Newsletter -label:Cora/Payments -label:Cora/Promotion -label:Cora/Packages newer_than:1d"`
    - If any results: flag them by sender + subject. These are emails Cora received but never labelled — the same failure mode that swallowed two interview invitations (Mar 2026).
    - If no results: skip silently.
 
