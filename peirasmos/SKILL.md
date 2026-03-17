@@ -94,6 +94,19 @@ Each experiment's result should shape the next experiment's hypothesis. Sequenti
 - **Compare intermediate outputs, not just final** — the pipeline may compensate for early weakness
 - **The alternative hypothesis test** — before concluding X works, ask: could a simpler explanation (just adding one sentence to the prompt) achieve the same result?
 
+## Known Findings (from experiments)
+
+Empirically tested, directionally confirmed. Cite with caveats (n=1-2, single judge family).
+
+| Finding | Rule | Source |
+|---------|------|--------|
+| **Persona effect is task-dependent** | Use personas for judgment-heavy tasks (gap analysis, assessment). Skip for structured output (policy docs, templates). | 2 experiments, blind-evaluated, Mar 2026 |
+| **Personas amplify confident hallucination** | Persona runs generate fabricated institutional details (fake document names, false precision) that LLM judges score as "depth." | Verified: "Amy chatbot" real, "Group AI Governance Standard v2.1" fabricated |
+| **Personas + LLM-as-judge is adversarial** | Don't use personas if your quality gate is automated LLM evaluation. The combination systematically inflates scores. Safe with human domain expert review. | Blind judge rewarded hallucinated specificity equally with real |
+| **Mixed-model teams outperform homogeneous** | Use different vendors (not just different sizes). The debate/cross-critique round is where value emerges, not parallel-then-merge. | MoA ICLR 2025, X-MAS May 2025, own experiment Mar 2026 |
+
+Full data: [[Persona vs Procedure Experiment Results]], [[Multi-Agent Mixed-LLM Research Synthesis]]
+
 ## Relationship to Other Skills
 
 - **peira** — the execution engine for running experiments. Peirasmos provides the theory; peira provides the loop.
