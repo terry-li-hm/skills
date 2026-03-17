@@ -93,6 +93,14 @@ After creating any mined skill:
 - [ ] Consider a garden post if the insight is non-obvious
 - [ ] Commit skill + wiring changes in same session
 
+## Tracking Usage
+
+Mined skills are only valuable if they get consulted. Track in `memory/decay-tracker.md` (same as MEMORY.md entries):
+- When a mined skill is consulted in a session, log it
+- If a skill hasn't fired after 4 weeks → either wiring is wrong (fix cross-references) or the skill isn't useful (demote or delete)
+- Tier column in Completed Mines tracks provenance strength — Tier 1 (hold lightly), Tier 2 (consilium-tested), Tier 3 (field-validated)
+- The specific source (which model, which council) doesn't matter — content either proves useful or it doesn't. Track the tier, not the genealogy.
+
 ## Completed Mines
 
 | Topic | Skill | Tier | Wired to | Garden post |
