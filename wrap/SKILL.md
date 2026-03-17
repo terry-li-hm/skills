@@ -179,6 +179,7 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 [Prose summary]
 
 Filed: [exact file path or "nothing to generalise"]
+Session: [honest 1-line judgment — real output vs theatre, what moved vs what just felt productive]
 ─────────────────────────────────────────────────
 ```
 
