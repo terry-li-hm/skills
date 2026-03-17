@@ -72,3 +72,4 @@ From Aristotle's *Τοπικά* — the "places" you go to find patterns of reas
 | **Permissionless leverage** | Code and media don't need anyone's permission to scale. | Side projects, content, tool-building vs waiting for mandate |
 | **Compounding** | Reputation, knowledge, relationships grow exponentially. | Long-term bets, "is this worth doing?", consistency |
 | **Accountability** | Take risk under your own name to earn outsized returns. | Publishing, public positions, career moves with skin in the game |
+| **Treadmill vs loop** | Knowledge expires; the ability to generate answers on demand doesn't. Don't chase "staying ahead" — build the hypothesis→test→verify→update loop. | "Should I research X before the client asks?", competitive anxiety, framework FOMO, "is this still current?" |
