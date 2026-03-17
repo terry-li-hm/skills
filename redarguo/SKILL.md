@@ -1,16 +1,16 @@
 ---
-name: skeptic
+name: redarguo
 description: "One-line adversarial challenge via a different LLM. Use PROACTIVELY before committing to decisions, sending client deliverables, publishing LinkedIn posts, or locking strategies. NOT for garden posts or reversible actions. Invoke when stakes are high and agreement feels too easy."
 user_invocable: true
 ---
 
-# Skeptic — Echo Chamber Breaker
+# Redarguo — Echo Chamber Breaker
 
 One-line strongest counterargument from a different LLM. Designed to add minimal, targeted friction at decision points.
 
 ## When to Invoke (Proactively)
 
-Invoke `/skeptic` without being asked when:
+Invoke `/redarguo` without being asked when:
 - Terry is about to **commit** to a decision (job, strategy, investment)
 - Drafting **client-facing** or **LinkedIn** content
 - A consilium returned unanimous agreement (suspiciously easy)
@@ -26,23 +26,23 @@ Do NOT invoke for:
 
 ```bash
 # Pipe the claim or decision to a different model via OpenRouter
-echo "<claim or decision summary>" | skeptic
+echo "<claim or decision summary>" | redarguo
 ```
 
 Output format — exactly one line:
 > 🔴 **Weakest point:** <the strongest counterargument in one sentence>
 
-If the skeptic can't find a meaningful challenge, it says:
+If the redarguo can't find a meaningful challenge, it says:
 > 🟢 **No strong counter.** This holds up.
 
 ## Usage
 
 ```bash
 # Challenge a decision
-skeptic "Taking Capco at 93K over MTR at 120K because consulting compounds"
+redarguo "Taking Capco at 93K over MTR at 120K because consulting compounds"
 
 # Challenge a draft
-skeptic "$(cat ~/notes/Writing/Blog/Published/some-post.md)"
+redarguo "$(cat ~/notes/Writing/Blog/Published/some-post.md)"
 
 # In-session: Claude pipes the relevant context automatically
 ```
@@ -51,7 +51,7 @@ skeptic "$(cat ~/notes/Writing/Blog/Published/some-post.md)"
 
 When invoking proactively, Claude should:
 1. Summarise the claim/decision in one sentence
-2. Run `skeptic "<summary>"`
+2. Run `redarguo "<summary>"`
 3. Present the one-line result
 4. Let Terry decide whether it changes anything
-5. Move on — don't discuss the skeptic's point unless Terry wants to
+5. Move on — don't discuss the redarguo's point unless Terry wants to
