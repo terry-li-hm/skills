@@ -1,6 +1,6 @@
 ---
 name: mandatum
-description: How delegation works — spec quality, principal-agent gap, decomposition depth, when ambiguity helps. Reference skill consulted by rector, opifex, and when writing delegate specs. Not user-invocable.
+description: Key considerations when delegating — spec quality, decomposition depth, when ambiguity helps vs hurts. Reference skill consulted by rector, opifex, and when writing delegate specs. Not user-invocable.
 version: 1
 tags: [reference, delegation, cognition, agents]
 disable-model-invocation: true

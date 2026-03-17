@@ -1,6 +1,6 @@
 ---
 name: bouleusis
-description: How planning works — goal-directed simulation, failure modes, when to stop. Reference skill consulted by planning workflows (ce-plan, writing-plans, rector) and when designing agent planning systems. Not user-invocable.
+description: Key considerations when planning — goal clarity, simulation depth, failure modes, when to stop. Reference skill consulted by planning workflows (ce-plan, writing-plans, rector) and when designing agent planning systems. Not user-invocable.
 version: 1
 tags: [reference, planning, cognition, agents]
 disable-model-invocation: true

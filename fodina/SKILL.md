@@ -11,17 +11,27 @@ tags: [meta, knowledge, skills]
 
 Extract implicit knowledge from LLM weights into permanent, version-controlled reference skills. The model knows things it won't reliably surface — mining makes that knowledge explicit and deterministic.
 
-## When to Mine
+## What to Mine (The Meta-Skill)
 
-- You notice the model gives brilliant insight on a topic sometimes, mediocre insight other times
-- A domain has stable theory (debugging, planning, writing) that doesn't change with tooling
-- You keep re-explaining the same concept across sessions
-- A reference skill would make multiple other skills better (like bouleusis improves rector, examen, topica)
+The ability to spot minable knowledge is itself a judgment call. Look for:
+
+**Signals that a topic is worth mining:**
+- **Inconsistent depth** — the model gives brilliant insight sometimes, shallow output other times. The inconsistency IS the signal that extractable structure exists in the weights.
+- **Stable cognitive operations** — things that don't change with tooling. Planning, debugging, evaluating, simplifying — these are the *verbs* of knowledge work. They underlie domain-specific skills and transfer everywhere.
+- **Cross-skill leverage** — a reference skill would make multiple other skills better (like bouleusis improves rector, examen, topica). The more skills it wires into, the higher the mining ROI.
+- **Repeated re-explanation** — you keep articulating the same concept across sessions without it sticking.
+
+**What to extract — not "how X works" but "what to consider when doing X":**
+- Failure modes and their signals (so you can catch them)
+- Key distinctions that change your approach (essential vs accidental complexity)
+- Decision points where the wrong default hurts (when to stop planning, when to abandon a hypothesis)
+- The human-agent split (where each is strong, how to combine)
 
 **Don't mine:**
-- Volatile knowledge (API versions, tool flags) — that's docs, not theory
+- Volatile knowledge (API versions, tool flags) — that's docs, not heuristics
 - Procedural knowledge (how to run X) — that's a regular skill
 - Knowledge the model doesn't actually have depth on — test with one probing question first
+- Topics where the existing pieces already cover it well enough — diminishing returns
 
 ## Tier 1: Single-Model Interview
 
@@ -87,12 +97,12 @@ After creating any mined skill:
 
 | Topic | Skill | Tier | Wired to | Garden post |
 |-------|-------|------|----------|-------------|
-| How planning works | `bouleusis` | 1 | rector, examen, topica | [Mining Your LLM](https://terryli.hm/posts/mining-your-llm) |
-| How debugging works | `diagnosis` | 1 | rector | — |
-| How experimentation works | `peirasmos` | 1 | peira, judex, examen, topica | [[The Persona Paradox in AI Agent Teams]] |
-| How simplification works | `parsimonia` | 1 | rector | — |
-| How delegation works | `mandatum` | 1 | rector | — |
-| How evaluation works | `kritike` | 1 | judex, peira | — |
+| Planning | `bouleusis` | 1 | rector, examen, topica | [Mining Your LLM](https://terryli.hm/posts/mining-your-llm) |
+| Debugging | `diagnosis` | 1 | rector | — |
+| Experimentation | `peirasmos` | 1 | peira, judex, examen, topica | [[The Persona Paradox in AI Agent Teams]] |
+| Simplification | `parsimonia` | 1 | rector | — |
+| Delegation | `mandatum` | 1 | rector | — |
+| Evaluation | `kritike` | 1 | judex, peira | — |
 
 ## Relationship to Other Skills
 

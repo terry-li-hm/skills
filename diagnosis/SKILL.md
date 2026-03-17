@@ -1,6 +1,6 @@
 ---
 name: diagnosis
-description: How debugging works — hypothesis-driven search, observation hierarchy, failure modes. Reference skill consulted by systematic-debugging and when debugging gets stuck. Not user-invocable.
+description: Key considerations when debugging — hypothesis discipline, observation hierarchy, when to abandon a theory. Reference skill consulted by systematic-debugging and when debugging gets stuck. Not user-invocable.
 version: 1
 tags: [reference, debugging, cognition]
 disable-model-invocation: true

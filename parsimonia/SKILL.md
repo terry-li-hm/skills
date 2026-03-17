@@ -1,6 +1,6 @@
 ---
 name: parsimonia
-description: How simplification works — essential vs accidental complexity, why things get complex, when it goes wrong. Reference skill consulted during code review, refactoring, and architecture decisions. Not user-invocable.
+description: Key considerations when simplifying — essential vs accidental complexity, premature abstraction, when removal is safe. Reference skill consulted during code review, refactoring, and architecture decisions. Not user-invocable.
 version: 1
 tags: [reference, simplification, complexity, cognition]
 disable-model-invocation: true
