@@ -11,6 +11,8 @@ From Latin *praecepta* — "precepts, practical rules." The collection of simple
 
 **Thesis (Gigerenzer):** In uncertain environments, simple heuristics don't just save time — they often *outperform* complex analysis. More parameters = more overfitting to noise. Simple rules exploit the structure of the environment by ignoring irrelevant information.
 
+**Why it works (bias-variance):** The less data you have relative to the number of variables, the simpler your model should be. With millions of rows, let XGBoost find the signal. With 50 cases, one variable beats twenty — the complex model is fitting noise. Most human decisions (career, health, relationships) are small-sample, high-noise, shifting-environment. That's where simple rules dominate.
+
 **Not user-invocable.** Consult when: making decisions under uncertainty, advising Terry, evaluating options, or when two approaches seem equivalent and reasoning won't resolve it.
 
 **Relationship to other skills:**
