@@ -42,7 +42,7 @@ Lighter than `/morning` (no weather, health, inbox). Heavier than a `/legatum` (
    - **Cora brief**: `cora brief show` (instant, no browser needed)
    - **Cora todos**: `cora todo list` — surface any action items Cora has flagged
    - **Inbox count**: `gog gmail search "in:inbox" --limit 5`
-   - If inbox has items: surface count and nudge `/acta` — don't triage inline here
+   - If inbox has items: surface count and nudge `/epistula` — don't triage inline here
    - If gog fails (keychain locked): note "Gmail unavailable — unlock keychain" and skip.
 
 5. **LinkedIn job alerts** (speculor):

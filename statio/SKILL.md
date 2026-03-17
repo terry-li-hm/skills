@@ -49,7 +49,7 @@ Run when you sit down and are ready to work. Loads your priority context, clears
 
 8. **Inbox check**:
    - Run: `gog gmail search "in:inbox" --limit 5`
-   - If results: surface count and nudge `/acta` — don't triage here, just flag it
+   - If results: surface count and nudge `/epistula` — don't triage here, just flag it
    - If empty: note "Inbox clear" and move on
 
 10. **Capco countdown + daily prep item** (until start date):

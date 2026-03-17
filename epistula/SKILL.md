@@ -1,10 +1,10 @@
 ---
-name: acta
-description: "Guided inbox triage session — review Gmail inbox together with Terry, prioritise actionable items, action each one, and archive noise. Use when Terry says 'review inbox', 'check emails', 'email review', or 'acta'."
+name: epistula
+description: "Guided inbox triage session — review Gmail inbox together with Terry, prioritise actionable items, action each one, and archive noise. Use when Terry says 'review inbox', 'check emails', 'email review', or 'epistula'."
 user_invocable: true
 ---
 
-# Acta — Email Review Session
+# Epistula — Email Review Session
 
 A collaborative inbox triage. Claude pulls the inbox and all unread briefs, reads everything, and works through items with Terry one by one.
 

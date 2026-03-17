@@ -38,9 +38,9 @@ A 60-second brief for the moment you wake up. Weather, what's on today, anything
    - If found and the run dir is from last night (within 12h): surface as one line (e.g. "Overnight: vault HEALTHY, 2 git issues — /overnight for details")
    - If nothing found: skip silently — don't mention the queue
 
-6. **AI intel teaser** (don't read the full brief — that's for commute):
-   - Find today's intel: `ls ~/notes/Capco/ai-intel-$(date +%Y-%m-%d).md 2>/dev/null || LATEST=$(ls -dt ~/.cache/legatus-runs/2[0-9]*/ai-intel/ 2>/dev/null | head -1) && ls "$LATEST"/ai-intel-*.md 2>/dev/null`
-   - If found: count consulting items, stack items, and any 🚨 READ ORIGINAL flags. Surface as one line: "AI intel ready: 4 consulting, 3 stack, 1 read-original — review on commute"
+6. **Acta teaser** (don't read the full brief — that's for commute):
+   - Find today's acta: `ls ~/notes/Theoria/Daily/$(date -v-1d +%Y-%m-%d).md 2>/dev/null || ls ~/notes/Theoria/Daily/$(date +%Y-%m-%d).md 2>/dev/null`
+   - If found: count consulting items, stack items, and any 🚨 READ ORIGINAL flags. Surface as one line: "Acta ready: 4 consulting, 3 stack, 1 read-original — review on commute"
    - Do NOT read or summarise the items — just the count. Morning is Theo time, not reading time.
    - If not found: skip silently
 

@@ -91,7 +91,7 @@ Read `~/notes/TODO.md`.
 Based on current time and what was found:
 
 **Commute / transit (morning, before first meeting, no desk):**
-→ Surface today's ai-intel brief. Check: `ls ~/notes/Capco/ai-intel-$(date +%Y-%m-%d).md 2>/dev/null` or latest from `~/.cache/legatus-runs/`. Read and present key items grouped by lens. Flag any 🚨 READ ORIGINAL with links. If first meeting is soon, also surface one-line prep for it. This is the primary reading window — give the full brief, not a teaser.
+→ Surface today's acta (daily AI brief). Check: `ls ~/notes/Theoria/Daily/$(date -v-1d +%Y-%m-%d).md 2>/dev/null || ls ~/notes/Theoria/Daily/$(date +%Y-%m-%d).md 2>/dev/null`. Read and present key items grouped by lens. Flag any 🚨 READ ORIGINAL with links. If first meeting is soon, also surface one-line prep for it. This is the primary reading window — give the full brief, not a teaser.
 
 **Pre-meeting (< 45 min to next calendar event):**
 → Lead with the upcoming event. Surface any prep items. Keep it brief — they're about to be in a meeting.

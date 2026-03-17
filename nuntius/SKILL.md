@@ -119,7 +119,7 @@ Cora intentionally never marks emails as read. Its model: the daily brief is the
 ### Cora/Action emails are invisible — not in inbox AND not in brief
 Confirmed Mar 2026: emails labelled `Cora/Action` by Cora were excluded from both the inbox (INBOX label stripped) and the daily brief. The label exists but leads nowhere — there is no workflow that surfaces it automatically.
 
-**Mitigation:** `acta` Step 1 explicitly pulls `label:Cora/Action` as a third parallel search. Always triage these alongside the inbox.
+**Mitigation:** `epistula` Step 1 explicitly pulls `label:Cora/Action` as a third parallel search. Always triage these alongside the inbox.
 
 ### Interview/recruiter emails silently missing from inbox
 Two confirmed cases of interview invitation emails arriving without an `INBOX` Gmail label — meaning they never appear in inbox and Cora never processes them (Cora only scans inbox). Root cause unclear: may be Gmail miscategorisation or Cora stripping INBOX during processing.
