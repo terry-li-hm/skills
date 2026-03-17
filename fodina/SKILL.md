@@ -87,12 +87,12 @@ After creating any mined skill:
 
 | Topic | Skill | Tier | Wired to | Garden post |
 |-------|-------|------|----------|-------------|
-| Planning theory | `bouleusis` | 1 | rector, examen, topica | [Mining Your LLM](https://terryli.hm/posts/mining-your-llm) |
-| Debugging theory | `diagnosis` | 1 | rector | — |
-| Experimentation theory | `peirasmos` | 1 | peira, judex, examen, topica | [[The Persona Paradox in AI Agent Teams]] |
-| Simplification theory | `parsimonia` | 1 | rector | — |
-| Delegation theory | `mandatum` | 1 | rector | — |
-| Evaluation theory | `kritike` | 1 | judex, peira | — |
+| How planning works | `bouleusis` | 1 | rector, examen, topica | [Mining Your LLM](https://terryli.hm/posts/mining-your-llm) |
+| How debugging works | `diagnosis` | 1 | rector | — |
+| How experimentation works | `peirasmos` | 1 | peira, judex, examen, topica | [[The Persona Paradox in AI Agent Teams]] |
+| How simplification works | `parsimonia` | 1 | rector | — |
+| How delegation works | `mandatum` | 1 | rector | — |
+| How evaluation works | `kritike` | 1 | judex, peira | — |
 
 ## Relationship to Other Skills
 

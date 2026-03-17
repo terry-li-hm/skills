@@ -1,6 +1,6 @@
 ---
 name: kritike
-description: Theory of evaluation — what makes a metric good, Goodhart's law, vanity vs diagnostic metrics, subjective evaluation, LLM eval patterns. Reference skill consulted by evals-skills, judex, peira, and when designing measurement systems. Not user-invocable.
+description: How evaluation works — what makes a metric good, Goodhart's law, vanity vs diagnostic, LLM eval patterns. Reference skill consulted by evals-skills, judex, peira, and when designing measurement systems. Not user-invocable.
 version: 1
 tags: [reference, evaluation, metrics, cognition]
 disable-model-invocation: true

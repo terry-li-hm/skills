@@ -1,6 +1,6 @@
 ---
 name: bouleusis
-description: Theory of planning — what planning is, how it fails, when to stop. Reference skill consulted by planning workflows (ce-plan, writing-plans, rector) and when designing agent planning systems. Not user-invocable.
+description: How planning works — goal-directed simulation, failure modes, when to stop. Reference skill consulted by planning workflows (ce-plan, writing-plans, rector) and when designing agent planning systems. Not user-invocable.
 version: 1
 tags: [reference, planning, cognition, agents]
 disable-model-invocation: true

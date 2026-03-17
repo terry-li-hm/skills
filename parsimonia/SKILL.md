@@ -1,6 +1,6 @@
 ---
 name: parsimonia
-description: Theory of simplification — essential vs accidental complexity, why things get complex, when simplification goes wrong. Reference skill consulted during code review, refactoring, and architecture decisions. Not user-invocable.
+description: How simplification works — essential vs accidental complexity, why things get complex, when it goes wrong. Reference skill consulted during code review, refactoring, and architecture decisions. Not user-invocable.
 version: 1
 tags: [reference, simplification, complexity, cognition]
 disable-model-invocation: true
