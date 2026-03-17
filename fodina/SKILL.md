@@ -111,6 +111,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Simplification | `parsimonia` | 1 | rector | — |
 | Delegation | `mandatum` | 1 | rector | — |
 | Evaluation | `kritike` | 1 | judex, peira | — |
+| Heuristics | `praecepta` | 1 | topica, gnome, mandatum, consilium | "Delegation Is Delegation", "The Heuristic Library" |
 
 ## Relationship to Other Skills
 

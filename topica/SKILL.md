@@ -10,6 +10,8 @@ From Aristotle's *Τοπικά* — the "places" you go to find patterns of reas
 
 **Not user-invocable.** Consult when doing judgment-heavy work: consilium deliberations, examen premise audits, gnome decisions, strategy, stakeholder analysis, or when a cognitive bias might be distorting the framing.
 
+> For **action defaults** (simple rules that replace reasoning): consult `praecepta` skill. Topica = how to think. Praecepta = when to stop thinking.
+
 **How to use:** Scan the trigger column. If a trigger matches the current situation, name the model explicitly — "this looks like a Chesterton's fence situation" — so Terry can engage with the lens, not just the conclusion.
 
 ---
