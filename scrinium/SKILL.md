@@ -21,6 +21,10 @@ When capturing a lesson, correction, or discovery, route it here first.
 | Reference / background context | Vault note |
 | One-off correction, not generalizable | Daily note only |
 
+## Worth Noting At All?
+
+Before routing, ask: is this **important, easy to forget, and hard to rediscover?** All three must be true. Don't note the obvious (how to breathe), the ephemeral (today's mood), or the easily re-derived (what a function does — read the code). Note the things your future self will need and won't think to look for.
+
 ## The One-Sentence Test
 
 Can the lesson be stated in one sentence? → `MEMORY.md` bullet.
