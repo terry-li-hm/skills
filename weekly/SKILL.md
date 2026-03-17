@@ -194,7 +194,8 @@ If a check command fails, mark that metric as `Unavailable` in the table and con
 5. **Oghma health** — `oghma stats` for DB size, memory count, extraction backlog.
 6. **Cron scripts** — Check `~/scripts/crons/` and `~/logs/cron-*.log` for failures or stale output.
 7. **QMD index** — `qmd cleanup && qmd update` to prune stale entries and re-index. Then `qmd status` for collection health.
-8. **Hook fire log** — Check `~/logs/hook-fire-log.jsonl` for the past 7 days:
+8. **DR sync** — Run `dr-sync` to back up Claude Code config, memory, Brewfile to officina (git-backed). Verify commit pushed.
+9. **Hook fire log** — Check `~/logs/hook-fire-log.jsonl` for the past 7 days:
    ```bash
    python3 -c "
    import json; from datetime import datetime, timedelta, timezone
@@ -228,6 +229,7 @@ Include a summary table in the weekly note:
 | Max20 usage | X% weekly | ✅/⚠️ |
 | Oghma memories | X | — |
 | Cron scripts (healthy/total) | X/Y | — |
+| DR sync | pushed/stale | ✅/⚠️ |
 | Hook fires (7d) | X total, top rule | — |
 ```
 
