@@ -25,6 +25,8 @@ When capturing a lesson, correction, or discovery, route it here first.
 
 Before routing, ask: is this **important, easy to forget, and hard to rediscover?** All three must be true. Don't note the obvious (how to breathe), the ephemeral (today's mood), or the easily re-derived (what a function does — read the code). Note the things your future self will need and won't think to look for.
 
+**Save conclusions that required reasoning, not just rules.** If the answer took a multi-step reasoning chain to reach and a fresh session wouldn't reliably reproduce it, save the conclusion. Example: "when on antibiotics → ginseng chicken soup + kimchi" isn't obvious — it took reasoning through medication interactions, nutrition, and stomach buffering to get past the naive answer (congee). Without the saved conclusion, future sessions will re-derive badly.
+
 ## The One-Sentence Test
 
 Can the lesson be stated in one sentence? → `MEMORY.md` bullet.
