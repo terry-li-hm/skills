@@ -71,7 +71,7 @@ Topics identified as worth mining (stable theory, currently in weights only):
 1. ~~Theory of debugging~~ → `diagnosis` (done)
 2. ~~Theory of simplification~~ → `parsimonia` (done)
 3. ~~Theory of delegation~~ → `mandatum` (done)
-4. **Theory of evaluation** — what makes a metric good, vanity metrics, Goodhart's law in practice. → skill: *TBD*
+4. ~~Theory of evaluation~~ → `kritike` (done)
 
 **Cadence:** One per session. Don't batch — each needs a fresh conversation for depth.
 
@@ -92,6 +92,7 @@ After creating any mined skill:
 | Experimentation theory | `peirasmos` | 1 | peira, judex, examen, topica | [[The Persona Paradox in AI Agent Teams]] |
 | Simplification theory | `parsimonia` | 1 | rector | — |
 | Delegation theory | `mandatum` | 1 | rector | — |
+| Evaluation theory | `kritike` | 1 | judex, peira | — |
 
 ## Relationship to Other Skills
 

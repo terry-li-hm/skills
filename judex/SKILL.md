@@ -12,6 +12,7 @@ Not user-invocable. Internal guidance consulted when facing a choice between two
 
 > **consilium** = outcome is uncertain, needs perspectives.
 > **judex** = outcome is measurable, needs evidence.
+> **kritike** = consult for what to measure and how (Goodhart traps, vanity vs diagnostic, evaluation theory).
 
 Before spinning up a deliberation or asking the user to decide: can you just run both and compare?
 

@@ -11,7 +11,7 @@ user_invocable: true
 
 # Peira — Experiment Loop
 
-Karpathy's autoresearch loop, generalized: **propose → run → measure → keep/discard → log → repeat**.
+Karpathy's autoresearch loop, generalized: **propose → run → measure → keep/discard → log → repeat**. For evaluation theory (what to measure, Goodhart traps, vanity vs diagnostic metrics): consult `kritike`.
 
 ## CLI
 
