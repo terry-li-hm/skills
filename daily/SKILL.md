@@ -6,6 +6,8 @@ user_invocable: true
 
 # Daily
 
+> **Theory:** Consult `conclusio` for state-transfer framing and failure modes.
+
 Bedtime close → daily note. The final checkpoint of the day.
 
 ## Triggers

@@ -6,6 +6,8 @@ user_invocable: true
 
 # End of Work
 
+> **Theory:** Consult `conclusio` for state-transfer framing and failure modes.
+
 Work-day close — the gap between per-session `/wrap` and bedtime `/daily`.
 
 ## Triggers
