@@ -1,6 +1,6 @@
 ---
 name: fodina
-description: LLM knowledge mining — extract implicit model knowledge into permanent reference skills. Two tiers: single-model interview (quick) and consilium adversarial refinement (deep). Use when a topic would benefit from stable, always-loaded theory that the model knows but surfaces inconsistently.
+description: LLM knowledge mining — extract implicit model knowledge into permanent reference skills as actionable heuristics. Two tiers: single-model interview (quick) and consilium adversarial refinement (deep). Use when a topic would benefit from stable, always-loaded heuristics that the model knows but surfaces inconsistently.
 user_invocable: true
 tags: [meta, knowledge, skills]
 ---
@@ -10,6 +10,8 @@ tags: [meta, knowledge, skills]
 > *Fodina: Latin "mine" — the place you extract ore.*
 
 Extract implicit knowledge from LLM weights into permanent, version-controlled reference skills. The model knows things it won't reliably surface — mining makes that knowledge explicit and deterministic.
+
+**Output format: heuristics, not theory.** Every mined skill should be actionable — failure modes to watch for, distinctions that change approach, decision points where the wrong default hurts. Minimal framing to make the heuristics cohere, but the test is: "does reading this change what I do?" If it's only interesting but not behaviour-changing, it's too theoretical.
 
 ## What to Mine (The Meta-Skill)
 

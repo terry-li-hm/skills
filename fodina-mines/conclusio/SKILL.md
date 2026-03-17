@@ -1,20 +1,19 @@
 ---
 name: conclusio
-description: Theory of session wrap-ups — failure modes, quality axes, state-transfer framing. Reference skill consulted by wrap, eow, daily. Not user-invocable.
+description: Heuristics for session wrap-ups — failure modes, quality tests, routing rules. Reference skill consulted by wrap, eow, daily. Not user-invocable.
 disable-model-invocation: true
 ---
 
-# Conclusio — Theory of Wrap-Ups
+# Conclusio — Wrap-Up Heuristics
 
 > *Conclusio: Latin "closing, conclusion" — the deliberate end that preserves what matters.*
 
 Reference skill for session close-out. Consulted by `wrap`, `eow`, `daily`.
 
-## Core Function
+## Organizing Principle
 
-A wrap-up is **state transfer** — from present-you (full context) to future-you (zero context). Everything in the wrap serves that transfer or it's noise.
+A wrap-up is **state transfer** — present-you (full context) to future-you (zero context). Use this to cut decisions fast:
 
-The reframe for every wrap decision:
 - "Should I log this?" → "Will future-me need this to resume?"
 - "Should I save this insight?" → "Will future-me encounter this situation again?"
 - "Should I update NOW.md?" → "If I read only NOW.md tomorrow, would I know what's hot?"
