@@ -53,6 +53,8 @@ Same principle applies to CLIs: if you'd write the same script twice, build a bi
 
 **The test:** If the knowledge fits in one sentence, it's a MEMORY.md bullet. If it has a trigger condition, multiple steps, or variants — it's a skill.
 
+**Two kinds of skill:** Procedure skills automate *actions* ("when X, do Y→Z"). Reference skills improve *decisions* ("at decision point X, here are the heuristics"). Reference skills earn their place when: a recurring judgment call has a demonstrable wrong default, and 5-10 heuristics at the decision point would change the outcome. Use `disable-model-invocation: true` for reference skills — they load on consult, not on invoke.
+
 ## Design Principles
 
 ### 1. Descriptions = When to Use, NOT What It Does
