@@ -23,11 +23,22 @@ The ability to spot minable knowledge is itself a judgment call. Look for:
 - **Cross-skill leverage** — a reference skill would make multiple other skills better (like bouleusis improves rector, examen, topica). The more skills it wires into, the higher the mining ROI.
 - **Repeated re-explanation** — you keep articulating the same concept across sessions without it sticking.
 
-**What to extract — not "how X works" but "what to consider when doing X":**
-- Failure modes and their signals (so you can catch them)
-- Key distinctions that change your approach (essential vs accidental complexity)
-- Decision points where the wrong default hurts (when to stop planning, when to abandon a hypothesis)
-- The human-agent split (where each is strong, how to combine)
+**What to extract — not "how X works" but "what to consider when doing X".** Ten types of actionable knowledge to look for during extraction:
+
+| Type | Example | When it helps |
+|------|---------|---------------|
+| **Rules** | "Don't park deliverables" | You know what to do but might not do it |
+| **Checklists** | "5 quality axes for wrap-ups" | You don't know what to consider |
+| **If-then triggers** | "If 'TODO: consider...' in wrap → decide now or delete" | Conditional — fires on recognition |
+| **Distinctions** | "Log vs. insight — different audiences, different destinations" | Prevents conflating things that look similar |
+| **Anti-patterns / smells** | "Deferred action disguised as capture" | Recognising what's going wrong |
+| **Spectrums** | "Scale wrap depth with session complexity" | Prevents binary thinking — there's a dial |
+| **Ordering / priority** | "Route: skill > memory > daily note" | Sequence matters |
+| **Signals** | "Inconsistent model depth = extractable structure exists" | What to notice before deciding what to do |
+| **Defaults with override** | "Always checkpoint at gear shifts — unless session <10 min" | Rule + explicit escape clause |
+| **Reframes** | "Wrap-up is state transfer, not documentation" | Changes how you see the task, makes other heuristics cohere |
+
+Most mines naturally contain several types. During extraction, **name the type** — it sharpens what you're pulling out and prevents drift into explanation.
 
 **Don't mine:**
 - Volatile knowledge (API versions, tool flags) — that's docs, not heuristics
