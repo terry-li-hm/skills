@@ -120,7 +120,7 @@ now-age
 
 **NOW.md** — read from disk first. If recent (<1h), update only deltas. If light session (<3 files, no decisions) and still accurate, skip.
 
-Max 15 lines. Resume points must pass cold-start test. Use `[decided]` vs `[open]`. Prune `[decided]` items that no longer gate future action.
+Max 15 lines. **Dual-ledger format** (stolen from Magentic-One): separate "Facts (established)" from "Progress (active)". Facts = what we know (decided things, stable state). Progress = where we are (in-progress, queued items with next actions). Use `[in-progress]` / `[queued]` / `[blocked]` in Progress section. Prune Facts that no longer gate future action.
 
 **Vault flush:** Update canonical tracker notes (e.g. `[[Capco Transition]]`) if the session advanced them.
 
