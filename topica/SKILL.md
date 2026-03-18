@@ -39,6 +39,9 @@ From Aristotle's *Τοπικά* — the "places" you go to find patterns of reas
 | **Map ≠ territory** | The model isn't reality. Specs lie, estimates drift. | Relying on abstractions, dashboards, plans |
 | **Confirmation bias** | You see what you're looking for. | Research, due diligence, "all evidence agrees" |
 | **Anchoring** | First number heard dominates. Recalibrate from base rates. | Negotiation, estimation, pricing |
+| **Bayesian updating** | Start with a prior, update proportionally to evidence strength. The prior isn't the enemy — refusing to update is. | After experiments (`peira`), calibrating tools/processes (`fodina`), verifying fixes (`probatio`), "was I right to expect X?" |
+| **Inside vs outside view** | Inside: reason from this case's specifics. Outside: reason from base rates of similar cases. Default to outside. | Planning (`bouleusis`), estimating effort, "this time is different", premise audits (`examen`) |
+| **Strength of evidence** | Not all evidence is equal. One system failure > ten successes (failures are more informative). One controlled experiment > ten anecdotes. | Conflicting signals (`trutina`), cross-source research (`elencho`), deciding how much to update |
 
 ## Systems & Change
 

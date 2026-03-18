@@ -54,6 +54,10 @@ After fixing any code that runs via an automated path:
 - After delegate-built fixes to pipeline code (delegates test functions, not systems)
 - Before claiming a cron fix is "done" in `/wrap`
 
+## Epistemics
+
+The checklist is a **Bayesian prior** about what fails (see `topica`). Each time you run it and a mode fires (or doesn't), update your mental weighting. Parameter shadowing and timing-dependent state are the highest-frequency modes — but that's based on N=2. Accumulate evidence.
+
 ## Provenance
 
 Extracted Mar 2026 from theoria/lustro pipeline debugging. Parameter shadowing (mode 1) and timing-dependent state (mode 5) both burned us — fix applied to wrong layer, tested via wrong path, failed silently for 4+ days.

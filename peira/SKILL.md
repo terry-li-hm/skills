@@ -153,6 +153,10 @@ When budget is exhausted:
 - Budget: 5 variants
 - Baseline: 3/5
 
+## Epistemics
+
+After each experiment, apply **Bayesian updating** (see `topica`): how much should this result shift your prior? A single experiment that contradicts expectations is stronger evidence than five that confirm — update proportionally.
+
 ## Source
 
 Adapted from Karpathy's [autoresearch](https://github.com/karpathy/autoresearch) (Mar 2026).
