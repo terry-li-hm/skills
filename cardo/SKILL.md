@@ -1,6 +1,6 @@
 ---
 name: cardo
-description: Midday reflection — scan morning sessions for shipped work and loose ends, then set afternoon priorities. Use when user says "cardo", "noon", "midday", "lunch check", or "afternoon".
+description: Midday reflection — scan morning sessions for shipped work and loose ends, then set afternoon priorities. Use when user says "cardo", "noon", "midday", "lunch check", "afternoon", "what did I do", "was it productive", "how was my morning", or asks to stocktake/review the day so far.
 user_invocable: true
 ---
 
@@ -19,6 +19,11 @@ Lighter than `/morning` (no weather, health, inbox). Heavier than a `/legatum` (
 - "midday"
 - "lunch check"
 - "afternoon"
+- "what did I do"
+- "was it productive"
+- "how was my morning"
+- "stocktake"
+- "review the day"
 - "/cardo"
 
 ## Steps
@@ -26,12 +31,11 @@ Lighter than `/morning` (no weather, health, inbox). Heavier than a `/legatum` (
 1. **Get current time** — run `date`. If it's before 11am or after 3pm, note this is a midday reflection run at an unusual hour but proceed anyway.
    - If `date` fails, use the system-provided current time and continue.
 
-2. **Scan morning sessions** (the core value):
-   - Run: `anam search "" --days 1 2>/dev/null | head -100`
-   - If `anam` fails or returns nothing, note "Session history unavailable" and continue with NOW.md/TODO-based reflection.
-   - Filter mentally for today's morning (roughly 6am–12pm HKT)
-   - Group prompts by session ID to understand what each session covered
-   - Extract for each session: topic, key outputs/decisions, anything left open
+2. **Read today's daily note** (the canonical source):
+   - Read `~/notes/Daily/YYYY-MM-DD.md` — this is the authoritative record of what happened today, written by `/legatum` at each session end.
+   - Extract: what shipped, decisions made, open threads, anything deferred.
+   - If the daily note is empty or missing, fall back to `anam search "" --days 1 2>/dev/null | head -100` as a secondary source.
+   - `anam` is supplementary — use it to fill gaps the daily note doesn't cover (e.g. sessions that weren't wrapped), not as the primary input.
 
 3. **Read NOW.md** — `~/notes/NOW.md`
    - If NOW.md is missing, note "NOW.md unavailable" and continue.
