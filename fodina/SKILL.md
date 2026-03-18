@@ -97,6 +97,9 @@ Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** a
 - [x] Physics → symmetry, dimensional analysis, perturbation theory, conservation laws, renormalisation, phase transitions
 - [x] Chemistry → catalysis, dynamic equilibrium, rate-limiting step, Le Chatelier, emergent properties
 - [x] Harry Potter (fiction) → Mirror of Erised, Horcruxes, Patronus, Deathly Hallows, choices > abilities
+- [x] Ubuntu/African oral tradition → ubuntu (relational cognition), griot (knowledge as performance), proverbs, circular time, indaba
+- [x] Mathematics as practice → abstraction, proof by contradiction, definitions, existence vs construction, isomorphism
+- [x] Alien fiction (Arrival, Three-Body, Ender's Game, Solaris, Blindsight) → sharpened existing skills, no new gaps. Possible ceiling.
 - [ ] Kaizen → (tradition specimen — queued)
 
 ## Tier 1: Single-Model Interview
@@ -205,6 +208,8 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Representation shifting | `metanoia` | 1 (specimen) | diagnosis, poiesis, hermenia, topica, mimesis | — |
 | Productive not-knowing | `aporia` | 1 (specimen) | syneidesis, zetetike, examen, phronesis, consilium, kritike | — |
 | Extreme-case testing | `reductio` | 1 (specimen) | zetetike, peira, examen, aporia, topica | — |
+| Cognition is relational | `ubuntu` | 1 (specimen) | consilium, sympatheia, adversaria, kenosis | — |
+| Existence before construction | `existence` | 1 (specimen) | aporia, diagnosis, metanoia, nishkama, invariance | — |
 | Working with momentum | `wuwei` | 1 (specimen) | enkrateia, metanoia, parsimonia, phronesis, reductio | — |
 | Mastery as disappearance | `kenosis` | 1 (specimen) | parsimonia, aporia, mandatum, mathesis | — |
 | Adversarial perspective | `adversaria` | 1 (specimen) | sympatheia, reductio, consilium, metanoia, aporia | — |
