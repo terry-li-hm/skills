@@ -74,6 +74,9 @@ Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** a
 - [x] Darwin → disconfirming evidence, exhaustive enumeration, analogy as scaffolding, institutional humility
 - [x] Talmudic tradition → structured disagreement, extreme cases, chain of transmission, question > answer, chavruta
 - [x] LTCM → model risk blindness, leverage as fragility, genius as risk factor, correlation breakdown, illiquidity, systemic coupling (all anti-patterns → existing skills)
+- [x] Laozi/Daoism → wu wei, usefulness of emptiness, yielding as strength, uncarved block, reversal at extremes, leading by not leading
+- [x] Musashi → the gaze (kan-ken), no preferred weapon, rhythm/timing, crossing at a ford, becoming the opponent, the void
+- [x] Sun Tzu → shì (momentum), empty/full, know them/know yourself, orthodox/unorthodox, winning without fighting, terrain
 - [ ] Kaizen → (tradition specimen — queued)
 
 ## Tier 1: Single-Model Interview
@@ -182,6 +185,9 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Representation shifting | `metanoia` | 1 (specimen) | diagnosis, poiesis, hermenia, topica, mimesis | — |
 | Productive not-knowing | `aporia` | 1 (specimen) | syneidesis, zetetike, examen, phronesis, consilium, kritike | — |
 | Extreme-case testing | `reductio` | 1 (specimen) | zetetike, peira, examen, aporia, topica | — |
+| Working with momentum | `wuwei` | 1 (specimen) | enkrateia, metanoia, parsimonia, phronesis, reductio | — |
+| Mastery as disappearance | `kenosis` | 1 (specimen) | parsimonia, aporia, mandatum, mathesis | — |
+| Adversarial perspective | `adversaria` | 1 (specimen) | sympatheia, reductio, consilium, metanoia, aporia | — |
 
 ## Relationship to Other Skills
 
