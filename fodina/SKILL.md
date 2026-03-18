@@ -58,7 +58,10 @@ Most mines naturally contain several types. During extraction, **name the type**
 
 Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** are concrete things you examine to reveal general structure — a thinker, a tradition, a failure. The specimen is drilled into, not preserved. Language matters: "anchor" implies fixity and invites anchoring bias; "specimen" keeps the relationship honest — you're studying it to learn about the class, then discarding the container.
 
-**A specimen is anything with embedded choices.** If someone made choices — a thinker, a poet, a programmer, a painter — those choices can be mined. But mining yield can't be predicted — how much structured knowledge the weights contain about any specimen is unmeasurable. The only way to know is to mine and see. Vary clusters (culture, domain, era, medium) to avoid saturation. The yield IS the measurement; there's no preview. People, traditions, failures, fiction, disciplines, games, natural phenomena — the type doesn't matter. The process is always: probe → extract moves → sort → check gaps. Below are specimen types we've validated, but this list is itself provisional (see `sunyata`):
+**A specimen is anything with embedded choices.** Mining yield can't be predicted — the only way to know is to mine and see. Two heuristics for picking specimens:
+
+1. **Maximize distance** from what you've already mined. Distance between cultural clusters is the best predictor of new gaps. Each culture is a different aggregation of human experience — different constraints produced different observations.
+2. **Prefer integrated specimens.** Person (decades of choices) → tradition (centuries) → culture (millennia). Each level aggregates more choices under more constraints. A thinker's life mines richer than a code snippet because the choices constrain each other across a lifetime, revealing deeper structure. People, traditions, failures, fiction, disciplines, games, natural phenomena — the type doesn't matter. The process is always: probe → extract moves → sort → check gaps. Below are specimen types we've validated, but this list is itself provisional (see `sunyata`):
 
 | Specimen | Example | Typical output |
 |----------|---------|----------------|
