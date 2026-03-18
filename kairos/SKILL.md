@@ -103,6 +103,7 @@ Based on current time and what was found:
 
 **Free block (no meeting for 2+ hours):**
 → Surface top 1–2 priorities from NOW.md + overdue TODO. Concrete, doable. Tiebreaker between equal-urgency items: prefer the one whose output compounds (skill > script, vault note > chat explanation, research > re-research). See `topica` → Compounding.
+→ **Energy diagnostic:** Is the block running low-energy (depleted, post-meeting, sick) or blocked (stuck, avoiding)? These look the same but route differently. *Depletion* → route to a low-stakes, mechanical task that still advances something. *Resistance* → name what's being avoided; the item with friction is usually the one that matters. Don't let depletion masquerade as resistance or vice versa.
 
 **Late afternoon (after 5pm HKT) or pre-EOD:**
 → Flag EOD proximity: "< N hours left — what needs wrapping before you close?"

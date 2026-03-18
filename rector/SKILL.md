@@ -105,6 +105,7 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 - `.py` → kieran-python, `.rs` → kieran-rust, `*auth*` → security-sentinel always
 - Then: pattern-recognition → code-simplicity (YAGNI last, consult `parsimonia` for essential vs accidental complexity)
 - **Adversarial pass:** "3 most likely production failures"
+- **Simplicity diagnostic:** "Where did the complexity go?" Every simplification moves complexity somewhere — into the caller, a future edge case, a config file, a convention that must be documented. Name where it landed. If the answer is "nowhere", the complexity was accidental and the simplification is clean. If it landed on the user or caller, that's a trade-off worth flagging, not hiding.
 - **Severity tags:** Blocker (stops PR) / Major (accept-risk) / Minor (optional)
 
 **7. Finish:**

@@ -80,6 +80,8 @@ export OPENROUTER_API_KEY=$(security find-generic-password -s openrouter-api-key
 
 Check the routing table above. If it falls in "Skip", redirect.
 
+**Narrative diagnostic:** Before framing the question, ask: is this narrative *predictive* (Terry wants to know what will happen) or *explanatory* (Terry wants to understand why something is true)? Predictive questions → `--forecast` or `--council` with explicit probability request. Explanatory questions → `--discuss` or `--socratic`. Mixing them produces answers that sound like one but act as the other — the council will predict when you wanted understanding, or explain when you needed a bet.
+
 ### Step 0.5: Propose mode
 
 Tell the user which mode and why (one line), then confirm. Don't run until confirmed.
