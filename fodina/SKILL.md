@@ -50,13 +50,14 @@ Most mines naturally contain several types. During extraction, **name the type**
 
 Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** are concrete things you examine to reveal general structure — a thinker, a tradition, a failure. The specimen is drilled into, not preserved. Language matters: "anchor" implies fixity and invites anchoring bias; "specimen" keeps the relationship honest — you're studying it to learn about the class, then discarding the container.
 
-**Three specimen types:**
+**Four specimen types:**
 
 | Specimen | Why it works | Example | Output destination |
 |----------|-------------|---------|-------------------|
 | **People** | A great thinker is a tested integration of heuristics. The life proves the moves cohere. | Einstein, Feynman, Munger | Heuristics sort into existing skills |
 | **Traditions** | Like a slow collective person — centuries of refinement. | Stoicism, kaizen, Talmudic debate | Same — tradition is the prompt, skills are the home |
 | **Failures** | Anti-patterns cluster tightly around what went wrong. Very concrete. | Challenger, LTCM, Enron | Existing skills gain "don't" entries |
+| **Fiction** | The author's crystallized insight about strategy/thinking, expressed through character. Mining the character = mining the author's extraction. | 火鳳燎原, Sherlock Holmes, Ender's Game | Mostly enrichment + occasional sharp distinctions |
 
 **Specimen types produce different heuristic shapes.** People and traditions yield positive heuristics ("do this") and reveal architectural gaps (homeless heuristics). Failures yield anti-patterns ("don't do this") and reinforce existing skills without revealing new gaps — because failures show where known principles were violated, not where new principles are needed. Mix both types for a complete picture.
 
@@ -77,6 +78,7 @@ Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** a
 - [x] Laozi/Daoism → wu wei, usefulness of emptiness, yielding as strength, uncarved block, reversal at extremes, leading by not leading
 - [x] Musashi → the gaze (kan-ken), no preferred weapon, rhythm/timing, crossing at a ford, becoming the opponent, the void
 - [x] Sun Tzu → shì (momentum), empty/full, know them/know yourself, orthodox/unorthodox, winning without fighting, terrain
+- [x] 火鳳燎原 (fiction) → appearing weak/strong, weakness as asset, information asymmetry, long game > brilliant move, unreliable narration, principles have costs
 - [ ] Kaizen → (tradition specimen — queued)
 
 ## Tier 1: Single-Model Interview
