@@ -132,7 +132,7 @@ Topics identified as worth mining (stable theory, currently in weights only):
 
 **Cadence:** One per session. Don't batch — extraction quality degrades within a conversation (fresh context = fresh extraction). Validated: 7 specimens in one session, first 6 strong, 7th felt mechanical.
 
-**Saturation curve:** Specimen-based mining has a saturation curve, not a compounding one. First 3-6 specimens discover architectural gaps. After that, you're adding examples to known categories (enrichment, not discovery). The signal: when you predict the next specimen will produce "more of the same," you've hit saturation. Stop mining, shift to Tier 3 field validation.
+**Saturation is per-cluster, not per-process.** 7 Western specimens saturated after 6 — specimen 7 (LTCM) produced only enrichment. But 3 Eastern specimens (Laozi, Musashi, Sun Tzu) immediately found 3 new gaps the Western cluster never touched. The signal "more of the same" means "switch clusters," not "stop mining." Vary specimen culture/domain/era to avoid premature saturation.
 
 ## Wiring Checklist
 
