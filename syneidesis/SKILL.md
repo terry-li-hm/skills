@@ -35,6 +35,8 @@ Examples: "I shut down when challenged publicly." "I over-prepare when anxious."
 
 - **The emotion is data, not the problem.** Anger, anxiety, excitement — each tells you something about the situation. Suppressing it loses the data. Noticing it gives you the data AND the choice of how to respond.
 
+- **Ask WHAT, not WHY.** "Why do I feel this way?" generates plausible fictions — your brain confabulates to protect the ego. "What am I feeling right now?" stays observational. (Eurich: only 10-15% of people are genuinely self-aware despite 95% believing they are.)
+
 - **Name it to tame it.** Labelling an emotion ("I notice I'm feeling defensive") reduces its grip. Neurologically supported — labelling activates prefrontal cortex, dampens amygdala. The label creates the gap between stimulus and response.
 
 - **Check the story.** Behind every strong emotion is a narrative ("they don't respect me," "this will fail"). The emotion is real; the story may not be. Separate them. The emotion is data; the story is interpretation.
@@ -59,7 +61,7 @@ Examples: "I shut down when challenged publicly." "I over-prepare when anxious."
 
 Not a skill you learn once. A capacity you build through practice:
 
-- **Meditation** — formal practice of noticing. Even 5 minutes trains the muscle. The Waking Up "noting" technique: label what arises (thinking, feeling, hearing) without engaging.
+- **Meditation / prosoche** — formal practice of noticing. The Stoics called it *prosoche* (continuous attentive watching); Harris calls it "noting" — same move, different tradition. Label what arises (thinking, feeling, hearing) without engaging. The target is the observer stance, not relaxation.
 - **The pause** — before responding to anything charged, pause. The pause is where awareness lives.
 - **Post-event reflection** — "What was I feeling? What story was I telling? Was the story accurate?" (This is what /eow and /daily partially serve.)
 - **Trusted feedback** — other people see your patterns before you do. A partner, friend, or coach who says "you always do X when Y" is giving you pattern awareness you can't get alone.
@@ -72,7 +74,7 @@ Self-awareness develops gradually (ages 2-7):
 - **Age 4-5:** False belief understanding (theory of mind). Can recognise they were wrong.
 - **Age 5-7:** Inner speech develops. Can reflect on own thinking. "I thought X but actually Y."
 
-What to do now (age 2.5): name your own emotions out loud. "Daddy is feeling frustrated because..." Model the noticing, not just the emotion.
+What to do now (age 2.5): name your own emotions out loud. "Daddy is feeling frustrated because..." Model the noticing, not just the emotion. Research shows "mind-mindedness" — narrating mental states aloud — predicts the child's theory of mind development, which predicts later metacognitive skill.
 
 ## Wiring
 

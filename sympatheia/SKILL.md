@@ -33,13 +33,15 @@ The model: "If I were in their position, with their constraints, their informati
 
 - **Match before you lead.** Acknowledge their state before trying to change it. "I can see why you'd feel that way" opens the door. "Here's what you should do" closes it. Emotional channel must be clear before rational channel works (connects to hermenia).
 
-- **Empathy fatigue is real.** Sustained emotional empathy depletes (connects to enkrateia). Protect yourself by defaulting to cognitive empathy professionally. Understand without absorbing. Compassion without fusion.
+- **Empathy fatigues; compassion doesn't.** Tania Singer's research: empathy training activates pain circuits; compassion training activates reward circuits. "Compassion fatigue" is a misnomer — it's *empathy* (emotional absorption) that depletes. The sustainable mode is cognitive empathy + compassionate motivation, not emotional merging.
+
+- **Perspective-taking degrades under stress.** It's cognitively expensive — second/third-order recursion ("what does my client think I think they want?") loads working memory. Train in low-stakes settings so it runs more automatically when stakes are high.
 
 ## Perspective-Taking in Practice
 
 **Chris Voss's "tactical empathy" (negotiation):** Label the other person's emotion out loud. "It sounds like you're frustrated by..." This simultaneously: (1) shows you understand, (2) reduces the emotional intensity, (3) gives them space to correct your model. The correction is more valuable than being right.
 
-**Consulting application:** Before proposing a solution, articulate the client's constraints as they see them. "If I understand correctly, your concern is X because of Y, and you need Z by [date]." If they correct you, you've just received the most valuable information in the room.
+**Consulting application ("role-storming"):** Mentally inhabit the client's role, pressures, political constraints, and career risk — not just their stated problem. The diagnosis changes entirely when you ask "what would getting this wrong cost *this person personally*?" Before proposing a solution, articulate the client's constraints as they see them. "If I understand correctly, your concern is X because of Y, and you need Z by [date]." If they correct you, you've just received the most valuable information in the room.
 
 **Parenting application:** "You don't want to go to school because [your model of why]." Even at 2.5, the attempt to understand matters more than the accuracy.
 
