@@ -58,6 +58,10 @@ Fast, good for well-understood domains where the model has clear depth.
 5. **Wire** — add cross-references to skills that would benefit (this is not optional — unwired skills get forgotten)
 6. **Publish** — if the insight is non-obvious, `sarcio new` for a garden post
 
+**Step 4.5: Quality gate** — after distilling, ask: "which of these heuristics would actually change behavior?" Most mines produce 80% theory, 20% behavior-changing insight. Flag the 20%. The skill keeps everything (reference is cheap); the garden post carries only the sharp part.
+
+**Step 6 detail: Mine → garden conversion.** Never publish the framework. Publish one distinction, grounded in a specific moment. The skill is the map; the post is the story of discovering one landmark.
+
 **Output:** One reference skill file. ~50-100 lines. Stable knowledge, not procedures.
 
 ## Tier 2: Consilium Adversarial Refinement
