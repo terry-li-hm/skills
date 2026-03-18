@@ -130,7 +130,9 @@ Topics identified as worth mining (stable theory, currently in weights only):
 3. ~~Theory of delegation~~ → `mandatum` (done)
 4. ~~Theory of evaluation~~ → `kritike` (done)
 
-**Cadence:** One per session. Don't batch — each needs a fresh conversation for depth.
+**Cadence:** One per session. Don't batch — extraction quality degrades within a conversation (fresh context = fresh extraction). Validated: 7 specimens in one session, first 6 strong, 7th felt mechanical.
+
+**Saturation curve:** Specimen-based mining has a saturation curve, not a compounding one. First 3-6 specimens discover architectural gaps. After that, you're adding examples to known categories (enrichment, not discovery). The signal: when you predict the next specimen will produce "more of the same," you've hit saturation. Stop mining, shift to Tier 3 field validation.
 
 ## Wiring Checklist
 
