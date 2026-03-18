@@ -88,6 +88,7 @@ When a publishable insight surfaces in a session:
 - In Terry's lane: AI, work, tools, personal systems, consulting
 - No factual claims needing verification
 - No real names, companies, or time-sensitive content that could embarrass
+- **Insider test:** Would domain-specific details (STR rates, alert thresholds, governance pack contents) let a reader identify the author as an insider at a specific institution? If yes → generalise the examples or move to vault-only. Terry's LinkedIn profile completes the identification — assume readers will check.
 
 When in doubt: draft and let judge decide. Judge is the gate, not the intent check.
 
