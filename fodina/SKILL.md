@@ -141,6 +141,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Self-regulation | `enkrateia` | 1 | syneidesis, phronesis, sopor, kairos, mora, parens | — |
 | Empathy | `sympatheia` | 1 | hermenia, mandatum, meeting-prep, cursus, phronesis, parens | — |
 | Task management | `negotium` | 1 | sched, kairos, legatum, todo | — |
+| AI governance consulting | `gubernatio` | 1 | rector, meeting-prep, capco-prep, consilium | — |
 
 ## Relationship to Other Skills
 
