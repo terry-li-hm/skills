@@ -196,6 +196,7 @@ consilium --doctor                # Check API keys and connectivity
 - **Two spend streams to monitor:** OpenRouter (`stips`) + OpenAI direct (`platform.openai.com/usage`). Responses API models (gpt-5.4-pro etc.) bypass OpenRouter and burn the direct OPENAI_API_KEY — invisible in stips. Keep OpenAI direct budget cap at $20.
 - **402 = OpenRouter out of credits.** Tell Terry to top up at openrouter.ai/credits. Do not retry or proceed.
 - **403 on a new model = access restricted (allowlist-gated).** Test before upgrading: `consilium --quick --quiet "test" 2>&1 | grep -i "403\|error"`. Swap to an available model or remove from rotation.
+- **Strip PII from personal/family prompts.** OpenRouter routes to 6+ third-party providers. Use roles ("my son", "my wife") not names, drop nicknames, generalise location if not essential. Professional/career topics with Terry's own context are fine (he routinely uses --persona).
 
 ---
 
