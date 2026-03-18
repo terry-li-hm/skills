@@ -177,7 +177,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Consulting communication | `relatio` | 1 | hermenia, meeting-prep, capco-prep, gubernatio, cursus, auctoritas, stilus | — |
 | Representation shifting | `metanoia` | 1 (specimen) | diagnosis, poiesis, hermenia, topica, mimesis | — |
 | Productive not-knowing | `aporia` | 1 (specimen) | syneidesis, zetetike, examen, phronesis, consilium, kritike | — |
-| Extreme-case testing | `akron` | 1 (specimen) | zetetike, peira, examen, aporia, topica | — |
+| Extreme-case testing | `reductio` | 1 (specimen) | zetetike, peira, examen, aporia, topica | — |
 
 ## Relationship to Other Skills
 

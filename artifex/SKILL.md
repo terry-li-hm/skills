@@ -152,7 +152,7 @@ Signal that a skill needs splitting: you find yourself reading the rationale sec
 
 - **Action skills** → verb-first: `evaluate-job`, `design-skill`
 - **Trigger/lookup skills** → short nouns: `todo`, `hko`, `morning`
-- **Style:** Latin or Greek preferred. Run `consilium "Name a CLI/skill that does X. Style: Latin/Greek, short. Existing tools: cerno, oghma, qmd, synaxis..." --quick` first — don't propose names yourself.
+- **Style:** Most precise single word for the concept, any language. The name is an agent-facing concept label — Claude invokes skills and reads cross-references, not the user. Optimize for unambiguous meaning, not human recall. Latin/Greek often wins (aporia, enkrateia — no English equivalent), but English wins when clearer. The test: does the name encode the full concept? `akron` (extreme point) fails because it's missing the verb — `reductio` (testing by pushing to extremes) passes. One word preferred. When uncertain, `consilium --quick` on naming.
 
 **For anything that may become a CLI — check BOTH registries before planning:**
 ```bash

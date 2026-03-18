@@ -1,14 +1,14 @@
 ---
-name: akron
+name: reductio
 description: Extreme-case testing — push variables to limits, invert, pre-mortem, reductio ad absurdum. Consult when evaluating a rule, design, or strategy — test at the boundaries before trusting the middle. NOT for experimentation (use peira) or truth-seeking method (use zetetike).
 user_invocable: false
 disable-model-invocation: true
 tags: [reference, cognition, mined]
 ---
 
-# Akron — Extreme-Case Testing
+# Reductio — Extreme-Case Testing
 
-> *Akron: Greek — the extreme point, the edge, the summit.*
+> *Reductio: Latin — leading back to the limit, testing by pushing to extremes.*
 
 Rules, designs, and strategies are tested at their boundaries, not their centres. Push one variable to its limit and watch what breaks. The break IS the insight.
 
@@ -44,8 +44,8 @@ Take the thing you're evaluating. Push one dimension to an extreme — zero, inf
 
 ## Cross-References
 
-- `zetetike` — truth-seeking includes extreme-case testing; akron isolates this specific move
-- `peira` — experimentation runs real tests; akron runs mental ones
-- `examen` — premise audit uses extreme cases as one tool; akron is the full toolkit
-- `aporia` — knowing what you don't know; akron is one method for discovering the boundaries of your knowledge
-- `topica` — inversion is already a mental model in topica; akron provides the full practice
+- `zetetike` — truth-seeking includes extreme-case testing; reductio isolates this specific move
+- `peira` — experimentation runs real tests; reductio runs mental ones
+- `examen` — premise audit uses extreme cases as one tool; reductio is the full toolkit
+- `aporia` — knowing what you don't know; reductio is one method for discovering the boundaries of your knowledge
+- `topica` — inversion is already a mental model in topica; reductio provides the full practice
