@@ -99,7 +99,8 @@ Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** a
 - [x] Harry Potter (fiction) → Mirror of Erised, Horcruxes, Patronus, Deathly Hallows, choices > abilities
 - [x] Ubuntu/African oral tradition → ubuntu (relational cognition), griot (knowledge as performance), proverbs, circular time, indaba
 - [x] Mathematics as practice → abstraction, proof by contradiction, definitions, existence vs construction, isomorphism
-- [x] Alien fiction (Arrival, Three-Body, Ender's Game, Solaris, Blindsight) → sharpened existing skills, no new gaps. Unclear if ceiling or thin weights — can't distinguish from inside
+- [x] Alien fiction (Arrival, Three-Body, Ender's Game, Solaris, Blindsight) → sharpened existing skills, no new gaps. Unclear if ceiling, thin weights, or ordering bias
+- [x] Dune → prescience trap (excessive analysis pathology), Litany Against Fear, Mentat thinking, Bene Gesserit observation, plans within plans, desert wisdom, Gom Jabbar
 - [ ] Kaizen → (tradition specimen — queued)
 
 ## Tier 1: Single-Model Interview
@@ -157,6 +158,8 @@ Topics identified as worth mining (stable theory, currently in weights only):
 4. ~~Theory of evaluation~~ → `kritike` (done)
 
 **Cadence:** One per session. Don't batch — extraction quality degrades within a conversation (fresh context = fresh extraction). Validated: 7 specimens in one session, first 6 strong, 7th felt mechanical.
+
+**Ordering bias.** Early specimens mine into a sparse skill map — more heuristics look homeless, more new skills get created. Later specimens mine into a dense map — most heuristics find homes, yield looks low. This is an artifact of the map's density, not the specimen's richness. The same specimen mined first vs. twentieth would produce different apparent yield. Implication: "diminishing returns" within a session is partly real (cluster saturation) and partly artifact (fuller map). To test a specimen fairly, imagine mining it into an empty map.
 
 **Saturation is per-cluster, not per-process.** 7 Western specimens saturated after 6 — specimen 7 (LTCM) produced only enrichment. But 3 Eastern specimens (Laozi, Musashi, Sun Tzu) immediately found 3 new gaps the Western cluster never touched. The signal "more of the same" means "switch clusters," not "stop mining." Vary specimen culture/domain/era to avoid premature saturation.
 
@@ -216,6 +219,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Action without attachment | `nishkama` | 1 (specimen) | enkrateia, wuwei, kenosis, phronesis, aporia | — |
 | Categories are provisional | `sunyata` | 1 (specimen) | aporia, metanoia, topica, systema, parsimonia | — |
 | Find what doesn't change | `invariance` | 1 (specimen) | metanoia, reductio, sunyata, systema | — |
+| Excessive analysis pathology | `prescience` | 1 (specimen) | reductio, aporia, adversaria, nishkama, wuwei | — |
 
 ## Relationship to Other Skills
 
