@@ -133,6 +133,9 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Systems thinking | `systema` | 1 | rector, diagnosis, phronesis, poiesis, zetetike | — |
 | Communication | `hermenia` | 1 | cursus, storyteller, agoras, consilium, mandatum, meeting-prep | — |
 | Learning | `mathesis` | 1 | dokime, rector, fodina, parens, eow, daily, phronesis | — |
+| Self-awareness | `syneidesis` | 1 | phronesis, enkrateia, praecepta, all operations | — |
+| Self-regulation | `enkrateia` | 1 | syneidesis, phronesis, sopor, kairos, mora, parens | — |
+| Empathy | `sympatheia` | 1 | hermenia, mandatum, meeting-prep, cursus, phronesis, parens | — |
 
 ## Relationship to Other Skills
 
