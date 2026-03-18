@@ -48,7 +48,10 @@ Most mines naturally contain several types. During extraction, **name the type**
 - Knowledge the model doesn't actually have depth on — test with one probing question first
 - Topics where the existing pieces already cover it well enough — diminishing returns
 - Abstract words (adjectives, verbs) — too compressed, one insight per word. Specimens need enough internal structure to probe deeply
-- Unnamed phenomena — "the moment before understanding," "the pull of a wrong framework." These feel like they should be skills but resist extraction because they haven't been crystallized into transmissible form. Some knowledge needs to be lived, not described. This is fodina's limit: mining extracts what's already structured in the weights; it can't create structure that doesn't exist yet
+- Unnamed phenomena — resist extraction because they haven't been crystallized into transmissible form. Some knowledge needs to be lived, not described
+- Abstract words (adjectives, verbs) — too compressed, one insight per word. Specimens need internal structure to probe
+
+**Stories hold what skills can't.** Writing a story then mining it produces heuristics that all map to existing skills — no new gaps. But the story captures the felt quality of multiple moves operating together, which the skill format can't decompose. Skills are for retrieval; stories are for transmission of what resists decomposition. Complementary formats.
 
 ## Specimen-Based Mining
 
