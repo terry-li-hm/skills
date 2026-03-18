@@ -65,10 +65,14 @@ Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** a
 **Post-mining: revisit the skill map.** After each specimen, review the heuristic-to-skill mapping. When a heuristic maps to TWO existing skills equally, that's a signal — a concept lives in the cracks between skills. Log these "homeless" heuristics. After 3-4 specimens, review the collection: do they cluster into a concept that deserves its own skill? If yes, the mining has diagnosed a gap in the skill architecture. This is the real payoff — specimens stress-test the skill network, not just enrich it.
 
 **Queue:**
-- [ ] Einstein → thought experiments, aesthetic selection, productive stubbornness, productive confusion
-- [ ] Feynman → explanation as understanding, playful formalism, anti-authority heuristics
-- [ ] Munger → inversion, latticework, circle of competence, avoiding stupidity > seeking brilliance
-- [ ] Stoicism → premeditatio malorum, dichotomy of control, negative visualisation
+- [x] Einstein → thought experiments, aesthetic selection, productive stubbornness, productive confusion
+- [x] Feynman → explanation as understanding, playful formalism, anti-authority heuristics
+- [x] Munger → inversion, latticework, circle of competence, avoiding stupidity > seeking brilliance
+- [x] Stoicism → premeditatio malorum, dichotomy of control, negative visualisation
+- [x] Darwin → disconfirming evidence, exhaustive enumeration, analogy as scaffolding, institutional humility
+- [x] Talmudic tradition → structured disagreement, extreme cases, chain of transmission, question > answer, chavruta
+- [ ] LTCM → (failure specimen — queued)
+- [ ] Kaizen → (tradition specimen — queued)
 
 ## Tier 1: Single-Model Interview
 
@@ -171,6 +175,9 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Agent team orchestration | `cohors` | 1 | copia, rector, mandatum, heuretes, opifex | — |
 | Deployed system verification | `probatio` | 1 | verify, peira, topica | "The Pipeline Paradox" |
 | Consulting communication | `relatio` | 1 | hermenia, meeting-prep, capco-prep, gubernatio, cursus, auctoritas, stilus | — |
+| Representation shifting | `metanoia` | 1 (specimen) | diagnosis, poiesis, hermenia, topica, mimesis | — |
+| Productive not-knowing | `aporia` | 1 (specimen) | syneidesis, zetetike, examen, phronesis, consilium, kritike | — |
+| Extreme-case testing | `akron` | 1 (specimen) | zetetike, peira, examen, aporia, topica | — |
 
 ## Relationship to Other Skills
 
