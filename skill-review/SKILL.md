@@ -92,11 +92,28 @@ For each active skill, check:
 | **Context shifted?** | Has a hook, tool, or other skill made parts of this skill redundant? A component can be correct but no longer worth its weight. See `~/docs/solutions/patterns/tightening-pass.md`. |
 | **Description trigger timing?** | Does the description fire at the *earliest useful moment* — when the uncertainty exists — or only after the decision is already made? A skill consulted too late is a skill not consulted. |
 
-**Open question (unresolved as of 2026-03-04):** MEMORY.md vs skill description — which is more reliable for behavioral nudges?
-- MEMORY.md: always in context for Claude Code, but read reactively, truncates past line 200, easy to miss in a long list
-- Skill description: fires at a specific trigger, but only if the description matches the right moment — too late = never loaded
-- Current working hypothesis: skill descriptions are more reliable *if* the trigger is right; MEMORY.md is the fallback for patterns that don't have a natural trigger point
-- Revisit this question each review — if skills are consistently being loaded too late or missed, the system needs a structural fix
+**Resolved (2026-03-18):** Skill descriptions are more reliable *if* the trigger is right. The structural fix: a flywheel that detects and repairs missed triggers automatically.
+
+### 4b. Skill Suggest Flywheel
+
+Run the trigger hit/miss report:
+
+```bash
+python3 ~/.claude/hooks/skill-trigger-report.py --days 7
+```
+
+This shows:
+- **Hit rate** — % of skill invocations that were predicted by skill-suggest
+- **Misses** — skills invoked without prediction (need better trigger phrases in description/## Triggers)
+- **False positives** — skills suggested but never invoked (triggers too broad)
+
+For each miss: read the logged prompt, extract the natural language that *should* have triggered the skill, and add it to the skill's description and `## Triggers` section. Then regenerate:
+
+```bash
+python3 ~/.claude/hooks/skill-trigger-gen.py
+```
+
+**Target: >70% hit rate.** Below that, descriptions are too narrow and the user is carrying routing burden that should be automatic.
 
 ### 5. Session Quality Review
 
