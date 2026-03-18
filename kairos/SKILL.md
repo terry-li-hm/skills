@@ -102,7 +102,7 @@ Based on current time and what was found:
 → Flag follow-up capture: "Just finished X — anything to log or action from that?"
 
 **Free block (no meeting for 2+ hours):**
-→ Surface top 1–2 priorities from NOW.md + overdue TODO. Concrete, doable.
+→ Surface top 1–2 priorities from NOW.md + overdue TODO. Concrete, doable. Tiebreaker between equal-urgency items: prefer the one whose output compounds (skill > script, vault note > chat explanation, research > re-research). See `topica` → Compounding.
 
 **Late afternoon (after 5pm HKT) or pre-EOD:**
 → Flag EOD proximity: "< N hours left — what needs wrapping before you close?"

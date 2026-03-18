@@ -73,6 +73,6 @@ From Aristotle's *Τοπικά* — the "places" you go to find patterns of reas
 | **Comparative advantage** | Win at the intersection, not the components. | Positioning, niche strategy, "should I specialise?" |
 | **Specific knowledge** | Found by pursuing curiosity, can't be trained for. | Career direction, "what should I build?", hiring |
 | **Permissionless leverage** | Code and media don't need anyone's permission to scale. | Side projects, content, tool-building vs waiting for mandate |
-| **Compounding** | Reputation, knowledge, relationships grow exponentially. | Long-term bets, "is this worth doing?", consistency |
+| **Compounding** | The skill isn't understanding exponentials — it's discriminating what compounds from what doesn't. Net compounding = growth − decay. Test: "will this be useful in April?" Wired into: `legatum` (persistence check), `kairos` (priority tiebreaker), `artifex` (build-or-not gate). | Resource allocation, prioritisation tiebreakers, "should I build this or do it manually?", surplus budget/tokens |
 | **Accountability** | Take risk under your own name to earn outsized returns. | Publishing, public positions, career moves with skin in the game |
 | **Treadmill vs loop** | Knowledge expires; the ability to generate answers on demand doesn't. Don't chase "staying ahead" — build the hypothesis→test→verify→update loop. | "Should I research X before the client asks?", competitive anxiety, framework FOMO, "is this still current?" |

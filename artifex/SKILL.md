@@ -32,7 +32,7 @@ Two types:
 
 ## When to Build a Skill vs. Script
 
-**Default to building a skill** when a pattern will recur. The threshold is low — even two occurrences justify a skill. Build cost is delegated and cheap; purge cost is `rm -rf ~/skills/<name>`. Rewriting the same prompt logic repeatedly costs more than a skill that might get deleted.
+**Default to building a skill** when a pattern will recur. The threshold is low — even two occurrences justify a skill. Build cost is delegated and cheap; purge cost is `rm -rf ~/skills/<name>`. Rewriting the same prompt logic repeatedly costs more than a skill that might get deleted. A skill that triggers 10 times at 80% quality beats a perfect one-off — frequency × persistence is the compounding mechanism. See `topica` → Compounding.
 
 | Signal | Action |
 |--------|--------|
