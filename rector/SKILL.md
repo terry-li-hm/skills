@@ -39,7 +39,7 @@ Orchestrate here, execute elsewhere. Full reference: `~/docs/solutions/rector-re
 
 - **Data governance:** can this code leave the machine? No `.env`, secrets, proprietary code.
 - **Parallel sessions?** → `lucus new <branch>` first.
-- **Naming?** → HARD GATE: name before code. Check registry availability (PyPI/crates.io). See `artifex`.
+- **Naming?** → HARD GATE: name before code. Check registry availability (PyPI/crates.io). See `[[knowledge-structure]]`.
 - **Agent-readiness:** (1) build/test <30s? (2) heavy magic (ORM, metaclasses)? (3) errors explicit? Fix before delegating.
 
 ### 1. Solutions KB check

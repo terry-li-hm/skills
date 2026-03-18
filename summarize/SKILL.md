@@ -76,7 +76,7 @@ For batch YouTube channel digests, use `/digest` instead.
 
 ### Non-YouTube Video / Podcasts (Bilibili, Xiaoyuzhou, Apple Podcasts, X videos)
 
-See `video-digest` skill for the full Whisper transcription pipeline. Covers subtitle extraction, Groq Whisper API, audio segmentation for files over 25MB, and platform-specific workarounds (Bilibili API for 412s, Xiaoyuzhou `__NEXT_DATA__` extraction).
+See `video-digest` CLI (if available) or manual transcription for the full Whisper transcription pipeline. Covers subtitle extraction, Groq Whisper API, audio segmentation for files over 25MB, and platform-specific workarounds (Bilibili API for 412s, Xiaoyuzhou `__NEXT_DATA__` extraction).
 
 ### WeChat Articles
 
@@ -105,7 +105,7 @@ sleep 3
 agent-browser eval "document.body.innerText.substring(0, 3000)"
 ```
 
-Session persists for subsequent product pages. Full product analysis framework: see `taobao` reference skill.
+Session persists for subsequent product pages. Full product analysis framework: see `[[taobao-access]]` reference doc.
 
 ### Login-required Sites
 

@@ -35,12 +35,12 @@ Universal entry point for anything user shares — URL or pasted content. Detect
 | `linkedin.com/in/*` | profile | Lightweight |
 | `*.substack.com`, `medium.com/*`, `*blog*` | article | Specialized |
 | `arxiv.org/*`, `papers.*`, `*.pdf` | paper | Specialized |
-| `youtube.com/*`, `youtu.be/*` | video | → `video-digest` skill |
-| `bilibili.com/*`, `b23.tv/*` | video | → `video-digest` skill |
-| `xiaoyuzhoufm.com/*` | podcast | → `video-digest` skill |
-| `podcasts.apple.com/*` | podcast | → `video-digest` skill |
-| `x.com/i/broadcasts/*` | broadcast | → `video-digest` skill (Step 1f) |
-| `.mp3`, `.mp4`, `.m4a` direct links | media | → `video-digest` skill |
+| `youtube.com/*`, `youtu.be/*` | video | → `video-digest` CLI |
+| `bilibili.com/*`, `b23.tv/*` | video | → `video-digest` CLI |
+| `xiaoyuzhoufm.com/*` | podcast | → `video-digest` CLI |
+| `podcasts.apple.com/*` | podcast | → `video-digest` CLI |
+| `x.com/i/broadcasts/*` | broadcast | → `video-digest` CLI (Step 1f) |
+| `.mp3`, `.mp4`, `.m4a` direct links | media | → `video-digest` CLI |
 | Company career/about pages | company | Lightweight |
 | Everything else | unknown | Check content, then fallback |
 
@@ -209,7 +209,7 @@ tags: []
 ```
 
 **Videos / Podcasts:**
-Route to `video-digest` skill for full transcription + structured digest. That skill handles YouTube, Bilibili, Xiaoyuzhou, Apple Podcasts, X video tweets, and direct audio files. After transcript is produced, apply deep analysis framework above if user requests analysis (not just transcription).
+Route to `video-digest` CLI for full transcription + structured digest. That skill handles YouTube, Bilibili, Xiaoyuzhou, Apple Podcasts, X video tweets, and direct audio files. After transcript is produced, apply deep analysis framework above if user requests analysis (not just transcription).
 
 ### Tier 3: Generic Fallback
 

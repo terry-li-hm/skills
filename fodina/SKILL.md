@@ -160,10 +160,10 @@ The only tier that touches reality. Tiers 1-2 are still theory — extracted and
 
 Topics identified as worth mining (stable theory, currently in weights only):
 
-1. ~~Theory of debugging~~ → `diagnosis` (done)
-2. ~~Theory of simplification~~ → `parsimonia` (done)
-3. ~~Theory of delegation~~ → `mandatum` (done)
-4. ~~Theory of evaluation~~ → `kritike` (done)
+1. ~~Theory of debugging~~ → `[[debugging-theory]]` (done)
+2. ~~Theory of simplification~~ → `[[simplification]]` (done)
+3. ~~Theory of delegation~~ → `[[delegation-theory]]` (done)
+4. ~~Theory of evaluation~~ → `[[evaluation-theory]]` (done)
 
 **Cadence:** One per session. Don't batch — extraction quality degrades within a conversation (fresh context = fresh extraction). Validated: 7 specimens in one session, first 6 strong, 7th felt mechanical.
 
@@ -191,39 +191,39 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 
 | Topic | Skill | Tier | Wired to | Garden post |
 |-------|-------|------|----------|-------------|
-| Planning | `bouleusis` | 1 | rector, examen, topica | [Mining Your LLM](https://terryli.hm/posts/mining-your-llm) |
-| Debugging | `diagnosis` | 1 | rector | — |
+| Planning | `[[planning-theory]]` | 1 | rector, examen, topica | [Mining Your LLM](https://terryli.hm/posts/mining-your-llm) |
+| Debugging | `[[debugging-theory]]` | 1 | rector | — |
 | Experimentation | `peirasmos` | 1 | peira, judex, examen, topica | [[The Persona Paradox in AI Agent Teams]] |
-| Simplification | `parsimonia` | 1 | rector | — |
-| Delegation | `mandatum` | 1 | rector | — |
-| Evaluation | `kritike` | 1 | judex, peira | — |
-| Heuristics | `praecepta` | 1 | topica, gnome, mandatum, consilium | "Delegation Is Delegation", "The Heuristic Library" |
+| Simplification | `[[simplification]]` | 1 | rector | — |
+| Delegation | `[[delegation-theory]]` | 1 | rector | — |
+| Evaluation | `[[evaluation-theory]]` | 1 | judex, peira | — |
+| Heuristics | `[[heuristics-decision]]` | 1 | topica, gnome, mandatum, consilium | "Delegation Is Delegation", "The Heuristic Library" |
 | Wrap-ups | `conclusio` | 1 | legatum (inlined), eow, daily | — |
 | Toddler school refusal | `parens` | 1 | — (vault: Theo - Development & Parenting Notes) | — |
 | Truth-seeking | `zetetike` | 1 | fodina, elencho, consilium, peira, rector | — |
-| Judgment | `phronesis` | 1 | consilium, gnome, examen, zetetike, rector, praecepta | — |
-| Creativity | `poiesis` | 1 | brainstorming, rector, consilium, diagnosis | — |
-| Systems thinking | `systema` | 1 | rector, diagnosis, phronesis, poiesis, zetetike | — |
-| Communication | `hermenia` | 1 | cursus, storyteller, agoras, consilium, mandatum, meeting-prep | — |
-| Learning | `mathesis` | 1 | dokime, rector, fodina, parens, eow, daily, phronesis | — |
-| Self-awareness | `syneidesis` | 1 | phronesis, enkrateia, praecepta, all operations | — |
-| Self-regulation | `enkrateia` | 1 | syneidesis, phronesis, sopor, kairos, mora, parens | — |
-| Empathy | `sympatheia` | 1 | hermenia, mandatum, meeting-prep, cursus, phronesis, parens | — |
+| Judgment | `[[practical-judgment]]` | 1 | consilium, gnome, examen, zetetike, rector, praecepta | — |
+| Creativity | `[[creativity]]` | 1 | brainstorming, rector, consilium, diagnosis | — |
+| Systems thinking | `[[systems-thinking]]` | 1 | rector, diagnosis, phronesis, poiesis, zetetike | — |
+| Communication | `[[communication-cognition]]` | 1 | cursus, storyteller, agoras, consilium, mandatum, meeting-prep | — |
+| Learning | `[[learning-theory]]` | 1 | dokime, rector, fodina, parens, eow, daily, phronesis | — |
+| Self-awareness | `[[self-awareness]]` | 1 | phronesis, enkrateia, praecepta, all operations | — |
+| Self-regulation | `[[self-regulation]]` | 1 | syneidesis, phronesis, sopor, kairos, mora, parens | — |
+| Empathy | `[[empathy]]` | 1 | hermenia, mandatum, meeting-prep, cursus, phronesis, parens | — |
 | Task management | `negotium` | 1 | sched, kairos, legatum, todo | — |
 | AI governance consulting | `gubernatio` | 1 | rector, meeting-prep, capco-prep, consilium | "Governance Is a Tax" |
-| Regulatory comparison | `regulatio` | 1 | meeting-prep, capco-prep, gubernatio | — |
+| Regulatory comparison | `[[regulatio]]` | 1 | meeting-prep, capco-prep, gubernatio | — |
 | Technical credibility | `auctoritas` | 1 | meeting-prep, capco-prep, cursus, gubernatio | — |
 | Agent team orchestration | `cohors` | 1 | copia, rector, mandatum, heuretes, opifex | — |
-| Deployed system verification | `probatio` | 1 | verify, peira, topica | "The Pipeline Paradox" |
-| Consulting communication | `relatio` | 1 | hermenia, meeting-prep, capco-prep, gubernatio, cursus, auctoritas, stilus | — |
-| Representation shifting | `metanoia` | 1 (specimen) | diagnosis, poiesis, hermenia, topica, mimesis | — |
-| Productive not-knowing | `aporia` | 1 (specimen) | syneidesis, zetetike, examen, phronesis, consilium, kritike | — |
-| Extreme-case testing | `reductio` | 1 (specimen) | zetetike, peira, examen, aporia, topica | — |
+| Deployed system verification | `[[deployed-system-verification]]` | 1 | verify, peira, topica | "The Pipeline Paradox" |
+| Consulting communication | `[[relatio]]` | 1 | hermenia, meeting-prep, capco-prep, gubernatio, cursus, auctoritas, stilus | — |
+| Representation shifting | `[[representation-shifting]]` | 1 (specimen) | diagnosis, poiesis, hermenia, topica, mimesis | — |
+| Productive not-knowing | `[[productive-not-knowing]]` | 1 (specimen) | syneidesis, zetetike, examen, phronesis, consilium, kritike | — |
+| Extreme-case testing | `[[extreme-case-testing]]` | 1 (specimen) | zetetike, peira, examen, aporia, topica | — |
 | Cognition is relational | `ubuntu` | 1 (specimen) | consilium, sympatheia, adversaria, kenosis | — |
 | Existence before construction | `existence` | 1 (specimen) | aporia, diagnosis, metanoia, nishkama, invariance | — |
 | Working with momentum | `wuwei` | 1 (specimen) | enkrateia, metanoia, parsimonia, phronesis, reductio | — |
 | Mastery as disappearance | `kenosis` | 1 (specimen) | parsimonia, aporia, mandatum, mathesis | — |
-| Adversarial perspective | `adversaria` | 1 (specimen) | sympatheia, reductio, consilium, metanoia, aporia | — |
+| Adversarial perspective | `[[adversarial-perspective]]` | 1 (specimen) | sympatheia, reductio, consilium, metanoia, aporia | — |
 | Action without attachment | `nishkama` | 1 (specimen) | enkrateia, wuwei, kenosis, phronesis, aporia | — |
 | Categories are provisional | `sunyata` | 1 (specimen) | aporia, metanoia, topica, systema, parsimonia | — |
 | Find what doesn't change | `invariance` | 1 (specimen) | metanoia, reductio, sunyata, systema | — |
@@ -231,7 +231,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 
 ## Relationship to Other Skills
 
-- **artifex** — designs skills (structure, naming). fodina is specifically about *extracting knowledge from model weights* into skills.
+- **[[knowledge-structure]]** — designs skills (structure, naming). fodina is specifically about *extracting knowledge from model weights* into skills.
 - **consilium** — the engine for Tier 2 refinement. fodina tells you *when and how* to use it for knowledge extraction.
-- **scrinium** — routes knowledge to the right layer. fodina always produces reference skills, not MEMORY.md or docs.
-- **topica** — mental models catalog. Mined skills often feed new entries into topica.
+- **[[knowledge-routing]]** — routes knowledge to the right layer. fodina always produces reference skills, not MEMORY.md or docs.
+- **[[mental-models]]** — mental models catalog. Mined skills often feed new entries into topica.

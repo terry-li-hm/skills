@@ -32,7 +32,7 @@ Free-text capture. User provides topic and reasoning in natural language; Claude
 
 0. **ROUTE FIRST:**
    > consilium = outcome is uncertain, needs perspectives. judex = outcome is measurable, needs evidence.
-   - Can you run both options and compare with a measurable criterion? → `judex` (see `~/skills/judex/SKILL.md`)
+   - Can you run both options and compare with a measurable criterion? → `[[evaluation-theory]]` (see `~/notes/Reference/epistemics/evaluation-theory.md`)
    - Does it involve genuine trade-offs, values, or domain judgment? → `consilium`
    - Is it a committed choice that just needs capturing? → proceed below
 
@@ -142,5 +142,5 @@ Surface decisions with a review date that has passed.
 
 ## Calls
 - `qmd` — bouncer search and decision lookup
-- `judex` — when outcome is measurable
+- `[[evaluation-theory]]` — when outcome is measurable
 - `consilium` — when trade-offs need deliberation

@@ -148,7 +148,7 @@ The gate is optional (but recommended) for:
 
 ### How It Works
 
-1. **Dispatch a Sonnet verification agent** after each wave. Use the `censura` skill template (`~/skills/censura.md`). Sonnet is correct here — verification is mechanical (rubric-based), not taste-dependent.
+1. **Dispatch a Sonnet verification agent** after each wave. Use the `[[copia-verification-template]]` reference doc. Sonnet is correct here — verification is mechanical (rubric-based), not taste-dependent.
 
 2. **The verifier receives:**
    - List of output files produced by the wave

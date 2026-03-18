@@ -217,6 +217,6 @@ Extended docs in `~/skills/consilium/REFERENCE.md`:
 ## See Also
 
 - Repository: https://github.com/terry-li-hm/consilium
-- Related: `/judex` (measurable outcomes), `/ask-llms` (alias)
+- Related: `[[evaluation-theory]]` (measurable outcomes), `/ask-llms` (alias)
 - Lessons: `[[Frontier Council Lessons]]`
 - Research: `~/docs/solutions/multi-llm-deliberation-research.md`

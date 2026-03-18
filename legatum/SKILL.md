@@ -160,7 +160,7 @@ Single pass. If nothing surfaces: "Nothing to generalise."
   - Workflow change → the relevant skill's SKILL.md
   - Same mistake twice → escalate per `~/docs/solutions/enforcement-ladder.md`
 - **Default: implement now.** Skill edits, MEMORY.md additions, solutions files, small hooks — do them, don't propose them. "Needs design input" is not a valid reason to defer a 20-line improvement. Propose only if: touches shared infrastructure, irreversible, or genuinely ambiguous (and state which). If you wrote "propose" in the output, ask: could I have just done it? If yes, go back and do it.
-- **Persistence gate:** Consult `custodia` before routing. One home per insight, never point to a pointer, count layers.
+- **Persistence gate:** Consult `[[persistence-decisions]]` before routing. One home per insight, never point to a pointer, count layers.
 
 **MEMORY.md ≥145 lines + entries added this session →** demote lowest-recurrence entry to `~/docs/solutions/memory-overflow.md` now. Don't ask — pick it yourself.
 

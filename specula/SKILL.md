@@ -115,5 +115,5 @@ A good specula scan produces **at least 3 actionable patterns** with concrete "h
 
 - **organon** — routes here when "what are others doing?" is the question
 - **dialexis** — AI landscape awareness for consulting conversations (different purpose: staying current vs pattern extraction)
-- **mimesis** — cross-domain transfer (specula is same-domain; mimesis is cross-domain)
-- **topica** — universal patterns discovered by specula may become topica entries
+- **[[analogical-transfer]]** — cross-domain transfer (specula is same-domain; mimesis is cross-domain)
+- **[[mental-models]]** — universal patterns discovered by specula may become topica entries
