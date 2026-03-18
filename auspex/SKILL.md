@@ -25,10 +25,9 @@ A 60-second brief for the moment you wake up. Weather, what's on today, anything
 
 3. If the missed email section shows results, flag them prominently — these are emails Cora received but never labelled (the failure mode that swallowed two interview invitations, Mar 2026).
 
-4. **Skill flywheel check** — if `~/.claude/skill-flywheel-daily.md` exists and was written today:
-   - Read it and surface any total misses or low hit rate
-   - If Haiku found missed triggers, propose the fixes inline
-   - Skip silently if the file is missing or stale (>24h old)
+4. **Nightly reports** — check both files, skip silently if missing or stale (>24h old):
+   - `~/.claude/nightly-health.md` — system health dashboard. Surface any ⚠️ or 🔴 rows. If all ✅, just say "System health: all green."
+   - `~/.claude/skill-flywheel-daily.md` — skill routing misses. Surface any total misses or low hit rate. If Haiku found missed triggers, propose the fixes inline.
 
 ## Boundaries
 

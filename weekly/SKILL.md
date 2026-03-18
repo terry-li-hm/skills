@@ -143,18 +143,16 @@ Keep it brief — the value is pattern recognition over weeks, not daily obsessi
 
 ## System & Tooling Health (weekly)
 
-Run these checks every Friday and include results in the weekly note under `## System Health`.
+**Most infrastructure checks now run nightly** via `com.terry.nightly` LaunchAgent (2am). Output: `~/.claude/nightly-health.md`, surfaced by `/auspex` each morning. Covers: MEMORY/CLAUDE line counts, wacli daemon, vault backup, DR sync, sopor sync, oghma, cron health, agent-browser profile, hook fires, vault broken links.
+
+The weekly review's job is to read this week's nightly reports and surface **trends**, not re-run the checks:
+
+1. **Review nightly health trend** — `ls -lt ~/.claude/nightly-health-archive/ 2>/dev/null | head -7` (if archiving) or just read today's report. Flag any metric that was ⚠️ 3+ days this week.
+2. **Vault link health (deep pass)** — nightly only counts broken links. Weekly adds:
+    - Asymmetric links: `nexis ~/notes --asymmetry --exclude Archive --exclude "Waking Up" --exclude memory 2>/dev/null`. Surface notes that link out but have no backlinks.
+    Full triage is a separate `/nexis` session — don't do it inline.
+
 If a check command fails, mark that metric as `Unavailable` in the table and continue.
-
-### Infrastructure Services
-
-8. **wacli daemon** — `launchctl list com.terry.wacli-sync`. Check exit code (0 = running, 113 = dead). If dead, flag for restart.
-9. **Vault git backup** — Check recency: `cd ~/notes && git log -1 --format='%ci'`. Flag if last commit >2h old (cron runs every 30 min).
-10. **Vault link health** — Run two passes:
-    - Broken links: `nexis ~/notes --exclude Archive --exclude "Waking Up" --exclude memory 2>/dev/null`. Flag if broken link count >30 or increased from last week.
-    - Asymmetric links: `nexis ~/notes --asymmetry --exclude Archive --exclude "Waking Up" --exclude memory 2>/dev/null`. Surface notes that link out but have no backlinks — add backlinks inline if obvious, defer to `/nexis` session if large volume.
-    Full triage (atomicity, restructuring) is a separate `/nexis` session — don't do it inline here.
-11. **Agent-browser profile** — `ls -la ~/.agent-browser-profile/Default/Cookies 2>/dev/null && echo "OK" || echo "MISSING"`. Flag if profile directory is missing or Cookies file absent.
 
 ### AI Tooling
 
