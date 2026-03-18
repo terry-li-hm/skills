@@ -76,23 +76,42 @@ Low urgency but good use of spare tokens. Agents that fix, not just flag.
 
 ## Execution Pattern
 
+**Use agent teams, not individual agents.** One team lead (Opus) dispatches 3-4 workers. Lead manages coordination, file scope, and task assignment. See `cohors` skill for full orchestration heuristics.
+
 ```
-# Launch 3-5 agents in parallel, all background
-Agent(name="research-X", run_in_background=true, model="sonnet")
-# Sonnet for research collection, Opus for synthesis/judgment
+# 1. Create team
+TeamCreate(team_name="copia", description="Token burn session")
+# 2. Create tasks from menu above
+TaskCreate(subject="...", description="...")  # one per item
+# 3. Spawn lead agent with team_name="copia"
+Agent(name="lead", team_name="copia", run_in_background=true)
+# Lead spawns its own workers
 ```
 
+**Hard numbers (from research):**
+- Opus lead + Sonnet workers = +90.2% over single Opus
+- 3-4 workers max before coordination overhead eats gains
+- 2 diverse models > 16 homogeneous (uncorrelated errors matter more than count)
+- Task sweet spot: 5-15 min per task, 5-6 tasks per teammate
+- Expect ~15x tokens vs single chat; plan budget accordingly
+
+**Model routing:**
 - **Research/collection** → `model: "sonnet"` (saves Opus quota)
-- **Content/synthesis/judgment** → `model: "opus"` or inherit parent
-- **System audits** → `model: "haiku"` (mechanical checks)
-- Research → `~/notes/Research/`. Content → `sarcio new`. Consolidation → vault in-place.
-- Results: present summary when agent completes, don't wait for user to ask
+- **Content/synthesis/judgment/mining** → `model: "opus"`
+- **System audits** → `model: "sonnet"` (mechanical but needs tool access)
+
+**File scoping (critical):** Assign each agent a non-overlapping file scope. One agent, one directory. No parallel edits to same file.
+
+**Output routing:** Research → `~/notes/Research/`. Content → `sarcio new`. Consolidation → vault in-place. Skills → `~/skills/`.
+
+**Results:** Present summary when agent completes — don't wait for user to ask.
 
 ## After Completion
 
 - Mention key findings in next `/wrap`
 - If research surfaces an action item → add to TODO.md or Due
 - If research is engagement-relevant → link from `[[Capco Transition]]`
+- **Retro:** Note what was high-value vs waste → refine the menu for next session
 
 ## Anti-patterns
 
