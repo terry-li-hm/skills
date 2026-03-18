@@ -52,14 +52,15 @@ Most mines naturally contain several types. During extraction, **name the type**
 
 Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** are concrete things you examine to reveal general structure — a thinker, a tradition, a failure. The specimen is drilled into, not preserved. Language matters: "anchor" implies fixity and invites anchoring bias; "specimen" keeps the relationship honest — you're studying it to learn about the class, then discarding the container.
 
-**Four specimen types:**
+**A specimen is anything concrete enough to probe.** People, traditions, failures, fiction, disciplines, games, natural phenomena — the type doesn't matter. The process is always: probe → extract moves → sort → check gaps. Below are specimen types we've validated, but this list is itself provisional (see `sunyata`):
 
-| Specimen | Why it works | Example | Output destination |
-|----------|-------------|---------|-------------------|
-| **People** | A great thinker is a tested integration of heuristics. The life proves the moves cohere. | Einstein, Feynman, Munger | Heuristics sort into existing skills |
-| **Traditions** | Like a slow collective person — centuries of refinement. | Stoicism, kaizen, Talmudic debate | Same — tradition is the prompt, skills are the home |
-| **Failures** | Anti-patterns cluster tightly around what went wrong. Very concrete. | Challenger, LTCM, Enron | Existing skills gain "don't" entries |
-| **Fiction** | The author's crystallized insight about strategy/thinking, expressed through character. Mining the character = mining the author's extraction. | 火鳳燎原, Sherlock Holmes, Ender's Game | Mostly enrichment + occasional sharp distinctions |
+| Specimen | Example | Typical output |
+|----------|---------|----------------|
+| **People** | Einstein, Feynman, Munger | Positive heuristics, architectural gaps |
+| **Traditions** | Stoicism, Talmud, Daoism, Buddhism | Same — deep, refined |
+| **Failures** | LTCM | Anti-patterns ("don't" entries), enrichment |
+| **Fiction** | 火鳳燎原, Harry Potter | Enrichment + sharp distinctions |
+| **Disciplines** | Physics, chemistry | Unconscious practitioner moves |
 
 **Specimen types produce different heuristic shapes.** People and traditions yield positive heuristics ("do this") and reveal architectural gaps (homeless heuristics). Failures yield anti-patterns ("don't do this") and reinforce existing skills without revealing new gaps — because failures show where known principles were violated, not where new principles are needed. Mix both types for a complete picture.
 
@@ -84,6 +85,9 @@ Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** a
 - [x] Bhagavad Gita → nishkama karma, inaction is action, situational duty, quality of action (gunas)
 - [x] Chanakya/Arthashastra → four upayas (escalation), matsya nyaya (entropy), intelligence as foundation, pragmatic morality
 - [x] Buddhist epistemology → dependent origination, śūnyatā, two truths, meditation as empirical investigation
+- [x] Physics → symmetry, dimensional analysis, perturbation theory, conservation laws, renormalisation, phase transitions
+- [x] Chemistry → catalysis, dynamic equilibrium, rate-limiting step, Le Chatelier, emergent properties
+- [x] Harry Potter (fiction) → Mirror of Erised, Horcruxes, Patronus, Deathly Hallows, choices > abilities
 - [ ] Kaizen → (tradition specimen — queued)
 
 ## Tier 1: Single-Model Interview
@@ -197,6 +201,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Adversarial perspective | `adversaria` | 1 (specimen) | sympatheia, reductio, consilium, metanoia, aporia | — |
 | Action without attachment | `nishkama` | 1 (specimen) | enkrateia, wuwei, kenosis, phronesis, aporia | — |
 | Categories are provisional | `sunyata` | 1 (specimen) | aporia, metanoia, topica, systema, parsimonia | — |
+| Find what doesn't change | `invariance` | 1 (specimen) | metanoia, reductio, sunyata, systema | — |
 
 ## Relationship to Other Skills
 
