@@ -129,6 +129,8 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Toddler school refusal | `parens` | 1 | — (vault: Theo - Development & Parenting Notes) | — |
 | Truth-seeking | `zetetike` | 1 | fodina, elencho, consilium, peira, rector | — |
 | Judgment | `phronesis` | 1 | consilium, gnome, examen, zetetike, rector, praecepta | — |
+| Creativity | `poiesis` | 1 | brainstorming, rector, consilium, diagnosis | — |
+| Systems thinking | `systema` | 1 | rector, diagnosis, phronesis, poiesis, zetetike | — |
 
 ## Relationship to Other Skills
 
