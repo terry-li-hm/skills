@@ -19,6 +19,8 @@ Unlike `auspex` (morning delta) or `cardo` (midday reflection), Kairos is statel
 
 **Design principle:** Kairos is the single entry point for "what now?" Every automated system (speculor, praeco, cron jobs) feeds into kairos — Terry never needs to remember what's running. When he says "should I check X?", confirm the system already covers it or flag the gap as a build signal. New tools surface through kairos, not their own invocation.
 
+**Task routing:** When surfacing items, apply `negotium` heuristics — distinguish committed vs uncommitted paths, flag zombie tasks (snoozed 3+ times), and bias toward dropping rather than escalating.
+
 ## Triggers
 
 - "kairos"

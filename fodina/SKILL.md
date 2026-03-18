@@ -136,6 +136,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Self-awareness | `syneidesis` | 1 | phronesis, enkrateia, praecepta, all operations | — |
 | Self-regulation | `enkrateia` | 1 | syneidesis, phronesis, sopor, kairos, mora, parens | — |
 | Empathy | `sympatheia` | 1 | hermenia, mandatum, meeting-prep, cursus, phronesis, parens | — |
+| Task management | `negotium` | 1 | sched, kairos, legatum, todo | — |
 
 ## Relationship to Other Skills
 
