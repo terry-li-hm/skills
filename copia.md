@@ -24,6 +24,15 @@ Don't pick from the menu blindly. **Dispatch 2 prospector agents first** to find
 
 Both run ~2-3 min. Merge their lists, dedupe, pick the top 5-6 to dispatch. This avoids burning tokens on "looks useful" when "actually needed" items exist.
 
+**Scoring dimensions:**
+- **Value** (1-5): How much does completing this help right now?
+- **Autonomy** (1-5): Can an agent do this without human input?
+- **Compound potential** (1-3): Does the output feed future burns? 1 = terminal (read once, done), 2 = reusable (reference material), 3 = generative (seeds new work, enriches prospector scans, creates new tasks). Weight: V × A × C.
+
+**Model routing by taste requirement:**
+- **Sonnet** → clear spec, binary success (compile, find, format, collect)
+- **Opus** → output needs judgment (when to deviate from prompt), taste (noticing what's missing), or voice (human reads without editing). If the output would embarrass Terry in front of a client or on LinkedIn, it needs Opus.
+
 **When to skip prospecting:** If Terry names specific tasks, or if budget is tight (<20% remaining) — just pick from the menu directly.
 
 ## The Menu
