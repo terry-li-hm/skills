@@ -5,12 +5,12 @@ description: >-
   Only invoke AFTER peruro has failed — peruro handles most Cloudflare sites at
   1 credit/page with no setup. This skill is for: peruro failed, site needs
   authenticated Chrome session, or full browser automation required.
-  NOT for general web fetching — see indago skill for tool selection.
+  NOT for general web fetching — see [[search-routing]] reference doc for tool selection.
 ---
 
 # Stealth Browser
 
-**Last resort.** For tool selection and the full fetch ladder, see `indago` skill first.
+**Last resort.** For tool selection and the full fetch ladder, see [[search-routing]] reference doc first.
 
 Reference skill for bypassing Cloudflare Turnstile and accessing authenticated sites via Chrome cookie extraction + playwright-extra stealth. Only reach here after `peruro` has failed or the site requires an authenticated Chrome session.
 

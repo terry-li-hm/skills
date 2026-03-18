@@ -38,7 +38,7 @@ Analyze LinkedIn job postings against user's background, current pipeline health
 
 3. **Load context files** (can run in parallel with step 1) — Check user's CLAUDE.md for background, credentials, differentiators, current situation, and job hunting status
 
-4. **Analyze fit** across dimensions (see Fit Dimensions below). Consult `topica` — check for barbell strategy, specific knowledge, compounding, opportunity cost before weighting dimensions. **North star filter:** Does this role move toward "real AI problems + sharp people who build"? Surface `memory/user_career_north_star.md` and weigh against the 70/30 technical/people split.
+4. **Analyze fit** across dimensions (see Fit Dimensions below). see [[mental-models]] — check for barbell strategy, specific knowledge, compounding, opportunity cost before weighting dimensions. **North star filter:** Does this role move toward "real AI problems + sharp people who build"? Surface `memory/user_career_north_star.md` and weigh against the 70/30 technical/people split.
 
 5. **Factor pipeline health:**
    - **Healthy** (5+ active, interviews scheduled): Maintain standards — PASS on poor fits

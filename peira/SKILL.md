@@ -11,7 +11,7 @@ user_invocable: true
 
 # Peira — Experiment Loop
 
-Karpathy's autoresearch loop, generalized: **propose → run → measure → keep/discard → log → repeat**. For evaluation theory (what to measure, Goodhart traps, vanity vs diagnostic metrics): consult `kritike`.
+Karpathy's autoresearch loop, generalized: **propose → run → measure → keep/discard → log → repeat**. For evaluation theory (what to measure, Goodhart traps, vanity vs diagnostic metrics): see [[evaluation-theory]].
 
 ## CLI
 
@@ -155,7 +155,7 @@ When budget is exhausted:
 
 ## Epistemics
 
-After each experiment, apply **Bayesian updating** (see `topica`): how much should this result shift your prior? A single experiment that contradicts expectations is stronger evidence than five that confirm — update proportionally.
+After each experiment, apply **Bayesian updating** (see [[mental-models]]): how much should this result shift your prior? A single experiment that contradicts expectations is stronger evidence than five that confirm — update proportionally.
 
 ## Anti-Drift: Controlled Variation
 

@@ -141,7 +141,7 @@ As results come in, read `/tmp/research-{track}/findings.md` per agent.
 Chief synthesises:
 - What did each track find?
 - Where do findings converge? Where do they conflict?
-- Apply `trutina` for conflicting evidence.
+- Apply [[conflicting-evidence]] for conflicting evidence.
 - What's the answer to the original question?
 
 ---

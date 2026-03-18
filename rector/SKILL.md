@@ -64,7 +64,7 @@ If >30 min exploring with no code/delegation started → flag it. One sentence: 
 
 ### The Full Pipeline
 
-> **Planning theory:** consult `bouleusis` skill when designing plans — goal clarity, simulation depth, failure modes, commitment timing.
+> **Planning theory:** consult [[planning-theory]] reference doc when designing plans — goal clarity, simulation depth, failure modes, commitment timing.
 
 ```
 RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
@@ -76,7 +76,7 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 **2. Spec analysis** (one Opus pass):
 - Gaps, assumptions, acceptance criteria. Skip for trivial/clear specs.
 
-**3. Planning** (one Opus pass — consult `mandatum` for spec quality and decomposition depth):
+**3. Planning** (one Opus pass — see [[delegation-theory]] for spec quality and decomposition depth):
 - `superpowers:writing-plans` — TDD tasks, file structure, exact commands
 - Write `AGENTS.md` to repo root (build/test/conventions for context-free delegates: Codex, Gemini, OpenCode)
 - If the project needs Claude Code-specific context (session rules, skill references, vault pointers), write a separate `CLAUDE.md` — don't symlink to AGENTS.md. Different audiences, different content.
@@ -96,7 +96,7 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 - **In-session subagents** (`subagent-driven-development`): ONLY when vault context or live user decisions are needed mid-execution — not as a convenience shortcut.
 - **Agent Teams** (TeamCreate): when true coordination needed (shared API design, exploratory refactor, unknown-scope bugs) — consult `cohors` for decomposition, topology, and parallelism heuristics
 
-**5. Verify** (hard gate — if something fails, consult `diagnosis` skill before shotgunning fixes):
+**5. Verify** (hard gate — if something fails, consult [[debugging-theory]] reference doc before shotgunning fixes):
 - [ ] Tests pass — paste actual output
 - [ ] Binary runs — smoke test real invocation
 - [ ] No regressions — full test suite
@@ -116,7 +116,7 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 
 Full-tier steps (Sonnet subagents, routed by file type):
 - `.py` → kieran-python, `.rs` → kieran-rust, `*auth*` → security-sentinel always
-- Then: pattern-recognition → code-simplicity (YAGNI last, consult `parsimonia` for essential vs accidental complexity)
+- Then: pattern-recognition → code-simplicity (YAGNI last, see [[simplification]] for essential vs accidental complexity)
 - **Critic pass** (stolen from Devin's Planner/Coder/Critic pipeline): dedicated adversarial review that pressure-tests for security vulnerabilities and logic errors before shipping. Not the same agent that wrote the code — fresh context, no commitment bias.
 - **Adversarial pass:** "3 most likely production failures"
 - **Simplicity diagnostic:** "Where did the complexity go?" Every simplification moves complexity somewhere — into the caller, a future edge case, a config file, a convention that must be documented. Name where it landed. If the answer is "nowhere", the complexity was accidental and the simplification is clean. If it landed on the user or caller, that's a trade-off worth flagging, not hiding.

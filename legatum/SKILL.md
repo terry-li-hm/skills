@@ -55,7 +55,7 @@ peira status 2>/dev/null || true
 4. **Garden posts + consulting arsenal?** Pause and replay the session arc (or arc since last checkpoint). What did we *learn*, not just *do*? What surprised us? What principle emerged that wasn't obvious at the start? Give yourself 30 seconds of generative thinking before answering — the best posts come from connections between topics, not from any single task.
    - **Garden test:** Non-obvious insight, clear thesis, Terry's lane, no unverified facts? Publish immediately via `sarcio new` → write → `sarcio publish --push`. Multiple posts per session is normal for meaty sessions.
    - **Arsenal test:** Concretely applicable to a bank/client AI engagement? If yes → add bullet to `[[Capco Transition]]` now.
-   - **Compounding test:** Does any output persist and enable future sessions? Skill > one-off script. Vault note > conversation explanation. Research with verification > unverified hot take. See `topica` → Compounding.
+   - **Compounding test:** Does any output persist and enable future sessions? Skill > one-off script. Vault note > conversation explanation. Research with verification > unverified hot take. see [[mental-models]] → Compounding.
 
 **CLAUDE.md modified?** One-line tightening check: does it belong in CLAUDE.md or in a skill / MEMORY.md / `~/docs/solutions/`?
 

@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 > Mined via fodina Tier 1. Field-validate over first Capco engagements.
 
-Heuristics for consulting communication in financial services. Not templates — judgment calls about what to say, when, to whom, and in what shape. Complements `hermenia` (general communication theory) with consulting-specific patterns where the audience is a client, a steering committee, or a partner chain.
+Heuristics for consulting communication in financial services. Not templates — judgment calls about what to say, when, to whom, and in what shape. Complements [[communication-cognition]] (general communication theory) with consulting-specific patterns where the audience is a client, a steering committee, or a partner chain.
 
 ---
 

@@ -56,7 +56,7 @@ After fixing any code that runs via an automated path:
 
 ## Epistemics
 
-The checklist is a **Bayesian prior** about what fails (see `topica`). Each time you run it and a mode fires (or doesn't), update your mental weighting. Parameter shadowing and timing-dependent state are the highest-frequency modes — but that's based on N=2. Accumulate evidence.
+The checklist is a **Bayesian prior** about what fails (see [[mental-models]]). Each time you run it and a mode fires (or doesn't), update your mental weighting. Parameter shadowing and timing-dependent state are the highest-frequency modes — but that's based on N=2. Accumulate evidence.
 
 ## Provenance
 

@@ -14,7 +14,7 @@ Not user-invocable. Consulted internally before high-stakes action.
 
 > What are you assuming to be true that you haven't verified?
 
-Plans fail not because the logic is wrong, but because a premise was wrong. The examen catches that *before* you execute. Consult `topica` — which mental model would challenge the strongest assumption here? Consult `bouleusis` — which planning failure mode (goal fog, bad world model, narrow simulation) might be at play?
+Plans fail not because the logic is wrong, but because a premise was wrong. The examen catches that *before* you execute. see [[mental-models]] — which mental model would challenge the strongest assumption here? see [[planning-theory]] — which planning failure mode (goal fog, bad world model, narrow simulation) might be at play?
 
 ## When to Run
 
