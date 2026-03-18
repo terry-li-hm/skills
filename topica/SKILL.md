@@ -41,6 +41,7 @@ From Aristotle's *Τοπικά* — the "places" you go to find patterns of reas
 | **Anchoring** | First number heard dominates. Recalibrate from base rates. | Negotiation, estimation, pricing |
 | **Bayesian updating** | Start with a prior, update proportionally to evidence strength. The prior isn't the enemy — refusing to update is. | After experiments (`peira`), calibrating tools/processes (`fodina`), verifying fixes (`probatio`), "was I right to expect X?" |
 | **Inside vs outside view** | Inside: reason from this case's specifics. Outside: reason from base rates of similar cases. Default to outside. | Planning (`bouleusis`), estimating effort, "this time is different", premise audits (`examen`) |
+| **One-to-many** | One instance reveals a principle. Extract it, apply everywhere it fits. Don't wait for each case to surface. | Corrections, code review feedback, pattern recognition, "I just fixed this in one place" |
 | **Strength of evidence** | Not all evidence is equal. One system failure > ten successes (failures are more informative). One controlled experiment > ten anecdotes. | Conflicting signals (`trutina`), cross-source research (`elencho`), deciding how much to update |
 
 ## Systems & Change
