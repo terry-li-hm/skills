@@ -132,6 +132,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Creativity | `poiesis` | 1 | brainstorming, rector, consilium, diagnosis | — |
 | Systems thinking | `systema` | 1 | rector, diagnosis, phronesis, poiesis, zetetike | — |
 | Communication | `hermenia` | 1 | cursus, storyteller, agoras, consilium, mandatum, meeting-prep | — |
+| Learning | `mathesis` | 1 | dokime, rector, fodina, parens, eow, daily, phronesis | — |
 
 ## Relationship to Other Skills
 
