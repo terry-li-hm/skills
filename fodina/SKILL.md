@@ -1,6 +1,6 @@
 ---
 name: fodina
-description: LLM knowledge mining — extract implicit model knowledge into permanent reference skills as actionable heuristics. Three tiers: single-model interview (quick), consilium adversarial refinement (deep), field validation. Anchor-based mining uses people (Einstein, Munger), traditions (Stoicism, kaizen), and failures (LTCM, Challenger) as concrete entry points — heuristics sort into existing skills, not new containers. Also stress-tests skill architecture by revealing concepts that live in the cracks between skills. Use when a topic would benefit from stable, always-loaded heuristics that the model knows but surfaces inconsistently.
+description: LLM knowledge mining — extract implicit model knowledge into permanent reference skills as actionable heuristics. Three tiers: single-model interview (quick), consilium adversarial refinement (deep), field validation. Specimen-based mining uses people (Einstein, Munger), traditions (Stoicism, kaizen), and failures (LTCM, Challenger) as concrete entry points — heuristics sort into existing skills, not new containers. Post-mining skill-map review reveals architectural gaps. Use when a topic would benefit from stable, always-loaded heuristics that the model knows but surfaces inconsistently.
 user_invocable: true
 tags: [meta, knowledge, skills]
 ---
@@ -46,23 +46,23 @@ Most mines naturally contain several types. During extraction, **name the type**
 - Knowledge the model doesn't actually have depth on — test with one probing question first
 - Topics where the existing pieces already cover it well enough — diminishing returns
 
-## Anchor-Based Mining
+## Specimen-Based Mining
 
-Mining abstract topics ("what is judgment?") works but plateaus. **Anchors** are concrete entry points that prompt the model to surface deeper, more integrated structure.
+Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** are concrete things you examine to reveal general structure — a thinker, a tradition, a failure. The specimen is drilled into, not preserved. Language matters: "anchor" implies fixity and invites anchoring bias; "specimen" keeps the relationship honest — you're studying it to learn about the class, then discarding the container.
 
-**Three anchor types:**
+**Three specimen types:**
 
-| Anchor | Why it works | Example | Output destination |
-|--------|-------------|---------|-------------------|
+| Specimen | Why it works | Example | Output destination |
+|----------|-------------|---------|-------------------|
 | **People** | A great thinker is a tested integration of heuristics. The life proves the moves cohere. | Einstein, Feynman, Munger | Heuristics sort into existing skills |
 | **Traditions** | Like a slow collective person — centuries of refinement. | Stoicism, kaizen, Talmudic debate | Same — tradition is the prompt, skills are the home |
 | **Failures** | Anti-patterns cluster tightly around what went wrong. Very concrete. | Challenger, LTCM, Enron | Existing skills gain "don't" entries |
 
-**Not good anchors:** Domains (too broad, already `mimesis`), countries (too vague — unless scoped to a tradition), eras (conditions more than moves).
+**Not good specimens:** Domains (too broad, already `mimesis`), countries (too vague — unless scoped to a tradition), eras (conditions more than moves).
 
-**Process:** Mine the anchor → extract heuristics → sort each heuristic into its natural home skill. The anchor is the drill bit, not the container. **No new skill per anchor.**
+**Process:** Mine the specimen → extract heuristics → sort each heuristic into its natural home skill. The specimen is the drill bit, not the container. **No new skill per specimen.**
 
-**Architecture stress-test:** When a heuristic maps to TWO existing skills equally, that's a signal — a concept lives in the cracks between skills. Collect these "homeless" heuristics across 3-4 anchors. If they cluster, the skill network has a gap worth filling. Mining people/traditions/failures doubles as a diagnostic of the skill architecture.
+**Post-mining: revisit the skill map.** After each specimen, review the heuristic-to-skill mapping. When a heuristic maps to TWO existing skills equally, that's a signal — a concept lives in the cracks between skills. Log these "homeless" heuristics. After 3-4 specimens, review the collection: do they cluster into a concept that deserves its own skill? If yes, the mining has diagnosed a gap in the skill architecture. This is the real payoff — specimens stress-test the skill network, not just enrich it.
 
 **Queue:**
 - [ ] Einstein → thought experiments, aesthetic selection, productive stubbornness, productive confusion
