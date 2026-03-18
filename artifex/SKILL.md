@@ -5,7 +5,7 @@ description: Guide for designing skills. Use when noticing a recurring pattern, 
 
 # Skills Design Guide
 
-Skills are directories with a `SKILL.md` file. **Frontmatter is required** — missing it causes Codex to log errors and skip the skill on startup.
+Skills are directories with a `SKILL.md` file. **NEVER create flat `.md` files at `~/skills/` root** — Claude Code only discovers `*/SKILL.md`, not `*.md` at root level (burned: 9 skills silently invisible for weeks). **Frontmatter is required** — missing it causes Codex to log errors and skip the skill on startup.
 
 ```yaml
 ---

@@ -103,7 +103,18 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 - [ ] Matches spec — re-read requirement, compare
 - Evidence must be in chat. "It works" is not evidence.
 
-**6. Review** (Sonnet subagents, routed by file type):
+**6. Review** — triage depth before running anything:
+
+| Tier | When | Steps |
+|------|------|-------|
+| **Full** | Auth/creds/security, new architecture, new external API | All sub-steps below |
+| **Standard** | New logic, multi-file, unfamiliar domain | File-type subagents → Critic → Severity tags |
+| **Quick scan** | Routine boilerplate, config, single-file cosmetic | Read diff — flag Blockers only, no subagents |
+| **Spot-check** | Tests pass + no new patterns + trivial change | Verify tests, skim diff — done |
+
+**Routing (first match wins):** path contains auth/cred/secret/token/key → Full. New module/data model/cross-service API → Full. New algorithm or >3 files → Standard. Tests pass + existing pattern + small change → Spot-check. Default → Quick scan.
+
+Full-tier steps (Sonnet subagents, routed by file type):
 - `.py` → kieran-python, `.rs` → kieran-rust, `*auth*` → security-sentinel always
 - Then: pattern-recognition → code-simplicity (YAGNI last, consult `parsimonia` for essential vs accidental complexity)
 - **Critic pass** (stolen from Devin's Planner/Coder/Critic pipeline): dedicated adversarial review that pressure-tests for security vulnerabilities and logic errors before shipping. Not the same agent that wrote the code — fresh context, no commitment bias.
