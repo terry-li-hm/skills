@@ -1,6 +1,6 @@
 ---
 name: fodina
-description: LLM knowledge mining — extract implicit model knowledge into permanent reference skills as actionable heuristics. Two tiers: single-model interview (quick) and consilium adversarial refinement (deep). Use when a topic would benefit from stable, always-loaded heuristics that the model knows but surfaces inconsistently.
+description: LLM knowledge mining — extract implicit model knowledge into permanent reference skills as actionable heuristics. Three tiers: single-model interview (quick), consilium adversarial refinement (deep), field validation. Anchor-based mining uses people (Einstein, Munger), traditions (Stoicism, kaizen), and failures (LTCM, Challenger) as concrete entry points — heuristics sort into existing skills, not new containers. Also stress-tests skill architecture by revealing concepts that live in the cracks between skills. Use when a topic would benefit from stable, always-loaded heuristics that the model knows but surfaces inconsistently.
 user_invocable: true
 tags: [meta, knowledge, skills]
 ---
@@ -45,6 +45,30 @@ Most mines naturally contain several types. During extraction, **name the type**
 - Procedural knowledge (how to run X) — that's a regular skill
 - Knowledge the model doesn't actually have depth on — test with one probing question first
 - Topics where the existing pieces already cover it well enough — diminishing returns
+
+## Anchor-Based Mining
+
+Mining abstract topics ("what is judgment?") works but plateaus. **Anchors** are concrete entry points that prompt the model to surface deeper, more integrated structure.
+
+**Three anchor types:**
+
+| Anchor | Why it works | Example | Output destination |
+|--------|-------------|---------|-------------------|
+| **People** | A great thinker is a tested integration of heuristics. The life proves the moves cohere. | Einstein, Feynman, Munger | Heuristics sort into existing skills |
+| **Traditions** | Like a slow collective person — centuries of refinement. | Stoicism, kaizen, Talmudic debate | Same — tradition is the prompt, skills are the home |
+| **Failures** | Anti-patterns cluster tightly around what went wrong. Very concrete. | Challenger, LTCM, Enron | Existing skills gain "don't" entries |
+
+**Not good anchors:** Domains (too broad, already `mimesis`), countries (too vague — unless scoped to a tradition), eras (conditions more than moves).
+
+**Process:** Mine the anchor → extract heuristics → sort each heuristic into its natural home skill. The anchor is the drill bit, not the container. **No new skill per anchor.**
+
+**Architecture stress-test:** When a heuristic maps to TWO existing skills equally, that's a signal — a concept lives in the cracks between skills. Collect these "homeless" heuristics across 3-4 anchors. If they cluster, the skill network has a gap worth filling. Mining people/traditions/failures doubles as a diagnostic of the skill architecture.
+
+**Queue:**
+- [ ] Einstein → thought experiments, aesthetic selection, productive stubbornness, productive confusion
+- [ ] Feynman → explanation as understanding, playful formalism, anti-authority heuristics
+- [ ] Munger → inversion, latticework, circle of competence, avoiding stupidity > seeking brilliance
+- [ ] Stoicism → premeditatio malorum, dichotomy of control, negative visualisation
 
 ## Tier 1: Single-Model Interview
 
