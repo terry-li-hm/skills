@@ -99,7 +99,7 @@ Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** a
 - [x] Harry Potter (fiction) → Mirror of Erised, Horcruxes, Patronus, Deathly Hallows, choices > abilities
 - [x] Ubuntu/African oral tradition → ubuntu (relational cognition), griot (knowledge as performance), proverbs, circular time, indaba
 - [x] Mathematics as practice → abstraction, proof by contradiction, definitions, existence vs construction, isomorphism
-- [x] Alien fiction (Arrival, Three-Body, Ender's Game, Solaris, Blindsight) → sharpened existing skills, no new gaps. Possible ceiling.
+- [x] Alien fiction (Arrival, Three-Body, Ender's Game, Solaris, Blindsight) → sharpened existing skills, no new gaps. Unclear if ceiling or thin weights — can't distinguish from inside
 - [ ] Kaizen → (tradition specimen — queued)
 
 ## Tier 1: Single-Model Interview
