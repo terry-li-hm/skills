@@ -2,6 +2,7 @@
 name: auspex
 description: Wake-up brief — weather, calendar, key deadlines today. Run when you wake up. Invoke with /auspex.
 user_invocable: true
+disable-model-invocation: true
 ---
 
 # Wake-Up Brief

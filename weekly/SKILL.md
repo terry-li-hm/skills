@@ -2,6 +2,7 @@
 name: weekly
 description: Weekly synthesis and review. Use when user says "weekly", "weekly review", "week in review", or on Fridays.
 user_invocable: true
+disable-model-invocation: true
 ---
 
 # Weekly Synthesis

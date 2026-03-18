@@ -2,6 +2,7 @@
 name: cardo
 description: Midday reflection — scan morning sessions for shipped work and loose ends, then set afternoon priorities. Use when user says "cardo", "noon", "midday", "lunch check", "afternoon", "what did I do", "was it productive", "how was my morning", or asks to stocktake/review the day so far.
 user_invocable: true
+disable-model-invocation: true
 ---
 
 # Cardo — Midday Reflection

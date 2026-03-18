@@ -2,6 +2,7 @@
 name: statio
 description: Start-of-work brief — priorities, gates, inbox triage, Capco prep, GARP nudge. Run when you sit down at the desk. Invoke with /statio.
 user_invocable: true
+disable-model-invocation: true
 ---
 
 # Start-of-Work Brief

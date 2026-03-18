@@ -2,6 +2,7 @@
 name: quies
 description: Evening wind-down ritual — brain dump, overnight queue, screens-off gate. Use between end-of-work and bedtime, when Terry needs to mentally close. Sequence is eow → quies → daily. NOT for work closure (use eow) or full daily reflection (use daily).
 user_invocable: true
+disable-model-invocation: true
 ---
 
 # quies — Evening Wind-Down

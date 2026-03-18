@@ -2,6 +2,7 @@
 name: daily
 description: Bedtime daily close (last thing before sleep). Full-day reflection and tomorrow preview. Use when user says "daily", "end of day", "eod", or before bed. Comes after eow and quies in the evening sequence. NOT for end-of-work (use eow) or session end (use legatum).
 user_invocable: true
+disable-model-invocation: true
 ---
 
 # Daily
@@ -62,40 +63,3 @@ Bedtime close → daily note. The final checkpoint of the day.
 6. **Finalize the daily note** — append all closing sections at once:
 
 ```markdown
----
-
-## Day rating
-
-[Assess from the evidence — session logs, things shipped, decisions made, needles moved. Don't ask Terry. 2-3 sentences. Be honest — 10 commits but no needle movement is "busy, not productive". A rest day with one good decision is "light but effective". A full Theo day with no work is "rest day, needed it".]
-
-## Reflection
-
-[Synthesise from the conversation — use Terry's framing, not yours. Weave in observable data (logs, TODO) but the arc should reflect what Terry said mattered. If eow exists, build on it. Honest, not cheerful.]
-
-## Learnings
-
-- [Insights from the day, if any — check wrap captures]
-
-## Follow-ups
-
-- [ ] [Things to do tomorrow]
-
-## Tomorrow
-
-- [Deadlines, scheduled items, overdue carryover — or "Clear plate."]
-```
-
-   - Tomorrow is a heads-up, not a plan. Morning skill handles the real-time brief.
-
-## Notes
-
-- If note exists, append/update rather than overwrite
-- Don't force entries — "nothing notable" is fine
-- The value is in the reflection, not the logging — wrap handles the session logging
-- This is lightweight by design: wrap does the heavy lifting throughout the day
-- Tomorrow preview is a closing thought — keep it to what's *known*, don't speculate
-
-## Boundaries
-
-- Do NOT run morning/inbox/weather routines; `/auspex` owns those.
-- Do NOT start new execution work; this skill closes the day and writes reflection only.

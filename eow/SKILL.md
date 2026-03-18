@@ -2,6 +2,7 @@
 name: eow
 description: End-of-work checkpoint (afternoon/early evening). Synthesise the work day, capture work mood, note unfinished threads. Use when user says "eow", "end of work", "done for the day". Evening sequence is eow → quies → daily. NOT for session end (use legatum) or bedtime close (use daily).
 user_invocable: true
+disable-model-invocation: true
 ---
 
 # End of Work
@@ -41,39 +42,3 @@ A checkpoint that looks at the **whole work day** as a unit. `/legatum` handles 
 3. **Summarise** — once the conversation feels done, write the EOW close:
 
 ```markdown
----
-
-## End of Work
-
-**Themes:** [comma-separated theme labels, drawn from conversation + daily note]
-
-[2-3 sentence synthesis — what Terry said the day was about, what moved, what's stuck. Use Terry's framing, not yours.]
-
-**Unfinished:**
-- [ ] [Threads carrying over — from conversation + TODO scan]
-
-**Work mood:** [one honest line — Terry's words, not a paraphrase]
-```
-
-   - Append to today's daily note.
-   - TODO sweep: mark anything completed, add any new commitments mentioned in conversation.
-
-4. Done. No tomorrow preview — `/daily` handles that before bed.
-
-## Output
-
-Confirm what was written to the daily note. One sentence, not a recap.
-
-## Notes
-
-- If `/legatum` wasn't run on the last session, do a quick session log first (step 2 of legatum), then proceed
-- If Terry runs `/daily` without running `/eow` first, daily should still work fine — eow is additive, not required
-- The work mood is separate from the daily mood — work might be frustrating but the evening great, or vice versa
-- Keep it fast — a short conversation, not a retrospective
-- **Conversation first, summary second.** Never present a pre-built report for Terry to approve. The daily note logs and TODO scan are *your* context for asking better questions — they're not the output.
-
-## Example
-
-> "How was the work day?"
-> [Terry talks — 2-3 exchanges]
-> "Got it. I've written the EOW close to the daily note — themes: X, Y, Z. Enjoy the evening."
