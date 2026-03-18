@@ -5,7 +5,7 @@ description: >
   Use when checking sleep data, running sync, asking "how did I sleep",
   or any sleep/readiness/HRV/activity query. Replaces oura, nyx, somnus.
   NOT for Oura hardware questions or EightSleep mattress settings.
-user_invocable: false
+user_invocable: true
 triggers:
   - "how did I sleep"
   - "sleep data"

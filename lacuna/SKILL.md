@@ -1,7 +1,7 @@
 ---
 name: lacuna
 description: Demo CLI for Lacuna regulatory gap analysis platform. Use when working on Lacuna demos, Railway deployment, or CLI wrapper tasks.
-user_invocable: false
+user_invocable: true
 ---
 
 # lacuna

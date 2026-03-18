@@ -1,7 +1,7 @@
 ---
 name: wechat-article
 description: Fetch and read WeChat public article content (mp.weixin.qq.com URLs). Use when needing to extract text from a WeChat article link.
-user_invocable: false
+user_invocable: true
 ---
 
 # WeChat Article Fetching

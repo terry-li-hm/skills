@@ -1,7 +1,7 @@
 ---
 name: video-digest
 description: Video/podcast URL to full transcript + structured digest. Bilibili, YouTube, Xiaoyuzhou, Apple Podcasts, X, direct audio.
-user_invocable: false
+user_invocable: true
 source: Adapted from github.com/runesleo/x-reader (Feb 2026), rewritten for Gemini 3 Flash
 ---
 

@@ -3,7 +3,7 @@ name: opifex
 description: >
   AI agent orchestrator — delegates coding tasks to free tools (Gemini/Codex/OpenCode) with auto-routing, fallback chains, and optional 3-pass Opus planning (--plan).
   Use when delegating any implementation task. Default tool for rector Step 3.
-user_invocable: false
+user_invocable: true
 ---
 
 # opifex — AI Agent Plan Executor

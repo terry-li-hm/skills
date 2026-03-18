@@ -1,7 +1,7 @@
 ---
 name: auceps
 description: Smart wrapper for the bird X/Twitter CLI. Use instead of bare bird — auto-routes URLs, handles, and search; adds --vault and --lustro output modes.
-user_invocable: false
+user_invocable: true
 ---
 
 # auceps

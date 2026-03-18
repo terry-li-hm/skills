@@ -1,7 +1,7 @@
 ---
 name: qmd
 description: Semantic search over the vault using QMD. For conceptual queries beyond literal grep.
-user_invocable: false
+user_invocable: true
 github_url: https://github.com/tobi/qmd
 ---
 

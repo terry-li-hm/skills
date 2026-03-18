@@ -1,7 +1,7 @@
 ---
 name: judex
 description: Empirical validation over theoretical debate. When you'd reach for consilium or AskUserQuestion to decide between two approaches, check first — can the outcome be measured? If yes, run the experiment instead of deliberating.
-user_invocable: false
+user_invocable: true
 ---
 
 # judex — Empirical Validation

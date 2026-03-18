@@ -1,7 +1,7 @@
 ---
 name: comes
 description: "Personal AI life coach CLI (crate: phron). Health monitoring, morning brief, overnight research, proactive nudges. `comes brief`, `comes health`, `comes overnight`, `comes nudge`"
-user_invocable: false
+user_invocable: true
 ---
 
 # comes — AI Life Coach CLI

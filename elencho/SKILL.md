@@ -1,7 +1,7 @@
 ---
 name: elencho
 description: Parallel AI research orchestrator — runs query through all available search tools (Grok, Exa, noesis), synthesises agreements/disagreements. Use for factual research where cross-source verification matters. NOT for opinion/judgment questions (use consilium) or single quick lookups (use WebSearch/noesis directly).
-user_invocable: false
+user_invocable: true
 ---
 
 # elencho — Parallel AI Research Orchestrator

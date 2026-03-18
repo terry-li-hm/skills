@@ -1,7 +1,7 @@
 ---
 name: lucus
 description: "Git worktree manager for parallel AI agent sessions. Use when starting a new feature/fix that needs isolation from other Claude Code / Codex / Gemini sessions running on the same repo."
-user_invocable: false
+user_invocable: true
 ---
 
 # lucus — Git Worktree Manager

@@ -1,7 +1,7 @@
 ---
 name: nodus
 description: LinkedIn automation via agent-browser — read messages, send replies, check notifications. Use when checking LinkedIn messages, replying to someone on LinkedIn, or when user says "X replied on LinkedIn".
-user_invocable: false
+user_invocable: true
 ---
 
 # nodus — LinkedIn via agent-browser

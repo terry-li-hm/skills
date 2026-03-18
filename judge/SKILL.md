@@ -1,7 +1,7 @@
 ---
 name: judge
 description: Review client-facing deliverables (SOWs, proposals, decks, reports) against quality criteria before sending. Use when output will be seen by external stakeholders. NOT for code review (use ce-review) or internal notes.
-user_invocable: false
+user_invocable: true
 ---
 
 # Judge Skill
