@@ -123,10 +123,17 @@ If the findings are interesting → `sarcio new` garden post.
 | Verification | Free-$0.10 |
 | **Total** | **$0.20-0.50** + agent compute |
 
+## Optional: Mine Heuristics with fodina
+
+After Round 5 synthesis, consider running `/fodina` to extract implicit model knowledge about the research domain — heuristics the model "knows" but doesn't surface consistently. **Use cross-model mining** (consilium adversarial tier, not same-model interview) — same model interviewing itself produces less novel output than a different model challenging assumptions. See `fodina` skill.
+
+Best for: domains where practitioner knowledge exists but isn't well-documented (operational patterns, failure modes, design heuristics).
+
 ## Relationship to Other Skills
 
 - **indago** — tool selection reference (which tool for which query). Quaero is the campaign methodology.
 - **elencho** — single parallel query across 3 tools. Quaero is multi-round with verification.
+- **fodina** — mine implicit model knowledge into permanent heuristics. Use after synthesis to fill gaps. Cross-model mining preferred.
 - **heuretes** — agent research org for code exploration. Quaero is for desk research.
 - **trutina** — conflicting evidence reconciliation. Invoke from Round 5 when sources genuinely disagree.
 - **consilium** — judgment calls. Invoke after quaero when findings need a decision.
