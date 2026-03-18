@@ -144,6 +144,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | AI governance consulting | `gubernatio` | 1 | rector, meeting-prep, capco-prep, consilium | "Governance Is a Tax" |
 | Regulatory comparison | `regulatio` | 1 | meeting-prep, capco-prep, gubernatio | — |
 | Technical credibility | `auctoritas` | 1 | meeting-prep, capco-prep, cursus, gubernatio | — |
+| Agent team orchestration | `cohors` | 1 | copia, rector, mandatum, heuretes, opifex | — |
 
 ## Relationship to Other Skills
 
