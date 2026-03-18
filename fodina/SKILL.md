@@ -79,6 +79,9 @@ Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** a
 - [x] Musashi → the gaze (kan-ken), no preferred weapon, rhythm/timing, crossing at a ford, becoming the opponent, the void
 - [x] Sun Tzu → shì (momentum), empty/full, know them/know yourself, orthodox/unorthodox, winning without fighting, terrain
 - [x] 火鳳燎原 (fiction) → appearing weak/strong, weakness as asset, information asymmetry, long game > brilliant move, unreliable narration, principles have costs
+- [x] Bhagavad Gita → nishkama karma, inaction is action, situational duty, quality of action (gunas)
+- [x] Chanakya/Arthashastra → four upayas (escalation), matsya nyaya (entropy), intelligence as foundation, pragmatic morality
+- [x] Buddhist epistemology → dependent origination, śūnyatā, two truths, meditation as empirical investigation
 - [ ] Kaizen → (tradition specimen — queued)
 
 ## Tier 1: Single-Model Interview
@@ -190,6 +193,8 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Working with momentum | `wuwei` | 1 (specimen) | enkrateia, metanoia, parsimonia, phronesis, reductio | — |
 | Mastery as disappearance | `kenosis` | 1 (specimen) | parsimonia, aporia, mandatum, mathesis | — |
 | Adversarial perspective | `adversaria` | 1 (specimen) | sympatheia, reductio, consilium, metanoia, aporia | — |
+| Action without attachment | `nishkama` | 1 (specimen) | enkrateia, wuwei, kenosis, phronesis, aporia | — |
+| Categories are provisional | `sunyata` | 1 (specimen) | aporia, metanoia, topica, systema, parsimonia | — |
 
 ## Relationship to Other Skills
 
