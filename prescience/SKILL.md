@@ -24,6 +24,8 @@ Recognise when analysis is no longer serving action. Every additional scenario y
 
 **Optimal analysis depth exists.** Too little → reckless. Too much → paralysed. The optimum depends on reversibility: reversible decisions warrant less analysis, irreversible decisions warrant more. But even irreversible decisions have a point of diminishing returns. [Type: spectrum]
 
+**Error cost asymmetry sets the depth.** (The fly) When the cost of a false positive (unnecessary action) is cheap and the cost of a false negative (missed threat) is catastrophic, optimal analysis depth approaches zero — act first, process later. When costs are symmetric, analyse more. The fly escapes before identifying the threat because unnecessary escapes are free and late escapes are fatal. [Type: rule — check the error cost asymmetry before deciding how much to analyse]
+
 **The Gom Jabbar inversion.** The Gom Jabbar tests whether you can endure pain without flinching. Prescience is the opposite test: can you endure uncertainty without analysing? The animal analyses until it's safe. The human acts while it's still uncertain. [Type: reframe]
 
 ## When to Consult
