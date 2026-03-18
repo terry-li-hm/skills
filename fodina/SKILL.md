@@ -49,7 +49,8 @@ Most mines naturally contain several types. During extraction, **name the type**
 - Topics where the existing pieces already cover it well enough — diminishing returns
 - Abstract words (adjectives, verbs) — too compressed, one insight per word. Specimens need enough internal structure to probe deeply
 - Unnamed phenomena — resist extraction because they haven't been crystallized into transmissible form. Some knowledge needs to be lived, not described
-- Abstract words (adjectives, verbs) — too compressed, one insight per word. Specimens need internal structure to probe
+- Abstract words (adjectives, verbs) — too compressed, one insight per word
+- Low choice-density media (phone books, logs, raw data) — information without choices = nothing to mine
 
 **Stories hold what skills can't.** Writing a story then mining it produces heuristics that all map to existing skills — no new gaps. But the story captures the felt quality of multiple moves operating together, which the skill format can't decompose. Skills are for retrieval; stories are for transmission of what resists decomposition. Complementary formats.
 
@@ -57,7 +58,7 @@ Most mines naturally contain several types. During extraction, **name the type**
 
 Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** are concrete things you examine to reveal general structure — a thinker, a tradition, a failure. The specimen is drilled into, not preserved. Language matters: "anchor" implies fixity and invites anchoring bias; "specimen" keeps the relationship honest — you're studying it to learn about the class, then discarding the container.
 
-**A specimen is anything concrete enough to probe.** People, traditions, failures, fiction, disciplines, games, natural phenomena — the type doesn't matter. The process is always: probe → extract moves → sort → check gaps. Below are specimen types we've validated, but this list is itself provisional (see `sunyata`):
+**A specimen is anything with embedded choices.** If someone made choices — a thinker, a poet, a programmer, a painter — those choices can be mined. Choice density, not information density, determines yield. A haiku (17 syllables, every one a choice) mines better than a phone book (millions of entries, zero choices). People, traditions, failures, fiction, disciplines, games, natural phenomena — the type doesn't matter. The process is always: probe → extract moves → sort → check gaps. Below are specimen types we've validated, but this list is itself provisional (see `sunyata`):
 
 | Specimen | Example | Typical output |
 |----------|---------|----------------|
