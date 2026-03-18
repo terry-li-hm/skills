@@ -101,6 +101,7 @@ Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** a
 - [x] Mathematics as practice → abstraction, proof by contradiction, definitions, existence vs construction, isomorphism
 - [x] Alien fiction (Arrival, Three-Body, Ender's Game, Solaris, Blindsight) → sharpened existing skills, no new gaps. Unclear if ceiling, thin weights, or ordering bias
 - [x] Dune → prescience trap (excessive analysis pathology), Litany Against Fear, Mentat thinking, Bene Gesserit observation, plans within plans, desert wisdom, Gom Jabbar
+- [x] Management theory (Grove, Drucker, Deming, Weinberg) → TRM, orchestrator leverage, 94% system rule, management by exception, PDCA, fear-free prompting, cross-verification, contribution framing. All sorted into cohors + delegation-theory (enrichment, no new skill)
 - [ ] Kaizen → (tradition specimen — queued)
 
 ## Cross-Model Mining
@@ -228,6 +229,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Categories are provisional | `sunyata` | 1 (specimen) | aporia, metanoia, [[mental-models]], systema, parsimonia | — |
 | Find what doesn't change | `invariance` | 1 (specimen) | metanoia, reductio, sunyata, systema | — |
 | Excessive analysis pathology | `prescience` | 1 (specimen) | reductio, aporia, adversaria, nishkama, wuwei | — |
+| Management for agent teams | cohors §2,3,4,6,8 + delegation-theory (enrichment) | 1 (4 specimens: Grove, Drucker, Deming, Weinberg) | cohors, mandatum, rector, opifex, heuretes | — |
 
 ## Relationship to Other Skills
 
