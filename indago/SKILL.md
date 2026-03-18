@@ -190,6 +190,24 @@ Validated: Cantonese search for HK banking app UX (Mox, ZA Bank) returned richer
 
 **LinkedIn people research:** See `linkedin-research` skill.
 
+## Proximity-Weighted Search (Stolen from Aider's PageRank)
+
+**Before searching broadly, search nearby first.** Aider's insight: files connected to what you're currently working on are 50x more likely to be relevant than random files.
+
+**For vault searches:**
+```bash
+vault-proximity "Current Note" --limit 20  # find connected notes first
+```
+Then search within the connected set before expanding to the full vault. Wikilinks are the graph edges.
+
+**For codebase searches (Explore agents):**
+Always include in the agent prompt: "Start from [current file]. Weight files that import or are imported by [current file] highest. Follow reference chains outward — depth 1 first, then depth 2."
+
+**For cerno/qmd:**
+When searching for context on a topic you're actively working on, include the active note/file name in the query. The search tool won't auto-weight by proximity — you need to manually provide the anchor point.
+
+**Principle:** Relevant context clusters. Start from where you are, follow the links, search broadly only when local search fails.
+
 ## Researcher Agent Delegation
 
 When constructing prompts for researcher subagents, **explicitly specify the search tool** for the topic:
