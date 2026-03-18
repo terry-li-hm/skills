@@ -17,6 +17,7 @@ Reference for choosing the optimal search tool. Updated 2026-02-23.
 | **exauro** | Rust CLI | ~$0.001–0.01/query | Semantic/neural search, find-similar, content extraction |
 | **grok** | Python CLI | ~$0.02/query | X/Twitter search, real-time web |
 | **WebFetch** | Built-in | Free | Scrape specific URLs to markdown |
+| **quaero** | Skill | $0.50–3.00/campaign | Multi-round research campaigns with verification |
 
 ## Pre-Flight: Post-Cutoff Verification
 
@@ -212,6 +213,14 @@ These are complementary, not interchangeable:
 | Researcher agent | Foundational academic synthesis: established theory, citable papers, cross-study analysis. Slower, more thorough. |
 
 **Pattern:** use researcher agent for the "why" (mechanism, theory), `noesis research` for the "what now" (current platform behaviour, recent data). Both on the same topic often yields more than either alone — agent surfaces the theory, noesis surfaces what's changed since.
+
+## Full Research Campaign: quaero
+
+When a topic needs more than a single query — cross-source validation, verification, multiple rounds — use the `quaero` skill instead of picking individual tools. Quaero orchestrates all search tools in parallel across multiple rounds with verification passes.
+
+**Indago** = which tool for this query. **Elencho** = parallel single query. **Quaero** = multi-round campaign.
+
+Route to quaero when: forming a view (not finding a fact), stakes justify 15–60 min, or you need to present verified findings to others.
 
 ## Perplexity Quality Notes
 
