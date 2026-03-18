@@ -76,7 +76,9 @@ Low urgency but good use of spare tokens. Agents that fix, not just flag.
 
 ## Execution Pattern
 
-**Use agent teams, not individual agents.** One team lead (Opus) dispatches 3-4 workers. Lead manages coordination, file scope, and task assignment. See `cohors` skill for full orchestration heuristics.
+**Desktop (Ghostty/tmux): use agent teams.** One team lead (Opus) dispatches 3-4 workers. Lead manages coordination, file scope, and task assignment. See `cohors` skill for full orchestration heuristics.
+
+**Blink/mobile: use individual background agents.** TeamCreate spawns tmux panes that break on Blink. Instead, launch 3-5 `Agent(run_in_background=true)` directly — same throughput, no split screen.
 
 ```
 # 1. Create team
