@@ -16,10 +16,13 @@ Latin: *vigilia* (night watch). Run when Terry is going to sleep and wants maxim
 
 ### Phase 1: Triage (2 min)
 
+**Start from North Star, not from TODO.md.** Read `[[North Star]]` first. For each of the 6 priorities, ask: "what would move the needle tonight?" Then check TODO.md for matching tasks. This is top-down (goals → tasks) not bottom-up (backlog → hope it's worthwhile).
+
 1. Run `date` to confirm HKT time
-2. Read `~/notes/TODO.md` — scan ALL sections, not just `agent:claude`
-3. Read `~/notes/NOW.md` for active priorities
-4. Classify every unchecked item into:
+2. Read `~/notes/North Star.md` — what matters most right now?
+3. Read `~/notes/TODO.md` — match items to north star priorities
+4. Read `~/notes/NOW.md` for active context
+5. Classify every unchecked item into:
 
 | Category | Criteria | Action |
 |----------|----------|--------|
@@ -148,6 +151,7 @@ When all agents complete (or budget runs out), send via `deltos` (Telegram):
 - **Don't modify CLAUDE.md or settings.json** beyond registering things explicitly planned (like hooks from TODO items).
 - **Don't skip archival.** Every completed task must be archived. No exceptions.
 - **Don't be conservative.** The whole point is to burn budget productively. Launch 10 agents, not 3.
+- **Drop tasks, don't just add them.** The lead's job includes saying "this isn't worth doing." Apply the North Star filter before dispatch — if a task doesn't serve any of the 6 priorities, drop it even if it's in TODO.md. Dropping a `someday` item is free. Dispatching an agent on it costs tokens and attention. First run mistake: launched HPV vaccine research and Pharos migration analysis when both were explicitly "after Capco."
 
 ## Session Chain Maintenance
 
@@ -389,7 +393,21 @@ Each role needs **3+ tasks queued** so no one idles. If a role finishes its task
 
 **Simpler architecture for v3:** N generalist workers (pick any task) + 1 check step (any agent reviewing another's output cold). No role labels needed. The check step is the only structural requirement — everything else is queue management.
 
-### v3: Generalists + Checker (recommended default)
+### v3: Persistent Team (recommended default)
+
+Spawn **once** at session start. Keep alive all session. Replace exhausted workers.
+
+```
+/vigilia → TeamCreate "vigilia"
+  → spawn 8 generalist workers (Sonnet) + 1 checker (Opus)
+  → feed tasks continuously from North Star → TODO.md
+  → worker hits context limit (~3% until compact) → spawn replacement, shut down old
+  → session end → shutdown all → TeamDelete
+```
+
+**Do not create/destroy teams per wave.** One team, always ready. The lead's only jobs: curate the queue, replace exhausted workers, archive results.
+
+### v3 agents: Generalists + Checker
 
 Simplest effective architecture. No roles, no pipelines, no idle time.
 
