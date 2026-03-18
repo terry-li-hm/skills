@@ -2,6 +2,14 @@
 name: rector
 description: Structured on-ramp for delegate-first dev work. Use at the start of any coding task. Runs solutions KB check → research → spec analysis → plan → delegate → verify → review → finish.
 user_invocable: true
+allowed-tools:
+  - Bash
+  - Read
+  - Write
+  - Edit
+  - Grep
+  - Glob
+  - Agent
 ---
 
 # /rector — Delegate-First Dev Workflow

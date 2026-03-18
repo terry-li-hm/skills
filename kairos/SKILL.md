@@ -29,44 +29,32 @@ Unlike `auspex` (morning delta) or `cardo` (midday reflection), Kairos is statel
 - "what's next"
 - "priority check"
 
+## Live Context (injected at invocation)
+
+```
+Current time: !`date "+%A %Y-%m-%d %H:%M HKT"`
+
+Calendar:
+!`fasti list 2>/dev/null || echo "(calendar unavailable)"`
+
+Due reminders:
+!`moneo ls 2>/dev/null || echo "(none)"`
+
+NOW.md:
+!`cat ~/notes/NOW.md 2>/dev/null || echo "(unavailable)"`
+```
+
 ## Steps
 
-Run steps 1–4 in parallel.
+Using the live context above:
 
-### 1. Get current time + day
+### 1. Time + Calendar + Reminders
 
-```bash
-date
-```
+Already injected. Note: day of week, proximity to end of day. Flag anything within 60 minutes (imminent) or 2-4 hours (good to know). Merge calendar + Due for synthesis.
 
-Note: day of week, time of day (HKT), proximity to end of day.
-If `date` fails, use system-provided current time and continue.
+### 2. Active decisions and gates
 
-### 2. Today's calendar + Due reminders
-
-Always run both — Due reminders are not visible in fasti, calendar events are not visible in moneo:
-
-```bash
-fasti list        # Google Calendar events (today by default)
-moneo ls          # Due app reminders
-```
-
-- If `fasti` fails, fall back to `gog calendar list`. Note "Calendar unavailable" and continue if both fail.
-
-- Extract remaining calendar events for today
-- Surface Due reminders due **today** — merge with calendar results for synthesis
-- Flag: anything within the next 60 minutes (needs prep or imminent)
-- Flag: anything within 2–4 hours (good to know)
-- If nothing remaining on either, note "clear"
-- If moneo fails or isn't installed, skip silently
-
-### 3. Active decisions and gates — NOW.md
-
-Read `~/notes/NOW.md`.
-
-- If file is missing/unreadable, note "NOW.md unavailable" and continue.
-
-- Pull any open decisions (not yet `[decided]` or `[done]`)
+Already injected via NOW.md. Pull open decisions (not `[decided]` or `[done]`)
 - Pull any active processes or waiting-on states
 - If a PID is mentioned, skip process check — too slow for a quick snapshot
 
