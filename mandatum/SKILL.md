@@ -77,3 +77,7 @@ Over time: AGENTS.md files, skill files, conventions docs — persistent context
 - Delegation result was poor — check failure modes
 - Deciding how coarsely to decompose work
 - Writing AGENTS.md or persistent delegate context
+
+## See Also
+
+- **cohors** — extends mandatum to team orchestration: task decomposition, topology, parallelism, and merge patterns for multi-agent runs

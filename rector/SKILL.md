@@ -92,7 +92,7 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 - Backend selection: `-b gemini` (default/boilerplate), `-b codex` (Rust, hard bugs), `-b opencode` (bulk). Details: `rector-reference.md`
 - **Fallback:** if opifex fails (infra issue, not task issue), fall back to raw CLI (`gemini -p "$(cat /tmp/plan.md)"`) — but note the gap in logging.
 - **In-session subagents** (`subagent-driven-development`): ONLY when vault context or live user decisions are needed mid-execution — not as a convenience shortcut.
-- **Agent Teams** (TeamCreate): when true coordination needed (shared API design, exploratory refactor, unknown-scope bugs)
+- **Agent Teams** (TeamCreate): when true coordination needed (shared API design, exploratory refactor, unknown-scope bugs) — consult `cohors` for decomposition, topology, and parallelism heuristics
 
 **5. Verify** (hard gate — if something fails, consult `diagnosis` skill before shotgunning fixes):
 - [ ] Tests pass — paste actual output
