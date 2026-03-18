@@ -8,3 +8,4 @@ config.json
 # Codex mirror/work directories
 consilium-*/
 *-work-*/
+.fastembed_cache/
