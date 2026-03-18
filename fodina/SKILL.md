@@ -103,6 +103,14 @@ Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** a
 - [x] Dune → prescience trap (excessive analysis pathology), Litany Against Fear, Mentat thinking, Bene Gesserit observation, plans within plans, desert wisdom, Gom Jabbar
 - [ ] Kaizen → (tradition specimen — queued)
 
+## Cross-Model Mining
+
+Run the same probe prompt on multiple models (Gemini CLI, Codex, OpenCode). Compare extractions. Each model's weights are a different lossy compression of human knowledge — the delta between extractions reveals what each model noticed that the others didn't.
+
+**Validated:** Einstein — Gemini found 3 moves Claude missed, Claude found 2 Gemini missed. Musashi — Gemini found 3 additional moves (Mountain-Sea Pivot, Holding the Pillow, Rat's Head/Ox's Neck).
+
+**Prompt:** `~/notes/Fodina Mining Prompt.md` (vault, versioned). CLI tool queued.
+
 ## Tier 1: Single-Model Interview
 
 Fast, good for well-understood domains where the model has clear depth.
