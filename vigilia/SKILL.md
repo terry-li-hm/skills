@@ -355,9 +355,114 @@ Each role needs **3+ tasks queued** so no one idles. If a role finishes its task
 
 **Lead's job is queue management.** The lead doesn't do tasks — it watches TaskList and ensures every role always has work. If a role is idle, the lead either creates a new task or reassigns a task from an overloaded role.
 
-### Status: first test Mar 19 2026
+### Roles are labels, not capabilities
+
+"Researcher" and "writer" are human-legible labels on identical LLMs. The agent doesn't research better because you called it "researcher." What actually matters:
+- **The prompt** (per-task, not per-role)
+- **Separation of producer and checker** (different context catches errors self-review misses)
+
+**Simpler architecture for v3:** N generalist workers (pick any task) + 1 check step (any agent reviewing another's output cold). No role labels needed. The check step is the only structural requirement — everything else is queue management.
+
+### v3: Generalists + Checker (recommended default)
+
+Simplest effective architecture. No roles, no pipelines, no idle time.
+
+```
+Lead (curates queue, archives results)
+  → N generalist workers (Sonnet, pick any task, use free tools)
+  → 1 checker (Opus, reviews high-stakes outputs cold)
+```
+
+**Worker prompt:** "Check TaskList. Pick the next unowned task. Complete it. Mark done. Check TaskList again. Use codex/gemini for mechanical work, save CC tokens for judgment."
+
+**Checker prompt:** "Check TaskList for tasks tagged `needs-check`. Read the output file cold — you didn't produce it. Verdict: PASS/AMBER/RED. If AMBER/RED, fix it yourself or create a new fix task."
+
+**Lead tags high-stakes tasks** with `needs-check` at creation time. Low-stakes tasks skip the checker entirely.
+
+### Status: v1 tested Mar 18-19, v2 tested Mar 19, v3 designed Mar 19
 
 Added Mar 19 2026 based on first run analysis. Test on next vigilia run and compare quality/throughput against v1.
+
+## Vision: The Hybrid Agent Company
+
+The end-state architecture for vigilia is a **hybrid agent company** where paid AI (CC) provides judgment and free AI (Codex/Gemini) provides labour.
+
+```
+┌─────────────────────────────────────────────────┐
+│                    LEAD (CC Opus)                │
+│         Taste · Curation · Queue mgmt           │
+│              The only human-like job             │
+└──────────────────┬──────────────────────────────┘
+                   │ creates tasks, archives results
+          ┌────────┴────────┐
+          ▼                 ▼
+┌──────────────┐   ┌──────────────┐
+│  WORKERS     │   │   CHECKER    │
+│  (CC Sonnet) │   │  (CC Opus)   │
+│  N instances │   │  1 instance  │
+│              │   │              │
+│  • Pick task │   │  • Reviews   │
+│  • Read code │   │    output    │
+│  • Write spec│   │    cold      │
+│  • Delegate→ │   │  • PASS/     │
+│  • Review    │   │    AMBER/RED │
+│  • Message   │   │  • Fixes or  │
+│    checker   │   │    routes    │
+└──────┬───────┘   └──────────────┘
+       │ delegates mechanical work
+       ▼
+┌──────────────────────────────────┐
+│     FREE LABOUR POOL             │
+│                                  │
+│  codex exec    (GPT-5.4, free)   │
+│  gemini -p     (Gemini, free)    │
+│  opencode      (any model, free) │
+│                                  │
+│  Invoked via subprocess          │
+│  No team awareness               │
+│  Output reviewed by CC worker    │
+└──────────────────────────────────┘
+```
+
+### Cost model
+
+| Layer | Token cost | % of work |
+|-------|-----------|-----------|
+| Lead (Opus) | $$$ | ~5% (curation, archival) |
+| Workers (Sonnet) | $$ | ~15% (specs, review, routing) |
+| Checker (Opus) | $$$ | ~5% (quality gate) |
+| Free tools | $0 | ~75% (mechanical coding, research) |
+
+**Target: 75% of implementation done by free tools, CC tokens spent only on judgment.**
+
+### Worker delegation pattern
+
+```
+Worker picks task from queue
+  → Reads existing code (CC tokens: understanding)
+  → Writes a 3-line spec (CC tokens: judgment)
+  → `codex exec --skip-git-repo-check "spec here"` (free)
+  → Reviews output, fixes edge cases (CC tokens: review)
+  → Messages checker with file paths
+  → Checker reads cold, verdicts PASS/AMBER/RED (CC tokens: quality)
+```
+
+### What's missing (build incrementally)
+
+1. **Persistent worker memory** — workers forget between sessions. A handoff journal per worker (`~/.agent-journals/worker-last-session.md`) would let context accumulate across vigilia runs.
+2. **Cross-session task queue** — currently TaskList dies with the team. A durable TODO.md-backed queue would persist tasks across sessions.
+3. **Auto-scaling** — lead manually spawns workers. An auto-scaler that monitors queue depth and spawns/kills workers would complete the "agent company" metaphor.
+4. **Free tool routing** — workers should pick the best free tool per task (codex for coding, gemini for research, opencode for multi-file changes). Currently manual.
+5. **Cost tracking** — measure actual CC tokens per task vs free tool tokens. Optimize the split.
+
+### Key insight from first run
+
+**Roles are labels, not capabilities.** The agents don't get better at research because you called them "researcher." What matters:
+- The prompt (per-task instructions)
+- Separation of producer and checker (different context catches errors)
+- Delegation to free tools (CC for judgment, free for labour)
+
+**Taste is the bottleneck.** When you can run 80+ tasks overnight, the binding constraint is knowing which tasks are worth running. The lead's job is curation — everything else can be automated.
 
 ## Relationship to Other Skills
 
