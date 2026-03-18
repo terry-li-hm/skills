@@ -100,7 +100,7 @@ Read `~/notes/TODO.md`. Skip if missing.
 
 - **Complete:** Done items → `[x]` with note and `done:YYYY-MM-DD`. Hard test: truly done, or just "dev done"? Move checked items to `~/notes/TODO Archive.md`.
 - **Create:** New commitments or interrupted WIP → add with verb + concrete next action. Tag `agent:` if Claude can resume.
-- **Cold-start test:** For any `agent:claude` item, ask: could a fresh agent pick this up with zero conversation context? The TODO line stays lean — but it must *point to* enough context to resume. Options: (1) a spec note in vault (`See [[X]]`), (2) a parked task in `~/docs/solutions/parked/`, (3) inline context if it's just one line. The context needs to be findable, not inline. A TODO that survives `/clear` only as "implement X" with no pointer is a reminder, not a task.
+- **Cold-start test:** For any `agent:claude` item — is there enough in the vault (TODO line + related notes + git history) for a copia prospector to reconstruct the dispatch context? If yes, the TODO line can be lean. If the task has no vault footprint at all, add a one-line spec or `See [[X]]` pointer.
 
 ### Step 2: Session Log (full mode only)
 
