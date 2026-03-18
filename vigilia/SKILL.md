@@ -28,7 +28,8 @@ Latin: *vigilia* (night watch). Run when Terry is going to sleep and wants maxim
 | **Blocked** | Needs physical access, external reply, or Terry's voice | Skip |
 
 5. Prioritize: due soonest > highest impact > `agent:claude` tagged > untagged actionable > someday
-6. **Don't filter too aggressively.** Research, drafting, planning, and design are all fair game even for `agent:terry` items — just flag the output for Terry's review.
+6. **Taste filter: read `[[North Star]]` first.** Score each candidate against the 6 north star priorities (Theo, career, health, marriage, finances, knowledge system). Tasks that don't serve any priority are paperclips — skip regardless of due date. No terminal themes when exam prep is pending.
+7. **Don't filter too aggressively.** Research, drafting, planning, and design are all fair game even for `agent:terry` items — just flag the output for Terry's review.
 
 ### Phase 2: Dispatch Waves
 
