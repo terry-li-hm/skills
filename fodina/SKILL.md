@@ -128,6 +128,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Wrap-ups | `conclusio` | 1 | legatum (inlined), eow, daily | — |
 | Toddler school refusal | `parens` | 1 | — (vault: Theo - Development & Parenting Notes) | — |
 | Truth-seeking | `zetetike` | 1 | fodina, elencho, consilium, peira, rector | — |
+| Judgment | `phronesis` | 1 | consilium, gnome, examen, zetetike, rector, praecepta | — |
 
 ## Relationship to Other Skills
 
