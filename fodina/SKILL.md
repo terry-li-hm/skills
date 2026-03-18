@@ -145,6 +145,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Regulatory comparison | `regulatio` | 1 | meeting-prep, capco-prep, gubernatio | — |
 | Technical credibility | `auctoritas` | 1 | meeting-prep, capco-prep, cursus, gubernatio | — |
 | Agent team orchestration | `cohors` | 1 | copia, rector, mandatum, heuretes, opifex | — |
+| Deployed system verification | `probatio` | 1 | verify, peira, topica | "The Pipeline Paradox" |
 
 ## Relationship to Other Skills
 
