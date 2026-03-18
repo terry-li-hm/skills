@@ -6,7 +6,14 @@ user_invocable: true
 
 # Gnome
 
-Capture decisions to `~/notes/decisions/` with the **bouncer pattern**: before logging anything new, search past decisions and surface similar ones. Recurrence = implicit outcome tracking — if you're back on a topic you already decided, that IS the signal. When logging, tag which `topica` models applied — builds the feedback loop.
+Capture decisions to `~/notes/decisions/` with the **bouncer pattern**: before logging anything new, search past decisions and surface similar ones. Recurrence = implicit outcome tracking — if you're back on a topic you already decided, that IS the signal.
+
+When logging, tag which lens shaped the decision:
+- **Reversibility** — reversible → move fast, irreversible → slow down
+- **Opportunity cost** — what you're NOT doing by choosing this
+- **Sunk cost** — are you continuing because of past investment?
+- **Premortem** — if this fails, why?
+- **Chesterton's fence** — if changing something, do you know why it existed?
 
 *Gnōmē (γνώμη): in Aristotle, the crystallised residue of having judged — recalled to govern new situations. Sits upstream of both epistēmē (measurable → judex) and boulē (uncertain → consilium).*
 

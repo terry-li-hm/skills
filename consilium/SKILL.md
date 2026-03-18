@@ -33,7 +33,17 @@ runtime: rust
 
 ## Routing
 
-**Mental model:** `--quick` = breadth (surface perspectives), `--council` = convergence (stress-test a decision). Before framing the question, scan `topica` triggers — name 1-2 applicable models in the prompt context (e.g., "Noting: this has a sunk-cost + second-order shape").
+**Mental model:** `--quick` = breadth (surface perspectives), `--council` = convergence (stress-test a decision). Before framing the question, check which lens applies and name it in the prompt:
+
+| If the question involves... | Name this lens |
+|---|---|
+| Saying yes to something | **Opportunity cost** — what are you NOT doing? |
+| "But we already invested..." | **Sunk cost** — past spend ≠ future justification |
+| Planning or launching | **Premortem** — imagine it failed, why? |
+| System/process change | **Second-order effects** — what happens after what happens? |
+| Evaluating evidence | **Base rates** — what usually happens in cases like this? |
+| "All evidence agrees" | **Confirmation bias** — you see what you're looking for |
+| Stakeholder dynamics | **Incentives** — what is this person rewarded for? |
 
 **Default bias: deep > council > quick.** Career, negotiation, strategy, real consequences → `--deep`. Reserve `--quick` for naming and pure brainstorming.
 
