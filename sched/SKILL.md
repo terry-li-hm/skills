@@ -9,7 +9,7 @@ user_invocable: true
 
 Single entry point for all scheduling. Due = nag reminders. Google Calendar = source of truth for time-blocked events.
 
-**Before routing to Due:** consult `negotium` heuristics — Due test is "would forgetting cause damage to a *committed* path?" Optionality on uncommitted paths doesn't clear the bar.
+**Before routing to Due:** Due test is "would forgetting cause damage to a *committed* path?" Optionality on uncommitted paths doesn't clear the bar.
 
 **Default behaviour by type:**
 
