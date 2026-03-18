@@ -14,6 +14,18 @@ When Max20 budget is plentiful (weekly % < 50% by Wednesday, or user says so), l
 2. Check what's stale: scan `~/notes/Research/` — anything >30 days old is a refresh candidate
 3. Check NOW.md for open items that benefit from research
 
+## Step 0 — Prospecting (meta-burn)
+
+Don't pick from the menu blindly. **Dispatch 2 prospector agents first** to find the highest-value work:
+
+1. **Vault prospector** (Opus) — scans TODO.md, NOW.md, daily notes, Capco Transition, GARP/, solutions KB, skills/, Research/, LinkedIn Content Ideas. Scores each candidate on Value (1-5) × Autonomy (1-5). Returns ranked top 10 with ready-to-dispatch prompts.
+
+2. **Activity prospector** (Opus) — scans git logs (last 2 weeks across officina, skills, ~/code/*), recent session history (~/.claude/projects/), stale branches, recurring friction patterns. Finds abandoned threads and unfinished work. Same scoring.
+
+Both run ~2-3 min. Merge their lists, dedupe, pick the top 5-6 to dispatch. This avoids burning tokens on "looks useful" when "actually needed" items exist.
+
+**When to skip prospecting:** If Terry names specific tasks, or if budget is tight (<20% remaining) — just pick from the menu directly.
+
 ## The Menu
 
 Pick based on current priorities. All run as **background agents on Max20** (zero API cost). Bet mentality: even if half the output is mediocre, the hits compound.
