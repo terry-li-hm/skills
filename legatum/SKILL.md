@@ -100,6 +100,7 @@ Read `~/notes/TODO.md`. Skip if missing.
 
 - **Complete:** Done items → `[x]` with note and `done:YYYY-MM-DD`. Hard test: truly done, or just "dev done"? Move checked items to `~/notes/TODO Archive.md`.
 - **Create:** New commitments or interrupted WIP → add with verb + concrete next action. Tag `agent:` if Claude can resume.
+- **Cold-start test:** For any `agent:claude` item, ask: could a fresh agent pick this up with zero conversation context? If not, add: (1) input file paths, (2) output location, (3) one-line spec of what "done" looks like. The TODO line should be a dispatchable prompt, not a reminder. Example: ~~"implement consumption signal"~~ → "Design passive note-usage tracking for `~/notes/`. Check atime + git signals + Obsidian plugins. Save design to `~/notes/Consumption Signal Design.md`, script to `~/bin/`. Done = prospectors can query a consumption score per file."
 
 ### Step 2: Session Log (full mode only)
 
