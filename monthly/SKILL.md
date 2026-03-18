@@ -148,6 +148,14 @@ Read `~/notes/Life OS.md`. For each domain ask: is this still the right framing?
 - Check MEMORY.md line count (`wc -l`). Flag if >150 — trim or demote to vault.
 - **CLAUDE.md tightening pass:** Read every rule and ask two questions: (1) Is this still true? Remove stale references (completed transitions, retired projects, outdated tool names). (2) Does this *need* to be in CLAUDE.md, or does it belong in a skill/solution? Mechanical rules stay. Workflow conventions → relevant skill. Operational gotchas → MEMORY.md. Reusable how-tos → `~/docs/solutions/`. Goal: CLAUDE.md stays thin — rules and pointers only.
 - If purge/index commands fail, report "Housekeeping partial" with failed command names.
+- **DR drill (lucerna).** SSH in and test the full experience, not just connectivity:
+  1. `ssh terry@lucerna` (Tailscale) — if fails, try `fly ssh console -a lucerna`
+  2. `claude` — does it start? Check version, skills loaded, CLAUDE.md found
+  3. Ask Claude to read NOW.md — does it have vault context?
+  4. `git -C ~/notes pull` — is the vault current?
+  5. Check aliases work: `c`, `ll`, `t`
+  6. Check disk: `df -h /home/terry` (10GB volume, flag if >80%)
+  7. Fix anything that broke. The drill IS the maintenance.
 
 ## Summary Template
 
