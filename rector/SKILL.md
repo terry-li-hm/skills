@@ -83,6 +83,8 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 - For multi-session projects: start `claude-progress.txt` (append-only log)
 
 **4. Execution** (FREE by default — NEVER use in-session agents for implementation):
+- **Planning pattern:** ReWOO → CodeAct → ReAct hybrid (stolen from production consensus). Plan cheaply with variable placeholders (Opus reasoning), execute as code (delegate to Codex/Gemini), fall back to interactive (in-session ReAct) only on delegate failure. Gets token efficiency until something breaks, then gracefully degrades.
+- **Edit format matters:** instruct delegates to use unified diff format over SEARCH/REPLACE where possible. Aider benchmarked: 3x success rate. Diff format = "data for a program" (rigid); SEARCH/REPLACE = "instructions for a human" (flexible, lazier).
 - **HARD GATE: Do NOT use in-session general-purpose agents for coding.** The whole point of writing a detailed plan is so a context-free delegate can execute it. In-session agents burn Max20 tokens for work external tools do for free.
 - **Always route through opifex** — even single-task delegations. This ensures every execution is logged for the feedback loop.
   ```bash
@@ -104,6 +106,7 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 **6. Review** (Sonnet subagents, routed by file type):
 - `.py` → kieran-python, `.rs` → kieran-rust, `*auth*` → security-sentinel always
 - Then: pattern-recognition → code-simplicity (YAGNI last, consult `parsimonia` for essential vs accidental complexity)
+- **Critic pass** (stolen from Devin's Planner/Coder/Critic pipeline): dedicated adversarial review that pressure-tests for security vulnerabilities and logic errors before shipping. Not the same agent that wrote the code — fresh context, no commitment bias.
 - **Adversarial pass:** "3 most likely production failures"
 - **Simplicity diagnostic:** "Where did the complexity go?" Every simplification moves complexity somewhere — into the caller, a future edge case, a config file, a convention that must be documented. Name where it landed. If the answer is "nowhere", the complexity was accidental and the simplification is clean. If it landed on the user or caller, that's a trade-off worth flagging, not hiding.
 - **Severity tags:** Blocker (stops PR) / Major (accept-risk) / Minor (optional)

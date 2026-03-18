@@ -81,6 +81,15 @@ LLM-as-judge = structured subjectivity. Not objective, but systematic and reprod
 - **Agents:** consistent, scalable, blind to criteria not in rubric, systematically wrong in ways humans catch instantly
 - **Hybrid:** agent evaluates at scale against rubric, human calibrates on a sample
 
+## Agent Evaluation Patterns (Stolen from Specula 2026-03)
+
+- **pass@k not pass@1.** Single-trial eval inflates agent performance. Tau-bench's pass^8 (solving 8 of 8 trials) reflects real reliability. An agent with 60% pass@1 might only achieve 10% pass^8. Always demand multi-trial evaluation.
+- **Cost-of-pass metric.** Expected monetary cost per correct solution. 5% more accurate but 10x more expensive = worse product decision. Include in every agent evaluation.
+- **Agent-as-judge > LLM-as-judge** for process evaluation (evaluating action chains, tool call sequences). Agent-as-judge disagrees with humans only 0.3% vs 31% for LLM-as-judge on code evaluation (arxiv:2508.02994).
+- **Self-correction requires external signal.** LLMs cannot reliably self-correct reasoning without ground truth (Huang et al.). Don't prompt "check your reasoning." Give tools to test, search, calculate — let self-correction emerge from real signals.
+- **Fresh-context self-review.** Review output in a clean context window — no contamination from generation (Osmani). Models subconsciously defend their own outputs.
+- **TheAgentCompany ceiling.** Best agent = 30% on real workplace tasks. Use for client expectation management.
+
 ## When to Consult This Skill
 
 - Designing metrics or KPIs — check for Goodhart vulnerability
@@ -88,3 +97,4 @@ LLM-as-judge = structured subjectivity. Not objective, but systematic and reprod
 - Metric feels wrong — check failure modes table
 - Choosing between vanity and diagnostic — apply the +10% test
 - LLM evaluation — structured subjectivity + human calibration
+- Agent evaluation — pass@k, cost-of-pass, agent-as-judge patterns

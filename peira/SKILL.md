@@ -157,6 +157,10 @@ When budget is exhausted:
 
 After each experiment, apply **Bayesian updating** (see `topica`): how much should this result shift your prior? A single experiment that contradicts expectations is stronger evidence than five that confirm — update proportionally.
 
+## Anti-Drift: Controlled Variation
+
+(Stolen from Manus.) In repetitive experiment loops, introduce small structured noise: vary prompt framing, template ordering, or serialization format between iterations. Without this, the model "few-shots itself into a rut" — imitating prior output patterns regardless of correctness. Apply especially when running >5 iterations on the same metric.
+
 ## Source
 
 Adapted from Karpathy's [autoresearch](https://github.com/karpathy/autoresearch) (Mar 2026).
