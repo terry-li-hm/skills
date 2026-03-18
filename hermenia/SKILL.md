@@ -99,3 +99,4 @@ Consult hermenia from:
 - **consilium** — presenting council output requires compression + sequencing for Terry
 - **mandatum** — delegation IS communication — audience model of the delegate matters
 - **meeting-prep** — preparing for meetings is audience modelling + framing rehearsal
+- **relatio** — consulting communication is hermenia applied to client/partner/SteerCo audience structures

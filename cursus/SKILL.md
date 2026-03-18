@@ -100,5 +100,6 @@ Consult automatically when:
 - `meeting-prep` — pre-meeting research and question preparation
 - `capco-prep` — Capco-specific onboarding drills
 - `consulting-prep` — consulting readiness
+- `relatio` — consulting communication patterns (client updates, escalations, managing up/across)
 - [[Capco - First 30 Days]] — Day 1 strategy and pre-joining checklist
 - [[Networking Outreach Templates]] — vault message templates

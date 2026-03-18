@@ -99,3 +99,11 @@ Ranked by client willingness to pay × urgency:
 4. **MRM extension to ML/AI** — natural evolution, MRM teams are buyers
 5. **Third-party AI risk** — vendors embedding AI everywhere, nobody's governing it
 6. **Cross-border regulatory mapping** — regional banks need this, few can do it well
+
+---
+
+## Related Skills
+
+- `relatio` — consulting communication patterns (client updates, escalations, SteerCo decks, delivering bad news). How governance engagement delivery gets communicated.
+- `auctoritas` — technical credibility heuristics by audience type
+- `regulatio` — cross-jurisdiction regulatory comparison heuristics
