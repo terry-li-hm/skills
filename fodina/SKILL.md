@@ -58,6 +58,8 @@ Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** a
 | **Traditions** | Like a slow collective person — centuries of refinement. | Stoicism, kaizen, Talmudic debate | Same — tradition is the prompt, skills are the home |
 | **Failures** | Anti-patterns cluster tightly around what went wrong. Very concrete. | Challenger, LTCM, Enron | Existing skills gain "don't" entries |
 
+**Specimen types produce different heuristic shapes.** People and traditions yield positive heuristics ("do this") and reveal architectural gaps (homeless heuristics). Failures yield anti-patterns ("don't do this") and reinforce existing skills without revealing new gaps — because failures show where known principles were violated, not where new principles are needed. Mix both types for a complete picture.
+
 **Not good specimens:** Domains (too broad, already `mimesis`), countries (too vague — unless scoped to a tradition), eras (conditions more than moves).
 
 **Process:** Mine the specimen → extract heuristics → sort each heuristic into its natural home skill. The specimen is the drill bit, not the container. **No new skill per specimen.**
@@ -71,7 +73,7 @@ Mining abstract topics ("what is judgment?") works but plateaus. **Specimens** a
 - [x] Stoicism → premeditatio malorum, dichotomy of control, negative visualisation
 - [x] Darwin → disconfirming evidence, exhaustive enumeration, analogy as scaffolding, institutional humility
 - [x] Talmudic tradition → structured disagreement, extreme cases, chain of transmission, question > answer, chavruta
-- [ ] LTCM → (failure specimen — queued)
+- [x] LTCM → model risk blindness, leverage as fragility, genius as risk factor, correlation breakdown, illiquidity, systemic coupling (all anti-patterns → existing skills)
 - [ ] Kaizen → (tradition specimen — queued)
 
 ## Tier 1: Single-Model Interview
