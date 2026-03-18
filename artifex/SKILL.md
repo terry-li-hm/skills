@@ -69,6 +69,8 @@ description: Use when executing plans - dispatches subagent per task with code r
 description: Use when executing implementation plans with independent tasks
 ```
 
+**Cover natural language, not just commands.** The user should never need to remember skill names — their natural phrasing should trigger the right skill. Include how someone would *ask* for this, not just the formal trigger words. "Was it productive?" and "what did I do this morning?" are cardo triggers just as much as "/cardo" is. When a skill exists for what the user asked but didn't fire, the description has a gap — fix it immediately.
+
 ### 2. Self-Contained
 
 Keep scripts/code inside the skill directory, not scattered elsewhere.
