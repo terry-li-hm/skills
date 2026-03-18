@@ -64,6 +64,7 @@ Before marking complete, ask: **"Would a staff engineer approve this?"** Not jus
 - **Before claiming a task complete**: Re-read requirements, check each one. Apply staff engineer bar.
 - **Before "deployed and working"**: Load the URL, confirm the change is visible
 - If deployment URL check fails, report "deploy status unverified" instead of "working."
+- **Fixing cron/service code?** Consult `probatio` — verify through the deployed command path, not the function. Parameter shadowing and environment divergence are the top failure modes.
 
 ## Red Flags in Your Own Output
 

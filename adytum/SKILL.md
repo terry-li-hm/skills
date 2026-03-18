@@ -11,7 +11,7 @@ description: 1Password vault management CLI — migrate, save, hygiene, get, lis
 
 - **Migrate 1PUX:** `adytum migrate <file> [--category <cat>] [--confirm]`
 - **Save Credential:** `adytum save --title <t> --url <u> --username <un> --password <p>`
-- **Check Hygiene:** `adytum hygiene [--vault <v>]`
+- **Check Hygiene:** `adytum hygiene [--vault <v>] [--delete-duplicates]`
 - **List Items:** `adytum list [--tag <t>] [--domain <d>]`
 - **Get Field:** `adytum get <title> [--field <f>]`
 

@@ -16,6 +16,9 @@ lararium read <name> --notes 5   # Read more notes
 lararium talk <name>             # Interactive conversation
 lararium evolve <name>           # Evolve personality from experience
 lararium run                     # Full cycle: all residents read + auto-evolve
+lararium annotate <note_path>    # Annotate a vault note with resident perspectives
+lararium annotate <note_path> --resident <name>  # Annotate with a specific resident
+lararium annotate <note_path> --dry-run          # Preview annotations without writing
 ```
 
 ## Philosophy
@@ -46,9 +49,25 @@ Start with one resident. Add others only when you feel the absence of a specific
 LaunchAgent runs `lararium run` at 8 AM and 8 PM. Each resident reads 2 notes.
 Auto-evolves personality every 10 readings.
 
+## Install
+
+**Not installed as a system binary.** Run directly from source:
+
+```bash
+cd ~/code/lararium && python3 lararium.py <command>
+```
+
+Or install via uv:
+
+```bash
+cd ~/code/lararium && uv tool install .
+# Then available as: lararium <command>
+```
+
 ## Gotchas
 
 - Uses `claude --print --model haiku` for readings (cheap, fast)
 - `talk` mode uses haiku too — switch to sonnet if conversations feel flat
 - CLAUDECODE env var is unset before subprocess calls
 - Vault notes in `~/notes/Lararium/` are append-mode (multiple sessions per day stack)
+- **Binary not installed** — `lararium` is not in PATH. Must `cd ~/code/lararium && python3 lararium.py` or install via `uv tool install .`
