@@ -261,3 +261,35 @@ scrape → score relevance → log → weekly: analyse scores → update filters
 ```
 
 Apply when: the tool runs repeatedly and its output quality could vary. Skip when: truly one-shot or the output is binary (health check pass/fail).
+
+### 14b. Flywheel Implementation Pattern
+
+When Principle #14 identifies a feedback signal, use this pattern to close the loop:
+
+```
+[Real-time hook]     → predict/check → log prediction
+[PostAction hook]    → compare actual vs predicted → log hit/miss
+[Nightly LaunchAgent] → reconcile logs → LLM analysis of blind spots → write report
+[Morning skill]      → surface findings → human/Claude fixes the rules
+                              ↓
+                     rules improve → predictions improve → fewer misses
+```
+
+**The five questions to identify a flywheel candidate:**
+
+1. **Is there a prediction?** Something should happen but might not (skill should fire, email should be answered, backup should run)
+2. **Is there a ground truth?** You can later verify whether it actually happened (skill was invoked, email was sent, backup completed)
+3. **Is the gap between prediction and truth fixable?** The miss reveals a specific, actionable fix (add a trigger phrase, add a reminder, fix a cron)
+4. **Does the fix compound?** Each improvement makes future predictions better, not just this one instance
+5. **Can the reconciliation run unattended?** Overnight with cheap LLM or pure bash — no human needed for the detection step
+
+If all five are yes → build the flywheel. If #5 is no → it's a weekly review item, not a flywheel.
+
+**Concrete example (skill-suggest flywheel):**
+1. Prediction: skill-suggest checks prompt against trigger map
+2. Ground truth: skill-trigger-learn logs whether a skill was actually invoked
+3. Fix: add the missed trigger phrase to the skill description
+4. Compounds: trigger map gets richer, fewer misses next week
+5. Unattended: nightly Haiku analysis + mechanical report
+
+**Anti-pattern:** Instrumenting things with no feedback path. Logging without reconciliation is a write-only database. If nobody reads the log and acts on it, delete the logging.
