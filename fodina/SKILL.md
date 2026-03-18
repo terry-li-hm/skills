@@ -11,6 +11,8 @@ tags: [meta, knowledge, skills]
 
 Extract implicit knowledge from LLM weights into permanent, version-controlled reference skills. The model knows things it won't reliably surface — mining makes that knowledge explicit and deterministic.
 
+**What we extract are moves, not rules.** Moves are dynamic, contextual, impermanent — they resist static filing. Skills are containers for moves, which is itself a useful fiction (see `sunyata`). This is why the best heuristics end up "homeless" between categories — they're too kinetic for any single container.
+
 **Output format: heuristics, not theory.** Every mined skill should be actionable — failure modes to watch for, distinctions that change approach, decision points where the wrong default hurts. Minimal framing to make the heuristics cohere, but the test is: "does reading this change what I do?" If it's only interesting but not behaviour-changing, it's too theoretical.
 
 ## What to Mine (The Meta-Skill)
