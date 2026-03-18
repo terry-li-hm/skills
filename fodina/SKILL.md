@@ -47,6 +47,8 @@ Most mines naturally contain several types. During extraction, **name the type**
 - Procedural knowledge (how to run X) — that's a regular skill
 - Knowledge the model doesn't actually have depth on — test with one probing question first
 - Topics where the existing pieces already cover it well enough — diminishing returns
+- Abstract words (adjectives, verbs) — too compressed, one insight per word. Specimens need enough internal structure to probe deeply
+- Unnamed phenomena — "the moment before understanding," "the pull of a wrong framework." These feel like they should be skills but resist extraction because they haven't been crystallized into transmissible form. Some knowledge needs to be lived, not described. This is fodina's limit: mining extracts what's already structured in the weights; it can't create structure that doesn't exist yet
 
 ## Specimen-Based Mining
 
