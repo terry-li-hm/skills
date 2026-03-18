@@ -44,9 +44,15 @@ cibus [-c CUISINE] [-a AREA] [-b 1-5] [-n ROWS] [-j] [-l] [QUERY ...]
 
 **Positional shorthand:** `cibus italian central` is equivalent to `cibus -c italian -a central`.
 
-Supported cuisines include: cantonese, sichuan, shanghainese, taiwanese, japanese,
-korean, thai, vietnamese, italian, western, american, international, and more.
-Run `cibus --list` if uncertain.
+Supported cuisines: chiu chow, cantonese, yunnan, hong kong, hakka, shanghainese,
+sichuan, taiwanese, korean, vietnamese, filipino, thai, singaporean, japanese,
+italian, western, american, international. Chinese names also accepted.
+
+Supported districts: sheung wan, central, wan chai, causeway bay, north point,
+tai koo, tsim sha tsui (alias: tst), mong kok, san po kong, kwun tong,
+yuen long, tsuen wan, sha tin, tuen mun, tai po.
+
+Run `cibus --list` to print all accepted values.
 
 ## Steps
 
