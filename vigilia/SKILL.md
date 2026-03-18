@@ -10,7 +10,7 @@ Latin: *vigilia* (night watch). Run when Terry is going to sleep and wants maxim
 
 **Differs from `/copia`:** Copia is for interactive spare-budget sessions. Vigilia is for unattended overnight runs — no user interaction expected, morning report on completion.
 
-**Field-tested:** First run Mar 18-19 2026. 50+ tasks across 7 waves, 20+ agents. See `~/notes/TODO Archive.md` March 2026 entries for the full record.
+**Field-tested:** First run Mar 18-19 2026. **89 tasks** across 9+ waves, 20+ agents. See `~/notes/TODO Archive.md` March 2026 entries for the full record.
 
 ## Protocol
 
@@ -155,6 +155,31 @@ The session stays alive as long as:
 - Or there's user interaction
 
 **To maintain the chain:** Always have at least 2-3 agents running. When a wave is ~60% done, launch the next wave. If budget is exhausted and no agents remain, the session naturally ends — that's fine.
+
+## First Run Stats (Mar 18-19 2026)
+
+| Metric | Value |
+|--------|-------|
+| Total tasks completed | **89** (41 on Mar 18, 48 on Mar 19) |
+| Agents spawned | 20+ (standalone v1 + team v2 experiment) |
+| Architecture tested | v1 standalone, v2 role-based team, v3 designed |
+| Token budget (full run) | ~44% weekly, session reset mid-sprint |
+| Quality reviewer dispatched | Yes — caught EU AI Act penalty 1%→1.5% error |
+
+**Domain breakdown (by archive keyword frequency):**
+
+| Domain | Items | Key outputs |
+|--------|-------|-------------|
+| GARP exam prep | 19 | 6 deep-think notes (500-700 lines each), cheat sheets |
+| HSBC deliverables | 15 | 3 comprehensive draft deliverables (Terry review needed) |
+| MCP infrastructure | 13 | praeses unified server (17 tools, 5 domains) |
+| Skills & tooling | 12 | 15+ skills updated; cibus, vigilia v3, rector, copia |
+| Hooks & LaunchAgents | 13 | AKM heartbeat, failures.md hook, meta-spiral guard |
+| Consilium port | 10 | Phase 1 (config/model) + Phase 2 (direct API routing) |
+| CLI/infra (cibus, qianli, elencho) | 11 | cibus OpenRice CLI, qianli Docker migration |
+| Phron/AKM | 7 | AKM heartbeat fixed, phron retrieval hook |
+
+**Session economics:** 89 tasks in ~9 hours unattended. Binding constraint shifted from execution capacity to curation by Wave 4. Quality reviewer ROI was clear — one catch prevented a real exam error.
 
 ## Learnings from First Run (Mar 18-19 2026)
 
