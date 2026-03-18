@@ -129,6 +129,107 @@ Agent(name="lead", team_name="copia", run_in_background=true)
 
 **Results:** Present summary when agent completes — don't wait for user to ask.
 
+## Quality Gate
+
+Every copia wave must pass verification before output is treated as trusted. Unverified agent output entering the vault as "truth" is the worst failure mode — it compounds silently.
+
+### When to Run
+
+Run the quality gate **after each wave of workers completes, before the lead synthesises or the orchestrator reports results.** The gate is mandatory for:
+- GARP study notes (exam-critical claims have zero error tolerance)
+- Research briefs that will inform client conversations
+- Skill files that change orchestration behaviour
+- Any note that will be published or sent without further human review
+
+The gate is optional (but recommended) for:
+- System health checks (self-verifying — tests pass or they don't)
+- Content drafts marked for human editing
+- Knowledge consolidation of already-verified source notes
+
+### How It Works
+
+1. **Dispatch a Sonnet verification agent** after each wave. Use the `censura` skill template (`~/skills/censura.md`). Sonnet is correct here — verification is mechanical (rubric-based), not taste-dependent.
+
+2. **The verifier receives:**
+   - List of output files produced by the wave
+   - The original task prompts (what was each agent asked to do?)
+   - Source material pointers (what should the agents have cited?)
+   - For GARP notes: path to `~/notes/GARP/` for cross-reference
+
+3. **The verifier checks five dimensions:**
+
+| Dimension | What it checks | PASS / FLAG / FAIL criteria |
+|---|---|---|
+| **Source fidelity** | Do factual claims trace to cited sources? Are quotes accurate? | PASS: all claims sourced. FLAG: 1-2 unsourced but plausible. FAIL: fabricated citations or misattributed claims. |
+| **Internal consistency** | Do outputs from this wave contradict each other or existing vault notes? | PASS: no contradictions. FLAG: tension that might be legitimate nuance. FAIL: direct contradiction on material facts. |
+| **Hallucination scan** | Are cited frameworks, regulations, papers, people real? Do dates and versions match? | PASS: all verifiable. FLAG: unable to verify (no web access). FAIL: demonstrably invented citation. |
+| **Obsidian hygiene** | Wikilinks resolve to existing notes. Tags match vault conventions. Frontmatter schema is correct. | PASS: all links resolve, tags consistent. FLAG: 1-2 broken links (target may not exist yet). FAIL: systematic formatting errors. |
+| **Domain accuracy** (GARP only) | Exam-critical claims match known correct positions (SR 11-7 definitions, regulatory jurisdiction assignments, framework attributions). | PASS: matches authoritative sources. FLAG: simplification that could mislead on exam. FAIL: wrong answer to an exam-testable claim. |
+
+4. **The verifier produces:** `_verification-report.md` saved alongside the wave output (same directory). One report per wave, not per file. Format:
+
+```markdown
+---
+title: "Copia Verification Report — [wave description]"
+date: [ISO date]
+tags: [copia, verification]
+verdict: PASS | PARTIAL | FAIL
+---
+
+# Verification Report
+
+**Wave:** [description]
+**Files checked:** [list]
+**Verdict:** PASS / PARTIAL (has FLAGs) / FAIL
+
+## Per-File Results
+
+### [filename]
+- **Source fidelity:** PASS/FLAG/FAIL — [detail]
+- **Internal consistency:** PASS/FLAG/FAIL — [detail]
+- **Hallucination scan:** PASS/FLAG/FAIL — [detail]
+- **Obsidian hygiene:** PASS/FLAG/FAIL — [detail]
+- **Domain accuracy:** PASS/FLAG/FAIL — [detail if GARP]
+
+### [filename]
+...
+
+## Flags Requiring Human Review
+[List any FLAG items with enough context for Terry to make a judgment call]
+
+## Failed Items
+[List any FAIL items — these should NOT be trusted until corrected]
+
+## Cross-File Consistency Notes
+[Any contradictions or tensions between files in this wave, or between wave output and existing vault notes]
+```
+
+### Routing After Verification
+
+| Verdict | Action |
+|---|---|
+| **PASS** | Output trusted. Lead may synthesise. Report to user. |
+| **PARTIAL** | Output usable but FLAGged items need human review. Lead synthesises PASS items; FLAGs queued for Terry. |
+| **FAIL** | Failed items are quarantined — rename with `_UNVERIFIED` prefix. Do NOT merge into vault as-is. Report failures to user with enough context to decide: fix, retry, or discard. |
+
+### Integration with Team Flow
+
+```
+Lead decomposes → Workers execute (parallel) → QUALITY GATE → Lead synthesises
+                                                     ↓
+                                            _verification-report.md
+                                                     ↓
+                                          PASS → proceed
+                                          PARTIAL → proceed with caveats
+                                          FAIL → quarantine + report
+```
+
+The verification agent runs as a **peer of the workers**, not as the lead. The lead dispatches it after collecting worker outputs but before synthesising. Budget ~2-3 min for verification (it reads files + cross-checks, no web search needed).
+
+### Budget Impact
+
+Verification adds ~10-15% token overhead per wave (Sonnet reading + checking N files). This is cheap insurance. A hallucinated regulatory citation that enters the vault and later appears in a client conversation costs infinitely more than a Sonnet verification pass.
+
 ## After Completion
 
 - Mention key findings in next `/wrap`
