@@ -105,7 +105,20 @@ If no lines are returned, report "No open tasks."
 
 ### `/todo add <task>`
 
-Add a new task. Append to end of file. User can include inline tags.
+Add a new task — but apply the **intake gate** first.
+
+**Intake gate (check before adding):**
+
+| Test | Question | If NO → |
+|------|----------|---------|
+| **Irreversible** | If I miss this, is the consequence irreversible? | Lean skip |
+| **Committed** | Has someone external been told this will happen? | Lean skip |
+| **Natural recall** | Will I naturally remember this without a prompt? | If YES → skip |
+| **Attention cost** | Does tracking this displace focus from higher-stakes items? | If YES → skip |
+
+**Pass 1 or 2 → add.** Fail both but pass 3+4 → skip. If borderline, ask Terry rather than defaulting to add.
+
+If the task clears the gate, append to end of file. User can include inline tags.
 
 ```bash
 echo "- [ ] <task>" >> ~/notes/TODO.md
