@@ -230,6 +230,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Find what doesn't change | `invariance` | 1 (specimen) | metanoia, reductio, sunyata, systema | — |
 | Excessive analysis pathology | `prescience` | 1 (specimen) | reductio, aporia, adversaria, nishkama, wuwei | — |
 | Management for agent teams | cohors §2,3,4,6,8 + delegation-theory (enrichment) | 1 (4 specimens: Grove, Drucker, Deming, Weinberg) | cohors, mandatum, rector, opifex, heuretes | — |
+| Cadence design | `[[cadence-design]]` | 1 (Newport + practice) | commute, weekly, monthly, quarterly, planning-theory, self-regulation | — |
 
 ## Relationship to Other Skills
 

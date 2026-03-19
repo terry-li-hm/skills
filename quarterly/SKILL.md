@@ -96,5 +96,6 @@ Create `~/notes/Quarterly/YYYY-QX.md`:
 - Keep it to 30 minutes. Depth belongs in follow-up sessions.
 
 ## See also
-- `/weekly` — Sunday evening planning
+- `/weekly` — Sunday planning
 - `/monthly` — first Sunday maintenance
+- [[cadence-design]] — principles behind this cadence stack

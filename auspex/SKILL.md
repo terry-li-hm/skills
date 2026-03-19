@@ -1,36 +1,50 @@
 ---
 name: auspex
-description: Morning weather check — sends weather to Tara via iMessage. Optional, run if time before Theo's school rush. Invoke with /auspex.
+description: Morning brief — weather, sleep scores, overnight results. Optional, run if time before Theo's school rush. "auspex", "gm", "weather", "how did I sleep"
 user_invocable: true
 disable-model-invocation: true
 ---
 
-# Morning Weather
+# Morning Brief
 
-Weather + send to Tara. That's it.
+Weather, sleep, overnight results. 60 seconds, phone-friendly. Optional — skip if Theo's school rush takes over.
 
 ## Triggers
 
 - auspex
 - gm
 - weather
-- morning weather
-- send tara weather
+- how did i sleep
+- morning
+- sleep score
 
 ## Steps
 
-1. Run: `auspex` (CLI at `~/bin/auspex`, source `~/code/auspex/`)
-   - Sends weather to Tara via iMessage automatically
-   - Use `auspex --no-send` to skip the iMessage (testing)
+Run all in parallel:
 
-2. Present the weather output.
+1. **Weather + Tara** — `auspex` CLI (sends weather to Tara via iMessage automatically)
+   - Use `auspex --no-send` to skip iMessage (testing)
+
+2. **Sleep & health scores** — `sopor today`
+   - Shows last night's sleep: Oura sleep score, readiness, HRV, EightSleep data
+   - If readiness <65, flag it: "Low readiness — consider an easier day"
+   - If `sopor` fails or returns empty, skip silently
+
+3. **Overnight results** — check both files, skip silently if missing or stale (>24h):
+   - `~/.claude/nightly-health.md` — system health dashboard. Surface any warning or red rows. If all green, just say "System health: all green."
+   - `~/.claude/skill-flywheel-daily.md` — skill routing misses. Surface any total misses or low hit rate.
+   - Check `~/cache/legatus-runs/` for overnight agent results — read most recent `summary.md`. Flag NEEDS_ATTENTION or CRITICAL items. Skip silently if empty.
+
+Present everything in one compact brief.
 
 ## Boundaries
 
 - Do NOT surface work priorities, TODO, calendar, or inbox — that's `/commute` (evening) or `/kairos` (ad-hoc)
-- Do NOT check nightly reports, overnight results, or system health
 - Do NOT create or edit vault notes
+- Do NOT run Oura trend analysis — that's `/weekly` health section
+- Keep it under 60 seconds of reading. Morning is for glancing, not studying.
 
 ## See also
 - `/commute` — the one daily routine (evening)
 - `/kairos` — ad-hoc "what now?" (anytime)
+- [[cadence-design]] — principles behind the cadence stack

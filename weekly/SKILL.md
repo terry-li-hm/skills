@@ -105,3 +105,4 @@ Create `~/notes/Weekly/YYYY-Www.md`:
 - `/monthly` — first Sunday of the month, maintenance
 - `/quarterly` — direction and finances (4x/year)
 - `/kairos` — ad-hoc "what now?"
+- [[cadence-design]] — principles behind this cadence stack
