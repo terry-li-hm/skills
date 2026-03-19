@@ -91,12 +91,14 @@ Run a synthesis agent that:
 3. Identifies talk seeds: combinations of experiment + use case + insight that could become a conference talk
 4. Regenerates `~/notes/Consulting/_index.md` with updated stats
 5. Archives processed sparks: move this week's sections from `_sparks.md` into the weekly report
-6. Writes weekly report to `~/notes/Consulting/_weekly/YYYY-WNN.md`
-7. Sends Telegram summary via deltos:
-   - Assets created/updated (count by stream)
-   - Top 3 cross-pollination opportunities
-   - Any talk seeds identified
-   - Library totals
+6. Writes weekly report to `~/notes/Consulting/_weekly/YYYY-WNN.md`, including:
+   - Funnel metric: `Sources: N → Sparks: N → Assets: N → Promoted: N → Used: N`
+     (count `maturity: reviewed` for promoted, check daily notes for used)
+   - Cross-pollination map
+   - Talk seeds
+   - One-line prompt: "Did you use anything from last week's batch?"
+7. Telegram: **only on anomaly** (zero sparks processed, worker failure, funnel regression).
+   Normal successful runs are silent — Terry reads the weekly report when he wants to.
 
 ### Phase 4: Cleanup
 
@@ -107,9 +109,10 @@ Run a synthesis agent that:
 ## Output
 
 After the forge completes, present Terry with:
-1. The Telegram summary (already sent)
+1. The funnel metric (one line)
 2. A one-paragraph prose summary of what was produced and why
 3. Any items that need human judgment (experiment execution, client generalization)
+4. Telegram only if something went wrong or needs attention
 
 ## Budget
 
