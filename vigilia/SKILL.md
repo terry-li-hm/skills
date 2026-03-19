@@ -140,7 +140,7 @@ When all agents complete (or budget runs out), send via `deltos` (Telegram):
 
 1. Update `~/notes/NOW.md` with overnight results
 2. Clean up: `TeamDelete` if team was used
-3. Verify no orphaned tmux panes: `tmux list-panes -a -F '#{pane_id} #{pane_title}'`
+3. **List tmux panes and ASK Terry before killing any.** Never bulk-kill — Terry has other sessions that look identical to zombie agent panes. First run mistake: killed a live session thinking it was a zombie.
 4. If session is still alive, suggest `/legatum checkpoint` for context preservation
 
 ## Anti-patterns
