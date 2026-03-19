@@ -132,6 +132,7 @@ Full-tier steps (Sonnet subagents, routed by file type):
 
 **7. Finish:**
 - Clean commits, PR creation (`gh pr create`), companion skill + GitHub push
+- If new CLI built: add to `~/officina/claude/tool-index.md`. If replacing old tool: run `~/docs/solutions/patterns/tool-replacement-checklist.md`.
 - Skip for: personal tools on main, single-commit changes
 
 ### 5. Companion skill + GitHub repo
