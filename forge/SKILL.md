@@ -96,7 +96,10 @@ Run a synthesis agent that:
      (count `maturity: reviewed` for promoted, check daily notes for used)
    - Cross-pollination map
    - Talk seeds
-   - One-line prompt: "Did you use anything from last week's batch?"
+   - Three prompts for Terry:
+     1. "Did you use anything from last week's batch?"
+     2. "What surprised you this week?"
+     3. "What did you predict that was wrong?"
 7. Telegram: **only on anomaly** (zero sparks processed, worker failure, funnel regression).
    Normal successful runs are silent — Terry reads the weekly report when he wants to.
 
