@@ -1,247 +1,301 @@
 ---
 name: copia
-description: Token abundance recipe — high-value autonomous tasks (research, content, knowledge consolidation, pre-drafting, audits) to run when Max20 budget is plentiful. Use when user says "copia", "burn tokens", "spare tokens", "use up budget", or when weekly % < 50% mid-week.
+description: Leverage agent teams to advance north star goals. Use when user says "copia", "burn tokens", "stellae", "expand north stars", "going to sleep", "overnight", "vigilia", or any variant of "burn tokens while I sleep" or "keep working while I'm away". Two modes — interactive (default) and overnight (unattended flywheel).
 user_invocable: true
 ---
 
-# Copia — Burning Token Abundance
+# Copia — Agent Teams for North Stars
 
-When Max20 budget is plentiful (weekly % < 50% by Wednesday, or user says so), launch high-value autonomous work that requires zero user involvement. The key property: **objective is derivable from vault/NOW.md/calendar — no Terry input needed.**
+One pattern: **north stars → shapes filter → sub-goals → agent teams → results.** Two modes: interactive (Terry at keyboard) and overnight (unattended flywheel).
 
-## Pre-flight
+## Pre-flight: Consumption Check
 
-1. Check budget: `/usus` or `/status` — confirm weekly % leaves room for 3-5 parallel agents
-2. Check what's stale: scan `~/notes/Research/` — anything >30 days old is a refresh candidate
-3. Check NOW.md for open items that benefit from research
+Before producing anything, measure whether previous output was consumed:
 
-## Step 0 — Prospecting (meta-burn)
-
-Don't pick from the menu blindly. **Dispatch 2 prospector agents first** to find the highest-value work:
-
-1. **Vault prospector** (Opus) — scans TODO.md, NOW.md, daily notes, Capco Transition, GARP/, solutions KB, skills/, Research/, LinkedIn Content Ideas. Scores each candidate on Value (1-5) × Autonomy (1-5). Returns ranked top 10 with ready-to-dispatch prompts.
-
-2. **Activity prospector** (Opus) — scans git logs (last 2 weeks across officina, skills, ~/code/*), recent session history (~/.claude/projects/), stale branches, recurring friction patterns. Finds abandoned threads and unfinished work. Same scoring.
-
-Both run ~2-3 min. Merge their lists, dedupe, pick the top 5-6 to dispatch. This avoids burning tokens on "looks useful" when "actually needed" items exist.
-
-**Scoring dimensions:**
-- **Value** (1-5): How much does completing this help right now?
-- **Autonomy** (1-5): Can an agent do this without human input?
-- **Compound potential** (1-3): Does the output feed future burns? 1 = terminal (read once, done), 2 = reusable (reference material), 3 = generative (seeds new work, enriches prospector scans, creates new tasks). Weight: V × A × C.
-
-**Model routing by taste requirement:**
-- **Sonnet** → clear spec, binary success (compile, find, format, collect)
-- **Opus** → output needs judgment (when to deviate from prompt), taste (noticing what's missing), or voice (human reads without editing). If the output would embarrass Terry in front of a client or on LinkedIn, it needs Opus.
-
-**When to skip prospecting:** If Terry names specific tasks, or if budget is tight (<20% remaining) — just pick from the menu directly.
-
-## The Menu
-
-Pick based on current priorities. All run as **background agents on Max20** (zero API cost). Bet mentality: even if half the output is mediocre, the hits compound.
-
-### Tier 1 — Always High Value
-These compound over time. Run whenever budget allows.
-
-| Task | Output | Agent prompt focus |
-|------|--------|--------------------|
-| **HSBC engagement prep** | `HSBC AI Governance Brief.md` | Annual report, HKMA circulars, AI strategy, key people, Capco opportunities |
-| **APAC regulatory landscape** | `APAC AI Regulatory Landscape.md` | Cross-jurisdiction comparison (HKMA, MAS, APRA, JFSA), upcoming regulation, gaps |
-| **Competitor intelligence** | `AI Governance Competitor Landscape APAC.md` | McKinsey/Deloitte/Accenture/EY/PwC offerings, APAC presence, differentiation |
-| **AI landscape deep-dive** | `AI Landscape Deep Dive.md` | Beyond weekly dialexis — emerging tools, model releases, industry shifts |
-
-### Content Generation
-Garden is zero-touch. Objective derivable from vault. Save to `~/notes/Writing/Blog/Published/` via `sarcio new`.
-
-| Task | Source | Output |
-|------|--------|--------|
-| **Garden batch** | Scan vault for insights that deserve posts | 3-5 draft posts via `sarcio new`, `draft: false` |
-| **LinkedIn posts from garden** | Recent garden posts | 2-3 LinkedIn drafts amplifying published posts |
-| **Consulting thought pieces** | Research briefs → opinionated takes | Garden posts positioned for Capco credibility |
-
-### Knowledge Consolidation
-Turn scattered notes into structured references. Fully autonomous — objective = "connect what's fragmented."
-
-| Task | Source | Output |
-|------|--------|--------|
-| **Topic consolidation** | 5-10 fragmented notes on same topic | One coherent reference note with dense wikilinks |
-| **Framework extraction** | Repeated patterns across vault | Standalone framework note (e.g., governance patterns, regulatory comparison templates) |
-| **Stale note refresh** | Notes >6mo old with active topics | Updated content, new links, pruned dead references |
-
-### Pre-drafting
-Artifacts Terry will need soon. Objective derivable from calendar + `[[Capco Transition]]` + NOW.md.
-
-| Task | When | Output |
-|------|------|--------|
-| **Capco intro talking points** | Pre-onboarding | `~/notes/Capco/Intro Talking Points.md` |
-| **Engagement frameworks** | Post-research | Templates: discovery questions, governance assessment checklist |
-| **Meeting prep packs** | Before known meetings | Combine research + vault context into pre-read |
-| **GARP RAI deep-dives** | Exam approaching | `GARP/` subfolder, one brief per weak domain |
-
-### Situational Research
-Run when specific context is active.
-
-| Task | When | Output |
-|------|------|--------|
-| **Client/prospect research** | Pre-engagement | `Research/<Company> Brief.md` |
-| **Job market intelligence** | Active search | Role patterns, salary benchmarks, demand signals |
-
-### System Self-Healing
-Low urgency but good use of spare tokens. Agents that fix, not just flag.
-
-| Task | Output |
-|------|--------|
-| **CLI health sweep** | Parallel agents verify every `~/code/` tool builds, tests pass, skill matches binary — fix what they can |
-| **Vault link repair** | `nexis` scan → agents fix broken wikilinks, not just report |
-| **Solutions KB refresh** | Verify `~/docs/solutions/` entries still accurate, update outdated ones |
-| **Skill drift fix** | Compare skill description vs binary `--help`, update mismatches |
-
-## Execution Pattern
-
-**Desktop (Ghostty/tmux): use agent teams.** One team lead (Opus) dispatches 3-4 workers. Lead manages coordination, file scope, and task assignment. See ~/notes/Reference/consulting/cohors.md for orchestration heuristics.
-
-**Blink/mobile: use in-process teams.** Set `"teammateMode": "in-process"` in settings or launch with `claude --teammate-mode in-process`. Same team coordination, no tmux panes — teammates run inline. Shift+Down to cycle between them.
-
-```
-# 1. Create team
-TeamCreate(team_name="copia", description="Token burn session")
-# 2. Create tasks from menu above
-TaskCreate(subject="...", description="...")  # one per item
-# 3. Spawn lead agent with team_name="copia"
-Agent(name="lead", team_name="copia", run_in_background=true)
-# Lead spawns its own workers
+```bash
+grep -c 'agent:terry.*Review' ~/notes/TODO.md
 ```
 
-**Hard numbers (from research):**
-- Opus lead + Sonnet workers = +90.2% over single Opus
-- 3-4 workers max before coordination overhead eats gains
-- 2 diverse models > 16 homogeneous (uncorrelated errors matter more than count)
-- Task sweet spot: 5-15 min per task, 5-6 tasks per teammate
-- Expect ~15x tokens vs single chat; plan budget accordingly
+Count only genuine review items (tagged `agent:terry` AND contain "Review"). Physical actions, study tasks, and passive tracking don't count — they're normal TODOs.
+
+| Review queue | Signal | Action |
+|---|---|---|
+| **0-3** | Consumed. Produce more. | Run copia normally |
+| **4-8** | Backlog building. | Produce only self-sufficient outputs (study materials, research answers). No drafts needing review. |
+| **9+** | Overproduction. | **Don't produce.** Help Terry triage the queue — which items are stale? Which can an agent verify instead? Which need 5 min? |
+
+**The goal is ~75% self-sufficient outputs.** If most outputs need review, the agent prompts are wrong — make them more specific so the output is finished on arrival.
+
+**After each run:** Note in the vault report (`~/notes/Copia Reports/`) how many items were produced, how many self-sufficient vs. review-needed. Track the ratio. It should trend toward more self-sufficient over time.
+
+## Core Protocol
+
+### Step 1: Load Context (parallel reads)
+
+- `~/notes/North Star.md` — the 6 priorities
+- `~/notes/Reference/epistemics/north-star-shapes.md` — shapes framework
+- `~/notes/NOW.md` — current state
+- `~/notes/TODO.md` — actionable items (head 80 lines)
+- `date` — current time
+
+### Step 2: Map & Filter by Shape
+
+| Shape | Agent Leverage | Action |
+|---|---|---|
+| **Flywheel** | High | Produce, compound, measure |
+| **Checklist** | High | Research sprint, then done |
+| **Decision** | Medium | Research phase only |
+| **Habit** | Near-zero | **SKIP** — do the thing |
+| **Attention** | Near-zero | **SKIP** — be present |
+
+Current star→shape mapping:
+
+| North Star | Shape | Typical agent work |
+|---|---|---|
+| Career worth having | Flywheel | IP production, engagement prep, exam materials, research briefs |
+| Financial resilience | Checklist | Fund verification, migration research, one-shot then done |
+| Raise Theo well | Decision + Attention | School research (decision phase only) |
+| Protect health | Habit | **SKIP** |
+| Strengthen marriage | Attention | **SKIP** |
+| Knowledge system | Meta-flywheel | Only if it serves stars 1-5 |
+
+### Step 3: Brainstorm Sub-Goals
+
+For each high-leverage star, identify 1-2 sub-goals that:
+- Are actionable NOW (not blocked, not future-dated)
+- Produce a concrete deliverable (research note, practice questions, draft, verification)
+- Can be completed by an autonomous agent in one session
+- Advance the north star meaningfully (not busywork)
+
+Prioritise TODO.md items tagged `agent:claude` or where research/drafting is the bottleneck.
+
+### Step 4: Align & Dispatch
+
+**Interactive:** Show mapping table, ask ONE clarifying question if ambiguity would waste an agent run. Cap at 3-5 teams.
+
+| Team | North Star | Shape | Sub-goal | Deliverable |
+|---|---|---|---|---|
+
+**Overnight:** Classify TODO items into Tonight (fully autonomous) / Prep (draft for Terry review) / Blocked (skip). Dispatch autonomously — no questions.
+
+### Step 5: Execute Wave
+
+Launch agents with `run_in_background: true`, `mode: bypassPermissions`.
+
+Each agent prompt includes:
+- Clear deliverable (file path + format)
+- Context file paths to read
+- `Read ~/tmp/copia-session.md first. Do not duplicate completed work.`
+- Whether to research-only or write code
+- Output format (frontmatter, structure, length target)
 
 **Model routing:**
-- **Research/collection** → `model: "sonnet"` (saves Opus quota)
-- **Content/synthesis/judgment/mining** → `model: "opus"`
-- **System audits** → `model: "sonnet"` (mechanical but needs tool access)
+- Research/collection → `model: "sonnet"`
+- Content/synthesis/judgment → `model: "opus"`
+- System audits → `model: "sonnet"`
 
-**File scoping (critical):** Assign each agent a non-overlapping file scope. One agent, one directory. No parallel edits to same file.
+**File scoping:** Non-overlapping. One agent, one output file. No parallel edits to same file.
 
-**Output routing:** Research → `~/notes/Research/`. Content → `sarcio new`. Consolidation → vault in-place. Skills → `~/skills/`.
+### Step 6: Flywheel (Overnight Mode)
 
-**Results:** Present summary when agent completes — don't wait for user to ask.
+After each wave completes, the orchestrator:
 
-## Quality Gate
+1. Reads all wave N outputs
+2. Updates `~/tmp/copia-session.md` manifest
+3. For each output, asks: **what compounds from this?**
+   - Research → synthesise into brief/draft
+   - Draft → extract IP, publish via sarcio
+   - Verification flagged issues → fix
+   - Output reveals new sub-goal → add to next wave
+4. If viable wave N+1 tasks exist → dispatch next wave
+5. If not → stop, report
 
-Every copia wave must pass verification before output is treated as trusted. Unverified agent output entering the vault as "truth" is the worst failure mode — it compounds silently.
+**Compounding chain:** Research → Synthesis → IP/Publish → Verify → Cross-link
 
-### When to Run
+**Stop conditions:**
+- No wave N output produces a viable wave N+1 task (work exhausted)
+- Budget turns yellow/red
+- Quality gate fails on critical output
+- Max waves safety cap (~5-6)
 
-Run the quality gate **after each wave of workers completes, before the lead synthesises or the orchestrator reports results.** The gate is mandatory for:
-- GARP study notes (exam-critical claims have zero error tolerance)
-- Research briefs that will inform client conversations
-- Skill files that change orchestration behaviour
-- Any note that will be published or sent without further human review
+### Step 7: Route Outputs
 
-The gate is optional (but recommended) for:
-- System health checks (self-verifying — tests pass or they don't)
-- Content drafts marked for human editing
-- Knowledge consolidation of already-verified source notes
+**Default: self-sufficient.** Most agent output should be usable on arrival — no review needed. Design agent prompts to produce finished work, not drafts-awaiting-approval.
 
-### How It Works
+```
+Agent completes
+  ├─ Self-sufficient (the default — ~75% of outputs)
+  │     Study materials → use directly (GARP drills, cheat sheets)
+  │     Research answers → reference (IBKR verification, intel briefs)
+  │     Meeting prep → read on phone before meeting
+  │     Archive to TODO Archive.md. No TODO item.
+  │
+  └─ Needs Terry's judgment (~25% of outputs)
+        Only when: Terry's voice (content to publish), Terry's memory
+        (verify facts only he knows), or Terry's hands (physical action).
+        → vault note exists (the deliverable)
+        → add TODO item: "Review: [title]. [path]. [what to check]." agent:terry
+```
 
-1. **Dispatch a Sonnet verification agent** after each wave. Use the `[[copia-verification-template]]` reference doc. Sonnet is correct here — verification is mechanical (rubric-based), not taste-dependent.
+**`agent:terry` is expensive.** Every tagged item competes for Terry's attention with real work. Before tagging, ask: could another agent verify this instead? Is this really review, or is it studying/doing? If an agent can handle it, the agent should handle it.
 
-2. **The verifier receives:**
-   - List of output files produced by the wave
-   - The original task prompts (what was each agent asked to do?)
-   - Source material pointers (what should the agents have cited?)
-   - For GARP notes: path to `~/notes/GARP/` for cross-reference
+**What is NOT `agent:terry`:**
+- Study tasks ("test exam recall") → belongs in study schedule, not review queue
+- Mechanical verification ("run lacuna preflight") → agent can do this
+- Physical actions ("book physio") → normal TODO, no agent tag needed
+- Passive tracking ("field validation over 4 weeks") → not a TODO at all
 
-3. **The verifier checks five dimensions:**
+**Agents never block on Terry's review.** The flywheel keeps spinning. Wave 2 uses wave 1 outputs as-is — if Terry corrects later, the correction propagates forward naturally.
 
-| Dimension | What it checks | PASS / FLAG / FAIL criteria |
-|---|---|---|
-| **Source fidelity** | Do factual claims trace to cited sources? Are quotes accurate? | PASS: all claims sourced. FLAG: 1-2 unsourced but plausible. FAIL: fabricated citations or misattributed claims. |
-| **Internal consistency** | Do outputs from this wave contradict each other or existing vault notes? | PASS: no contradictions. FLAG: tension that might be legitimate nuance. FAIL: direct contradiction on material facts. |
-| **Hallucination scan** | Are cited frameworks, regulations, papers, people real? Do dates and versions match? | PASS: all verifiable. FLAG: unable to verify (no web access). FAIL: demonstrably invented citation. |
-| **Obsidian hygiene** | Wikilinks resolve to existing notes. Tags match vault conventions. Frontmatter schema is correct. | PASS: all links resolve, tags consistent. FLAG: 1-2 broken links (target may not exist yet). FAIL: systematic formatting errors. |
-| **Domain accuracy** (GARP only) | Exam-critical claims match known correct positions (SR 11-7 definitions, regulatory jurisdiction assignments, framework attributions). | PASS: matches authoritative sources. FLAG: simplification that could mislead on exam. FAIL: wrong answer to an exam-testable claim. |
+**One inbox:** TODO.md is the only review queue. Terry processes `agent:terry` items in priority order alongside everything else.
 
-4. **The verifier produces:** `_verification-report.md` saved alongside the wave output (same directory). One report per wave, not per file. Format:
+### Step 8: Session Report (vault)
+
+At end of run, write `~/notes/Copia Reports/YYYY-MM-DD.md`:
 
 ```markdown
 ---
-title: "Copia Verification Report — [wave description]"
+title: "Copia Report — [date]"
 date: [ISO date]
-tags: [copia, verification]
-verdict: PASS | PARTIAL | FAIL
+tags: [copia, report]
+waves: [N]
+items_produced: [N]
+items_for_review: [N]
 ---
 
-# Verification Report
+# Copia Report — [date]
 
-**Wave:** [description]
-**Files checked:** [list]
-**Verdict:** PASS / PARTIAL (has FLAGs) / FAIL
+## Produced
+- [file path] — one-line summary. Status: ✓ archived / 🔍 review queued
 
-## Per-File Results
+## Review Queue (in TODO.md)
+- Review: [title] — what Terry should check
 
-### [filename]
-- **Source fidelity:** PASS/FLAG/FAIL — [detail]
-- **Internal consistency:** PASS/FLAG/FAIL — [detail]
-- **Hallucination scan:** PASS/FLAG/FAIL — [detail]
-- **Obsidian hygiene:** PASS/FLAG/FAIL — [detail]
-- **Domain accuracy:** PASS/FLAG/FAIL — [detail if GARP]
-
-### [filename]
+## Flywheel Trace
+Wave 1 → [what was produced]
+Wave 2 → [what compounded from wave 1]
 ...
 
-## Flags Requiring Human Review
-[List any FLAG items with enough context for Terry to make a judgment call]
-
-## Failed Items
-[List any FAIL items — these should NOT be trusted until corrected]
-
-## Cross-File Consistency Notes
-[Any contradictions or tensions between files in this wave, or between wave output and existing vault notes]
+## Quality Gate Results
+[PASS/PARTIAL/FAIL per wave]
 ```
 
-### Routing After Verification
+**No TG.** TODO.md is the one inbox. Terry finds review items there alongside everything else. No separate notification channel.
 
-| Verdict | Action |
-|---|---|
-| **PASS** | Output trusted. Lead may synthesise. Report to user. |
-| **PARTIAL** | Output usable but FLAGged items need human review. Lead synthesises PASS items; FLAGs queued for Terry. |
-| **FAIL** | Failed items are quarantined — rename with `_UNVERIFIED` prefix. Do NOT merge into vault as-is. Report failures to user with enough context to decide: fix, retry, or discard. |
+## Mode Differences
 
-### Integration with Team Flow
+| | Interactive | Overnight |
+|---|---|---|
+| **Trigger** | "copia", "burn tokens", "stellae" | "overnight", "vigilia", "going to sleep" |
+| **Clarifying questions** | Yes (max 1) | Forbidden |
+| **Scope** | What user approves | Only what needs zero human judgment |
+| **Agents per wave** | 3-5 | 8 (maintain thread pool) |
+| **Waves** | 1-2 | Flywheel until work exhausts |
+| **Shared systems** | Ask first | Never touch (no sends, no pushes) |
+| **Output routing** | Same (vault + TODO) | Same (vault + TODO) |
+| **Report** | Vault note (inline summary optional) | Vault note only |
+| **Archive** | Optional | Mandatory (TODO Archive.md) |
 
+## Manifest — Coordination Across Waves
+
+`~/tmp/copia-session.md` — ephemeral, one per run. The orchestrator maintains it; every agent reads it first.
+
+```markdown
+# Copia Session — [date]
+## Completed
+- [wave 1] ~/notes/Research/X.md — topic summary ✓
+- [wave 1] ~/notes/GARP/Y.md — 25 MCQs ✓
+## In Progress
+- [wave 2] Synthesizing X → garden post
+## Not Started
+- LinkedIn draft from garden post
 ```
-Lead decomposes → Workers execute (parallel) → QUALITY GATE → Lead synthesises
-                                                     ↓
-                                            _verification-report.md
-                                                     ↓
-                                          PASS → proceed
-                                          PARTIAL → proceed with caveats
-                                          FAIL → quarantine + report
+
+Every agent prompt starts: **"Read ~/tmp/copia-session.md. Do not duplicate completed work. Build on listed outputs."**
+
+## Quality Gate
+
+Run after each wave, before flywheel check. **Mandatory for:** exam prep, client-facing research, skill files, anything published without human review. **Optional for:** system checks, drafts marked for editing.
+
+Dispatch a Sonnet verification agent. Checks five dimensions:
+
+| Dimension | PASS | FLAG | FAIL |
+|---|---|---|---|
+| **Source fidelity** | All claims sourced | 1-2 unsourced but plausible | Fabricated citations |
+| **Internal consistency** | No contradictions | Legitimate nuance | Direct contradiction |
+| **Hallucination scan** | All verifiable | Unable to verify | Invented citation |
+| **Obsidian hygiene** | Links resolve, tags match | 1-2 broken links | Systematic errors |
+| **Domain accuracy** | Matches authoritative sources | Simplification | Wrong exam answer |
+
+Verdict routing: PASS → proceed. PARTIAL → proceed, flag for Terry. FAIL → quarantine (`_UNVERIFIED` prefix), report.
+
+## Execution Patterns
+
+**Standalone background agents (default).** `run_in_background: true`, no team. Best for independent tasks. Headless, no tmux panes, no permission issues.
+
+**Agent Teams** (when agents need coordination). `TeamCreate` + named teammates. Use for pipeline patterns (research → synthesis → review). Set `mode: auto` on all teammates.
+
+**Hard numbers (from field testing):**
+- Opus lead + Sonnet workers = +90.2% over single Opus
+- 3-4 workers max before coordination overhead eats gains
+- Task sweet spot: 5-15 min per task
+- A full overnight run burns ~10-15% session, ~5-10% weekly
+
+**Pipeline dispatch** (when wave outputs feed other agents):
 ```
+Research agents → SendMessage findings → Synthesis agent → Checker
+```
+Use `addBlockedBy` on dependent tasks. Pipelines are slower but higher quality.
 
-The verification agent runs as a **peer of the workers**, not as the lead. The lead dispatches it after collecting worker outputs but before synthesising. Budget ~2-3 min for verification (it reads files + cross-checks, no web search needed).
+## Overnight Specifics
 
-### Budget Impact
+### Archive Loop (never skip)
 
-Verification adds ~10-15% token overhead per wave (Sonnet reading + checking N files). This is cheap insurance. A hallucinated regulatory citation that enters the vault and later appears in a client conversation costs infinitely more than a Sonnet verification pass.
+As each agent completes:
+1. Read result, classify: **self-sufficient** or **needs review**
+2. High-stakes → dispatch quality reviewer first
+3. Self-sufficient → archive to `~/notes/TODO Archive.md`, remove from TODO.md
+4. Needs review → add `- [ ] **Review: [title].** [path]. [what to check]. \`agent:terry\`` to TODO.md
+5. Update manifest (`~/tmp/copia-session.md`)
+6. **Keep going.** Never wait for Terry to review before starting next wave.
 
-## After Completion
+**Archive before remove.** Always. Write-guard blocks `[x]` in TODO.md.
 
-- Mention key findings in next `/wrap`
-- If research surfaces an action item → add to TODO.md or Due
-- If research is engagement-relevant → link from `[[Capco Transition]]`
-- **Retro:** Note what was high-value vs waste → refine the menu for next session
+### Session Chain
 
-## Anti-patterns
+Session stays alive while background agents run. Maintain 2-3 running at all times. When count drops to 1, launch next wave. Agent completions trigger new turns — no artificial keepalive needed.
 
-- Don't run research that duplicates what LaunchAgents already do (praeco, speculor, theoros)
-- Don't run GARP drilling here — use `/dokime` for that (different modality)
-- Don't research topics with no clear consumer — "interesting" isn't enough
-- Content: don't write posts that need Terry's personal experience — stick to analytical/framework pieces
-- Consolidation: don't merge notes that are intentionally separate (check for `[[` cross-references first)
-- Pre-drafting: don't pre-draft client emails or anything that needs Terry's voice calibration
+### Budget Checks
+
+- Hook messages include "Budget: green/yellow/red"
+- Green → keep launching. Yellow → finish current wave. Red → stop, send report.
+
+### Wrap
+
+1. Update `~/notes/NOW.md` with results
+2. `TeamDelete` if team was used
+3. **List tmux panes, ASK Terry before killing any** — he has other live sessions
+
+## Anti-Patterns
+
+- **Meta-spiral:** Knowledge system work that doesn't serve stars 1-5
+- **Habit displacement:** Building "health tracking" when shape says "go to the gym"
+- **Shape mismatch:** Treating checklist as flywheel (over-engineering a finite problem)
+- **Ignoring TODO.md:** Best sub-goals are often already queued there
+- **Over-scoping agents:** Each agent = ONE deliverable
+- **Inventing work:** Only dispatch from north stars/TODO. Never create tasks to keep the chain alive
+- **Sending messages:** WhatsApp, email, LinkedIn — draft-only. Never send.
+- **Pushing to shared repos:** Personal repos fine. Shared = ask first.
+- **Skipping archive (overnight):** Every completed task must be archived
+
+## Field-Tested Learnings (Mar 18-19 2026)
+
+First vigilia run: **89 tasks**, 9+ waves, 20+ agents, ~44% weekly budget.
+
+1. **Standalone > team** for independent tasks. Teams only when coordination needed.
+2. **Financial/personal research** = extremely high-value. Hours of Terry's time → 5 min agent work.
+3. **Prep tasks are the sweet spot** — drafts, handovers, cheat sheets. Terry reviews in 5 min.
+4. **Taste is the bottleneck.** After Wave 3, the constraint is knowing what's worth running.
+5. **Quality reviewer is high-ROI.** Caught EU AI Act penalty error (1%→1.5%) before it entered vault.
+6. **Diminishing returns are real.** Waves 1-3 = high value. Wave 4+ = good. Wave 7+ = marginal.
+7. **Stop criterion after Wave 3:** Would Terry pay $1-2 for this output? Does it save >10 min? Is it on the critical path? 2 of 3 = dispatch. 1 or 0 = stop.

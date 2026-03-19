@@ -1,18 +1,20 @@
 ---
 name: monthly
-description: Monthly maintenance — content digests, skill review, AI deep review, vault hygiene. Run on first Friday or anytime in the first week.
+description: Monthly maintenance — content digests, skill review, AI deep review, vault hygiene, finance check. "monthly", "monthly review", "run monthly", "monthly maintenance"
 user_invocable: true
 disable-model-invocation: true
 ---
 
-# Monthly Maintenance
+# Monthly Review
 
-Everything that runs once a month. Can trigger on first Friday (via `/weekly`) or independently anytime.
+First Sunday of the month, after `/weekly`. Am I building the right things?
 
-## Trigger
+## Triggers
 
-- "monthly", "monthly maintenance", "run monthly"
-- First Friday of month (prompted by `/weekly`)
+- monthly
+- monthly review
+- monthly maintenance
+- run monthly
 
 ## Checklist
 
@@ -139,11 +141,7 @@ b. **SCB Prime rate** — verify still 5.25% (affects your cap). Check SCB websi
 c. **Credit card balances** — any unpaid statement balances? (CCBA, SCB, BOC)
 If rate/search sources are unavailable, note "Finance check partial" and avoid firm recommendations.
 
-### 9. Direction Audit (quarterly — March, June, September, December only)
-
-Read `~/notes/Life OS.md`. For each domain ask: is this still the right framing? Has anything shifted? Is the listed "next step" still relevant or stale? Update the note in-place — it's a live map, not a historical document. Skip this step in non-quarter months.
-
-### 10. Housekeeping
+### 9. Housekeeping
 
 - Purge orphaned agent files: `/usr/bin/find ~/.claude/todos -name "*.json" -mtime +7 -delete`
 - Check MEMORY.md line count (`wc -l`). Flag if >150 — trim or demote to vault.
@@ -179,16 +177,16 @@ After running all sections, present:
 
 ## Notes
 
-- Total time: ~15-20 min (mostly waiting on digest API calls)
+- Total time: ~20-30 min (mostly waiting on digest API calls)
 - Digest is the heaviest step — can run backgrounded while doing the rest
-- If short on time, at minimum run `/digest` and `/skill-review`
+- Runs after `/weekly` on first Sunday — the weekly planning is already done
 
 ## Boundaries
 
-- Do NOT perform full rewrites of CLAUDE.md/MEMORY.md in this run; flag and queue large restructures.
-- Do NOT execute irreversible cleanup beyond the listed housekeeping commands.
-- Stop after monthly summary table is produced.
+- Do NOT perform full rewrites of CLAUDE.md/MEMORY.md; flag and queue large restructures
+- Do NOT run direction audit — that's `/quarterly`
+- Stop after summary table is produced
 
-## Example
-
-> Monthly Maintenance — 2026-03 complete. Content and thematic digests generated, AI deep review done, skill review flagged 3 stale skills, and source health found 2 broken feeds. Vault hygiene archived 14 notes; finance check was partial because one rate lookup failed.
+## See also
+- `/weekly` — Sunday planning (runs first)
+- `/quarterly` — direction, career, investments (March, June, September, December)
