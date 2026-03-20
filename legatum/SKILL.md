@@ -34,8 +34,8 @@ Session scope = files modified + tool calls + conversation turns since this sess
 If invoked as checkpoint or auto-triggered at a gear shift → **checkpoint mode**.
 If invoked at session end → **full mode**.
 
-**Checkpoint mode runs:** Step 0 (pre-wrap), Step 0.5 (friction review, but don't truncate log), Step 1 (TODO sweep), Step 4 (learning capture).
-**Checkpoint mode skips:** Step 2 (session log), Step 3 (NOW.md rewrite — delta update only if needed).
+**Checkpoint mode runs:** Step 0 (pre-wrap), Step 1 (TODO sweep), Step 3 (learning capture).
+**Checkpoint mode skips:** Step 2 (session log + NOW.md).
 
 ## Workflow
 
@@ -44,198 +44,100 @@ If invoked at session end → **full mode**.
 ```bash
 now-age
 ```
-If NOW.md is **<15 minutes old** AND user did not explicitly invoke `/legatum`, skip to Step 4 briefly, then Output. Explicit invocation always runs all steps.
-
-### Step 0.0: Session Intent (full mode only)
-
-**At session START** (first time legatum is invoked in a session, not at wrap): this step has already fired — see "Session Start" below.
-
-**At session END (full mode):** Read `~/.claude/session-intent.md` if it exists. If the file is present, compare the stated intent to what the session actually accomplished (drawn from the session arc, git status, and prewrap output). Surface three things:
-1. **Match:** What landed as intended?
-2. **Drift:** Where did the session diverge, and was the divergence justified?
-3. **Miss:** Anything in the stated intent that didn't happen — should it carry forward?
-
-If `~/.claude/session-intent.md` is missing: skip silently (intent was never set, or this is a continuation session). Delete the file after reading.
-
-Output as a compact block folded into the Pre-Legatum section:
-```
-Intent vs Actual:  Match: [what landed] | Drift: [justified divergence or "none"] | Miss: [carry-forward or "none"]
-```
-
-**Session Start protocol (runs once per session, before any other work):**
-
-When the session begins (first tool call or first user message after `/clear` or a fresh session), check whether `~/.claude/session-intent.md` exists:
-
-```bash
-test -f ~/.claude/session-intent.md && echo "exists" || echo "missing"
-```
-
-- **Missing:** Ask Terry: "What do you want to accomplish this session? (1-2 sentences)" Write his answer to `~/.claude/session-intent.md`. This is the only gate — do not ask again during the session.
-- **Exists:** Read it silently. No prompt needed (session intent already set, likely a reconnect after disconnect).
-
-**Checkpoint mode:** Do not prompt for intent and do not compare — checkpoint is mid-session, intent comparison only makes sense at close.
+If NOW.md is **<15 minutes old** AND user did not explicitly invoke `/legatum`, skip to Step 3 briefly, then Output. Explicit invocation always runs all steps.
 
 ### Step 0: Pre-Wrap Check
 
-Run `prewrap` and answer these five questions. Complete blocking actions (garden post, arsenal) *before* outputting the block — the block is a receipt, not a plan.
+Run `prewrap`. Complete blocking actions (garden post, arsenal) *before* outputting the block.
 
 ```bash
 prewrap
-peira status 2>/dev/null || true
 ```
 
-**Questions (explicit yes/no for Q4–5, silence is not "no"):**
-1. **Unverified?** Any tool output this session that wasn't checked?
-2. **Deferred?** Anything mentioned as "later/next/TODO" not yet captured? Route by type: has a deadline → TODO.md. Has a context trigger ("next time I'm in X") → `memory/prospective.md`. Neither → daily note.
-3. **Uncommitted?** Dirty repos *touched this session*? → offer to commit (leave other repos alone)
-4. **Garden posts + consulting arsenal?** Pause and replay the session arc (or arc since last checkpoint). What did we *learn*, not just *do*? What surprised us? What principle emerged that wasn't obvious at the start? Give yourself 30 seconds of generative thinking before answering — the best posts come from connections between topics, not from any single task.
-   - **Garden test:** Non-obvious insight, clear thesis, Terry's lane, no unverified facts? Publish immediately via `sarcio new` → write → `sarcio publish --push`. Multiple posts per session is normal for meaty sessions.
-   - **Arsenal test:** Concretely applicable to a bank/client AI engagement? If yes → add bullet to `[[Capco Transition]]` now.
-   - **Client translation test:** For each insight that passes the arsenal test, write a one-sentence version a CRO would understand. Filter: "would Simon care?" Yes → translate and append to the arsenal bullet. No → skip. The translation IS the test of whether you've compressed it enough.
-   - **Compounding test:** Does any output persist and enable future sessions? Skill > one-off script. Vault note > conversation explanation. Research with verification > unverified hot take. see [[mental-models]] → Compounding.
+**Three questions (not five):**
+1. **Uncommitted?** Dirty repos *touched this session*? → commit.
+2. **Deferred?** Anything mentioned as "later/next/TODO" not yet captured? Route: deadline → TODO.md, context trigger → `memory/prospective.md`, neither → daily note.
+3. **Garden + arsenal?** Replay the session arc. What did we *learn*, not just *do*? What principle emerged?
+   - **Garden test:** Non-obvious insight, clear thesis, Terry's lane? → publish via `sarcio`.
+   - **Arsenal test:** Applicable to a bank/client AI engagement? → `[[Capco Transition]]`.
 
-**CLAUDE.md modified?** One-line tightening check: does it belong in CLAUDE.md or in a skill / MEMORY.md / `~/docs/solutions/`?
-
-**Background dispatches** — fire with `run_in_background: true` when the session touched the relevant area:
-
-| Audit | When |
-|-------|------|
-| MEMORY.md hook coverage | MEMORY.md modified AND <145 lines |
-| Skill staleness | Any skill edited or added |
-| Solutions KB dedup | `~/docs/solutions/` modified |
-| Vault orphan links (nexis) | Monthly only |
+**CLAUDE.md modified?** One-line check: does it belong in CLAUDE.md or somewhere else?
 
 **Output — light or full:**
 
-If all checks clean and no blocking actions: `✓ Clean — [prewrap summary]. Garden: no — [reason]. Arsenal: no — [reason].`
+If all clean: `✓ Clean — [prewrap summary]. Garden: [published/no]. Arsenal: [added/no].`
 
-Otherwise, full block:
+Otherwise:
 ```
 ─── Pre-Legatum ─────────────────────────────────
 ⚠  [only if action needed]
-→  Deferred: [items or "none"]
-✓  [clean checks summary]
-Intent vs Actual:  Match: [...] | Drift: [...] | Miss: [...]   ← omit line if no intent file
-Garden:      published → <slug>, <slug>, ... | no — [reason]
+✓  [clean checks]
+Garden:      published → <slug> | no — [reason]
 Arsenal:     added → [[Capco Transition]] | no — [reason]
-Dispatched:  <audit> (<task-id>) | none
 ──────────────────────────────────────────────────
 ```
-
-Then proceed to remaining steps.
-
-### Step 0.5: CLI Friction Review
-
-```bash
-cat ~/.claude/cli-friction.jsonl 2>/dev/null | wc -l
-```
-
-If `~/.claude/cli-friction.jsonl` has entries: read the file, group errors by CLI tool, and for each tool with 2+ friction events (or 1 event with an obvious fix), suggest a concrete improvement (alias, positional arg, better error message). Output as a fenced block. If any fix is trivial (< 20 lines), implement it or add to TODO.md with `agent:claude`. **Full mode:** truncate the file after processing (`> ~/.claude/cli-friction.jsonl`). **Checkpoint mode:** leave the file intact (accumulate across checkpoints, truncate only at session end).
 
 ### Step 1: TODO Sweep
 
 Read `~/notes/TODO.md`. Skip if missing.
 
-- **Complete:** Done items → `[x]` with note and `done:YYYY-MM-DD`. Hard test: truly done, or just "dev done"? Move checked items to `~/notes/TODO Archive.md`.
+- **Complete:** Done items → `[x]` with `done:YYYY-MM-DD`. Move to `~/notes/TODO Archive.md`.
 - **Create:** New commitments or interrupted WIP → add with verb + concrete next action. Tag `agent:` if Claude can resume.
-- **Cold-start test:** For any `agent:claude` item — is there enough in the vault (TODO line + related notes + git history) for a copia prospector to reconstruct the dispatch context? If yes, the TODO line can be lean. If the task has no vault footprint at all, add a one-line spec or `See [[X]]` pointer.
 
-### Step 2: Session Log (full mode only)
+### Step 2: Session Log + NOW.md (full mode only)
 
 Append to `~/notes/Daily/YYYY-MM-DD.md`:
 
 ```markdown
 ### HH:MM–HH:MM — [Brief title]
 - Key outcome or decision (1-3 bullets)
-- Abandoned: X because Y  ← if a path was explored and dropped
-- **Gist:** [the legatum summary — what was learned, not what was done]
+- Abandoned: X because Y  ← if applicable
 ```
 
-### Step 3: NOW.md + Trackers (full mode only)
+**The legatum summary prose goes here as the final paragraph of the session log.** This is the arc, the synthesis, the judgment — not just facts. The daily note is the durable record; the conversation transcript is ephemeral. The summary must be persisted.
 
-```bash
-now-age
-```
+**NOW.md** — read from disk. If recent (<1h), update only deltas. Max 15 lines, dual-ledger format (Facts + Progress).
 
-**NOW.md** — read from disk first. If recent (<1h), update only deltas. If light session (<3 files, no decisions) and still accurate, skip.
+**Vault flush:** Update canonical tracker notes if the session advanced them.
 
-Max 15 lines. **Dual-ledger format** (stolen from Magentic-One): separate "Facts (established)" from "Progress (active)". Facts = what we know (decided things, stable state). Progress = where we are (in-progress, queued items with next actions). Use `[in-progress]` / `[queued]` / `[blocked]` in Progress section. Prune Facts that no longer gate future action.
-
-**Vault flush:** Update canonical tracker notes (e.g. `[[Capco Transition]]`) if the session advanced them.
-
-**Project CONTEXT.md** — if cwd is `~/code/<project>/` and meaningful progress was made, update State/Last session/Next/Open questions sections. Commit after writing.
-
-### Step 4: Learning Capture (always runs)
+### Step 3: Learning Capture (always runs)
 
 Single pass. If nothing surfaces: "Nothing to generalise."
 
-**Scope:** Since last checkpoint (if any), otherwise since session start.
+**If learnings were captured continuously during the session** (memory entries, skill updates, CLAUDE.md edits already made), this step is a verification pass only. Confirm what was filed, note any gaps. Don't re-file.
 
-**Failure mode check** (scan before writing):
+**If learnings were NOT captured during the session**, scan and route:
+- Tool gotcha → `~/docs/solutions/`
+- Cross-session context → MEMORY.md
+- Workflow change → relevant skill's SKILL.md
+- Same mistake twice → escalate per enforcement ladder
 
-| Smell | Fix |
-|-------|-----|
-| "Updated X" with no what/why | State what changed and why — cold reader test |
-| "TODO: consider whether..." | Decide now or delete. Legatum is not a parking lot |
-| >3 "filed to X" items | Over-capturing. Prioritise |
-| Recording what happened, not what was learned | Logs → daily note. Insights → skill/memory/garden |
-| Legatum takes >10 minutes | You're writing, not closing. Stop |
-| "Fixed the bug" without generalising | Capture the pattern, not the instance |
+**Default: implement now.** Don't propose — do.
 
-**Belief corrections?** Did a prior get challenged this session — something Terry (or I) assumed that turned out wrong? Not just career — technical assumptions, how things work, self-knowledge, anything. If yes → append to `[[Priors Worth Correcting]]` with: old belief, the correction, and when the old belief would reassert.
+**MEMORY.md ≥145 lines →** demote lowest-recurrence entry to overflow.
 
-**Scan → Route → Implement:**
-- Scan for non-obvious patterns, friction, corrections, gotchas, and new user preferences or personal context
-- Route each finding to the most specific destination:
-  - Tool gotcha → `~/docs/solutions/`
-  - Cross-session context → MEMORY.md
-  - Workflow change → the relevant skill's SKILL.md
-  - Same mistake twice → escalate per `~/docs/solutions/enforcement-ladder.md`
-- **Default: implement now.** Skill edits, MEMORY.md additions, solutions files, small hooks — do them, don't propose them. "Needs design input" is not a valid reason to defer a 20-line improvement. Propose only if: touches shared infrastructure, irreversible, or genuinely ambiguous (and state which). If you wrote "propose" in the output, ask: could I have just done it? If yes, go back and do it.
-- **Persistence gate:** Consult `[[persistence-decisions]]` before routing. One home per insight, never point to a pointer, count layers.
-
-**MEMORY.md ≥145 lines + entries added this session →** demote lowest-recurrence entry to `~/docs/solutions/memory-overflow.md` now. Don't ask — pick it yourself.
-
-**Decay tracker:** If any MEMORY.md entries prevented mistakes this session, update `memory/decay-tracker.md` with today's date. This is the empirical signal for what to keep vs demote.
-
-**Legatum audit: log, don't essay.** Instead of launching verbose audit agents, do a quick self-scan and append one-liners to `~/docs/solutions/operational/wrap-violations.jsonl`. Pattern detection happens in `/weekly`, not per-session.
-
-**Self-scan checklist (30 seconds, no agents):**
-1. Did any CLAUDE.md rule get violated AND cause a worse outcome? (Not "technically violated but fine")
-2. Did anything compound (insight, tool, framework) that wasn't captured?
-3. Were garden posts published? If 3+, flag for quality cull.
-4. **Ad-hoc script spiral?** Were 5+ consecutive tool calls spent working around a broken CLI/tool (different keychain lookups, manual API calls, alternative scripts for the same goal)? If yes → file the root-cause fix as a prospective reminder or TODO, and log to `wrap-violations.jsonl` with `"rule": "ad-hoc-spiral"`.
-
-**If a violation caused harm:** append to `wrap-violations.jsonl`:
-```json
-{"date": "YYYY-MM-DD", "rule": "rule name", "harm": "what went wrong", "hookable": true/false}
-```
-
-**If something compounded but wasn't captured:** just capture it now (skill, garden, arsenal, vault). Don't log it — act on it.
-
-**Garden cull:** If 3+ posts published this session, launch one haiku agent: "Review these posts. Flag weak ones (no thesis, generic, restating others) for removal or merge." Present in output.
-
-**Garden quality cull (weekly only):** If this is a `/weekly` session, also scan *all* posts from the week — not just this session's.
-
-**`/weekly` pattern detection:** Read `wrap-violations.jsonl`, group by rule. Any rule with 3+ violations → escalate per enforcement ladder. Any rule with 0 violations over 4 weeks → candidate for removal (dead rule).
+**Self-scan (30 seconds, no agents):**
+1. Any CLAUDE.md rule violated AND caused worse outcome?
+2. Anything compound that wasn't captured?
+3. Garden posts 3+? → flag for quality cull.
 
 **All file writes must complete before the output.**
 
 ## Output
 
-**Full mode:** Bordered prose. Handoff note to tomorrow-you — arc, what's staged/unfinished, learnings captured. 2-3 sentences for light sessions, up to 6 for heavy. Don't hard-wrap.
+**Full mode:** Bordered prose appended to daily note AND shown in conversation. The summary is the arc — what was learned, what's staged, honest judgment.
 
 ```
 ─── Legatum ────────────────────────────────────
 
-[Prose summary]
+[Prose summary — arc, learnings, what's staged/unfinished]
 
-Filed: [exact file path or "nothing to generalise"]
-Session: [honest 1-line judgment — real output vs theatre, what moved vs what just felt productive]
+Filed: [exact file paths or "nothing to generalise"]
+Session: [1-line honest judgment]
 ─────────────────────────────────────────────────
 ```
 
-**Checkpoint mode:** Lighter border. What was captured, then move on. No handoff framing.
+**Checkpoint mode:** Lighter. What was captured, then move on.
 
 ```
 ─── Checkpoint ─────────────────────────────────
@@ -245,7 +147,7 @@ Session: [honest 1-line judgment — real output vs theatre, what moved vs what 
 
 ## Boundaries
 
-- Do NOT perform external sends (messages, emails, posts) during legatum.
-- Do NOT run deep audits or long research — legatum is a close-out, not a new workstream.
-- **Full mode:** Stop after writes + summary unless explicitly asked to continue.
-- **Checkpoint mode:** Continue with the next task after output. No stopping.
+- Do NOT perform external sends during legatum.
+- Do NOT run deep audits or research — legatum is a close-out, not a workstream.
+- **Full mode:** Stop after writes + summary.
+- **Checkpoint mode:** Continue with the next task after output.
