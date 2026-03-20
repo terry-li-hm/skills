@@ -43,12 +43,12 @@ Generate evidence-grounded thematic digest from archived AI news articles.
 
 ```bash
 # Preview themes (fast, no synthesis)
-uv run ~/skills/lustro/ai-digest.py --dry-run
+~/.local/bin/lustro --dry-run
 
 # Full run — produces evidence briefs
-uv run ~/skills/lustro/ai-digest.py
+~/.local/bin/lustro
 ```
-If `uv` or script execution fails, mark AI thematic digest as skipped and continue.
+If script execution fails, mark AI thematic digest as skipped and continue.
 
 Output: `~/notes/AI & Tech/YYYY-MM AI Thematic Digest.md`
 Prerequisites: lustro cron must have been running with article archival (default since Feb 2026).

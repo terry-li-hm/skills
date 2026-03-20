@@ -228,7 +228,7 @@ Wave 2 → [what compounded from wave 1]
 | | Interactive | Overnight |
 |---|---|---|
 | **Trigger** | "copia", "burn tokens", "stellae" | "overnight", "vigilia", "going to sleep" |
-| **Mechanism** | This skill (in-session) | `copia-loop` script (fresh session per wave) |
+| **Mechanism** | This skill (in-session) | `lucerna` (fresh session per wave) |
 | **Clarifying questions** | Yes (max 1) | Forbidden |
 | **Scope** | What user approves | Only what needs zero human judgment |
 | **Agents per wave** | 3-5 | 8 (maintain thread pool) |
@@ -307,20 +307,23 @@ As each agent completes:
 
 Session stays alive while background agents run. **Maintain 6-8 running at all times.** When count drops below 4, launch next wave immediately. Agent completions trigger new turns.
 
-### Overnight: Use `copia-loop` Instead
+### Overnight: Lucerna Handles It
 
-For unattended overnight runs, **do not use this skill directly.** Use the `copia-loop` script:
+For unattended overnight runs, **do not use this skill directly.** Lucerna dispatches waves automatically:
 
 ```bash
-copia-loop                    # 20 waves, $3/wave, opus
-copia-loop --waves 50         # more waves
-copia-loop --budget 5.0       # higher per-wave budget
-copia-loop --model sonnet     # cheaper
+lucerna                       # auto: 3 waves overnight, 1 daytime
+lucerna --waves 5             # manual: 5 waves
+lucerna --model sonnet        # cheaper model
+lucerna --focus career        # restrict to specific north stars
+lucerna --dry-run             # show plan without executing
 ```
+
+Lucerna runs every 30 min via LaunchAgent. It checks budget headroom, dispatches fresh CC sessions per wave, and stops when budget thins or morning deadline hits.
 
 **Why:** LLMs lose instruction-following energy as context grows. Each wave in a loop gets a fresh session with full kinetic energy. The manifest (`~/tmp/copia-session.md`) is the memory between waves. The shell loop is the guarantee — code, not a suggestion.
 
-**Architecture:** Shell loop (real orchestrator) → fresh CC session per wave → agents → results → update manifest → exit → next wave. Budget check between waves is real code, not model judgment.
+**Architecture:** Lucerna (scheduler + wave loop) -> fresh CC session per wave -> agents -> results -> update manifest -> exit -> next wave. Budget check between waves is real code, not model judgment. Results posted to ACTA board.
 
 ### Budget Checks
 

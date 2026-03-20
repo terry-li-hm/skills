@@ -234,13 +234,13 @@ tags: []
 
 Before generating any note, run:
 ```bash
-grep -r "^tags:" ~/notes/*.md | cut -d: -f2 | tr ',' '\n' | sort -u | head -50
+grep -r "^tags:" ~/notes/ --include="*.md" --max-count=1 | cut -d: -f2 | tr ',' '\n' | sort -u | head -50
 ```
 If grep returns nothing or fails, use empty tags and continue.
 
 Also check for relevant MOCs:
 ```bash
-ls ~/notes/*MOC*.md ~/notes/Maps/*.md 2>/dev/null
+find ~/notes -maxdepth 1 -name "*MOC*.md" 2>/dev/null; find ~/notes/Maps -maxdepth 1 -name "*.md" 2>/dev/null
 ```
 If this lookup fails, skip MOC linking.
 
