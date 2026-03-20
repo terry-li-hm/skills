@@ -130,19 +130,16 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 
 ## Output
 
-**Full mode:** Bordered prose appended to daily note AND shown in conversation. The summary is the arc — what was learned, what's staged, honest judgment.
+**Full mode:** Summary prose goes in the daily note only (Step 2). Conversation output is minimal — just confirm what was filed.
 
 ```
 ─── Legatum ────────────────────────────────────
-
-[Prose summary — arc, learnings, what's staged/unfinished]
-
 Filed: [exact file paths or "nothing to generalise"]
-Session: [1-line honest judgment]
+Done.
 ─────────────────────────────────────────────────
 ```
 
-**Checkpoint mode:** Lighter. What was captured, then move on.
+**Checkpoint mode:** Same — what was captured, then move on.
 
 ```
 ─── Checkpoint ─────────────────────────────────
