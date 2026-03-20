@@ -42,17 +42,18 @@ If invoked at session end → **full mode**.
 ### Skip gate
 
 ```bash
-now-age
+legatum gather --json
 ```
-If NOW.md is **<15 minutes old** AND user did not explicitly invoke `/legatum`, skip to Step 3 briefly, then Output. Explicit invocation always runs all steps.
+
+Parse `now.age_label`. If **"fresh"** (NOW.md <15 min old) AND user did not explicitly invoke `/legatum`, skip to Step 3 briefly, then Output. Explicit invocation always runs all steps.
 
 ### Step 0: Pre-Wrap Check
 
-Run `prewrap`. Complete blocking actions (garden post, arsenal) *before* outputting the block.
-
 ```bash
-prewrap
+legatum gather
 ```
+
+This runs all deterministic checks (dirty repos, skill sync, MEMORY.md budget, NOW.md age, deps, peira). Review the output, then apply judgment:
 
 **Three questions (not five):**
 1. **Uncommitted?** Dirty repos *touched this session*? → commit.
@@ -65,7 +66,7 @@ prewrap
 
 **Output — light or full:**
 
-If all clean: `✓ Clean — [prewrap summary]. Garden: [published/no]. Arsenal: [added/no].`
+If all clean: `✓ Clean — [gather summary]. Garden: [published/no]. Arsenal: [added/no].`
 
 Otherwise:
 ```
@@ -79,20 +80,24 @@ Arsenal:     added → [[Capco Transition]] | no — [reason]
 
 ### Step 1: TODO Sweep
 
-Read `~/notes/TODO.md`. Skip if missing.
+```bash
+legatum archive
+```
 
-- **Complete:** Done items → `[x]` with `done:YYYY-MM-DD`. Move to `~/notes/TODO Archive.md`.
+This moves completed `[x]` items to the archive with `done:` tags. Then apply judgment:
+
 - **Create:** New commitments or interrupted WIP → add with verb + concrete next action. Tag `agent:` if Claude can resume.
 
 ### Step 2: Session Log + NOW.md (full mode only)
 
-Append to `~/notes/Daily/YYYY-MM-DD.md`:
+```bash
+legatum daily "Brief session title"
+```
 
-```markdown
-### HH:MM–HH:MM — [Brief title]
+This appends a timestamped session log template to today's daily note. Then fill in the content:
+
 - Key outcome or decision (1-3 bullets)
 - Abandoned: X because Y  ← if applicable
-```
 
 **The legatum summary prose goes here as the final paragraph of the session log.** This is the arc, the synthesis, the judgment — not just facts. The daily note is the durable record; the conversation transcript is ephemeral. The summary must be persisted.
 
