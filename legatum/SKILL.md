@@ -46,6 +46,35 @@ now-age
 ```
 If NOW.md is **<15 minutes old** AND user did not explicitly invoke `/legatum`, skip to Step 4 briefly, then Output. Explicit invocation always runs all steps.
 
+### Step 0.0: Session Intent (full mode only)
+
+**At session START** (first time legatum is invoked in a session, not at wrap): this step has already fired — see "Session Start" below.
+
+**At session END (full mode):** Read `~/.claude/session-intent.md` if it exists. If the file is present, compare the stated intent to what the session actually accomplished (drawn from the session arc, git status, and prewrap output). Surface three things:
+1. **Match:** What landed as intended?
+2. **Drift:** Where did the session diverge, and was the divergence justified?
+3. **Miss:** Anything in the stated intent that didn't happen — should it carry forward?
+
+If `~/.claude/session-intent.md` is missing: skip silently (intent was never set, or this is a continuation session). Delete the file after reading.
+
+Output as a compact block folded into the Pre-Legatum section:
+```
+Intent vs Actual:  Match: [what landed] | Drift: [justified divergence or "none"] | Miss: [carry-forward or "none"]
+```
+
+**Session Start protocol (runs once per session, before any other work):**
+
+When the session begins (first tool call or first user message after `/clear` or a fresh session), check whether `~/.claude/session-intent.md` exists:
+
+```bash
+test -f ~/.claude/session-intent.md && echo "exists" || echo "missing"
+```
+
+- **Missing:** Ask Terry: "What do you want to accomplish this session? (1-2 sentences)" Write his answer to `~/.claude/session-intent.md`. This is the only gate — do not ask again during the session.
+- **Exists:** Read it silently. No prompt needed (session intent already set, likely a reconnect after disconnect).
+
+**Checkpoint mode:** Do not prompt for intent and do not compare — checkpoint is mid-session, intent comparison only makes sense at close.
+
 ### Step 0: Pre-Wrap Check
 
 Run `prewrap` and answer these five questions. Complete blocking actions (garden post, arsenal) *before* outputting the block — the block is a receipt, not a plan.
@@ -62,6 +91,7 @@ peira status 2>/dev/null || true
 4. **Garden posts + consulting arsenal?** Pause and replay the session arc (or arc since last checkpoint). What did we *learn*, not just *do*? What surprised us? What principle emerged that wasn't obvious at the start? Give yourself 30 seconds of generative thinking before answering — the best posts come from connections between topics, not from any single task.
    - **Garden test:** Non-obvious insight, clear thesis, Terry's lane, no unverified facts? Publish immediately via `sarcio new` → write → `sarcio publish --push`. Multiple posts per session is normal for meaty sessions.
    - **Arsenal test:** Concretely applicable to a bank/client AI engagement? If yes → add bullet to `[[Capco Transition]]` now.
+   - **Client translation test:** For each insight that passes the arsenal test, write a one-sentence version a CRO would understand. Filter: "would Simon care?" Yes → translate and append to the arsenal bullet. No → skip. The translation IS the test of whether you've compressed it enough.
    - **Compounding test:** Does any output persist and enable future sessions? Skill > one-off script. Vault note > conversation explanation. Research with verification > unverified hot take. see [[mental-models]] → Compounding.
 
 **CLAUDE.md modified?** One-line tightening check: does it belong in CLAUDE.md or in a skill / MEMORY.md / `~/docs/solutions/`?
@@ -85,6 +115,7 @@ Otherwise, full block:
 ⚠  [only if action needed]
 →  Deferred: [items or "none"]
 ✓  [clean checks summary]
+Intent vs Actual:  Match: [...] | Drift: [...] | Miss: [...]   ← omit line if no intent file
 Garden:      published → <slug>, <slug>, ... | no — [reason]
 Arsenal:     added → [[Capco Transition]] | no — [reason]
 Dispatched:  <audit> (<task-id>) | none
@@ -117,6 +148,7 @@ Append to `~/notes/Daily/YYYY-MM-DD.md`:
 ### HH:MM–HH:MM — [Brief title]
 - Key outcome or decision (1-3 bullets)
 - Abandoned: X because Y  ← if a path was explored and dropped
+- **Gist:** [the legatum summary — what was learned, not what was done]
 ```
 
 ### Step 3: NOW.md + Trackers (full mode only)

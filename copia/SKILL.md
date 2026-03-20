@@ -6,7 +6,9 @@ user_invocable: true
 
 # Copia — Agent Teams for North Stars
 
-One pattern: **north stars → shapes filter → sub-goals → agent teams → results.** Two modes: interactive (Terry at keyboard) and overnight (unattended flywheel).
+One pattern: **north stars → division of labour filter → shapes filter → sub-goals → agent teams → results.** Two modes: interactive (Terry at keyboard) and overnight (unattended flywheel).
+
+**Core principle:** The system exists to free Terry's attention for what SHOULD be done by a human — not what can't be automated, but what he chooses to keep. See [[division-of-labour]] for the five categories: Presence, Sharpening, Collaborative, Automated, Dropped. Copia only dispatches Automated tasks. The task space is infinite (north stars are continuous value streams). The stop criterion is budget, not task exhaustion.
 
 ## Pre-flight: Consumption Check
 
@@ -30,10 +32,24 @@ Count only genuine review items (tagged `agent:terry` AND contain "Review"). Phy
 
 ## Core Protocol
 
+### Step 0: Activate Guard
+
+Create the session manifest AND activate the stop guard:
+
+```bash
+# Creates ~/tmp/copia-session.md (manifest) AND ~/tmp/.copia-guard-active (lock)
+touch ~/tmp/.copia-guard-active
+```
+
+The guard is a Stop hook (`~/.claude/hooks/copia-guard.py`). While `~/tmp/.copia-guard-active` exists and budget is green, the model **cannot stop**. Separate from the manifest so copia-loop doesn't accidentally activate the guard.
+
+**To deactivate:** Delete `~/tmp/.copia-guard-active` (done automatically in Wrap step, or manually by Terry).
+
 ### Step 1: Load Context (parallel reads)
 
 - `~/notes/North Star.md` — the 6 priorities
 - `~/notes/Reference/epistemics/north-star-shapes.md` — shapes framework
+- `~/notes/Reference/epistemics/division-of-labour.md` — five-category filter
 - `~/notes/NOW.md` — current state
 - `~/notes/TODO.md` — actionable items (head 80 lines)
 - `date` — current time
@@ -59,15 +75,36 @@ Current star→shape mapping:
 | Strengthen marriage | Attention | **SKIP** |
 | Knowledge system | Meta-flywheel | Only if it serves stars 1-5 |
 
+### Step 2b: Division of Labour Filter
+
+Before brainstorming tasks, classify each candidate through [[division-of-labour]]:
+
+| Category | Copia action |
+|---|---|
+| **Presence** (Theo, Tara, being there) | Skip — not agent work |
+| **Sharpening** (drilling, reading source texts, forming views) | Skip — Terry does this to stay sharp |
+| **Collaborative** (brainstorming, probing drills) | Skip — needs Terry at keyboard |
+| **Automated** (research, synthesis, code, monitoring) | **Dispatch** |
+| **Dropped** (doesn't serve a north star) | Drop — don't dispatch busywork |
+
+Only Automated tasks enter the dispatch queue.
+
 ### Step 3: Brainstorm Sub-Goals
 
-For each high-leverage star, identify 1-2 sub-goals that:
+For each high-leverage star, identify sub-goals that:
 - Are actionable NOW (not blocked, not future-dated)
+- Fall in the Automated category
 - Produce a concrete deliverable (research note, practice questions, draft, verification)
 - Can be completed by an autonomous agent in one session
 - Advance the north star meaningfully (not busywork)
 
-Prioritise TODO.md items tagged `agent:claude` or where research/drafting is the bottleneck.
+**Sources (in priority order):**
+1. TODO.md items tagged `agent:claude` or where research/drafting is the bottleneck
+2. What the north stars need right now, even if not in TODO.md
+3. External signals (lustro outputs, recent news, calendar proximity)
+4. What wave N outputs revealed as the next logical step
+
+The task space is infinite. If TODO.md looks empty, the north stars aren't — ask "what would a good employee working on [star] do next?"
 
 ### Step 4: Align & Dispatch
 
@@ -98,25 +135,31 @@ Each agent prompt includes:
 
 ### Step 6: Flywheel (Overnight Mode)
 
-After each wave completes, the orchestrator:
+After each wave completes, the orchestrator runs two phases:
 
+**Phase A — Compound:** For each output, ask: **what builds on this?**
 1. Reads all wave N outputs
 2. Updates `~/tmp/copia-session.md` manifest
-3. For each output, asks: **what compounds from this?**
-   - Research → synthesise into brief/draft
-   - Draft → extract IP, publish via sarcio
-   - Verification flagged issues → fix
-   - Output reveals new sub-goal → add to next wave
-4. If viable wave N+1 tasks exist → dispatch next wave
-5. If not → stop, report
+3. Research → synthesise into brief/draft
+4. Draft → extract IP, publish via sarcio
+5. Verification flagged issues → fix
+6. Output reveals new sub-goal → add to next wave
+
+**Phase B — Scout:** Ask: **what new directions does this reveal?**
+1. What did we learn that changes the map? (e.g., theoria taxonomy reveals need for provision validator)
+2. What external signals arrived? (check lustro outputs, recent news)
+3. Given where we are now, what's the next highest-value Automated task toward each north star?
+4. Are there north stars with zero dispatched tasks? Why?
 
 **Compounding chain:** Research → Synthesis → IP/Publish → Verify → Cross-link
 
-**Stop conditions:**
-- No wave N output produces a viable wave N+1 task (work exhausted)
-- Budget turns yellow/red
-- Quality gate fails on critical output
-- Max waves safety cap (~5-6)
+**Deliverables are functions, not documents.** If Terry asks for a market intel brief in 3 weeks, produce a fresh one — don't point to the stale file. Outputs represent a point-in-time answer, not a permanent artifact.
+
+**Stop conditions (in order):**
+- Budget turns yellow → finish current wave, then stop
+- Budget turns red → stop immediately, report
+- All remaining tasks require Presence, Sharpening, or Collaborative categories → stop (only human work remains)
+- **Task exhaustion is NOT a stop condition.** If the north stars exist, Automated work exists. Scout harder before stopping.
 
 ### Step 7: Route Outputs
 
@@ -187,10 +230,11 @@ Wave 2 → [what compounded from wave 1]
 | | Interactive | Overnight |
 |---|---|---|
 | **Trigger** | "copia", "burn tokens", "stellae" | "overnight", "vigilia", "going to sleep" |
+| **Mechanism** | This skill (in-session) | `copia-loop` script (fresh session per wave) |
 | **Clarifying questions** | Yes (max 1) | Forbidden |
 | **Scope** | What user approves | Only what needs zero human judgment |
 | **Agents per wave** | 3-5 | 8 (maintain thread pool) |
-| **Waves** | 1-2 | Flywheel until work exhausts |
+| **Waves** | 1-2 | Flywheel until budget turns yellow |
 | **Shared systems** | Ask first | Never touch (no sends, no pushes) |
 | **Output routing** | Same (vault + TODO) | Same (vault + TODO) |
 | **Report** | Vault note (inline summary optional) | Vault note only |
@@ -261,20 +305,64 @@ As each agent completes:
 
 **Archive before remove.** Always. Write-guard blocks `[x]` in TODO.md.
 
-### Session Chain
+### Session Chain (interactive mode)
 
-Session stays alive while background agents run. Maintain 2-3 running at all times. When count drops to 1, launch next wave. Agent completions trigger new turns — no artificial keepalive needed.
+Session stays alive while background agents run. **Maintain 6-8 running at all times.** When count drops below 4, launch next wave immediately. Agent completions trigger new turns.
+
+### Overnight: Use `copia-loop` Instead
+
+For unattended overnight runs, **do not use this skill directly.** Use the `copia-loop` script:
+
+```bash
+copia-loop                    # 20 waves, $3/wave, opus
+copia-loop --waves 50         # more waves
+copia-loop --budget 5.0       # higher per-wave budget
+copia-loop --model sonnet     # cheaper
+```
+
+**Why:** LLMs lose instruction-following energy as context grows. Each wave in a loop gets a fresh session with full kinetic energy. The manifest (`~/tmp/copia-session.md`) is the memory between waves. The shell loop is the guarantee — code, not a suggestion.
+
+**Architecture:** Shell loop (real orchestrator) → fresh CC session per wave → agents → results → update manifest → exit → next wave. Budget check between waves is real code, not model judgment.
 
 ### Budget Checks
 
 - Hook messages include "Budget: green/yellow/red"
 - Green → keep launching. Yellow → finish current wave. Red → stop, send report.
 
+### Stopping Gate (mandatory before any stop)
+
+**Your instinct to stop is wrong.** The model's default is to wrap up and report. That instinct serves normal conversations, not overnight copia. You MUST pass this gate before stopping:
+
+```
+STOPPING GATE — answer all 6 before you're allowed to stop:
+
+1. Is budget yellow or red?                          → if green, KEEP GOING
+2. Have you checked ALL 6 north stars for Automated   → if any unchecked, scout it
+   tasks in the last 2 waves?
+3. Have you checked lustro/theoria for new signals?   → if not, check now
+4. Have you checked the calendar for deadlines         → if not, check now
+   within 14 days that need prep?
+5. Did the last wave's outputs reveal ANY follow-on?  → if yes, dispatch it
+6. Can you honestly say "a good employee serving       → if no, think harder
+   these north stars would have nothing to do"?
+```
+
+**All 6 must clear to stop.** If even one fails, you have more work. The gate exists because you WILL want to stop before budget runs out. That's the model's conservatism, not judgment.
+
+**Common rationalizations (these are NOT valid stop reasons):**
+- "Diminishing returns" → you stopped scouting, not ran out of value
+- "Better to wait for Terry's input" → overnight mode means no input. Keep going.
+- "I don't want to over-produce" → consumption check handles this. Not your problem.
+- "The remaining tasks are lower quality" → scout harder. Check a different north star.
+- "I should report what we have" → report AFTER budget turns yellow, not before.
+
 ### Wrap
 
 1. Update `~/notes/NOW.md` with results
 2. `TeamDelete` if team was used
-3. **List tmux panes, ASK Terry before killing any** — he has other live sessions
+3. **Delete `~/tmp/.copia-guard-active`** — deactivates the stop guard
+4. Archive `~/tmp/copia-session.md` to `~/tmp/copia-session-YYYY-MM-DD.md`
+5. **List tmux panes, ASK Terry before killing any** — he has other live sessions
 
 ## Anti-Patterns
 
@@ -283,7 +371,7 @@ Session stays alive while background agents run. Maintain 2-3 running at all tim
 - **Shape mismatch:** Treating checklist as flywheel (over-engineering a finite problem)
 - **Ignoring TODO.md:** Best sub-goals are often already queued there
 - **Over-scoping agents:** Each agent = ONE deliverable
-- **Inventing work:** Only dispatch from north stars/TODO. Never create tasks to keep the chain alive
+- **Inventing busywork:** Dispatch from north stars/TODO/scout phase. Tasks are discovered through navigation, not invented — but they must pass the division-of-labour filter (Automated category only)
 - **Sending messages:** WhatsApp, email, LinkedIn — draft-only. Never send.
 - **Pushing to shared repos:** Personal repos fine. Shared = ask first.
 - **Skipping archive (overnight):** Every completed task must be archived
@@ -297,5 +385,14 @@ First vigilia run: **89 tasks**, 9+ waves, 20+ agents, ~44% weekly budget.
 3. **Prep tasks are the sweet spot** — drafts, handovers, cheat sheets. Terry reviews in 5 min.
 4. **Taste is the bottleneck.** After Wave 3, the constraint is knowing what's worth running.
 5. **Quality reviewer is high-ROI.** Caught EU AI Act penalty error (1%→1.5%) before it entered vault.
-6. **Diminishing returns are real.** Waves 1-3 = high value. Wave 4+ = good. Wave 7+ = marginal.
-7. **Stop criterion after Wave 3:** Would Terry pay $1-2 for this output? Does it save >10 min? Is it on the critical path? 2 of 3 = dispatch. 1 or 0 = stop.
+6. **Diminishing returns per wave are real.** Waves 1-3 = high value. Wave 4+ = good. Wave 7+ = marginal. But this reflects poor scouting, not task exhaustion.
+7. **Quality gate after Wave 3:** Would Terry pay $1-2 for this output? Does it save >10 min? Is it on the critical path? 2 of 3 = dispatch. 1 or 0 = scout harder before giving up.
+
+### Evening session learnings (Mar 19)
+
+8. **Task space is infinite.** North stars are continuous value streams. "Ran out of tasks" means "stopped looking." The employee analogy: a permanent position always has worthy work because the value stream is continuous.
+9. **Scout phase between waves.** Don't just compound — ask "what new directions does this reveal?" Theoria taxonomy → provision validator. HSBC intel → specific vendor positioning. Outputs are navigation waypoints, not endpoints.
+10. **Division of labour filter.** Five categories (Presence/Sharpening/Collaborative/Automated/Dropped). Only dispatch Automated. The system exists to free Terry's attention for what SHOULD be done by a human — a choice, not a technical limitation.
+11. **Deliverables are functions.** "Give me the latest market intel" should produce a fresh brief, not reference a stale file. Point-in-time, not permanent.
+12. **Lustro/theoria are terrain scanners.** They feed the scout phase with external signals. Broken pipelines = navigating by an outdated map.
+13. **8 concurrent agents is achievable.** Tonight: 8 dispatched, 8 completed, 0 review items, 2 infra fixes. 100% self-sufficient rate.
