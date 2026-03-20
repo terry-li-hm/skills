@@ -12,13 +12,13 @@ One pattern: **north stars → division of labour filter → shapes filter → s
 
 ## Pre-flight: Consumption Check
 
-Before producing anything, measure whether previous output was consumed:
-
 ```bash
-grep -c 'agent:terry.*Review' ~/notes/TODO.md
+copia-gather preflight
 ```
 
-Count only genuine review items (tagged `agent:terry` AND contain "Review"). Physical actions, study tasks, and passive tracking don't count — they're normal TODOs.
+This runs all deterministic pre-flight checks: consumption count (review queue), budget, guard status, manifest status, north star loading, TODO `agent:claude` items, and NOW.md state. Use `--json` for structured parsing.
+
+The signal interpretation:
 
 | Review queue | Signal | Action |
 |---|---|---|
@@ -34,16 +34,14 @@ Count only genuine review items (tagged `agent:terry` AND contain "Review"). Phy
 
 ### Step 0: Activate Guard
 
-Create the session manifest AND activate the stop guard:
-
 ```bash
-# Creates ~/tmp/copia-session.md (manifest) AND ~/tmp/.copia-guard-active (lock)
-touch ~/tmp/.copia-guard-active
+copia-gather guard on
+copia-gather manifest init
 ```
 
-The guard is a Stop hook (`~/.claude/hooks/copia-guard.py`). While `~/tmp/.copia-guard-active` exists and budget is green, the model **cannot stop**. Separate from the manifest so copia-loop doesn't accidentally activate the guard.
+The guard is a Stop hook (`~/.claude/hooks/copia-guard.py`). While active, the model **cannot stop** (budget green). Separate from the manifest so copia-loop doesn't accidentally activate the guard.
 
-**To deactivate:** Delete `~/tmp/.copia-guard-active` (done automatically in Wrap step, or manually by Terry).
+**To deactivate:** `copia-gather guard off` (done automatically in Wrap step, or manually by Terry).
 
 ### Step 1: Load Context (parallel reads)
 

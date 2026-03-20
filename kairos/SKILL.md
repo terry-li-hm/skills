@@ -31,22 +31,15 @@ Unlike `auspex` (morning delta) or `cardo` (midday reflection), Kairos is statel
 
 ## Live Context (injected at invocation)
 
+```bash
+kairos-gather
 ```
-Current time: !`date "+%A %Y-%m-%d %H:%M HKT"`
 
-Calendar:
-!`fasti list 2>/dev/null || echo "(calendar unavailable)"`
-
-Due reminders:
-!`moneo ls 2>/dev/null || echo "(none)"`
-
-NOW.md:
-!`cat ~/notes/NOW.md 2>/dev/null || echo "(unavailable)"`
-```
+This runs all deterministic gathering in parallel (date, calendar, reminders, NOW.md, TODO today, job alerts, acta). Use `--json` for structured parsing.
 
 ## Steps
 
-Using the live context above:
+Using the gathered context:
 
 ### 1. Time + Calendar + Reminders
 

@@ -43,20 +43,11 @@ If `~/notes/TODO.md` is missing, create it with a minimal heading before running
 
 ### `/todo` (Today view — default)
 
-Show today's actionable tasks. This is the **default** when no subcommand is given.
+```bash
+todo-cli today
+```
 
-**Logic:**
-1. Run `date +%Y-%m-%d` to get today in HKT
-   - If date command fails, use system-provided current date.
-2. Read `~/notes/TODO.md`
-3. For each unchecked line (`- [ ]`):
-   - SKIP if line contains `` `someday` ``
-   - SKIP if line has `` `when:YYYY-MM-DD` `` where date > today
-   - INCLUDE everything else (Anytime tasks, tasks where `when:` <= today, tasks with `due:`)
-4. Group results by section heading (`## ...`)
-5. Show overdue items first (`due:` date < today) with a warning prefix
-6. Then show remaining today items
-7. End with count: "X tasks today, Y overdue"
+The CLI handles all date filtering, recurring item matching, grouping by section, and overdue detection. Present the output directly.
 
 ### `/todo today`
 
@@ -64,44 +55,39 @@ Same as bare `/todo` above.
 
 ### `/todo upcoming`
 
-Show tasks scheduled for the next 14 days.
-
-**Logic:**
-1. Get today's date
-   - If date command fails, skip with "Upcoming unavailable (date error)".
-2. For each unchecked line:
-   - INCLUDE if `when:` date is between today and today+14
-   - INCLUDE if `due:` date is between today and today+14
-   - SKIP `someday` items
-   - SKIP tasks with no date tags
-3. Sort by earliest date (when or due)
-4. Group by section heading
+```bash
+todo-cli upcoming
+```
 
 ### `/todo overdue`
 
-Show tasks past their deadline.
-
-**Logic:**
-1. Get today's date
-   - If date command fails, skip with "Overdue unavailable (date error)".
-2. For each unchecked line:
-   - INCLUDE if `due:` date < today
-3. Sort by how overdue (most overdue first)
+```bash
+todo-cli overdue
+```
 
 ### `/todo someday`
 
-Show deferred tasks.
-
-**Logic:** Show all unchecked lines containing `` `someday` ``, grouped by section.
+```bash
+todo-cli someday
+```
 
 ### `/todo all`
 
-Show all unchecked items regardless of date tags. This is the old default behaviour.
+```bash
+todo-cli all
+```
+
+### `/todo spare`
 
 ```bash
-grep -n "^\- \[ \]" ~/notes/TODO.md
+todo-cli spare
 ```
-If no lines are returned, report "No open tasks."
+
+### `/todo stats`
+
+```bash
+todo-cli stats
+```
 
 ### `/todo add <task>`
 
@@ -169,8 +155,11 @@ If no unique match is found, ask for a narrower match and do not modify files.
 
 ### `/todo clean`
 
-Move all checked items (`- [x]`) to `~/notes/TODO Archive.md` under the current month's section (e.g. `## March 2026`), appending to an existing section if present or creating a new one. Then remove all `[x]` lines from TODO.md and collapse any resulting double blank lines.
-If archive write fails, do not remove checked items from TODO.md.
+```bash
+todo-cli clean
+```
+
+Moves all `[x]` items to `~/notes/TODO Archive.md` under the current month's section.
 
 ### `/todo spare`
 

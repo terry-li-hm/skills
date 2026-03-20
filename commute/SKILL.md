@@ -29,9 +29,17 @@ Phone-friendly (Blink/tmux). Target: one bus ride. No deep reflection — captur
 
 ## Steps
 
+### 0. Context Gather
+
+```bash
+commute-gather
+```
+
+This runs all deterministic gathering in parallel (inbox, WhatsApp, calendar, TODO, NOW, budget, reminders, email threads, prospective memory). Review the output, then proceed through steps using the gathered context.
+
 ### 1. Inbox triage (full)
 
-Run in parallel:
+Use the email/WhatsApp sections from `commute-gather` output. If details are insufficient, drill in:
 ```bash
 cora brief                                              # list all briefs — check for unread
 gog gmail search "in:inbox" --limit 30                  # full inbox

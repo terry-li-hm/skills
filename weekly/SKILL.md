@@ -21,13 +21,17 @@ Lead with **forward** (what matters next week), support with **backward** (what 
 
 ## Workflow
 
+### 0. Context Gather
+
+```bash
+weekly-gather
+```
+
+This runs all deterministic gathering in parallel (next week's calendar, TODO filtering, NOW.md, quarterly note, daily note scraping for Commute Close sections, Oura trends, job alerts, garden posts). Use `--json` for structured parsing.
+
 ### 1. Next week's plan (lead with this)
 
-Check in parallel:
-- **Calendar** — what's fixed next week? Meetings, deadlines, appointments
-- **TODO.md** — items with `due:` or `when:` in the coming week
-- **NOW.md** — open gates, active priorities
-- **Quarterly note** (if exists) — what did you commit to this quarter?
+Using the gathered context — calendar, TODO items due this week, NOW.md gates, quarterly note:
 
 Then ask Terry: **"What are the 3 things that matter this week?"**
 
@@ -35,9 +39,7 @@ Don't suggest — let him pick. The act of choosing is the value. Write them int
 
 ### 2. Quick backward glance
 
-Read in parallel:
-- **Daily notes** — `~/notes/Daily/YYYY-MM-DD.md` for each day. Pull `## Commute Close` sections only.
-- **Oura trend** — `oura trend --days 7` for health scores
+Use the daily note Commute Close sections and Oura trends from `weekly-gather` output.
 
 Synthesize into **maximum 2-3 themes.** Don't linger — this is context for planning, not a retrospective.
 

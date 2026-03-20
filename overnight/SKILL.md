@@ -37,21 +37,18 @@ Check results from the overnight legatus runs. Each task runs as its own LaunchA
 
 ## Default: Show Morning Brief
 
-Find and read the latest morning-dashboard output:
-
 ```bash
-LATEST=$(ls -dt ~/.cache/legatus-runs/2[0-9]*/ 2>/dev/null | head -1)
-cat "$LATEST/morning-dashboard/stdout.txt" 2>/dev/null || echo "No morning dashboard found"
+overnight-gather brief
 ```
 
-Present as a scannable summary. Flag anything marked NEEDS_ATTENTION.
+This finds the latest morning-dashboard output and flags NEEDS_ATTENTION lines. Present as a scannable summary. Use `--json` for structured parsing.
 
 ## Results: Drill Into Individual Tasks
 
 ```bash
-LATEST=$(ls -dt ~/.cache/legatus-runs/2[0-9]*/ 2>/dev/null | head -1)
-ls "$LATEST"                              # see which tasks ran
-cat "$LATEST/<taskname>/stdout.txt"       # read specific task output
+overnight-gather results                  # list all tasks with status
+overnight-gather results --task <name>    # read specific task output
+overnight-gather list                     # show last 5 runs with pass/fail
 ```
 
 ## Add: New Task
