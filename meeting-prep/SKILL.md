@@ -35,7 +35,10 @@ If the user provides a meeting description, use it directly. If they reference a
 - `~/notes/TODO.md` — for meeting-specific context and deadlines
 - Any person-specific or company-specific notes the user mentions
 
-Also read `~/notes/CLAUDE.md` for Terry's background summary if not already in context.
+Also read these for Terry's personal background and career context:
+- `~/notes/Capco/Capco Transition.md` — current role, transition context, Capco engagement
+- `~/notes/CNCBI Project Facts.md` — CNCBI project history, achievements, key facts
+- `~/notes/Core Story Bank.md` — STAR-format behavioral stories for behavioral questions
 
 ### 2. Generate Question
 
@@ -102,7 +105,7 @@ Ask if they want to save. If yes, save to `~/notes/Meeting Prep - [Context].md` 
 ## Error Handling
 
 - **If no meeting context given**: Ask via AskUserQuestion — "Which meeting are you prepping for?" with recent upcoming meetings from TODO.md as options
-- **If referenced note doesn't exist**: Fall back to user's description + general background from CLAUDE.md
+- **If referenced note doesn't exist**: Fall back to user's description + background from `~/notes/Capco/Capco Transition.md` and `~/notes/CNCBI Project Facts.md`
 - **If user wants to stop mid-session**: Show partial summary with talking points so far
 
 ## Output

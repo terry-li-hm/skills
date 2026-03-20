@@ -32,7 +32,7 @@ digest --dry-run
 # Run full digest (transcripts + insight extraction)
 digest
 ```
-If either command fails, note "Digest unavailable" for this month and continue to section 2.
+If either command fails (including exit 255 with an NSS certificate error — known issue, fix is agent:terry), note "Digest unavailable" for this month and continue to section 2. Do not attempt to debug the NSS error inline.
 
 Output: `~/notes/Health/{source}/{YYYY-MM} Digest.md`
 Sources configured in `~/skills/digest/sources.yaml`.
@@ -136,7 +136,7 @@ Quick scan of key financial positions — takes 2 min:
 
 a. **Mortgage rate** — check if any bank is offering ≤2.5% cap (P-2.75% at current SCB prime). Current deal: SCB H+1.3%, cap P-2.75%. Only worth switching if new cap ≤ current cap AND cashback clears the rate difference over the lock-in. Ask Emily (星之谷, WhatsApp) or search current HK mortgage rates. See [[Personal Finance Reference]].
 
-b. **SCB Prime rate** — verify still 5.25% (affects your cap). Check SCB website or `pplx search "Standard Chartered HK prime rate"`.
+b. **SCB Prime rate** — verify still 5.25% (affects your cap). Check SCB website or use the WebSearch tool: search `Standard Chartered HK prime rate 2026`.
 
 c. **Credit card balances** — any unpaid statement balances? (CCBA, SCB, BOC)
 If rate/search sources are unavailable, note "Finance check partial" and avoid firm recommendations.
