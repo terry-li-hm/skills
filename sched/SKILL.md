@@ -101,7 +101,7 @@ gog calendar add primary --summary "AIA call - Tommy Lau" --from "2026-03-06T10:
 - **LaunchAgent `com.terry.due-snapshot`** auto-runs `moneo snapshot` every 5 min — git-commits DB state to `~/officina/backups/due-reminders.json` only when changed. Requires Full Disk Access granted to `~/bin/moneo` in System Settings → Privacy & Security.
 - `moneo log` reads Due's `lb` table — includes both Mac and iPhone completions/dismissals. iPhone entries appear after CloudKit sync (typically <5 min). Note: `lb` records dismissals, not just true completions — no distinction available from DB.
 - **`moneo edit --at <time>` resets the date to today**, even if the reminder was set for a future date. To change only the time on a future reminder, always use `--date YYYY-MM-DD --at HH:MM` together.
-- `moneo rm` does not sync deletions to iPhone — delete in Due on iPhone directly
+- ⚠ `moneo rm` does not sync deletions to iPhone — delete in Due on iPhone directly
 - `moneo rm "<pattern>"` — batch delete by title pattern (case-insensitive). No `--title` flag — pattern is a positional arg.
 - Same title at different times on the same day is allowed. Same title at the same time on the same day is rejected.
 - Due uses CloudKit (not iCloud Drive). Direct file edits bypass CloudKit — always use `moneo add`.

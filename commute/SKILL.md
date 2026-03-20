@@ -84,7 +84,7 @@ Capture to today's daily note. One or two exchanges max. The goal is to get it o
 
 Quick scan:
 - Read today's daily note (`~/notes/Daily/YYYY-MM-DD.md`) for session logs from `/legatum`
-- If empty/missing, delegate history scan to a subagent (haiku): `python ~/scripts/chat_history.py --full`
+- If empty/missing, delegate history scan to a subagent (haiku): `python3 ~/scripts/chat_history.py --full`
 - Write a 2-3 line summary to the daily note
 
 ### 5. Tomorrow prep
@@ -97,7 +97,7 @@ Run in parallel:
 
 If meetings tomorrow: one-line prep note for each.
 
-**Thursday only:** Weekly token reset tomorrow ~11am HKT. Run `cu` — if significant headroom remains, flag it.
+**Thursday only:** Weekly token reset tomorrow ~11am HKT. Run `usus --json` — if significant headroom remains, flag it.
 
 ### 6. Daily note close
 
@@ -142,11 +142,10 @@ Then: **"You're done. Evening is yours."**
 
 At start, read in parallel:
 - `[[Email Threads Tracker]]` (`~/notes/Email Threads Tracker.md`)
-- `memory/prospective.md` — check for `WHEN: email triage` or `WHEN: commute` entries
+- `~/officina/claude/memory/prospective.md` — check for `WHEN: email triage` or `WHEN: commute` entries
 - Today's daily note
 
 ## See also
 
 - `/auspex` — optional morning brief (weather, calendar)
-- `/statio` — start-of-work at the desk (priorities, gates)
 - `/kairos` — ad-hoc "what now?"

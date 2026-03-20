@@ -1,6 +1,6 @@
 ---
 name: legatum
-description: Session state transfer — bequeath volatile context to durable storage before session death. Learning capture, TODO sweep, session log. Use at gear shifts (checkpoint mode) or before /clear (full mode). NOT a daily routine — use eow/daily for day-level closures. Aliases "wrap", "legatum".
+description: Session state transfer — bequeath volatile context to durable storage before session death. Learning capture, TODO sweep, session log. Use at gear shifts (checkpoint mode) or before /clear (full mode). NOT a daily routine — use commute for end-of-work closure. Aliases "wrap", "legatum".
 user_invocable: true
 allowed-tools:
   - Bash
@@ -57,7 +57,7 @@ This runs all deterministic checks (dirty repos, skill sync, MEMORY.md budget, N
 
 **Three questions (not five):**
 1. **Uncommitted?** Dirty repos *touched this session*? → commit.
-2. **Deferred?** Anything mentioned as "later/next/TODO" not yet captured? Route: deadline → TODO.md, context trigger → `memory/prospective.md`, neither → daily note.
+2. **Deferred?** Anything mentioned as "later/next/TODO" not yet captured? Route: deadline → TODO.md, context trigger → `~/officina/claude/memory/prospective.md`, neither → daily note.
 3. **Garden + arsenal?** Replay the session arc. What did we *learn*, not just *do*? What principle emerged?
    - **Tweet test:** Any claim sharp enough to survive 280 chars? Draft it — the compression forces rigour. Post freely (asymmetric downside: viral compounds, zero-likes invisible). If it survives, expand to garden post.
    - **Garden test:** Non-obvious insight, clear thesis, Terry's lane? → publish via `sarcio`.
@@ -123,13 +123,13 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 **MEMORY.md ≥145 lines →** demote lowest-recurrence entry to overflow.
 
 **Experiment scan (30 seconds):**
-Did this session run experiments, produce findings, or write results to `~/notes/Reference/consulting/` or `~/notes/Reference/development/`? Check for vault files with "Key Finding", "Results", or "Conclusion" sections written this session. For each: does a corresponding `memory/finding_*.md` file exist? If not → write one now (2-4 sentences: what was tested, what was found, what it implies). Use `type: finding` in frontmatter. The vault doc is for depth; the memory file is for agent recall in future sessions.
+Did this session run experiments, produce findings, or write results to `~/notes/Reference/consulting/` or `~/notes/Reference/development/`? Check for vault files with "Key Finding", "Results", or "Conclusion" sections written this session. For each: does a corresponding `~/officina/claude/memory/finding_*.md` file exist? If not → write one now (2-4 sentences: what was tested, what was found, what it implies). Use `type: finding` in frontmatter. The vault doc is for depth; the memory file is for agent recall in future sessions.
 
 **Self-scan (30 seconds, no agents):**
 1. Any CLAUDE.md rule violated AND caused worse outcome?
 2. Anything compound that wasn't captured?
 3. Garden posts 3+? → flag for quality cull.
-4. Any experiment findings persisted to vault/garden but not to `memory/`?
+4. Any experiment findings persisted to vault/garden but not to `~/officina/claude/memory/`?
 
 **All file writes must complete before the output.**
 

@@ -15,19 +15,11 @@ triggers:
 
 *Kairos* (Greek: καιρός) — qualitative time, not clock time. Not "what time is it?" but "given this moment, what's the right action?"
 
-Unlike `auspex` (morning delta) or `cardo` (midday reflection), Kairos is stateless and anytime. No session scanning, no reflection on what shipped — just the live situation and what to do next.
+Unlike `auspex` (morning delta), Kairos is stateless and anytime. No session scanning, no reflection on what shipped — just the live situation and what to do next.
 
 **Design principle:** Kairos is the single entry point for "what now?" Every automated system (speculor, praeco, cron jobs) feeds into kairos — Terry never needs to remember what's running. When he says "should I check X?", confirm the system already covers it or flag the gap as a build signal. New tools surface through kairos, not their own invocation.
 
 **Task routing:** When surfacing items, distinguish committed vs uncommitted paths, flag zombie tasks (snoozed 3+ times), and bias toward dropping rather than escalating.
-
-## Triggers
-
-- "kairos"
-- "what now"
-- "what should I do"
-- "what's next"
-- "priority check"
 
 ## Live Context (injected at invocation)
 
@@ -51,14 +43,14 @@ Already injected via NOW.md. Pull open decisions (not `[decided]` or `[done]`)
 - Pull any active processes or waiting-on states
 - If a PID is mentioned, skip process check — too slow for a quick snapshot
 
-### 4. LinkedIn job alerts (post-noon only)
+### 3. LinkedIn job alerts (post-noon only)
 
 If current time is after 12:00 HKT, check `~/notes/Job Hunting/Job Alerts YYYY-MM-DD.md`:
 - Count unchecked flagged roles (`- [ ]` lines)
 - If any exist, surface briefly: "X job alerts flagged — `/evaluate-job` when you have a moment"
 - Skip silently if file missing or all items checked
 
-### 5. Overdue and today's TODO items
+### 4. Overdue and today's TODO items
 
 Read `~/notes/TODO.md`.
 
@@ -69,7 +61,7 @@ Read `~/notes/TODO.md`.
 - Skip `someday` items, skip items due later in the week
 - Max 5 items — if more qualify, pick the most time-sensitive
 
-### 6. Synthesise — time-aware routing
+### 5. Synthesise — time-aware routing
 
 Based on current time and what was found:
 
@@ -106,18 +98,16 @@ One short paragraph. No headers, no bullets unless there are 3+ overdue items. L
 
 ## Notes
 
-- Do NOT scan anam/session history — that's cardo's job. Kairos is forward-looking.
+- Do NOT scan anam/session history. Kairos is forward-looking.
 - Do NOT reflect on what was shipped this session. Pure situational read.
 - If keychain is locked and gog fails, note it and skip calendar gracefully.
 - Keep it under 5 sentences. The point is to decide and move, not to read a report.
-- If the user just ran `auspex` or `cardo` recently (same session), skip NOW.md/TODO repeat and just surface what's changed: new calendar events or new open gates since then.
+- If the user just ran `auspex` recently (same session), skip NOW.md/TODO repeat and just surface what's changed: new calendar events or new open gates since then.
 
 ## Boundaries
 
-- Do NOT scan anam/session history; `/cardo` owns reflection.
 - Do NOT mutate files (TODO/NOW/daily); this skill is read-only situational routing.
 - Do NOT run deep research or inbox triage; only time/calendar/NOW/TODO snapshot.
 
 ## Called by
 - `auspex` — today's plate section
-- `cardo` — afternoon priorities section

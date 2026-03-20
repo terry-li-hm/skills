@@ -28,7 +28,7 @@ Scenario-based drill for upcoming meetings. Generates likely questions, objectio
 
 If the user provides a meeting description, use it directly. If they reference a note or person, read the relevant vault files:
 
-- `~/notes/Capco Transition.md` — if Capco/HSBC-related
+- `~/notes/MOC - Capco & HSBC Engagement.md` — if Capco/HSBC-related
 - `~/notes/Job Hunting.md` — CV narrative, comp, story framing
 - `~/notes/Interview Q&A Bank.md` — prepared answers for common questions
 - `~/notes/Core Story Bank.md` — STAR-format behavioral stories
