@@ -232,17 +232,26 @@ tags: []
 
 ## Ontology Injection
 
-Before generating any note, run:
-```bash
-grep -r "^tags:" ~/notes/ --include="*.md" --max-count=1 | cut -d: -f2 | tr ',' '\n' | sort -u | head -50
-```
-If grep returns nothing or fails, use empty tags and continue.
+Before generating any note, use the Grep tool to collect existing tags from the vault:
 
-Also check for relevant MOCs:
-```bash
-find ~/notes -maxdepth 1 -name "*MOC*.md" 2>/dev/null; find ~/notes/Maps -maxdepth 1 -name "*.md" 2>/dev/null
 ```
-If this lookup fails, skip MOC linking.
+Grep tool:
+  pattern: "^tags:"
+  path: ~/notes/
+  glob: "*.md"
+  head_limit: 20
+```
+
+Parse the returned lines (e.g. `tags: [ai, consulting, tools]`) to build the set of existing tags. If the lookup returns nothing or fails, use empty tags and continue.
+
+Also check for relevant MOCs using the Glob tool:
+
+```
+Glob tool: ~/notes/*MOC*.md
+Glob tool: ~/notes/Maps/*.md
+```
+
+If this lookup fails or returns nothing, skip MOC linking.
 
 **Rule:** Only use tags that already exist in vault. Never invent new tags. If no existing tag fits, leave tags empty — better than fragmenting the graph.
 
