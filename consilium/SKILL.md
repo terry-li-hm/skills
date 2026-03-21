@@ -50,7 +50,6 @@ runtime: rust
 ```
 Single correct answer? → Web search or ask Claude directly
 Personal preference / physical / visual? → Try it in person
-Measurable outcome? → judex (run the experiment)
 Need perspectives without debate? → --quick
 Binary for/against? → --oxford
 Stress-testing a plan? → --redteam
@@ -85,8 +84,6 @@ export OPENROUTER_API_KEY=$(security find-generic-password -s openrouter-api-key
 ## Running the Council
 
 ### Step 0: Suitability check
-
-**consilium or judex?** If the outcome is measurable (build passes, benchmark faster, quality checkable) → `judex`. Deliberation is for decisions you can't measure.
 
 Check the routing table above. If it falls in "Skip", redirect.
 

@@ -11,8 +11,7 @@ From Latin *specula* — watchtower. Systematic reconnaissance of what peers and
 ## When to Use
 
 - **Monthly** — as part of `/monthly` review. Scheduled scan of key domains.
-- **Ad-hoc** — entering a new domain, starting a new project, feeling behind, or when curiosity strikes.
-- **Triggered by organon** — when "what are others doing?" is the fastest path to ground truth.
+- **Ad-hoc** — entering a new domain, starting a new project, feeling behind, or when curiosity strikes. Invoke directly via `/specula`.
 
 ## The Process
 
@@ -113,7 +112,6 @@ A good specula scan produces **at least 3 actionable patterns** with concrete "h
 
 ## Relationship to Other Skills
 
-- **organon** — routes here when "what are others doing?" is the question
 - **dialexis** — AI landscape awareness for consulting conversations (different purpose: staying current vs pattern extraction)
-- **[[analogical-transfer]]** — cross-domain transfer (specula is same-domain; mimesis is cross-domain)
+- **[[analogical-transfer]]** — cross-domain transfer (specula is same-domain; analogical-transfer is cross-domain)
 - **[[mental-models]]** — universal patterns discovered by specula may become topica entries

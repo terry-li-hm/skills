@@ -214,7 +214,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | AI governance consulting | `[[gubernatio]] (Reference)` | 1 | rector, meeting-prep, capco-prep, consilium | "Governance Is a Tax" |
 | Regulatory comparison | `[[regulatio]]` | 1 | meeting-prep, capco-prep, [[gubernatio]] (Reference) | — |
 | Technical credibility | [[auctoritas]] (Reference) | 1 | meeting-prep, capco-prep, [[career-communication]], [[gubernatio]] (Reference) | — |
-| Agent team orchestration | `cohors` | 1 | copia, rector, mandatum, heuretes, opifex | — |
+| Agent team orchestration | archived (skill deleted) | 1 | copia, rector, mandatum, heuretes, opifex | — |
 | Deployed system verification | `[[deployed-system-verification]]` | 1 | verify (rules), peira, [[mental-models]] | "The Pipeline Paradox" |
 | Consulting communication | `[[relatio]]` | 1 | [[communication-cognition]], meeting-prep, capco-prep, [[gubernatio]] (Reference), [[career-communication]], auctoritas, stilus | — |
 | Representation shifting | `[[representation-shifting]]` | 1 (specimen) | diagnosis, [[creativity]], [[communication-cognition]], [[mental-models]], [[analogical-transfer]] | — |
@@ -229,7 +229,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Categories are provisional | `sunyata` | 1 (specimen) | aporia, metanoia, [[mental-models]], systema, parsimonia | — |
 | Find what doesn't change | `invariance` | 1 (specimen) | metanoia, reductio, sunyata, systema | — |
 | Excessive analysis pathology | `prescience` | 1 (specimen) | reductio, aporia, adversaria, nishkama, wuwei | — |
-| Management for agent teams | cohors §2,3,4,6,8 + delegation-theory (enrichment) | 1 (4 specimens: Grove, Drucker, Deming, Weinberg) | cohors, mandatum, rector, opifex, heuretes | — |
+| Management for agent teams | archived (skill deleted) + delegation-theory (enrichment) | 1 (4 specimens: Grove, Drucker, Deming, Weinberg) | mandatum, rector, opifex, heuretes | — |
 | Cadence design | `[[cadence-design]]` | 1 (Newport + practice) | commute, weekly, monthly, quarterly, planning-theory, self-regulation | — |
 
 ## Relationship to Other Skills

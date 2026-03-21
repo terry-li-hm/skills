@@ -21,7 +21,7 @@ Analyze LinkedIn job postings against user's background, current pipeline health
    **WebFetch limitations on LinkedIn:**
    - Misses **applicant stats** (count, seniority breakdown) — requires being logged in
    - Cannot distinguish LinkedIn's estimated salary range from employer-disclosed salary. Mark any salary as `(LinkedIn estimate — not employer-disclosed)` unless the JD text explicitly states the range
-   - If applicant stats or salary attribution matter, use agent-browser (see nauta skill for LinkedIn navigation pattern)
+   - If applicant stats or salary attribution matter, use agent-browser.
 
    **LinkedIn agent-browser pattern (Mar 2026):**
    - `wait --load networkidle` times out — use `wait 4000` (fixed ms)

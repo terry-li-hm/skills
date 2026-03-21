@@ -156,6 +156,5 @@ Research agents SendMessage findings to the synthesizer for incorporation. Shut 
 
 ## See Also
 
-- [[multi-model-refinement]] — reference doc with pattern theory
 - consilium — for decisions/judgment (deliberation, not refinement)
 - copia — for overnight autonomous work (different pattern)
