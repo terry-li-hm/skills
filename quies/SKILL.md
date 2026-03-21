@@ -71,12 +71,12 @@ Ask: *"Anything blocking you from putting the phone down?"*
 
 Remind if relevant: lying awake >20min → get up, dim light, no screens, back when sleepy.
 
-### 6. Optional — nyx tomorrow
+### 6. Optional — sopor tomorrow
 
 Only if Terry had a notable night (poor sleep flagged, travel, alcohol, late night):
 
 ```bash
-nyx
+sopor
 ```
 
 Offer to check tomorrow morning. Don't run now — data isn't in yet.
@@ -85,9 +85,9 @@ Offer to check tomorrow morning. Don't run now — data isn't in yet.
 
 - Do NOT review TODO.md or task lists — that's `/eow` territory
 - Do NOT surface new work items — wind-down direction only
-- Do NOT run `nyx` during quies — data for tonight isn't captured yet
+- Do NOT run `sopor` during quies — data for tonight isn't captured yet
 - Stop after Step 5 (or 6 if relevant). Do not loop back.
 
 ## Calls
 - `due` — if adding a reminder during the ritual
-- `oura` / `nyx` — tomorrow morning follow-up only
+- `oura` / `sopor` — tomorrow morning follow-up only

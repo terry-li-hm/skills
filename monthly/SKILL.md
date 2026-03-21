@@ -35,7 +35,7 @@ digest
 If either command fails (including exit 255 with an NSS certificate error — known issue, fix is agent:terry), note "Digest unavailable" for this month and continue to section 2. Do not attempt to debug the NSS error inline.
 
 Output: `~/notes/Health/{source}/{YYYY-MM} Digest.md`
-Sources configured in `~/skills/digest/sources.yaml`.
+Sources configured in `~/.config/lustro/sources.yaml`.
 
 ### 2. AI Thematic Digest
 
@@ -64,11 +64,10 @@ Run `/dialexis` in monthly mode (deep review, not weekly synthesis):
 
 ### 4. Skill Review
 
-Run `/skill-review`:
-- Audit skills for staleness, drift, gaps
-- Check skill count and recent changes
-- Flag skills not invoked in 30+ days
-- If `/skill-review` is unavailable, run a minimal fallback: `ls ~/skills/*/SKILL.md | wc -l` and `git -C ~/skills log --oneline --since="30 days ago"`.
+Run a minimal skill audit:
+- `ls ~/skills/*/SKILL.md | wc -l` — check total skill count
+- `git -C ~/skills log --oneline --since="30 days ago"` — review recent changes
+- Flag skills not updated in 30+ days that may have drifted
 
 ### 5. Source Health Check
 

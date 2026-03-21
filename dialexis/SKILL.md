@@ -40,7 +40,7 @@ Run every Friday or on demand.
 ### Step 1: Gather
 
 - Read `[[AI News Log]]` entries from the past 7 days
-- Check `/lustro` state: `~/.cache/lustro-state.json` for last scan
+- Check `/lustro` state: `~/.cache/lustro/state.json` for last scan
 - If log is stale (>3 days no entries), flag cron issue but proceed with what's there
 - **Always supplement with 2-3 WebSearches** to backfill gaps (crons break, log may be partial):
   - "AI news banking financial services [month] [year]"
