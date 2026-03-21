@@ -43,10 +43,10 @@ Generate evidence-grounded thematic digest from archived AI news articles.
 
 ```bash
 # Preview themes (fast, no synthesis)
-~/.local/bin/lustro --dry-run
+~/.local/bin/lustro digest --dry-run
 
 # Full run — produces evidence briefs
-~/.local/bin/lustro
+~/.local/bin/lustro digest
 ```
 If script execution fails, mark AI thematic digest as skipped and continue.
 
@@ -93,7 +93,6 @@ a. **Solutions KB** — regenerate index (`python3 ~/scripts/generate-solutions-
 b. **Decay report** — `uv run ~/scripts/vault-decay-report.py` for orphans/cold notes
 c. **Daily note archival** — archive notes >60 days old to `~/notes/.archive/dailies/`
 d. **Broken links** — verify `[[wikilinks]]` in CLAUDE.md still resolve
-e. **QMD reindex** — `qmd update && qmd status` (run `qmd embed` in background if stale)
 If any sub-step fails, record which sub-step failed and continue with the rest.
 
 ### 7. Oghma Hygiene
