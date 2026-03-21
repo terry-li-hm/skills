@@ -6,299 +6,73 @@ user_invocable: true
 
 # Analyze
 
-Universal entry point for anything user shares — URL or pasted content. Detects input type, routes to appropriate handler or graceful fallback. One skill for all analysis.
+Universal entry point for anything user shares — URL or pasted content.
 
-## Workflow
-
-1. **Detect Input Type**
-   - Starts with `http://` or `https://` → URL, go to step 2
-   - Otherwise → pasted content, treat as article (step 3)
-
-2. **Fetch & Classify URL** — Get content, detect type from URL pattern + page structure
-   - If fetch fails (auth wall/network/tool error), ask user to paste content. If user cannot, output a skip with reason.
-
-3. **Route** — Send to appropriate handler (specialized, lightweight, or fallback)
-
-4. **Ontology Injection** — Before generating note, grep vault for existing tags/MOCs to use
-
-5. **Save** — Write note with type-appropriate YAML frontmatter
-
-6. **Log** — Append to telemetry for future optimization
-
-## Content Type Detection
+## Input Routing
 
 | Pattern | Type | Handler |
 |---------|------|---------|
 | `github.com/*/*` | repo | Lightweight |
 | `linkedin.com/jobs/*` | job | → `/evaluate-job` |
-| `linkedin.com/company/*` | company | Lightweight |
+| `linkedin.com/company/*`, career pages | company | Lightweight |
 | `linkedin.com/in/*` | profile | Lightweight |
-| `*.substack.com`, `medium.com/*`, `*blog*` | article | Specialized |
+| `*.substack.com`, `medium.com/*`, `*blog*`, pasted text | article | Specialized |
 | `arxiv.org/*`, `papers.*`, `*.pdf` | paper | Specialized |
-| `youtube.com/*`, `youtu.be/*` | video | → `video-digest` CLI |
-| `bilibili.com/*`, `b23.tv/*` | video | → `video-digest` CLI |
-| `xiaoyuzhoufm.com/*` | podcast | → `video-digest` CLI |
-| `podcasts.apple.com/*` | podcast | → `video-digest` CLI |
-| `x.com/i/broadcasts/*` | broadcast | → `video-digest` CLI (Step 1f) |
-| `.mp3`, `.mp4`, `.m4a` direct links | media | → `video-digest` CLI |
-| Company career/about pages | company | Lightweight |
-| Everything else | unknown | Check content, then fallback |
+| `youtube.com/*`, `youtu.be/*`, `bilibili.com/*`, `b23.tv/*`, `xiaoyuzhoufm.com/*`, `podcasts.apple.com/*`, `x.com/i/broadcasts/*`, `.mp3/.mp4/.m4a` | video/podcast | → `video-digest` CLI |
+| Everything else | unknown | Fetch, classify by content signals |
 
-**Fallback logic:** If URL pattern unclear, fetch content and look for signals:
-- Has "Key Ideas" / thesis structure → article
-- Has job requirements / responsibilities → job
-- Has code/commits/stars → repo
-- Otherwise → unclassified
+**Fetch failure:** ask user to paste. If both fail: `Skip — content unavailable`.
 
-## Three-Tier Handlers
+**Fallback signals:** "Key Ideas"/thesis structure → article; requirements/responsibilities → job; code/commits/stars → repo.
 
-### Tier 1: Specialized (full evaluation)
+## Skip Logic
 
-**Articles** (URLs or pasted content):
+Before creating a note, check:
+- Login wall with no content → skip
+- Pure marketing/announcement, no insight → skip
+- Already exists in vault (check by URL) → skip
 
-Worth Noting check first:
+On skip: `**Skip** — [reason] / Domain: [source]`
+
+**Article worth-noting gate:**
+
 | NOTE | SKIP |
 |------|------|
-| Novel ideas, frameworks | Marketing fluff |
-| Relevant to work/interests | Paywalled with no content |
-| Contrarian or well-argued | Beginner explainers |
-| Actionable insights | News without insight |
+| Novel ideas, frameworks, contrarian arguments | Marketing fluff |
+| Relevant to work/interests, actionable | Beginner explainers, news without insight |
 
-If NOTE, choose depth based on content substance:
+## Handlers
 
-**Standard** (most articles) — quick vault note:
-```yaml
----
-source: [URL or "pasted content"]
-type: article
-author: [if known]
-date_read: [today]
-tags: []
----
+**Articles:** Standard (most) — frontmatter + Key Ideas (3-5 bullets) + My Take (2-4 sentences). Deep (long-form, technical, or explicit request) — add Core Arguments, Tools & Methods, Risks & Warnings, Mental Model Shifts, Action Items. Scan all deep dimensions; only write those with actual content.
 
-## Key Ideas
-- [3-5 bullets, dense, no fluff]
+**Repos:** frontmatter (language, stars, last\_commit, license) + Overview (1-2 sentences) + Signals (activity/quality/relevance).
 
-## My Take
-[2-4 sentences: why this matters, connections, critique]
-```
+**Company pages:** frontmatter (industry, size, stage) + Overview + Signals (tech stack, culture, red flags).
 
-**Deep** (use when: content is long-form, technical, or user says "analyze deeply" / "deep analysis") — multi-dimensional breakdown. Scan all dimensions but only output those with actual content:
+**Profiles:** frontmatter (name, role, company, connection\_context) + Background + Notes (why saving).
 
-```yaml
----
-source: [URL or "pasted content"]
-type: article
-author: [if known]
-date_read: [today]
-tags: []
-analysis_depth: deep
----
+**Videos/podcasts:** route to `video-digest` CLI. Apply deep analysis after transcript if user requests analysis.
 
-## Summary
-[1-3 sentence core thesis]
-
-## Core Arguments
-- **Thesis**: [Main argument or finding]
-- **Evidence**: [Supporting data or reasoning]
-- **Strength**: [How convincing? What's missing?]
-
-## Tools & Methods
-- [Tools, frameworks, or techniques mentioned — what they are, how applied]
-- [Relevance to current work/projects]
-
-## Workflow Ideas
-- [Process improvements or automation opportunities from the content]
-
-## Data & Numbers
-- [Key metrics, trends, gaps in data]
-
-## Risks & Warnings
-- [Author's stated risks + blind spots + counter-arguments]
-
-## Resources
-- [Tools/APIs, people worth following, further reading mentioned]
-
-## Mental Model Shifts
-- **Before**: [Common assumption]
-- **After**: [New understanding from this content]
-
-## Action Items
-
-### Quick wins (under 30 min)
-- [ ] [Action] — Impact: high/med/low | Effort: easy
-
-### Deeper work (1-3 hours)
-- [ ] [Action] — Impact: high/med/low | Effort: medium
-
-### Exploration (needs validation)
-- [ ] [Action] — Impact: uncertain | Effort: hard
-```
-
-If SKIP:
-> **Skip** — [reason]
-> TL;DR: [2-3 sentence gist]
-
-**Jobs** — Route to `/evaluate-job`
-
-### Tier 2: Lightweight (basic extraction)
-
-**Repos:**
-```yaml
----
-source: [URL]
-type: repo
-fetched_at: [timestamp]
-language: [primary language]
-stars: [count]
-last_commit: [date]
-license: [if present]
-related_company: [if identifiable]
-tags: []
----
-
-## Overview
-[1-2 sentence description from README]
-
-## Signals
-- **Activity:** [active/stale/abandoned based on commit recency]
-- **Quality:** [docs, tests, CI badges]
-- **Relevance:** [why this matters for interview prep / learning]
-```
-
-**Company Pages:**
-```yaml
----
-source: [URL]
-type: company
-fetched_at: [timestamp]
-company: [name]
-industry: [sector]
-size: [if available]
-stage: [startup/growth/enterprise]
-tags: []
----
-
-## Overview
-[What they do, 2-3 sentences]
-
-## Signals
-- **Tech Stack:** [if mentioned]
-- **Culture:** [any signals from about/careers]
-- **Red Flags:** [if any]
-```
-
-**Profiles (LinkedIn):**
-```yaml
----
-source: [URL]
-type: profile
-fetched_at: [timestamp]
-name: [person name]
-role: [current title]
-company: [current company]
-connection_context: [why relevant - recruiter, hiring manager, etc.]
-tags: []
----
-
-## Background
-[Brief summary of experience]
-
-## Notes
-[Why saving this profile - interview prep, networking, etc.]
-```
-
-**Videos / Podcasts:**
-Route to `video-digest` CLI for full transcription + structured digest. That skill handles YouTube, Bilibili, Xiaoyuzhou, Apple Podcasts, X video tweets, and direct audio files. After transcript is produced, apply deep analysis framework above if user requests analysis (not just transcription).
-
-### Tier 3: Generic Fallback
-
-For anything unclassified:
-```yaml
----
-source: [URL]
-type: unclassified
-fetched_at: [timestamp]
-domain: [source domain]
-tags: []
----
-
-## Content
-[Title and brief summary]
-
-## Why Saved
-[User's apparent intent - to review later, reference, etc.]
-```
+**Unclassified:** frontmatter (type: unclassified, domain) + Content (title + brief summary) + Why Saved.
 
 ## Ontology Injection
 
-Before generating any note, use the Grep tool to collect existing tags from the vault:
+Before generating any note:
 
-```
-Grep tool:
-  pattern: "^tags:"
-  path: ~/notes/
-  glob: "*.md"
-  head_limit: 20
-```
+1. Grep `~/notes/` for `^tags:` (glob `*.md`, head\_limit 20) — build existing tag set
+2. Glob `~/notes/*MOC*.md` and `~/notes/Maps/*.md` — find relevant MOCs
 
-Parse the returned lines (e.g. `tags: [ai, consulting, tools]`) to build the set of existing tags. If the lookup returns nothing or fails, use empty tags and continue.
-
-Also check for relevant MOCs using the Glob tool:
-
-```
-Glob tool: ~/notes/*MOC*.md
-Glob tool: ~/notes/Maps/*.md
-```
-
-If this lookup fails or returns nothing, skip MOC linking.
-
-**Rule:** Only use tags that already exist in vault. Never invent new tags. If no existing tag fits, leave tags empty — better than fragmenting the graph.
+**Rule:** Only use tags that already exist in vault. Never invent tags. If nothing fits, leave tags empty.
 
 ## Telemetry
 
-Append to `~/notes/Meta/Analyze Telemetry.md`:
+Append one row to `~/notes/Meta/Analyze Telemetry.md`:
 ```
 | [date] | [input] | [detected_type] | [confidence] | [override?] |
 ```
 
-Review weekly to see which content types need specialized handlers.
-
-## Skip Conditions
-
-Don't create a note if:
-- URL is a login wall with no content
-- Content is pure marketing fluff (announce and exit)
-- Already exists in vault (check by URL)
-
-For skips, output:
-> **Skip** — [reason]
-> Domain: [source]
-
-## Edge Cases
-
-**Hybrid content** (e.g., blog post about a repo): Ask user which type to prioritize, or create note with primary type and link to related.
-
-**Paywalled:** Report clearly, offer to wait for user to paste content.
-
-**Failed fetch:** Try WebFetch first, fall back to asking user to paste.
-If both fail, output `Skip — content unavailable`.
-
-## Integration
-
-This skill replaces `/evaluate-article`. Use `/analyze` for all content — URLs or pasted text.
-
-`/evaluate-job` remains separate for LinkedIn job URLs — this skill dispatches to it for job posts.
-
 ## Boundaries
 
-- Do NOT execute actions implied by content (for example apply jobs or send messages); analysis only.
-- Do NOT invent tags or taxonomy terms when vault ontology lookup fails.
-- Stop after note creation/logging; recommendations are optional and should stay brief.
-
-## Example
-
-> Type detected: `repo` (high confidence).  
-> Saved to `~/notes/...` with existing tags only.  
-> Key signal: active commits in last 30 days, docs + tests present.  
-> Skip reason (if any): none.
+- Analysis only — do not execute actions implied by content
+- Never invent tags when ontology lookup fails
+- Stop after note creation and telemetry; keep recommendations brief

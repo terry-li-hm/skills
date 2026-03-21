@@ -8,46 +8,29 @@ user_invocable: true
 
 The one daily routine. Everything between "leaving the office" and "walking through the door." After this, nothing work-related until tomorrow.
 
-## Triggers
-
-- commute
-- heading home
-- leaving office
-- on the bus
-- going home
-- end of day
-- eod
-- done for the day
-- end of work
-- eow
-- check emails
-- review inbox
-
 ## Design
 
-Phone-friendly (Blink/tmux). Target: one bus ride. No deep reflection — capture facts, clear queues, prep tomorrow. The commute is the trigger, not a reminder.
+Phone-friendly (Blink/tmux). Target: one bus ride. No deep reflection — capture facts, clear queues, prep tomorrow.
+
+## Context Load (parallel, before starting)
+
+- `[[Email Threads Tracker]]` (`~/notes/Email Threads Tracker.md`)
+- `~/officina/claude/memory/prospective.md` — check for `WHEN: email triage` or `WHEN: commute` entries
+- Today's daily note
 
 ## Steps
 
-### 0. Context Gather
+### 0. Gather
 
 ```bash
 commute-gather
 ```
 
-This runs all deterministic gathering in parallel (inbox, WhatsApp, calendar, TODO, NOW, budget, reminders, email threads, prospective memory). Review the output, then proceed through steps using the gathered context.
+All deterministic gathering runs here (inbox, WhatsApp, calendar, TODO, NOW, budget, reminders, email threads, prospective memory). Review output, then proceed.
 
-### 1. Inbox triage (full)
+### 1. Inbox Triage
 
-Use the email/WhatsApp sections from `commute-gather` output. If details are insufficient, drill in:
-```bash
-cora brief                                              # list all briefs — check for unread
-gog gmail search "in:inbox" --limit 30                  # full inbox
-gog gmail search "label:Cora/Action" --limit 20         # Cora-flagged actions
-gog gmail search "NOT in:inbox newer_than:7d" --limit 50  # silent miss sweep
-```
-
-Read all unread briefs via `cora brief show <id>` before triaging.
+Use `commute-gather` output. Drill in only if details are insufficient.
 
 Categorise every email:
 
@@ -56,96 +39,66 @@ Categorise every email:
 | **Action required** | Present with context, draft replies |
 | **Borderline** | One-line mention before archiving |
 | **Monitor** | Note and archive |
-| **Archive now** | Archive without presenting |
+| **Archive now** | Silent |
 
-Work through action items with Terry. Draft replies where needed. Archive noise:
-- Inbox emails → `cora email archive <id>`, verify with `gog gmail search "in:inbox"`
-- Silent miss / Cora/Action → `gog gmail thread modify <id> --remove INBOX`
-- Mark processed briefs as read: `cora brief read <id>`
-
-If `cora brief show` crashes, fallback: `porta run --domain cora.computer --selector body "https://cora.computer/14910/briefs?date=YYYY-MM-DD&time=morning"`
-
-After triage, update `[[Email Threads Tracker]]` — add new threads, update status, move resolved.
+After triage: update `[[Email Threads Tracker]]` — add new threads, update status, move resolved.
 
 ### 2. Messages
 
-- `keryx read_messages` — WhatsApp, anything needing response
+- WhatsApp via `keryx read_messages` — draft responses, never send
 - LinkedIn notifications — replies, messages from network
-- Draft responses where needed (never send WhatsApp directly)
 - If a person has history, `amicus lookup <name>` for context
 
-### 3. Brain dump
+### 3. Brain Dump
 
 Ask Terry: **"Anything still rattling around?"**
 
-Capture to today's daily note. One or two exchanges max. The goal is to get it out of his head, not to process it.
+Capture to today's daily note. One or two exchanges max. Get it out of his head, not processed.
 
-### 4. What shipped today
+### 4. What Shipped Today
 
-Quick scan:
-- Read today's daily note (`~/notes/Daily/YYYY-MM-DD.md`) for session logs from `/legatum`
-- If empty/missing, delegate history scan to a subagent (haiku): `python3 ~/scripts/chat_history.py --full`
+- Read today's daily note for `/legatum` session logs
+- If empty/missing, delegate to subagent (haiku): `python3 ~/scripts/chat_history.py --full`
 - Write a 2-3 line summary to the daily note
 
-### 5. Tomorrow prep
+### 5. Tomorrow Prep
 
-Run in parallel:
-- Calendar: check tomorrow's events via `fasti`
-- Due: `moneo ls` — surface tomorrow's items
-- TODO.md: items with `due:` or `when:` = tomorrow, plus overdue items
-- Schedule.md: recurring commitments for tomorrow's day-of-week
+Run in parallel: `fasti` (calendar), `moneo ls` (due items), TODO.md (items with tomorrow's date or overdue), Schedule.md (recurring commitments).
 
 If meetings tomorrow: one-line prep note for each.
 
-**Thursday only:** Weekly token reset tomorrow ~11am HKT. Run `usus --json` — if significant headroom remains, flag it.
+**Thursday only:** Weekly token reset ~11am HKT tomorrow. Run `usus --json` — flag significant headroom.
 
-### 6. Daily note close
+### 6. Daily Note Close
 
-Update the daily note header with thematic tagline:
-```markdown
-# YYYY-MM-DD — Day — themes, comma, separated
-```
+Header: `# YYYY-MM-DD — Day — themes, comma, separated`
 
 Append:
 ```markdown
 ## Commute Close
 
-**Shipped:** [2-3 line summary of the work day]
+**Shipped:** [2-3 line summary]
 **Tomorrow:** [key items — meetings, deadlines, prep needed]
 **Open threads:** [anything waiting on others]
-**Mood:** [one word or phrase — how the day felt]
+**Mood:** [one word or phrase]
 ```
 
-### 7. NOW.md sync
+### 7. NOW.md Sync
 
-- Update any items resolved today
-- Add any new open items that surfaced
-- Mark anything that's now blocked or waiting
+Update resolved items, add new open items, mark blocked/waiting.
 
 Then: **"You're done. Evening is yours."**
 
-## Fail states
+## Fail States
 
-- `cora brief show` crashes → porta fallback (see Step 1)
-- `gog gmail` fails (keychain locked) → note "inbox skipped" and continue
+- `cora brief show` crashes → `porta run --domain cora.computer` fallback
+- `gog gmail` fails → note "inbox skipped", continue
 - Daily note empty + history scan fails → continue with current session context, label "partial"
-- Any step fails → skip it, continue with the rest. Never block the whole routine on one failure.
+- Any step fails → skip it, never block the whole routine
 
 ## Boundaries
 
-- Do NOT send anything — draft only (WhatsApp, email, LinkedIn)
-- Do NOT do deep reflection or extended conversation — capture facts, move on
-- Do NOT create new vault notes — only update daily note, Email Threads Tracker, NOW.md
+- Draft only — never send (WhatsApp, email, LinkedIn)
+- No deep reflection or extended conversation
+- Only update: daily note, Email Threads Tracker, NOW.md
 - Nothing cognitive after walking through the door
-
-## Context loading
-
-At start, read in parallel:
-- `[[Email Threads Tracker]]` (`~/notes/Email Threads Tracker.md`)
-- `~/officina/claude/memory/prospective.md` — check for `WHEN: email triage` or `WHEN: commute` entries
-- Today's daily note
-
-## See also
-
-- `/auspex` — optional morning brief (weather, calendar)
-- `/kairos` — ad-hoc "what now?"

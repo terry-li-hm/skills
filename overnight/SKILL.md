@@ -6,38 +6,11 @@ user_invocable: true
 
 # Overnight Agent Results
 
-Check results from the overnight legatus runs. Each task runs as its own LaunchAgent on a CalendarInterval schedule — no batch runner, no polling.
-
 ## Triggers
 
 - `/overnight` — show morning dashboard brief
 - `/overnight results` — drill into individual task outputs
 - `/overnight add` — help add a new task to the queue
-
-## Architecture
-
-- **Queue file:** `~/notes/opencode-queue.yaml` — task definitions + schedule documentation
-- **Dispatcher:** `legatus run <name>` (pure dispatcher, no scheduling logic)
-- **Scheduling:** 11 individual CalendarInterval LaunchAgents in `~/officina/launchd/`
-- **Output:** `~/.cache/legatus-runs/<YYYY-MM-DD-HHMM>/<taskname>/` — one dir per dispatch
-- **Morning brief:** latest `morning-dashboard` output — see Default section below
-- **No Telegram notifications** — surface via `/overnight`, `/auspex`, `/kairos`
-
-## Schedule
-
-| Task | Time | Days |
-|------|------|------|
-| git-health | 00:30 | Daily |
-| vault-health-check | 01:00 | Daily |
-| lustro-digest | 01:30 | Daily |
-| ai-intel | 01:30 | Daily |
-| solutions-dedup | 02:00 | Sunday |
-| todo-stale-sweep | 02:15 | Sunday |
-| notes-orphan-scan | 02:30 | Sunday |
-| memory-hygiene | 02:45 | Daily |
-| docima-benchmark | 02:50 | Daily |
-| morning-dashboard | 03:30 | Daily |
-| ai-landscape-weekly | 04:00 | Saturday |
 
 ## Default: Show Morning Brief
 
@@ -45,7 +18,7 @@ Check results from the overnight legatus runs. Each task runs as its own LaunchA
 overnight-gather brief
 ```
 
-This finds the latest morning-dashboard output and flags NEEDS_ATTENTION lines. Present as a scannable summary. Use `--json` for structured parsing.
+Finds the latest morning-dashboard output and flags NEEDS_ATTENTION lines. Present as a scannable summary.
 
 ## Results: Drill Into Individual Tasks
 
@@ -54,13 +27,6 @@ overnight-gather results                  # list all tasks with status
 overnight-gather results --task <name>    # read specific task output
 overnight-gather list                     # show last 5 runs with pass/fail
 ```
-
-## Add: New Task
-
-1. Add entry to `~/notes/opencode-queue.yaml` with: name, title, backend, timeout, schedule (doc only), prompt
-2. Create a CalendarInterval plist in `~/officina/launchd/com.terry.legatus-<name>.plist`
-3. Copy to `~/Library/LaunchAgents/` and `launchctl load`
-4. Verify with: `legatus list`
 
 ## Manual Dispatch
 
@@ -71,11 +37,9 @@ legatus results <name>  # show latest output for a task
 legatus cancel <name>   # disable a task
 ```
 
-## Backends
+## Add: New Task
 
-| Backend | When | Cost |
-|---------|------|------|
-| `opencode` (default) | File analysis, local tasks | Free (GLM-5) |
-| `gemini` | Web synthesis, news, URLs | Free (1500 RPD) |
-| `claude` | Vault-aware, complex reasoning | Max20 tokens |
-| `codex` | Multi-file code tasks, Rust | Codex credits |
+1. Add entry to `~/notes/opencode-queue.yaml` (name, title, backend, timeout, schedule, prompt)
+2. Create CalendarInterval plist in `~/officina/launchd/com.terry.legatus-<name>.plist`
+3. Copy to `~/Library/LaunchAgents/` and `launchctl load`
+4. Verify with `legatus list`
