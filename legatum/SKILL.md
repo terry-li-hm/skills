@@ -42,18 +42,18 @@ If invoked at session end → **full mode**.
 ### Skip gate
 
 ```bash
-legatum gather --json
+legatum gather
 ```
 
-Parse `now.age_label`. If **"fresh"** (NOW.md <15 min old) AND user did not explicitly invoke `/legatum`, skip to Step 3 briefly, then Output. Explicit invocation always runs all steps.
+Output is compact text by default (LLM-optimized). `--json` for code, `--human` for terminal. Parse `now.age_label`. If **"fresh"** (NOW.md <15 min old) AND user did not explicitly invoke `/legatum`, skip to Step 3 briefly, then Output. Explicit invocation always runs all steps.
 
 ### Step 0: Pre-Wrap Check
 
 ```bash
-legatum gather
+legatum gather --json
 ```
 
-This runs all deterministic checks (dirty repos, skill sync, MEMORY.md budget, NOW.md age, deps, peira). Review the output, then apply judgment:
+This runs all deterministic checks (dirty repos, skill sync, MEMORY.md budget, NOW.md age, deps, peira) plus the reflection scan. All output is JSON — the LLM is the only consumer. Review the output, then apply judgment:
 
 **Three questions (not five):**
 1. **Uncommitted?** Dirty repos *touched this session*? → commit.
@@ -122,35 +122,20 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 
 **MEMORY.md ≥145 lines →** demote lowest-recurrence entry to overflow.
 
-**Reflection scan (mandatory — haiku scans transcript, you judge):**
+**Extract learnings (focused actus):**
 
 ```bash
-legatum reflect <session-id> --json
+legatum gather --syntactic | legatum extract
 ```
 
-This sends the session transcript (via `anam`) to haiku for cheap, systematic scanning across four categories. Haiku returns structured candidates. The session ID is visible in `anam today` output.
+`extract` is a focused LLM call that reviews reflection candidates with one job: decide what to file. It outputs SKIP (already known), FILE (useful for future sessions), or PRINCIPLE (generalises beyond this instance). Each candidate gets full attention — no checklist fatigue.
 
-Review each candidate. For each one worth keeping:
-- Write a memory file (`feedback`, `finding`, or `project` type)
+Review extract's recommendations. For each FILE or PRINCIPLE:
+- Write the memory file
 - Add to MEMORY.md index
+- For PRINCIPLE: consider a garden post (the compression test)
 
-**The six categories haiku scans for:**
-
-1. **Taste calibrations** — Terry corrected judgment, approach, or framing. Pushback, "you sure?", steering. The most valuable learnings are often where Claude was confidently wrong.
-
-2. **Positive feedback** — Terry confirmed a non-obvious approach. Quieter than corrections — watch for them. Prevents drift from validated approaches.
-
-3. **Discoveries / findings** — Something surprising about a system, tool, or process. Bar: "would a future session benefit?"
-
-4. **Architecture decisions** — Design choices with reasoning. Not the code (git has that) but the *why*.
-
-5. **Process gaps** — Wrong order, wrong tool, fumbled approach when the right one was available. Workflow lessons.
-
-6. **Assumption violations** — Something believed true that turned out false. Gaps between mental model and reality.
-
-**Why haiku, not inline?** The transcript is the ground truth — it catches early-session moments that fell out of the main agent's attention window. Haiku is ~$0.01 and systematic. The main agent then applies judgment to haiku's candidates (not all will be worth filing).
-
-**Trigger quality check:** After reviewing haiku's candidates, note how many were: (a) already filed by the main agent, (b) new and worth filing, (c) false positives. If (b) is consistently zero, haiku isn't earning its keep. If (b) is consistently high, the inline scan needs improvement.
+**Verify before filing.** Extract's recommendations are suggestions. Check against your own session understanding.
 
 **Experiment scan (30 seconds):**
 Did this session run experiments, produce findings, or write results to `~/notes/Reference/consulting/` or `~/notes/Reference/development/`? Check for vault files with "Key Finding", "Results", or "Conclusion" sections written this session. For each: does a corresponding `~/officina/claude/memory/finding_*.md` file exist? If not → write one now (2-4 sentences: what was tested, what was found, what it implies). Use `type: finding` in frontmatter. The vault doc is for depth; the memory file is for agent recall in future sessions.
