@@ -33,7 +33,7 @@ Run all in parallel:
 3. **Overnight results** — check both files, skip silently if missing or stale (>24h):
    - `~/.claude/nightly-health.md` — system health dashboard. Surface any warning or red rows. If all green, just say "System health: all green."
    - `~/.claude/skill-flywheel-daily.md` — skill routing misses. Surface any total misses or low hit rate.
-   - Check `~/cache/legatus-runs/` for overnight agent results — read most recent `summary.md`. Flag NEEDS_ATTENTION or CRITICAL items. Skip silently if empty.
+   - Check `~/.cache/legatus-runs/` for overnight agent results — read most recent `summary.md`. Flag NEEDS_ATTENTION or CRITICAL items. Skip silently if empty.
 
 Present everything in one compact brief.
 

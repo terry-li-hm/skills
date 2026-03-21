@@ -64,7 +64,7 @@ If >30 min exploring with no code/delegation started → flag it. One sentence: 
 | **Spec already written** | Skip to delegation with spec as prompt |
 | **Multi-file, existing codebase** | Full pipeline (below) — default for non-trivial builds |
 | Needs vault context mid-execution | `/slfg` or `subagent-driven-development` |
-| Unclear requirements | `/workflows:brainstorm` first |
+| Unclear requirements | `/compound-engineering:ce-brainstorm` first |
 
 **`--yolo` mode:** Skip plan review when ALL of: personal tool, blast radius = only Terry, spec is clear, no architecture decisions. CE research still runs.
 
@@ -149,7 +149,7 @@ GitHub backup every session: `cd ~/code/<name> && git push` (or `gh repo create 
 
 ### 6. Compound (if non-obvious solve)
 
-`/workflows:compound` — captures learnings in `~/docs/solutions/`.
+`/compound-engineering:ce-compound` — captures learnings in `~/docs/solutions/`.
 
 ## Hard Rules
 
