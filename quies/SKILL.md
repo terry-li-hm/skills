@@ -38,7 +38,7 @@ Read `~/notes/NOW.md` — look for anything unresolved that might race tonight.
 - If anything is genuinely urgent for tomorrow → note it explicitly below
 - If it can wait → name it out loud and let it go
 
-**Fail clause:** If NOW.md is stale (>24h) or missing, skip and go to Step 2.
+**Fail clause:** If NOW.md is stale (>24h) or missing, skip and go to Step 3.
 
 ### 3. Brain dump
 
@@ -89,5 +89,5 @@ Offer to check tomorrow morning. Don't run now — data isn't in yet.
 - Stop after Step 5 (or 6 if relevant). Do not loop back.
 
 ## Calls
-- `due` — if adding a reminder during the ritual
+- `moneo` — if adding a reminder during the ritual
 - `oura` / `sopor` — tomorrow morning follow-up only

@@ -3,6 +3,8 @@ name: melete
 description: Daily consulting readiness drill — scenarios, reading prompts, observation logging. "consulting prep", "prep drill", "consulting drill", "melete"
 user_invocable: true
 model: sonnet
+status: retiring
+retire_after: 2026-04-08
 ---
 
 # Consulting Prep
