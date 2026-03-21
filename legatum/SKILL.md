@@ -122,6 +122,36 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 
 **MEMORY.md ≥145 lines →** demote lowest-recurrence entry to overflow.
 
+**Reflection scan (mandatory — haiku scans transcript, you judge):**
+
+```bash
+legatum reflect <session-id> --json
+```
+
+This sends the session transcript (via `anam`) to haiku for cheap, systematic scanning across four categories. Haiku returns structured candidates. The session ID is visible in `anam today` output.
+
+Review each candidate. For each one worth keeping:
+- Write a memory file (`feedback`, `finding`, or `project` type)
+- Add to MEMORY.md index
+
+**The six categories haiku scans for:**
+
+1. **Taste calibrations** — Terry corrected judgment, approach, or framing. Pushback, "you sure?", steering. The most valuable learnings are often where Claude was confidently wrong.
+
+2. **Positive feedback** — Terry confirmed a non-obvious approach. Quieter than corrections — watch for them. Prevents drift from validated approaches.
+
+3. **Discoveries / findings** — Something surprising about a system, tool, or process. Bar: "would a future session benefit?"
+
+4. **Architecture decisions** — Design choices with reasoning. Not the code (git has that) but the *why*.
+
+5. **Process gaps** — Wrong order, wrong tool, fumbled approach when the right one was available. Workflow lessons.
+
+6. **Assumption violations** — Something believed true that turned out false. Gaps between mental model and reality.
+
+**Why haiku, not inline?** The transcript is the ground truth — it catches early-session moments that fell out of the main agent's attention window. Haiku is ~$0.01 and systematic. The main agent then applies judgment to haiku's candidates (not all will be worth filing).
+
+**Trigger quality check:** After reviewing haiku's candidates, note how many were: (a) already filed by the main agent, (b) new and worth filing, (c) false positives. If (b) is consistently zero, haiku isn't earning its keep. If (b) is consistently high, the inline scan needs improvement.
+
 **Experiment scan (30 seconds):**
 Did this session run experiments, produce findings, or write results to `~/notes/Reference/consulting/` or `~/notes/Reference/development/`? Check for vault files with "Key Finding", "Results", or "Conclusion" sections written this session. For each: does a corresponding `~/officina/claude/memory/finding_*.md` file exist? If not → write one now (2-4 sentences: what was tested, what was found, what it implies). Use `type: finding` in frontmatter. The vault doc is for depth; the memory file is for agent recall in future sessions.
 
