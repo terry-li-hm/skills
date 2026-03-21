@@ -63,7 +63,7 @@ If >30 min exploring with no code/delegation started → flag it. One sentence: 
 | **New project** (blank repo) | `superpowers:brainstorming` → `superpowers:writing-plans` → delegate |
 | **Spec already written** | Skip to delegation with spec as prompt |
 | **Multi-file, existing codebase** | Full pipeline (below) — default for non-trivial builds |
-| Needs vault context mid-execution | `/slfg` or `subagent-driven-development` |
+| Needs vault context mid-execution | `subagent-driven-development` |
 | Unclear requirements | `/compound-engineering:ce-brainstorm` first |
 
 **`--yolo` mode:** Skip plan review when ALL of: personal tool, blast radius = only Terry, spec is clear, no architecture decisions. CE research still runs.
@@ -102,7 +102,7 @@ RESEARCH → SPEC ANALYSIS → PLAN → EXECUTE → VERIFY → REVIEW → FINISH
 - Backend selection: `-b gemini` (default/boilerplate), `-b codex` (Rust, hard bugs), `-b opencode` (bulk). Details: `rector-reference.md`
 - **Fallback:** if opifex fails (infra issue, not task issue), fall back to raw CLI (`gemini -p "$(cat /tmp/plan.md)"`) — but note the gap in logging.
 - **In-session subagents** (`subagent-driven-development`): ONLY when vault context or live user decisions are needed mid-execution — not as a convenience shortcut.
-- **Agent Teams** (TeamCreate): when true coordination needed (shared API design, exploratory refactor, unknown-scope bugs) — consult `cohors` for decomposition, topology, and parallelism heuristics
+- **Agent Teams** (TeamCreate): when true coordination needed (shared API design, exploratory refactor, unknown-scope bugs) — see `~/docs/solutions/rector-reference.md` for decomposition, topology, and parallelism heuristics
 
 **5. Verify** (hard gate — if something fails, consult [[debugging-theory]] reference doc before shotgunning fixes):
 - [ ] Tests pass — paste actual output
