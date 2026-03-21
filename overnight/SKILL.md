@@ -18,7 +18,7 @@ Check results from the overnight legatus runs. Each task runs as its own LaunchA
 
 - **Queue file:** `~/notes/opencode-queue.yaml` — task definitions + schedule documentation
 - **Dispatcher:** `legatus run <name>` (pure dispatcher, no scheduling logic)
-- **Scheduling:** 7 individual CalendarInterval LaunchAgents in `~/officina/launchd/`
+- **Scheduling:** 11 individual CalendarInterval LaunchAgents in `~/officina/launchd/`
 - **Output:** `~/.cache/legatus-runs/<YYYY-MM-DD-HHMM>/<taskname>/` — one dir per dispatch
 - **Morning brief:** latest `morning-dashboard` output — see Default section below
 - **No Telegram notifications** — surface via `/overnight`, `/auspex`, `/kairos`
@@ -30,10 +30,14 @@ Check results from the overnight legatus runs. Each task runs as its own LaunchA
 | git-health | 00:30 | Daily |
 | vault-health-check | 01:00 | Daily |
 | lustro-digest | 01:30 | Daily |
+| ai-intel | 01:30 | Daily |
 | solutions-dedup | 02:00 | Sunday |
 | todo-stale-sweep | 02:15 | Sunday |
 | notes-orphan-scan | 02:30 | Sunday |
+| memory-hygiene | 02:45 | Daily |
+| docima-benchmark | 02:50 | Daily |
 | morning-dashboard | 03:30 | Daily |
+| ai-landscape-weekly | 04:00 | Saturday |
 
 ## Default: Show Morning Brief
 
