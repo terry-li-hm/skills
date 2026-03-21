@@ -42,7 +42,7 @@ Read all inputs and produce a work plan:
 
 ### Phase 2: Dispatch Workers (Sonnet, parallel)
 
-Create a team and dispatch 5 parallel workers. Each worker gets:
+Create a team and dispatch 6 parallel workers. Each worker gets:
 - Its assigned sparks from the plan
 - Read access to existing library (its subdirectory only)
 - The frontmatter schema for its asset type
@@ -209,5 +209,5 @@ After the forge completes, present Terry with:
 
 ## Budget
 
-Target: ~$1-2 per run. Opus lead (~$0.50-1.00) + 5 Sonnet workers (~$0.10 each) + Sonnet synthesis (~$0.10).
+Target: ~$1-2 per run. Opus lead (~$0.50-1.00) + 6 Sonnet workers (~$0.10 each) + Sonnet synthesis (~$0.10).
 First runs may overshoot while prompts tune. Monitor and adjust.
