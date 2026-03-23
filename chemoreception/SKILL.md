@@ -1,203 +1,56 @@
 ---
 name: chemoreception
-description: Weekly and monthly AI landscape review for consulting conversations. Use when user says "ai review", "ai landscape", "what's happening in AI", "dialexis", or on Fridays alongside weekly review.
+description: On-demand AI landscape briefing when transduction output is stale or a meeting needs fresh signal. Governance translation + meeting routing.
 user_invocable: true
+model: sonnet
 ---
 
-# /dialexis — Thalamus Review
+# /chemoreception — On-Demand AI Briefing
 
-Synthesize AI developments into opinionated, client-ready talking points. Not a news dump — a consultant's briefing.
+Augments transduction's scheduled pipeline with live search, governance action, and meeting routing. The pipeline handles cadence (daily/weekly/monthly/quarterly). This skill fires on demand.
 
-## Trigger
+## When to Use
 
-- "ai review", "ai landscape", "what's happening in AI"
-- Friday weekly reviews (suggest alongside `/ecdysis`)
-- Before client meetings or interviews
-- First Friday of month triggers deep monthly review
+- Before a client meeting or interview where AI landscape matters
+- When transduction output is >3 days stale and Terry asks "what's happening in AI"
+- When a specific development needs governance translation
 
-## Lens: AI Solution Lead at Capco
+## Step 1: Read Current State
 
-Every item passes through: **"Would this change how I advise a bank CTO this week?"**
+- Read `[[Transduction]]` index for latest snapshot date
+- If <3 days old and no meeting context, surface the latest snapshot — don't re-gather
+- If stale or meeting-specific, proceed to Step 2
 
-Filter categories:
-1. **Model & infrastructure shifts** — new capabilities that unlock use cases (not benchmarks for their own sake). If a major new model lands, check whether quorum's council config needs updating.
-2. **Regulatory & governance** — HKMA, MAS, EU AI Act, OCC guidance
-3. **Banking-specific AI** — fraud, credit, ops, customer service, document processing
-4. **Agentic / coding AI** — what Capco's delivery teams should know
-5. **China ecosystem** — relevant for HK-based clients with mainland exposure
+## Step 2: Live Gather
 
-## Output: `~/notes/Thalamus.md`
+2-3 targeted WebSearches:
+- "AI news banking financial services [month] [year]"
+- "HKMA AI regulation [month] [year]"
+- Topic-specific search if meeting context is known
 
-Single persistent note, always fresh. Structure:
-- **Current Landscape** (top) — overwritten each monthly review
-- **Weekly Snapshots** — appended weekly, reverse-chronological
-- **Monthly Reviews** — appended monthly, reverse-chronological
+Track provenance: note which items are fresh vs from existing snapshots.
 
-## Weekly Review (light, ~10 min)
+## Step 3: Governance Translation Pass
 
-Run every Friday or on demand.
+For each significant development, ask: **does this expose a governance gap no current framework (MAS AIRM, HKMA, PRA SS1/23) explicitly covers?**
 
-### Step 1: Gather
+If yes — act:
+1. Add row to `[[Capco - AI Regulatory Gap Assessment 2026]]`
+2. If vendor/procurement: add clause to `codex-argentum-v1.txt` Section 8 or 3
+3. Re-upload Codex Argentum to Lacuna if changed
+4. Note what was updated
 
-- Read `[[AI News Log]]` entries from the past 7 days
-- Check `/lustro` state: `~/.cache/lustro/state.json` for last scan
-- If log is stale (>3 days no entries), flag cron issue but proceed with what's there
-- **Always supplement with 2-3 WebSearches** to backfill gaps (crons break, log may be partial):
-  - "AI news banking financial services [month] [year]"
-  - "HKMA AI regulation [month] [year]"
-  - "major AI announcements [date range]"
-- Track provenance: note which items came from the log vs live search. Terry will ask.
+**Bar:** genuinely novel gap + clear trigger. When in doubt, flag don't act.
 
-### Step 2: Desensitise then synthesize
+## Step 4: Meeting Routing
 
-**Receptor adaptation.** Before picking top items, read the previous 3-4 weekly snapshots in `[[Thalamus]]`. Identify **constant signals** — themes that appeared in 3+ consecutive weeks without meaningful change. These are saturated receptors. Suppress them unless the *gradient* changed (accelerated, reversed, or jumped domains).
-
-**Gradient filter.** For each candidate item, classify:
-- **Novel** — first appearance. High priority.
-- **Accelerating** — existed before but velocity changed (new funding, new adopters, regulatory trigger). Include with the delta, not the baseline.
-- **Constant** — same story, same implications, no new evidence. Suppress. Mention in "Also notable" at most.
-- **Reversing** — consensus flipped or a trend stalled. Highest priority — these are the contrarian talking points clients actually value.
-
-Pick 3-5 items, biased toward novel and reversing signals. For each:
-- **What happened** (1 sentence)
-- **So what for banking clients** (1 sentence)
-- **Gradient** (novel / accelerating / reversing — one word)
-- **Source** (link if available)
-
-Skip anything that's just a version bump, benchmark improvement, PR announcement without substance, or a constant signal with no gradient change.
-
-### Step 3: Write snapshot
-
-Append to `[[Thalamus]]` under `## Weekly Snapshots`:
-
-```markdown
-### Week of YYYY-MM-DD
-
-**Top developments:**
-1. [Development] — [Banking implication]. ([Source])
-2. ...
-
-**Also notable (from [[AI News Log]]):**
-- [Items that didn't make top 5 but worth tracking — 3-5 bullet points]
-
-**Pattern watch:** [Any recurring theme across sources this week]
-
-**Worth reading in full:** [0-2 links to genuinely good articles]
-
-**Sources:** [X items from AI News Log, Y from live WebSearch]
-```
-
-### Step 3.5: Governance translation pass
-
-For each top development, ask: **does this expose a governance gap no current framework (MAS AIRM, HKMA, PRA SS1/23) explicitly covers?**
-
-If yes — act, don't just flag:
-1. Add a new row to `[[Capco - AI Regulatory Gap Assessment 2026]]` in the most relevant domain, with Gap + Action Item in the standard table format.
-2. If it's a vendor/procurement requirement, add a new clause to `codex-argentum-v1.txt` in Section 8 (Third-Party and Vendor Requirements) or Section 3 (Pre-Deployment Requirements).
-3. Re-upload Codex Argentum to Lacuna if changed (see Re-upload Workflow in `~/code/lacuna/CLAUDE.md`). Flag demo cache as stale.
-4. Note what was updated in the weekly snapshot under "Also notable."
-
-**Bar for acting:** the gap must be genuinely novel (not implied by existing requirements), and the development must be a clear trigger (not speculative). When in doubt, add to "Also notable" with a governance flag rather than updating the docs.
-
-### Step 4: Suggest
-
-Cross-reference findings with active pipeline:
-- Check `~/notes/Praxis.md` for upcoming meetings/interviews
-- Check `[[Capco Transition]]` for HSBC engagement prep
-- If a development is particularly relevant to an upcoming meeting, interview, or client, flag it explicitly with the specific talking point and where to use it
-- For interview prep notes (e.g. `[[DBS Data Management Interview Prep]]`), add a "Fresh intel" section with 3-4 bullet points and a best drop point
-
-### Step 5: Update Current Landscape (first run + monthly)
-
-On **first run** (Current Landscape section is empty), populate Hot Takes, Client Questions, and Should-Be-Asking sections based on the weekly synthesis. On subsequent weekly runs, leave Current Landscape alone — it's refreshed monthly only.
-
-## Monthly Review (deep, ~30 min)
-
-Run on first Friday of each month.
-
-### Step 1: Gather broadly
-
-- Read all weekly snapshots from the past month
-- Read `[[AI News Log]]` for the full month
-- WebSearch for: "AI in banking [month] 2026", "HKMA AI [month]", "AI regulation Asia 2026"
-- Check Evident Banking Brief for bank AI rankings/news (scrape `evidentinsights.com/bankingbrief/` — no RSS, email unsubscribed)
-
-### Step 2: Thematic synthesis (with desensitisation)
-
-Read all weekly gradient tags from the month. Themes that were "constant" across 4+ weeks are **adapted** — the organism no longer responds to them. They go into the Radar under "Plateau" unless they reversed. This is the monthly immune-memory pass: it prevents the same "AI agents are hot" theme from dominating month after month.
-
-Identify 3-5 **themes** (not events). A theme is a direction, not a headline.
-
-Bad: "Anthropic released Opus 4.6"
-Good: "The coding agent gap is closing — implications for bank software delivery"
-
-For each theme:
-- **What's shifting** (2-3 sentences)
-- **Evidence** (specific developments from the month)
-- **Banking implication** (what this means for Capco clients)
-- **Contrarian take** (what the consensus gets wrong, or what's overhyped)
-- **Talking point** (one sentence you'd say to a client CTO)
-
-### Step 3: Update Current Landscape
-
-**Overwrite** the "Current Landscape" section in `[[Thalamus]]`:
-- Refresh "Hot Takes" with 3-5 defensible positions
-- Refresh "What Clients Are Asking About"
-- Refresh "What Clients Should Be Asking About (But Aren't)"
-
-### Step 4: Archive
-
-Append the full monthly review under `## Monthly Reviews`:
-
-```markdown
-### YYYY-MM — [Month Theme Title]
-
-#### Themes
-
-**1. [Theme]**
-- Shift: ...
-- Evidence: ...
-- Banking implication: ...
-- Contrarian: ...
-- Talking point: "..."
-
-**2. [Theme]**
-...
-
-#### Radar
-
-- **Accelerating:** [trends gaining momentum]
-- **Plateau:** [overhyped, slowing down]
-- **Emerging:** [early signals worth watching]
-
-#### Key Numbers
-
-- [2-3 statistics worth remembering for conversations]
-```
-
-## Quarterly Pass (slow receptors)
-
-On months 3, 6, 9, 12 — after the monthly review, read the last three monthly reviews in `[[Thalamus]]`. Add a **Slow Signals** section to that month's archive entry:
-
-```markdown
-#### Slow Signals (quarterly)
-
-- [1-3 shifts only visible across 3 months — regulatory cycles, enterprise adoption curves, market consolidation, consensus drift]
-- For each: what was invisible at weekly/monthly scale, and what does it mean for the next quarter's consulting conversations?
-```
-
-These are the gradients too slow for weekly desensitisation to catch. One paragraph each, max three signals.
-
-## Integration with Other Skills
-
-- `/ecdysis` should suggest `/chemoreception` on Fridays
-- `/lustro` feeds the raw material; this skill synthesizes it
-- `/opsonization` can reference `[[Thalamus]]` for talking points
+- Check `~/notes/Praxis.md` for upcoming meetings
+- Check `[[Capco Transition]]` for HSBC context
+- If relevant to a specific meeting/interview, add talking points directly to that prep note
+- For interview prep notes, add "Fresh intel" section with 3-4 bullets
 
 ## Anti-Patterns
 
+- **Don't duplicate transduction.** If the pipeline ran this week, start from its output.
 - **Don't be comprehensive.** 5 opinionated items beats 20 neutral summaries.
-- **Don't benchmark-chase.** "Model X scores 3% higher on HumanEval" is not a talking point.
-- **Don't repeat the news log.** This adds the "so what" layer.
-- **Don't hedge everything.** Take positions. A consultant who says "it depends" adds no value.
-- **Run the governance translation pass.** For each top development, ask: does this expose a governance gap no current framework covers? The best Capco talking points come from news → implication → regulatory blind spot. If yes → flag it explicitly and consider whether it should be incorporated into [[Capco - AI Regulatory Gap Assessment 2026]] or Codex Argentum. Examples: geopolitical vendor availability (Trump/Anthropic ban), AI TCO risk (pricing sustainability), vendor ethical alignment (alignment schism).
+- **Don't hedge.** Take positions.
