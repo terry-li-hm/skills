@@ -1,5 +1,5 @@
 ---
-name: review-financial-status
+name: homeostasis
 description: Check financial milestones, flag overdue items, and surface upcoming deadlines from vault
 user-invocable: true
 ---

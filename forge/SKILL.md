@@ -1,5 +1,5 @@
 ---
-name: forge
+name: ribosome
 description: Weekly career compound machine — produces consulting IP from accumulated sparks. "forge", "weekly forge", "compound machine", "run the forge"
 user_invocable: true
 ---

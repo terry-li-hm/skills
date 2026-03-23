@@ -57,9 +57,9 @@ Without this framing, council will evaluate a ladder as a floor.
 
 Use `--domain` flag to auto-inject regulatory context:
 ```bash
-consilium "question" --domain banking   # HKMA/MAS/FCA, MRM requirements
-consilium "question" --domain healthcare # HIPAA constraints
-consilium "question" --domain eu        # GDPR/AI Act considerations
+quorum "question" --domain banking   # HKMA/MAS/FCA, MRM requirements
+quorum "question" --domain healthcare # HIPAA constraints
+quorum "question" --domain eu        # GDPR/AI Act considerations
 ```
 
 ---
@@ -118,7 +118,7 @@ confidence: {confidence}
 participants: {from meta.models_used}
 tags:
   - decision
-  - consilium
+  - quorum
 ---
 
 **Related:** [[Capco Transition]] | [[Job Hunting]]
@@ -184,7 +184,7 @@ Consilium's architecture is grounded in group deliberation research. Full synthe
 
 **Why the judge uses ACH** (Heuer/CIA): Analysis of Competing Hypotheses — list competing conclusions, evaluate evidence against each, eliminate rather than confirm.
 
-**What consilium can't fix** (MAD literature): Most of the apparent value of multi-agent debate comes from generating multiple independent samples, not from the debate itself. Consilium's real value is divergent thinking — not convergent reasoning (math, facts).
+**What quorum can't fix** (MAD literature): Most of the apparent value of multi-agent debate comes from generating multiple independent samples, not from the debate itself. Consilium's real value is divergent thinking — not convergent reasoning (math, facts).
 
 ---
 

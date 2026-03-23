@@ -1,5 +1,5 @@
 ---
-name: publish
+name: vesicle
 description: Manage the terryli.hm garden — create, publish, revise, list posts. Use for any garden post work.
 triggers:
   - "garden post"
@@ -33,7 +33,7 @@ publish index                         # Regenerate ~/notes/terryli.hm.md
 3. **Skip judge for standard garden posts.** Only run judge for: factual claims, sensitive topics, front-stage content.
 4. `publish publish <slug> --push` — **run in background** (fire and forget)
 
-**Brainstorming:** Skip full brainstorm skill. One angle-check question max, then draft. Garden posts are low-risk.
+**Brainstorming:** Skip full transcription skill. One angle-check question max, then draft. Garden posts are low-risk.
 
 ## Auto-Publish Protocol
 

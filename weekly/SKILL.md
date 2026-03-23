@@ -1,5 +1,5 @@
 ---
-name: weekly
+name: infradian
 description: Sunday evening weekly planning — plan next week, quick backward glance, TODO prune. "weekly", "weekly review", "week in review", "sunday planning", "plan the week"
 user_invocable: true
 disable-model-invocation: true
@@ -106,5 +106,5 @@ Create `~/notes/Weekly/YYYY-Www.md`:
 - `/commute` — the daily routine (evening)
 - `/monthly` — first Sunday of the month, maintenance
 - `/quarterly` — direction and finances (4x/year)
-- `/kairos` — ad-hoc "what now?"
+- `/ultradian` — ad-hoc "what now?"
 - [[cadence-design]] — principles behind this cadence stack

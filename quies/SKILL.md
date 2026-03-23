@@ -1,11 +1,11 @@
 ---
-name: quies
-description: Evening wind-down ritual — brain dump, overnight queue, screens-off gate. Use between end-of-work and bedtime, when Terry needs to mentally close. Sequence is eow → quies → daily. NOT for work closure (use eow) or full daily reflection (use daily).
+name: melatonin
+description: Evening wind-down ritual — brain dump, overnight queue, screens-off gate. Use between end-of-work and bedtime, when Terry needs to mentally close. Sequence is eow → melatonin → daily. NOT for work closure (use eow) or full daily reflection (use daily).
 user_invocable: true
 disable-model-invocation: true
 ---
 
-# quies — Evening Wind-Down
+# melatonin — Evening Wind-Down
 
 Personal close-of-day ritual for sleep hygiene. Distinct from `/eow` (work closure) — this closes the *day*, not the workday.
 
@@ -85,7 +85,7 @@ Offer to check tomorrow morning. Don't run now — data isn't in yet.
 
 - Do NOT review Praxis.md or task lists — that's `/eow` territory
 - Do NOT surface new work items — wind-down direction only
-- Do NOT run `sopor` during quies — data for tonight isn't captured yet
+- Do NOT run `sopor` during melatonin — data for tonight isn't captured yet
 - Stop after Step 5 (or 6 if relevant). Do not loop back.
 
 ## Calls

@@ -1,6 +1,6 @@
 ---
-name: litura
-description: Multi-model iterative refinement of artifacts using CC native teams + external models (Gemini/Codex/OpenCode). Use when an artifact (CV, doc, spec, code) needs polishing beyond what a single model can catch. Triggers on "refine", "polish", "multi-model review", "litura", or when quality matters enough to justify cross-model iteration.
+name: modification
+description: Multi-model iterative refinement of artifacts using CC native teams + external models (Gemini/Codex/OpenCode). Use when an artifact (CV, doc, spec, code) needs polishing beyond what a single model can catch. Triggers on "refine", "polish", "multi-model review", "modification", or when quality matters enough to justify cross-model iteration.
 aliases: [refine, polish]
 user_invocable: true
 runtime: skill
@@ -8,7 +8,7 @@ runtime: skill
 
 # Litura
 
-Multi-model iterative refinement. From Latin *litura* — the visible mark of revision.
+Multi-model iterative refinement. From Latin *modification* — the visible mark of revision.
 
 Multiple LLM models independently review an artifact, cross-judge each other, synthesize consensus, and iterate until convergence. Uses CC native agent teams for orchestration and Gemini/Codex/OpenCode CLIs as independent external reviewers.
 
@@ -25,7 +25,7 @@ Multiple LLM models independently review an artifact, cross-judge each other, sy
 
 - Simple edits with clear requirements — just do them
 - Factual research — use elencho or web search
-- Decisions/trade-offs — use consilium
+- Decisions/trade-offs — use quorum
 - Time-critical with no room for iteration
 
 ---
@@ -43,7 +43,7 @@ Multiple LLM models independently review an artifact, cross-judge each other, sy
 ### Step 1: Set up the team
 
 ```
-TeamCreate: litura-<artifact-name>
+TeamCreate: modification-<artifact-name>
 ```
 
 Create tasks with dependencies:
@@ -156,5 +156,5 @@ Research agents SendMessage findings to the synthesizer for incorporation. Shut 
 
 ## See Also
 
-- consilium — for decisions/judgment (deliberation, not refinement)
-- copia — for overnight autonomous work (different pattern)
+- quorum — for decisions/judgment (deliberation, not refinement)
+- centrosome — for overnight autonomous work (different pattern)

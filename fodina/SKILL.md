@@ -1,11 +1,11 @@
 ---
-name: fodina
-description: LLM knowledge mining — extract implicit model knowledge into permanent reference skills as actionable heuristics. Three tiers: single-model interview (quick), consilium adversarial refinement (deep), field validation. Specimen-based mining uses people (Einstein, Munger), traditions (Stoicism, kaizen), and failures (LTCM, Challenger) as concrete entry points — heuristics sort into existing skills, not new containers. Post-mining skill-map review reveals architectural gaps. Use when a topic would benefit from stable, always-loaded heuristics that the model knows but surfaces inconsistently.
+name: endocytosis
+description: LLM knowledge mining — extract implicit model knowledge into permanent reference skills as actionable heuristics. Three tiers: single-model interview (quick), quorum adversarial refinement (deep), field validation. Specimen-based mining uses people (Einstein, Munger), traditions (Stoicism, kaizen), and failures (LTCM, Challenger) as concrete entry points — heuristics sort into existing skills, not new containers. Post-mining skill-map review reveals architectural gaps. Use when a topic would benefit from stable, always-loaded heuristics that the model knows but surfaces inconsistently.
 user_invocable: true
 tags: [meta, knowledge, skills]
 ---
 
-# /fodina — LLM Knowledge Mining
+# /endocytosis — LLM Knowledge Mining
 
 > *Fodina: Latin "mine" — the place you extract ore.*
 
@@ -136,7 +136,7 @@ Deeper. Multiple models debate the extracted knowledge, find gaps, challenge ass
 
 **Process:**
 1. **Run Tier 1 first** — you need a draft to refine
-2. **Feed draft to consilium** — `consilium "Review this theory of <X>. What's missing? What's wrong? What failure modes aren't listed? What distinctions are false?" --vault`
+2. **Feed draft to quorum** — `quorum "Review this theory of <X>. What's missing? What's wrong? What failure modes aren't listed? What distinctions are false?" --vault`
 3. **Synthesise** — the council will surface blind spots, edge cases, and counterarguments. Merge into the skill.
 4. **Adversarial pass** — ask specifically: "What would someone who disagrees with this framework say? What domains does it fail in?"
 5. **Update skill + re-wire** if the structure changed significantly
@@ -185,7 +185,7 @@ After creating any mined skill:
 Mined skills are only valuable if they get consulted. Track in `memory/decay-tracker.md` (same as MEMORY.md entries):
 - When a mined skill is consulted in a session, log it
 - If a skill hasn't fired after 4 weeks → either wiring is wrong (fix cross-references) or the skill isn't useful (demote or delete)
-- Tier column in Completed Mines tracks provenance strength — Tier 1 (hold lightly), Tier 2 (consilium-tested), Tier 3 (field-validated)
+- Tier column in Completed Mines tracks provenance strength — Tier 1 (hold lightly), Tier 2 (quorum-tested), Tier 3 (field-validated)
 - The specific source (which model, which council) doesn't matter — content either proves useful or it doesn't. Track the tier, not the genealogy.
 
 ## Completed Mines
@@ -198,33 +198,33 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 | Simplification | `[[simplification]]` | 1 | rector | — |
 | Delegation | `[[delegation-theory]]` | 1 | rector | — |
 | Evaluation | `[[evaluation-theory]]` | 1 | judex, peira | — |
-| Heuristics | `[[heuristics-decision]]` | 1 | [[mental-models]], gnome, mandatum, consilium | "Delegation Is Delegation", "The Heuristic Library" |
-| Wrap-ups | conclusio (inlined into legatum) | 1 | legatum (inlined), eow, daily | — |
+| Heuristics | `[[heuristics-decision]]` | 1 | [[mental-models]], transcription-factor, mandatum, quorum | "Delegation Is Delegation", "The Heuristic Library" |
+| Wrap-ups | conclusio (inlined into telophase) | 1 | telophase (inlined), eow, daily | — |
 | Toddler school refusal | `[[parens]] (Reference)` | 1 | — (vault: Theo - Development & Parenting Notes) | — |
-| Truth-seeking | `[[truth-seeking-method]]` | 1 | fodina, elencho, consilium, peira, rector | — |
-| Judgment | `[[practical-judgment]]` | 1 | consilium, gnome, [[premise-audit]], [[truth-seeking-method]], rector, praecepta | — |
-| Creativity | `[[creativity]]` | 1 | brainstorming (CE skill), rector, consilium, diagnosis | — |
+| Truth-seeking | `[[truth-seeking-method]]` | 1 | endocytosis, elencho, quorum, peira, rector | — |
+| Judgment | `[[practical-judgment]]` | 1 | quorum, transcription-factor, [[premise-audit]], [[truth-seeking-method]], rector, praecepta | — |
+| Creativity | `[[creativity]]` | 1 | brainstorming (CE skill), rector, quorum, diagnosis | — |
 | Systems thinking | `[[systems-thinking]]` | 1 | rector, diagnosis, phronesis, [[creativity]], [[truth-seeking-method]] | — |
-| Communication | `[[communication-cognition]]` | 1 | [[career-communication]], storyteller (deleted), agoras CLI, consilium, mandatum, meeting-prep | — |
-| Learning | `[[learning-theory]]` | 1 | dokime, rector, fodina, [[parens]] (Reference), eow, daily, phronesis | — |
+| Communication | `[[communication-cognition]]` | 1 | [[career-communication]], storyteller (deleted), agoras CLI, quorum, mandatum, opsonization | — |
+| Learning | `[[learning-theory]]` | 1 | dokime, rector, endocytosis, [[parens]] (Reference), eow, daily, phronesis | — |
 | Self-awareness | `[[self-awareness]]` | 1 | phronesis, enkrateia, praecepta, all operations | — |
-| Self-regulation | `[[self-regulation]]` | 1 | [[self-awareness]], phronesis, sopor, kairos, mora (deleted), [[parens]] (Reference) | — |
-| Empathy | `[[empathy]]` | 1 | [[communication-cognition]], mandatum, meeting-prep, [[career-communication]], phronesis, [[parens]] (Reference) | — |
-| Task management | negotium (unbuilt) | 1 | sched, kairos, legatum, todo | — |
-| AI governance consulting | `[[gubernatio]] (Reference)` | 1 | rector, meeting-prep, capco-prep, consilium | "Governance Is a Tax" |
-| Regulatory comparison | `[[regulatio]]` | 1 | meeting-prep, capco-prep, [[gubernatio]] (Reference) | — |
-| Technical credibility | [[auctoritas]] (Reference) | 1 | meeting-prep, capco-prep, [[career-communication]], [[gubernatio]] (Reference) | — |
-| Agent team orchestration | archived (skill deleted) | 1 | copia, rector, mandatum, heuretes, opifex | — |
+| Self-regulation | `[[self-regulation]]` | 1 | [[self-awareness]], phronesis, sopor, ultradian, mora (deleted), [[parens]] (Reference) | — |
+| Empathy | `[[empathy]]` | 1 | [[communication-cognition]], mandatum, opsonization, [[career-communication]], phronesis, [[parens]] (Reference) | — |
+| Task management | negotium (unbuilt) | 1 | sched, ultradian, telophase, todo | — |
+| AI governance consulting | `[[gubernatio]] (Reference)` | 1 | rector, opsonization, capco-prep, quorum | "Governance Is a Tax" |
+| Regulatory comparison | `[[regulatio]]` | 1 | opsonization, capco-prep, [[gubernatio]] (Reference) | — |
+| Technical credibility | [[auctoritas]] (Reference) | 1 | opsonization, capco-prep, [[career-communication]], [[gubernatio]] (Reference) | — |
+| Agent team orchestration | archived (skill deleted) | 1 | centrosome, rector, mandatum, heuretes, opifex | — |
 | Deployed system verification | `[[deployed-system-verification]]` | 1 | verify (rules), peira, [[mental-models]] | "The Pipeline Paradox" |
-| Consulting communication | `[[relatio]]` | 1 | [[communication-cognition]], meeting-prep, capco-prep, [[gubernatio]] (Reference), [[career-communication]], auctoritas, stilus | — |
+| Consulting communication | `[[relatio]]` | 1 | [[communication-cognition]], opsonization, capco-prep, [[gubernatio]] (Reference), [[career-communication]], auctoritas, stilus | — |
 | Representation shifting | `[[representation-shifting]]` | 1 (specimen) | diagnosis, [[creativity]], [[communication-cognition]], [[mental-models]], [[analogical-transfer]] | — |
-| Productive not-knowing | `[[productive-not-knowing]]` | 1 (specimen) | [[self-awareness]], [[truth-seeking-method]], [[premise-audit]], phronesis, consilium, kritike | — |
+| Productive not-knowing | `[[productive-not-knowing]]` | 1 (specimen) | [[self-awareness]], [[truth-seeking-method]], [[premise-audit]], phronesis, quorum, kritike | — |
 | Extreme-case testing | `[[extreme-case-testing]]` | 1 (specimen) | [[truth-seeking-method]], peira, [[premise-audit]], aporia, [[mental-models]] | — |
-| Cognition is relational | `ubuntu` | 1 (specimen) | consilium, sympatheia, adversaria, kenosis | — |
+| Cognition is relational | `ubuntu` | 1 (specimen) | quorum, sympatheia, adversaria, kenosis | — |
 | Existence before construction | `existence` | 1 (specimen) | aporia, diagnosis, metanoia, nishkama, invariance | — |
 | Working with momentum | `wuwei` | 1 (specimen) | enkrateia, metanoia, parsimonia, phronesis, reductio | — |
 | Mastery as disappearance | `kenosis` | 1 (specimen) | parsimonia, aporia, mandatum, mathesis | — |
-| Adversarial perspective | `[[adversarial-perspective]]` | 1 (specimen) | sympatheia, reductio, consilium, metanoia, aporia | — |
+| Adversarial perspective | `[[adversarial-perspective]]` | 1 (specimen) | sympatheia, reductio, quorum, metanoia, aporia | — |
 | Action without attachment | `nishkama` | 1 (specimen) | enkrateia, wuwei, kenosis, phronesis, aporia | — |
 | Categories are provisional | `sunyata` | 1 (specimen) | aporia, metanoia, [[mental-models]], systema, parsimonia | — |
 | Find what doesn't change | `invariance` | 1 (specimen) | metanoia, reductio, sunyata, systema | — |
@@ -234,7 +234,7 @@ Mined skills are only valuable if they get consulted. Track in `memory/decay-tra
 
 ## Relationship to Other Skills
 
-- **[[knowledge-structure]]** — designs skills (structure, naming). fodina is specifically about *extracting knowledge from model weights* into skills.
-- **consilium** — the engine for Tier 2 refinement. fodina tells you *when and how* to use it for knowledge extraction.
-- **[[knowledge-routing]]** — routes knowledge to the right layer. fodina always produces reference skills, not MEMORY.md or docs.
+- **[[knowledge-structure]]** — designs skills (structure, naming). endocytosis is specifically about *extracting knowledge from model weights* into skills.
+- **quorum** — the engine for Tier 2 refinement. endocytosis tells you *when and how* to use it for knowledge extraction.
+- **[[knowledge-routing]]** — routes knowledge to the right layer. endocytosis always produces reference skills, not MEMORY.md or docs.
 - **[[mental-models]]** — mental models catalog. Mined skills often feed new entries into [[mental-models]].

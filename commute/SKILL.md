@@ -1,5 +1,5 @@
 ---
-name: commute
+name: period
 description: Use when heading home from work — single evening routine covering full inbox triage, messages, work summary, brain dump, and tomorrow prep. "leaving office", "on the bus", "going home", "end of day", "check emails", "review inbox"
 user_invocable: true
 ---
@@ -57,7 +57,7 @@ Capture to today's daily note. One or two exchanges max. Get it out of his head,
 
 ### 4. What Shipped Today
 
-- Read today's daily note for `/legatum` session logs
+- Read today's daily note for `/telophase` session logs
 - If empty/missing, delegate to subagent (haiku): `python3 ~/scripts/chat_history.py --full`
 - Write a 2-3 line summary to the daily note
 

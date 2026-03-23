@@ -1,5 +1,5 @@
 ---
-name: tweet
+name: exocytosis
 description: Compress an insight to 280 chars and post to X (@zkMingLi). Use when a sharp standalone claim surfaces.
 user_invocable: false
 ---

@@ -1,5 +1,5 @@
 ---
-name: faber
+name: folding
 description: Execute an implementation plan — delegate, verify, review, ship. Use after /plan or when a plan already exists.
 user_invocable: true
 allowed-tools:
@@ -12,7 +12,7 @@ allowed-tools:
   - Agent
 ---
 
-# /faber — Execute the Plan
+# /folding — Execute the Plan
 
 Take a plan and turn it into working code. Delegate by default, verify with evidence, review proportionally, ship clean.
 
@@ -20,8 +20,8 @@ Take a plan and turn it into working code. Delegate by default, verify with evid
 
 - After `/plan` produces an implementation plan
 - When a plan file already exists and the user says "build", "implement", "do it"
-- When the user provides a clear spec that doesn't need `/brainstorm` or `/plan`
-- **Not a shortcut past planning.** If the shape is unclear → `/brainstorm`. If the steps aren't broken down → `/plan`. Prior discussion is NOT a plan.
+- When the user provides a clear spec that doesn't need `/transcription` or `/plan`
+- **Not a shortcut past planning.** If the shape is unclear → `/transcription`. If the steps aren't broken down → `/plan`. Prior discussion is NOT a plan.
 
 ## Inputs
 
@@ -126,7 +126,7 @@ If the solve was non-obvious, capture it: `~/docs/solutions/<topic>.md`. Future 
 
 ## Hard Rules
 
-- **Prior discussion ≠ plan.** A brainstorm conversation is not an execution spec.
+- **Prior discussion ≠ plan.** A transcription conversation is not an execution spec.
 - **Don't inline full files in delegation prompts.** Give paths, let delegates read.
 - **One task per delegation.** No bundling.
 - **Evidence before assertions.** "It works" is not verification.

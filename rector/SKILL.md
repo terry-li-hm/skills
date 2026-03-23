@@ -21,7 +21,7 @@ Orchestrate here, execute elsewhere. Full reference: `~/docs/solutions/rector-re
 - `/rector <task description>` — start a coding task the right way
 - `/rector --yolo <task>` — skip plan review (personal tools, low blast radius)
 - Proactively when user asks to build, port, fix, refactor, or add a feature
-- **After consilium/brainstorm/design discussion when user says "implement", "build", "do it"** — prior discussion is NOT a plan, always start here
+- **After quorum/transcription/design discussion when user says "implement", "build", "do it"** — prior discussion is NOT a plan, always start here
 
 ## Steps
 
@@ -64,7 +64,7 @@ If >30 min exploring with no code/delegation started → flag it. One sentence: 
 | **Spec already written** | Skip to delegation with spec as prompt |
 | **Multi-file, existing codebase** | Full pipeline (below) — default for non-trivial builds |
 | Needs vault context mid-execution | `subagent-driven-development` |
-| Unclear requirements | `/compound-engineering:ce-brainstorm` first |
+| Unclear requirements | `/compound-engineering:ce-transcription` first |
 
 **`--yolo` mode:** Skip plan review when ALL of: personal tool, blast radius = only Terry, spec is clear, no architecture decisions. CE research still runs.
 

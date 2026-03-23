@@ -1,10 +1,10 @@
 ---
-name: brainstorm
+name: transcription
 description: Collaborative design before building — one question at a time, approaches with recommendation, right-sized spec. Use before any feature, tool, or non-trivial change.
 user_invocable: true
 ---
 
-# /brainstorm — Design Before Building
+# /transcription — Design Before Building
 
 Turn an idea into a design through dialogue. Hard gate: **no implementation until design is approved.**
 
@@ -108,7 +108,7 @@ Omit empty sections. A 10-line doc that says the right things beats a 100-line d
 
 When the design is approved:
 - If a requirements doc was written, state the path
-- Recommend next step: `/plan` to break it into steps, or `/faber` directly if the plan is obvious
+- Recommend next step: `/plan` to break it into steps, or `/folding` directly if the plan is obvious
 - **Do not start implementing.** The user decides when to cross that line.
 
 ## Principles

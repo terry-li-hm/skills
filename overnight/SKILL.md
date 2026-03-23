@@ -1,5 +1,5 @@
 ---
-name: overnight
+name: interphase
 description: "Check async queue results and manage tasks. 'overnight', 'overnight results', 'queue status', 'what ran'"
 user_invocable: true
 ---
@@ -31,15 +31,15 @@ overnight-gather list                     # show last 5 runs with pass/fail
 ## Manual Dispatch
 
 ```bash
-legatus run <name>      # fire immediately, detached
-legatus list            # show all tasks + schedules
-legatus results <name>  # show latest output for a task
-legatus cancel <name>   # disable a task
+kinesin run <name>      # fire immediately, detached
+kinesin list            # show all tasks + schedules
+kinesin results <name>  # show latest output for a task
+kinesin cancel <name>   # disable a task
 ```
 
 ## Add: New Task
 
 1. Add entry to `~/notes/opencode-queue.yaml` (name, title, backend, timeout, schedule, prompt)
-2. Create CalendarInterval plist in `~/officina/launchd/com.terry.legatus-<name>.plist`
+2. Create CalendarInterval plist in `~/officina/launchd/com.terry.kinesin-<name>.plist`
 3. Copy to `~/Library/LaunchAgents/` and `launchctl load`
-4. Verify with `legatus list`
+4. Verify with `kinesin list`

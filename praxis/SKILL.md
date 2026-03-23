@@ -1,6 +1,6 @@
 ---
-name: praxis
-description: Manage Praxis.md in the vault with time-based scheduling. Use when user says "todo", "add todo", "check todo", "done with", "overdue", "someday", or "praxis".
+name: actin
+description: Manage Praxis.md in the vault with time-based scheduling. Use when user says "todo", "add todo", "check todo", "done with", "overdue", "someday", or "actin".
 user_invocable: true
 ---
 
@@ -14,7 +14,7 @@ Invoke via `todo-cli <subcommand>`. Subcommands: `today`, `upcoming`, `overdue`,
 
 If `~/notes/Praxis.md` is missing, create it with a minimal heading before running any command. If creation fails, report "TODO store unavailable" and stop.
 
-## Intake Gate (apply before `/praxis add`)
+## Intake Gate (apply before `/actin add`)
 
 | Test | Question | If NO → |
 |------|----------|---------|
@@ -39,7 +39,7 @@ Bar for `due:` at all: would forgetting cause real damage? Low-stakes admin belo
 
 ## Hard Rules
 
-- **NEVER leave `- [x]` lines in Praxis.md.** When marking done — via `/praxis done` or manually — move the completed line to `~/notes/Praxis Archive.md` in the same edit. Archive under current month's section (`## March 2026`), creating it if absent. No exceptions, no "clean up later".
+- **NEVER leave `- [x]` lines in Praxis.md.** When marking done — via `/actin done` or manually — move the completed line to `~/notes/Praxis Archive.md` in the same edit. Archive under current month's section (`## March 2026`), creating it if absent. No exceptions, no "clean up later".
 - **Reflections/journaling items live in `~/notes/Reflections Queue.md`** — not Praxis.md.
 - Single source: `~/notes/Praxis.md`. All agents share this file.
 - Dates always ISO-8601 (`YYYY-MM-DD`) in HKT. Use `date +%Y-%m-%d` for today.

@@ -1,5 +1,5 @@
 ---
-name: challenge-idea
+name: proofreading
 description: Stress-test an idea, plan, or claim by finding the strongest counterarguments and failure modes
 user-invocable: true
 ---

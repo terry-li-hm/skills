@@ -1,6 +1,6 @@
 ---
-name: copia
-description: Leverage agent teams to advance north star goals. Use when user says "copia", "burn tokens", "stellae", "expand north stars", "going to sleep", "overnight", "vigilia", or any variant of "burn tokens while I sleep" or "keep working while I'm away". Two modes — interactive (default) and overnight (unattended flywheel).
+name: centrosome
+description: Leverage agent teams to advance north star goals. Use when user says "centrosome", "burn tokens", "stellae", "expand north stars", "going to sleep", "overnight", "vigilia", or any variant of "burn tokens while I sleep" or "keep working while I'm away". Two modes — interactive (default) and overnight (unattended flywheel).
 user_invocable: true
 ---
 
@@ -13,7 +13,7 @@ One pattern: **north stars → division of labour filter → shapes filter → s
 ## Pre-flight: Consumption Check
 
 ```bash
-copia-gather preflight
+centrosome-gather preflight
 ```
 
 Runs all deterministic pre-flight checks (consumption count, budget, guard status, manifest, north stars, TODO `agent:claude` items, NOW.md). Use `--json` for structured parsing.
@@ -31,11 +31,11 @@ Runs all deterministic pre-flight checks (consumption count, budget, guard statu
 ### Step 0: Activate Guard
 
 ```bash
-copia-gather guard on
-copia-gather manifest init
+centrosome-gather guard on
+centrosome-gather manifest init
 ```
 
-The guard is a Stop hook (`~/.claude/hooks/copia-guard.py`). While active, the model cannot stop while budget is green. Deactivate with `copia-gather guard off` (done automatically in Wrap, or manually by Terry).
+The guard is a Stop hook (`~/.claude/hooks/centrosome-guard.py`). While active, the model cannot stop while budget is green. Deactivate with `centrosome-gather guard off` (done automatically in Wrap, or manually by Terry).
 
 ### Step 1: Load Context (parallel)
 
@@ -90,7 +90,7 @@ For each high-leverage star, identify sub-goals that are: actionable now, Automa
 
 ### Step 5: Execute Wave
 
-Launch with `run_in_background: true`, `mode: bypassPermissions`. Every agent prompt includes: clear deliverable (file path + format), context file paths, "Read `~/tmp/copia-session.md` first. Do not duplicate completed work."
+Launch with `run_in_background: true`, `mode: bypassPermissions`. Every agent prompt includes: clear deliverable (file path + format), context file paths, "Read `~/tmp/centrosome-session.md` first. Do not duplicate completed work."
 
 **Model routing:** Research/collection → sonnet. Content/synthesis/judgment → opus. System audits → sonnet.
 
@@ -132,7 +132,7 @@ Write `~/notes/Copia Reports/YYYY-MM-DD.md` with frontmatter (waves, items\_prod
 
 | | Interactive | Overnight |
 |---|---|---|
-| **Trigger** | "copia", "burn tokens", "stellae" | "overnight", "vigilia", "going to sleep" |
+| **Trigger** | "centrosome", "burn tokens", "stellae" | "overnight", "vigilia", "going to sleep" |
 | **Mechanism** | This skill (in-session) | `lucerna` (fresh session per wave) |
 | **Clarifying questions** | Yes (max 1) | Forbidden |
 | **Agents per wave** | 3-5 | 8 (maintain thread pool) |
@@ -141,7 +141,7 @@ Write `~/notes/Copia Reports/YYYY-MM-DD.md` with frontmatter (waves, items\_prod
 
 ## Manifest
 
-`~/tmp/copia-session.md` — ephemeral, one per run. Every agent prompt starts: **"Read `~/tmp/copia-session.md`. Do not duplicate completed work. Build on listed outputs."**
+`~/tmp/centrosome-session.md` — ephemeral, one per run. Every agent prompt starts: **"Read `~/tmp/centrosome-session.md`. Do not duplicate completed work. Build on listed outputs."**
 
 ## Quality Gate
 
@@ -185,8 +185,8 @@ Verdict: PASS → proceed. PARTIAL → proceed, flag for Terry. FAIL → quarant
 
 1. Update `~/notes/NOW.md`
 2. `TeamDelete` if team was used
-3. Delete `~/tmp/.copia-guard-active` — deactivates the stop guard
-4. Archive `~/tmp/copia-session.md` to `~/tmp/copia-session-YYYY-MM-DD.md`
+3. Delete `~/tmp/.centrosome-guard-active` — deactivates the stop guard
+4. Archive `~/tmp/centrosome-session.md` to `~/tmp/centrosome-session-YYYY-MM-DD.md`
 5. List tmux panes, **ask Terry before killing any** — he has other live sessions
 
 ## Anti-Patterns

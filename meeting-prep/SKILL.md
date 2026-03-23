@@ -1,5 +1,5 @@
 ---
-name: meeting-prep
+name: opsonization
 description: Drill for upcoming meetings with scenario-based questions. "meeting prep", "prep for meeting", "prep for coffee"
 user_invocable: true
 ---
@@ -11,7 +11,7 @@ Scenario-based drill for upcoming meetings. Generates likely questions, objectio
 ## Trigger
 
 - "meeting prep", "prep for meeting", "prep for coffee", "prep for interview"
-- `/meeting-prep` or `/meeting-prep 5`
+- `/opsonization` or `/opsonization 5`
 
 ## Inputs
 

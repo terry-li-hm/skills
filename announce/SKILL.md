@@ -1,5 +1,5 @@
 ---
-name: announce
+name: secretion
 description: Post to LinkedIn. GATE — requires a tweet first. The tweet tests the claim; LinkedIn expands with blindspots addressed.
 user_invocable: false
 ---

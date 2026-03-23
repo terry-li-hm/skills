@@ -1,6 +1,6 @@
 ---
-name: legatum
-description: Session state transfer — bequeath volatile context to durable storage before session death. Learning capture, TODO sweep, session log. Use at gear shifts (checkpoint mode) or before /clear (full mode). NOT a daily routine — use commute for end-of-work closure. Aliases "wrap", "legatum".
+name: telophase
+description: Session state transfer — bequeath volatile context to durable storage before session death. Learning capture, TODO sweep, session log. Use at gear shifts (checkpoint mode) or before /clear (full mode). NOT a daily routine — use commute for end-of-work closure. Aliases "wrap", "telophase".
 user_invocable: true
 allowed-tools:
   - Bash
@@ -15,16 +15,16 @@ allowed-tools:
 
 A dying session bequeaths its knowledge forward. Two modes:
 
-> **Core framing:** This is state transfer, not documentation. The session holds volatile state — decisions, understanding, corrections — that dies with `/clear`. The legatum's job is to move what matters to durable storage. Everything else is theatre.
+> **Core framing:** This is state transfer, not documentation. The session holds volatile state — decisions, understanding, corrections — that dies with `/clear`. The telophase's job is to move what matters to durable storage. Everything else is theatre.
 
-- **Full** (`/legatum` or `/wrap`) — end-of-session close. All steps.
-- **Checkpoint** (`/legatum checkpoint` or `/wrap checkpoint`, auto-triggered at gear shifts) — capture learnings + sweep TODOs, skip session-end bookkeeping. Preserves context — no /compact, no closure framing.
+- **Full** (`/telophase` or `/wrap`) — end-of-session close. All steps.
+- **Checkpoint** (`/telophase checkpoint` or `/wrap checkpoint`, auto-triggered at gear shifts) — capture learnings + sweep TODOs, skip session-end bookkeeping. Preserves context — no /compact, no closure framing.
 
 Session scope = files modified + tool calls + conversation turns since this session began (or since last checkpoint).
 
 ## Triggers
 
-- "wrap", "wrap up", "let's wrap", "legatum" → full mode
+- "wrap", "wrap up", "let's wrap", "telophase" → full mode
 - "checkpoint", "wrap checkpoint" → checkpoint mode
 - **Auto-trigger (Claude-initiated):** When detecting a significant gear shift (different project, different domain, switching from building to admin, etc.), run checkpoint mode silently before proceeding. Don't ask — just capture.
 - "what did we learn" → checkpoint mode
@@ -42,15 +42,15 @@ If invoked at session end → **full mode**.
 ### Skip gate
 
 ```bash
-legatum gather
+telophase gather
 ```
 
-Output is compact text by default (LLM-optimized). `--json` for code, `--human` for terminal. Parse `now.age_label`. If **"fresh"** (NOW.md <15 min old) AND user did not explicitly invoke `/legatum`, skip to Step 3 briefly, then Output. Explicit invocation always runs all steps.
+Output is compact text by default (LLM-optimized). `--json` for code, `--human` for terminal. Parse `now.age_label`. If **"fresh"** (NOW.md <15 min old) AND user did not explicitly invoke `/telophase`, skip to Step 3 briefly, then Output. Explicit invocation always runs all steps.
 
 ### Step 0: Pre-Wrap Check
 
 ```bash
-legatum gather --json
+telophase gather --json
 ```
 
 This runs all deterministic checks (dirty repos, skill sync, MEMORY.md budget, NOW.md age, deps, peira) plus the reflection scan. All output is JSON — the LLM is the only consumer. Review the output, then apply judgment:
@@ -82,7 +82,7 @@ Arsenal:     added → [[Capco Transition]] | no — [reason]
 ### Step 1: TODO Sweep
 
 ```bash
-legatum archive
+telophase archive
 ```
 
 This moves completed `[x]` items to the archive with `done:` tags. Then apply judgment:
@@ -92,7 +92,7 @@ This moves completed `[x]` items to the archive with `done:` tags. Then apply ju
 ### Step 2: Session Log + NOW.md (full mode only)
 
 ```bash
-legatum daily "Brief session title"
+telophase daily "Brief session title"
 ```
 
 This appends a timestamped session log template to today's daily note. Then fill in the content:
@@ -100,7 +100,7 @@ This appends a timestamped session log template to today's daily note. Then fill
 - Key outcome or decision (1-3 bullets)
 - Abandoned: X because Y  ← if applicable
 
-**The legatum summary prose goes here as the final paragraph of the session log.** This is the arc, the synthesis, the judgment — not just facts. The daily note is the durable record; the conversation transcript is ephemeral. The summary must be persisted.
+**The telophase summary prose goes here as the final paragraph of the session log.** This is the arc, the synthesis, the judgment — not just facts. The daily note is the durable record; the conversation transcript is ephemeral. The summary must be persisted.
 
 **NOW.md** — read from disk. If recent (<1h), update only deltas. Max 15 lines, dual-ledger format (Facts + Progress).
 
@@ -125,7 +125,7 @@ Single pass. If nothing surfaces: "Nothing to generalise."
 **Extract learnings (focused actus):**
 
 ```bash
-legatum gather --syntactic | legatum extract
+telophase gather --syntactic | telophase extract
 ```
 
 `extract` is a focused LLM call that reviews reflection candidates with one job: decide what to file. It outputs SKIP (already known), FILE (useful for future sessions), or PRINCIPLE (generalises beyond this instance). Each candidate gets full attention — no checklist fatigue.
@@ -169,7 +169,7 @@ Done.
 
 ## Boundaries
 
-- Do NOT perform external sends during legatum.
-- Do NOT run deep audits or research — legatum is a close-out, not a workstream.
+- Do NOT perform external sends during telophase.
+- Do NOT run deep audits or research — telophase is a close-out, not a workstream.
 - **Full mode:** Stop after writes + summary.
 - **Checkpoint mode:** Continue with the next task after output.

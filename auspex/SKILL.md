@@ -1,6 +1,6 @@
 ---
-name: auspex
-description: Morning brief — weather, sleep scores, overnight results. Optional, run if time before Theo's school rush. "auspex", "gm", "weather", "how did I sleep"
+name: zeitgeber
+description: Morning brief — weather, sleep scores, overnight results. Optional, run if time before Theo's school rush. "zeitgeber", "gm", "weather", "how did I sleep"
 user_invocable: true
 disable-model-invocation: true
 ---
@@ -11,7 +11,7 @@ Weather, sleep, overnight results. 60 seconds, phone-friendly. Optional — skip
 
 ## Triggers
 
-- auspex
+- zeitgeber
 - gm
 - weather
 - how did i sleep
@@ -22,8 +22,8 @@ Weather, sleep, overnight results. 60 seconds, phone-friendly. Optional — skip
 
 Run all in parallel:
 
-1. **Weather + Tara** — `auspex` CLI (sends weather to Tara via iMessage automatically)
-   - Use `auspex --no-send` to skip iMessage (testing)
+1. **Weather + Tara** — `zeitgeber` CLI (sends weather to Tara via iMessage automatically)
+   - Use `zeitgeber --no-send` to skip iMessage (testing)
 
 2. **Sleep & health scores** — `sopor today`
    - Shows last night's sleep: Oura sleep score, readiness, HRV, EightSleep data
@@ -33,18 +33,18 @@ Run all in parallel:
 3. **Overnight results** — check both files, skip silently if missing or stale (>24h):
    - `~/.claude/nightly-health.md` — system health dashboard. Surface any warning or red rows. If all green, just say "System health: all green."
    - `~/.claude/skill-flywheel-daily.md` — skill routing misses. Surface any total misses or low hit rate.
-   - Check `~/.cache/legatus-runs/` for overnight agent results — read most recent `summary.md`. Flag NEEDS_ATTENTION or CRITICAL items. Skip silently if empty.
+   - Check `~/.cache/kinesin-runs/` for overnight agent results — read most recent `summary.md`. Flag NEEDS_ATTENTION or CRITICAL items. Skip silently if empty.
 
 Present everything in one compact brief.
 
 ## Boundaries
 
-- Do NOT surface work priorities, TODO, calendar, or inbox — that's `/commute` (evening) or `/kairos` (ad-hoc)
+- Do NOT surface work priorities, TODO, calendar, or inbox — that's `/commute` (evening) or `/ultradian` (ad-hoc)
 - Do NOT create or edit vault notes
 - Do NOT run Oura trend analysis — that's `/weekly` health section
 - Keep it under 60 seconds of reading. Morning is for glancing, not studying.
 
 ## See also
 - `/commute` — the one daily routine (evening)
-- `/kairos` — ad-hoc "what now?" (anytime)
+- `/ultradian` — ad-hoc "what now?" (anytime)
 - [[cadence-design]] — principles behind the cadence stack

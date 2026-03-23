@@ -1,8 +1,8 @@
 ---
-name: consilium
+name: quorum
 description: Multi-model deliberation for judgment calls — auto-routes by difficulty. Full council (~$0.50), quick parallel (~$0.10), red team (~$0.20). Use for decisions, trade-offs, naming, strategy. NOT for factual research (use elencho or WebSearch).
 aliases: [ask-llms, council, ask llms]
-github_url: https://github.com/terry-li-hm/consilium
+github_url: https://github.com/terry-li-hm/quorum
 user_invocable: true
 cli_version: 0.5.1
 cli_verified: 2026-03-03
@@ -13,7 +13,7 @@ runtime: rust
 
 5 frontier models deliberate on a question, then Gemini judges and Claude critiques. Auto-routes by difficulty.
 
-> Source: `~/code/consilium/`. Extended reference: `~/skills/consilium/REFERENCE.md`.
+> Source: `~/code/quorum/`. Extended reference: `~/skills/quorum/REFERENCE.md`.
 
 ---
 
@@ -78,23 +78,23 @@ Everything else → --deep (default)
 **Step 2: Run — always backgrounded, always `--vault` for deep/council runs**
 
 ```bash
-consilium "question" --deep --vault
+quorum "question" --deep --vault
 
 # With prompt file (avoids shell quoting issues)
-consilium --prompt-file /tmp/prompt.txt --deep --vault
+quorum --prompt-file /tmp/prompt.txt --deep --vault
 
 # Batch/agent-test runs (--quick --quiet)
-consilium --quick --quiet --domain banking -o ~/docs/solutions/agent-tests/<name>.md "..."
+quorum --quick --quiet --domain banking -o ~/docs/solutions/agent-tests/<name>.md "..."
 ```
 
 - `--vault` auto-saves to `~/notes/Councils/` with Obsidian Sync. Never `--output /tmp/` — wiped on reboot.
 - **Always `run_in_background: true`** on the Bash tool.
 - Running 4+ parallel `--council` hits OpenRouter rate limits — use `--quick` for parallel batch runs.
 
-**Output retrieval** — consilium detects pipes and uses SilentOutput; redirect to `~/tmp/` and read after:
+**Output retrieval** — quorum detects pipes and uses SilentOutput; redirect to `~/tmp/` and read after:
 
 ```bash
-consilium "..." --quick > ~/tmp/consi-<name>.txt 2>&1
+quorum "..." --quick > ~/tmp/consi-<name>.txt 2>&1
 # after task completes:
 cat ~/tmp/consi-<name>.txt
 ```
@@ -124,13 +124,13 @@ cat ~/tmp/consi-<name>.txt
 ## Session Management
 
 ```bash
-consilium --sessions    # List recent sessions
-consilium --stats       # Cost breakdown
-consilium --watch       # Live tail (rich formatted)
-consilium --tui         # TUI with phase/cost/time
-consilium --view "career"   # View session matching term
-consilium --search "career" # Search all session content
-consilium --doctor      # Check API keys and connectivity
+quorum --sessions    # List recent sessions
+quorum --stats       # Cost breakdown
+quorum --watch       # Live tail (rich formatted)
+quorum --tui         # TUI with phase/cost/time
+quorum --view "career"   # View session matching term
+quorum --search "career" # Search all session content
+quorum --doctor      # Check API keys and connectivity
 ```
 
 ---
@@ -138,14 +138,14 @@ consilium --doctor      # Check API keys and connectivity
 ## Gotchas
 
 - **402** = OpenRouter out of credits — tell Terry to top up at openrouter.ai/credits. Don't retry.
-- **403 on new model** = access restricted. Test before using: `consilium --quick --quiet "test" 2>&1 | grep -i "403\|error"`.
+- **403 on new model** = access restricted. Test before using: `quorum --quick --quiet "test" 2>&1 | grep -i "403\|error"`.
 - **Two spend streams:** OpenRouter (`stips`) + OpenAI direct (`platform.openai.com/usage`). Responses API models bypass OpenRouter and burn the direct OPENAI_API_KEY. Keep OpenAI direct budget cap at $20.
-- **Before adding any new model:** run speed test (`consilium --quick --quiet "name a color"`) — any model >60s doesn't belong. Run `pondus check "<model>"` to verify pricing; `-pro` reasoning variants can cost 10–12× more than base.
+- **Before adding any new model:** run speed test (`quorum --quick --quiet "name a color"`) — any model >60s doesn't belong. Run `pondus check "<model>"` to verify pricing; `-pro` reasoning variants can cost 10–12× more than base.
 - **Strip PII from personal/family prompts.** OpenRouter routes to 6+ third-party providers. Use roles ("my son", "my wife") not names.
-- **`--format json`**, `--challenger`, `--followup` are council/quick only. Binary can go stale after code changes: `cd ~/code/consilium && cargo build --release`.
+- **`--format json`**, `--challenger`, `--followup` are council/quick only. Binary can go stale after code changes: `cd ~/code/quorum && cargo build --release`.
 
 ---
 
 ## Reference
 
-Extended docs in `~/skills/consilium/REFERENCE.md`: prompting tips, model tendencies, flag compatibility matrix, follow-up workflow, cost & ROI, research foundations.
+Extended docs in `~/skills/quorum/REFERENCE.md`: prompting tips, model tendencies, flag compatibility matrix, follow-up workflow, cost & ROI, research foundations.

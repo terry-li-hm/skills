@@ -1,9 +1,9 @@
 ---
-name: kairos
-description: "Any-time situational snapshot — what's actionable right now. Use when user says 'kairos', 'what now', 'what should I do', 'what's next', or needs a mid-session priority check."
+name: ultradian
+description: "Any-time situational snapshot — what's actionable right now. Use when user says 'ultradian', 'what now', 'what should I do', 'what's next', or needs a mid-session priority check."
 user_invocable: true
 triggers:
-  - kairos
+  - ultradian
   - what now
   - what should I do
   - what's next
@@ -15,16 +15,16 @@ triggers:
 
 *Kairos* (Greek: καιρός) — qualitative time, not clock time. Not "what time is it?" but "given this moment, what's the right action?"
 
-Unlike `auspex` (morning delta), Kairos is stateless and anytime. No session scanning, no reflection on what shipped — just the live situation and what to do next.
+Unlike `zeitgeber` (morning delta), Kairos is stateless and anytime. No session scanning, no reflection on what shipped — just the live situation and what to do next.
 
-**Design principle:** Kairos is the single entry point for "what now?" Every automated system (speculor, praeco, cron jobs) feeds into kairos — Terry never needs to remember what's running. When he says "should I check X?", confirm the system already covers it or flag the gap as a build signal. New tools surface through kairos, not their own invocation.
+**Design principle:** Kairos is the single entry point for "what now?" Every automated system (speculor, praeco, cron jobs) feeds into ultradian — Terry never needs to remember what's running. When he says "should I check X?", confirm the system already covers it or flag the gap as a build signal. New tools surface through ultradian, not their own invocation.
 
 **Task routing:** When surfacing items, distinguish committed vs uncommitted paths, flag zombie tasks (snoozed 3+ times), and bias toward dropping rather than escalating.
 
 ## Live Context (injected at invocation)
 
 ```bash
-kairos-gather
+ultradian-gather
 ```
 
 This runs all deterministic gathering in parallel (date, calendar, reminders, NOW.md, TODO today, job alerts, acta). Use `--json` for structured parsing.
@@ -102,7 +102,7 @@ One short paragraph. No headers, no bullets unless there are 3+ overdue items. L
 - Do NOT reflect on what was shipped this session. Pure situational read.
 - If keychain is locked and gog fails, note it and skip calendar gracefully.
 - Keep it under 5 sentences. The point is to decide and move, not to read a report.
-- If the user just ran `auspex` recently (same session), skip NOW.md/TODO repeat and just surface what's changed: new calendar events or new open gates since then.
+- If the user just ran `zeitgeber` recently (same session), skip NOW.md/TODO repeat and just surface what's changed: new calendar events or new open gates since then.
 
 ## Boundaries
 
@@ -110,4 +110,4 @@ One short paragraph. No headers, no bullets unless there are 3+ overdue items. L
 - Do NOT run deep research or inbox triage; only time/calendar/NOW/TODO snapshot.
 
 ## Called by
-- `auspex` — today's plate section
+- `zeitgeber` — today's plate section

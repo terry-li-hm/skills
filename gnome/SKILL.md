@@ -1,6 +1,6 @@
 ---
-name: gnome
-description: Capture structured decisions with past-decision surfacing (bouncer pattern). Use when user says "gnome", "/gnome", "I need to decide", or is weighing options with trade-offs.
+name: transcription-factor
+description: Capture structured decisions with past-decision surfacing (bouncer pattern). Use when user says "transcription-factor", "/transcription-factor", "I need to decide", or is weighing options with trade-offs.
 user_invocable: true
 ---
 
@@ -15,29 +15,29 @@ When logging, tag which lens shaped the decision:
 - **Premortem** — if this fails, why?
 - **Chesterton's fence** — if changing something, do you know why it existed?
 
-*Gnōmē (γνώμη): in Aristotle, the crystallised residue of having judged — recalled to govern new situations. Sits upstream of both epistēmē (measurable → evaluation-theory) and boulē (uncertain → consilium).*
+*Gnōmē (γνώμη): in Aristotle, the crystallised residue of having judged — recalled to govern new situations. Sits upstream of both epistēmē (measurable → evaluation-theory) and boulē (uncertain → quorum).*
 
 ## Commands
 
-### `/gnome <topic and rationale>` (default — bouncer + capture)
+### `/transcription-factor <topic and rationale>` (default — bouncer + capture)
 
 Free-text capture. User provides topic and reasoning in natural language; Claude structures it into a decision note.
 
 **Examples:**
-- `/gnome Accept Capco offer — better comp, AI-focused role, consulting career path`
-- `/gnome Use QMD over Oghma for decision search — static docs, auto-indexed, no extra infra`
-- `/gnome` (bare — Claude asks "What are you deciding?")
+- `/transcription-factor Accept Capco offer — better comp, AI-focused role, consulting career path`
+- `/transcription-factor Use QMD over Oghma for decision search — static docs, auto-indexed, no extra infra`
+- `/transcription-factor` (bare — Claude asks "What are you deciding?")
 
 **Logic:**
 
 0. **ROUTE FIRST:**
-   > consilium = outcome is uncertain, needs perspectives.
+   > quorum = outcome is uncertain, needs perspectives.
    - Can you run both options and compare with a measurable criterion? → `[[evaluation-theory]]` (see `~/notes/Reference/epistemics/evaluation-theory.md`)
-   - Does it involve genuine trade-offs, values, or domain judgment? → `consilium`
+   - Does it involve genuine trade-offs, values, or domain judgment? → `quorum`
    - Is it a committed choice that just needs capturing? → proceed below
 
 1. Run `date +%Y-%m-%d` to get today in HKT
-2. If bare `/gnome` with no arguments, ask: "What are you deciding?"
+2. If bare `/transcription-factor` with no arguments, ask: "What are you deciding?"
 3. Extract the core topic from user's input (first clause before em-dash or period)
 
 4. **BOUNCER CHECK:**
@@ -64,7 +64,7 @@ Free-text capture. User provides topic and reasoning in natural language; Claude
 7. Generate slug from topic: lowercase, kebab-case, max 5 words
 8. Write to `~/notes/decisions/YYYY-MM-DD-<slug>.md` using the template below
 9. Confirm: "Decision logged: `decisions/YYYY-MM-DD-<slug>.md`"
-10. If the decision involved complex trade-offs, offer: "Want to stress-test this with `/consilium --redteam`?"
+10. If the decision involved complex trade-offs, offer: "Want to stress-test this with `/quorum --redteam`?"
 
 **Template:**
 
@@ -103,7 +103,7 @@ tags:
 **Related:** [[relevant note]] | [[other note]]
 ```
 
-### `/gnome search <query>`
+### `/transcription-factor search <query>`
 
 Search past decisions semantically.
 
@@ -114,7 +114,7 @@ Search past decisions semantically.
 4. Present results with: date, decision summary (from frontmatter `decision:` field), confidence, domain
 5. Offer to read any full decision note
 
-### `/gnome review`
+### `/transcription-factor review`
 
 Surface decisions with a review date that has passed.
 
@@ -129,16 +129,16 @@ Surface decisions with a review date that has passed.
    - Present: original decision, confidence, date decided, context summary
    - Ask: "Looking back — confirmed, revised, or regretted?"
    - Update the note's `status:` field accordingly
-   - If revised or regretted, offer to create a new `/gnome` entry
+   - If revised or regretted, offer to create a new `/transcription-factor` entry
 
 ## Notes
 
 - **Storage:** `~/notes/decisions/YYYY-MM-DD-<slug>.md` — Obsidian vault, searched via Grep tool at query time.
 - **No manual outcome tracking.** The bouncer IS the outcome tracker: if you come back to the same topic, the previous decision either held (you never return) or failed (you're back). Recurrence = implicit failure signal.
-- **Consilium integration:** For complex decisions, use `/consilium` first to deliberate, then `/gnome` to log the outcome. Council outputs in `~/notes/Councils/` complement but don't replace decision notes.
+- **Consilium integration:** For complex decisions, use `/quorum` first to deliberate, then `/transcription-factor` to log the outcome. Council outputs in `~/notes/Councils/` complement but don't replace decision notes.
 - **Keep it fast.** Capture should take <30 seconds. If you're spending 2 minutes filling in fields, the skill is failing. Free-text in, structured note out.
 
 ## Calls
 - `Grep` tool (scoped to `~/notes/decisions/`) — bouncer search and decision lookup
 - `[[evaluation-theory]]` — when outcome is measurable
-- `consilium` — when trade-offs need deliberation
+- `quorum` — when trade-offs need deliberation

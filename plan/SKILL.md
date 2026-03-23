@@ -1,6 +1,6 @@
 ---
-name: plan
-description: Turn a design into a self-contained implementation plan with TDD steps, exact paths, and complete code. Use after /brainstorm or when the shape is already clear.
+name: translation
+description: Turn a design into a self-contained implementation plan with TDD steps, exact paths, and complete code. Use after /transcription or when the shape is already clear.
 user_invocable: true
 ---
 
@@ -10,7 +10,7 @@ Turn a validated design into a plan that an executing agent (or future you) can 
 
 ## When to Use
 
-- After `/brainstorm` when the design is approved
+- After `/transcription` when the design is approved
 - When requirements are already clear and no design exploration is needed
 - When the user says "plan this", "how do we build this", "break this down"
 - **Not needed for:** single-file changes, obvious bug fixes, config tweaks
@@ -18,13 +18,13 @@ Turn a validated design into a plan that an executing agent (or future you) can 
 ## Inputs
 
 Accept any of:
-- A requirements doc path (from `/brainstorm`)
+- A requirements doc path (from `/transcription`)
 - A verbal feature description
 - A GitHub issue or bug report
 
-If a requirements doc exists in `~/docs/brainstorms/` matching the topic, read it and use it as the origin. Reference it with `origin:` in frontmatter. Don't re-ask questions the brainstorm already answered.
+If a requirements doc exists in `~/docs/brainstorms/` matching the topic, read it and use it as the origin. Reference it with `origin:` in frontmatter. Don't re-ask questions the transcription already answered.
 
-If inputs are too vague to plan, say so. Either ask targeted questions (one at a time) or suggest `/brainstorm` first.
+If inputs are too vague to plan, say so. Either ask targeted questions (one at a time) or suggest `/transcription` first.
 
 ## Context Scan
 
@@ -124,7 +124,7 @@ If a step takes more than 5 minutes to describe or execute, it's multiple steps.
 
 ### What Stays Out
 
-- Alternative approaches already rejected in brainstorm (link to origin doc)
+- Alternative approaches already rejected in transcription (link to origin doc)
 - Future considerations and extensibility (YAGNI)
 - Resource estimates and timelines
 - Issue tracker integration
@@ -135,7 +135,7 @@ Write the plan to `~/docs/plans/YYYY-MM-DD-<topic>-plan.md`. Confirm the path.
 
 ## Handoff
 
-State the plan path and recommend `/faber` for execution. Don't start implementing — the user decides when.
+State the plan path and recommend `/folding` for execution. Don't start implementing — the user decides when.
 
 If the plan is small enough that full delegation is overkill (2-3 tasks, all straightforward), say so: "This is small enough to just execute directly."
 
