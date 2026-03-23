@@ -57,7 +57,7 @@ This runs all deterministic checks (dirty repos, skill sync, MEMORY.md budget, N
 
 **Three questions (not five):**
 1. **Uncommitted?** Dirty repos *touched this session*? → commit.
-2. **Deferred?** Anything mentioned as "later/next/TODO" not yet captured? Route: deadline → TODO.md, context trigger → `~/officina/claude/memory/prospective.md`, neither → daily note.
+2. **Deferred?** Anything mentioned as "later/next/TODO" not yet captured? Route: deadline → Praxis.md, context trigger → `~/officina/claude/memory/prospective.md`, neither → daily note.
 3. **Garden + arsenal?** Replay the session arc. What did we *learn*, not just *do*? What principle emerged?
    - **Tweet test:** Any claim sharp enough to survive 280 chars? Draft it — the compression forces rigour. Post freely (asymmetric downside: viral compounds, zero-likes invisible). If it survives, expand to garden post.
    - **Garden test:** Non-obvious insight, clear thesis, Terry's lane? → publish via `sarcio`.

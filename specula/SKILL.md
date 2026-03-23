@@ -79,7 +79,7 @@ domains: [stack, capco, governance]
 ### 5. Action — Create tasks
 
 For high-priority patterns:
-- `stack` → add to TODO.md or create rector task
+- `stack` → add to Praxis.md or create rector task
 - `capco` → update methodology notes or client frameworks
 - `governance` → update study materials or advisory templates
 

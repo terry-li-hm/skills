@@ -1,20 +1,20 @@
 ---
-name: todo
-description: Manage TODO.md in the vault with time-based scheduling. Use when user says "todo", "add todo", "check todo", "done with", "overdue", or "someday".
+name: praxis
+description: Manage Praxis.md in the vault with time-based scheduling. Use when user says "todo", "add todo", "check todo", "done with", "overdue", "someday", or "praxis".
 user_invocable: true
 ---
 
-# Todo
+# Praxis
 
-Quick management of `~/notes/TODO.md` with time-based scheduling.
+Quick management of `~/notes/Praxis.md` with time-based scheduling.
 
 ## Commands
 
 Invoke via `todo-cli <subcommand>`. Subcommands: `today`, `upcoming`, `overdue`, `someday`, `all`, `spare`, `stats`, `clean`. Present CLI output directly.
 
-If `~/notes/TODO.md` is missing, create it with a minimal heading before running any command. If creation fails, report "TODO store unavailable" and stop.
+If `~/notes/Praxis.md` is missing, create it with a minimal heading before running any command. If creation fails, report "TODO store unavailable" and stop.
 
-## Intake Gate (apply before `/todo add`)
+## Intake Gate (apply before `/praxis add`)
 
 | Test | Question | If NO → |
 |------|----------|---------|
@@ -25,7 +25,7 @@ If `~/notes/TODO.md` is missing, create it with a minimal heading before running
 
 Pass 1 or 2 → add. Fail both but pass 3+4 → skip. Borderline → ask Terry rather than defaulting to add.
 
-Append cleared tasks with: `echo "- [ ] <task>" >> ~/notes/TODO.md`
+Append cleared tasks with: `echo "- [ ] <task>" >> ~/notes/Praxis.md`
 
 ## Due Alarm (moneo)
 
@@ -39,8 +39,8 @@ Bar for `due:` at all: would forgetting cause real damage? Low-stakes admin belo
 
 ## Hard Rules
 
-- **NEVER leave `- [x]` lines in TODO.md.** When marking done — via `/todo done` or manually — move the completed line to `~/notes/TODO Archive.md` in the same edit. Archive under current month's section (`## March 2026`), creating it if absent. No exceptions, no "clean up later".
-- **Reflections/journaling items live in `~/notes/Reflections Queue.md`** — not TODO.md.
-- Single source: `~/notes/TODO.md`. All agents share this file.
+- **NEVER leave `- [x]` lines in Praxis.md.** When marking done — via `/praxis done` or manually — move the completed line to `~/notes/Praxis Archive.md` in the same edit. Archive under current month's section (`## March 2026`), creating it if absent. No exceptions, no "clean up later".
+- **Reflections/journaling items live in `~/notes/Reflections Queue.md`** — not Praxis.md.
+- Single source: `~/notes/Praxis.md`. All agents share this file.
 - Dates always ISO-8601 (`YYYY-MM-DD`) in HKT. Use `date +%Y-%m-%d` for today.
 - Do NOT reinterpret task intent or create project plans — this skill manages TODO state only.

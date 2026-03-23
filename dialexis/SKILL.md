@@ -93,7 +93,7 @@ If yes — act, don't just flag:
 ### Step 4: Suggest
 
 Cross-reference findings with active pipeline:
-- Check `~/notes/TODO.md` for upcoming meetings/interviews
+- Check `~/notes/Praxis.md` for upcoming meetings/interviews
 - Check `[[Capco Transition]]` for HSBC engagement prep
 - If a development is particularly relevant to an upcoming meeting, interview, or client, flag it explicitly with the specific talking point and where to use it
 - For interview prep notes (e.g. `[[DBS Data Management Interview Prep]]`), add a "Fresh intel" section with 3-4 bullet points and a best drop point

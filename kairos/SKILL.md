@@ -52,9 +52,9 @@ If current time is after 12:00 HKT, check `~/notes/Job Hunting/Job Alerts YYYY-M
 
 ### 4. Overdue and today's TODO items
 
-Read `~/notes/TODO.md`.
+Read `~/notes/Praxis.md`.
 
-- If file is missing/unreadable, note "TODO.md unavailable" and continue.
+- If file is missing/unreadable, note "Praxis.md unavailable" and continue.
 
 - Surface only: items with `due:` <= today, items with `when:` <= today that are not completed
 - Also surface `recurring:daily` items and day-of-week recurring items that match today (e.g. `recurring:3x-week` on Mon/Wed/Fri, `recurring:weekly` on the matching weekday, `recurring:biweekly` if applicable). Cross-reference with the current day from step 1.

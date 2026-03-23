@@ -39,7 +39,7 @@ The guard is a Stop hook (`~/.claude/hooks/copia-guard.py`). While active, the m
 
 ### Step 1: Load Context (parallel)
 
-`~/notes/North Star.md`, `~/notes/Reference/epistemics/north-star-shapes.md`, `~/notes/Reference/epistemics/division-of-labour.md`, `~/notes/NOW.md`, `~/notes/TODO.md` (head 80), `date`.
+`~/notes/North Star.md`, `~/notes/Reference/epistemics/north-star-shapes.md`, `~/notes/Reference/epistemics/division-of-labour.md`, `~/notes/NOW.md`, `~/notes/Praxis.md` (head 80), `date`.
 
 ### Step 2: Shape-to-Leverage Filter
 
@@ -75,8 +75,8 @@ The guard is a Stop hook (`~/.claude/hooks/copia-guard.py`). While active, the m
 For each high-leverage star, identify sub-goals that are: actionable now, Automated category, produce a concrete deliverable, completable in one agent session.
 
 **Sources (priority order):**
-1. TODO.md items tagged `agent:claude` or where research/drafting is the bottleneck
-2. What the north stars need now, even if not in TODO.md
+1. Praxis.md items tagged `agent:claude` or where research/drafting is the bottleneck
+2. What the north stars need now, even if not in Praxis.md
 3. External signals (lustro outputs, calendar proximity)
 4. What wave N outputs revealed as the next logical step
 
@@ -114,9 +114,9 @@ After each wave, two phases:
 
 ### Step 7: Route Outputs
 
-**Default: self-sufficient (~75%).** Study materials, research answers, meeting prep — archive to `~/notes/TODO Archive.md`, no TODO item.
+**Default: self-sufficient (~75%).** Study materials, research answers, meeting prep — archive to `~/notes/Praxis Archive.md`, no TODO item.
 
-**Needs review (~25%):** Only when: Terry's voice (content to publish), Terry's memory (facts only he knows), or Terry's hands (physical action). → Add to TODO.md: `- [ ] **Review: [title].** [path]. [what to check]. \`agent:terry\``
+**Needs review (~25%):** Only when: Terry's voice (content to publish), Terry's memory (facts only he knows), or Terry's hands (physical action). → Add to Praxis.md: `- [ ] **Review: [title].** [path]. [what to check]. \`agent:terry\``
 
 **`agent:terry` is expensive.** Before tagging, ask: could another agent verify this? Is this really review, or studying/doing? Agents never block on Terry's review — the flywheel keeps spinning.
 
@@ -126,7 +126,7 @@ After each wave, two phases:
 
 Write `~/notes/Copia Reports/YYYY-MM-DD.md` with frontmatter (waves, items\_produced, items\_for\_review) + Produced list + Review Queue + Flywheel Trace + Quality Gate Results.
 
-**No separate notification.** TODO.md is the one inbox.
+**No separate notification.** Praxis.md is the one inbox.
 
 ## Mode Differences
 
@@ -153,7 +153,7 @@ Verdict: PASS → proceed. PARTIAL → proceed, flag for Terry. FAIL → quarant
 
 ## Overnight Specifics
 
-**Archive loop (never skip):** As each agent completes — classify (self-sufficient or needs review) → quality gate if high-stakes → archive or add review TODO → update manifest → keep going. Always archive before removing from TODO.md.
+**Archive loop (never skip):** As each agent completes — classify (self-sufficient or needs review) → quality gate if high-stakes → archive or add review TODO → update manifest → keep going. Always archive before removing from Praxis.md.
 
 **Interactive session:** Maintain 6-8 running agents at all times. When count drops below 4, launch next wave immediately.
 
@@ -194,7 +194,7 @@ Verdict: PASS → proceed. PARTIAL → proceed, flag for Terry. FAIL → quarant
 - **Meta-spiral:** Knowledge system work that doesn't serve stars 1-5
 - **Habit displacement:** Building "health tracking" instead of going to the gym
 - **Shape mismatch:** Treating a checklist as a flywheel
-- **Ignoring TODO.md:** Best sub-goals are often already queued there
+- **Ignoring Praxis.md:** Best sub-goals are often already queued there
 - **Over-scoping agents:** Each agent = ONE deliverable
 - **Inventing busywork:** Tasks discovered through navigation, not invented
 - **Sending messages:** Draft-only. Never send WhatsApp, email, or LinkedIn

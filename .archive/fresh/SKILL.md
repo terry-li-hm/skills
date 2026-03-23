@@ -29,7 +29,7 @@ cat /Users/terry/notes/WORKING.md 2>/dev/null || echo "No WORKING.md found"
 ### 2. Pending Items (always)
 
 ```bash
-cat /Users/terry/notes/TODO.md 2>/dev/null | head -30
+cat /Users/terry/notes/Praxis.md 2>/dev/null | head -30
 ```
 
 ### 3. Git Status (if in a git repo)
@@ -60,7 +60,7 @@ Present a brief, scannable summary:
 
 **Working on:** [from WORKING.md or "nothing tracked"]
 
-**Pending:** [top 3-5 items from TODO.md]
+**Pending:** [top 3-5 items from Praxis.md]
 
 **Git:** [clean / X files modified / not a repo]
 

@@ -55,7 +55,7 @@ Synthesize into **maximum 2-3 themes.** Don't linger — this is context for pla
 
 ### 4. TODO prune
 
-- Clear completed items from `~/notes/TODO.md`
+- Clear completed items from `~/notes/Praxis.md`
 - Flag anything untouched for 2+ weeks — delete or reschedule
 - Drop low-stakes items that keep lingering (see `memory/feedback_todo_hygiene.md`)
 

@@ -83,7 +83,7 @@ Offer to check tomorrow morning. Don't run now — data isn't in yet.
 
 ## Boundaries
 
-- Do NOT review TODO.md or task lists — that's `/eow` territory
+- Do NOT review Praxis.md or task lists — that's `/eow` territory
 - Do NOT surface new work items — wind-down direction only
 - Do NOT run `sopor` during quies — data for tonight isn't captured yet
 - Stop after Step 5 (or 6 if relevant). Do not loop back.
