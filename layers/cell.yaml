@@ -1,0 +1,63 @@
+# Cell Layer — Eukaryotic cell mapping for vivesca
+# Format: current_name: cell_name
+# Only map what maps cleanly. Unmapped names stay as-is.
+
+# Nucleus — information center, decisions
+consilium: quorum           # multi-model deliberation = quorum sensing
+gnome: transcription-factor # structured decisions = triggers gene expression
+challenge-idea: proofreading # stress-testing = DNA proofreading
+
+# Ribosomes — protein synthesis (dev pipeline)
+brainstorm: transcription   # exploring the design space = reading DNA
+plan: translation           # following steps in sequence = ribosome reads codons
+faber: folding              # code taking functional shape = protein folding
+litura: modification        # polish after build = post-translational modification
+
+# Cell Membrane — interface with environment
+tweet: exocytosis           # pushing signal outward
+announce: secretion         # pushing content to external surface
+publish: vesicle            # packaged output shipped to membrane
+
+# Lysosomes — decomposition
+# deleo: lysosome           # (CLI tool, not skill — mapped in CLI section)
+
+# Cytoskeleton — structure & transport
+praxis: actin               # dynamic task management = actin filaments
+legatus: kinesin            # agent transport along tracks = motor protein
+copia: centrosome           # spawns agents = organizes cell division
+
+# Mitochondria — energy
+# (usus, respiration — MCP/code level, not skills)
+
+# Endoplasmic Reticulum — processing
+# (litura already mapped above as post-translational modification)
+
+# Circadian Clock — rhythms
+auspex: zeitgeber           # morning activation = external cue that resets clock
+commute: period             # evening routine = PER gene (period, the repressor)
+quies: melatonin            # wind-down = sleep signal
+weekly: infradian           # longer-than-daily rhythm
+kairos: ultradian           # within-day pulse = shorter rhythm
+
+# Immune System
+# (hooks, guards — these are infra, not skills)
+
+# Signaling
+metabolise: cascade         # idea development = signal cascade
+fodina: endocytosis         # knowledge mining = ingesting external material
+analyze: receptor           # classifying input = receptor binding
+
+# Career / Research — forced mappings, may not stick
+forge: ribosome             # IP compounding = protein factory
+specula: chemotaxis         # peer scanning = sensing chemical gradients
+meeting-prep: opsonization  # coating target for recognition = prepping for engagement
+
+# Session management
+legatum: telophase          # session wrap = final phase of cell division
+overnight: interphase       # background processing = cell's resting/growth phase
+
+# Growth
+askesis: autophagy          # growth through discipline = self-eating for renewal
+
+# Finance
+review-financial-status: homeostasis  # checking financial health = maintaining steady state
