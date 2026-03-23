@@ -1,0 +1,79 @@
+---
+name: phagocytosis
+description: Classify content, extract insights, and save a structured vault note. Use when user shares content (article, job posting, repo, video) and wants it catalogued in the vault. NOT for quick summaries without vault save (use summarize) or job evaluation (use evaluate-job).
+model: sonnet
+user_invocable: true
+---
+
+# Analyze
+
+Universal entry point for anything user shares — URL or pasted content.
+
+## Input Routing
+
+| Pattern | Type | Handler |
+|---------|------|---------|
+| `github.com/*/*` | repo | Lightweight |
+| `linkedin.com/jobs/*` | job | → `/adhesion` |
+| `linkedin.com/company/*`, career pages | company | Lightweight |
+| `linkedin.com/in/*` | profile | Lightweight |
+| `*.substack.com`, `medium.com/*`, `*blog*`, pasted text | article | Specialized |
+| `arxiv.org/*`, `papers.*`, `*.pdf` | paper | Specialized |
+| `youtube.com/*`, `youtu.be/*`, `bilibili.com/*`, `b23.tv/*`, `xiaoyuzhoufm.com/*`, `podcasts.apple.com/*`, `x.com/i/broadcasts/*`, `.mp3/.mp4/.m4a` | video/podcast | → `video-digest` CLI |
+| Everything else | unknown | Fetch, classify by content signals |
+
+**Fetch failure:** ask user to paste. If both fail: `Skip — content unavailable`.
+
+**Fallback signals:** "Key Ideas"/thesis structure → article; requirements/responsibilities → job; code/commits/stars → repo.
+
+## Skip Logic
+
+Before creating a note, check:
+- Login wall with no content → skip
+- Pure marketing/announcement, no insight → skip
+- Already exists in vault (check by URL) → skip
+
+On skip: `**Skip** — [reason] / Domain: [source]`
+
+**Article worth-noting gate:**
+
+| NOTE | SKIP |
+|------|------|
+| Novel ideas, frameworks, contrarian arguments | Marketing fluff |
+| Relevant to work/interests, actionable | Beginner explainers, news without insight |
+
+## Handlers
+
+**Articles:** Standard (most) — frontmatter + Key Ideas (3-5 bullets) + My Take (2-4 sentences). Deep (long-form, technical, or explicit request) — add Core Arguments, Tools & Methods, Risks & Warnings, Mental Model Shifts, Action Items. Scan all deep dimensions; only write those with actual content.
+
+**Repos:** frontmatter (language, stars, last\_commit, license) + Overview (1-2 sentences) + Signals (activity/quality/relevance).
+
+**Company pages:** frontmatter (industry, size, stage) + Overview + Signals (tech stack, culture, red flags).
+
+**Profiles:** frontmatter (name, role, company, connection\_context) + Background + Notes (why saving).
+
+**Videos/podcasts:** route to `video-digest` CLI. Apply deep analysis after transcript if user requests analysis.
+
+**Unclassified:** frontmatter (type: unclassified, domain) + Content (title + brief summary) + Why Saved.
+
+## Ontology Injection
+
+Before generating any note:
+
+1. Grep `~/notes/` for `^tags:` (glob `*.md`, head\_limit 20) — build existing tag set
+2. Glob `~/notes/*MOC*.md` and `~/notes/Maps/*.md` — find relevant MOCs
+
+**Rule:** Only use tags that already exist in vault. Never invent tags. If nothing fits, leave tags empty.
+
+## Telemetry
+
+Append one row to `~/notes/Meta/Analyze Telemetry.md`:
+```
+| [date] | [input] | [detected_type] | [confidence] | [override?] |
+```
+
+## Boundaries
+
+- Analysis only — do not execute actions implied by content
+- Never invent tags when ontology lookup fails
+- Stop after note creation and telemetry; keep recommendations brief
