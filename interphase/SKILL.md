@@ -16,7 +16,7 @@ Phone-friendly (Blink/tmux). Target: one bus ride. No deep reflection — captur
 
 - `[[Email Threads Tracker]]` (`~/notes/Email Threads Tracker.md`)
 - `~/reticulum/claude/memory/prospective.md` — check for `WHEN: email triage` or `WHEN: interphase` entries
-- Today's daily note
+- Today's daily note (`~/notes/Daily/YYYY-MM-DD.md`)
 
 ## Steps
 
@@ -26,15 +26,23 @@ Phone-friendly (Blink/tmux). Target: one bus ride. No deep reflection — captur
 interphase-gather
 ```
 
-All deterministic gathering runs here (inbox, WhatsApp, calendar, TODO, NOW, budget, reminders, email threads, prospective memory). Review output, then proceed.
+All deterministic gathering runs here (inbox, WhatsApp, calendar, Praxis, budget, reminders, email threads, prospective memory). Review output, then proceed.
 
 ### 1. Inbox Triage
 
-Invoke the **sorting** skill. It handles the full triage: categorise, drill, filter, archive, update Email Threads Tracker.
+Use vivesca `sorting_*` MCP tools directly (search, thread, categorize, mark_read, archive). For each inbox email:
+
+1. **Drill** — `sorting_thread` on anything that isn't obvious noise
+2. **Decide** — action_required / monitor / archive
+3. **Act** — mark read + archive noise; flag action items to Terry
+4. **Cora briefs** — read today's morning + afternoon briefs via `sorting_thread`. Summarise anything Terry wouldn't have seen from the inbox scan alone (Cora archives emails before they hit inbox, so briefs may surface items the inbox doesn't show).
+5. **Email Threads Tracker** — update if threads resolved or new threads opened
+
+Check prospective memory for email-triage triggers (Grammarly, M365, Surfshark, etc.) and apply.
 
 ### 2. Messages
 
-- WhatsApp via `keryx read_messages` — draft responses, never send
+- WhatsApp via `keryx read <name>` — draft responses, never send
 - LinkedIn notifications — replies, messages from network
 - If a person has history, `amicus lookup <name>` for context
 
@@ -46,7 +54,7 @@ Capture to today's daily note. One or two exchanges max. Get it out of his head,
 
 ### 4. What Shipped Today
 
-- Read today's daily note for `/cytokinesis` session logs
+- Read today's daily note (`~/notes/Daily/YYYY-MM-DD.md`) for cytokinesis session logs
 - If empty/missing, delegate to subagent (haiku): `python3 ~/scripts/chat_history.py --full`
 - Write a 2-3 line summary to the daily note
 - If anything shipped has consulting relevance (methodology, governance, AI pattern), append one line to `~/notes/Consulting/_sparks.md` under today's date: `- #[tag] — **[Title]**: [one-line consulting implication]`
@@ -59,7 +67,11 @@ If meetings tomorrow: one-line prep note for each.
 
 **Thursday only:** Weekly token reset ~11am HKT tomorrow. Run `usus --json` — flag significant headroom.
 
-### 6. Daily Note Close
+### 6. Nudge
+
+Quick scan for **blocked items that need a nudge** — things waiting on others where a follow-up is overdue, or time-sensitive items that need action before they expire. Examples: awaiting replies (WhatsApp, email), pending verifications, membership renewals, appointments to book. One-line flag per item. Don't solve — just surface.
+
+### 7. Daily Note Close
 
 Header: `# YYYY-MM-DD — Day — themes, comma, separated`
 
@@ -70,10 +82,15 @@ Append:
 **Shipped:** [2-3 line summary]
 **Tomorrow:** [key items — meetings, deadlines, prep needed]
 **Open threads:** [anything waiting on others]
-**Mood:** [one word or phrase]
+**Nudges:** [items that need a poke tomorrow]
+**Day score:** [1-5, based on what actually shipped vs what mattered]
 ```
 
-### 7. NOW.md Sync
+### 8. Flush Prospective
+
+Check prospective memory for `WHEN: next session` triggers. Attempt each. Update prospective entry with result (success, failed + reason, deferred + why).
+
+### 9. Praxis Sync
 
 Update resolved items, add new open items, mark blocked/waiting.
 
@@ -90,5 +107,5 @@ Then: **"You're done. Evening is yours."**
 
 - Draft only — never send (WhatsApp, email, LinkedIn)
 - No deep reflection or extended conversation
-- Only update: daily note, Email Threads Tracker, NOW.md
+- Only update: daily note, Email Threads Tracker, Praxis
 - Nothing cognitive after walking through the door
