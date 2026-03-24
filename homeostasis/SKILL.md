@@ -3,6 +3,7 @@ name: homeostasis
 description: Check financial milestones, flag overdue items, and surface upcoming deadlines from vault
 model: sonnet
 user-invocable: true
+context: fork
 ---
 
 Review financial status from vault notes (`~/notes/` — search for investment, insurance, IBKR, Mox, MPF, Bowtie, tax, mortgage) and Praxis.md. For each item: status (done/in-progress/overdue/upcoming), deadline, next step. Flag anything overdue or due within 14 days. Sort by urgency.

@@ -9,6 +9,7 @@ triggers:
   - what's next
   - what do I do
   - priority check
+context: fork
 ---
 
 # Kairos — The Opportune Moment

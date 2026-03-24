@@ -3,6 +3,7 @@ name: morphogenesis
 description: Mine design insights from biological names — rename a concept with a bio name, study what the biology actually does, compare to current implementation, implement the gap. Use when renaming to bio convention, or when a bio name already exists but hasn't been mined. "morphogenesis", "annotate", "what does the name tell us", "mine the name", "rename and inspire".
 user_invocable: true
 model: sonnet
+context: fork
 ---
 
 # Annotation — Mining Design from Names

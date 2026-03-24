@@ -3,6 +3,7 @@ name: phagocytosis
 description: Classify content, extract insights, and save a structured vault note. Use when user shares content (article, job posting, repo, video) and wants it catalogued in the vault. NOT for quick summaries without vault save (use summarize) or job evaluation (use evaluate-job).
 model: sonnet
 user_invocable: true
+context: fork
 ---
 
 # Analyze
@@ -71,6 +72,26 @@ Append one row to `~/notes/Meta/Analyze Telemetry.md`:
 ```
 | [date] | [input] | [detected_type] | [confidence] | [override?] |
 ```
+
+## Antigen Presentation
+
+After saving the vault note, route its signal outward.
+
+**1. Find related notes (3–5)**
+
+Grep `~/notes/` for the new note's tags and 2–3 key terms from its title/content. Identify the most relevant matches. Append a `**Related:**` line to the saved note with `[[wikilinks]]` to those files.
+
+**2. Consulting forge check**
+
+If the content contains a signal relevant to FS AI governance, model risk, regulatory exposure, or a client-ready use case — append one line to `~/notes/Consulting/_sparks.md` under today's date section (create the date header if absent). Use the existing format:
+```
+- #tag — **Label**: one-sentence insight with FS implication
+```
+Tags: `#policy-gap`, `#architecture`, `#use-case`, `#experiment-idea`, `#garden-seed`, or `#linkedin-seed`. If no clear FS signal, skip.
+
+**3. Praxis check**
+
+Read `~/notes/Praxis.md`. If any open question or TODO item is directly addressed or advanced by the digested content, append a brief note (one sentence + wikilink to the new note) to that item. If no match, skip.
 
 ## Boundaries
 

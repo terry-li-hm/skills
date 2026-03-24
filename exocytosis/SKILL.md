@@ -2,6 +2,7 @@
 name: exocytosis
 description: Compress an insight to 280 chars and post to X (@zkMingLi). Use when a sharp standalone claim surfaces.
 user_invocable: false
+context: fork
 ---
 
 # tweet — compress and post to X
@@ -34,6 +35,27 @@ deltos_send_text "tweet text"
 Then provide intent URL: `https://x.com/intent/tweet?text=<url-encoded>`
 
 Wait hours, try next session. One attempt per session.
+
+## Telemetry
+
+After a successful tweet, append one row to `~/notes/Meta/Content Telemetry.md`:
+
+```
+| {date} | tweet | — | {tweet-text truncated to 50 chars} | {source-topic} | — |
+```
+
+- **date**: ISO date (YYYY-MM-DD)
+- **tweet-text**: first 50 chars of the tweet (no newlines)
+- **source-topic**: the topic or idea that prompted this tweet (1–5 words)
+
+If the file doesn't exist, create it with this header first:
+
+```markdown
+# Content Telemetry
+
+| date | channel | slug | title | source-skill | tags |
+|------|---------|------|-------|--------------|------|
+```
 
 ## When to tweet
 

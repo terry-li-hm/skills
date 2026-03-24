@@ -3,6 +3,7 @@ name: chemoreception
 description: On-demand AI landscape briefing when transduction output is stale or a meeting needs fresh signal. Governance translation + meeting routing.
 user_invocable: true
 model: sonnet
+context: fork
 ---
 
 # /chemoreception — On-Demand AI Briefing
@@ -54,3 +55,7 @@ If yes — act:
 - **Don't duplicate transduction.** If the pipeline ran this week, start from its output.
 - **Don't be comprehensive.** 5 opinionated items beats 20 neutral summaries.
 - **Don't hedge.** Take positions.
+
+## Spark Routing
+
+If any governance-relevant shift was identified in Steps 2–3, append to `~/notes/Consulting/_sparks.md` under today's date: `- #policy-gap — **[Development]**: [one-line FS governance implication]`

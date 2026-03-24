@@ -1,6 +1,7 @@
 ---
 name: translocation
 description: Session-independent AI agent dispatcher — list tasks, dispatch immediately, cancel, view results. Use for any background AI job that should run detached from the current CC session.
+context: fork
 ---
 
 # kinesin — Session-Independent AI Agent Dispatcher

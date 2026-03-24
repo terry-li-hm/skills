@@ -4,6 +4,7 @@ description: Multi-model iterative refinement of artifacts using CC native teams
 aliases: [refine, polish]
 user_invocable: true
 runtime: skill
+context: fork
 ---
 
 # Litura

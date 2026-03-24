@@ -3,6 +3,7 @@ name: entrainment
 description: Morning brief — weather, sleep scores, overnight results. Optional, run if time before Theo's school rush. "entrainment", "gm", "weather", "how did I sleep"
 user_invocable: true
 disable-model-invocation: true
+context: fork
 ---
 
 # Morning Brief

@@ -3,6 +3,7 @@ name: restriction-point
 description: Check today's Oura readiness score and recommend appropriate workout intensity
 model: sonnet
 user-invocable: true
+context: fork
 ---
 
 Check today's exercise readiness. Run `sopor` via Bash to get Oura data. Then:

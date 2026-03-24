@@ -2,6 +2,7 @@
 name: translation
 description: Turn a design into a self-contained implementation plan with TDD steps, exact paths, and complete code. Use after /transcription or when the shape is already clear.
 user_invocable: true
+context: fork
 ---
 
 # /translation — Implementation Plan

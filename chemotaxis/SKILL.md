@@ -52,6 +52,8 @@ For each pattern found, classify:
 
 ### 4. Persist — Write findings
 
+For high-priority patterns tagged `capco` or `governance`, also append to `~/notes/Consulting/_sparks.md` under today's date: `- #[capco|governance] — **[Pattern name]**: [one-line consulting implication]`
+
 Output vault note: `~/notes/Specula/YYYY-MM Peer Scan.md`
 
 Structure:

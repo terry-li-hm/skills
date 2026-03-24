@@ -49,6 +49,7 @@ Capture to today's daily note. One or two exchanges max. Get it out of his head,
 - Read today's daily note for `/cytokinesis` session logs
 - If empty/missing, delegate to subagent (haiku): `python3 ~/scripts/chat_history.py --full`
 - Write a 2-3 line summary to the daily note
+- If anything shipped has consulting relevance (methodology, governance, AI pattern), append one line to `~/notes/Consulting/_sparks.md` under today's date: `- #[tag] — **[Title]**: [one-line consulting implication]`
 
 ### 5. Tomorrow Prep
 

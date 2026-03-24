@@ -1,190 +1,114 @@
 ---
 name: mitosis
-description: Monthly maintenance — content digests, skill review, AI deep review, vault hygiene, finance check. "monthly", "monthly review", "run monthly", "monthly maintenance"
-user_invocable: true
+description: Monthly review — parallel auditors (financial, health, system, peer) + maintenance, then cross-domain synthesis into prioritized monthly plan. "monthly", "monthly review", "run monthly"
+model: opus
 disable-model-invocation: true
+context: fork
 ---
 
 # Monthly Review
 
-First Sunday of the month, after `/ecdysis`. Am I building the right things?
+You are the hypothalamus — integrating signals from multiple body systems into one coordinated response.
 
-## Triggers
+## Phase 1: Parallel audit (dispatch all at once)
 
-- monthly
-- monthly review
-- monthly maintenance
-- run monthly
+Launch ALL FOUR agents simultaneously using the Agent tool in a single message. Each runs on sonnet:
 
-## Checklist
+1. **hepatocyte** — "Run your full metabolic audit for the month."
+2. **osteocyte** — "Run your full structural health and capacity assessment."
+3. **microglia** — "Run your full neural maintenance audit."
+4. **dendritic-cell** — "Run your full boundary patrol and peer scan."
 
-Run each section in order. Report results as a summary table at the end.
-If any command in this checklist fails, mark that section as "partial" with the failure reason and continue.
+While agents run, proceed to Phase 2 (maintenance) in parallel.
 
-### 1. Content Digest
+## Phase 2: Maintenance (inline, while auditors run)
 
-Fetch and extract insights from subscribed YouTube channels.
+Run these sequentially — they're fast, deterministic, and don't need agents:
 
+### Content & AI digests
 ```bash
-# Preview what's new
-digest --dry-run
-
-# Run full digest (transcripts + insight extraction)
-digest
+digest --dry-run && digest
+~/.local/bin/lustro digest --dry-run && ~/.local/bin/lustro digest
 ```
-If either command fails (including exit 255 with an NSS certificate error — known issue, fix is agent:terry), note "Digest unavailable" for this month and continue to section 2. Do not attempt to debug the NSS error inline.
+If either fails, mark as skipped and continue.
 
-Output: `~/notes/Health/{source}/{YYYY-MM} Digest.md`
-Sources configured in `~/.config/lustro/sources.yaml`.
-
-### 2. AI Thematic Digest
-
-Generate evidence-grounded thematic digest from archived AI news articles.
-
-```bash
-# Preview themes (fast, no synthesis)
-~/.local/bin/lustro digest --dry-run
-
-# Full run — produces evidence briefs
-~/.local/bin/lustro digest
-```
-If script execution fails, mark AI thematic digest as skipped and continue.
-
-Output: `~/notes/AI & Tech/YYYY-MM AI Thematic Digest.md`
-Prerequisites: lustro cron must have been running with article archival (default since Feb 2026).
-Cost: ~$0.05-0.15 (Gemini Flash via OpenRouter).
-
-### 3. Thalamus Deep Review
-
-Run `/chemoreception` in monthly mode (deep review, not weekly synthesis):
-- Update Current Landscape section
-- Append monthly review entry
-- Flag shifts relevant to Capco consulting conversations
-- If `/chemoreception` is unavailable, add a one-line manual summary from latest weekly snapshot and mark as partial.
-
-### 4. Skill Review
-
-Run a minimal skill audit:
-- `ls ~/skills/*/SKILL.md | wc -l` — check total skill count
-- `git -C ~/skills log --oneline --since="30 days ago"` — review recent changes
-- Flag skills not updated in 30+ days that may have drifted
-
-### 5. Source Health Check
-
-Run `lustro check` and review broken sources:
-
+### Source health
 ```bash
 lustro check 2>&1 | grep "<-\|(stale)\|x0)"
 ```
-If `lustro check` fails, mark source health as unavailable and continue.
+Fix URL-rotted sources in `~/.config/lustro/sources.yaml`. Remove dead sources.
 
-- Fix URL-rotted sources (update URLs in `~/.config/lustro/sources.yaml`)
-- Remove dead sources (domain expired, blog shut down)
-- Flag sources with consecutive zeros (`Nx0`) for investigation
-- Reference: `~/docs/solutions/lustro-reference.md`
+### Vault hygiene
+- `python3 ~/scripts/generate-solutions-index.py` — regenerate solutions KB index
+- `uv run ~/scripts/vault-decay-report.py` — orphans/cold notes
+- Verify `[[wikilinks]]` in CLAUDE.md still resolve
 
-~12% source rot rate per quarter. Takes 2-3 min.
-
-### 6. Vault Hygiene
-
-Run inline — no separate skill needed:
-
-a. **Solutions KB** — regenerate index (`python3 ~/scripts/generate-solutions-index.py`) then review for stale or duplicate entries
-b. **Decay report** — `uv run ~/scripts/vault-decay-report.py` for orphans/cold notes
-c. **Daily note archival** — archive notes >60 days old to `~/notes/.archive/dailies/`
-d. **Broken links** — verify `[[wikilinks]]` in CLAUDE.md still resolve
-If any sub-step fails, record which sub-step failed and continue with the rest.
-
-### 7. Oghma Hygiene
-
-Check for noise from abandoned experiments or stale imports:
-
+### Oghma hygiene
 ```bash
 oghma stats
 ```
-If `oghma` or DB access fails, mark Oghma hygiene as unavailable and skip archival actions.
+Flag sources with >100 entries that aren't `claude_code`/`opencode`/`codex`.
 
-Flag any source with >100 entries that isn't `claude_code`, `opencode`, or `codex` — these are likely stale imports (e.g., MemU, openclaw) that should be archived:
+### Housekeeping
+- `/usr/bin/find ~/.claude/todos -name "*.json" -mtime +7 -delete`
+- Check `wc -l` on MEMORY.md — flag if >150
+- CLAUDE.md tightening pass: remove stale, demote mechanical rules to skills
 
-```python
-python3 -c "
-import sqlite3, os
-conn = sqlite3.connect(os.path.expanduser('~/.oghma/oghma.db'))
-c = conn.cursor()
-c.execute(\"\"\"SELECT source_tool, COUNT(*) as cnt FROM memories
-    WHERE status='active' GROUP BY source_tool HAVING cnt > 100
-    ORDER BY cnt DESC\"\"\")
-legit = {'claude_code', 'claude-code', 'opencode', 'codex'}
-for tool, cnt in c.fetchall():
-    flag = '' if tool in legit else ' ⚠️  REVIEW'
-    print(f'{tool}: {cnt}{flag}')
-conn.close()
-"
-```
+## Phase 3: Cross-domain synthesis (the real output)
 
-If flagged sources exist, archive them:
-```python
-# python3 -c "import sqlite3, os; conn = sqlite3.connect(os.path.expanduser('~/.oghma/oghma.db')); conn.execute(\"UPDATE memories SET status='archived' WHERE source_tool='SOURCE_NAME' AND status='active'\"); conn.commit(); print('Done')"
-```
-If `oghma`/SQLite commands fail, skip archival and report "Oghma hygiene unavailable".
+Once all four auditor reports are back, synthesize. This is the value — no single auditor can see across domains.
 
-### 8. Finance Check
+Cross-reference questions:
+- **Financial stress + health capacity**: Can Terry sustain current commitments? Defer anything?
+- **System gaps + peer patterns**: Are peers solving problems Terry still does manually?
+- **Health trends + workload**: Is the capacity score compatible with planned workload?
+- **Financial deadlines + career positioning**: Do financial pressures change priorities?
 
-Quick scan of key financial positions — takes 2 min:
+## Phase 4: Monthly priority plan
 
-a. **Mortgage rate** — check if any bank is offering ≤2.5% cap (P-2.75% at current SCB prime). Current deal: SCB H+1.3%, cap P-2.75%. Only worth switching if new cap ≤ current cap AND cashback clears the rate difference over the lock-in. Ask Emily (星之谷, WhatsApp) or search current HK mortgage rates. See [[Personal Finance Reference]].
-
-b. **SCB Prime rate** — verify still 5.25% (affects your cap). Check SCB website or use the WebSearch tool: search `Standard Chartered HK prime rate 2026`.
-
-c. **Credit card balances** — any unpaid statement balances? (CCBA, SCB, BOC)
-If rate/search sources are unavailable, note "Finance check partial" and avoid firm recommendations.
-
-### 9. Housekeeping
-
-- Purge orphaned agent files: `/usr/bin/find ~/.claude/todos -name "*.json" -mtime +7 -delete`
-- Check MEMORY.md line count (`wc -l`). Flag if >150 — trim or demote to vault.
-- **CLAUDE.md tightening pass:** Read every rule and ask two questions: (1) Is this still true? Remove stale references (completed transitions, retired projects, outdated tool names). (2) Does this *need* to be in CLAUDE.md, or does it belong in a skill/solution? Mechanical rules stay. Workflow conventions → relevant skill. Operational gotchas → MEMORY.md. Reusable how-tos → `~/docs/solutions/`. Goal: CLAUDE.md stays thin — rules and pointers only.
-- If purge/index commands fail, report "Housekeeping partial" with failed command names.
-- **DR drill (lucerna).** SSH in and test the full experience, not just connectivity:
-  1. `ssh terry@lucerna` (Tailscale) — if fails, try `fly ssh console -a lucerna`
-  2. `claude` — does it start? Check version, skills loaded, CLAUDE.md found
-  3. Ask Claude to read NOW.md — does it have vault context?
-  4. `git -C ~/notes pull` — is the vault current?
-  5. Check aliases work: `c`, `ll`, `t`
-  6. Check disk: `df -h /home/terry` (10GB volume, flag if >80%)
-  7. Fix anything that broke. The drill IS the maintenance.
-
-## Summary Template
-
-After running all sections, present:
+Write to `~/notes/Monthly Review - YYYY-MM.md`:
 
 ```markdown
-## Monthly Maintenance — YYYY-MM
+## Monthly Review — [Month Year]
 
+### Capacity Assessment
+[One paragraph: health + financial = what's realistic this month]
+
+### Top 3 Priorities
+1. [What] — [Why it's #1, which domain signals point here]
+2. [What] — [Why]
+3. [What] — [Why]
+
+### Defer
+- [What to explicitly NOT do this month and why]
+
+### Signals to Watch
+- [What would change priorities if it shifts]
+
+### Maintenance Summary
 | Section | Status | Notes |
 |---------|--------|-------|
-| Content Digest | X episodes across Y sources | [vault paths] |
-| AI Thematic Digest | X themes, Y articles | [vault path] |
-| AI Deep Review | Done | [key shifts] |
-| Skill Review | X active / Y archived | [changes] |
-| Source Health | X broken, Y stale, Z consecutive-zero | [fixes applied] |
-| Vault Hygiene | X notes archived, Y orphans | [actions] |
-| Finance Check | SCB prime X%, best market cap Y% | [action/no action] |
-| Housekeeping | MEMORY.md: X lines, agents purged | [flags] |
+| Content Digest | ... | ... |
+| Source Health | ... | ... |
+| Vault Hygiene | ... | ... |
+| Oghma | ... | ... |
+| Housekeeping | ... | ... |
+
+### Raw Auditor Reports
+[Summary of each auditor's key findings]
 ```
 
-## Notes
+## Phase 5: Update Praxis.md
 
-- Total time: ~20-30 min (mostly waiting on digest API calls)
-- Digest is the heaviest step — can run backgrounded while doing the rest
-- Runs after `/ecdysis` on first Sunday — the weekly planning is already done
+Add/update items based on priority plan. Remove or defer items the review says to drop.
 
-## Boundaries
+## Principles
 
-- Do NOT perform full rewrites of CLAUDE.md/MEMORY.md; flag and queue large restructures
-- Do NOT run direction audit — that's `/meiosis`
-- Stop after summary table is produced
+- The synthesis is the product, not the individual reports.
+- Priorities should CONFLICT — if everything aligns, you're not looking hard enough.
+- "Defer" is as important as "do" — saying no is the real output.
+- One review that changes one priority beats four audits confirming status quo.
 
 ## See also
 - `/ecdysis` — Sunday planning (runs first)
-- `/meiosis` — direction, career, investments (March, June, September, December)
+- `/meiosis` — direction, career, investments (quarterly)

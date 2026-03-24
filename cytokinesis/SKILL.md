@@ -53,6 +53,16 @@ If continuous capture handled most of it → quick verification pass for both.
 
 **MEMORY.md ≥145 lines →** demote lowest-recurrence entry.
 
+### 1b. Audit Signal
+
+After consolidation, count findings routed in this pass. This is the "cytokinesis residual" — findings that should have been captured mid-session but were not.
+
+- `filed=N` — findings captured now (should have been captured mid-session)
+- `skipped=M` — candidates reviewed and correctly skipped
+- If `filed > 0`, note: "Continuous capture missed N items. What blocked mid-session routing?"
+
+This is not a punishment — it's proprioception. The number trends toward zero as the protocol embeds. `filed=0` is the ideal session.
+
 ### 2. Housekeeping (full mode only)
 
 1. **Uncommitted?** Dirty repos touched this session → commit.
@@ -69,6 +79,18 @@ Published: [tweets/garden posts or "none"]
 Done.
 ─────────────────────────────────────────────────
 ```
+
+## CLI: `~/reticulum/bin/cytokinesis`
+
+| Subcommand | Purpose |
+|---|---|
+| `gather` | Deterministic pre-wrap checks: dirty repos, skill gaps, MEMORY.md line count, Tonus age, dep-check, reflection scan |
+| `gather --perceptual` | Human-readable terminal output |
+| `gather --syntactic` | JSON output (for piping to `extract`) |
+| `archive` | Move `[x]` items from Praxis.md → Praxis Archive.md |
+| `daily "title"` | Append session log template to today's daily note |
+| `reflect <session-id>` | Scan transcript for reflection candidates (haiku) |
+| `extract --input <json>` | Review candidates, recommend FILE/SKIP/PRINCIPLE (haiku) |
 
 ## Boundaries
 

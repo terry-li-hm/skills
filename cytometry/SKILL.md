@@ -3,6 +3,7 @@ name: cytometry
 description: Audit system autonomy — classify each subsystem as self-governing, needs-a-mayor, or intentionally-gated. Use when asking "what still needs me?", "where is the system autonomous?", "city audit", or after adding new subsystems. "cytometry", "autonomy audit", "what needs the mayor".
 user_invocable: true
 model: sonnet
+context: fork
 ---
 
 # Cytometry — Autonomy Classification

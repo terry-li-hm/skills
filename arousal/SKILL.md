@@ -3,6 +3,7 @@ name: arousal
 description: "Check async queue results and manage tasks. 'arousal', 'overnight results', 'queue status', 'what ran'"
 model: sonnet
 user_invocable: true
+context: fork
 ---
 
 # Overnight Agent Results

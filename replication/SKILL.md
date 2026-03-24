@@ -11,6 +11,7 @@ triggers:
   - "parallel research"
   - "heuretes"
   - "explore this with agents"
+context: fork
 ---
 
 # heuretes — Agent Research Org

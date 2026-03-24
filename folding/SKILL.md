@@ -11,6 +11,7 @@ allowed-tools:
   - Grep
   - Glob
   - Agent
+context: fork
 ---
 
 # /folding — Execute the Plan

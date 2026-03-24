@@ -10,6 +10,7 @@ allowed-tools:
   - Grep
   - Glob
   - Agent
+context: fork
 ---
 
 # /nucleation — Delegate-First Dev Workflow

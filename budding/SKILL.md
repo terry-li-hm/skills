@@ -8,6 +8,7 @@ triggers:
   - "new post"
   - "publish post"
   - "revise post"
+context: fork
 ---
 
 # publish — Garden CLI
@@ -45,6 +46,29 @@ Draft autonomously when ALL of:
 - No factual claims needing verification
 - No real names, companies, or time-sensitive content
 - **Insider test:** Would details identify the author at a specific institution? If yes → generalise.
+
+## Telemetry
+
+After publishing, append one row to `~/notes/Meta/Content Telemetry.md`:
+
+```
+| {date} | garden | {slug} | {title} | {source-skill} | {tags} |
+```
+
+- **date**: ISO date (YYYY-MM-DD)
+- **slug**: the publish slug
+- **title**: post title
+- **source-skill**: which skill triggered this (e.g. `budding`, `expression`, `exocytosis`)
+- **tags**: frontmatter tags as comma-separated string
+
+If the file doesn't exist, create it with this header first:
+
+```markdown
+# Content Telemetry
+
+| date | channel | slug | title | source-skill | tags |
+|------|---------|------|-------|--------------|------|
+```
 
 ## Gotchas
 

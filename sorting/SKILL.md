@@ -3,6 +3,7 @@ name: sorting
 description: Triage email inbox — categorise, drill, filter, archive, update tracker. Golgi sorting of incoming cargo to the right compartment.
 user_invocable: false
 model: sonnet
+context: fork
 ---
 
 # Sorting — Email Triage

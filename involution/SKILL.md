@@ -62,7 +62,24 @@ Offer 1–3 concrete tasks max. Don't over-queue — more tasks = more to review
 
 **Fail clause:** If nothing qualifies, skip this step. Don't manufacture tasks.
 
-### 5. Screens-off gate
+### 5. Dispatch overnight tasks
+
+For each task Terry confirmed in Step 4:
+
+1. **If the task matches a pre-configured kinesin task** → `kinesin run <task-name>` (dispatches detached, survives session close).
+2. **If the task is ad-hoc** (named during brain dump, no kinesin entry) → append to `~/notes/agent-queue.yaml`:
+
+```yaml
+- prompt: "<task description verbatim>"
+  added: "<YYYY-MM-DD>"
+  context: "involution brain dump"
+```
+
+Confirm: *"Queued. Check results with `arousal` tomorrow morning."*
+
+**Fail clause:** If Terry declined all tasks in Step 4, skip entirely.
+
+### 6. Screens-off gate
 
 Ask: *"Anything blocking you from putting the phone down?"*
 
@@ -71,7 +88,7 @@ Ask: *"Anything blocking you from putting the phone down?"*
 
 Remind if relevant: lying awake >20min → get up, dim light, no screens, back when sleepy.
 
-### 6. Optional — sopor tomorrow
+### 7. Optional — sopor tomorrow
 
 Only if Terry had a notable night (poor sleep flagged, travel, alcohol, late night):
 
@@ -86,8 +103,10 @@ Offer to check tomorrow morning. Don't run now — data isn't in yet.
 - Do NOT review Praxis.md or task lists — that's `/eow` territory
 - Do NOT surface new work items — wind-down direction only
 - Do NOT run `sopor` during involution — data for tonight isn't captured yet
-- Stop after Step 5 (or 6 if relevant). Do not loop back.
+- Stop after Step 6 (or 7 if relevant). Do not loop back.
 
 ## Calls
 - `moneo` — if adding a reminder during the ritual
 - `oura` / `sopor` — tomorrow morning follow-up only
+- `kinesin run <name>` — dispatch pre-configured overnight task (Step 5)
+- `~/notes/agent-queue.yaml` — fallback queue for ad-hoc tasks (Step 5)
