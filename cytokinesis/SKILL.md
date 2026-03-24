@@ -1,6 +1,7 @@
 ---
 name: cytokinesis
 description: Consolidate while context is hot — capture what dies with the session
+cli: cytokinesis
 user_invocable: true
 allowed-tools:
   - Bash
@@ -80,7 +81,7 @@ Done.
 ─────────────────────────────────────────────────
 ```
 
-## CLI: `~/reticulum/bin/cytokinesis`
+## CLI: `cytokinesis` (on PATH)
 
 | Subcommand | Purpose |
 |---|---|
