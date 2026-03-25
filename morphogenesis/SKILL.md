@@ -30,6 +30,10 @@ Gene annotation attaches functional meaning to a genetic sequence. This skill at
 | histone_mark | Combinatorial — multiple marks interact | Single status dimension | Multi-dimensional marking | Noted for future |
 | anabolism | Convergent — many inputs → few outputs | Scatter of artifacts | Convergence test | Noted for future |
 | ecphory | Cue-trace interaction; memory-type routing; reconstructive | Uniform sweep, MEMORY.md hint only | Route by episodic/semantic + age; synthesise partial hits | Built: /ecphory skill |
+| cytometry | Time-resolved kinetics — population drift not just snapshot; autonomous monitoring | Point-in-time audit, no delta | Drift delta vs prior audit; autonomous heartbeat for stale subsystems | Noted for future |
+| nucleation | Heterogeneous seeding lowers activation barrier; seed hit should collapse pipeline | cerno runs but output doesn't gate pipeline depth | Seed hit → skip planning; pre-flight gates enforced not advisory | Noted for future |
+| sporulation | Environmentally triggered (stress-sensing), not user-initiated; mother cell flushes before lysing | User-initiated only; no pre-sporulation flush | Auto-suggest /sporulation at budget=red; flush before checkpoint | Built: allostasis red-tier now suggests /sporulation |
+| autophagy | Selective cargo-receptor degradation of damaged/excess components — quality control | Training mode (askesis) — wrong biological mapping | Rename to /askesis; build real /autophagy for cargo-receptor pruning of stale memory/skills | Noted for future (rename + new skill) |
 
 ## How to Use
 
