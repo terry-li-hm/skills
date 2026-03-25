@@ -29,6 +29,7 @@ Gene annotation attaches functional meaning to a genetic sequence. This skill at
 | anamnesis | Selective — experienced doctor adjusts questions | Uniform loading | Keyword-relevance reordering | Primacy-based loading |
 | histone_mark | Combinatorial — multiple marks interact | Single status dimension | Multi-dimensional marking | Noted for future |
 | anabolism | Convergent — many inputs → few outputs | Scatter of artifacts | Convergence test | Noted for future |
+| ecphory | Cue-trace interaction; memory-type routing; reconstructive | Uniform sweep, MEMORY.md hint only | Route by episodic/semantic + age; synthesise partial hits | Built: /ecphory skill |
 
 ## How to Use
 

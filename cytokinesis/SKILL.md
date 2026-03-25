@@ -43,14 +43,15 @@ allowed-tools:
 
 ### 1. Consolidation (the point)
 
-Two things in parallel:
+Three things in parallel:
 
 1. **Ask Terry: "What's worth keeping?"** — the nucleus knows what mattered.
 2. **Run `cytokinesis gather`** — LLM extracts what it thinks is valuable.
+3. **Source data check:** Were any factual data points (metrics, thresholds, figures, dates, decisions) entered by the user that fed deliverables (emails, gists, slides) but were not persisted to vault or histone? Route hits to `~/notes/Reference/work/` vault notes via `emit_vault_note`.
 
-Merge both. Terry fills gaps the LLM missed. LLM catches things Terry forgot. Route everything to the right places.
+Merge all three. Terry fills gaps the LLM missed. LLM catches things Terry forgot. Source data check catches what both missed. Route everything to the right places.
 
-If continuous capture handled most of it → quick verification pass for both.
+If continuous capture handled most of it → quick verification pass for all three.
 
 **MEMORY.md ≥145 lines →** demote lowest-recurrence entry.
 
