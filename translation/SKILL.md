@@ -36,6 +36,66 @@ Before planning, scan what exists. Match depth to scope:
 
 If local context is sufficient, skip external research. If the domain is unfamiliar or high-risk (security, payments, external APIs), do targeted web research before planning.
 
+## Foldability Assessment
+
+Before writing the plan, score the input. This is the AlphaFold pass — predict whether each requirement can fold into executable steps before spending tokens on a full plan.
+
+### Per-Section Confidence (pLDDT)
+
+Score each requirement or section of the input on foldability:
+
+| Score | Meaning | Action |
+|-------|---------|--------|
+| **5** | Fully specified — exact behavior, clear inputs/outputs | Plan directly |
+| **4** | Minor gaps — reasonable defaults exist | Plan with stated assumptions |
+| **3** | Ambiguous — multiple valid interpretations | Flag, ask one targeted question |
+| **2** | Underspecified — cannot produce executable steps | Flag as disordered, block planning for this section |
+| **1** | Contradictory or incoherent | Reject, explain why |
+
+Present the scores as a table before the plan. If any section scores 2 or below, do not plan that section — state what's missing and ask. A spec with all 4-5 scores proceeds directly. Mixed scores: plan the foldable sections, flag the disordered ones.
+
+### Disordered Region Detection
+
+Sections that cannot fold have specific signatures:
+
+- **No verb** — describes a state, not a behavior ("the system should be fast")
+- **Unbounded scope** — "handle all edge cases", "support any format"
+- **Missing actor** — who/what triggers this? If unstated, it's disordered
+- **Circular reference** — requirement depends on another requirement that depends on it
+- **Taste without criteria** — "make it clean", "good UX" without measurable definition
+
+When detected, name the disorder type explicitly. Don't silently interpret vague requirements — that's how bad plans get written.
+
+### Implicit Constraint Inference
+
+Mine prior builds to surface constraints the spec omits:
+
+1. **Search `~/docs/solutions/`** for entries matching the domain — prior learnings encode constraints that were discovered the hard way
+2. **Search `~/docs/plans/`** for similar past plans — what did they require that this spec doesn't mention?
+3. **Check patterns in target codebase** — if modifying existing code, what conventions/middleware/callbacks/observers will fire? What breaks if this fails halfway?
+
+Present inferred constraints as a list: "Not stated, but implied by prior work: [constraint]". The user confirms or rejects before planning proceeds.
+
+### Assessment Output
+
+```markdown
+## Foldability
+
+| Section | Score | Notes |
+|---------|-------|-------|
+| Auth flow | 5 | Fully specified |
+| Data model | 4 | Assumed UUID PKs |
+| Error handling | 2 | DISORDERED — no failure modes defined |
+
+**Disordered regions:** Error handling — no verb, unbounded scope ("handle errors gracefully")
+
+**Inferred constraints:**
+- Prior: `~/docs/solutions/auth-token-rotation.md` — token refresh needs retry logic (not in spec)
+- Codebase: `middleware/audit.py` fires on all writes — plan must account for audit log entries
+```
+
+If all sections score 4+, state "Fully foldable" and proceed to planning. If disordered regions exist, resolve them before writing the plan. Don't plan around ambiguity — surface it.
+
 ## The Plan
 
 ### Structure
